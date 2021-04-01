@@ -1,0 +1,16 @@
+{
+  "name": "vue-router-ns",
+  "version": "1.0.0",
+  "description": "A router same Vue Router for NativeScript-Vue",
+  "main": "index.js",
+  "repository": "https://github.com/RafaelAugustoS/vue-router-ns.git",
+  "keywords": [
+    "nativescript",
+    "nativescript-vue",
+    "vue",
+    "router",
+    "vue-router"
+  ],
+  "author": "Rafael Augusto",
+  "license": "MIT"
+}
