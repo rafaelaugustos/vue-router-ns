@@ -25,10 +25,10 @@ So this is not a wrapper around Vue Router. The frame's back stack is the source
 ## Install
 
 ```sh
-npm install vue-router-ns
+npm install vue-router-ns@next
 ```
 
-Requires `nativescript-vue` 3 and `@nativescript/core` 8.9 or later.
+It's in beta for now, published under the `next` tag. Requires `nativescript-vue` 3 and `@nativescript/core` 8.9 or later.
 
 ## Getting started
 
@@ -291,6 +291,14 @@ npm run build
 ```
 
 The tests run against a stand-in for NativeScript's `Frame` ([`test/shims/core.ts`](./test/shims/core.ts)). It follows the real one's ordering: navigations finish on a later tick, and dropped pages are disposed before `navigatedTo` fires.
+
+### Releasing
+
+1. Bump `version` in `package.json` (`npm version <version> --no-git-tag-version`) and move the changes under it in `CHANGELOG.md`.
+2. Merge that into `master`.
+3. Publish a GitHub release tagged `v<version>`. The [release workflow](./.github/workflows/release.yml) checks the tag against `package.json`, runs the tests and publishes to npm: under `next` when the release is marked as a pre-release, under `latest` otherwise.
+
+Publishing authenticates with the `NPM_TOKEN` secret, or with [trusted publishing](https://docs.npmjs.com/trusted-publishers) once it's set up for the package on npm.
 
 ## License
 
