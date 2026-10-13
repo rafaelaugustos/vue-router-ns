@@ -1,44 +1,77 @@
 name: Release
 
-# Publishing a GitHub release publishes the package to npm.
-# Pre-releases go out under the `next` tag, everything else under `latest`.
+# On every push to master, checks whether the version in package.json is out.
+# When it isn't, runs the tests, publishes it to npm and creates the GitHub
+# release from its CHANGELOG entry. Versions like 1.0.0-beta.1 go out under
+# the `next` tag, as pre-releases.
 on:
-  release:
-    types: [published]
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency: release
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 jobs:
-  publish:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+
+      - name: Check what is already out
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          name=$(node -p "require('./package.json').name")
+          version=$(node -p "require('./package.json').version")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          if [[ "$version" == *-* ]]; then tag=next; else tag=latest; fi
+          echo "dist-tag=$tag" >> "$GITHUB_OUTPUT"
+          if [ "$(npm view "$name@$version" version 2>/dev/null)" = "$version" ]; then
+            echo "published=true" >> "$GITHUB_OUTPUT"
+          fi
+          if gh release view "v$version" > /dev/null 2>&1; then
+            echo "released=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: actions/setup-node@v7
+        if: steps.check.outputs.published != 'true'
         with:
           node-version: 22
           cache: npm
           registry-url: https://registry.npmjs.org
       # trusted publishing needs npm 11.5+
-      - run: npm install --global npm@11
-      - run: npm ci
+      - if: steps.check.outputs.published != 'true'
+        run: npm install --global npm@11
+      - if: steps.check.outputs.published != 'true'
+        run: npm ci
+      - if: steps.check.outputs.published != 'true'
+        run: npm run typecheck
+      - if: steps.check.outputs.published != 'true'
+        run: npm test
 
-      - name: Check the tag matches package.json
-        env:
-          TAG: ${{ github.event.release.tag_name }}
-        run: |
-          version="v$(node -p "require('./package.json').version")"
-          if [ "$TAG" != "$version" ]; then
-            echo "Release tag $TAG doesn't match package.json ($version)"
-            exit 1
-          fi
-
-      - run: npm run typecheck
-      - run: npm test
-
-      - name: Publish
+      - name: Publish to npm
+        if: steps.check.outputs.published != 'true'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          DIST_TAG: ${{ github.event.release.prerelease && 'next' || 'latest' }}
-        run: npm publish --provenance --access public --tag "$DIST_TAG"
+        run: npm publish --provenance --access public --tag "${{ steps.check.outputs.dist-tag }}"
+
+      - name: Create the GitHub release
+        if: steps.check.outputs.released != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.check.outputs.version }}
+        run: |
+          awk -v version="$VERSION" '
+            /^## / { if (found) exit; found = index($0, "## " version " ") == 1 || $0 == "## " version; next }
+            found
+          ' CHANGELOG.md > notes.md
+          [ -s notes.md ] || echo "See [CHANGELOG.md](CHANGELOG.md)." > notes.md
+
+          flags=()
+          [[ "$VERSION" == *-* ]] && flags+=(--prerelease)
+          gh release create "v$VERSION" --target "$GITHUB_SHA" --title "v$VERSION" --notes-file notes.md "${flags[@]}"
