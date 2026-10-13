@@ -1,8 +1,8 @@
 # Changelog
 
-## 0.1.0 (unreleased)
+## 0.1.0-beta.0 (2026-10-13)
 
-First release, written from scratch for NativeScript-Vue 3.
+First release, written from scratch for NativeScript-Vue 3. It's a beta: the router is covered by tests against a stand-in `Frame`, but hasn't been through real apps on iOS and Android yet.
 
 - `createRouter` with Vue Router's route records, guards, named routes, params, query, redirects and lazy components.
 - `<RouterView>` as a native `Frame`, kept in sync with the frame's back stack, including pops the router didn't start.
