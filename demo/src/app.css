@@ -1,0 +1,62 @@
+ActionBar {
+  background-color: #1f2937;
+  color: #ffffff;
+}
+
+Page {
+  background-color: #f9fafb;
+  color: #111827;
+}
+
+.section {
+  padding: 16;
+}
+
+.title {
+  font-size: 22;
+  font-weight: bold;
+}
+
+.muted {
+  color: #6b7280;
+}
+
+.message {
+  padding: 14 16;
+}
+
+.message .from {
+  font-size: 16;
+}
+
+.message.unread .from {
+  font-weight: bold;
+}
+
+.button {
+  margin-top: 12;
+  padding: 10 16;
+  border-radius: 8;
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.button.secondary {
+  background-color: #e5e7eb;
+  color: #111827;
+}
+
+.trail {
+  padding: 8 16;
+  font-size: 12;
+  color: #6b7280;
+  background-color: #f3f4f6;
+}
+
+TextField,
+TextView {
+  padding: 12;
+  border-width: 1;
+  border-color: #d1d5db;
+  border-radius: 8;
+}
