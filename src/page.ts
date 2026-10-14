@@ -1,4 +1,4 @@
-import type { Frame, Page } from '@nativescript/core'
+import { isIOS, type Frame, type Page } from '@nativescript/core'
 import {
   computed,
   defineComponent,
@@ -12,6 +12,7 @@ import {
   type PropType,
 } from 'nativescript-vue'
 import { entryKey, routeKey, routerKey } from './injection.js'
+import { holdBackButton } from './ios.js'
 import { isBlocked, type Entry } from './stack.js'
 
 interface PageLink {
@@ -43,10 +44,18 @@ export function createPage(entry: Entry, { link, unlink }: PageLink) {
         if (!page) return
         link(page, entry)
 
-        // a swipe can't wait for an async guard, so it is disabled while one is active
-        watch(blocked, (value) => (page!.enableSwipeBackNavigation = !value), {
-          immediate: true,
-        })
+        // a swipe can't wait for an async guard, so it is disabled while one is active,
+        // and the back button goes through the router instead of popping on its own
+        watch(
+          blocked,
+          (value) => {
+            page!.enableSwipeBackNavigation = !value
+            if (isIOS) {
+              holdBackButton(page!, value ? () => void entry.stack.router.back() : null)
+            }
+          },
+          { immediate: true },
+        )
 
         if (entry.stack.modal) {
           watch(

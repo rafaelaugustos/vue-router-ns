@@ -94,6 +94,7 @@ export class TabView extends View {
 export class Page extends View {
   enableSwipeBackNavigation = true
   disposed = false
+  override ios: any = { controller: {}, navigationItem: { backAction: null } }
 
   dispose() {
     this.disposed = true

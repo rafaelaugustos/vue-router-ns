@@ -1,4 +1,4 @@
-import type { Frame } from '@nativescript/core'
+import { Device, type Frame, type Page } from '@nativescript/core'
 
 type Callback = () => void
 
@@ -34,6 +34,22 @@ export function watchDismissAttempts(frame: Frame, callback: Callback): () => vo
     attempts.delete(frame)
     wrapped?.()
   }
+}
+
+declare const UIAction: { actionWithHandler(handler: () => void): object }
+
+/**
+ * Makes the ActionBar's back button run `callback` instead of popping the
+ * page, or gives it back to the system with `null`. iOS 16 and later; the
+ * button looks the same either way.
+ */
+export function holdBackButton(page: Page, callback: (() => void) | null) {
+  const item = page.ios?.navigationItem
+  if (!item || parseFloat(Device.sdkVersion) < 16) return
+  item.backAction =
+    callback && typeof UIAction !== 'undefined'
+      ? UIAction.actionWithHandler(callback)
+      : callback
 }
 
 /** What the delegate calls. Exported so tests can stand in for a swipe. */

@@ -341,7 +341,7 @@ Declare `routes` inline in `createRouter`, as above, and give components through
 | Unknown paths render nothing               | `push` rejects with `No route matches`. Add a catch-all route (`/:pathMatch(.*)*`) if you want a not-found page. |
 | `scrollBehavior`                           | Not applicable. `hash` is kept in locations for parity.                                                          |
 
-On iOS, the ActionBar's back button pops the page natively, and no NativeScript API can stop it. The router keeps its stack in sync and runs `afterEach`, but a leave guard can't veto that pop. If a page must confirm before leaving, replace the system back button with your own action that calls `router.back()` ([#9](https://github.com/rafaelaugustos/vue-router-ns/issues/9)).
+On iOS, the ActionBar's back button pops the page natively. While a leave guard is active, the router takes the button over (iOS 16 and later, through `UINavigationItem.backAction`): it looks the same, but tapping it goes through the guard like `router.back()`. The rest of the time, and on iOS 15, the pop is native: the router keeps its stack in sync and runs `afterEach`, but nothing can veto it.
 
 ## API
 
