@@ -13,6 +13,7 @@ import {
   type BackGesture,
   type NavigationGuard,
   type RouteLocation,
+  type SavedStacks,
   type Router,
 } from '../src/index.js'
 import { events, mount, page, paths, settle } from './helpers.js'
@@ -827,6 +828,119 @@ describe('modal dismiss attempts on iOS', () => {
 
     expect(order).toEqual(['attach', 'draft'])
     expect(View.presented).toHaveLength(0)
+  })
+})
+
+describe('restore', () => {
+  const storage = (initial: SavedStacks | null = null) => {
+    let state = initial
+    return {
+      save: vi.fn((next: SavedStacks | null) => void (state = next)),
+      load: vi.fn(() => state),
+      get state() {
+        return state
+      },
+    }
+  }
+  const tabs = () => [
+    h(RouterView, { name: 'inbox', initial: '/' }),
+    h(RouterView, { name: 'settings', initial: '/settings' }),
+  ]
+  const saved = (stacks: SavedStacks['stacks'], age = 0): SavedStacks => ({
+    savedAt: Date.now() - age,
+    stacks,
+  })
+
+  it('saves the paths of every stack after each navigation', async () => {
+    const store = storage()
+    const { router, frame } = await mount(
+      [...routes, { path: '/pick', component: page('Picker'), modal: true }],
+      { render: tabs, restore: store },
+    )
+    await settle()
+    await router.push('/list', { frame: 'inbox' })
+    await router.push('/items/1', { frame: 'inbox' })
+    await router.push('/pick')
+
+    expect(store.state).toMatchObject({
+      stacks: { inbox: ['/', '/list', '/items/1'], settings: ['/settings'] },
+    })
+    expect(Object.keys(store.state!.stacks)).toEqual(['inbox', 'settings'])
+    expect(Date.now() - store.state!.savedAt).toBeLessThan(1000)
+
+    await router.back()
+    frame().popNatively()
+    expect(store.state!.stacks.inbox).toEqual(['/', '/list'])
+  })
+
+  it('rebuilds the saved stacks on launch, without animating', async () => {
+    const store = storage(
+      saved({ inbox: ['/', '/list', '/items/1'], settings: ['/settings', '/list'] }),
+    )
+    const { router } = await mount(routes, { render: tabs, restore: store })
+    await settle()
+
+    expect(store.state!.stacks).toEqual({
+      inbox: ['/', '/list', '/items/1'],
+      settings: ['/settings', '/list'],
+    })
+    expect(Frame.navigations.every((entry) => entry.animated === false)).toBe(true)
+    expect(store.load).toHaveBeenCalledTimes(1)
+
+    await router.back({ frame: 'settings' })
+    expect(store.state!.stacks.settings).toEqual(['/settings'])
+  })
+
+  it('leaves old saves alone, unless maxAge says otherwise', async () => {
+    const old = saved({ default: ['/', '/list'] }, 31 * 60 * 1000)
+
+    const stale = await mount(routes, { restore: storage(old) })
+    expect(paths(stale.router.stack.value)).toEqual(['/'])
+
+    const kept = await mount(routes, { restore: { ...storage(old), maxAge: Infinity } })
+    expect(paths(kept.router.stack.value)).toEqual(['/', '/list'])
+  })
+
+  it('starts over when a saved path has no route anymore', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const { router } = await mount(routes, {
+      restore: storage(saved({ default: ['/', '/gone'] })),
+    })
+
+    expect(paths(router.stack.value)).toEqual(['/'])
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining('Not restoring'),
+      expect.anything(),
+    )
+    warn.mockRestore()
+  })
+
+  it('runs the guards while rebuilding', async () => {
+    const { router } = await mount(routes, {
+      restore: storage(saved({ default: ['/', '/items/1'] })),
+      before: (router) =>
+        router.beforeEach((to) => (to.path === '/items/1' ? '/list' : true)),
+    })
+
+    expect(paths(router.stack.value)).toEqual(['/', '/list'])
+  })
+
+  it('forgets the stacks when the app exits on its own', async () => {
+    const store = storage()
+    await mount(routes, { restore: store })
+
+    Application.notify({ eventName: 'exit' })
+
+    expect(store.state).toBeNull()
+  })
+
+  it('takes an async load', async () => {
+    const state = saved({ default: ['/', '/list'] })
+    const { router } = await mount(routes, {
+      restore: { save: () => {}, load: () => Promise.resolve(state) },
+    })
+
+    expect(paths(router.stack.value)).toEqual(['/', '/list'])
   })
 })
 

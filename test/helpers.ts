@@ -11,6 +11,7 @@ import {
 import {
   createRouter,
   RouterView,
+  type RestoreOptions,
   type Router,
   type RouteRecordRaw,
 } from '../src/index.js'
@@ -45,6 +46,7 @@ interface MountOptions {
   platform?: 'ios' | 'android'
   /** Runs before the app starts, e.g. to add guards that see the initial navigation. */
   before?: (router: Router) => void
+  restore?: RestoreOptions
 }
 
 export async function mount(
@@ -55,7 +57,7 @@ export async function mount(
   setPlatform(options.platform ?? 'ios')
   events.length = 0
 
-  const router = createRouter({ routes })
+  const router = createRouter({ routes, restore: options.restore })
   options.before?.(router as Router)
   const App = defineComponent({
     render:

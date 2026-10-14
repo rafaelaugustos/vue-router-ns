@@ -70,6 +70,8 @@ import type {
   RouteRecord,
   RouteRecordName,
   RouteRecordRaw,
+  RestoreOptions,
+  SavedStacks,
   SetStackOptions,
   TransitionOption,
 } from './types.js'
@@ -78,7 +80,11 @@ export interface RouterOptions<
   R extends readonly RouteRecordRaw[] = readonly RouteRecordRaw[],
 > {
   routes: R
+  /** Save the stacks as the user navigates, and rebuild them after the app was killed. */
+  restore?: RestoreOptions
 }
+
+const DEFAULT_MAX_AGE = 30 * 60 * 1000
 
 export interface Router<M extends RouteMapLike = RouteMapGeneric> {
   /** Route of the page the user is looking at. */
@@ -294,6 +300,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     for (const entry of before) {
       if (!after.includes(entry)) dispose(entry)
     }
+    if (!stack.modal) persist()
 
     if (stack.pending) {
       stack.pending.resolve()
@@ -386,6 +393,101 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     const isRoot = stack.entries.value.length < 2
     if (isRoot && (!stack.modal || stack.modal.cancelable === false)) return undefined
     return top.backGesture
+  }
+
+  /** Makes `stack` match `targets`: back to the last page both share, then push the rest. */
+  async function applyStack(
+    stack: Stack,
+    targets: readonly RouteLocation[],
+    options: Pick<SetStackOptions, 'animated' | 'transition'>,
+  ): Promise<NavigationFailure | undefined> {
+    const entries = stack.entries.value
+    let shared = 0
+    while (
+      shared < entries.length &&
+      shared < targets.length &&
+      entries[shared]!.route.fullPath === targets[shared]!.fullPath
+    ) {
+      shared++
+    }
+
+    const pushes = targets.slice(shared)
+    const step = (
+      type: 'push' | 'back',
+      to: RouteLocation | undefined,
+      last: boolean,
+      extra: NavigationOptions = {},
+    ) =>
+      run({
+        type,
+        stack,
+        to,
+        pick: () => entries[shared - 1],
+        options: {
+          ...extra,
+          modal: false,
+          animated: last ? options.animated : false,
+          transition: last ? options.transition : undefined,
+        },
+        force: true,
+        redirects: 0,
+      })
+
+    let failure: NavigationFailure | undefined
+    if (shared === 0) {
+      // nothing in common: the first page goes in with the whole stack cleared
+      failure = await step('push', pushes.shift(), !pushes.length, { clearHistory: true })
+    } else if (shared < entries.length) {
+      failure = await step('back', undefined, !pushes.length)
+    }
+    for (const [index, to] of pushes.entries()) {
+      if (failure) break
+      failure = await step('push', to, index === pushes.length - 1)
+    }
+    return failure
+  }
+
+  // -- restoring --------------------------------------------------------------
+
+  const restore = options.restore
+  let loaded: Promise<SavedStacks | null | undefined> | undefined
+  let restoring = false
+
+  function persist() {
+    if (!restore || restoring) return
+    const stacks: Record<string, string[]> = {}
+    for (const [name, stack] of frames) {
+      stacks[name] = stack.entries.value.map((entry) => entry.route.fullPath)
+    }
+    restore.save({ savedAt: Date.now(), stacks })
+  }
+
+  /** The saved stack for a `<RouterView>`, if there is one worth restoring. */
+  async function savedStackFor(name: string): Promise<RouteLocation[] | undefined> {
+    if (!restore) return undefined
+    loaded ??= Promise.resolve()
+      .then(() => restore.load())
+      .catch((error) => {
+        if (__DEV__) console.warn('[vue-router-ns] restore.load() failed:', error)
+        return undefined
+      })
+    const state = await loaded
+    const paths = state?.stacks[name]
+    if (!paths?.length) return undefined
+    if (Date.now() - state!.savedAt > (restore.maxAge ?? DEFAULT_MAX_AGE))
+      return undefined
+
+    try {
+      const targets: RouteLocation[] = []
+      for (const path of paths)
+        targets.push(resolveTarget(path, targets.at(-1) ?? START_LOCATION))
+      return targets
+    } catch (error) {
+      if (__DEV__) {
+        console.warn(`[vue-router-ns] Not restoring <RouterView name="${name}">:`, error)
+      }
+      return undefined
+    }
   }
 
   /** The route revealed when a modal closes. */
@@ -809,53 +911,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         const from = targets.at(-1) ?? topOf(stack)?.route ?? START_LOCATION
         targets.push(resolveTarget(location, from))
       }
-
-      const entries = stack.entries.value
-      let shared = 0
-      while (
-        shared < entries.length &&
-        shared < targets.length &&
-        entries[shared]!.route.fullPath === targets[shared]!.fullPath
-      ) {
-        shared++
-      }
-
-      const pushes = targets.slice(shared)
-      const step = (
-        type: 'push' | 'back',
-        to: RouteLocation | undefined,
-        last: boolean,
-        extra: NavigationOptions = {},
-      ) =>
-        run({
-          type,
-          stack,
-          to,
-          pick: () => entries[shared - 1],
-          options: {
-            ...extra,
-            modal: false,
-            animated: last ? options.animated : false,
-            transition: last ? options.transition : undefined,
-          },
-          force: true,
-          redirects: 0,
-        })
-
-      let failure: NavigationFailure | undefined
-      if (shared === 0) {
-        // nothing in common: the first page goes in with the whole stack cleared
-        failure = await step('push', pushes.shift(), !pushes.length, {
-          clearHistory: true,
-        })
-      } else if (shared < entries.length) {
-        failure = await step('back', undefined, !pushes.length)
-      }
-      for (const [index, to] of pushes.entries()) {
-        if (failure) break
-        failure = await step('push', to, index === pushes.length - 1)
-      }
-      return failure
+      return applyStack(stack, targets, options)
     }
 
     const methods: Partial<Router> = {
@@ -932,13 +988,28 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       frames.set(name, stack)
       attach(stack, frame)
 
-      return run({
-        type: 'push',
-        stack,
-        to: resolveTarget(initial, START_LOCATION),
-        options: {},
-        redirects: 0,
-      }).then(
+      const show = async () => {
+        const saved = await savedStackFor(name)
+        if (!saved) {
+          return run({
+            type: 'push',
+            stack,
+            to: resolveTarget(initial, START_LOCATION),
+            options: {},
+            redirects: 0,
+          })
+        }
+        // the saved pages go in without animating, and without saving every step
+        restoring = true
+        try {
+          return await applyStack(stack, saved, { animated: false })
+        } finally {
+          restoring = false
+          persist()
+        }
+      }
+
+      return show().then(
         (failure) => {
           if (failure && __DEV__) {
             console.warn(
@@ -992,6 +1063,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       })
       app.component('RouterView', RouterView)
       app.component('RouterLink', RouterLink)
+
+      if (restore) {
+        const onExit = () => restore.save(null)
+        Application.on('exit', onExit)
+        app.onUnmount(() => Application.off('exit', onExit))
+      }
 
       if (isAndroid) {
         const android = Application.android

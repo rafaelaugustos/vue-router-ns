@@ -43,6 +43,7 @@ So this is not a wrapper around Vue Router. The frame's back stack is the source
 - [One stack per tab](#tabs-and-other-independent-stacks), with named `<RouterView>`s, and [`setStack()`](#setting-the-whole-stack) to set a stack as a list.
 - [Typed routes](#typed-routes): names and params checked across the app, with no code generation.
 - [Android predictive back](#android-predictive-back) for pages that want to follow the swipe.
+- [Restoring the stack](#restoring-the-stack-after-the-app-is-killed) after the app is killed in the background.
 
 ## Install
 
@@ -277,6 +278,26 @@ router.push('/settings/account', { withParents: true })
 
 The parents come from `children` nesting in the route table, and only those with a component become pages. Parents already on top are skipped, only the last page animates, and guards run for every page. With `clearHistory`, the parents and the page become the whole stack.
 
+## Restoring the stack after the app is killed
+
+Android kills apps in the background all the time, and brings a native app back on the screen it was on, with its back stack. Every page here is a path, so the stack is a list of strings and the router can save it for you:
+
+```ts
+import { ApplicationSettings } from '@nativescript/core'
+
+const router = createRouter({
+  routes,
+  restore: {
+    save: (state) => ApplicationSettings.setString('stacks', JSON.stringify(state)),
+    load: () => JSON.parse(ApplicationSettings.getString('stacks', 'null')),
+  },
+})
+```
+
+`save` runs after every navigation with the paths of every named `<RouterView>`, and with `null` when the app exits on its own, so a fresh start after the user left stays fresh. When a `<RouterView>` mounts, the router asks `load` once (it can be async) and rebuilds the saved stack without animating, through the guards, so a page that needs a session still sends you to the login. Saves older than `maxAge` (30 minutes by default) are ignored; pass `Infinity` to always restore.
+
+What can't come back: modals, and `props` passed through `push`. A page that relies on them should cope with their absence, by reading its params instead. If a saved path matches no route anymore, after an update for example, the stack starts from `initial` instead.
+
 ## Typed routes
 
 Register the router once, and route names and params get checked across the app, inferred from the route table with no code generation:
@@ -324,7 +345,7 @@ On iOS, the ActionBar's back button pops the page natively, and no NativeScript 
 
 ## API
 
-**Router**: `createRouter({ routes })`, `push`, `replace`, `back`, `go`, `backTo`, `backToRoot`, `setStack`, `pushForResult`, `resolve`, `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`, `beforeEach`, `beforeResolve`, `afterEach`, `onError`, `isReady`, `currentRoute`, `stack`.
+**Router**: `createRouter({ routes, restore })`, `push`, `replace`, `back`, `go`, `backTo`, `backToRoot`, `setStack`, `pushForResult`, `resolve`, `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`, `beforeEach`, `beforeResolve`, `afterEach`, `onError`, `isReady`, `currentRoute`, `stack`.
 
 **Route records**: `path`, `name`, `component` (or a lazy loader), `children`, `redirect`, `meta`, `props` (`true`, an object or a function of the route), `beforeEnter`, plus `modal` and `transition`.
 
