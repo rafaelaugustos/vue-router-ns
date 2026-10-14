@@ -203,6 +203,19 @@ describe('pages', () => {
     expect(loader).toHaveBeenCalledTimes(1)
   })
 
+  it('take a loader that returns the component itself', async () => {
+    const Wrapped = page('Wrapped')
+    const { router } = await mount([
+      ...routes,
+      { path: '/wrapped', component: () => Wrapped },
+    ])
+
+    await router.push('/wrapped')
+
+    expect(events).toContain('mount Wrapped')
+    expect(router.currentRoute.value.path).toBe('/wrapped')
+  })
+
   it('know when they are on screen', async () => {
     const Tracked = page('Tracked', () => {
       onPageActivated(() => events.push('activated'))
