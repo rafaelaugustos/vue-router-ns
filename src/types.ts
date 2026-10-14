@@ -35,7 +35,12 @@ export type LocationQueryRaw = Record<
   LocationQueryValueRaw | readonly LocationQueryValueRaw[]
 >
 
-export type Lazy<T> = () => Promise<T | { default: T }>
+/**
+ * A function that gives the component: `() => import('./Page.vue')`, or
+ * `() => Page` for a page already imported. Either way, the route table's
+ * type doesn't depend on the page's, which keeps typed routes free of cycles.
+ */
+export type Lazy<T> = () => T | Promise<T | { default: T }>
 export type RouteComponent = Component<any>
 export type RawRouteComponent = RouteComponent | Lazy<RouteComponent>
 

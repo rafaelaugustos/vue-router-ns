@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Typed routes with pages imported up front: `component: () => Message` keeps the page's type out of the route table's, so `<script setup>` pages can use `useRoute('message')` without the cycle that `component: Message` causes. The function form is now part of the `component` type.
+
 - `createRouter({ restore: { save, load } })` saves the paths of every stack after each navigation and rebuilds them when the app comes back after being killed, through the guards and without animating. Saves older than `maxAge` (30 minutes) are ignored, and the app forgets them when it exits on its own.
 - On iOS, swiping down a modal whose page has an active leave guard, or tapping outside it, now runs the guard with the sheet staying put, and closes the modal if the guard allows it. Before, the swipe was only blocked.
 

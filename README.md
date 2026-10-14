@@ -322,7 +322,7 @@ const route = useRoute('message')
 route.params.id // string
 ```
 
-Declare `routes` inline in `createRouter`, as above, and load route components lazily (`() => import(...)`). With eager imports, the route table's type depends on your `<script setup>` pages, while those pages use the route table's types. TypeScript can't resolve that cycle. Lazy loading breaks it, and it keeps startup light ([#17](https://github.com/rafaelaugustos/vue-router-ns/issues/17)).
+Declare `routes` inline in `createRouter`, as above, and give components through a function: `() => import('./Message.vue')`, or `() => Message` for a page you'd rather import up front. Referenced directly (`component: Message`), a `<script setup>` page's type becomes part of the route table's type while the page itself uses the route table's types, and TypeScript gives up on the cycle with `'router' implicitly has type 'any'`. Behind a function, the page's type is only looked at later.
 
 ## Differences from Vue Router
 
@@ -347,7 +347,7 @@ On iOS, the ActionBar's back button pops the page natively, and no NativeScript 
 
 **Router**: `createRouter({ routes, restore })`, `push`, `replace`, `back`, `go`, `backTo`, `backToRoot`, `setStack`, `pushForResult`, `resolve`, `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`, `beforeEach`, `beforeResolve`, `afterEach`, `onError`, `isReady`, `currentRoute`, `stack`.
 
-**Route records**: `path`, `name`, `component` (or a lazy loader), `children`, `redirect`, `meta`, `props` (`true`, an object or a function of the route), `beforeEnter`, plus `modal` and `transition`.
+**Route records**: `path`, `name`, `component` (or a function returning it, sync or async), `children`, `redirect`, `meta`, `props` (`true`, an object or a function of the route), `beforeEnter`, plus `modal` and `transition`.
 
 **Composables**: `useRouter`, `useRoute`, `onBeforeRouteLeave`, `onPageActivated`, `onPageDeactivated`, `useBackGesture`.
 
