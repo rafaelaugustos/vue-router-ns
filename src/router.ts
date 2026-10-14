@@ -36,7 +36,7 @@ import {
 } from './errors.js'
 import { routeKey, routerKey } from './injection.js'
 import { INTERNAL, type RouterInternals } from './internal.js'
-import { watchDismissAttempts } from './ios.js'
+import { configureSheet, watchDismissAttempts } from './ios.js'
 import { createMatcher } from './matcher.js'
 import { createPage, ModalHost } from './page.js'
 import { parseURL } from './query.js'
@@ -683,6 +683,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       props: {
         onReady(frame: Frame) {
           attach(stack, frame)
+          if (isIOS && modal.ios) configureSheet(frame, modal.ios)
           try {
             $navigateTo(createPage(entry, pageLink), { frame, animated: false })
           } catch (error) {
@@ -1106,7 +1107,11 @@ function modalOptionsFor(
   const fromRecord = to.matched.at(-1)?.modal ?? false
   if (options.modal === undefined) return fromRecord
   if (options.modal === false) return false
-  return { ...(fromRecord || {}), ...(options.modal === true ? {} : options.modal) }
+  const extra = options.modal === true ? {} : options.modal
+  const merged: ModalOptions = { ...(fromRecord || {}), ...extra }
+  if (fromRecord && fromRecord.ios && extra.ios)
+    merged.ios = { ...fromRecord.ios, ...extra.ios }
+  return merged
 }
 
 function pageProps(

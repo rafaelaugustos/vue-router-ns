@@ -13,6 +13,7 @@ import {
   type BackGesture,
   type NavigationGuard,
   type RouteLocation,
+  type RouteRecordRaw,
   type SavedStacks,
   type Router,
 } from '../src/index.js'
@@ -782,6 +783,69 @@ describe('modals', () => {
     pressAndroidBack()
     await settle()
     expect(View.presented).toHaveLength(1)
+  })
+})
+
+describe('iOS sheets', () => {
+  const Filters = page('Filters')
+  const sheetRoutes = [
+    ...routes,
+    {
+      path: '/filters',
+      component: Filters,
+      modal: {
+        ios: {
+          detents: ['medium', 'large'],
+          selectedDetent: 'medium',
+          largestUndimmedDetent: 'medium',
+          grabber: true,
+          cornerRadius: 24,
+        },
+      },
+    },
+  ] satisfies RouteRecordRaw[]
+  const sheet = () =>
+    (View.presented.at(-1)!.view as any).ios.controller.sheetPresentationController
+
+  it('are set up from the route before presenting', async () => {
+    const { router } = await mount(sheetRoutes)
+
+    await router.push('/filters')
+
+    expect(sheet()).toEqual({
+      detents: ['medium', 'large'],
+      selectedDetentIdentifier: 'medium',
+      largestUndimmedDetentIdentifier: 'medium',
+      prefersGrabberVisible: true,
+      preferredCornerRadius: 24,
+    })
+  })
+
+  it('merge what push passes with the record, and name fractions', async () => {
+    const { router } = await mount(sheetRoutes)
+
+    await router.push('/filters', {
+      modal: { ios: { detents: [0.4, 'large'], selectedDetent: 0.4 } },
+    })
+
+    expect(sheet()).toMatchObject({
+      detents: [0.4, 'large'],
+      selectedDetentIdentifier: 'fraction-0.4',
+      prefersGrabberVisible: true,
+    })
+  })
+
+  it('leave fractions out before iOS 16', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const { router } = await mount(sheetRoutes, {
+      before: () => (Device.sdkVersion = '15.4'),
+    })
+
+    await router.push('/filters', { modal: { ios: { detents: [0.4, 'large'] } } })
+
+    expect(sheet().detents).toEqual(['large'])
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('iOS 16'))
+    warn.mockRestore()
   })
 })
 

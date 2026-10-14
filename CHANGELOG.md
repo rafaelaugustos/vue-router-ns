@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- iOS sheet options for modal routes, under `modal.ios`: `detents` (`'medium'`, `'large'` or a fraction of the screen), `selectedDetent`, `largestUndimmedDetent`, `grabber` and `cornerRadius`. Set before the sheet is presented. `push` merges its `modal.ios` with the record's.
+
 ## 0.1.0-beta.3 (2026-10-14)
 
 - On iOS 16 and later, the ActionBar's back button goes through the leave guards while one is active, instead of popping the page on its own. It still looks like the system button.

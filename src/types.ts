@@ -44,10 +44,27 @@ export type Lazy<T> = () => T | Promise<T | { default: T }>
 export type RouteComponent = Component<any>
 export type RawRouteComponent = RouteComponent | Lazy<RouteComponent>
 
+/** `'medium'`, `'large'`, or a fraction of the screen height (iOS 16 and later). */
+export type SheetDetent = 'medium' | 'large' | number
+
+/** How an iOS sheet behaves. Android has no equivalent in `showModal`, and ignores these. */
+export interface SheetOptions {
+  /** Heights the sheet can rest at. The system default is a single `'large'`. */
+  detents?: SheetDetent[]
+  /** The detent to open at. Defaults to the first. */
+  selectedDetent?: SheetDetent
+  /** Up to this detent, the page behind stays undimmed and usable, like Maps. */
+  largestUndimmedDetent?: SheetDetent
+  grabber?: boolean
+  cornerRadius?: number
+}
+
 /** Options forwarded to `showModal` when a route is presented modally. */
 export interface ModalOptions extends Partial<
-  Omit<ShowModalOptions, 'context' | 'closeCallback'>
-> {}
+  Omit<ShowModalOptions, 'context' | 'closeCallback' | 'ios'>
+> {
+  ios?: NonNullable<ShowModalOptions['ios']> & SheetOptions
+}
 
 /** A transition name such as `'slide'` or `'fade'`, or a full NativeScript transition. */
 export type TransitionOption = string | NavigationTransition

@@ -121,6 +121,7 @@ type Operation =
 
 export class Frame extends View {
   static navigatedToEvent = 'navigatedTo'
+  override ios: any = { controller: { sheetPresentationController: {} } }
   static stack: Frame[] = []
   static navigations: NavigationEntry[] = []
   /** Whether each back navigation animated, read like core does: from the entry being popped. */
