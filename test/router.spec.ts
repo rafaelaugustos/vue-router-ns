@@ -790,6 +790,110 @@ describe('tabs', () => {
   })
 })
 
+describe('setStack', () => {
+  const Form = page('Form', () => onBeforeRouteLeave(() => false))
+  const stackRoutes = [
+    ...routes,
+    { path: '/form', component: Form },
+    { path: '/pick', component: page('Picker'), modal: true },
+  ]
+  const animated = () => Frame.navigations.slice(1).map((entry) => entry.animated)
+
+  it('pushes what is missing on top of the pages both stacks share', async () => {
+    const { router } = await mount(stackRoutes)
+
+    expect(await router.setStack(['/', '/list', '/items/1'])).toBeUndefined()
+
+    expect(paths(router.stack.value)).toEqual(['/', '/list', '/items/1'])
+    expect(events).not.toContain('unmount Home')
+    expect(animated()).toEqual([false, undefined])
+  })
+
+  it('goes back to the last shared page before pushing, without animating', async () => {
+    const { router } = await mount(stackRoutes)
+    await router.push('/list')
+    await router.push('/items/1')
+
+    await router.setStack(['/', '/settings'])
+
+    expect(paths(router.stack.value)).toEqual(['/', '/settings'])
+    expect(events).toContain('unmount List')
+    expect(events).toContain('unmount Detail')
+    expect(Frame.backs).toEqual([false])
+    expect(animated().at(-1)).toBeUndefined()
+  })
+
+  it('only goes back, animated, when the target is a prefix of the stack', async () => {
+    const { router } = await mount(stackRoutes)
+    await router.push('/list')
+    await router.push('/items/1')
+
+    await router.setStack(['/'])
+
+    expect(paths(router.stack.value)).toEqual(['/'])
+    expect(Frame.backs).toEqual([undefined])
+  })
+
+  it('replaces everything when the stacks share nothing', async () => {
+    const { router } = await mount(stackRoutes)
+    await router.push('/list')
+
+    await router.setStack(['/list', '/items/2'])
+
+    expect(paths(router.stack.value)).toEqual(['/list', '/items/2'])
+    expect(events).toContain('unmount Home')
+    expect(Frame.navigations.at(-2)).toMatchObject({
+      clearHistory: true,
+      animated: false,
+    })
+  })
+
+  it('does nothing when the stack already matches', async () => {
+    const { router } = await mount(stackRoutes)
+    await router.push('/list')
+    const before = Frame.navigations.length
+
+    expect(await router.setStack(['/', { name: 'list' }])).toBeUndefined()
+
+    expect(Frame.navigations).toHaveLength(before)
+    expect(Frame.backs).toEqual([])
+  })
+
+  it('runs the leave guards of the pages it drops', async () => {
+    const { router } = await mount(stackRoutes)
+    await router.push('/form')
+
+    const failure = await router.setStack(['/', '/list'])
+
+    expect(isNavigationFailure(failure, NavigationFailureType.aborted)).toBe(true)
+    expect(paths(router.stack.value)).toEqual(['/', '/form'])
+  })
+
+  it('treats modal routes as pages, and targets a named frame', async () => {
+    const { router } = await mount(stackRoutes, {
+      render: () => [
+        h(RouterView, { name: 'inbox', initial: '/' }),
+        h(RouterView, { name: 'settings', initial: '/settings' }),
+      ],
+    })
+    await settle()
+
+    await router.setStack(['/settings', '/pick'], { frame: 'settings' })
+
+    expect(View.presented).toHaveLength(0)
+    expect(paths(router.stack.value)).toEqual(['/settings', '/pick'])
+  })
+
+  it('back() can skip the animation', async () => {
+    const { router } = await mount(stackRoutes)
+    await router.push('/list')
+
+    await router.back({ animated: false })
+
+    expect(Frame.backs).toEqual([false])
+  })
+})
+
 describe('redirect records', () => {
   it('follow redirects and keep the query', async () => {
     const { router } = await mount([

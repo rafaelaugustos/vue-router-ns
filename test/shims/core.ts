@@ -101,6 +101,8 @@ export class Frame extends View {
   static navigatedToEvent = 'navigatedTo'
   static stack: Frame[] = []
   static navigations: NavigationEntry[] = []
+  /** Whether each back navigation animated, read like core does: from the entry being popped. */
+  static backs: (boolean | undefined)[] = []
 
   static topmost(): Frame | undefined {
     return Frame.stack.at(-1)
@@ -142,6 +144,7 @@ export class Frame extends View {
 
   goBack(to?: BackstackEntry) {
     if (!this.canGoBack()) return
+    Frame.backs.push(this.current?.entry.animated)
     this.queue.push({ type: 'back', to })
     this.process()
   }
@@ -432,6 +435,7 @@ export function swipeAndroidBack(edge: 'left' | 'right' = 'left') {
 export function resetNative() {
   Frame.stack = []
   Frame.navigations = []
+  Frame.backs = []
   View.presented = []
   Application.android = createAndroidApplication()
   Device.sdkVersion = '36'

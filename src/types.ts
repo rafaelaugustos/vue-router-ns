@@ -144,6 +144,16 @@ export interface BackOptions {
   result?: unknown
   /** Name of the `<RouterView>` to go back in. Defaults to the one the caller lives in. */
   frame?: string
+  animated?: boolean
+}
+
+export interface SetStackOptions {
+  /** Name of the `<RouterView>` whose stack to set. Defaults to the one the caller lives in. */
+  frame?: string
+  /** Applies to the last step only: the steps before it never animate. */
+  animated?: boolean
+  /** Transition of the last page pushed. */
+  transition?: TransitionOption
 }
 
 export type NavigationType = 'push' | 'replace' | 'back'

@@ -68,6 +68,7 @@ import type {
   RouteRecord,
   RouteRecordName,
   RouteRecordRaw,
+  SetStackOptions,
   TransitionOption,
 } from './types.js'
 
@@ -105,6 +106,14 @@ export interface Router<M extends RouteMapLike = RouteMapGeneric> {
   backTo(
     to: RouteLocationRawOf<M>,
     options?: BackOptions,
+  ): Promise<NavigationFailure | undefined>
+  /**
+   * Makes the stack match `to`: goes back to the last page both have, then
+   * pushes the rest, animating only the last step. Guards run for every step.
+   */
+  setStack(
+    to: readonly RouteLocationRawOf<M>[],
+    options?: SetStackOptions,
   ): Promise<NavigationFailure | undefined>
   resolve(to: RouteLocationRawOf<M>): RouteLocation
 
@@ -473,7 +482,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
     const commit =
       type === 'back'
-        ? commitBack(stack, target ?? null, request.result)
+        ? commitBack(stack, target ?? null, request.result, request.options.animated)
         : modal
           ? commitModal(request, to, modal)
           : commitPage(request, to, initial)
@@ -580,7 +589,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     await shown
   }
 
-  async function commitBack(stack: Stack, target: Entry | null, result: unknown) {
+  async function commitBack(
+    stack: Stack,
+    target: Entry | null,
+    result: unknown,
+    animated: boolean | undefined,
+  ) {
     const top = topOf(stack)
     if (top && result !== undefined) top.result = result
 
@@ -597,6 +611,10 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     if (!entry) {
       throw new Error(`"${target.route.fullPath}" is no longer in the native stack`)
     }
+
+    // the frame animates a pop the way the page being popped came in
+    if (animated !== undefined && frame.currentEntry)
+      frame.currentEntry.animated = animated
 
     const done = expect(stack)
     frame.goBack(entry)
@@ -724,10 +742,72 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         type: 'back',
         stack,
         pick,
-        options: {},
+        options: { animated: options.animated },
         result: options.result,
         redirects: 0,
       })
+    }
+
+    async function setStack(
+      raw: readonly RouteLocationRaw[],
+      options: SetStackOptions = {},
+    ) {
+      if (!raw.length) throw new Error('setStack() needs at least one location')
+      if (!isReady) await ready.promise
+
+      const stack = stackFor(origin, options.frame)
+      const targets: RouteLocation[] = []
+      for (const location of raw) {
+        const from = targets.at(-1) ?? topOf(stack)?.route ?? START_LOCATION
+        targets.push(resolveTarget(location, from))
+      }
+
+      const entries = stack.entries.value
+      let shared = 0
+      while (
+        shared < entries.length &&
+        shared < targets.length &&
+        entries[shared]!.route.fullPath === targets[shared]!.fullPath
+      ) {
+        shared++
+      }
+
+      const pushes = targets.slice(shared)
+      const step = (
+        type: 'push' | 'back',
+        to: RouteLocation | undefined,
+        last: boolean,
+        extra: NavigationOptions = {},
+      ) =>
+        run({
+          type,
+          stack,
+          to,
+          pick: () => entries[shared - 1],
+          options: {
+            ...extra,
+            modal: false,
+            animated: last ? options.animated : false,
+            transition: last ? options.transition : undefined,
+          },
+          force: true,
+          redirects: 0,
+        })
+
+      let failure: NavigationFailure | undefined
+      if (shared === 0) {
+        // nothing in common: the first page goes in with the whole stack cleared
+        failure = await step('push', pushes.shift(), !pushes.length, {
+          clearHistory: true,
+        })
+      } else if (shared < entries.length) {
+        failure = await step('back', undefined, !pushes.length)
+      }
+      for (const [index, to] of pushes.entries()) {
+        if (failure) break
+        failure = await step('push', to, index === pushes.length - 1)
+      }
+      return failure
     }
 
     const methods: Partial<Router> = {
@@ -784,6 +864,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
           return target
         }, options)
       },
+
+      setStack,
 
       resolve: (to) => resolveTarget(to, topOf(scope())?.route ?? START_LOCATION),
     }
