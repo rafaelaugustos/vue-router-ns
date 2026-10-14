@@ -1,4 +1,4 @@
-import { h, nextTick, ref } from 'nativescript-vue'
+import { h, nextTick, ref, type ShallowRef } from 'nativescript-vue'
 import { describe, expect, it, vi } from 'vitest'
 import {
   isNavigationFailure,
@@ -7,13 +7,24 @@ import {
   onPageActivated,
   onPageDeactivated,
   RouterView,
+  useBackGesture,
   useRoute,
   useRouter,
+  type BackGesture,
   type RouteLocation,
   type Router,
 } from '../src/index.js'
 import { events, mount, page, paths, settle } from './helpers.js'
-import { Frame, pressAndroidBack, View } from './shims/core.js'
+import {
+  Activity,
+  Application,
+  backOwner,
+  Device,
+  Frame,
+  pressAndroidBack,
+  swipeAndroidBack,
+  View,
+} from './shims/core.js'
 
 const Home = page('Home')
 const List = page('List')
@@ -415,6 +426,141 @@ describe('system back', () => {
     await mount(routes, { platform: 'android' })
 
     expect(pressAndroidBack().cancel).toBe(false)
+  })
+})
+
+describe('Android back gesture', () => {
+  type Gesture = Readonly<ShallowRef<BackGesture | null>>
+  const gestures: Record<string, Gesture> = {}
+  const tracked = (name: string, setup?: () => void) =>
+    page(name, () => {
+      gestures[name] = useBackGesture()
+      setup?.()
+    })
+
+  const gestureRoutes = [
+    { path: '/', component: tracked('Home') },
+    { path: '/list', component: tracked('List') },
+    { path: '/pick', component: tracked('Picker'), modal: true },
+    { path: '/locked', component: tracked('Locked'), modal: { cancelable: false } },
+  ]
+
+  it('reports the swipe to the page it would close', async () => {
+    const { router } = await mount(gestureRoutes, { platform: 'android' })
+    await router.push('/list')
+
+    const swipe = swipeAndroidBack('right')
+    expect(gestures.List!.value).toEqual({ progress: 0, edge: 'right' })
+    swipe.move(0.4)
+    expect(gestures.List!.value).toEqual({ progress: 0.4, edge: 'right' })
+    expect(gestures.Home!.value).toBeNull()
+
+    swipe.cancel()
+    expect(gestures.List!.value).toBeNull()
+    expect(paths(router.stack.value)).toEqual(['/', '/list'])
+  })
+
+  it('goes back through the router when the swipe is released', async () => {
+    const leave = vi.fn()
+    const { router } = await mount(gestureRoutes, {
+      platform: 'android',
+      before: (router) => router.beforeEach((to, from, info) => leave(info.type)),
+    })
+    await router.push('/list')
+
+    const swipe = swipeAndroidBack()
+    swipe.move(0.8)
+    expect(swipe.release().cancel).toBe(true)
+    expect(gestures.List!.value).toBeNull()
+    await settle()
+
+    expect(paths(router.stack.value)).toEqual(['/'])
+    expect(leave).toHaveBeenLastCalledWith('back')
+  })
+
+  it('reports nothing while a leave guard is active', async () => {
+    const dirty = ref(true)
+    const Form = tracked('Form', () => onBeforeRouteLeave(() => false, { when: dirty }))
+    const { router } = await mount(
+      [...gestureRoutes, { path: '/form', component: Form }],
+      {
+        platform: 'android',
+      },
+    )
+    await router.push('/form')
+
+    swipeAndroidBack().move(0.5)
+    expect(gestures.Form!.value).toBeNull()
+    expect(pressAndroidBack().cancel).toBe(true)
+    await settle()
+    expect(router.currentRoute.value.path).toBe('/form')
+
+    dirty.value = false
+    swipeAndroidBack().move(0.5)
+    expect(gestures.Form!.value).toEqual({ progress: 0.5, edge: 'left' })
+  })
+
+  it('reports nothing on the first page, and lets Android close the app', async () => {
+    await mount(gestureRoutes, { platform: 'android' })
+
+    const swipe = swipeAndroidBack()
+    swipe.move(0.5)
+    expect(gestures.Home!.value).toBeNull()
+
+    expect(swipe.release().cancel).toBe(false)
+    expect(Application.android.foregroundActivity!.finished).toBe(true)
+  })
+
+  it('follows swipes inside a modal, unless it is not cancelable', async () => {
+    const { router } = await mount(gestureRoutes, { platform: 'android' })
+
+    await router.push('/pick')
+    await settle()
+    const swipe = swipeAndroidBack()
+    swipe.move(0.3)
+    expect(gestures.Picker!.value).toEqual({ progress: 0.3, edge: 'left' })
+    expect(gestures.Home!.value).toBeNull()
+    swipe.release()
+    await settle()
+    expect(View.presented).toHaveLength(0)
+
+    await router.push('/locked')
+    await settle()
+    swipeAndroidBack().move(0.3)
+    expect(gestures.Locked!.value).toBeNull()
+    pressAndroidBack()
+    await settle()
+    expect(View.presented).toHaveLength(1)
+  })
+
+  it('follows activities created later', async () => {
+    const { router } = await mount(gestureRoutes, { platform: 'android' })
+    await router.push('/list')
+
+    const activity = new Activity()
+    Application.android.foregroundActivity = activity
+    Application.android.notify({ eventName: 'activityCreated', activity })
+
+    swipeAndroidBack().move(0.6)
+    expect(gestures.List!.value).toEqual({ progress: 0.6, edge: 'left' })
+  })
+
+  it('stays out of the way before Android 14, and once the app is unmounted', async () => {
+    const legacy = await mount(gestureRoutes, {
+      platform: 'android',
+      before: () => (Device.sdkVersion = '33'),
+    })
+    expect(backOwner().getOnBackPressedDispatcher().enabledCount()).toBe(1)
+    await legacy.router.push('/list')
+    expect(pressAndroidBack().cancel).toBe(true)
+    await settle()
+    expect(paths(legacy.router.stack.value)).toEqual(['/'])
+
+    const { app } = await mount(gestureRoutes, { platform: 'android' })
+    const dispatcher = backOwner().getOnBackPressedDispatcher()
+    expect(dispatcher.enabledCount()).toBe(2)
+    app.unmount()
+    expect(dispatcher.enabledCount()).toBe(1)
   })
 })
 

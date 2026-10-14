@@ -1,5 +1,6 @@
 import type { Frame, Page } from '@nativescript/core'
 import { toValue, type MaybeRefOrGetter, type ShallowRef } from 'nativescript-vue'
+import type { BackGestureTarget } from './android.js'
 import type { Router } from './router.js'
 import type {
   ModalOptions,
@@ -34,6 +35,7 @@ export interface Entry {
   readonly component: RouteComponent
   readonly props: Record<string, unknown>
   readonly leaveGuards: Set<LeaveGuard>
+  readonly backGesture: BackGestureTarget
   /** Top of its stack and not covered by a modal. */
   readonly isActive: () => boolean
   page: Page | null

@@ -39,12 +39,23 @@ export class View extends Observable {
   static presented: { view: View; options: any }[] = []
 
   ios: any = { controller: {} }
+  /** On Android, the dialog a modal is shown in. */
+  dialog: Dialog | undefined
   private closeCallback: ((...args: unknown[]) => void) | undefined
+
+  /** Lets the androidx stand-in find the dialog or activity a view lives in. */
+  get nativeView() {
+    return { owner: this.dialog ?? Application.android.foregroundActivity }
+  }
 
   showModal(view: View, options: any) {
     view.closeCallback = options.closeCallback
+    if (isAndroid) view.dialog = new Dialog(view)
     View.presented.push({ view, options })
-    void Promise.resolve().then(() => (view as Partial<Frame>).load?.())
+    void Promise.resolve().then(() => {
+      ;(view as Partial<Frame>).load?.()
+      view.notify({ eventName: 'shownModally', object: view })
+    })
   }
 
   closeModal(...args: unknown[]) {
@@ -202,8 +213,178 @@ export interface AndroidActivityBackPressedEventData extends EventData {
   cancel: boolean
 }
 
+export interface AndroidActivityEventData extends EventData {
+  activity: Activity
+}
+
+/**
+ * androidx's OnBackPressedDispatcher: the last enabled callback gets the back
+ * gesture and the press, and the owner's default runs when none is enabled.
+ */
+export class BackDispatcher {
+  private callbacks: OnBackPressedCallback[] = []
+  private inProgress: OnBackPressedCallback | undefined
+
+  constructor(private fallback: () => void) {}
+
+  addCallback(_owner: unknown, callback: OnBackPressedCallback) {
+    this.callbacks.push(callback)
+    callback.dispatcher = this
+  }
+
+  remove(callback: OnBackPressedCallback) {
+    this.callbacks = this.callbacks.filter((item) => item !== callback)
+  }
+
+  enabledCount() {
+    return this.callbacks.filter((callback) => callback.isEnabled()).length
+  }
+
+  onBackPressed() {
+    const callback = this.inProgress ?? this.top()
+    this.inProgress = undefined
+    if (callback) callback.handleOnBackPressed()
+    else this.fallback()
+  }
+
+  startGesture(event: BackEvent) {
+    this.inProgress = this.top()
+    this.inProgress?.handleOnBackStarted(event)
+  }
+
+  progressGesture(event: BackEvent) {
+    this.inProgress?.handleOnBackProgressed(event)
+  }
+
+  cancelGesture() {
+    const callback = this.inProgress
+    this.inProgress = undefined
+    callback?.handleOnBackCancelled()
+  }
+
+  private top() {
+    return this.callbacks.findLast((callback) => callback.isEnabled())
+  }
+}
+
+export class OnBackPressedCallback {
+  dispatcher: BackDispatcher | undefined
+
+  constructor(private enabled: boolean) {}
+
+  isEnabled() {
+    return this.enabled
+  }
+
+  setEnabled(enabled: boolean) {
+    this.enabled = enabled
+  }
+
+  remove() {
+    this.dispatcher?.remove(this)
+  }
+
+  handleOnBackStarted(_event: BackEvent) {}
+  handleOnBackProgressed(_event: BackEvent) {}
+  handleOnBackCancelled() {}
+  handleOnBackPressed() {}
+}
+
+interface BackEvent {
+  getProgress(): number
+  getSwipeEdge(): number
+}
+
+let lastBackPress: AndroidActivityBackPressedEventData | undefined
+
+/** The callback core registers on every activity: it only hears the press. */
+class CoreBackCallback extends OnBackPressedCallback {
+  constructor(private press: () => void) {
+    super(true)
+  }
+
+  override handleOnBackPressed() {
+    this.press()
+  }
+}
+
+export class Activity {
+  finished = false
+  private dispatcher = new BackDispatcher(() => (this.finished = true))
+
+  constructor() {
+    this.dispatcher.addCallback(this, new CoreBackCallback(() => this.press()))
+  }
+
+  getOnBackPressedDispatcher() {
+    return this.dispatcher
+  }
+
+  private press() {
+    const args = { eventName: 'activityBackPressed', cancel: false }
+    lastBackPress = args
+    Application.android.notify(args)
+    if (args.cancel) return
+
+    const frame = Frame.topmost()
+    if (frame?.canGoBack()) frame.goBack()
+    else this.finished = true
+  }
+}
+
+export class Dialog {
+  private dispatcher = new BackDispatcher(() => this.view.closeModal())
+
+  constructor(private view: View) {
+    this.dispatcher.addCallback(this, new CoreBackCallback(() => this.press()))
+  }
+
+  getOnBackPressedDispatcher() {
+    return this.dispatcher
+  }
+
+  private press() {
+    const args = { eventName: 'activityBackPressed', object: this.view, cancel: false }
+    lastBackPress = args
+    this.view.notify(args)
+    if (args.cancel) return
+
+    const frame = this.view as Frame
+    if (frame.canGoBack?.()) frame.goBack()
+    else this.view.closeModal()
+  }
+}
+
+const EDGES = ['left', 'right'] as const
+
+Object.assign(globalThis, {
+  androidx: {
+    activity: {
+      OnBackPressedCallback: {
+        extend: (_name: string, methods: object) => {
+          const Extended = class extends OnBackPressedCallback {}
+          Object.assign(Extended.prototype, methods)
+          return Extended
+        },
+      },
+      ViewTreeOnBackPressedDispatcherOwner: {
+        get: (view: { owner?: unknown }) => view.owner ?? null,
+      },
+    },
+  },
+})
+
+export const Device = { sdkVersion: '36' }
+
 export const Application = {
-  android: new Observable(),
+  android: createAndroidApplication(),
+}
+
+function createAndroidApplication() {
+  return Object.assign(new Observable(), {
+    foregroundActivity: undefined as Activity | undefined,
+    startActivity: undefined as Activity | undefined,
+  })
 }
 
 export let isAndroid = false
@@ -212,32 +393,47 @@ export let isIOS = true
 export function setPlatform(platform: 'ios' | 'android') {
   isAndroid = platform === 'android'
   isIOS = !isAndroid
+  const activity = isAndroid ? new Activity() : undefined
+  Application.android.foregroundActivity = activity
+  Application.android.startActivity = activity
 }
 
-/** What the Android back button does, including the router's chance to cancel it. */
-export function pressAndroidBack() {
-  const modal = View.presented.at(-1)
-  if (modal) {
-    const args = { eventName: 'activityBackPressed', object: modal.view, cancel: false }
-    modal.view.notify(args)
-    if (!args.cancel) {
-      const frame = modal.view as Frame
-      if (frame.canGoBack?.()) frame.goBack()
-      else modal.view.closeModal()
-    }
-    return args
-  }
+/** Where Android sends back right now: the dialog of the top modal, or the activity. */
+export function backOwner() {
+  return View.presented.at(-1)?.view.dialog ?? Application.android.foregroundActivity!
+}
 
-  const args = { eventName: 'activityBackPressed', cancel: false }
-  Application.android.notify(args)
-  if (!args.cancel) Frame.topmost()?.goBack()
-  return args
+/**
+ * What the Android back button does, or letting go of a back swipe, with the
+ * router's chance to cancel it. Returns what core's own callback was told.
+ */
+export function pressAndroidBack() {
+  lastBackPress = undefined
+  backOwner().getOnBackPressedDispatcher().onBackPressed()
+  return lastBackPress!
+}
+
+const backEvent = (progress: number, edge: 'left' | 'right'): BackEvent => ({
+  getProgress: () => progress,
+  getSwipeEdge: () => EDGES.indexOf(edge),
+})
+
+/** A predictive back swipe (Android 14+): start it, move it, then cancel or press. */
+export function swipeAndroidBack(edge: 'left' | 'right' = 'left') {
+  const dispatcher = backOwner().getOnBackPressedDispatcher()
+  dispatcher.startGesture(backEvent(0, edge))
+  return {
+    move: (progress: number) => dispatcher.progressGesture(backEvent(progress, edge)),
+    cancel: () => dispatcher.cancelGesture(),
+    release: () => pressAndroidBack(),
+  }
 }
 
 export function resetNative() {
   Frame.stack = []
   Frame.navigations = []
   View.presented = []
-  Application.android = new Observable()
+  Application.android = createAndroidApplication()
+  Device.sdkVersion = '36'
   setPlatform('ios')
 }

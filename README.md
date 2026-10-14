@@ -188,6 +188,32 @@ onPageDeactivated(() => pause()) // covered by another page or a modal
 
 When the page leaves the stack it is unmounted, so cleanup goes in `onUnmounted`.
 
+## Android predictive back
+
+Since Android 14, the back swipe reports its progress while the finger moves. `useBackGesture()` hands it to the page the swipe would close, so the page can follow the finger:
+
+```vue
+<script setup lang="ts">
+import { computed } from 'nativescript-vue'
+import { useBackGesture } from 'vue-router-ns'
+
+const gesture = useBackGesture()
+const scale = computed(() => 1 - (gesture.value?.progress ?? 0) * 0.1)
+</script>
+
+<template>
+  <Page>
+    <GridLayout :scaleX="scale" :scaleY="scale">...</GridLayout>
+  </Page>
+</template>
+```
+
+While the user drags, it's `{ progress, edge }`, with `progress` going from 0 to 1. The rest of the time it's `null`: once the swipe is cancelled or released, on iOS, on the first page (where back leaves the app), on a modal with `cancelable: false`, and while a leave guard is active, since letting go won't simply close the page then. Releasing goes back through the router like the back button, guards included.
+
+Apps that target Android 16 (API 36) get predictive back by default. Earlier targets opt in with `android:enableOnBackInvokedCallback="true"` on `<application>` in `AndroidManifest.xml`.
+
+The page below doesn't show through during the swipe. `@nativescript/core` doesn't keep it in a fragment back stack the system could preview, so what happens on screen is up to the page.
+
 ## Deep links
 
 Routes are paths, so wherever your app receives a link (a URL handler, a notification payload), hand the path to the router:
@@ -249,7 +275,7 @@ On iOS, the ActionBar's back button pops the page natively, and no NativeScript 
 
 **Route records**: `path`, `name`, `component` (or a lazy loader), `children`, `redirect`, `meta`, `props` (`true`, an object or a function of the route), `beforeEnter`, plus `modal` and `transition`.
 
-**Composables**: `useRouter`, `useRoute`, `onBeforeRouteLeave`, `onPageActivated`, `onPageDeactivated`.
+**Composables**: `useRouter`, `useRoute`, `onBeforeRouteLeave`, `onPageActivated`, `onPageDeactivated`, `useBackGesture`.
 
 **Components**: `<RouterView name initial>` and `<RouterLink to replace clearHistory transition frame>`. `RouterLink` makes its only child navigate on tap, without adding a view:
 
