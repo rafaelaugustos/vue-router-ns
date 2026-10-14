@@ -15,6 +15,7 @@ import {
   type Router,
 } from '../src/index.js'
 import { events, mount, page, paths, settle } from './helpers.js'
+import { views } from './shims/nativescript-vue.js'
 import {
   Activity,
   Application,
@@ -764,6 +765,28 @@ describe('tabs', () => {
     expect(paths(feedRouter.stack.value)).toEqual(['/feed', '/post/1'])
     expect(router.currentRoute.value.path).toBe('/post/2')
     expect(Frame.stack).toHaveLength(2)
+  })
+
+  it('keep navigating while a tab that was never shown waits for its first page', async () => {
+    const { router } = await mount(routes, {
+      render: () => [
+        h(RouterView, { name: 'inbox', initial: '/' }),
+        h(RouterView, { name: 'settings', initial: '/settings', isLoaded: false }),
+      ],
+    })
+    const settings = views.get('Frame')!.at(-1) as Frame
+
+    await router.push('/list')
+    await router.push('/items/9', { modal: true })
+    await router.back()
+    expect(paths(router.stack.value)).toEqual(['/', '/list'])
+
+    const deepLink = router.push('/items/1', { frame: 'settings' })
+    await settle()
+    settings.load()
+    await deepLink
+
+    expect(paths(router.stack.value)).toEqual(['/settings', '/items/1'])
   })
 })
 
