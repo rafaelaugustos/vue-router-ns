@@ -894,6 +894,115 @@ describe('setStack', () => {
   })
 })
 
+describe('withParents', () => {
+  const nested = [
+    ...routes.filter((route) => route.path !== '/settings'),
+    {
+      path: '/settings',
+      component: Settings,
+      children: [
+        {
+          path: 'account',
+          name: 'account',
+          component: page('Account'),
+          children: [{ path: 'security', component: page('Security') }],
+        },
+      ],
+    },
+    { path: '/admin', children: [{ path: 'users', component: page('Users') }] },
+    {
+      path: '/users/:id',
+      component: page('User'),
+      children: [{ path: 'posts/:postId', name: 'post', component: page('Post') }],
+    },
+  ]
+
+  it('pushes the parents that have a component before the page', async () => {
+    const { router } = await mount(nested)
+
+    expect(
+      await router.push('/settings/account/security', { withParents: true }),
+    ).toBeUndefined()
+
+    expect(paths(router.stack.value)).toEqual([
+      '/',
+      '/settings',
+      '/settings/account',
+      '/settings/account/security',
+    ])
+    expect(Frame.navigations.slice(1).map((entry) => entry.animated)).toEqual([
+      false,
+      false,
+      undefined,
+    ])
+  })
+
+  it('picks up after the parent already on top', async () => {
+    const { router } = await mount(nested)
+    await router.push('/settings')
+
+    await router.push('/settings/account/security', { withParents: true })
+
+    expect(paths(router.stack.value)).toEqual([
+      '/',
+      '/settings',
+      '/settings/account',
+      '/settings/account/security',
+    ])
+    expect(Frame.navigations).toHaveLength(4)
+  })
+
+  it('skips parents without a component', async () => {
+    const { router } = await mount(nested)
+
+    await router.push('/admin/users', { withParents: true })
+
+    expect(paths(router.stack.value)).toEqual(['/', '/admin/users'])
+  })
+
+  it('gives the parents their params', async () => {
+    const { router } = await mount(nested)
+
+    await router.push(
+      { name: 'post', params: { id: 7, postId: 3 } },
+      { withParents: true },
+    )
+
+    expect(paths(router.stack.value)).toEqual(['/', '/users/7', '/users/7/posts/3'])
+  })
+
+  it('with clearHistory, the parents become the whole stack', async () => {
+    const { router } = await mount(nested)
+    await router.push('/list')
+
+    await router.push('/settings/account', { withParents: true, clearHistory: true })
+
+    expect(paths(router.stack.value)).toEqual(['/settings', '/settings/account'])
+    expect(events).toContain('unmount Home')
+  })
+
+  it('stops when a guard refuses a parent', async () => {
+    const { router } = await mount(nested, {
+      before: (router) => router.beforeEach((to) => to.path !== '/settings'),
+    })
+
+    const failure = await router.push('/settings/account', { withParents: true })
+
+    expect(isNavigationFailure(failure, NavigationFailureType.aborted)).toBe(true)
+    expect(paths(router.stack.value)).toEqual(['/'])
+  })
+
+  it('is a plain push when the page is already on top', async () => {
+    const { router } = await mount(nested)
+    await router.push('/settings/account', { withParents: true })
+
+    const failure = await router.push('/settings/account', { withParents: true })
+
+    expect(isNavigationFailure(failure, NavigationFailureType.duplicated)).toBe(true)
+    expect(paths(router.stack.value)).toEqual(['/', '/settings', '/settings/account'])
+  })
+})
+
 describe('redirect records', () => {
   it('follow redirects and keep the query', async () => {
     const { router } = await mount([

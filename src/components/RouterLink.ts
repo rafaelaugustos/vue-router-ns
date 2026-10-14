@@ -17,6 +17,7 @@ export const RouterLink = defineComponent({
     to: { type: [String, Object] as PropType<RouteLocationRaw>, required: true },
     replace: Boolean,
     clearHistory: Boolean,
+    withParents: Boolean,
     transition: [String, Object] as PropType<TransitionOption>,
     frame: String,
   },
@@ -27,6 +28,7 @@ export const RouterLink = defineComponent({
       const options: NavigationOptions = {
         transition: props.transition,
         clearHistory: props.clearHistory,
+        withParents: props.withParents,
         frame: props.frame,
       }
       return props.replace

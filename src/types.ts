@@ -137,6 +137,11 @@ export interface NavigationOptions {
   props?: Record<string, unknown>
   /** Present modally, regardless of what the route record says. */
   modal?: boolean | ModalOptions
+  /**
+   * Push the route's parents first, so back walks up the route tree. Parents
+   * come from `children` nesting, and only those with a component become pages.
+   */
+  withParents?: boolean
 }
 
 export interface BackOptions {

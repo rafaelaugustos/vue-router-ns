@@ -24,6 +24,8 @@ export interface Matcher {
   hasRoute(name: RouteRecordName): boolean
   getRoutes(): RouteRecord[]
   resolve(to: RouteLocationRaw, current: RouteLocation): RouteLocation
+  /** The pages above `to` in the route tree: its parents that have a component, outermost first. */
+  parents(to: RouteLocation): RouteLocation[]
 }
 
 export function createMatcher(routes: readonly RouteRecordRaw[]): Matcher {
@@ -145,9 +147,24 @@ export function createMatcher(routes: readonly RouteRecordRaw[]): Matcher {
     return build(undefined, path, {}, query, hash)
   }
 
+  function parents(to: RouteLocation): RouteLocation[] {
+    return to.matched
+      .slice(0, -1)
+      .filter((record) => record.component)
+      .map((record) => {
+        const matcher = byRecord.get(record)!
+        const params = pick(
+          to.params,
+          matcher.pattern.keys.map((key) => key.name),
+        )
+        return build(matcher, matcher.pattern.stringify(params), params, {}, '')
+      })
+  }
+
   for (const route of routes) add(route)
 
   return {
+    parents,
     addRoute(route, parentName) {
       let parent: RouteMatcher | undefined
       if (parentName !== undefined) {

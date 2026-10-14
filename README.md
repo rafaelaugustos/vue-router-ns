@@ -258,6 +258,15 @@ router.push('/messages/42')
 
 That's safe on a cold start: a navigation requested before the first page is up waits for it and stacks on top, so back still lands on your home page.
 
+A link into a nested page can bring its parents along, so back walks up the app's hierarchy instead of jumping home:
+
+```ts
+router.push('/settings/account', { withParents: true })
+// stack: / → /settings → /settings/account
+```
+
+The parents come from `children` nesting in the route table, and only those with a component become pages. Parents already on top are skipped, only the last page animates, and guards run for every page. With `clearHistory`, the parents and the page become the whole stack.
+
 ## Typed routes
 
 Register the router once, and route names and params get checked across the app, inferred from the route table with no code generation:
@@ -311,7 +320,7 @@ On iOS, the ActionBar's back button pops the page natively, and no NativeScript 
 
 **Composables**: `useRouter`, `useRoute`, `onBeforeRouteLeave`, `onPageActivated`, `onPageDeactivated`, `useBackGesture`.
 
-**Components**: `<RouterView name initial>` and `<RouterLink to replace clearHistory transition frame>`. `RouterLink` makes its only child navigate on tap, without adding a view:
+**Components**: `<RouterView name initial>` and `<RouterLink to replace clearHistory withParents transition frame>`. `RouterLink` makes its only child navigate on tap, without adding a view:
 
 ```vue
 <RouterLink to="/settings">
