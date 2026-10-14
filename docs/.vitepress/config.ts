@@ -2,6 +2,7 @@ import { defineConfig, type DefaultTheme } from 'vitepress'
 
 const site = 'https://vue-router-ns.rafaelaugusto.dev'
 const repo = 'https://github.com/rafaelaugustos/vue-router-ns'
+const cortex = '<a href="https://getcortexlabs.com/">Cortex Labs</a>'
 
 function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.SidebarItem[] {
   const page = (key: string, path: string) => ({
@@ -153,7 +154,7 @@ export default defineConfig({
         },
         footer: {
           message: 'Released under the MIT License.',
-          copyright: 'Rafael Augusto',
+          copyright: `Maintained by Rafael Augusto and ${cortex}`,
         },
       },
     },
@@ -188,7 +189,10 @@ export default defineConfig({
           quote: 'Esta página não está aqui.',
           linkText: 'Voltar ao início',
         },
-        footer: { message: 'Publicado sob a licença MIT.', copyright: 'Rafael Augusto' },
+        footer: {
+          message: 'Publicado sob a licença MIT.',
+          copyright: `Mantido por Rafael Augusto e ${cortex}`,
+        },
       },
     },
   },

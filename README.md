@@ -490,4 +490,4 @@ npm authenticates the workflow through [trusted publishing](https://docs.npmjs.c
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](./LICENSE). Maintained by Rafael Augusto and [Cortex Labs](https://getcortexlabs.com/).
