@@ -1,4 +1,4 @@
-import type { Frame, Page } from '@nativescript/core'
+import type { Frame, Page, View } from '@nativescript/core'
 import { toValue, type MaybeRefOrGetter, type ShallowRef } from 'nativescript-vue'
 import type { BackGestureTarget } from './android.js'
 import type { Router } from './router.js'
@@ -38,6 +38,8 @@ export interface Entry {
   readonly props: Record<string, unknown>
   readonly leaveGuards: Set<LeaveGuard>
   readonly backGesture: BackGestureTarget
+  /** iOS 18 zoom: the view the page grows out of. */
+  readonly zoomFrom: View | undefined
   /** Top of its stack and not covered by a modal. */
   readonly isActive: () => boolean
   page: Page | null

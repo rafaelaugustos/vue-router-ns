@@ -13,7 +13,7 @@ Navigation methods return `Promise<NavigationFailure | undefined>`. `pushForResu
 
 ### Navigation options
 
-`push` and `replace` take `transition`, `animated`, `clearHistory`, `props`, `frame`, `modal` and `withParents`. `back`, `go`, `backTo` and `backToRoot` take `animated`, `frame` and `result`. `setStack` takes `frame`, `animated` and `transition`.
+`push` and `replace` take `transition`, `animated`, `clearHistory`, `props`, `frame`, `modal`, `withParents` and `zoomFrom`. `back`, `go`, `backTo` and `backToRoot` take `animated`, `frame` and `result`. `setStack` takes `frame`, `animated` and `transition`.
 
 ## Route records
 
@@ -25,7 +25,7 @@ Navigation methods return `Promise<NavigationFailure | undefined>`. `pushForResu
 
 ## Components
 
-`<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents transition frame>` and `<Deferred>`, which renders its content once the page is on screen and a `fallback` slot until then.
+`<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents zoom transition frame>` and `<Deferred>`, which renders its content once the page is on screen and a `fallback` slot until then.
 
 ## Helpers
 
@@ -33,4 +33,4 @@ Navigation methods return `Promise<NavigationFailure | undefined>`. `pushForResu
 
 ## Types
 
-`Register` and `RouteMeta` to augment, `RouteLocation`, `RouteLocationRaw`, `RouteRecordRaw`, `NavigationGuard`, `NavigationOptions`, `BackOptions`, `SetStackOptions`, `RestoreOptions`, `SavedStacks`, `ModalOptions`, `BackGesture`, `ParamsFromPath`, and the rest exported from the package.
+`Register` and `RouteMeta` to augment, `RouteLocation`, `RouteLocationRaw`, `RouteRecordRaw`, `NavigationGuard`, `NavigationOptions`, `BackOptions`, `SetStackOptions`, `RestoreOptions`, `SavedStacks`, `ModalOptions`, `ZoomSource`, `BackGesture`, `ParamsFromPath`, and the rest exported from the package.

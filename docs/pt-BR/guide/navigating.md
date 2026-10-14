@@ -25,6 +25,7 @@ router.push('/messages/42', {
   frame: 'profile', // um <RouterView> nomeado
   modal: true, // apresenta como modal, diga o que disser a rota
   withParents: true, // empurra os pais da rota antes
+  zoomFrom: thumbnail, // iOS 18: cresce a partir desta view
 })
 ```
 
@@ -44,4 +45,4 @@ O `RouterLink` faz seu único filho navegar no toque, sem adicionar uma view:
 </RouterLink>
 ```
 
-Ele aceita `to`, `replace`, `clearHistory`, `withParents`, `transition` e `frame`.
+Ele aceita `to`, `replace`, `clearHistory`, `withParents`, `zoom`, `transition` e `frame`.

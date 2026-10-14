@@ -46,6 +46,7 @@ So this is not a wrapper around Vue Router. The frame's back stack is the source
 - [Modal routes](#modals) with their own stack, and [`pushForResult()`](#getting-a-result-back) to get a value back from a page.
 - [One stack per tab](#tabs-and-other-independent-stacks), with named `<RouterView>`s, and [`setStack()`](#setting-the-whole-stack) to set a stack as a list.
 - [Typed routes](#typed-routes): names and params checked across the app, with no code generation.
+- [Zoom and shared elements](#zoom-and-shared-elements): iOS 18's zoom out of a view, and NativeScript's shared element transitions.
 - [Android predictive back](#android-predictive-back) for pages that want to follow the swipe.
 - [Restoring the stack](#restoring-the-stack-after-the-app-is-killed) after the app is killed in the background.
 
@@ -135,6 +136,47 @@ await router.setStack(['/', '/orders', { name: 'order', params: { id: 42 } }])
 The router keeps the pages both stacks share from the bottom up, goes back to the last of them, then pushes the rest. Only the last step animates. Guards run for every step, and the first failure stops it. A modal route in the list becomes a plain page: the list describes one frame's stack.
 
 It takes `frame`, `animated` and `transition` as a second argument, and it's what a deep link into a nested page or a "back to the first tab page" helper is built on.
+
+## Zoom and shared elements
+
+`transition` takes NativeScript's `SharedTransition`, which morphs the views that share a `sharedTransitionTag` from one page into the next, on both platforms:
+
+```vue
+<!-- in the list -->
+<Image :src="photo.thumb" :sharedTransitionTag="`photo-${photo.id}`" />
+
+<!-- in the photo page -->
+<Image :src="photo.full" :sharedTransitionTag="`photo-${photo.id}`" />
+```
+
+```ts
+import { PageTransition, SharedTransition } from '@nativescript/core'
+
+router.push(`/photos/${photo.id}`, {
+  transition: SharedTransition.custom(new PageTransition()),
+})
+```
+
+Going back plays it in reverse. Its interactive dismissal (`interactive: { dismiss }`, iOS only) is a native pop, like the swipe back: the router follows it, but a leave guard can't stop it.
+
+On iOS 18 and later, `zoomFrom` hands the animation to UIKit's zoom: the page grows out of a view, and shrinks back into it when it closes, through the back button, an edge swipe or a drag down. While a leave guard is active, the drag is held, like the swipe back.
+
+```ts
+function open({ index, view }: ItemEventData) {
+  router.push(`/photos/${photos[index].id}`, { zoomFrom: view })
+}
+```
+
+`zoomFrom` takes a view, a template ref's element or a component, and `<RouterLink zoom>` zooms out of its own child. If the view is gone by the time the page closes, the page closes without zooming. Where the zoom doesn't apply (Android, iOS before 18, `animated: false`), the page gets its usual transition, so passing both gives each platform its own:
+
+```ts
+router.push(to, {
+  zoomFrom: view, // iOS 18
+  transition: SharedTransition.custom(new PageTransition()), // everywhere else
+})
+```
+
+A default transition set on the frame (`Frame.defaultTransition`) takes the animation back from UIKit, so leave it unset where you zoom.
 
 ## Every page keeps its route
 
@@ -393,7 +435,7 @@ On iOS, the ActionBar's back button pops the page natively. While a leave guard 
 
 **Composables**: `useRouter`, `useRoute`, `onBeforeRouteLeave`, `onPageActivated`, `onPageDeactivated`, `useBackGesture`.
 
-**Components**: `<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents transition frame>` and `<Deferred>`. `RouterLink` makes its only child navigate on tap, without adding a view:
+**Components**: `<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents zoom transition frame>` and `<Deferred>`. `RouterLink` makes its only child navigate on tap, without adding a view:
 
 ```vue
 <RouterLink to="/settings">
@@ -411,7 +453,7 @@ The router never keeps a history of its own. After every `navigatedTo`, it reads
 
 ## Demo
 
-[`demo/`](./demo) is a small mail app with two tabs. It covers typed params, a compose modal that returns its text, a leave guard that only asks while there's a draft, a login guard, a lazy page, `clearHistory`, and a message page that follows the Android back swipe.
+[`demo/`](./demo) is a small mail app with two tabs. It covers typed params, a compose modal that returns its text, a leave guard that only asks while there's a draft, a login guard, a lazy page, `clearHistory`, a message page that follows the Android back swipe, and messages that zoom out of their row on iOS 18.
 
 With the [NativeScript CLI](https://docs.nativescript.org/setup/) installed:
 

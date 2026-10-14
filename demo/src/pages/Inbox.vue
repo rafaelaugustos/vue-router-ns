@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'nativescript-vue'
-import type { ItemEventData } from '@nativescript/core'
+import { PageTransition, SharedTransition, type ItemEventData } from '@nativescript/core'
 import { onPageActivated, useRouter } from 'vue-router-ns'
 import StackTrail from '../components/StackTrail.vue'
 import { inbox } from '../store'
@@ -28,8 +28,12 @@ function compose() {
   })
 }
 
-function open({ index }: ItemEventData) {
-  router.push({ name: 'message', params: { id: messages.value[index]!.id } })
+// iOS 18 zooms the message out of its row; elsewhere the sender's name flies into place
+function open({ index, view }: ItemEventData) {
+  router.push(
+    { name: 'message', params: { id: messages.value[index]!.id } },
+    { zoomFrom: view, transition: SharedTransition.custom(new PageTransition()) },
+  )
 }
 </script>
 
@@ -43,7 +47,11 @@ function open({ index }: ItemEventData) {
       <ListView :items="messages" @itemTap="open">
         <template #default="{ item }">
           <StackLayout class="message" :class="{ unread: !item.read }">
-            <Label class="from" :text="item.from" />
+            <Label
+              class="from"
+              :text="item.from"
+              :sharedTransitionTag="`from-${item.id}`"
+            />
             <Label class="muted" :text="item.subject" />
           </StackLayout>
         </template>

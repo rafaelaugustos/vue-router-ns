@@ -1,5 +1,5 @@
 import type { Component } from 'nativescript-vue'
-import type { NavigationTransition, ShowModalOptions } from '@nativescript/core'
+import type { NavigationTransition, ShowModalOptions, View } from '@nativescript/core'
 import type { NavigationFailure } from './errors.js'
 
 export type RouteRecordName = string | symbol
@@ -66,8 +66,15 @@ export interface ModalOptions extends Partial<
   ios?: NonNullable<ShowModalOptions['ios']> & SheetOptions
 }
 
-/** A transition name such as `'slide'` or `'fade'`, or a full NativeScript transition. */
+/**
+ * A transition name such as `'slide'` or `'fade'`, or a full NativeScript
+ * transition, including `SharedTransition.custom(...)`.
+ */
 export type TransitionOption = string | NavigationTransition
+
+/** A view to zoom from: a NativeScript view, a template ref's element, or a component. */
+export type ZoomSource =
+  View | { readonly nativeView: View } | { readonly $el: { nativeView: View } }
 
 export type RouteProps =
   boolean | Record<string, unknown> | ((to: RouteLocation) => Record<string, unknown>)
@@ -164,6 +171,11 @@ export interface NavigationOptions {
    * come from `children` nesting, and only those with a component become pages.
    */
   withParents?: boolean
+  /**
+   * iOS 18 and later: the page grows out of this view, and shrinks back into
+   * it when it closes, dragged down or not. Elsewhere, the usual transition.
+   */
+  zoomFrom?: ZoomSource | null
 }
 
 export interface BackOptions {

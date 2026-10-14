@@ -401,6 +401,13 @@ Object.assign(globalThis, {
 
 export const Device = { sdkVersion: '36' }
 
+export const SharedTransition = {
+  finished: [] as number[],
+  finishState(id: number) {
+    SharedTransition.finished.push(id)
+  },
+}
+
 export const Application = Object.assign(new Observable(), {
   android: createAndroidApplication(),
 })
@@ -458,6 +465,7 @@ export function resetNative() {
   Frame.stack = []
   Frame.navigations = []
   Frame.backs = []
+  SharedTransition.finished = []
   View.presented = []
   Application.android = createAndroidApplication()
   Application.clear()

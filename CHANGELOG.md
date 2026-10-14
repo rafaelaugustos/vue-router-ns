@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- `push(to, { zoomFrom: view })` and `<RouterLink zoom>`: on iOS 18 and later, the page grows out of the view through UIKit's zoom transition, and shrinks back into it when it closes. The drag to dismiss is held while a leave guard is active. Elsewhere the page gets its usual transition, and a shared transition passed along is used there instead.
+- `SharedTransition.custom(...)` from `@nativescript/core` is documented as a `transition`, and checked on both platforms with pages the router mounts.
+
 - `<Deferred>` renders its content once the page is on screen, after the transition, and a `fallback` slot until then, so a page with a lot to lay out still animates in on time.
 - iOS sheet options for modal routes, under `modal.ios`: `detents` (`'medium'`, `'large'` or a fraction of the screen), `selectedDetent`, `largestUndimmedDetent`, `grabber` and `cornerRadius`. Set before the sheet is presented. `push` merges its `modal.ios` with the record's.
 

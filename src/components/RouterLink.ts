@@ -1,3 +1,4 @@
+import type { EventData, View } from '@nativescript/core'
 import { cloneVNode, defineComponent, type PropType } from 'nativescript-vue'
 import { useRouter } from '../composables.js'
 import type { NavigationOptions, RouteLocationRaw, TransitionOption } from '../types.js'
@@ -18,18 +19,21 @@ export const RouterLink = defineComponent({
     replace: Boolean,
     clearHistory: Boolean,
     withParents: Boolean,
+    /** iOS 18 and later: the page grows out of the link's child. */
+    zoom: Boolean,
     transition: [String, Object] as PropType<TransitionOption>,
     frame: String,
   },
   setup(props, { slots }) {
     const router = useRouter()
 
-    const navigate = () => {
+    const navigate = (args?: EventData) => {
       const options: NavigationOptions = {
         transition: props.transition,
         clearHistory: props.clearHistory,
         withParents: props.withParents,
         frame: props.frame,
+        zoomFrom: props.zoom ? (args?.object as View | undefined) : undefined,
       }
       return props.replace
         ? router.replace(props.to, options)

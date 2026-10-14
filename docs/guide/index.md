@@ -31,6 +31,7 @@ So this is not a wrapper around Vue Router. The frame's back stack is the source
 - [Modal routes](./modals) with their own stack, and `pushForResult()` to get a value back from a page.
 - [One stack per tab](./tabs), with a tap on the active tab going back to its first page.
 - [Typed routes](./typed-routes): names and params checked across the app, with no code generation.
+- [Zoom and shared elements](./transitions): iOS 18's zoom out of a view, and NativeScript's shared element transitions.
 - [Deep links](./deep-links) that bring their parents along, [the whole stack set as a list](./stack), and [restoring it](./restore) after the app is killed.
 - [Android predictive back](./android-back) for pages that want to follow the swipe.
 - [`<Deferred>`](./pages#pages-with-a-lot-to-lay-out) for pages that should animate in before they fill up.

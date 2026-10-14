@@ -34,7 +34,11 @@ async function compose() {
     <GridLayout rows="*, auto" :scaleX="scale" :scaleY="scale">
       <StackLayout class="section">
         <Label class="title" :text="message?.subject" textWrap="true" />
-        <Label class="muted" :text="`From ${message?.from}`" />
+        <Label
+          class="muted"
+          :text="`From ${message?.from}`"
+          :sharedTransitionTag="`from-${props.id}`"
+        />
         <Label :text="message?.body" textWrap="true" marginTop="16" />
 
         <Label

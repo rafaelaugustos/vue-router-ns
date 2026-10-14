@@ -13,7 +13,7 @@ Os métodos de navegação retornam `Promise<NavigationFailure | undefined>`. O 
 
 ### Opções de navegação
 
-`push` e `replace` aceitam `transition`, `animated`, `clearHistory`, `props`, `frame`, `modal` e `withParents`. `back`, `go`, `backTo` e `backToRoot` aceitam `animated`, `frame` e `result`. `setStack` aceita `frame`, `animated` e `transition`.
+`push` e `replace` aceitam `transition`, `animated`, `clearHistory`, `props`, `frame`, `modal`, `withParents` e `zoomFrom`. `back`, `go`, `backTo` e `backToRoot` aceitam `animated`, `frame` e `result`. `setStack` aceita `frame`, `animated` e `transition`.
 
 ## Records de rota
 
@@ -25,7 +25,7 @@ Os métodos de navegação retornam `Promise<NavigationFailure | undefined>`. O 
 
 ## Componentes
 
-`<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents transition frame>` e `<Deferred>`, que renderiza o conteúdo quando a página está na tela e um slot `fallback` até lá.
+`<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents zoom transition frame>` e `<Deferred>`, que renderiza o conteúdo quando a página está na tela e um slot `fallback` até lá.
 
 ## Helpers
 
@@ -33,4 +33,4 @@ Os métodos de navegação retornam `Promise<NavigationFailure | undefined>`. O 
 
 ## Tipos
 
-`Register` e `RouteMeta` para estender, `RouteLocation`, `RouteLocationRaw`, `RouteRecordRaw`, `NavigationGuard`, `NavigationOptions`, `BackOptions`, `SetStackOptions`, `RestoreOptions`, `SavedStacks`, `ModalOptions`, `BackGesture`, `ParamsFromPath`, e o resto exportado pelo pacote.
+`Register` e `RouteMeta` para estender, `RouteLocation`, `RouteLocationRaw`, `RouteRecordRaw`, `NavigationGuard`, `NavigationOptions`, `BackOptions`, `SetStackOptions`, `RestoreOptions`, `SavedStacks`, `ModalOptions`, `ZoomSource`, `BackGesture`, `ParamsFromPath`, e o resto exportado pelo pacote.

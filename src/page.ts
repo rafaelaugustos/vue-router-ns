@@ -12,7 +12,7 @@ import {
   type PropType,
 } from 'nativescript-vue'
 import { entryKey, routeKey, routerKey } from './injection.js'
-import { holdBackButton } from './ios.js'
+import { holdBackButton, zoomFrom } from './ios.js'
 import { isBlocked, type Entry } from './stack.js'
 
 interface PageLink {
@@ -43,6 +43,8 @@ export function createPage(entry: Entry, { link, unlink }: PageLink) {
         page = instance.proxy!.$el?.nativeView ?? null
         if (!page) return
         link(page, entry)
+        // mounting comes before the frame navigates, so the zoom is in place for the push
+        if (entry.zoomFrom) zoomFrom(page, entry.zoomFrom, () => !isBlocked(entry))
 
         // a swipe can't wait for an async guard, so it is disabled while one is active,
         // and the back button goes through the router instead of popping on its own

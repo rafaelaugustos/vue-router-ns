@@ -1,11 +1,12 @@
-import { h, nextTick, ref, type ShallowRef } from 'nativescript-vue'
-import { describe, expect, it, vi } from 'vitest'
+import { defineComponent, h, nextTick, ref, type ShallowRef } from 'nativescript-vue'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   isNavigationFailure,
   NavigationFailureType,
   onBeforeRouteLeave,
   onPageActivated,
   onPageDeactivated,
+  RouterLink,
   RouterView,
   useBackGesture,
   useRoute,
@@ -15,6 +16,7 @@ import {
   type RouteLocation,
   type RouteRecordRaw,
   type SavedStacks,
+  type ZoomSource,
   type Router,
 } from '../src/index.js'
 import { events, mount, page, paths, settle } from './helpers.js'
@@ -26,6 +28,7 @@ import {
   Device,
   Frame,
   pressAndroidBack,
+  SharedTransition,
   swipeAndroidBack,
   View,
 } from './shims/core.js'
@@ -783,6 +786,125 @@ describe('modals', () => {
     pressAndroidBack()
     await settle()
     expect(View.presented).toHaveLength(1)
+  })
+})
+
+describe('transitions', () => {
+  const zooms: { options: any; provider: () => unknown }[] = []
+  const source = (view: View) => view as unknown as ZoomSource
+  const Photo = page('Photo')
+  const photoRoutes = [
+    ...routes,
+    { path: '/photo', component: Photo, transition: 'fade' },
+    {
+      path: '/draft',
+      component: page('Draft', () => onBeforeRouteLeave(() => false)),
+    },
+  ]
+
+  beforeEach(() => {
+    zooms.length = 0
+    Object.assign(globalThis, {
+      UIViewControllerTransition: {
+        zoomWithOptionsSourceViewProvider: (options: any, provider: () => unknown) => {
+          const zoom = { options, provider }
+          zooms.push(zoom)
+          return zoom
+        },
+      },
+      UIZoomTransitionOptions: { new: () => ({ interactiveDismissShouldBegin: null }) },
+    })
+  })
+
+  afterEach(() => {
+    delete (globalThis as any).UIViewControllerTransition
+    delete (globalThis as any).UIZoomTransitionOptions
+  })
+
+  it('pass a shared transition through untouched', async () => {
+    const instance = { id: 1 }
+    const { router } = await mount(photoRoutes)
+
+    await router.push('/list', { transition: { instance } as any })
+
+    expect(Frame.navigations.at(-1)!.transition).toEqual({ instance })
+  })
+
+  it('zoom the page out of a view on iOS 18, instead of its transition', async () => {
+    const { router, frame } = await mount(photoRoutes)
+    const thumbnail = new View()
+
+    await router.push('/photo', { zoomFrom: source(thumbnail) })
+
+    expect(frame().currentPage!.ios.preferredTransition).toBe(zooms[0])
+    expect(zooms[0]!.provider()).toBe(thumbnail.ios)
+    expect(zooms[0]!.options.interactiveDismissShouldBegin()).toBe(true)
+    expect(Frame.navigations.at(-1)!.transition).toBeUndefined()
+
+    thumbnail.isLoaded = false
+    expect(zooms[0]!.provider()).toBeNull()
+  })
+
+  it('let the zoom win over a transition passed along, and release a shared one', async () => {
+    const { router } = await mount(photoRoutes)
+
+    await router.push('/photo', {
+      zoomFrom: source(new View()),
+      transition: { instance: { id: 7 } } as any,
+    })
+    expect(Frame.navigations.at(-1)!.transition).toBeUndefined()
+    expect(SharedTransition.finished).toEqual([7])
+
+    const android = await mount(photoRoutes, { platform: 'android' })
+    await android.router.push('/photo', {
+      zoomFrom: source(new View()),
+      transition: { instance: { id: 8 } } as any,
+    })
+    expect(Frame.navigations.at(-1)!.transition).toEqual({ instance: { id: 8 } })
+    expect(SharedTransition.finished).toEqual([])
+  })
+
+  it('hold the zoom dismissal while a leave guard is active', async () => {
+    const { router } = await mount(photoRoutes)
+
+    await router.push('/draft', { zoomFrom: source(new View()) })
+
+    expect(zooms[0]!.options.interactiveDismissShouldBegin()).toBe(false)
+  })
+
+  it('keep the usual transition before iOS 18, on Android, and without animation', async () => {
+    const old = await mount(photoRoutes, { before: () => (Device.sdkVersion = '17.5') })
+    await old.router.push('/photo', { zoomFrom: source(new View()) })
+    expect(Frame.navigations.at(-1)!.transition).toEqual({ name: 'fade' })
+
+    const android = await mount(photoRoutes, { platform: 'android' })
+    await android.router.push('/photo', { zoomFrom: source(new View()) })
+    expect(Frame.navigations.at(-1)!.transition).toEqual({ name: 'fade' })
+
+    const still = await mount(photoRoutes)
+    await still.router.push('/photo', { zoomFrom: source(new View()), animated: false })
+    expect(still.frame().currentPage!.ios.preferredTransition).toBeUndefined()
+    expect(zooms).toHaveLength(0)
+  })
+
+  it('zoom out of the child of a RouterLink with zoom', async () => {
+    const Grid = defineComponent({
+      render: () =>
+        h('Page', [
+          h(RouterLink, { to: '/photo', zoom: true }, () => h('Image', { src: 'thumb' })),
+        ]),
+    })
+    const { router } = await mount([
+      { path: '/', component: Grid },
+      ...photoRoutes.slice(1),
+    ])
+    const thumbnail = views.get('Image')!.at(-1)!
+
+    thumbnail.notify({ eventName: 'tap', object: thumbnail })
+    await settle()
+
+    expect(router.currentRoute.value.path).toBe('/photo')
+    expect(zooms[0]!.provider()).toBe(thumbnail.ios)
   })
 })
 
