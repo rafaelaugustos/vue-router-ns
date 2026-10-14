@@ -3,7 +3,8 @@ name: Release
 # On every push to master, checks whether the version in package.json is out.
 # When it isn't, runs the tests, publishes it to npm and creates the GitHub
 # release from its CHANGELOG entry. Versions like 1.0.0-beta.1 go out under
-# the `next` tag, as pre-releases.
+# the `next` tag, as pre-releases, and under `latest` too until a stable
+# version is out.
 on:
   push:
     branches: [master]
@@ -39,7 +40,6 @@ jobs:
           fi
 
       - uses: actions/setup-node@v7
-        if: steps.check.outputs.published != 'true'
         with:
           node-version: 22
           cache: npm
@@ -59,6 +59,18 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --provenance --access public --tag "${{ steps.check.outputs.dist-tag }}"
+
+      - name: Point latest at the newest pre-release
+        if: steps.check.outputs.dist-tag == 'next'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          VERSION: ${{ steps.check.outputs.version }}
+        run: |
+          name=$(node -p "require('./package.json').name")
+          latest=$(npm view "$name" dist-tags.latest)
+          if [[ "$latest" == *-* && "$latest" != "$VERSION" ]]; then
+            npm dist-tag add "$name@$VERSION" latest
+          fi
 
       - name: Create the GitHub release
         if: steps.check.outputs.released != 'true'
