@@ -1,5 +1,5 @@
-import { Device, type Frame, type Page } from '@nativescript/core'
-import type { SheetDetent, SheetOptions } from './types.js'
+import { Device, isIOS, View, type Frame, type Page } from '@nativescript/core'
+import type { SheetDetent, SheetOptions, ZoomSource } from './types.js'
 
 type Callback = () => void
 
@@ -38,6 +38,53 @@ export function watchDismissAttempts(frame: Frame, callback: Callback): () => vo
 }
 
 declare const UIAction: { actionWithHandler(handler: () => void): object }
+declare const UIViewControllerTransition:
+  | {
+      zoomWithOptionsSourceViewProvider(options: object, provider: () => unknown): object
+    }
+  | undefined
+declare const UIZoomTransitionOptions: {
+  new: () => { interactiveDismissShouldBegin: (() => boolean) | null }
+}
+
+/** The view a `ZoomSource` points at, if any. */
+export function viewOf(source: ZoomSource | null | undefined): View | undefined {
+  if (!source) return undefined
+  if (source instanceof View) return source
+  const nested =
+    'nativeView' in source
+      ? source.nativeView
+      : '$el' in source
+        ? source.$el?.nativeView
+        : null
+  return nested instanceof View ? nested : undefined
+}
+
+export function canZoom(): boolean {
+  return (
+    isIOS &&
+    parseFloat(Device.sdkVersion) >= 18 &&
+    typeof UIViewControllerTransition !== 'undefined'
+  )
+}
+
+/**
+ * Makes `page` grow out of `source` when it's pushed and shrink back into it
+ * when it's popped, through UIKit's zoom transition. Runs before the push: a
+ * frame without a transition of its own leaves the animation to UIKit, which
+ * reads the controller's `preferredTransition`.
+ */
+export function zoomFrom(page: Page, source: View, canDismiss: () => boolean) {
+  if (!canZoom() || !page.ios) return
+  const ref = new WeakRef(source)
+  const options = UIZoomTransitionOptions.new()
+  options.interactiveDismissShouldBegin = canDismiss
+  page.ios.preferredTransition =
+    UIViewControllerTransition!.zoomWithOptionsSourceViewProvider(options, () => {
+      const view = ref.deref()
+      return view?.isLoaded ? (view.ios ?? null) : null
+    })
+}
 declare const UISheetPresentationControllerDetent: {
   mediumDetent(): object
   largeDetent(): object

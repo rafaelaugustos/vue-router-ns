@@ -25,6 +25,7 @@ router.push('/messages/42', {
   frame: 'profile', // a named <RouterView>
   modal: true, // present modally, whatever the route says
   withParents: true, // push the route's parents first
+  zoomFrom: thumbnail, // iOS 18: grow out of this view
 })
 ```
 
@@ -44,4 +45,4 @@ Navigations queue behind native transitions, so a double tap on a button opens t
 </RouterLink>
 ```
 
-It takes `to`, `replace`, `clearHistory`, `withParents`, `transition` and `frame`.
+It takes `to`, `replace`, `clearHistory`, `withParents`, `zoom`, `transition` and `frame`.

@@ -1,3 +1,4 @@
+import { PageTransition, SharedTransition } from '@nativescript/core'
 import { defineComponent } from 'nativescript-vue'
 import { describe, expectTypeOf, it } from 'vitest'
 import {
@@ -65,6 +66,13 @@ describe('typed routers', () => {
     router.push({ name: 'nope' })
     // @ts-expect-error: unknown param
     router.push({ name: 'user', params: { slug: 'x' } })
+  })
+
+  it('takes shared transitions and zoom sources', () => {
+    router.push('/about', { transition: SharedTransition.custom(new PageTransition()) })
+    router.push('/about', { zoomFrom: { nativeView: null as never } })
+    // @ts-expect-error: not a view
+    router.push('/about', { zoomFrom: 'thumbnail' })
   })
 
   it('narrows a route by name', () => {

@@ -3,6 +3,7 @@ import {
   Frame,
   isAndroid,
   isIOS,
+  SharedTransition,
   type AndroidActivityBackPressedEventData,
   type AndroidActivityEventData,
   type EventData,
@@ -37,7 +38,7 @@ import {
 } from './errors.js'
 import { routeKey, routerKey } from './injection.js'
 import { INTERNAL, type RouterInternals } from './internal.js'
-import { configureSheet, watchDismissAttempts } from './ios.js'
+import { canZoom, configureSheet, viewOf, watchDismissAttempts } from './ios.js'
 import { createMatcher } from './matcher.js'
 import { createPage, ModalHost } from './page.js'
 import { parseURL } from './query.js'
@@ -341,6 +342,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     stack: Stack,
     route: RouteLocation,
     props: Record<string, unknown>,
+    zoomFrom?: Entry['zoomFrom'],
   ) {
     const entry: Entry = {
       id: ++entryId,
@@ -350,6 +352,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       props,
       leaveGuards: shallowReactive(new Set()),
       backGesture: shallowRef(null),
+      zoomFrom,
       isActive: () =>
         topOf(stack) === entry &&
         (stack.modal ? modals.value.at(-1) === stack : !modals.value.length),
@@ -642,7 +645,11 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     const { stack, options } = request
     const frame = stack.frame!
     const record = to.matched.at(-1)!
-    const entry = createEntry(stack, to, pageProps(to, record, options.props))
+    const zoom =
+      !initial && options.animated !== false && canZoom()
+        ? viewOf(options.zoomFrom)
+        : undefined
+    const entry = createEntry(stack, to, pageProps(to, record, options.props), zoom)
     request.onEntry?.(entry)
 
     // the frame drops the current page from its back stack once we navigate away
@@ -651,8 +658,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     }
 
     const navigation: NavigationEntry & { frame: Frame } = { frame }
-    const transition = toTransition(options.transition ?? record.transition)
+    // a transition of the frame's own would take the animation away from UIKit's zoom
+    const requested = toTransition(options.transition ?? record.transition)
+    const transition = zoom ? undefined : requested
     if (transition) navigation.transition = transition
+    // a shared transition left unused would keep its state in core forever
+    if (zoom && requested?.instance) SharedTransition.finishState(requested.instance.id)
     if (initial) navigation.animated = false
     else if (options.animated !== undefined) navigation.animated = options.animated
     if (options.clearHistory) navigation.clearHistory = true
