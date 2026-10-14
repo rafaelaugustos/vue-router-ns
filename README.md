@@ -15,6 +15,10 @@
   <a href="https://github.com/rafaelaugustos/vue-router-ns/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/vue-router-ns" alt="MIT license"></a>
 </p>
 
+<p align="center">
+  <a href="https://vue-router-ns.rafaelaugusto.dev">Documentation</a> · <a href="https://vue-router-ns.rafaelaugusto.dev/pt-BR/">Documentação em português</a>
+</p>
+
 ```ts
 const router = createRouter({
   routes: [

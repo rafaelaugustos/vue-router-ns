@@ -8,3 +8,5 @@ demo/platforms/
 demo/hooks/
 demo/node_modules/
 demo/package-lock.json
+docs/.vitepress/cache
+docs/.vitepress/dist
