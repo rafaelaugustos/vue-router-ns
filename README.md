@@ -165,7 +165,9 @@ const dirty = computed(() => draft.value.trim() !== '')
 onBeforeRouteLeave(() => Dialogs.confirm('Discard this draft?'), { when: dirty })
 ```
 
-`when` is optional, and it matters on iOS. A swipe back can't wait for an async guard, so while a leave guard is active the router turns swipe-back off for that page. On a modal it turns off the swipe-down. With `when`, the guard only blocks while it's true: with an empty draft, the page swipes away as usual.
+`when` is optional, and it matters on iOS. A swipe back can't wait for an async guard, so while a leave guard is active the router turns swipe-back off for that page. With `when`, the guard only blocks while it's true: with an empty draft, the page swipes away as usual.
+
+A modal is different: while a guard is active, swiping it down or tapping outside runs the guard instead, with the sheet staying put. Mail does this with a draft: the sheet bounces back and asks whether to discard. If the guard allows it, the modal closes.
 
 ## Modals
 
@@ -175,7 +177,7 @@ Mark a route with `modal: true`, or pass `ModalOptions` (`fullscreen`, `animated
 { path: '/compose', component: Compose, modal: { fullscreen: true } }
 ```
 
-`router.push('/compose')` presents it inside its own frame, so it has an ActionBar and its own stack. Pages inside push within the modal. `router.back()` from the first page of the modal closes it. Swiping it down, tapping outside or pressing the Android back button closes it too. The router follows along and runs `afterEach`.
+`router.push('/compose')` presents it inside its own frame, so it has an ActionBar and its own stack. Pages inside push within the modal. `router.back()` from the first page of the modal closes it. Swiping it down, tapping outside or pressing the Android back button closes it too, through the leave guards of its pages. The router follows along and runs `afterEach`.
 
 ## Getting a result back
 

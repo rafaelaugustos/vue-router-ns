@@ -11,6 +11,7 @@ import {
   useRoute,
   useRouter,
   type BackGesture,
+  type NavigationGuard,
   type RouteLocation,
   type Router,
 } from '../src/index.js'
@@ -26,6 +27,7 @@ import {
   swipeAndroidBack,
   View,
 } from './shims/core.js'
+import { dismissAttempted } from '../src/ios.js'
 import { reselected } from '../src/tabs.js'
 
 const Home = page('Home')
@@ -737,6 +739,94 @@ describe('modals', () => {
     pressAndroidBack()
     await settle()
     expect(View.presented).toHaveLength(1)
+  })
+})
+
+describe('modal dismiss attempts on iOS', () => {
+  const modalFrame = () =>
+    View.presented.at(-1)!.view as unknown as Parameters<typeof dismissAttempted>[0]
+  const guarded = (name: string, guard: NavigationGuard) =>
+    page(name, () => onBeforeRouteLeave(guard))
+
+  it('run the leave guard, and close the modal when it allows', async () => {
+    const ask = vi.fn(async () => true)
+    const after = vi.fn()
+    const { router } = await mount(
+      [...routes, { path: '/draft', component: guarded('Draft', ask), modal: true }],
+      { before: (router) => router.afterEach(after) },
+    )
+    await router.push('/draft')
+    await settle()
+
+    dismissAttempted(modalFrame())
+    await settle()
+
+    expect(ask).toHaveBeenCalledTimes(1)
+    expect(View.presented).toHaveLength(0)
+    expect(router.currentRoute.value.path).toBe('/')
+    expect(after).toHaveBeenLastCalledWith(
+      expect.objectContaining({ path: '/' }),
+      expect.objectContaining({ path: '/draft' }),
+      undefined,
+    )
+  })
+
+  it('keep the modal when the guard refuses', async () => {
+    const { router } = await mount([
+      ...routes,
+      { path: '/draft', component: guarded('Draft', () => false), modal: true },
+    ])
+    await router.push('/draft')
+    await settle()
+
+    dismissAttempted(modalFrame())
+    await settle()
+
+    expect(View.presented).toHaveLength(1)
+    expect(router.currentRoute.value.path).toBe('/draft')
+  })
+
+  it('ignore a second attempt while the guard is still asking', async () => {
+    let answer!: (value: boolean) => void
+    const ask = vi.fn(() => new Promise<boolean>((resolve) => (answer = resolve)))
+    const { router } = await mount([
+      ...routes,
+      { path: '/draft', component: guarded('Draft', ask), modal: true },
+    ])
+    await router.push('/draft')
+    await settle()
+
+    dismissAttempted(modalFrame())
+    await settle()
+    dismissAttempted(modalFrame())
+    await settle()
+    expect(ask).toHaveBeenCalledTimes(1)
+
+    answer(true)
+    await settle()
+    expect(View.presented).toHaveLength(0)
+  })
+
+  it('ask every page of the modal, top first', async () => {
+    const order: string[] = []
+    const { router } = await mount([
+      ...routes,
+      {
+        path: '/draft',
+        component: guarded('Draft', () => void order.push('draft')),
+        modal: true,
+      },
+      { path: '/attach', component: guarded('Attach', () => void order.push('attach')) },
+    ])
+    await router.push('/draft')
+    await settle()
+    await router.push('/attach')
+
+    dismissAttempted(modalFrame())
+    await settle()
+
+    expect(order).toEqual(['attach', 'draft'])
+    expect(View.presented).toHaveLength(0)
   })
 })
 

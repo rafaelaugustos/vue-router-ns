@@ -2,6 +2,7 @@ import {
   Application,
   Frame,
   isAndroid,
+  isIOS,
   type AndroidActivityBackPressedEventData,
   type AndroidActivityEventData,
   type EventData,
@@ -35,6 +36,7 @@ import {
 } from './errors.js'
 import { routeKey, routerKey } from './injection.js'
 import { INTERNAL, type RouterInternals } from './internal.js'
+import { watchDismissAttempts } from './ios.js'
 import { createMatcher } from './matcher.js'
 import { createPage, ModalHost } from './page.js'
 import { parseURL } from './query.js'
@@ -241,6 +243,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         : undefined
     }
 
+    let stopDismiss: (() => void) | undefined
+    const onPresented = () => {
+      stopDismiss?.()
+      stopDismiss = watchDismissAttempts(frame, () => onDismissAttempt(stack))
+    }
+
     stack.frame = frame
     stacksByFrame.set(frame, stack)
     frame.on(Frame.navigatedToEvent, onNavigated)
@@ -248,12 +256,15 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       frame.on('activityBackPressed', onBackPressed)
       if (hasBackGestures()) frame.on('shownModally', onShown)
     }
+    if (isIOS && stack.modal) frame.on('shownModally', onPresented)
 
     detachers.set(stack, () => {
       frame.off(Frame.navigatedToEvent, onNavigated)
       frame.off('activityBackPressed', onBackPressed)
       frame.off('shownModally', onShown)
+      frame.off('shownModally', onPresented)
       stopGestures?.()
+      stopDismiss?.()
     })
   }
 
@@ -700,6 +711,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     // go back through the router, so leave guards get a say
     args.cancel = true
     stack.router.back().catch(() => {})
+  }
+
+  /** A swipe down or outside tap held off by `modalInPresentation`: the leave guards decide. */
+  function onDismissAttempt(stack: Stack) {
+    if (stack.closed || stack.attempt) return
+    stack.router.go(-stack.entries.value.length).catch(() => {})
   }
 
   function onModalBackPressed(stack: Stack, args: AndroidActivityBackPressedEventData) {
