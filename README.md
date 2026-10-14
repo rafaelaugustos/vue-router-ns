@@ -1,6 +1,19 @@
-# vue-router-ns
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/master/.github/assets/logo-dark.png">
+    <img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/master/.github/assets/logo.png" alt="vue-router-ns" width="360">
+  </picture>
+</p>
 
-Vue Router's API for [NativeScript-Vue 3](https://nativescript-vue.org), built on top of the native navigation stack instead of a URL history.
+<p align="center">
+  Vue Router's API for <a href="https://nativescript-vue.org">NativeScript-Vue 3</a>, built on top of the native navigation stack instead of a URL history.
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/vue-router-ns"><img src="https://img.shields.io/npm/v/vue-router-ns/next?label=npm%40next" alt="npm"></a>
+  <a href="https://github.com/rafaelaugustos/vue-router-ns/actions/workflows/ci.yml"><img src="https://github.com/rafaelaugustos/vue-router-ns/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/rafaelaugustos/vue-router-ns/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/vue-router-ns" alt="MIT license"></a>
+</p>
 
 ```ts
 const router = createRouter({
@@ -21,6 +34,15 @@ router.push({ name: 'message', params: { id: 42 } })
 Vue Router can't drive a mobile app: it models navigation as one URL that changes, with a `<RouterView>` that swaps components. A NativeScript app has a `Frame` with a stack of pages that stay alive underneath each other, a back button and an iOS swipe that pop pages without asking anyone, modals, and often one stack per tab.
 
 So this is not a wrapper around Vue Router. The frame's back stack is the source of truth, and the router mirrors it after every native navigation. What you get is the API you already know (`push`, guards, `useRoute`, named routes, params) with semantics that make sense on a phone.
+
+## Features
+
+- [A route per page](#every-page-keeps-its-route): `useRoute()` inside a page never changes, even with other pages pushed on top.
+- [Leave guards](#guards) that the Android back button goes through, and that turn the iOS swipe off while they'd block it.
+- [Modal routes](#modals) with their own stack, and [`pushForResult()`](#getting-a-result-back) to get a value back from a page.
+- [One stack per tab](#tabs-and-other-independent-stacks), with named `<RouterView>`s.
+- [Typed routes](#typed-routes): names and params checked across the app, with no code generation.
+- [Android predictive back](#android-predictive-back) for pages that want to follow the swipe.
 
 ## Install
 
@@ -212,7 +234,7 @@ While the user drags, it's `{ progress, edge }`, with `progress` going from 0 to
 
 Apps that target Android 16 (API 36) get predictive back by default. Earlier targets opt in with `android:enableOnBackInvokedCallback="true"` on `<application>` in `AndroidManifest.xml`.
 
-The page below doesn't show through during the swipe. `@nativescript/core` doesn't keep it in a fragment back stack the system could preview, so what happens on screen is up to the page.
+The page below doesn't show through during the swipe. `@nativescript/core` doesn't keep it in a fragment back stack the system could preview, so what happens on screen is up to the page ([#19](https://github.com/rafaelaugustos/vue-router-ns/issues/19)).
 
 ## Deep links
 
@@ -248,7 +270,7 @@ const route = useRoute('message')
 route.params.id // string
 ```
 
-Declare `routes` inline in `createRouter`, as above, and load route components lazily (`() => import(...)`). With eager imports, the route table's type depends on your `<script setup>` pages, while those pages use the route table's types. TypeScript can't resolve that cycle. Lazy loading breaks it, and it keeps startup light.
+Declare `routes` inline in `createRouter`, as above, and load route components lazily (`() => import(...)`). With eager imports, the route table's type depends on your `<script setup>` pages, while those pages use the route table's types. TypeScript can't resolve that cycle. Lazy loading breaks it, and it keeps startup light ([#17](https://github.com/rafaelaugustos/vue-router-ns/issues/17)).
 
 ## Differences from Vue Router
 
@@ -267,7 +289,7 @@ Declare `routes` inline in `createRouter`, as above, and load route components l
 | Unknown paths render nothing               | `push` rejects with `No route matches`. Add a catch-all route (`/:pathMatch(.*)*`) if you want a not-found page. |
 | `scrollBehavior`                           | Not applicable. `hash` is kept in locations for parity.                                                          |
 
-On iOS, the ActionBar's back button pops the page natively, and no NativeScript API can stop it. The router keeps its stack in sync and runs `afterEach`, but a leave guard can't veto that pop. If a page must confirm before leaving, replace the system back button with your own action that calls `router.back()`.
+On iOS, the ActionBar's back button pops the page natively, and no NativeScript API can stop it. The router keeps its stack in sync and runs `afterEach`, but a leave guard can't veto that pop. If a page must confirm before leaving, replace the system back button with your own action that calls `router.back()` ([#9](https://github.com/rafaelaugustos/vue-router-ns/issues/9)).
 
 ## API
 
@@ -295,7 +317,7 @@ The router never keeps a history of its own. After every `navigatedTo`, it reads
 
 ## Demo
 
-[`demo/`](./demo) is a small mail app with two tabs. It covers typed params, a compose modal that returns its text, a leave guard that only asks while there's a draft, a login guard, a lazy page and `clearHistory`.
+[`demo/`](./demo) is a small mail app with two tabs. It covers typed params, a compose modal that returns its text, a leave guard that only asks while there's a draft, a login guard, a lazy page, `clearHistory`, and a message page that follows the Android back swipe.
 
 With the [NativeScript CLI](https://docs.nativescript.org/setup/) installed:
 
