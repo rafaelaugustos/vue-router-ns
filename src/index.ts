@@ -18,6 +18,7 @@ export type { BackGesture, BackGestureEdge } from './android.js'
 
 export { RouterView } from './components/RouterView.js'
 export { RouterLink } from './components/RouterLink.js'
+export { Deferred } from './components/Deferred.js'
 
 export { NavigationFailureType, isNavigationFailure } from './errors.js'
 export type { NavigationFailure } from './errors.js'
@@ -45,5 +46,6 @@ declare module '@vue/runtime-core' {
   interface GlobalComponents {
     RouterView: typeof import('./components/RouterView.js').RouterView
     RouterLink: typeof import('./components/RouterLink.js').RouterLink
+    Deferred: typeof import('./components/Deferred.js').Deferred
   }
 }

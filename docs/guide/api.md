@@ -25,7 +25,7 @@ Navigation methods return `Promise<NavigationFailure | undefined>`. `pushForResu
 
 ## Components
 
-`<RouterView name initial backToRootOnReselect>` and `<RouterLink to replace clearHistory withParents transition frame>`.
+`<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents transition frame>` and `<Deferred>`, which renders its content once the page is on screen and a `fallback` slot until then.
 
 ## Helpers
 

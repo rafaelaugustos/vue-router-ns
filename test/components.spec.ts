@@ -1,7 +1,13 @@
 import { defineComponent, h, watchEffect } from 'nativescript-vue'
 import { describe, expect, it } from 'vitest'
-import { RouterLink, RouterView, useRoute, type RouteLocation } from '../src/index.js'
-import { mount, page, paths, settle } from './helpers.js'
+import {
+  Deferred,
+  RouterLink,
+  RouterView,
+  useRoute,
+  type RouteLocation,
+} from '../src/index.js'
+import { events, mount, page, paths, settle } from './helpers.js'
 import { Frame } from './shims/core.js'
 import { views } from './shims/nativescript-vue.js'
 
@@ -89,5 +95,44 @@ describe('outside pages', () => {
     await settle()
 
     expect(paths(router.stack.value)).toEqual(['/', '/list'])
+  })
+})
+
+describe('Deferred', () => {
+  it('renders the fallback until the page is on screen, then the content', async () => {
+    const Content = page('Content')
+    const Heavy = defineComponent({
+      render: () =>
+        h('Page', [
+          h(Deferred, null, {
+            default: () => h(Content),
+            fallback: () => h('ActivityIndicator'),
+          }),
+        ]),
+    })
+    const { router } = await mount([
+      { path: '/', component: Home },
+      { path: '/heavy', component: Heavy },
+    ])
+
+    const push = router.push('/heavy')
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(views.get('ActivityIndicator')).toHaveLength(1)
+    expect(events).not.toContain('mount Content')
+
+    await push
+    await settle()
+    expect(events).toContain('mount Content')
+  })
+
+  it('renders right away outside a page', async () => {
+    const Content = page('Content')
+    const { router } = await mount([{ path: '/', component: Home }], {
+      render: () => [h(RouterView), h(Deferred, null, { default: () => h(Content) })],
+    })
+    await settle()
+
+    expect(events).toContain('mount Content')
+    expect(router.currentRoute.value.path).toBe('/')
   })
 })

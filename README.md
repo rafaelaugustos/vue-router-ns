@@ -259,6 +259,22 @@ onPageDeactivated(() => pause()) // covered by another page or a modal
 
 When the page leaves the stack it is unmounted, so cleanup goes in `onUnmounted`.
 
+## Pages with a lot to lay out
+
+In NativeScript the JavaScript runs on the main thread, so a page that takes a while to build delays its own push animation: the frame waits for the view before it moves. Native apps animate first and fill in after. `<Deferred>` does that: it renders its `fallback` until the page is on screen, after the transition, and only then its content.
+
+```vue
+<Page>
+  <ActionBar title="Report" />
+  <Deferred>
+    <template #fallback><ActivityIndicator busy /></template>
+    <ReportBody :report="report" />
+  </Deferred>
+</Page>
+```
+
+Measured on an Android emulator with a page of 400 rows in a `StackLayout`: the transition finished 1.1 to 2.7 seconds after the tap; with the rows inside `<Deferred>`, 0.3 to 0.7 seconds. The rows themselves take about as long to appear as before, since the work doesn't go away: it happens after the page is up instead of before. For long lists, a `ListView` or `CollectionView` is still the answer, since they only build what's visible.
+
 ## Android predictive back
 
 Since Android 14, the back swipe reports its progress while the finger moves. `useBackGesture()` hands it to the page the swipe would close, so the page can follow the finger:
@@ -377,7 +393,7 @@ On iOS, the ActionBar's back button pops the page natively. While a leave guard 
 
 **Composables**: `useRouter`, `useRoute`, `onBeforeRouteLeave`, `onPageActivated`, `onPageDeactivated`, `useBackGesture`.
 
-**Components**: `<RouterView name initial backToRootOnReselect>` and `<RouterLink to replace clearHistory withParents transition frame>`. `RouterLink` makes its only child navigate on tap, without adding a view:
+**Components**: `<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents transition frame>` and `<Deferred>`. `RouterLink` makes its only child navigate on tap, without adding a view:
 
 ```vue
 <RouterLink to="/settings">

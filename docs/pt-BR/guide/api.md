@@ -25,7 +25,7 @@ Os métodos de navegação retornam `Promise<NavigationFailure | undefined>`. O 
 
 ## Componentes
 
-`<RouterView name initial backToRootOnReselect>` e `<RouterLink to replace clearHistory withParents transition frame>`.
+`<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents transition frame>` e `<Deferred>`, que renderiza o conteúdo quando a página está na tela e um slot `fallback` até lá.
 
 ## Helpers
 

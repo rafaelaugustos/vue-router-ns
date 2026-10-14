@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- `<Deferred>` renders its content once the page is on screen, after the transition, and a `fallback` slot until then, so a page with a lot to lay out still animates in on time.
 - iOS sheet options for modal routes, under `modal.ios`: `detents` (`'medium'`, `'large'` or a fraction of the screen), `selectedDetent`, `largestUndimmedDetent`, `grabber` and `cornerRadius`. Set before the sheet is presented. `push` merges its `modal.ios` with the record's.
 
 ## 0.1.0-beta.3 (2026-10-14)
