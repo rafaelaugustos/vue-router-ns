@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- On iOS, swiping down a modal whose page has an active leave guard, or tapping outside it, now runs the guard with the sheet staying put, and closes the modal if the guard allows it. Before, the swipe was only blocked.
+
 ## 0.1.0-beta.2 (2026-10-14)
 
 - `router.setStack([...])` sets a stack as a list of locations: it keeps the pages both stacks share, goes back to the last of them and pushes the rest, animating only the last step.
