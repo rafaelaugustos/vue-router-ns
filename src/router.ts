@@ -724,16 +724,45 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
       const stack = stackFor(origin, options.frame)
       const flags = typeof raw === 'object' ? raw : {}
-
-      return run({
+      const to = resolveTarget(raw, topOf(stack)?.route ?? START_LOCATION)
+      const request: Request = {
         type: type === 'replace' || flags.replace ? 'replace' : 'push',
         stack,
-        to: resolveTarget(raw, topOf(stack)?.route ?? START_LOCATION),
+        to,
         options,
         force: flags.force,
         onEntry,
         redirects: 0,
-      })
+      }
+      if (!options.withParents) return run(request)
+
+      // the chain picks up after the deepest parent already on top, unless the stack goes anyway
+      const chain = [...matcher.parents(to), to]
+      const top = options.clearHistory ? undefined : topOf(stack)?.route.fullPath
+      const start = chain.findLastIndex((location) => location.fullPath === top) + 1
+      const steps = start < chain.length ? chain.slice(start) : [to]
+
+      let failure: NavigationFailure | undefined
+      for (const [index, location] of steps.entries()) {
+        const last = index === steps.length - 1
+        failure = await run({
+          ...request,
+          type: index === 0 ? request.type : 'push',
+          to: location,
+          options: last
+            ? { ...options, clearHistory: index === 0 && options.clearHistory }
+            : {
+                frame: options.frame,
+                clearHistory: index === 0 && options.clearHistory,
+                animated: false,
+                modal: false,
+              },
+          force: last ? flags.force : true,
+          onEntry: last ? onEntry : undefined,
+        })
+        if (failure) break
+      }
+      return failure
     }
 
     function goBack(pick: NonNullable<Request['pick']>, options: BackOptions = {}) {
