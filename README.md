@@ -40,7 +40,7 @@ So this is not a wrapper around Vue Router. The frame's back stack is the source
 - [A route per page](#every-page-keeps-its-route): `useRoute()` inside a page never changes, even with other pages pushed on top.
 - [Leave guards](#guards) that the Android back button goes through, and that turn the iOS swipe off while they'd block it.
 - [Modal routes](#modals) with their own stack, and [`pushForResult()`](#getting-a-result-back) to get a value back from a page.
-- [One stack per tab](#tabs-and-other-independent-stacks), with named `<RouterView>`s.
+- [One stack per tab](#tabs-and-other-independent-stacks), with named `<RouterView>`s, and [`setStack()`](#setting-the-whole-stack) to set a stack as a list.
 - [Typed routes](#typed-routes): names and params checked across the app, with no code generation.
 - [Android predictive back](#android-predictive-back) for pages that want to follow the swipe.
 
@@ -118,6 +118,18 @@ router.push('/messages/42', {
 ```
 
 Navigations queue behind native transitions, so a double tap on a button opens the page once: the second `push` finds the page already on top and resolves with a `duplicated` failure.
+
+## Setting the whole stack
+
+Like SwiftUI's `NavigationStack(path:)`, the stack can be set as a list, and the pages follow:
+
+```ts
+await router.setStack(['/', '/orders', { name: 'order', params: { id: 42 } }])
+```
+
+The router keeps the pages both stacks share from the bottom up, goes back to the last of them, then pushes the rest. Only the last step animates. Guards run for every step, and the first failure stops it. A modal route in the list becomes a plain page: the list describes one frame's stack.
+
+It takes `frame`, `animated` and `transition` as a second argument, and it's what a deep link into a nested page or a "back to the first tab page" helper is built on.
 
 ## Every page keeps its route
 
@@ -293,7 +305,7 @@ On iOS, the ActionBar's back button pops the page natively, and no NativeScript 
 
 ## API
 
-**Router**: `createRouter({ routes })`, `push`, `replace`, `back`, `go`, `backTo`, `pushForResult`, `resolve`, `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`, `beforeEach`, `beforeResolve`, `afterEach`, `onError`, `isReady`, `currentRoute`, `stack`.
+**Router**: `createRouter({ routes })`, `push`, `replace`, `back`, `go`, `backTo`, `setStack`, `pushForResult`, `resolve`, `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`, `beforeEach`, `beforeResolve`, `afterEach`, `onError`, `isReady`, `currentRoute`, `stack`.
 
 **Route records**: `path`, `name`, `component` (or a lazy loader), `children`, `redirect`, `meta`, `props` (`true`, an object or a function of the route), `beforeEnter`, plus `modal` and `transition`.
 

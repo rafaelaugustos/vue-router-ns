@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- `router.setStack([...])` sets a stack as a list of locations: it keeps the pages both stacks share, goes back to the last of them and pushes the rest, animating only the last step.
+- `router.back({ animated: false })`.
+
 ## 0.1.0-beta.1 (2026-10-14)
 
 - `useBackGesture()`: the progress of the Android 14+ predictive back swipe, for the page it would close. Releasing the swipe still goes back through the router and its guards.
