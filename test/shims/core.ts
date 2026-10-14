@@ -405,6 +405,9 @@ Object.assign(globalThis, {
 export const Device = { sdkVersion: '36' }
 
 export const SharedTransition = {
+  getSharedElements(_from: View, _to: View) {
+    return { presenting: [] as View[] }
+  },
   finished: [] as number[],
   finishState(id: number) {
     SharedTransition.finished.push(id)

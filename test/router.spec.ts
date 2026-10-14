@@ -879,6 +879,34 @@ describe('Android back preview', () => {
     expect(list.state).toMatchObject({ alpha: 1, x: 0, scale: 1 })
   })
 
+  it.each(['cancel', 'commit'] as const)(
+    'reveals shared elements with transition alpha during %s',
+    async (action) => {
+      const { home } = await setup()
+      let transitionAlpha = 0
+      const shared = new View()
+      shared.native = {
+        getTransitionAlpha: () => transitionAlpha,
+        setTransitionAlpha: (value: number) => (transitionAlpha = value),
+      }
+      const elements = vi
+        .spyOn(SharedTransition, 'getSharedElements')
+        .mockReturnValue({ presenting: [shared] })
+      try {
+        const swipe = swipeAndroidBack()
+        swipe.move(0.5)
+        expect(transitionAlpha).toBe(1)
+        if (action === 'cancel') swipe.cancel()
+        else swipe.release()
+        await settle()
+        expect(transitionAlpha).toBe(action === 'cancel' ? 0 : 1)
+        expect(home.state.alpha).toBe(1)
+      } finally {
+        elements.mockRestore()
+      }
+    },
+  )
+
   it('keeps the previous page visible after completing a pop', async () => {
     const { home } = await setup()
     home.state.alpha = 0

@@ -1,4 +1,4 @@
-import type { Frame, Page } from '@nativescript/core'
+import { SharedTransition, type Frame, type Page } from '@nativescript/core'
 import type { BackGestureEdge } from './android.js'
 
 interface Animator {
@@ -96,6 +96,7 @@ export function previewBack(
 
   container.addView(belowView, 0, new org.nativescript.widgets.CommonLayoutParams())
   const unveil = reset(belowView)
+  const restoreShared = revealSharedElements(below, top)
   const land = lift(topView)
 
   const place = (progress: number) => {
@@ -116,6 +117,7 @@ export function previewBack(
       if (belowView.getParent() === container) container.removeView(belowView)
       belowView.setLayoutParams(params)
       unveil()
+      restoreShared()
     }
     restoreTop()
     land()
@@ -202,6 +204,27 @@ function reset(view: NativeView): () => void {
   view.setScaleY(1)
   view.setTranslationY(0)
   return restore
+}
+
+/** AndroidX hides shared elements with a separate alpha, even when getAlpha() is 1. */
+function revealSharedElements(below: Page, top: Page): () => void {
+  const restore = SharedTransition.getSharedElements(below, top).presenting.flatMap(
+    (view) => {
+      const native = view.nativeView as
+        | {
+            getTransitionAlpha(): number
+            setTransitionAlpha(alpha: number): void
+          }
+        | undefined
+      if (!native) return []
+      const alpha = native.getTransitionAlpha()
+      native.setTransitionAlpha(1)
+      return [() => native.setTransitionAlpha(alpha)]
+    },
+  )
+  return () => {
+    for (const reset of restore) reset()
+  }
 }
 
 /** Gives the page on top a background and a shadow, so the page below doesn't show through. */
