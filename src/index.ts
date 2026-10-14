@@ -10,8 +10,11 @@ export {
   onBeforeRouteLeave,
   onPageActivated,
   onPageDeactivated,
+  useBackGesture,
 } from './composables.js'
 export type { LeaveGuardOptions } from './composables.js'
+
+export type { BackGesture, BackGestureEdge } from './android.js'
 
 export { RouterView } from './components/RouterView.js'
 export { RouterLink } from './components/RouterLink.js'

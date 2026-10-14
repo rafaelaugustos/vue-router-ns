@@ -3,6 +3,7 @@ import {
   Frame,
   isAndroid,
   type AndroidActivityBackPressedEventData,
+  type AndroidActivityEventData,
   type EventData,
   type NavigationEntry,
   type Page,
@@ -18,6 +19,13 @@ import {
   type App,
   type Ref,
 } from 'nativescript-vue'
+import {
+  backOwnerOf,
+  hasBackGestures,
+  watchBackGestures,
+  type BackGestureTarget,
+  type OnBackPressedDispatcherOwner,
+} from './android.js'
 import { RouterLink } from './components/RouterLink.js'
 import { RouterView } from './components/RouterView.js'
 import {
@@ -30,7 +38,14 @@ import { INTERNAL, type RouterInternals } from './internal.js'
 import { createMatcher } from './matcher.js'
 import { createPage, ModalHost } from './page.js'
 import { parseURL } from './query.js'
-import { deferred, isGuardActive, topOf, type Entry, type Stack } from './stack.js'
+import {
+  deferred,
+  isBlocked,
+  isGuardActive,
+  topOf,
+  type Entry,
+  type Stack,
+} from './stack.js'
 import type {
   RouteLocationRawOf,
   RouteMapFrom,
@@ -205,14 +220,28 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     const onBackPressed = (args: EventData) =>
       onModalBackPressed(stack, args as AndroidActivityBackPressedEventData)
 
+    let stopGestures: (() => void) | undefined
+    const onShown = () => {
+      stopGestures?.()
+      const dialog = backOwnerOf(frame.nativeView)
+      stopGestures = dialog
+        ? watchBackGestures(dialog, () => gestureTarget(stack))
+        : undefined
+    }
+
     stack.frame = frame
     stacksByFrame.set(frame, stack)
     frame.on(Frame.navigatedToEvent, onNavigated)
-    if (isAndroid && stack.modal) frame.on('activityBackPressed', onBackPressed)
+    if (isAndroid && stack.modal) {
+      frame.on('activityBackPressed', onBackPressed)
+      if (hasBackGestures()) frame.on('shownModally', onShown)
+    }
 
     detachers.set(stack, () => {
       frame.off(Frame.navigatedToEvent, onNavigated)
       frame.off('activityBackPressed', onBackPressed)
+      frame.off('shownModally', onShown)
+      stopGestures?.()
     })
   }
 
@@ -289,6 +318,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       component: components.get(route.matched.at(-1)!)!,
       props,
       leaveGuards: shallowReactive(new Set()),
+      backGesture: shallowRef(null),
       isActive: () =>
         topOf(stack) === entry &&
         (stack.modal ? modals.value.at(-1) === stack : !modals.value.length),
@@ -319,6 +349,20 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     const stack = origin && !origin.closed ? origin : focused()
     if (!stack) throw new Error('No <RouterView> is mounted')
     return stack
+  }
+
+  function topmostStack(): Stack | undefined {
+    const frame = Frame.topmost()
+    return frame && stacksByFrame.get(frame)
+  }
+
+  /** The page a back swipe in `stack` would simply close, if there is one. */
+  function gestureTarget(stack: Stack | undefined): BackGestureTarget | undefined {
+    const top = topOf(stack)
+    if (!stack || stack.closed || !top || isBlocked(top)) return undefined
+    const isRoot = stack.entries.value.length < 2
+    if (isRoot && (!stack.modal || stack.modal.cancelable === false)) return undefined
+    return top.backGesture
   }
 
   /** The route revealed when a modal closes. */
@@ -625,8 +669,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   // -- system back ------------------------------------------------------------
 
   function onActivityBackPressed(args: AndroidActivityBackPressedEventData) {
-    const frame = Frame.topmost()
-    const stack = frame && stacksByFrame.get(frame)
+    const stack = topmostStack()
     if (!stack || stack.closed || stack.entries.value.length < 2) return
 
     // go back through the router, so leave guards get a say
@@ -813,10 +856,25 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       app.component('RouterLink', RouterLink)
 
       if (isAndroid) {
-        Application.android.on('activityBackPressed', onActivityBackPressed)
-        app.onUnmount(() =>
-          Application.android.off('activityBackPressed', onActivityBackPressed),
-        )
+        const android = Application.android
+        const stops: (() => void)[] = []
+        const watchActivity = (activity: OnBackPressedDispatcherOwner) =>
+          stops.push(watchBackGestures(activity, () => gestureTarget(topmostStack())))
+        const onActivityCreated = ({ activity }: AndroidActivityEventData) =>
+          watchActivity(activity)
+
+        android.on('activityBackPressed', onActivityBackPressed)
+        if (hasBackGestures()) {
+          const activity = android.foregroundActivity ?? android.startActivity
+          if (activity) watchActivity(activity)
+          android.on('activityCreated', onActivityCreated)
+        }
+
+        app.onUnmount(() => {
+          android.off('activityBackPressed', onActivityBackPressed)
+          android.off('activityCreated', onActivityCreated)
+          for (const stop of stops) stop()
+        })
       }
     },
   })

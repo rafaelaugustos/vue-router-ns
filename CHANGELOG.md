@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- `useBackGesture()`: the progress of the Android 14+ predictive back swipe, for the page it would close. Releasing the swipe still goes back through the router and its guards.
+
 ## 0.1.0-beta.0 (2026-10-13)
 
 First release, written from scratch for NativeScript-Vue 3. It's a beta: the router is covered by tests against a stand-in `Frame`, but hasn't been through real apps on iOS and Android yet.

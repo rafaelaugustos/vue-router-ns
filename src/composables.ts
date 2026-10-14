@@ -2,9 +2,12 @@ import {
   computed,
   inject,
   onUnmounted,
+  shallowRef,
   watch,
   type MaybeRefOrGetter,
+  type ShallowRef,
 } from 'nativescript-vue'
+import type { BackGesture } from './android.js'
 import { entryKey, routeKey, routerKey } from './injection.js'
 import type { LeaveGuard } from './stack.js'
 import type {
@@ -88,6 +91,22 @@ export function onPageActivated(hook: () => unknown) {
  */
 export function onPageDeactivated(hook: () => unknown) {
   watchActivity((active) => !active && hook(), 'onPageDeactivated')
+}
+
+/**
+ * The Android predictive back swipe (Android 14+) that would close this page,
+ * while the user drags it, and `null` the rest of the time. It stays `null` on
+ * iOS, and while a leave guard is active.
+ */
+export function useBackGesture(): Readonly<ShallowRef<BackGesture | null>> {
+  const entry = inject(entryKey, null)
+  if (!entry) {
+    if (__DEV__) {
+      console.warn('[vue-router-ns] useBackGesture() must be used inside a routed page')
+    }
+    return shallowRef(null)
+  }
+  return entry.backGesture
 }
 
 function watchActivity(callback: (active: boolean) => unknown, name: string) {
