@@ -50,9 +50,12 @@ export class View extends Observable {
   dialog: Dialog | undefined
   private closeCallback: ((...args: unknown[]) => void) | undefined
 
+  /** A stand-in for the platform view, for tests that need one. */
+  native: any
+
   /** Lets the androidx stand-in find the dialog or activity a view lives in. */
   get nativeView() {
-    return { owner: this.dialog ?? Application.android.foregroundActivity }
+    return this.native ?? { owner: this.dialog ?? Application.android.foregroundActivity }
   }
 
   showModal(view: View, options: any) {

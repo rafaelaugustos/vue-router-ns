@@ -1,6 +1,21 @@
 # Android predictive back
 
-Since Android 14, the back swipe reports its progress while the finger moves. `useBackGesture()` hands it to the page the swipe would close, so the page can follow the finger:
+On Android 14 and later, the router shows the previous page during the back swipe. The current page shrinks and follows the finger, revealing the one below. Cancelling restores both pages; releasing finishes the motion and goes back through the router, including its guards.
+
+The preview works between pages in the same stack, including pages inside a modal. A modal's first page still uses normal dismissal, without previewing the stack underneath. Back from the app's first page still leaves the app. Pages with an active leave guard do not start a preview. If the previous native view is unavailable, normal back navigation still works.
+
+## Customizing
+
+The preview is enabled by default. To replace the animation with your own, disable it on the router:
+
+```ts
+const router = createRouter({
+  routes,
+  backPreview: false,
+})
+```
+
+`useBackGesture()` remains available with or without the preview. It hands progress to the page the swipe would close:
 
 ```vue
 <script setup lang="ts">
@@ -24,6 +39,4 @@ While the user drags, it's `{ progress, edge }`, with `progress` going from 0 to
 
 Apps that target Android 16 (API 36) get predictive back by default. Earlier targets opt in with `android:enableOnBackInvokedCallback="true"` on `<application>` in `AndroidManifest.xml`.
 
-## What's not there
-
-The page below doesn't show through during the swipe. `@nativescript/core` doesn't keep it in a fragment back stack the system could preview, so what happens on screen is up to the page. [#19](https://github.com/rafaelaugustos/vue-router-ns/issues/19) tracks it.
+See also the [Android predictive back documentation](https://developer.android.com/guide/navigation/custom-back/predictive-back-gesture).

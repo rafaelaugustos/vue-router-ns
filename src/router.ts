@@ -25,7 +25,7 @@ import {
   backOwnerOf,
   hasBackGestures,
   watchBackGestures,
-  type BackGestureTarget,
+  type BackGestureSession,
   type OnBackPressedDispatcherOwner,
 } from './android.js'
 import { Deferred } from './components/Deferred.js'
@@ -38,6 +38,7 @@ import {
 } from './errors.js'
 import { routeKey, routerKey } from './injection.js'
 import { INTERNAL, type RouterInternals } from './internal.js'
+import { previewBack, type BackPreview } from './back-preview.js'
 import { canZoom, configureSheet, viewOf, watchDismissAttempts } from './ios.js'
 import { createMatcher } from './matcher.js'
 import { createPage, ModalHost } from './page.js'
@@ -84,6 +85,8 @@ export interface RouterOptions<
   routes: R
   /** Save the stacks as the user navigates, and rebuild them after the app was killed. */
   restore?: RestoreOptions
+  /** Android 14 and later: show the page below while the back swipe moves. Defaults to `true`. */
+  backPreview?: boolean
 }
 
 const DEFAULT_MAX_AGE = 30 * 60 * 1000
@@ -191,6 +194,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   const stacksByFrame = new WeakMap<Frame, Stack>()
   const entriesByPage = new WeakMap<Page, Entry>()
   const detachers = new WeakMap<Stack, () => void>()
+  const previews = new Map<Stack, BackPreview>()
   const components = new WeakMap<RouteRecord, RouteComponent>()
 
   const ready = deferred<void>()
@@ -247,7 +251,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       stopGestures?.()
       const dialog = backOwnerOf(frame.nativeView)
       stopGestures = dialog
-        ? watchBackGestures(dialog, () => gestureTarget(stack))
+        ? watchBackGestures(dialog, () => gestureSession(stack))
         : undefined
     }
 
@@ -277,6 +281,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   }
 
   function close(stack: Stack) {
+    previews.get(stack)?.dispose()
     stack.closed = true
     detachers.get(stack)?.()
     for (const entry of stack.entries.value) dispose(entry)
@@ -299,6 +304,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       .filter((entry): entry is Entry => !!entry)
 
     stack.entries.value = after
+    if (before.at(-1) !== after.at(-1)) previews.get(stack)?.dispose()
     for (const entry of before) {
       if (!after.includes(entry)) dispose(entry)
     }
@@ -391,12 +397,40 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   }
 
   /** The page a back swipe in `stack` would simply close, if there is one. */
-  function gestureTarget(stack: Stack | undefined): BackGestureTarget | undefined {
+  function gestureSession(stack: Stack | undefined): BackGestureSession | undefined {
     const top = topOf(stack)
-    if (!stack || stack.closed || !top || isBlocked(top)) return undefined
+    if (!stack || stack.closed || stack.pending || !top || isBlocked(top))
+      return undefined
+    previews.get(stack)?.dispose()
     const isRoot = stack.entries.value.length < 2
     if (isRoot && (!stack.modal || stack.modal.cancelable === false)) return undefined
-    return top.backGesture
+
+    const below = stack.entries.value.at(-2)
+    let preview: BackPreview | undefined
+    if (options.backPreview !== false && below?.page && top.page && stack.frame) {
+      preview = previewBack(
+        stack.frame,
+        top.page,
+        below.page,
+        () =>
+          run(
+            {
+              type: 'back',
+              stack,
+              pick: (entries) => entries.at(-2),
+              options: { animated: false },
+              redirects: 0,
+            },
+            preview,
+          ),
+        () => {
+          top.backGesture.value = null
+          if (previews.get(stack) === preview) previews.delete(stack)
+        },
+      )
+      if (preview) previews.set(stack, preview)
+    }
+    return { gesture: top.backGesture, preview }
   }
 
   /** Makes `stack` match `targets`: back to the last page both share, then push the rest. */
@@ -503,10 +537,17 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
   // -- navigation -------------------------------------------------------------
 
-  async function run(request: Request): Promise<NavigationFailure | undefined> {
+  async function run(
+    request: Request,
+    keepPreview?: BackPreview,
+  ): Promise<NavigationFailure | undefined> {
+    for (const preview of previews.values()) {
+      if (preview !== keepPreview) preview.dispose()
+    }
     const { stack, type } = request
     const attempt = (stack.attempt = {})
-    const isCancelled = () => stack.attempt !== attempt
+    const isCancelled = () =>
+      stack.attempt !== attempt || (keepPreview !== undefined && !keepPreview.active)
     await Promise.all([settled, stack.settled])
 
     const entries = stack.entries.value
@@ -1088,7 +1129,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         const android = Application.android
         const stops: (() => void)[] = []
         const watchActivity = (activity: OnBackPressedDispatcherOwner) =>
-          stops.push(watchBackGestures(activity, () => gestureTarget(topmostStack())))
+          stops.push(watchBackGestures(activity, () => gestureSession(topmostStack())))
         const onActivityCreated = ({ activity }: AndroidActivityEventData) =>
           watchActivity(activity)
 
@@ -1103,6 +1144,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
           android.off('activityBackPressed', onActivityBackPressed)
           android.off('activityCreated', onActivityCreated)
           for (const stop of stops) stop()
+          for (const preview of previews.values()) preview.dispose()
         })
       }
     },

@@ -1,5 +1,6 @@
 import { Device } from '@nativescript/core'
 import type { ShallowRef } from 'nativescript-vue'
+import type { BackPreview } from './back-preview.js'
 
 export type BackGestureEdge = 'left' | 'right' | 'none'
 
@@ -11,6 +12,14 @@ export interface BackGesture {
 }
 
 export type BackGestureTarget = ShallowRef<BackGesture | null>
+
+/** What a back swipe drives, from the moment it starts. */
+export interface BackGestureSession {
+  /** Where `useBackGesture()` reads the swipe. */
+  gesture: BackGestureTarget
+  /** The page below, shown while the swipe moves. It goes back by itself when released. */
+  preview?: BackPreview
+}
 
 interface BackEventCompat {
   getProgress(): number
@@ -65,11 +74,12 @@ export function backOwnerOf(view: unknown): OnBackPressedDispatcherOwner | null 
 /**
  * Sits above the callback `@nativescript/core` registers, which only hears the
  * final press, and passes that press on to it, so `activityBackPressed`
- * listeners (the router among them) still get it.
+ * listeners (the router among them) still get it. A swipe that previews the
+ * page below finishes on its own instead, since the preview has to land.
  */
 export function watchBackGestures(
   owner: OnBackPressedDispatcherOwner,
-  target: () => BackGestureTarget | undefined,
+  begin: () => BackGestureSession | undefined,
 ): () => void {
   BackGestureCallback ??= androidx.activity.OnBackPressedCallback.extend(
     'org.nativescript.vuerouterns.BackGestureCallback',
@@ -91,30 +101,45 @@ export function watchBackGestures(
 
   const ownerRef = new WeakRef(owner)
   const callback = new BackGestureCallback(true)
-  let gesture: BackGestureTarget | undefined
+  let session: BackGestureSession | undefined
 
   const progress = (event: BackEventCompat) => {
-    if (!gesture) return
-    gesture.value = {
+    if (!session) return
+    if (session.preview && !session.preview.active) {
+      end()
+      return
+    }
+    const gesture: BackGesture = {
       progress: event.getProgress(),
       edge: EDGES[event.getSwipeEdge()] ?? 'none',
     }
+    session.gesture.value = gesture
+    session.preview?.progress(gesture.progress, gesture.edge)
   }
 
   const end = () => {
-    if (gesture) gesture.value = null
-    gesture = undefined
+    const ended = session
+    if (ended) ended.gesture.value = null
+    session = undefined
+    return ended
   }
 
   callback._handler = {
     start(event) {
-      gesture = target()
+      end()?.preview?.dispose()
+      session = begin()
       progress(event)
     },
     progress,
-    cancel: end,
+    cancel() {
+      end()?.preview?.cancel()
+    },
     press() {
-      end()
+      const ended = end()
+      if (ended?.preview) {
+        ended.preview.commit()
+        return
+      }
       const dispatcher = ownerRef.deref()?.getOnBackPressedDispatcher()
       if (!dispatcher) return
       callback.setEnabled(false)
@@ -129,7 +154,7 @@ export function watchBackGestures(
   owner.getOnBackPressedDispatcher().addCallback(owner, callback)
 
   return () => {
-    end()
+    end()?.preview?.dispose()
     callback.remove()
   }
 }

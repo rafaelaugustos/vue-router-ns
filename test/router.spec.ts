@@ -615,6 +615,340 @@ describe('Android back gesture', () => {
   })
 })
 
+describe('Android back preview', () => {
+  /** Just enough of an android.view.View to watch what the preview does to it. */
+  const nativeView = (width = 400) => {
+    const view: any = {
+      state: {
+        x: 0,
+        y: 0,
+        scale: 1,
+        scaleY: 1,
+        alpha: 1,
+        elevation: 0,
+        background: null as unknown,
+      },
+      layoutParams: {},
+      animation: 0,
+      parent: null,
+      children: [] as unknown[],
+      getWidth: () => width,
+      getAlpha: () => view.state.alpha,
+      getScaleX: () => view.state.scale,
+      getScaleY: () => view.state.scaleY,
+      getTranslationX: () => view.state.x,
+      getTranslationY: () => view.state.y,
+      getElevation: () => view.state.elevation,
+      getLayoutParams: () => view.layoutParams,
+      setLayoutParams: (params: object) => (view.layoutParams = params),
+      setTranslationY: (value: number) => (view.state.y = value),
+      getParent: () => view.parent,
+      getContext: () => null,
+      getBackground: () => view.state.background,
+      setBackground: (drawable: unknown) => (view.state.background = drawable),
+      setElevation: (value: number) => (view.state.elevation = value),
+      setTranslationX: (value: number) => (view.state.x = value),
+      setScaleX: (value: number) => (view.state.scale = value),
+      setScaleY: (value: number) => (view.state.scaleY = value),
+      setAlpha: (value: number) => (view.state.alpha = value),
+      addView: (child: any, index: number) => {
+        view.children.splice(index, 0, child)
+        child.parent = view
+      },
+      removeView: (child: any) => {
+        view.children = view.children.filter((item: unknown) => item !== child)
+        child.parent = null
+      },
+      animate: () => {
+        const generation = view.animation
+        const to: Record<string, any> = {}
+        const animator = {
+          cancel: () => view.animation++,
+          translationX: (value: number) => ((to.x = value), animator),
+          scaleX: (value: number) => ((to.scale = value), animator),
+          scaleY: (value: number) => ((to.scaleY = value), animator),
+          alpha: (value: number) => ((to.alpha = value), animator),
+          setDuration: () => animator,
+          withEndAction: (action: { run(): void }) => ((to.end = action), animator),
+        }
+        void Promise.resolve().then(() => {
+          if (view.animation !== generation) return
+          const { end, ...values } = to
+          Object.assign(view.state, values)
+          end?.run()
+        })
+        return animator
+      },
+    }
+    return view
+  }
+
+  beforeEach(() => {
+    Object.assign(globalThis, {
+      java: {
+        lang: {
+          Runnable: class {
+            constructor(impl: object) {
+              Object.assign(this, impl)
+            }
+          },
+        },
+      },
+      org: { nativescript: { widgets: { CommonLayoutParams: class {} } } },
+      android: {
+        R: { attr: { colorBackground: 1 } },
+        util: {
+          TypedValue: class {
+            data = 0
+          },
+        },
+        graphics: {
+          drawable: {
+            ColorDrawable: class {
+              constructor(public color: number) {}
+            },
+          },
+        },
+      },
+    })
+  })
+
+  afterEach(() => {
+    for (const name of ['java', 'org', 'android']) delete (globalThis as any)[name]
+  })
+
+  const setup = async (options: { backPreview?: boolean; refuseBack?: boolean } = {}) => {
+    const { router, frame, app } = await mount(routes, {
+      platform: 'android',
+      backPreview: options.backPreview,
+      before: (router) => {
+        if (options.refuseBack) router.beforeEach((to, from, { type }) => type !== 'back')
+      },
+    })
+    await router.push('/list')
+    const container = nativeView()
+    frame().native = container
+    const home = nativeView()
+    const list = nativeView()
+    frame().backStack[0]!.resolvedPage.native = home
+    frame().currentPage!.native = list
+    return { router, container, home, list, app }
+  }
+
+  it('puts the page below behind the one on top while the swipe moves', async () => {
+    const { container, home, list } = await setup()
+
+    const swipe = swipeAndroidBack()
+    expect(container.children).toEqual([home])
+    swipe.move(0.5)
+
+    expect(list.state).toMatchObject({ scale: 0.95, x: 10 })
+    expect(list.state.elevation).toBeGreaterThan(0)
+    expect(list.state.background).toBeDefined()
+    expect(home.state.x).toBe(-30)
+  })
+
+  it('settles back and takes the page below away when cancelled', async () => {
+    const { router, container, list } = await setup()
+
+    const swipe = swipeAndroidBack()
+    swipe.move(0.4)
+    swipe.cancel()
+    await settle()
+
+    expect(container.children).toEqual([])
+    expect(list.state).toMatchObject({ x: 0, scale: 1, elevation: 0, background: null })
+    expect(paths(router.stack.value)).toEqual(['/', '/list'])
+  })
+
+  it('finishes the swipe and goes back without animating when released', async () => {
+    const { router, list } = await setup()
+
+    const swipe = swipeAndroidBack()
+    swipe.move(0.7)
+    expect(swipe.release()).toBeUndefined()
+    await settle()
+
+    expect(paths(router.stack.value)).toEqual(['/'])
+    expect(Frame.backs).toEqual([false])
+    expect(list.state).toMatchObject({ x: 0, scale: 1, alpha: 1, elevation: 0 })
+  })
+
+  it('brings the page back when a guard refuses', async () => {
+    const { router, container, list } = await setup({ refuseBack: true })
+
+    const swipe = swipeAndroidBack()
+    swipe.move(0.7)
+    swipe.release()
+    await settle()
+
+    expect(paths(router.stack.value)).toEqual(['/', '/list'])
+    expect(container.children).toEqual([])
+    expect(list.state).toMatchObject({ x: 0, scale: 1, alpha: 1 })
+  })
+
+  it('reveals a faded previous page and restores its transforms on cancel', async () => {
+    const { home, list } = await setup()
+    Object.assign(home.state, { alpha: 0, scale: 0.8, scaleY: 0.7, x: 80, y: 40 })
+    Object.assign(list.state, { elevation: 12, background: { color: 'red' } })
+    const originalHome = { ...home.state }
+    const originalList = { ...list.state }
+    const swipe = swipeAndroidBack()
+    swipe.move(0.5)
+    expect(home.state).toMatchObject({ alpha: 1, scale: 1, scaleY: 1, y: 0 })
+    swipe.cancel()
+    await settle()
+    expect(home.state).toEqual(originalHome)
+    expect(list.state).toEqual(originalList)
+  })
+
+  it('mirrors movement for a swipe from the right edge', async () => {
+    const { home, list } = await setup()
+    const swipe = swipeAndroidBack('right')
+    swipe.move(0.5)
+    expect(list.state.x).toBe(-10)
+    expect(home.state.x).toBe(30)
+    swipe.cancel()
+    await settle()
+  })
+
+  it('restores the page and reports a throwing guard', async () => {
+    const { router, container, list } = await setup()
+    const error = new Error('guard failed')
+    const onError = vi.fn()
+    router.onError(onError)
+    router.beforeEach(() => {
+      throw error
+    })
+    swipeAndroidBack().release()
+    await settle()
+    expect(onError).toHaveBeenCalledWith(error, expect.anything(), expect.anything())
+    expect(paths(router.stack.value)).toEqual(['/', '/list'])
+    expect(container.children).toEqual([])
+    expect(list.state).toMatchObject({ alpha: 1, x: 0, scale: 1 })
+  })
+
+  it('cleans up before a guard redirects to a different page', async () => {
+    const { router, container, list, home } = await setup()
+    home.state.alpha = 0
+    router.beforeEach((to, from, { type }) => (type === 'back' ? '/settings' : undefined))
+    swipeAndroidBack().release()
+    await settle()
+    expect(paths(router.stack.value)).toEqual(['/', '/list', '/settings'])
+    expect(container.children).toEqual([])
+    expect(home.state.alpha).toBe(0)
+    expect(list.state).toMatchObject({ alpha: 1, x: 0, scale: 1 })
+  })
+
+  it('does not pop a new page when navigation interrupts a released swipe', async () => {
+    const { router, container, list } = await setup()
+    const swipe = swipeAndroidBack()
+    swipe.move(0.7)
+    swipe.release()
+    await router.push('/settings')
+    await settle()
+    expect(paths(router.stack.value)).toEqual(['/', '/list', '/settings'])
+    expect(container.children).toEqual([])
+    expect(list.state).toMatchObject({ alpha: 1, x: 0, scale: 1 })
+  })
+
+  it('can start another swipe before cancellation finishes', async () => {
+    const { router, container, list } = await setup()
+    const first = swipeAndroidBack()
+    first.move(0.5)
+    first.cancel()
+    const second = swipeAndroidBack()
+    second.move(0.7)
+    expect(container.children).toHaveLength(1)
+    second.release()
+    await settle()
+    expect(paths(router.stack.value)).toEqual(['/'])
+    expect(Frame.backs).toEqual([false])
+    expect(list.state).toMatchObject({ alpha: 1, x: 0, scale: 1 })
+  })
+
+  it('cleans up synchronously when unmounted during the settle animation', async () => {
+    const { app, router, container, list } = await setup()
+    const swipe = swipeAndroidBack()
+    swipe.move(0.5)
+    swipe.release()
+    app.unmount()
+    await settle()
+    expect(container.children).toEqual([])
+    expect(Frame.backs).toEqual([])
+    expect(list.state).toMatchObject({ alpha: 1, x: 0, scale: 1 })
+  })
+
+  it('keeps the previous page visible after completing a pop', async () => {
+    const { home } = await setup()
+    home.state.alpha = 0
+    swipeAndroidBack().release()
+    await settle()
+    expect(home.state).toMatchObject({ alpha: 1, scale: 1, scaleY: 1, x: 0, y: 0 })
+  })
+
+  it('falls back to ordinary back if the previous view is already attached', async () => {
+    const { router, home, container } = await setup()
+    home.parent = {}
+    const swipe = swipeAndroidBack()
+    swipe.move(0.5)
+    expect(container.children).toEqual([])
+    expect(swipe.release().cancel).toBe(true)
+    await settle()
+    expect(paths(router.stack.value)).toEqual(['/'])
+  })
+
+  it('does not navigate after unmounting while a guard is pending', async () => {
+    const { router, app, container } = await setup()
+    let release!: () => void
+    router.beforeEach(() => new Promise<void>((resolve) => (release = resolve)))
+    swipeAndroidBack().release()
+    await settle()
+    app.unmount()
+    release()
+    await settle()
+    expect(Frame.backs).toEqual([])
+    expect(container.children).toEqual([])
+  })
+
+  it('previews pages inside a modal without closing the modal', async () => {
+    const { router } = await mount(
+      [...routes, { path: '/pick', component: Home, modal: true }],
+      { platform: 'android' },
+    )
+    await router.push('/pick')
+    await router.push('/list')
+    const frame = View.presented[0]!.view as Frame
+    const container = nativeView()
+    const home = nativeView()
+    const list = nativeView()
+    frame.native = container
+    frame.backStack[0]!.resolvedPage.native = home
+    frame.currentPage!.native = list
+    const swipe = swipeAndroidBack()
+    swipe.move(0.5)
+    expect(container.children).toEqual([home])
+    expect(list.state.scale).toBe(0.95)
+    swipe.release()
+    await settle()
+    expect(View.presented).toHaveLength(1)
+    expect(paths(router.stack.value)).toEqual(['/pick'])
+    expect(home.state.alpha).toBe(1)
+  })
+
+  it('stays off with backPreview: false', async () => {
+    const { router, container } = await setup({ backPreview: false })
+
+    const swipe = swipeAndroidBack()
+    swipe.move(0.5)
+    expect(container.children).toEqual([])
+    expect(swipe.release().cancel).toBe(true)
+    await settle()
+
+    expect(paths(router.stack.value)).toEqual(['/'])
+  })
+})
+
 describe('concurrency', () => {
   it('turns a double tap into a single page', async () => {
     const { router } = await mount(routes)

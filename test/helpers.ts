@@ -47,6 +47,7 @@ interface MountOptions {
   /** Runs before the app starts, e.g. to add guards that see the initial navigation. */
   before?: (router: Router) => void
   restore?: RestoreOptions
+  backPreview?: boolean
 }
 
 export async function mount(
@@ -57,7 +58,11 @@ export async function mount(
   setPlatform(options.platform ?? 'ios')
   events.length = 0
 
-  const router = createRouter({ routes, restore: options.restore })
+  const router = createRouter({
+    routes,
+    restore: options.restore,
+    backPreview: options.backPreview,
+  })
   options.before?.(router as Router)
   const App = defineComponent({
     render:
