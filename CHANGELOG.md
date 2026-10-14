@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Android 14+ back swipes now reveal the previous page in the same stack, including inside modals. Cancellation restores the views, and completion goes through router guards. Set `createRouter({ backPreview: false, routes })` to keep only `useBackGesture()` for a custom animation.
+
 ## 0.1.0-beta.4 (2026-10-14)
 
 - `push(to, { zoomFrom: view })` and `<RouterLink zoom>`: on iOS 18 and later, the page grows out of the view through UIKit's zoom transition, and shrinks back into it when it closes. The drag to dismiss is held while a leave guard is active. Elsewhere the page gets its usual transition, and a shared transition passed along is used there instead.

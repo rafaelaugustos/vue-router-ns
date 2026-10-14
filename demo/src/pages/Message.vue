@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'nativescript-vue'
-import { useBackGesture, useRoute, useRouter } from 'vue-router-ns'
+import { useRoute, useRouter } from 'vue-router-ns'
 import StackTrail from '../components/StackTrail.vue'
 import { inbox } from '../store'
 
@@ -15,9 +15,6 @@ const message = computed(() => inbox.find(Number(props.id)))
 const next = computed(() => inbox.find(Number(route.params.id) + 1))
 const reply = ref<string>()
 
-const gesture = useBackGesture()
-const scale = computed(() => 1 - (gesture.value?.progress ?? 0) * 0.1)
-
 inbox.markRead(Number(props.id))
 
 async function compose() {
@@ -31,7 +28,7 @@ async function compose() {
   <Page>
     <ActionBar :title="message?.from ?? 'Message'" />
 
-    <GridLayout rows="*, auto" :scaleX="scale" :scaleY="scale">
+    <GridLayout rows="*, auto">
       <StackLayout class="section">
         <Label class="title" :text="message?.subject" textWrap="true" />
         <Label
