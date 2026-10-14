@@ -1,4 +1,5 @@
 import { Device, type Frame, type Page } from '@nativescript/core'
+import type { SheetDetent, SheetOptions } from './types.js'
 
 type Callback = () => void
 
@@ -37,6 +38,66 @@ export function watchDismissAttempts(frame: Frame, callback: Callback): () => vo
 }
 
 declare const UIAction: { actionWithHandler(handler: () => void): object }
+declare const UISheetPresentationControllerDetent: {
+  mediumDetent(): object
+  largeDetent(): object
+  customDetentWithIdentifierResolver(
+    identifier: string,
+    resolver: (context: { maximumDetentValue: number }) => number,
+  ): object
+}
+declare const UISheetPresentationControllerDetentIdentifierMedium: string
+declare const UISheetPresentationControllerDetentIdentifierLarge: string
+
+/**
+ * Sets up the sheet a modal frame is about to be presented in. Runs before
+ * the presentation, so the sheet opens at the right height. iOS 15 and later;
+ * fractions need iOS 16.
+ */
+export function configureSheet(frame: Frame, options: SheetOptions) {
+  const sheet = frame.ios?.controller?.sheetPresentationController
+  const version = parseFloat(Device.sdkVersion)
+  if (!sheet || version < 15) return
+  const native = typeof UISheetPresentationControllerDetent !== 'undefined'
+
+  const identifier = (detent: SheetDetent): string => {
+    if (typeof detent === 'number') return `fraction-${detent}`
+    if (!native) return detent
+    return detent === 'medium'
+      ? UISheetPresentationControllerDetentIdentifierMedium
+      : UISheetPresentationControllerDetentIdentifierLarge
+  }
+  const toDetent = (detent: SheetDetent): object | SheetDetent => {
+    if (!native) return detent
+    if (typeof detent === 'number') {
+      return UISheetPresentationControllerDetent.customDetentWithIdentifierResolver(
+        identifier(detent),
+        (context) => context.maximumDetentValue * detent,
+      )
+    }
+    return detent === 'medium'
+      ? UISheetPresentationControllerDetent.mediumDetent()
+      : UISheetPresentationControllerDetent.largeDetent()
+  }
+
+  const detents = options.detents?.filter((detent) => {
+    const supported = typeof detent !== 'number' || version >= 16
+    if (!supported && __DEV__) {
+      console.warn(`[vue-router-ns] A sheet detent of ${detent} needs iOS 16`)
+    }
+    return supported
+  })
+  if (detents?.length) sheet.detents = detents.map(toDetent)
+  if (options.selectedDetent !== undefined) {
+    sheet.selectedDetentIdentifier = identifier(options.selectedDetent)
+  }
+  if (options.largestUndimmedDetent !== undefined) {
+    sheet.largestUndimmedDetentIdentifier = identifier(options.largestUndimmedDetent)
+  }
+  if (options.grabber !== undefined) sheet.prefersGrabberVisible = options.grabber
+  if (options.cornerRadius !== undefined)
+    sheet.preferredCornerRadius = options.cornerRadius
+}
 
 /**
  * Makes the ActionBar's back button run `callback` instead of popping the

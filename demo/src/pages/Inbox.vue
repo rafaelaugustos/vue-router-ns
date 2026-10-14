@@ -15,6 +15,19 @@ onPageActivated(() => {
   unread.value = inbox.unread()
 })
 
+// a half-height sheet on iOS, with the inbox still usable behind it
+function compose() {
+  router.push('/compose', {
+    modal: {
+      ios: {
+        detents: ['medium', 'large'],
+        largestUndimmedDetent: 'medium',
+        grabber: true,
+      },
+    },
+  })
+}
+
 function open({ index }: ItemEventData) {
   router.push({ name: 'message', params: { id: messages.value[index]!.id } })
 }
@@ -23,7 +36,7 @@ function open({ index }: ItemEventData) {
 <template>
   <Page>
     <ActionBar :title="unread ? `Inbox (${unread})` : 'Inbox'">
-      <ActionItem text="Compose" ios.position="right" @tap="router.push('/compose')" />
+      <ActionItem text="Compose" ios.position="right" @tap="compose" />
     </ActionBar>
 
     <GridLayout rows="*, auto">

@@ -1,11 +1,23 @@
 <script lang="ts" setup>
+import { Dialogs } from '@nativescript/core'
 import { ref } from 'nativescript-vue'
-import { useRoute, useRouter } from 'vue-router-ns'
+import { onBeforeRouteLeave, useRoute, useRouter } from 'vue-router-ns'
 import { session } from '../store'
 
 const router = useRouter()
 const route = useRoute('login')
 const name = ref('')
+
+// asks on back, on the iOS back button and on a swipe, only while a name is typed
+onBeforeRouteLeave(
+  () =>
+    Dialogs.confirm({
+      title: 'Leave without signing in?',
+      okButtonText: 'Leave',
+      cancelButtonText: 'Stay',
+    }),
+  { when: () => name.value.trim() !== '' && !session.user },
+)
 
 function signIn() {
   if (!name.value.trim()) return

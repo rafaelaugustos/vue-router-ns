@@ -10,6 +10,28 @@ Marque uma rota com `modal: true`, ou passe `ModalOptions` (`fullscreen`, `anima
 
 O `push` também aceita `modal` como opção, para apresentar qualquer rota como modal independente do que o record diz.
 
+## Sheets no iOS
+
+Os sheets do iOS podem parar na altura média, na altura cheia ou numa fração da tela, mostrar um grabber, e manter a página de trás usável, como o Maps. Configure isso em `ios` nas opções do modal:
+
+```ts
+{
+  path: '/filters',
+  component: Filters,
+  modal: {
+    ios: {
+      detents: ['medium', 'large'], // ou uma fração da tela: 0.4 (iOS 16)
+      selectedDetent: 'medium', // a altura em que abre
+      largestUndimmedDetent: 'medium', // a página de trás continua usável até aqui
+      grabber: true,
+      cornerRadius: 24,
+    },
+  },
+}
+```
+
+O sheet é configurado antes de ser apresentado, então abre na altura certa. O `push` pode passar as mesmas opções em `modal.ios`, mescladas com as do record. O Android não tem equivalente no `showModal` e as ignora.
+
 ## Recebendo um resultado de volta
 
 Uma página pode devolver um valor para quem a abriu. Funciona com modais e com páginas comuns:
