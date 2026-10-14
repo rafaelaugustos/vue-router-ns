@@ -27,6 +27,7 @@ import {
   type BackGestureTarget,
   type OnBackPressedDispatcherOwner,
 } from './android.js'
+import { Deferred } from './components/Deferred.js'
 import { RouterLink } from './components/RouterLink.js'
 import { RouterView } from './components/RouterView.js'
 import {
@@ -1064,6 +1065,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       })
       app.component('RouterView', RouterView)
       app.component('RouterLink', RouterLink)
+      app.component('Deferred', Deferred)
 
       if (restore) {
         const onExit = () => restore.save(null)

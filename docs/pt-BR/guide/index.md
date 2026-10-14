@@ -33,6 +33,7 @@ Então isto não é um wrapper do Vue Router. A back stack do frame é a fonte d
 - [Rotas tipadas](./typed-routes): nomes e params checados no app inteiro, sem geração de código.
 - [Deep links](./deep-links) que trazem os pais junto, [a pilha inteira definida como lista](./stack), e [a restauração dela](./restore) depois que o app é morto.
 - [Predictive back no Android](./android-back) para páginas que querem acompanhar o swipe.
+- [`<Deferred>`](./pages#paginas-com-muito-para-montar) para páginas que devem animar antes de se preencher.
 
 ## Por onde começar
 
