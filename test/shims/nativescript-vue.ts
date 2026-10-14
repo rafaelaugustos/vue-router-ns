@@ -9,7 +9,7 @@ import {
   type Component,
   type ComponentPublicInstance,
 } from '@vue/runtime-core'
-import { Frame, Page, View, type NavigationEntry } from './core.js'
+import { Frame, Page, TabView, TabViewItem, View, type NavigationEntry } from './core.js'
 
 export * from '@vue/runtime-core'
 
@@ -29,7 +29,16 @@ export class TestNode {
 export const views = new Map<string, View[]>()
 
 function viewFor(tag: string) {
-  const view = tag === 'Frame' ? new Frame() : tag === 'Page' ? new Page() : new View()
+  const view =
+    tag === 'Frame'
+      ? new Frame()
+      : tag === 'Page'
+        ? new Page()
+        : tag === 'TabView'
+          ? new TabView()
+          : tag === 'TabViewItem'
+            ? new TabViewItem()
+            : new View()
   views.set(tag, [...(views.get(tag) ?? []), view])
   return view
 }
@@ -51,6 +60,11 @@ const renderer = createRenderer<TestNode, TestNode>({
     if (index < 0) parent.children.push(child)
     else parent.children.splice(index, 0, child)
     child.parentNode = parent
+    // the native tree too, for what walks `view.parent`
+    if (child.nativeView && parent.nativeView) {
+      child.nativeView.parent = parent.nativeView
+      parent.nativeView.children.push(child.nativeView)
+    }
   },
   remove,
   patchProp(node, key, _previous, next) {
@@ -70,6 +84,13 @@ const renderer = createRenderer<TestNode, TestNode>({
 function remove(node: TestNode) {
   const siblings = node.parentNode?.children
   if (siblings) siblings.splice(siblings.indexOf(node), 1)
+  const parentView = node.nativeView?.parent
+  if (parentView) {
+    parentView.children = parentView.children.filter(
+      (view: View) => view !== node.nativeView,
+    )
+    node.nativeView.parent = null
+  }
   node.parentNode = null
 }
 

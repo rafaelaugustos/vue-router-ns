@@ -38,6 +38,9 @@ export class Observable {
 export class View extends Observable {
   static presented: { view: View; options: any }[] = []
 
+  parent: View | null = null
+  children: View[] = []
+  isLoaded = true
   ios: any = { controller: {} }
   /** On Android, the dialog a modal is shown in. */
   dialog: Dialog | undefined
@@ -68,6 +71,20 @@ export class View extends Observable {
   }
 
   tearDown() {}
+}
+
+export class TabViewItem extends View {
+  get view() {
+    return this.children[0]
+  }
+}
+
+export class TabView extends View {
+  selectedIndex = 0
+
+  get items() {
+    return this.children.filter((child) => child instanceof TabViewItem)
+  }
 }
 
 export class Page extends View {
@@ -108,7 +125,6 @@ export class Frame extends View {
     return Frame.stack.at(-1)
   }
 
-  isLoaded = true
   private back: BackstackEntry[] = []
   private current: BackstackEntry | undefined
   private queue: Operation[] = []

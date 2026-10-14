@@ -26,6 +26,7 @@ import {
   swipeAndroidBack,
   View,
 } from './shims/core.js'
+import { reselected } from '../src/tabs.js'
 
 const Home = page('Home')
 const List = page('List')
@@ -787,6 +788,83 @@ describe('tabs', () => {
     await deepLink
 
     expect(paths(router.stack.value)).toEqual(['/settings', '/items/1'])
+  })
+})
+
+describe('tab reselect', () => {
+  const tabs = (reselect: boolean) => () =>
+    h('TabView', [
+      h('TabViewItem', { title: 'Inbox' }, [
+        h(RouterView, { name: 'inbox', initial: '/', backToRootOnReselect: reselect }),
+      ]),
+      h('TabViewItem', { title: 'Settings' }, [
+        h(RouterView, {
+          name: 'settings',
+          initial: '/settings',
+          backToRootOnReselect: reselect,
+        }),
+      ]),
+    ])
+  const tabView = () =>
+    views.get('TabView')!.at(-1) as unknown as Parameters<typeof reselected>[0]
+
+  it('goes back to the first page of the tab tapped again', async () => {
+    const { router } = await mount(routes, { render: tabs(true) })
+    await settle()
+    await router.push('/list', { frame: 'inbox' })
+    await router.push('/items/1', { frame: 'inbox' })
+    await router.push('/items/2', { frame: 'settings' })
+
+    reselected(tabView(), 0)
+    await settle()
+
+    expect(paths(router.stack.value)).toEqual(['/'])
+    expect(Frame.backs).toEqual([undefined])
+
+    reselected(tabView(), 1)
+    await settle()
+    expect(paths(router.stack.value)).toEqual(['/settings'])
+  })
+
+  it('does nothing on the first page, and goes through leave guards', async () => {
+    const Form = page('Form', () => onBeforeRouteLeave(() => false))
+    const { router } = await mount([...routes, { path: '/form', component: Form }], {
+      render: tabs(true),
+    })
+    await settle()
+
+    reselected(tabView(), 0)
+    await settle()
+    expect(Frame.backs).toEqual([])
+
+    await router.push('/form', { frame: 'inbox' })
+    reselected(tabView(), 0)
+    await settle()
+    expect(paths(router.stack.value)).toEqual(['/', '/form'])
+  })
+
+  it('stays out of the way without the option, and once the view is gone', async () => {
+    const { router, app } = await mount(routes, { render: tabs(false) })
+    await settle()
+    await router.push('/list', { frame: 'inbox' })
+
+    reselected(tabView(), 0)
+    await settle()
+    expect(paths(router.stack.value)).toEqual(['/', '/list'])
+
+    app.unmount()
+    expect(() => reselected(tabView(), 0)).not.toThrow()
+  })
+
+  it('back goes to the first page with backToRoot()', async () => {
+    const { router } = await mount(routes)
+    await router.push('/list')
+    await router.push('/items/1')
+
+    expect(await router.backToRoot({ animated: false })).toBeUndefined()
+
+    expect(paths(router.stack.value)).toEqual(['/'])
+    expect(Frame.backs).toEqual([false])
   })
 })
 

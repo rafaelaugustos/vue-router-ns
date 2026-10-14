@@ -102,6 +102,8 @@ export interface Router<M extends RouteMapLike = RouteMapGeneric> {
   back(options?: BackOptions): Promise<NavigationFailure | undefined>
   /** Negative values only: a native stack has no forward history. */
   go(delta: number): Promise<NavigationFailure | undefined>
+  /** Goes back to the first page of the stack. */
+  backToRoot(options?: BackOptions): Promise<NavigationFailure | undefined>
   /** Goes back to the closest page below that matches `to`. */
   backTo(
     to: RouteLocationRawOf<M>,
@@ -880,6 +882,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
           return scope().modal && -delta === entries.length ? null : undefined
         })
       },
+
+      backToRoot: (options) =>
+        goBack((entries) => (entries.length > 1 ? entries[0] : undefined), options),
 
       backTo(to, options) {
         return goBack((entries) => {

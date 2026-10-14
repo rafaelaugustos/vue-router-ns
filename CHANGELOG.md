@@ -4,6 +4,7 @@
 
 - `router.setStack([...])` sets a stack as a list of locations: it keeps the pages both stacks share, goes back to the last of them and pushes the rest, animating only the last step.
 - `router.back({ animated: false })`.
+- `<RouterView backToRootOnReselect>` goes back to the tab's first page when its tab is tapped while selected, like native tab bars. `router.backToRoot()` does it on demand.
 - `push(to, { withParents: true })` pushes the route's parents first, so a deep link's back goes up the route tree. Parents come from `children` nesting. `<RouterLink>` takes it too.
 
 ## 0.1.0-beta.1 (2026-10-14)
