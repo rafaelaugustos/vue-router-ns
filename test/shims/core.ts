@@ -33,6 +33,10 @@ export class Observable {
   listenerCount(event: string) {
     return this.listeners.get(event)?.size ?? 0
   }
+
+  clear() {
+    this.listeners.clear()
+  }
 }
 
 export class View extends Observable {
@@ -395,9 +399,9 @@ Object.assign(globalThis, {
 
 export const Device = { sdkVersion: '36' }
 
-export const Application = {
+export const Application = Object.assign(new Observable(), {
   android: createAndroidApplication(),
-}
+})
 
 function createAndroidApplication() {
   return Object.assign(new Observable(), {
@@ -454,6 +458,7 @@ export function resetNative() {
   Frame.backs = []
   View.presented = []
   Application.android = createAndroidApplication()
+  Application.clear()
   Device.sdkVersion = '36'
   setPlatform('ios')
 }

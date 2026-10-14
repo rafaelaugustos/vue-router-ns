@@ -152,6 +152,21 @@ export interface BackOptions {
   animated?: boolean
 }
 
+/** What `restore.save` receives and `restore.load` gives back: the paths of every named stack. */
+export interface SavedStacks {
+  savedAt: number
+  stacks: Record<string, string[]>
+}
+
+export interface RestoreOptions {
+  /** Called with the stacks after every navigation, and with `null` when the app exits on its own. */
+  save(state: SavedStacks | null): void
+  /** Called once, when the first `<RouterView>` mounts. */
+  load(): SavedStacks | null | undefined | Promise<SavedStacks | null | undefined>
+  /** Saves older than this, in milliseconds, are left alone. Defaults to 30 minutes. */
+  maxAge?: number
+}
+
 export interface SetStackOptions {
   /** Name of the `<RouterView>` whose stack to set. Defaults to the one the caller lives in. */
   frame?: string
