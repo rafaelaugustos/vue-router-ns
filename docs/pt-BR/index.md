@@ -2,7 +2,6 @@
 layout: home
 
 hero:
-  name: vue-router-ns
   text: A API do Vue Router, na pilha nativa.
   tagline: Rotas, guards, params e nomes tipados para NativeScript-Vue 3, com a back stack de um Frame como fonte da verdade em vez de uma URL.
   image:
