@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- On iOS 16 and later, the ActionBar's back button goes through the leave guards while one is active, instead of popping the page on its own. It still looks like the system button.
+
 - Typed routes with pages imported up front: `component: () => Message` keeps the page's type out of the route table's, so `<script setup>` pages can use `useRoute('message')` without the cycle that `component: Message` causes. The function form is now part of the `component` type.
 
 - `createRouter({ restore: { save, load } })` saves the paths of every stack after each navigation and rebuilds them when the app comes back after being killed, through the guards and without animating. Saves older than `maxAge` (30 minutes) are ignored, and the app forgets them when it exits on its own.
