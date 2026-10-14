@@ -348,7 +348,7 @@ Releases go out from `master` on their own. Bump the version and move the change
 npm version 0.2.0 --no-git-tag-version
 ```
 
-Once that lands on `master`, the [release workflow](./.github/workflows/release.yml) sees a version that isn't on npm yet. It runs the tests, publishes the package and creates the `v0.2.0` GitHub release from the changelog entry. Versions with a suffix, like `0.2.0-beta.1`, go out under `next` as pre-releases. Pushes that don't change the version do nothing.
+Once that lands on `master`, the [release workflow](./.github/workflows/release.yml) sees a version that isn't on npm yet. It runs the tests, publishes the package and creates the `v0.2.0` GitHub release from the changelog entry. Versions with a suffix, like `0.2.0-beta.1`, go out under `next` as pre-releases, and under `latest` too until a stable version is out. Pushes that don't change the version do nothing.
 
 npm authenticates the workflow through [trusted publishing](https://docs.npmjs.com/trusted-publishers), so the repository holds no npm token. An `NPM_TOKEN` secret works too, if you'd rather use one.
 
