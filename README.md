@@ -211,6 +211,14 @@ Use one `<RouterView>` per stack and name it:
 
 Pages navigate in their own tab. From anywhere else, target one with `{ frame: 'settings' }`.
 
+Native tab bars go back to the first page when you tap the tab you're already on. `backToRootOnReselect` does that for a `<RouterView>` inside a `<TabViewItem>`, through the leave guards like any back:
+
+```vue
+<RouterView name="inbox" initial="/" backToRootOnReselect />
+```
+
+`router.backToRoot()` does the same on demand.
+
 ## When a page comes back into view
 
 A page that stays in the stack isn't mounted again when you return to it, so `onMounted` won't help you refresh it. Use these instead:
@@ -314,13 +322,13 @@ On iOS, the ActionBar's back button pops the page natively, and no NativeScript 
 
 ## API
 
-**Router**: `createRouter({ routes })`, `push`, `replace`, `back`, `go`, `backTo`, `setStack`, `pushForResult`, `resolve`, `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`, `beforeEach`, `beforeResolve`, `afterEach`, `onError`, `isReady`, `currentRoute`, `stack`.
+**Router**: `createRouter({ routes })`, `push`, `replace`, `back`, `go`, `backTo`, `backToRoot`, `setStack`, `pushForResult`, `resolve`, `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`, `beforeEach`, `beforeResolve`, `afterEach`, `onError`, `isReady`, `currentRoute`, `stack`.
 
 **Route records**: `path`, `name`, `component` (or a lazy loader), `children`, `redirect`, `meta`, `props` (`true`, an object or a function of the route), `beforeEnter`, plus `modal` and `transition`.
 
 **Composables**: `useRouter`, `useRoute`, `onBeforeRouteLeave`, `onPageActivated`, `onPageDeactivated`, `useBackGesture`.
 
-**Components**: `<RouterView name initial>` and `<RouterLink to replace clearHistory withParents transition frame>`. `RouterLink` makes its only child navigate on tap, without adding a view:
+**Components**: `<RouterView name initial backToRootOnReselect>` and `<RouterLink to replace clearHistory withParents transition frame>`. `RouterLink` makes its only child navigate on tap, without adding a view:
 
 ```vue
 <RouterLink to="/settings">
