@@ -3,6 +3,7 @@
 ## Unreleased
 
 - `useBackGesture()`: the progress of the Android 14+ predictive back swipe, for the page it would close. Releasing the swipe still goes back through the router and its guards.
+- Fixed: on iOS, navigating did nothing until every tab had been opened once. A tab iOS hasn't shown yet no longer holds up navigations elsewhere.
 
 ## 0.1.0-beta.0 (2026-10-13)
 

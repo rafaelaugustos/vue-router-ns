@@ -177,7 +177,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   let isReady = false
   let entryId = 0
   let modalId = 0
-  /** Native work in flight. Navigations wait for it, so they always start from a settled stack. */
+  /** Native transitions in flight. Navigations wait for them, so they always start from a settled screen. */
   let settled: Promise<unknown> = Promise.resolve()
 
   const focusedFrame = (): Stack | undefined =>
@@ -209,6 +209,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       frame: null,
       attempt: undefined,
       pending: undefined,
+      settled: Promise.resolve(),
       closed: false,
     } as Omit<Stack, 'router'> as Stack
 
@@ -378,7 +379,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     const { stack, type } = request
     const attempt = (stack.attempt = {})
     const isCancelled = () => stack.attempt !== attempt
-    await settled
+    await Promise.all([settled, stack.settled])
 
     const entries = stack.entries.value
     const from = topOf(stack)?.route ?? START_LOCATION
@@ -477,7 +478,11 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
           ? commitModal(request, to, modal)
           : commitPage(request, to, initial)
 
-    settled = Promise.allSettled([settled, commit])
+    stack.settled = Promise.allSettled([stack.settled, commit])
+    // a frame that isn't loaded, like a tab iOS hasn't shown yet, navigates once it shows up
+    if (modal || stack.frame?.isLoaded !== false) {
+      settled = Promise.allSettled([settled, commit])
+    }
     try {
       await commit
     } catch (error) {

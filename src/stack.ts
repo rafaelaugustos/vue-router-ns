@@ -24,6 +24,8 @@ export interface Stack {
   attempt: object | undefined
   /** Settles once the native navigation the router started here is done. */
   pending: Deferred<void> | undefined
+  /** Navigations committed here, including ones waiting for the frame to load. */
+  settled: Promise<unknown>
   closed: boolean
 }
 
