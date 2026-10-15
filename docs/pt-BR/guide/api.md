@@ -128,10 +128,14 @@ Estenda `Register` e `RouteMeta` como mostrado em [rotas tipadas](./typed-routes
 
 `RouterDiagnostics` expõe `routerId`, `stopped`, `events`, `droppedEvents`, `snapshot()`, `subscribe(listener)`, `toJSON()`, `export()`, `clear()` e `stop()`. Os dados são readonly, limitados e sem valores de rota; `stop()` libera as fontes vivas. Tipos exportados: `DiagnosticsOptions`, `RouterDiagnostics`, `DiagnosticsExport`, `DiagnosticSnapshot`, `DiagnosticStack`, `DiagnosticHost`, `DiagnosticEntry`, `DiagnosticIssue`, `DiagnosticIssueCode`, `DiagnosticEvent`, `DiagnosticPhase` e `DiagnosticOutcome`. Veja [diagnóstico](./diagnostics) para formato, semântica dos tempos e ciclo de vida.
 
-## Native search
+## Busca nativa
 
-`useNativeSearch(options)` registers page-owned native search. Exports: `NativeSearchOptions`, `NativeSearch`. See [native bars and search](./native-bars) for query ownership, activation and platform differences.
+`useNativeSearch(options)` registra uma busca própria da página. Tipos: `NativeSearchOptions`, `NativeSearch`. Veja [barras e busca nativas](./native-bars) para persistência da query, ativação e diferenças entre plataformas.
 
-## Keyboard commands
+## Comandos de teclado
 
-`useNavigationCommands(source)` and `NavigationCommandScope` bind opt-in commands to a page/window. Types: `NavigationCommand`, `NavigationCommandState`, `NavigationCommands`, `NavigationShortcut`, `KeyModifier`. See [keyboard commands](./keyboard).
+`useNavigationCommands(source)` e `NavigationCommandScope` vinculam comandos opt-in à página/janela. Tipos: `NavigationCommand`, `NavigationCommandState`, `NavigationCommands`, `NavigationShortcut`, `KeyModifier`. Veja [comandos de teclado](./keyboard).
+
+## Acessibilidade e movimento
+
+`useNavigationFocus(options)` define alvos de foco inicial/retorno e restaura o elemento que iniciou um modal. Tipos: `NavigationFocus`, `NavigationFocusOptions`, `NavigationFocusTarget`. `RouterOptions.motion` aceita `MotionPolicy` (`system`, `reduced`, `full`), com padrão `system`. Veja [acessibilidade e movimento](./accessibility).

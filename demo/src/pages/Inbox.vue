@@ -4,7 +4,12 @@ import { useDemoCommands } from '../navigation-commands'
 
 import { computed, ref } from 'nativescript-vue'
 import { PageTransition, SharedTransition, type ItemEventData } from '@nativescript/core'
-import { onPageActivated, useNativeSearch, useRouter } from 'vue-router-ns'
+import {
+  onPageActivated,
+  useNativeSearch,
+  useNavigationFocus,
+  useRouter,
+} from 'vue-router-ns'
 import StackTrail from '../components/StackTrail.vue'
 import { inbox } from '../store'
 
@@ -13,6 +18,7 @@ const messages = ref(inbox.list())
 const unread = ref(0)
 const query = ref('')
 const search = useNativeSearch({ query, placeholder: 'Search messages' })
+const focus = useNavigationFocus({})
 const filtered = computed(() => {
   const term = query.value.toLocaleLowerCase()
   return messages.value.filter((message) =>
@@ -28,6 +34,7 @@ onPageActivated(() => {
 
 // a half-height sheet on iOS, with the inbox still usable behind it
 function compose() {
+  focus.remember()
   router.push('/compose', {
     modal: {
       ios: {
@@ -41,6 +48,7 @@ function compose() {
 
 // iOS 18 zooms the message out of its row; elsewhere the sender's name flies into place
 function open({ index, view }: ItemEventData) {
+  focus.remember(`message-${filtered.value[index]!.id}`)
   router.push(
     { name: 'message', params: { id: filtered.value[index]!.id } },
     { zoomFrom: view, transition: SharedTransition.custom(new PageTransition()) },
@@ -57,9 +65,15 @@ const commands = useDemoCommands()
     </ActionBar>
 
     <NavigationCommandScope :commands="commands" rows="*, auto">
-      <ListView :items="filtered" @itemTap="open">
+      <ListView id="messages" :items="filtered" @itemTap="open">
         <template #default="{ item }">
-          <StackLayout class="message" :class="{ unread: !item.read }">
+          <StackLayout
+            :id="`message-${item.id}`"
+            accessible="true"
+            :accessibilityLabel="`${item.from}: ${item.subject}`"
+            class="message"
+            :class="{ unread: !item.read }"
+          >
             <Label
               class="from"
               :text="item.from"

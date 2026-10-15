@@ -5,6 +5,7 @@ import { pageEffect, pageVisible, watchPageVisibility } from './page-effects.js'
 import { dismissPageSearch } from './search.js'
 import type { RegisteredRouter } from './typed.js'
 import { bindCommands, type NativeCommandsHost } from './commands-native.js'
+import { commandFocusOrigin } from './accessibility.js'
 
 export type KeyModifier = 'meta' | 'ctrl' | 'alt' | 'shift'
 export interface NavigationShortcut {
@@ -133,6 +134,7 @@ export function useNavigationCommands(
       const command = commands().find((command) => command.id === id)
       if (!command || !enabled(command)) return false
       busy = true
+      const stopOrigin = commandFocusOrigin(entry)
       try {
         const router = entry.stack.router as RegisteredRouter
         if (command.action === 'back') await router.back()
@@ -141,6 +143,7 @@ export function useNavigationCommands(
         else await command.action(router)
         return true
       } finally {
+        stopOrigin()
         busy = false
       }
     },

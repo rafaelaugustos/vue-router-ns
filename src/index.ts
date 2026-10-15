@@ -38,6 +38,13 @@ export type {
   KeyModifier,
 } from './commands.js'
 export { NavigationCommandScope } from './components/NavigationCommandScope.js'
+export { useNavigationFocus } from './accessibility.js'
+export type {
+  NavigationFocus,
+  NavigationFocusOptions,
+  NavigationFocusTarget,
+} from './accessibility.js'
+export type { MotionPolicy } from './motion.js'
 
 export type { BackGesture, BackGestureEdge } from './android.js'
 

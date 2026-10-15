@@ -93,6 +93,8 @@ export function previewBack(
   let phase: 'dragging' | 'settling' | 'disposed' = 'dragging'
   const params = belowView.getLayoutParams()
   const restoreTop = snapshot(topView)
+  const accessibilityHidden = below.accessibilityHidden
+  below.accessibilityHidden = true
 
   container.addView(belowView, 0, new org.nativescript.widgets.CommonLayoutParams())
   const unveil = reset(belowView)
@@ -120,6 +122,11 @@ export function previewBack(
       restoreShared()
     }
     restoreTop()
+    // A focus owner may already have made the returning page accessible.
+    below.accessibilityHidden =
+      frame.currentPage === below
+        ? accessibilityHidden && below.accessibilityHidden
+        : accessibilityHidden
     land()
     onDispose()
   }

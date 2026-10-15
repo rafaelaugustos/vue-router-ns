@@ -40,6 +40,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('androidBack', 'android-back'),
         page('nativeBars', 'native-bars'),
         page('keyboard', 'keyboard'),
+        page('accessibility', 'accessibility'),
       ],
     },
     {
@@ -76,6 +77,7 @@ const en = {
   androidBack: 'Android predictive back',
   nativeBars: 'Native bars and search',
   keyboard: 'Keyboard commands',
+  accessibility: 'Accessibility and motion',
   vueRouter: 'Differences from Vue Router',
   api: 'API',
   internals: 'How it works',
@@ -104,6 +106,7 @@ const pt = {
   androidBack: 'Predictive back no Android',
   nativeBars: 'Barras e busca nativas',
   keyboard: 'Comandos de teclado',
+  accessibility: 'Acessibilidade e movimento',
   vueRouter: 'Diferenças do Vue Router',
   api: 'API',
   internals: 'Como funciona',

@@ -442,13 +442,13 @@ On iOS, the ActionBar's back button pops the page natively. While a leave guard 
 
 ## API
 
-**Router**: `createRouter({ routes, restore, backPreview, diagnostics })`, `push`, `replace`, `back`, `go`, `backTo`, `backToRoot`, `setStack`, `pushForResult`, `resolve`, `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`, `beforeEach`, `beforeResolve`, `afterEach`, `onError`, `isReady`, `currentRoute`, `stack`, `diagnostics`.
+**Router**: `createRouter({ routes, restore, backPreview, diagnostics, motion })`, `push`, `replace`, `back`, `go`, `backTo`, `backToRoot`, `setStack`, `pushForResult`, `resolve`, `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`, `beforeEach`, `beforeResolve`, `afterEach`, `onError`, `isReady`, `currentRoute`, `stack`, `diagnostics`.
 
 **Route records**: `path`, `name`, `component` (or a function returning it, sync or async), `children`, `redirect`, `meta`, `props` (`true`, an object or a function of the route), `beforeEnter`, plus `modal` and `transition`.
 
-**Composables**: `useRouter`, `useRoute`, `onBeforeRouteLeave`, `onPageActivated`, `onPageDeactivated`, `useBackGesture`.
+**Composables**: `useRouter`, `useRoute`, `onBeforeRouteLeave`, `onPageActivated`, `onPageDeactivated`, `useBackGesture`, `useNativeSearch`, `useNavigationCommands`, `useNavigationFocus`.
 
-**Components**: `<RouterSplitView name list breakpoint listWidth backToRootOnReselect>` (with an `empty` slot), `<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents zoom transition frame>` and `<Deferred>`. `RouterLink` makes its only child navigate on tap, without adding a view:
+**Components**: `<RouterSplitView name list breakpoint listWidth backToRootOnReselect>` (with an `empty` slot), `<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents zoom transition frame>`, `<NavigationCommandScope :commands="commands">` and `<Deferred>`. `RouterLink` makes its only child navigate on tap, without adding a view:
 
 ```vue
 <RouterLink to="/settings">
@@ -467,6 +467,12 @@ In a `RouterView`, the native stack is the source of navigation history. After e
 Covered-page HMR reloads wait until the Frame returns to the page, then replace its native Page through NativeScript-Vue. History is preserved; remounting can reset local component state. See [page lifecycle and HMR](https://vue-router-ns.rafaelaugusto.dev/guide/pages#hmr-during-development).
 
 The [full API reference](https://vue-router-ns.rafaelaugusto.dev/guide/api) documents signatures, defaults, errors, component slots and exported types. In particular, `go(delta)` takes no options; `back`, `backTo` and `backToRoot` accept `animated`, `frame` and `result`.
+
+## Native controls and accessibility
+
+- [Native bars and search](https://vue-router-ns.rafaelaugusto.dev/guide/native-bars): ActionBar titles/actions and page-owned UISearchController/SearchView with explicit query state.
+- [Keyboard commands](https://vue-router-ns.rafaelaugusto.dev/guide/keyboard): opt-in commands, iPad discovery and focused page/window ownership through `NavigationCommandScope`.
+- [Accessibility and motion](https://vue-router-ns.rafaelaugusto.dev/guide/accessibility): stable focus targets, modal initiator restoration and OS reduced-motion defaults.
 
 ## Navigation diagnostics
 
@@ -516,7 +522,3 @@ npm authenticates the workflow through [trusted publishing](https://docs.npmjs.c
 ## License
 
 [MIT](./LICENSE). Maintained by Rafael Augusto and [Cortex Labs](https://getcortexlabs.com/).
-
-Native ActionBar titles, actions and page-owned search: [guide](https://vue-router-ns.rafaelaugusto.dev/guide/native-bars).
-
-Opt-in native keyboard commands and iPad discovery: [guide](https://vue-router-ns.rafaelaugusto.dev/guide/keyboard).

@@ -4,7 +4,7 @@ import { useDemoCommands } from '../navigation-commands'
 
 import { computed, ref } from 'nativescript-vue'
 import { Dialogs } from '@nativescript/core'
-import { onBeforeRouteLeave, useRouter } from 'vue-router-ns'
+import { onBeforeRouteLeave, useNavigationFocus, useRouter } from 'vue-router-ns'
 
 const props = defineProps<{ subject?: string }>()
 
@@ -13,6 +13,7 @@ const subject = ref(props.subject ?? '')
 const body = ref('')
 const sent = ref(false)
 const dirty = computed(() => !sent.value && body.value.trim() !== '')
+useNavigationFocus({ initial: 'compose-subject' })
 
 // only asks while there is a draft; with an empty draft the sheet still swipes away
 onBeforeRouteLeave(
@@ -42,7 +43,7 @@ const commands = useDemoCommands()
 
     <NavigationCommandScope :commands="commands">
       <StackLayout class="section">
-        <TextField v-model="subject" hint="Subject" />
+        <TextField id="compose-subject" v-model="subject" hint="Subject" />
         <TextView v-model="body" hint="Write something…" height="200" marginTop="12" />
       </StackLayout>
     </NavigationCommandScope>
