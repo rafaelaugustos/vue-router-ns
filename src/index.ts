@@ -16,6 +16,7 @@ export type { LeaveGuardOptions } from './composables.js'
 
 export type { BackGesture, BackGestureEdge } from './android.js'
 
+export { RouterSplitView } from './components/RouterSplitView.js'
 export { RouterView } from './components/RouterView.js'
 export { RouterLink } from './components/RouterLink.js'
 export { Deferred } from './components/Deferred.js'
@@ -44,6 +45,7 @@ declare module '@vue/runtime-core' {
   }
 
   interface GlobalComponents {
+    RouterSplitView: typeof import('./components/RouterSplitView.js').RouterSplitView
     RouterView: typeof import('./components/RouterView.js').RouterView
     RouterLink: typeof import('./components/RouterLink.js').RouterLink
     Deferred: typeof import('./components/Deferred.js').Deferred

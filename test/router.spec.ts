@@ -1562,27 +1562,30 @@ describe('tabs', () => {
     expect(Frame.stack).toHaveLength(2)
   })
 
-  it('keep navigating while a tab that was never shown waits for its first page', async () => {
-    const { router } = await mount(routes, {
-      render: () => [
-        h(RouterView, { name: 'inbox', initial: '/' }),
-        h(RouterView, { name: 'settings', initial: '/settings', isLoaded: false }),
-      ],
-    })
-    const settings = views.get('Frame')!.at(-1) as Frame
+  it.each([false, undefined])(
+    'keeps navigating while a hidden tab waits for its first page (isLoaded=%s)',
+    async (isLoaded) => {
+      const { router } = await mount(routes, {
+        render: () => [
+          h(RouterView, { name: 'inbox', initial: '/' }),
+          h(RouterView, { name: 'settings', initial: '/settings', isLoaded }),
+        ],
+      })
+      const settings = views.get('Frame')!.at(-1) as Frame
 
-    await router.push('/list')
-    await router.push('/items/9', { modal: true })
-    await router.back()
-    expect(paths(router.stack.value)).toEqual(['/', '/list'])
+      await router.push('/list')
+      await router.push('/items/9', { modal: true })
+      await router.back()
+      expect(paths(router.stack.value)).toEqual(['/', '/list'])
 
-    const deepLink = router.push('/items/1', { frame: 'settings' })
-    await settle()
-    settings.load()
-    await deepLink
+      const deepLink = router.push('/items/1', { frame: 'settings' })
+      await settle()
+      settings.load()
+      await deepLink
 
-    expect(paths(router.stack.value)).toEqual(['/settings', '/items/1'])
-  })
+      expect(paths(router.stack.value)).toEqual(['/settings', '/items/1'])
+    },
+  )
 })
 
 describe('tab reselect', () => {

@@ -1,5 +1,6 @@
 import {
   Application,
+  Color,
   Frame,
   isAndroid,
   isIOS,
@@ -8,7 +9,7 @@ import {
   type AndroidActivityEventData,
   type EventData,
   type NavigationEntry,
-  type Page,
+  Page,
 } from '@nativescript/core'
 import {
   $navigateTo,
@@ -16,6 +17,7 @@ import {
   computed,
   hasInjectionContext,
   inject,
+  nextTick,
   shallowReactive,
   shallowRef,
   type App,
@@ -30,6 +32,7 @@ import {
 } from './android.js'
 import { Deferred } from './components/Deferred.js'
 import { RouterLink } from './components/RouterLink.js'
+import { RouterSplitView } from './components/RouterSplitView.js'
 import { RouterView } from './components/RouterView.js'
 import {
   createNavigationFailure,
@@ -87,6 +90,15 @@ export interface RouterOptions<
   restore?: RestoreOptions
   /** Android 14 and later: show the page below while the back swipe moves. Defaults to `true`. */
   backPreview?: boolean
+}
+
+interface SplitStack {
+  listFrame: Frame
+  placeholder: Page
+  list: RouteLocationRaw
+  expanded: Readonly<Ref<boolean>>
+  detailVisible: Ref<boolean>
+  resetting: boolean
 }
 
 const DEFAULT_MAX_AGE = 30 * 60 * 1000
@@ -194,6 +206,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   const stacksByFrame = new WeakMap<Frame, Stack>()
   const entriesByPage = new WeakMap<Page, Entry>()
   const detachers = new WeakMap<Stack, () => void>()
+  const splits = new Map<Stack, SplitStack>()
   const previews = new Map<Stack, BackPreview>()
   const components = new WeakMap<RouteRecord, RouteComponent>()
 
@@ -284,6 +297,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     previews.get(stack)?.dispose()
     stack.closed = true
     detachers.get(stack)?.()
+    splits.delete(stack)
     for (const entry of stack.entries.value) dispose(entry)
     stack.entries.value = []
     stack.pending?.resolve()
@@ -295,8 +309,15 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     const frame = stack.frame
     if (!frame || stack.closed) return
 
+    const split = splits.get(stack)
+    if (split?.resetting) {
+      stack.pending?.resolve()
+      stack.pending = undefined
+      return
+    }
     const before = stack.entries.value
     const after = [
+      ...(split ? [split.listFrame.currentPage] : []),
       ...frame.backStack.map((entry) => entry.resolvedPage),
       frame.currentPage,
     ]
@@ -304,6 +325,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       .filter((entry): entry is Entry => !!entry)
 
     stack.entries.value = after
+    if (split) split.detailVisible.value = after.length > 1
     if (before.at(-1) !== after.at(-1)) previews.get(stack)?.dispose()
     for (const entry of before) {
       if (!after.includes(entry)) dispose(entry)
@@ -360,7 +382,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       backGesture: shallowRef(null),
       zoomFrom,
       isActive: () =>
-        topOf(stack) === entry &&
+        (topOf(stack) === entry ||
+          (!!splits.get(stack)?.expanded.value && stack.entries.value[0] === entry)) &&
         (stack.modal ? modals.value.at(-1) === stack : !modals.value.length),
       page: null,
       result: undefined,
@@ -439,6 +462,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     targets: readonly RouteLocation[],
     options: Pick<SetStackOptions, 'animated' | 'transition'>,
   ): Promise<NavigationFailure | undefined> {
+    const split = splits.get(stack)
+    if (split) {
+      const list =
+        stack.entries.value[0]?.route ?? resolveTarget(split.list, START_LOCATION)
+      if (targets[0]?.fullPath !== list.fullPath) targets = [list, ...targets]
+    }
     const entries = stack.entries.value
     let shared = 0
     while (
@@ -544,10 +573,27 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     for (const preview of previews.values()) {
       if (preview !== keepPreview) preview.dispose()
     }
-    const { stack, type } = request
+    const stack = request.stack
+    const split = splits.get(stack)
+    const root = stack.entries.value[0]
+    if (
+      split &&
+      root &&
+      request.type !== 'back' &&
+      request.to?.fullPath === root.route.fullPath
+    ) {
+      request = {
+        ...request,
+        type: 'back',
+        pick: (entries) => (entries.length > 1 ? entries[0] : undefined),
+      }
+    }
+    const { type } = request
     const attempt = (stack.attempt = {})
     const isCancelled = () =>
-      stack.attempt !== attempt || (keepPreview !== undefined && !keepPreview.active)
+      stack.closed ||
+      stack.attempt !== attempt ||
+      (keepPreview !== undefined && !keepPreview.active)
     await Promise.all([settled, stack.settled])
 
     const entries = stack.entries.value
@@ -589,9 +635,11 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         : modal
           ? []
           : request.options.clearHistory
-            ? [...entries]
+            ? entries.slice(split ? 1 : 0)
             : type === 'replace'
-              ? entries.slice(-1)
+              ? split && entries.length === 1
+                ? []
+                : entries.slice(-1)
               : []
 
     let outcome: GuardOutcome | undefined
@@ -649,7 +697,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
     stack.settled = Promise.allSettled([stack.settled, commit])
     // a frame that isn't loaded, like a tab iOS hasn't shown yet, navigates once it shows up
-    if (modal || stack.frame?.isLoaded !== false) {
+    if (modal || stack.frame?.isLoaded) {
       settled = Promise.allSettled([settled, commit])
     }
     try {
@@ -659,6 +707,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       throw error
     }
 
+    if (stack.closed && !(type === 'back' && target === null)) return fail('cancelled')
     if (!stack.modal) lastFrame.value = stack
     notifyAfter(to, from)
     return undefined
@@ -684,30 +733,63 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
   async function commitPage(request: Request, to: RouteLocation, initial: boolean) {
     const { stack, options } = request
-    const frame = stack.frame!
+    const split = splits.get(stack)
+    const frame = split && initial ? split.listFrame : stack.frame!
+    const firstDetail =
+      !!split && !initial && (stack.entries.value.length === 1 || !!options.clearHistory)
+    if (split && !initial) {
+      split.detailVisible.value = true
+      await nextTick()
+      if (stack.closed) return
+      // iOS does not finish presenting a page in an invisible controller.
+      // Initialize the native detail root only when its pane first opens.
+      if (!frame.currentPage || (options.clearHistory && frame.canGoBack())) {
+        split.resetting = true
+        try {
+          const ready = expect(stack)
+          if (!frame.currentPage)
+            frame.navigate({ create: () => split.placeholder, animated: false })
+          else {
+            frame.currentEntry.animated = false
+            frame.goBack(frame.backStack[0])
+          }
+          await ready
+        } finally {
+          split.resetting = false
+        }
+      }
+    }
+    if (stack.closed) return
     const record = to.matched.at(-1)!
     const zoom =
-      !initial && options.animated !== false && canZoom()
+      !initial && !firstDetail && options.animated !== false && canZoom()
         ? viewOf(options.zoomFrom)
         : undefined
     const entry = createEntry(stack, to, pageProps(to, record, options.props), zoom)
     request.onEntry?.(entry)
 
     // the frame drops the current page from its back stack once we navigate away
-    if (request.type === 'replace' && frame.currentEntry) {
+    if (
+      request.type === 'replace' &&
+      frame.currentEntry &&
+      !firstDetail &&
+      !options.clearHistory
+    ) {
       frame.currentEntry.backstackVisible = false
     }
 
     const navigation: NavigationEntry & { frame: Frame } = { frame }
     // a transition of the frame's own would take the animation away from UIKit's zoom
     const requested = toTransition(options.transition ?? record.transition)
-    const transition = zoom ? undefined : requested
+    const transition =
+      zoom || (firstDetail && requested?.instance) ? undefined : requested
     if (transition) navigation.transition = transition
     // a shared transition left unused would keep its state in core forever
-    if (zoom && requested?.instance) SharedTransition.finishState(requested.instance.id)
+    if ((zoom || firstDetail) && requested?.instance)
+      SharedTransition.finishState(requested.instance.id)
     if (initial) navigation.animated = false
     else if (options.animated !== undefined) navigation.animated = options.animated
-    if (options.clearHistory) navigation.clearHistory = true
+    if (options.clearHistory && !split) navigation.clearHistory = true
 
     const shown = expect(stack)
     try {
@@ -774,8 +856,11 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       return closed
     }
 
+    const split = splits.get(stack)
+    const targetPage =
+      split && target === stack.entries.value[0] ? split.placeholder : target.page
     const entry = frame.backStack.find(
-      (candidate) => candidate.resolvedPage === target.page,
+      (candidate) => candidate.resolvedPage === targetPage,
     )
     if (!entry) {
       throw new Error(`"${target.route.fullPath}" is no longer in the native stack`)
@@ -1076,6 +1161,48 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       )
     },
 
+    async mountSplit(name, listFrame, detailFrame, list, expanded, detailVisible) {
+      if (frames.has(name)) throw new Error(`Two router views are named "${name}"`)
+      const stack = createStack(name, false)
+      const placeholder = new Page()
+      placeholder.actionBarHidden = true
+      placeholder.backgroundColor = new Color('transparent')
+      const split: SplitStack = {
+        listFrame,
+        placeholder,
+        list,
+        expanded,
+        detailVisible,
+        resetting: false,
+      }
+      splits.set(stack, split)
+      frames.set(name, stack)
+      attach(stack, detailFrame)
+      stacksByFrame.set(listFrame, stack)
+      const syncList = () => sync(stack)
+      listFrame.on(Frame.navigatedToEvent, syncList)
+      const detach = detachers.get(stack)!
+      detachers.set(stack, () => {
+        detach()
+        listFrame.off(Frame.navigatedToEvent, syncList)
+      })
+      try {
+        const saved = await savedStackFor(name)
+        restoring = !!saved
+        try {
+          await applyStack(stack, saved ?? [resolveTarget(list, START_LOCATION)], {
+            animated: false,
+          })
+        } finally {
+          restoring = false
+          persist()
+        }
+        markReady()
+      } catch (error) {
+        ready.reject(error)
+      }
+    },
+
     unmount(name) {
       const stack = frames.get(name)
       if (!stack) return
@@ -1116,6 +1243,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         get: () => (hasInjectionContext() ? inject(routeKey, route) : route),
       })
       app.component('RouterView', RouterView)
+      app.component('RouterSplitView', RouterSplitView)
       app.component('RouterLink', RouterLink)
       app.component('Deferred', Deferred)
 
