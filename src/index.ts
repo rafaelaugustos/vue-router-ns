@@ -29,6 +29,22 @@ export {
 export type { LeaveGuardOptions } from './composables.js'
 export { useNativeSearch } from './search.js'
 export type { NativeSearch, NativeSearchOptions } from './search.js'
+export { useNavigationCommands } from './commands.js'
+export type {
+  NavigationCommands,
+  NavigationCommand,
+  NavigationCommandState,
+  NavigationShortcut,
+  KeyModifier,
+} from './commands.js'
+export { NavigationCommandScope } from './components/NavigationCommandScope.js'
+export { useNavigationFocus } from './accessibility.js'
+export type {
+  NavigationFocus,
+  NavigationFocusOptions,
+  NavigationFocusTarget,
+} from './accessibility.js'
+export type { MotionPolicy } from './motion.js'
 
 export type { BackGesture, BackGestureEdge } from './android.js'
 
@@ -61,6 +77,7 @@ declare module '@vue/runtime-core' {
   }
 
   interface GlobalComponents {
+    NavigationCommandScope: typeof import('./components/NavigationCommandScope.js').NavigationCommandScope
     RouterSplitView: typeof import('./components/RouterSplitView.js').RouterSplitView
     RouterView: typeof import('./components/RouterView.js').RouterView
     RouterLink: typeof import('./components/RouterLink.js').RouterLink

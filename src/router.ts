@@ -52,6 +52,12 @@ import { canZoom, configureSheet, viewOf, watchDismissAttempts } from './ios.js'
 import { createMatcher } from './matcher.js'
 import { createPage, ModalHost } from './page.js'
 import { disconnectPageEffects } from './page-effects.js'
+import {
+  clearFocusOrigin,
+  modalFocusOrigin,
+  settleNavigationFocus,
+} from './accessibility.js'
+import { reduceMotion, type MotionPolicy } from './motion.js'
 import { parseURL } from './query.js'
 import {
   deferred,
@@ -99,6 +105,8 @@ export interface RouterOptions<
   backPreview?: boolean
   /** Collect a bounded, redacted navigation timeline and native stack snapshots. */
   diagnostics?: boolean | DiagnosticsOptions
+  /** Respect OS reduced motion by default; applications may explicitly override it. */
+  motion?: MotionPolicy
 }
 
 interface SplitStack {
@@ -218,7 +226,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   const detachers = new WeakMap<Stack, () => void>()
   const splits = new Map<Stack, SplitStack>()
   const previews = new Map<Stack, BackPreview>()
+  const modalOrigins = new WeakMap<Stack, Entry>()
   const components = new WeakMap<RouteRecord, RouteComponent>()
+  const shouldReduceMotion = (frame?: Frame) => reduceMotion(options.motion, frame)
   const diagnostics = options.diagnostics
     ? createDiagnostics(
         options.diagnostics === true ? {} : options.diagnostics,
@@ -366,6 +376,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     for (const entry of before) {
       if (!after.includes(entry)) dispose(entry)
     }
+    if (before.at(-1) !== after.at(-1))
+      settleNavigationFocus(after.at(-1), after.length < before.length)
     if (!stack.modal) persist()
     diagnostics?.event(
       'native',
@@ -397,6 +409,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     const initiated = !!stack.pending
     modals.value = modals.value.filter((modal) => modal !== stack)
     close(stack)
+    settleNavigationFocus(modalOrigins.get(stack), true)
 
     // swiped down, tapped outside or closed by the Android back button
     if (!initiated && from) notifyAfter(currentRoute.value, from)
@@ -486,7 +499,13 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
     const below = stack.entries.value.at(-2)
     let preview: BackPreview | undefined
-    if (options.backPreview !== false && below?.page && top.page && stack.frame) {
+    if (
+      options.backPreview !== false &&
+      below?.page &&
+      top.page &&
+      stack.frame &&
+      !shouldReduceMotion(stack.frame)
+    ) {
       preview = previewBack(
         stack.frame,
         top.page,
@@ -873,6 +892,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     trace?: NavigationTrace,
   ) {
     const { stack, options } = request
+    clearFocusOrigin(stack)
     const split = splits.get(stack)
     const frame = split && initial ? split.listFrame : stack.frame!
     const firstDetail =
@@ -901,8 +921,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     }
     if (stack.closed) return
     const record = to.matched.at(-1)!
+    const reduced = shouldReduceMotion(frame)
     const zoom =
-      !initial && !firstDetail && options.animated !== false && canZoom()
+      !reduced && !initial && !firstDetail && options.animated !== false && canZoom()
         ? viewOf(options.zoomFrom)
         : undefined
     const entry = createEntry(stack, to, pageProps(to, record, options.props), zoom)
@@ -922,12 +943,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     // a transition of the frame's own would take the animation away from UIKit's zoom
     const requested = toTransition(options.transition ?? record.transition)
     const transition =
-      zoom || (firstDetail && requested?.instance) ? undefined : requested
+      reduced || zoom || (firstDetail && requested?.instance) ? undefined : requested
     if (transition) navigation.transition = transition
     // a shared transition left unused would keep its state in core forever
-    if ((zoom || firstDetail) && requested?.instance)
+    if ((reduced || zoom || firstDetail) && requested?.instance)
       SharedTransition.finishState(requested.instance.id)
-    if (initial) navigation.animated = false
+    if (initial || reduced) navigation.animated = false
     else if (options.animated !== undefined) navigation.animated = options.animated
     if (options.clearHistory && !split) navigation.clearHistory = true
 
@@ -951,6 +972,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     trace?: NavigationTrace,
   ) {
     const stack = createStack(`modal-${++modalId}`, modal)
+    const origin = modalFocusOrigin(request.stack) ?? topOf(request.stack)
+    if (origin) modalOrigins.set(stack, origin)
     const entry = createEntry(
       stack,
       to,
@@ -964,6 +987,11 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     const mounting = trace?.span('mount', 'modal-host')
     const presented = $showModal(ModalHost, {
       ...modal,
+      ...(shouldReduceMotion(request.stack.frame ?? undefined)
+        ? { animated: false }
+        : {}),
+      // A command originating in another native window must present there.
+      target: request.stack.frame?.currentPage ?? request.stack.frame ?? undefined,
       props: {
         onReady(frame: Frame) {
           attach(stack, frame)
@@ -1004,6 +1032,10 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     if (top && result !== undefined) top.result = result
 
     const frame = stack.frame!
+    if (shouldReduceMotion(frame)) {
+      animated = false
+      if (top?.zoomFrom && top.page?.ios) top.page.ios.preferredTransition = null
+    }
     if (!target) {
       const closed = expect(stack)
       frame.closeModal()

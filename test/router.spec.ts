@@ -696,6 +696,7 @@ describe('Android back preview', () => {
       },
       org: { nativescript: { widgets: { CommonLayoutParams: class {} } } },
       android: {
+        animation: { ValueAnimator: { areAnimatorsEnabled: () => true } },
         R: { attr: { colorBackground: 1 } },
         util: {
           TypedValue: class {
@@ -717,10 +718,13 @@ describe('Android back preview', () => {
     for (const name of ['java', 'org', 'android']) delete (globalThis as any)[name]
   })
 
-  const setup = async (options: { backPreview?: boolean; refuseBack?: boolean } = {}) => {
+  const setup = async (
+    options: { backPreview?: boolean; refuseBack?: boolean; motion?: 'reduced' } = {},
+  ) => {
     const { router, frame, app } = await mount(routes, {
       platform: 'android',
       backPreview: options.backPreview,
+      motion: options.motion,
       before: (router) => {
         if (options.refuseBack) router.beforeEach((to, from, { type }) => type !== 'back')
       },
@@ -746,6 +750,47 @@ describe('Android back preview', () => {
     expect(list.state.elevation).toBeGreaterThan(0)
     expect(list.state.background).toBeDefined()
     expect(home.state.x).toBe(-30)
+  })
+
+  it('keeps preview views out of accessibility traversal and restores them on cancellation', async () => {
+    const { router, app } = await setup()
+    const below = Frame.topmost()!.backStack[0]!.resolvedPage
+    expect(below.accessibilityHidden).toBe(false)
+    const swipe = swipeAndroidBack()
+    expect(below.accessibilityHidden).toBe(true)
+    swipe.cancel()
+    await settle()
+    expect(below.accessibilityHidden).toBe(false)
+    expect(router.stack.value).toHaveLength(2)
+    app.unmount()
+  })
+
+  it('omits router-owned preview transforms with reduced motion but still goes back', async () => {
+    const { container, list, router, app } = await setup({ motion: 'reduced' })
+    const swipe = swipeAndroidBack()
+    swipe.move(0.6)
+    expect(container.children).toEqual([])
+    expect(list.state.scale).toBe(1)
+    swipe.release()
+    await settle()
+    expect(router.stack.value).toHaveLength(1)
+    expect(Frame.backs.at(-1)).toBe(false)
+    app.unmount()
+  })
+
+  it('preserves a focus owner making the preview page accessible on successful return', async () => {
+    const { app } = await setup()
+    const below = Frame.topmost()!.backStack[0]!.resolvedPage
+    below.accessibilityHidden = true
+    below.on('navigatedTo', () => {
+      below.accessibilityHidden = false
+    })
+    const swipe = swipeAndroidBack()
+    swipe.move(0.7)
+    swipe.release()
+    await settle()
+    expect(below.accessibilityHidden).toBe(false)
+    app.unmount()
   })
 
   it('settles back and takes the page below away when cancelled', async () => {

@@ -44,6 +44,8 @@ export class Color {
 }
 
 export class View extends Observable {
+  accessibilityHidden = false
+  visibility = 'visible'
   backgroundColor: unknown
   width = 400
   getActualSize() {
@@ -65,6 +67,9 @@ export class View extends Observable {
   /** Lets the androidx stand-in find the dialog or activity a view lives in. */
   get nativeView() {
     return this.native ?? { owner: this.dialog ?? Application.android.foregroundActivity }
+  }
+  get nativeViewProtected() {
+    return this.nativeView
   }
 
   showModal(view: View, options: any) {
@@ -95,6 +100,12 @@ export class TabViewItem extends View {
   }
 }
 
+export class GridLayout extends View {
+  createNativeView(): any {
+    return this.nativeView
+  }
+}
+
 export class TabView extends View {
   selectedIndex = 0
 
@@ -104,6 +115,13 @@ export class TabView extends View {
 }
 
 export class Page extends View {
+  accessibilityAnnouncePageEnabled = true
+  accessibilityScreenChanged(_refocus?: boolean) {}
+  getViewById<T>(id: string): T | undefined {
+    const find = (view: any): any =>
+      view.id === id ? view : view.children.map(find).find(Boolean)
+    return find(this)
+  }
   frame?: Frame
   actionBarHidden = false
   enableSwipeBackNavigation = true
@@ -239,6 +257,8 @@ export class Frame extends View {
     this.current = entry
     this.toTop()
     entry.resolvedPage.notify({ eventName: 'navigatedTo', object: entry.resolvedPage })
+    if (entry.resolvedPage.accessibilityAnnouncePageEnabled)
+      entry.resolvedPage.accessibilityScreenChanged(operation.type === 'back')
     this.notify({
       eventName: 'navigatedTo',
       object: this,
@@ -428,6 +448,13 @@ Object.assign(globalThis, {
 })
 
 export const Device = { sdkVersion: '36' }
+export let screenReaderEnabled = false
+export function isAccessibilityServiceEnabled() {
+  return screenReaderEnabled
+}
+export function setScreenReaderEnabled(value: boolean) {
+  screenReaderEnabled = value
+}
 
 export const SharedTransition = {
   getSharedElements(_from: View, _to: View) {
@@ -493,6 +520,7 @@ export function swipeAndroidBack(edge: 'left' | 'right' = 'left') {
 }
 
 export function resetNative() {
+  screenReaderEnabled = false
   Frame.stack = []
   Frame.navigations = []
   Frame.backs = []

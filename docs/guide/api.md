@@ -131,3 +131,11 @@ Augment `Register` and `RouteMeta` as shown in [typed routes](./typed-routes).
 ## Native search
 
 `useNativeSearch(options)` registers page-owned native search. Exports: `NativeSearchOptions`, `NativeSearch`. See [native bars and search](./native-bars) for query ownership, activation and platform differences.
+
+## Keyboard commands
+
+`useNavigationCommands(source)` and `NavigationCommandScope` bind opt-in commands to a page/window. Types: `NavigationCommand`, `NavigationCommandState`, `NavigationCommands`, `NavigationShortcut`, `KeyModifier`. See [keyboard commands](./keyboard).
+
+## Accessibility and motion
+
+`useNavigationFocus(options)` supplies opt-in initial/return accessibility targets and modal initiator restoration. Types: `NavigationFocus`, `NavigationFocusOptions`, `NavigationFocusTarget`. `RouterOptions.motion` accepts `MotionPolicy` (`system`, `reduced`, `full`); default `system`. See [accessibility and motion](./accessibility).

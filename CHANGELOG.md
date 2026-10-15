@@ -1,8 +1,14 @@
 # Changelog
 
-## Unreleased
+## 0.1.0-beta.8 (2026-10-15)
+
+- Opt-in accessibility focus targets and modal initiator restoration after confirmed native transitions, plus live system reduced-motion defaults for router-owned animations.
+
+- Opt-in native keyboard commands scoped to a page/window, with UIKit discovery, Android unhandled-key dispatch, guard-aware back/modal actions and editing/IME protection.
 
 - Page-owned native search with `useNativeSearch()`: UISearchController on iOS and SearchView in the existing Android ActionBar. Query state survives navigation without adding route history; native bar/appearance recipes and a searchable demo inbox.
+
+Accessibility focus is opt-in. Manual VoiceOver and audible TalkBack acceptance checks remain pending; see the [native validation report](https://github.com/rafaelaugustos/vue-router-ns/blob/v0.1.0-beta.8/test/native-accessibility.md).
 
 ## 0.1.0-beta.7 (2026-10-15)
 

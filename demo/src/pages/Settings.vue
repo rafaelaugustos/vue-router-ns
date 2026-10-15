@@ -1,16 +1,20 @@
 <script lang="ts" setup>
+import { NavigationCommandScope } from 'vue-router-ns'
+import { useDemoCommands } from '../navigation-commands'
+
 import { RouterLink } from 'vue-router-ns'
 import StackTrail from '../components/StackTrail.vue'
 import { session } from '../store'
 
 const diagnosticsEnabled = __DEV__
+const commands = useDemoCommands()
 </script>
 
 <template>
   <Page>
     <ActionBar title="Settings" />
 
-    <GridLayout rows="*, auto">
+    <NavigationCommandScope :commands="commands" rows="*, auto">
       <StackLayout class="section">
         <Label
           class="muted"
@@ -31,6 +35,6 @@ const diagnosticsEnabled = __DEV__
         </RouterLink>
       </StackLayout>
       <StackTrail row="1" />
-    </GridLayout>
+    </NavigationCommandScope>
   </Page>
 </template>
