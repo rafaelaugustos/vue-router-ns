@@ -13,6 +13,7 @@ NativeScript's Page announces navigation from `onNavigatedTo`, before the Frame 
 - A real compose modal returned a message result and restored TalkBack focus to its initiating Reply button. The source page remained visible and the result appeared in its content.
 - With Android's animator duration scale set to zero, native Frame entries were unanimated and logical navigation/guards remained intact. iPadOS 26.5 also completed unanimated native navigation with `motion: 'reduced'`.
 - iPadOS 26.5 push/back and guard rejection preserved history and visibility. VoiceOver was off during these simulator checks; they do not establish VoiceOver focus or speech behavior.
+- A signed Xcode 27 build was installed on the paired physical iPhone 17 Pro running iOS 27.2. Manual VoiceOver acceptance remains pending; installation alone does not validate accessibility.
 - Unit coverage verifies one announcement after confirmed navigation, silent guard/cancel paths, missing/disposed target fallback, delayed Page loading, split-list modal ownership, both visible split panes, predictive-preview exclusion/restoration, live motion settings and shared-transition cleanup. Compatibility coverage prevents touching iOS 18 transition properties on iOS 17.
 
 Emulator accessibility, font and animation settings were restored after validation. Temporary validation routes and multiple-window manifest flags are excluded from the demo source.
