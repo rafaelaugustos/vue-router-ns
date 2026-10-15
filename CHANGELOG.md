@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.1.0-beta.6 (2026-10-14)
+
 - Fixed: HMR reloads routed pages through NativeScript-Vue's native Page replacement. Covered pages wait until the Frame finishes returning to them, preserving the navigation history on iOS and Android.
 - Documented the explicit manifest opt-in required for predictive back progress on Android 14 and 15, including apps targeting API 36.
 
