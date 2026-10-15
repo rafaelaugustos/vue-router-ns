@@ -183,13 +183,18 @@ describe('native navigation commands', () => {
     let listener: any
     const remove = vi.fn()
     const focus: any = { getEditableText: () => null }
+    let composing = false
     const native = {
       getRootView: () => ({ findFocus: () => focus }),
       setFocusableInTouchMode() {},
       requestFocus: () => true,
     }
     vi.stubGlobal('android', {
-      view: { inputmethod: { BaseInputConnection: { getComposingSpanStart: () => -1 } } },
+      view: {
+        inputmethod: {
+          BaseInputConnection: { getComposingSpanStart: () => (composing ? 0 : -1) },
+        },
+      },
     })
     vi.stubGlobal('androidx', {
       core: {
@@ -230,6 +235,9 @@ describe('native navigation commands', () => {
     expect(listener.onUnhandledKeyEvent(native, event(1))).toBe(true)
     escape.mockReturnValue(false)
     focus.getEditableText = () => ({})
+    expect(listener.onUnhandledKeyEvent(native, event(0))).toBe(false)
+    composing = true
+    escape.mockReturnValue(true)
     expect(listener.onUnhandledKeyEvent(native, event(0))).toBe(false)
     binding.dispose()
     expect(remove).toHaveBeenCalledWith(native, listener)

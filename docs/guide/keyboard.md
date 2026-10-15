@@ -1,6 +1,6 @@
 # Native keyboard commands
 
-Commands are opt-in and belong to a routed page. Render `NavigationCommandScope` inside its Page around the content. It is a native GridLayout: normal layout attributes (`rows`, `columns`, padding) work. Its iOS UIView participates in the focused responder chain; Android listens for unhandled native keys through ViewCompat, after the focused control gets its chance.
+Commands are opt-in and belong to a routed page. Render `NavigationCommandScope` inside its Page around the content. It is a native GridLayout: normal layout attributes (`rows`, `columns`, padding) work. Its iOS 13+ UIView participates in the focused responder chain; Android listens for unhandled native keys through ViewCompat, after the focused control gets its chance.
 
 ```vue
 <script setup lang="ts">
@@ -49,7 +49,7 @@ Choose platform bindings explicitly, for example `isIOS ? 'meta' : 'ctrl'`. Supp
 
 Commands are disabled in text editors unless explicitly marked `allowInTextInput`. Standard select/copy/paste/cut/undo/redo bindings are rejected even with that flag; IME composition is always left alone. Printable keys require a modifier. Platform system shortcuts still belong to the OS; do not register system-reserved combinations.
 
-Escape first belongs to the focused native control/IME. For an enabled router Escape binding, an active page-owned search is dismissed before the registered action runs. Application overlays can register their own Escape action and decide when to delegate; otherwise an explicit `closeModal` binding passes through modal guards. No unregistered Escape/back binding is installed. UIKit search fields outside the content scope keep UIKit's own responder behavior.
+Escape first belongs to the focused native control/IME. For an enabled router Escape binding, an active page-owned search is dismissed before the registered action runs. Application overlays can register their own Escape action and decide when to delegate; otherwise an explicit `closeModal` binding passes through modal guards. No unregistered Escape/back binding is installed. Android observes the owning Page so Toolbar search fields are included. UIKit search fields outside the content scope keep UIKit's own responder behavior.
 
 On iPad, enabled commands expose native `UIKeyCommand` discovery titles. Android has no UIKit-style discovery overlay; `list()` can populate an application help view. Hidden tabs, covered pages and disposed hosts cannot dispatch commands. Multiple windows have independent native responder/view trees; commands bind to the actual view, not the globally last-created Activity. Modal presentation explicitly targets the originating page.
 

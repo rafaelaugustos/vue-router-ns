@@ -80,7 +80,13 @@ export function bindCommands(
   eventRoot: View = view,
 ): NativeCommandsHost {
   const native = view.nativeViewProtected
-  if (isIOS && native && typeof UIKeyCommand !== 'undefined') {
+  if (
+    isIOS &&
+    native &&
+    typeof UIKeyCommand !== 'undefined' &&
+    typeof UIKeyCommand.commandWithTitleImageActionInputModifierFlagsPropertyList ===
+      'function'
+  ) {
     const available = () => {
       const responder = native.window && firstResponder(native.window)
       return responder?.markedTextRange ? [] : dispatch.list(iosEditing(native))

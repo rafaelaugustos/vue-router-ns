@@ -1,6 +1,6 @@
 # Comandos nativos de teclado
 
-Use `useNavigationCommands()` no setup da página e envolva seu conteúdo com `NavigationCommandScope`, dentro de `Page`. O scope é um GridLayout nativo: aceita `rows`, `columns` e os estilos normais. No iOS participa da cadeia de responders do UIKit e oferece descoberta com UIKeyCommand. No Android recebe teclas nativas não tratadas pelo controle focado, por ViewCompat.
+Use `useNavigationCommands()` no setup da página e envolva seu conteúdo com `NavigationCommandScope`, dentro de `Page`. O scope é um GridLayout nativo: aceita `rows`, `columns` e os estilos normais. No iOS 13+ participa da cadeia de responders do UIKit e oferece descoberta com UIKeyCommand. No Android recebe teclas nativas não tratadas pelo controle focado, por ViewCompat.
 
 Cada comando tem `id`, `title` (string/ref/getter), `shortcut: { input, modifiers? }`, `action` e, opcionalmente, `enabled` (boolean/ref/getter) e `allowInTextInput`. A lista também aceita ref/getter. Escolha `meta` no iOS e `ctrl` no Android quando apropriado; também existem `alt` e `shift`. Entradas: caracteres com modificador, Escape, setas (`ArrowLeft`, etc.), Enter e Tab. Use ids/atalhos únicos e um único scope por registro.
 
