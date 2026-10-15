@@ -516,3 +516,5 @@ npm authenticates the workflow through [trusted publishing](https://docs.npmjs.c
 ## License
 
 [MIT](./LICENSE). Maintained by Rafael Augusto and [Cortex Labs](https://getcortexlabs.com/).
+
+Native ActionBar titles, actions and page-owned search: [guide](https://vue-router-ns.rafaelaugusto.dev/guide/native-bars).

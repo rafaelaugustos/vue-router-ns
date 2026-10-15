@@ -38,6 +38,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('stack', 'stack'),
         page('restore', 'restore'),
         page('androidBack', 'android-back'),
+        page('nativeBars', 'native-bars'),
       ],
     },
     {
@@ -72,6 +73,7 @@ const en = {
   stack: 'Setting the whole stack',
   restore: 'Restoring after the app is killed',
   androidBack: 'Android predictive back',
+  nativeBars: 'Native bars and search',
   vueRouter: 'Differences from Vue Router',
   api: 'API',
   internals: 'How it works',
@@ -98,6 +100,7 @@ const pt = {
   stack: 'Definindo a pilha inteira',
   restore: 'Restaurando depois que o app é morto',
   androidBack: 'Predictive back no Android',
+  nativeBars: 'Barras e busca nativas',
   vueRouter: 'Diferenças do Vue Router',
   api: 'API',
   internals: 'Como funciona',

@@ -51,6 +51,7 @@ import { previewBack, type BackPreview } from './back-preview.js'
 import { canZoom, configureSheet, viewOf, watchDismissAttempts } from './ios.js'
 import { createMatcher } from './matcher.js'
 import { createPage, ModalHost } from './page.js'
+import { disconnectPageEffects } from './page-effects.js'
 import { parseURL } from './query.js'
 import {
   deferred,
@@ -404,6 +405,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   function dispose(entry: Entry) {
     if (entry.disposed) return
     entry.disposed = true
+    disconnectPageEffects(entry)
     entry.settle?.(entry.result)
     entry.settle = undefined
   }

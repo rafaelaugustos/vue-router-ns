@@ -127,3 +127,7 @@ Estenda `Register` e `RouteMeta` como mostrado em [rotas tipadas](./typed-routes
 ## Diagnóstico
 
 `RouterDiagnostics` expõe `routerId`, `stopped`, `events`, `droppedEvents`, `snapshot()`, `subscribe(listener)`, `toJSON()`, `export()`, `clear()` e `stop()`. Os dados são readonly, limitados e sem valores de rota; `stop()` libera as fontes vivas. Tipos exportados: `DiagnosticsOptions`, `RouterDiagnostics`, `DiagnosticsExport`, `DiagnosticSnapshot`, `DiagnosticStack`, `DiagnosticHost`, `DiagnosticEntry`, `DiagnosticIssue`, `DiagnosticIssueCode`, `DiagnosticEvent`, `DiagnosticPhase` e `DiagnosticOutcome`. Veja [diagnóstico](./diagnostics) para formato, semântica dos tempos e ciclo de vida.
+
+## Native search
+
+`useNativeSearch(options)` registers page-owned native search. Exports: `NativeSearchOptions`, `NativeSearch`. See [native bars and search](./native-bars) for query ownership, activation and platform differences.

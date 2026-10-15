@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Page-owned native search with `useNativeSearch()`: UISearchController on iOS and SearchView in the existing Android ActionBar. Query state survives navigation without adding route history; native bar/appearance recipes and a searchable demo inbox.
+
 ## 0.1.0-beta.7 (2026-10-15)
 
 - Opt-in navigation diagnostics: bounded and redacted event timeline, correlated guard/load/mount/transition timings, read-only logical/native snapshots, HMR and native-pop observation, invariant checks and versioned JSON export. Includes a debug demo inspector and English/Portuguese guides.

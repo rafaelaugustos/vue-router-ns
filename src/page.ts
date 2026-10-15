@@ -15,6 +15,7 @@ import {
 import { entryKey, routeKey, routerKey } from './injection.js'
 import { holdBackButton, zoomFrom } from './ios.js'
 import { isBlocked, type Entry } from './stack.js'
+import { connectPageEffects } from './page-effects.js'
 
 interface PageLink {
   link(page: Page, entry: Entry): void
@@ -40,6 +41,7 @@ export function createPage(entry: Entry, { link, unlink, reload }: PageLink) {
       const blocked = computed(() => isBlocked(entry))
       let page: Page | null = null
       let stopReload: (() => void) | undefined
+      let stopEffects: (() => void) | undefined
 
       onMounted(() => {
         // Vue sees the routed SFC as a child of RouterPage. Its normal HMR
@@ -82,6 +84,7 @@ export function createPage(entry: Entry, { link, unlink, reload }: PageLink) {
         page = instance.proxy!.$el?.nativeView ?? null
         if (!page) return
         link(page, entry)
+        stopEffects = connectPageEffects(entry, page)
         // mounting comes before the frame navigates, so the zoom is in place for the push
         if (entry.zoomFrom) zoomFrom(page, entry.zoomFrom, () => !isBlocked(entry))
 
@@ -108,6 +111,7 @@ export function createPage(entry: Entry, { link, unlink, reload }: PageLink) {
       })
 
       onBeforeUnmount(() => {
+        stopEffects?.()
         stopReload?.()
         if (page) unlink(page)
       })

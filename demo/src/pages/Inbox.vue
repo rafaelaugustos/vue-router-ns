@@ -1,13 +1,21 @@
 <script lang="ts" setup>
-import { ref } from 'nativescript-vue'
+import { computed, ref } from 'nativescript-vue'
 import { PageTransition, SharedTransition, type ItemEventData } from '@nativescript/core'
-import { onPageActivated, useRouter } from 'vue-router-ns'
+import { onPageActivated, useNativeSearch, useRouter } from 'vue-router-ns'
 import StackTrail from '../components/StackTrail.vue'
 import { inbox } from '../store'
 
 const router = useRouter()
 const messages = ref(inbox.list())
 const unread = ref(0)
+const query = ref('')
+const search = useNativeSearch({ query, placeholder: 'Search messages' })
+const filtered = computed(() => {
+  const term = query.value.toLocaleLowerCase()
+  return messages.value.filter((message) =>
+    `${message.from} ${message.subject}`.toLocaleLowerCase().includes(term),
+  )
+})
 
 // runs when the inbox shows up and every time the user comes back to it
 onPageActivated(() => {
@@ -31,7 +39,7 @@ function compose() {
 // iOS 18 zooms the message out of its row; elsewhere the sender's name flies into place
 function open({ index, view }: ItemEventData) {
   router.push(
-    { name: 'message', params: { id: messages.value[index]!.id } },
+    { name: 'message', params: { id: filtered.value[index]!.id } },
     { zoomFrom: view, transition: SharedTransition.custom(new PageTransition()) },
   )
 }
@@ -39,12 +47,13 @@ function open({ index, view }: ItemEventData) {
 
 <template>
   <Page>
-    <ActionBar :title="unread ? `Inbox (${unread})` : 'Inbox'">
+    <ActionBar :title="unread ? `Inbox (${unread})` : 'Inbox'" iosLargeTitle="true">
+      <ActionItem text="Search" ios.position="right" @tap="search.activate()" />
       <ActionItem text="Compose" ios.position="right" @tap="compose" />
     </ActionBar>
 
     <GridLayout rows="*, auto">
-      <ListView :items="messages" @itemTap="open">
+      <ListView :items="filtered" @itemTap="open">
         <template #default="{ item }">
           <StackLayout class="message" :class="{ unread: !item.read }">
             <Label
