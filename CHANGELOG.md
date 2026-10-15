@@ -2,9 +2,11 @@
 
 ## Unreleased
 
-- `<RouterSplitView list="/messages">` keeps list and detail pages in one logical history, showing them side by side in wide windows and as a single pane in narrow ones. Resizing preserves page instances and native detail history.
+## 0.1.0-beta.5 (2026-10-14)
 
+- `<RouterSplitView list="/messages">` keeps list and detail pages in one logical history, showing them side by side in wide windows and as a single pane in narrow ones. Resizing preserves page instances and native detail history.
 - Android 14+ back swipes now reveal the previous page in the same stack, including inside modals. Cancellation restores the views, and completion goes through router guards. Set `createRouter({ backPreview: false, routes })` to keep only `useBackGesture()` for a custom animation.
+- Fixed: an iOS tab that has never loaded no longer holds up navigation in the other tabs when NativeScript reports its `isLoaded` state as undefined.
 
 ## 0.1.0-beta.4 (2026-10-14)
 
