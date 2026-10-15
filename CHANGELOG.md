@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.1.0-beta.7 (2026-10-15)
+
 - Opt-in navigation diagnostics: bounded and redacted event timeline, correlated guard/load/mount/transition timings, read-only logical/native snapshots, HMR and native-pop observation, invariant checks and versioned JSON export. Includes a debug demo inspector and English/Portuguese guides.
 
 ## 0.1.0-beta.6 (2026-10-14)
