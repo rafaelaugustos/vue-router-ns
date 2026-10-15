@@ -30,6 +30,7 @@ Então isto não é um wrapper do Vue Router. A back stack do frame é a fonte d
 - [Leave guards](./guards) pelos quais passam o botão de voltar do Android, o botão de voltar do iOS e o swipe para baixo de um modal, e que desligam o swipe do iOS enquanto bloqueariam.
 - [Rotas modais](./modals) com a própria pilha, e `pushForResult()` para receber um valor de volta de uma página.
 - [Uma pilha por aba](./tabs), com o toque na aba ativa voltando para a primeira página.
+- [Lista e detalhe adaptáveis](./split-view), com o mesmo histórico de push nos layouts compacto e expandido.
 - [Rotas tipadas](./typed-routes): nomes e params checados no app inteiro, sem geração de código.
 - [Zoom e elementos compartilhados](./transitions): o zoom do iOS 18 a partir de uma view, e as transições de elementos compartilhados do NativeScript.
 - [Deep links](./deep-links) que trazem os pais junto, [a pilha inteira definida como lista](./stack), e [a restauração dela](./restore) depois que o app é morto.

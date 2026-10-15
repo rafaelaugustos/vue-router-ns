@@ -5,3 +5,6 @@ demo/hooks
 package-lock.json
 docs/.vitepress/cache
 docs/.vitepress/dist
+
+examples/playground/platforms
+examples/playground/hooks

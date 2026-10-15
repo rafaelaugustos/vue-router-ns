@@ -2,7 +2,7 @@
 
 Cada `<RouterView>` renderiza um `Frame` do NativeScript. As páginas são montadas com `$navigateTo`, dentro de um pequeno wrapper que fornece a rota delas e um router ligado à pilha delas. O NativeScript-Vue monta cada página como um app próprio, então nada fornecido pelo `<RouterView>` chegaria a elas de outro jeito.
 
-O router nunca guarda um histórico próprio. Depois de cada `navigatedTo`, ele lê `frame.backStack` e a página atual e os espelha. Pops que ele não iniciou, como um swipe no iOS, são captados do mesmo jeito que os dele. O `replace` marca a entrada atual com `backstackVisible: false` antes de navegar, que é como o frame descarta uma página nativamente.
+Em um `RouterView`, a pilha nativa é a fonte do histórico. Depois de cada `navigatedTo`, ele lê `frame.backStack` e a página atual e os espelha. Pops que ele não iniciou, como um swipe no iOS, são captados do mesmo jeito que os dele. O `replace` marca a entrada atual com `backstackVisible: false` antes de navegar, que é como o frame descarta uma página nativamente.
 
 ## Onde ele fala com a plataforma
 
@@ -15,3 +15,13 @@ O router nunca guarda um histórico próprio. Depois de cada `navigatedTo`, ele 
 ## Testes
 
 Os testes rodam contra um substituto do `Frame` do NativeScript ([`test/shims/core.ts`](https://github.com/rafaelaugustos/vue-router-ns/blob/master/test/shims/core.ts)). Ele segue a ordem do real: as navegações terminam num tick posterior, e as páginas descartadas são liberadas antes do `navigatedTo` disparar. As partes acima que tocam a plataforma são exercitadas por pequenas costuras que o shim consegue chamar, e conferidas em aparelhos uma a uma.
+
+## Lista e detalhe
+
+`RouterSplitView` mantém dois Frames dentro de um `GridLayout` nativo: um para a lista fixada e outro para os detalhes. O router combina os dois em uma pilha lógica e omite a raiz transparente interna do detalhe. A largura altera a disposição dos Frames; não transfere páginas entre eles. Não usa `UISplitViewController` nem implementa um drawer.
+
+## Atualizações em desenvolvimento
+
+O wrapper encaminha reloads do componente roteado ao NativeScript-Vue para substituir a Page nativa. Uma página coberta espera o `navigatedTo` do Frame e o próximo tick do Vue antes de recarregar. Veja [HMR](./pages#hmr-durante-o-desenvolvimento).
+
+As verificações nativas e seus ambientes estão registradas no [relatório de validação](https://github.com/rafaelaugustos/vue-router-ns/blob/master/test/native-validation.md); ele complementa os testes do shim.

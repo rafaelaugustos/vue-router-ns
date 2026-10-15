@@ -46,3 +46,20 @@ O `RouterLink` faz seu único filho navegar no toque, sem adicionar uma view:
 ```
 
 Ele aceita `to`, `replace`, `clearHistory`, `withParents`, `zoom`, `transition` e `frame`.
+
+## Falhas e erros
+
+Uma navegação concluída resolve para `undefined`. Uma interrupção esperada resolve para `NavigationFailure`: `aborted` quando um guard retorna `false`, `duplicated` quando o destino já está no topo, ou `cancelled` quando uma navegação mais nova substitui uma ainda pendente.
+
+```ts
+import { isNavigationFailure, NavigationFailureType } from 'vue-router-ns'
+
+const failure = await router.push('/messages/42')
+if (isNavigationFailure(failure, NavigationFailureType.aborted)) {
+  // A página atual continua aberta.
+}
+```
+
+Uma rota inexistente, um loader que falha ou um guard que lança erro rejeita a promise. Use `try/catch` na chamada e `router.onError((error, to, from) => …)` para observação global. `afterEach((to, from, failure) => …)` recebe falhas de navegação esperadas; não confunda essas falhas com exceções.
+
+Para empurrar outra instância da localização atual, passe `router.push({ path: '/messages/42', force: true })`. Sem `force`, mudanças em params, query ou hash já representam outra localização.

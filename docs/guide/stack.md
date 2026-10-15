@@ -10,6 +10,8 @@ The router keeps the pages both stacks share from the bottom up, goes back to th
 
 It takes `frame`, `animated` and `transition` as a second argument. It's what [`withParents`](./deep-links#bringing-the-parents-along) and [restoring a saved stack](./restore) are built on.
 
+The list cannot be empty. If a guard interrupts reconciliation, completed steps remain: `setStack()` is not a transaction. In a `RouterSplitView`, the list stays pinned as the first entry, even when omitted from the argument.
+
 ## Going back without animating
 
-`back()`, `go()`, `backTo()` and `backToRoot()` take `animated: false`. A frame animates a pop the way the page being popped came in, so the router sets that on the page before popping.
+`back()`, `backTo()` and `backToRoot()` take `animated: false`. `go(delta)` only accepts the offset; use `backTo()` or `backToRoot()` when you need options. A frame animates a pop the way the page being popped came in, so the router sets that on the page before popping.

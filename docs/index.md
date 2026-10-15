@@ -18,6 +18,9 @@ hero:
     - theme: alt
       text: Differences from Vue Router
       link: /guide/vue-router
+    - theme: alt
+      text: Try with StackBlitz
+      link: /guide/playground
 
 features:
   - title: A route per page
@@ -30,6 +33,6 @@ features:
     details: Names and params inferred from the route table and checked across the app, with no code generation.
   - title: Deep links and whole stacks
     details: Push a page with its parents, set the stack as a list, and restore it after Android killed the app in the background.
-  - title: Nothing runs between taps
+  - title: Native history stays in sync
     details: The router mirrors the frame after every native navigation. Swipes and pops it didn't start are picked up the same way as its own.
 ---

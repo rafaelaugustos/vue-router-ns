@@ -1,0 +1,30 @@
+{
+  "name": "vue-router-ns-playground",
+  "private": true,
+  "version": "1.0.0",
+  "main": "src/app.ts",
+  "scripts": {
+    "preview": "ns preview",
+    "build:android": "webpack --env android",
+    "build:ios": "webpack --env ios",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@nativescript/core": "~9.1.1",
+    "nativescript-vue": "3.1.2",
+    "vue-router-ns": "0.1.0-beta.6"
+  },
+  "devDependencies": {
+    "@nativescript/preview-cli": "1.0.15",
+    "@nativescript/stackblitz": "0.0.8",
+    "@nativescript/types": "~9.1.1",
+    "@nativescript/webpack": "~5.0.38",
+    "@types/node": "~26.5.0",
+    "typescript": "^6.0.3"
+  },
+  "stackblitz": {
+    "installDependencies": true,
+    "compileTrigger": "save",
+    "startCommand": "setup-nativescript-stackblitz && ns preview"
+  }
+}

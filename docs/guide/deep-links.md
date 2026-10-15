@@ -28,3 +28,9 @@ The parents come from `children` nesting in the route table, and only those with
 ```
 
 Parents already on top are skipped, only the last page animates, and guards run for every page. With `clearHistory`, the parents and the page become the whole stack. `<RouterLink>` takes `withParents` too.
+
+## Receiving operating-system URLs
+
+The router accepts app locations; it does not register URL schemes, Android App Links or iOS Universal Links. Configure that integration in your app and map incoming URLs to known paths before calling `push`. Validate the scheme/host and apply authentication guards to external links too.
+
+The `frame` option targets a stack but does not select its `TabView` tab. Select an unloaded tab before awaiting navigation into it. See [tabs](./tabs).

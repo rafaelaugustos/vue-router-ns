@@ -18,6 +18,9 @@ hero:
     - theme: alt
       text: Diferenças do Vue Router
       link: /pt-BR/guide/vue-router
+    - theme: alt
+      text: Experimente com StackBlitz
+      link: /pt-BR/guide/playground
 
 features:
   - title: Uma rota por página

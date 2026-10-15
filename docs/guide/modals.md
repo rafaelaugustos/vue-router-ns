@@ -48,3 +48,9 @@ router.back({ result: text.value })
 ```
 
 If the page closes any other way (a swipe, the back button) or a guard stops it from opening, the promise resolves with `undefined`.
+
+## Dismissal and platform versions
+
+`cancelable: false` prevents user dismissal (such as Android back at the modal root); code can still call `router.back()`, through guards. A page above the modal root can still go back within that stack.
+
+Sheets with `'medium'` and `'large'` heights require iOS 15+; fractional heights require iOS 16+. Presentation must support sheets. Android ignores `ios` options. `pushForResult<T>()` does not validate the result at runtime: `T` describes the contract between the pages.

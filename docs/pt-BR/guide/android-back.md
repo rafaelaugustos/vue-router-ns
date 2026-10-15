@@ -33,7 +33,7 @@ const scale = computed(() => 1 - (gesture.value?.progress ?? 0) * 0.1)
 </template>
 ```
 
-Enquanto o usuário arrasta, é `{ progress, edge }`, com `progress` indo de 0 a 1. No resto do tempo é `null`: depois que o swipe é cancelado ou solto, no iOS, na primeira página (onde o back sai do app), num modal com `cancelable: false`, e enquanto um leave guard está ativo, já que soltar não vai simplesmente fechar a página nesse caso. Soltar volta pelo router como o botão de voltar, guards incluídos.
+Enquanto o usuário arrasta, é `{ progress, edge }`, com `progress` indo de 0 a 1. No resto do tempo é `null`: depois que o swipe é cancelado ou solto, no iOS, na primeira página (onde o back sai do app), na primeira página de um modal com `cancelable: false`, e enquanto um leave guard está ativo, já que soltar não vai simplesmente fechar a página nesse caso. Soltar volta pelo router como o botão de voltar, guards incluídos.
 
 ## Ativando
 

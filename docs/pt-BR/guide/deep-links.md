@@ -28,3 +28,9 @@ Os pais vêm do aninhamento por `children` na tabela de rotas, e só os que têm
 ```
 
 Pais que já estão no topo são pulados, só a última página anima, e os guards rodam para cada página. Com `clearHistory`, os pais e a página viram a pilha inteira. O `<RouterLink>` também aceita `withParents`.
+
+## Recebendo URLs do sistema
+
+O router recebe localizações do app; não registra schemes, Android App Links ou iOS Universal Links. Configure essa integração no app e transforme a URL recebida em um path conhecido antes de chamar `push`. Valide o scheme/host e use os guards de autenticação também para links externos.
+
+A opção `frame` escolhe uma pilha, mas não seleciona a aba do `TabView`. Para abrir uma aba ainda não carregada, selecione-a antes de esperar a navegação. Veja [abas](./tabs).

@@ -21,3 +21,9 @@ Saves mais velhos que `maxAge` (30 minutos por padrão) são ignorados; passe `I
 ## O que não volta
 
 Modais, e `props` passadas pelo `push`. Uma página que depende delas deve lidar com a ausência, lendo os params no lugar. Se um path salvo não corresponde mais a nenhuma rota, depois de uma atualização por exemplo, a pilha começa do `initial`.
+
+## Formato e limites
+
+`SavedStacks` tem a forma `{ savedAt: number, stacks: Record<string, string[]> }`. `savedAt` é um timestamp em milissegundos. Use nomes de pilha estáveis; o split view salva lista e detalhes como uma única pilha. `load()` é chamado uma vez por instância do router, e cada view restaura sua pilha quando é montada.
+
+A restauração recria páginas a partir de paths. Não salva refs locais, posição de scroll ou objetos arbitrários. Persista dados de formulário separadamente. `maxAge` fica dentro de `restore`, por exemplo `restore: { save, load, maxAge: Infinity }`.

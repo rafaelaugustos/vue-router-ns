@@ -30,6 +30,7 @@ So this is not a wrapper around Vue Router. The frame's back stack is the source
 - [Leave guards](./guards) that the Android back button, the iOS back button and a modal's swipe-down go through, and that turn the iOS swipe off while they'd block it.
 - [Modal routes](./modals) with their own stack, and `pushForResult()` to get a value back from a page.
 - [One stack per tab](./tabs), with a tap on the active tab going back to its first page.
+- [Adaptive list and detail](./split-view), with one push history across compact and expanded layouts.
 - [Typed routes](./typed-routes): names and params checked across the app, with no code generation.
 - [Zoom and shared elements](./transitions): iOS 18's zoom out of a view, and NativeScript's shared element transitions.
 - [Deep links](./deep-links) that bring their parents along, [the whole stack set as a list](./stack), and [restoring it](./restore) after the app is killed.
