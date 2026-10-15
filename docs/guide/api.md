@@ -10,6 +10,7 @@ const router = createRouter({ routes, restore, backPreview: true })
 
 | Option        | Default  | Meaning                                                                                                                |
 | ------------- | -------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `window`      | Inferred | Owning native window (core 9.1+). See [native windows](./windows).                                                     |
 | `routes`      | Required | Readonly array of `RouteRecordRaw`.                                                                                    |
 | `restore`     | Disabled | `save(state)`, `load()` and optional `maxAge` in milliseconds (default: 30 minutes). See [restoration](./restore).     |
 | `backPreview` | `true`   | Reveal the previous page during Android 14+ back gestures. Requires the [platform opt-in](./android-back#enabling-it). |
@@ -30,10 +31,11 @@ Install once with `createApp(App).use(router).start()`. This registers the compo
 | `backToRoot(options?)`           | Return to the first page in the current stack.                                                                                                       |
 | `setStack(locations, options?)`  | Reconcile a nonempty list of locations with the stack. Preserves the common prefix; stops at the first failure without rolling back completed steps. |
 | `pushForResult<T>(to, options?)` | Open a page and wait for `back({ result })`. Resolves to `T \| undefined` when it closes or opening is prevented.                                    |
+| `openWindow(to, options?)`       | Request a window with a typed route; returns `void`. Experimental, core 9.1+. See [native windows](./windows).                                       |
 | `resolve(to)`                    | Resolve a location synchronously without navigating. Returns `RouteLocation`; throws for an unmatched route.                                         |
 | `isReady()`                      | Promise that settles after initial navigation; does not wait for every hidden tab to load.                                                           |
 
-Navigation methods other than `pushForResult` resolve to `NavigationFailure | undefined`. Unexpected errors reject; see [failures](./navigating#failures-and-errors). Back methods have the [split-view semantics](./split-view#history-and-back) when called in a split stack.
+`push`, `replace`, `back`, `go`, `backTo`, `backToRoot` and `setStack` resolve to `NavigationFailure | undefined`. Unexpected errors reject; see [failures](./navigating#failures-and-errors). Back methods have the [split-view semantics](./split-view#history-and-back) when called in a split stack.
 
 ### Navigation options
 
@@ -70,6 +72,7 @@ A `NavigationGuard` receives `(to, from, { type })`, where `type` is `'push'`, `
 
 - `currentRoute`: readonly ref to the focused route, including the active modal.
 - `stack`: readonly ref to routes in bottom-to-top order. A page-bound router exposes that page's stack; the exported router follows the focused stack.
+- `window`: readonly ref to the owning window; `undefined` in legacy mode.
 - `options`: the router configuration.
 - `START_LOCATION`: empty location before initial navigation (`path: '/'`, no matched records).
 
@@ -113,7 +116,7 @@ Router view names must be unique, including split views. `name` and the initial 
 
 Public types are exported from the package root:
 
-- Router configuration: `Router`, `RouterOptions`, `RestoreOptions`, `SavedStacks`.
+- Router configuration: `Router`, `RouterOptions`, `RestoreOptions`, `RestoreContext`, `SavedStacks`, `RouterWindow`, `OpenWindowOptions`.
 - Routes: `RouteRecordRaw`, `RouteRecord`, `RouteRecordName`, `RouteMeta`, `RouteProps`, `RouteComponent`, `RawRouteComponent`, `Lazy`.
 - Locations: `RouteLocation`, `RouteLocationRaw`, `RouteLocationPathRaw`, `RouteLocationNamedRaw`, `RouteLocationRelativeRaw`, `RouteParams`, `RouteParamsRaw`, `RouteParamValue`, `RouteParamValueRaw`, `LocationQuery`, `LocationQueryRaw`, `LocationQueryValue`, `LocationQueryValueRaw`.
 - Navigation: `NavigationOptions`, `BackOptions`, `SetStackOptions`, `NavigationType`, `NavigationInfo`, `NavigationGuard`, `NavigationGuardReturn`, `NavigationHookAfter`, `NavigationErrorHandler`, `NavigationFailure`, `LeaveGuardOptions`.
@@ -121,3 +124,9 @@ Public types are exported from the package root:
 - Inferred route types: `Register`, `RegisteredRouter`, `RouteMapFrom`, `RouteMapGeneric`, `RouteNames`, `RouteLocationOf`, `RouteLocationRawOf`, `ParamsFromPath`.
 
 Augment `Register` and `RouteMeta` as shown in [typed routes](./typed-routes).
+
+## Native windows (experimental, core 9.1+)
+
+`RouterOptions.window?: RouterWindow` binds one router to a native window; otherwise the first mounted view supplies its owner. `router.window` is a readonly ref to that owner. `router.openWindow(to, options?: OpenWindowOptions): void` resolves a typed location and requests an OS window. `OpenWindowOptions.data` carries serializable app metadata. `getWindowRoute(data)` reads its path in a window content resolver.
+
+`RestoreOptions.key` supplies a stable application snapshot key. Scoped callbacks receive optional `RestoreContext` (`windowId`, `key`) in `save(state, context)` and `load(context)`. Scoped `SavedStacks` includes `windowKey`; a mismatch is ignored. `RouterWindow` is a structural subset of NativeWindow so the package declarations remain usable with older supported core versions. See [native windows](./windows) for bootstrapping, lifecycle, configuration and limits.

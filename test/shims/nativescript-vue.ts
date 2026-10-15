@@ -118,7 +118,20 @@ export function $navigateTo(
   options: NavigationEntry & { frame: Frame; props?: Record<string, unknown> },
 ) {
   const { app, view } = mountNativeView(component, options.props)
-  view.on('disposeNativeView', () => app.unmount())
+  view.on('disposeNativeView', () => {
+    const window = options.frame.getNativeWindow()
+    if (!window) {
+      app.unmount()
+      return
+    }
+    // NativeScript-Vue's window retention fix defers disposal until core settles.
+    void Promise.resolve().then(() => {
+      const retained =
+        options.frame.currentPage === view ||
+        options.frame.backStack.some((entry) => entry.resolvedPage === view)
+      if (!retained || window.state === 'closed') app.unmount()
+    })
+  })
   options.frame.navigate({ ...options, create: () => view })
   return view as Page
 }
@@ -126,7 +139,8 @@ export function $navigateTo(
 export function $showModal(component: Component, options: Record<string, any> = {}) {
   return new Promise((resolve) => {
     const { app, view } = mountNativeView(component, options.props)
-    new View().showModal(view, {
+    const target = options.target instanceof View ? options.target : new View()
+    target.showModal(view, {
       ...options,
       closeCallback(data: unknown) {
         app.unmount()

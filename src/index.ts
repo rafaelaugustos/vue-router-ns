@@ -3,6 +3,8 @@ import type { RouteLocation } from './types.js'
 
 export { createRouter, START_LOCATION } from './router.js'
 export type { Router, RouterOptions } from './router.js'
+export { getWindowRoute } from './windows.js'
+export type { RouterWindow, OpenWindowOptions } from './windows.js'
 
 export {
   useRouter,

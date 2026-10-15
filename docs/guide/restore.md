@@ -27,3 +27,7 @@ Modals, and `props` passed through `push`. A page that relies on them should cop
 `SavedStacks` has the shape `{ savedAt: number, stacks: Record<string, string[]> }`. `savedAt` is a timestamp in milliseconds. Keep stack names stable; a split view saves list and details as one stack. `load()` runs once per router instance, and each view restores its stack when mounted.
 
 Restoration recreates pages from paths. It does not save local refs, scroll offsets or arbitrary objects. Persist form data separately. `maxAge` belongs inside `restore`, for example `restore: { save, load, maxAge: Infinity }`.
+
+## Native windows
+
+On core 9.1+, a router bound to a `NativeWindow` receives window context in `save(state, context)` and `load(context)`. Use `restore.key` and `context.key` to separate snapshots. In this mode, process exit preserves history; closing a window saves `null` only for that window. The clear-on-exit behavior above applies to legacy mode without an owning window. See [native windows](./windows#persistence-by-window) for bootstrapping and limits.

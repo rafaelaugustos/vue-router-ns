@@ -10,6 +10,7 @@ const router = createRouter({ routes, restore, backPreview: true })
 
 | Opção         | Padrão      | Significado                                                                                                                   |
 | ------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `window`      | Inferida    | Janela nativa deste router (core 9.1+). Veja [janelas nativas](./windows).                                                    |
 | `routes`      | Obrigatória | Array readonly de `RouteRecordRaw`.                                                                                           |
 | `restore`     | Desativado  | `save(state)`, `load()` e `maxAge` opcional em milissegundos (padrão: 30 minutos). Veja [restauração](./restore).             |
 | `backPreview` | `true`      | Revela a página anterior durante o gesto de voltar no Android 14+. Exige a [ativação na plataforma](./android-back#ativando). |
@@ -30,10 +31,11 @@ Instale uma vez com `createApp(App).use(router).start()`. Isso registra os compo
 | `backToRoot(options?)`           | Volta à primeira página da pilha atual.                                                                                                    |
 | `setStack(locations, options?)`  | Reconcilia uma lista não vazia com a pilha. Preserva o prefixo comum; para na primeira falha sem desfazer os passos concluídos.            |
 | `pushForResult<T>(to, options?)` | Abre uma página e espera `back({ result })`. Resolve para `T \| undefined` quando ela fecha ou a abertura é impedida.                      |
+| `openWindow(to, options?)`       | Pede uma janela com uma rota tipada; retorna `void`. Experimental, core 9.1+. Veja [janelas nativas](./windows).                           |
 | `resolve(to)`                    | Resolve uma localização de forma síncrona sem navegar. Retorna `RouteLocation`; lança erro se não houver rota correspondente.              |
 | `isReady()`                      | Promise que termina após a navegação inicial; não espera todas as abas ocultas carregarem.                                                 |
 
-Os métodos de navegação, exceto `pushForResult`, resolvem para `NavigationFailure | undefined`. Erros inesperados rejeitam a promise; veja [falhas](./navigating#falhas-e-erros). Os métodos de voltar seguem a [semântica do split view](./split-view#historico-e-voltar) quando chamados em uma pilha dividida.
+`push`, `replace`, `back`, `go`, `backTo`, `backToRoot` e `setStack` resolvem para `NavigationFailure | undefined`. Erros inesperados rejeitam a promise; veja [falhas](./navigating#falhas-e-erros). Os métodos de voltar seguem a [semântica do split view](./split-view#historico-e-voltar) quando chamados em uma pilha dividida.
 
 ### Opções de navegação
 
@@ -70,6 +72,7 @@ Um `NavigationGuard` recebe `(to, from, { type })`, com `type` igual a `'push'`,
 
 - `currentRoute`: ref readonly da rota em foco, incluindo o modal ativo.
 - `stack`: ref readonly das rotas da base ao topo. Um router ligado a uma página expõe a pilha dela; o router exportado acompanha a pilha em foco.
+- `window`: ref readonly da janela proprietária; `undefined` no modo legado.
 - `options`: configuração do router.
 - `START_LOCATION`: localização vazia antes da navegação inicial (`path: '/'`, nenhum record correspondente).
 
@@ -113,7 +116,7 @@ Nomes de router views devem ser únicos, incluindo split views. `name` e a rota 
 
 Os tipos públicos são exportados pela raiz do pacote:
 
-- Configuração: `Router`, `RouterOptions`, `RestoreOptions`, `SavedStacks`.
+- Configuração: `Router`, `RouterOptions`, `RestoreOptions`, `RestoreContext`, `SavedStacks`, `RouterWindow`, `OpenWindowOptions`.
 - Rotas: `RouteRecordRaw`, `RouteRecord`, `RouteRecordName`, `RouteMeta`, `RouteProps`, `RouteComponent`, `RawRouteComponent`, `Lazy`.
 - Localizações: `RouteLocation`, `RouteLocationRaw`, `RouteLocationPathRaw`, `RouteLocationNamedRaw`, `RouteLocationRelativeRaw`, `RouteParams`, `RouteParamsRaw`, `RouteParamValue`, `RouteParamValueRaw`, `LocationQuery`, `LocationQueryRaw`, `LocationQueryValue`, `LocationQueryValueRaw`.
 - Navegação: `NavigationOptions`, `BackOptions`, `SetStackOptions`, `NavigationType`, `NavigationInfo`, `NavigationGuard`, `NavigationGuardReturn`, `NavigationHookAfter`, `NavigationErrorHandler`, `NavigationFailure`, `LeaveGuardOptions`.
@@ -121,3 +124,9 @@ Os tipos públicos são exportados pela raiz do pacote:
 - Tipos inferidos: `Register`, `RegisteredRouter`, `RouteMapFrom`, `RouteMapGeneric`, `RouteNames`, `RouteLocationOf`, `RouteLocationRawOf`, `ParamsFromPath`.
 
 Estenda `Register` e `RouteMeta` como mostrado em [rotas tipadas](./typed-routes).
+
+## Janelas nativas (experimental, core 9.1+)
+
+`RouterOptions.window?: RouterWindow` liga um router a uma janela; sem ele, a primeira view montada fornece a propriedade. `router.window` é uma ref readonly dessa janela. `router.openWindow(to, options?: OpenWindowOptions): void` resolve uma localização tipada e pede uma janela ao sistema. `OpenWindowOptions.data` carrega metadados serializáveis do app. `getWindowRoute(data)` lê o path no resolver de conteúdo da janela.
+
+`RestoreOptions.key` fornece uma chave estável de snapshot do app. Callbacks de janela recebem `RestoreContext` opcional (`windowId`, `key`) em `save(state, context)` e `load(context)`. `SavedStacks` de janela inclui `windowKey`; uma chave incompatível é ignorada. `RouterWindow` é um subconjunto estrutural de NativeWindow para manter as declarações do pacote utilizáveis com versões anteriores suportadas do core. Veja [janelas nativas](./windows) para inicialização, ciclo de vida, configuração e limites.

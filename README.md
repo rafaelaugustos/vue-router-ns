@@ -442,7 +442,7 @@ On iOS, the ActionBar's back button pops the page natively. While a leave guard 
 
 ## API
 
-**Router**: `createRouter({ routes, restore, backPreview })`, `push`, `replace`, `back`, `go`, `backTo`, `backToRoot`, `setStack`, `pushForResult`, `resolve`, `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`, `beforeEach`, `beforeResolve`, `afterEach`, `onError`, `isReady`, `currentRoute`, `stack`.
+**Router**: `createRouter({ routes, window, restore, backPreview })`, `push`, `replace`, `back`, `go`, `backTo`, `backToRoot`, `setStack`, `pushForResult`, `resolve`, `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`, `beforeEach`, `beforeResolve`, `afterEach`, `onError`, `isReady`, `currentRoute`, `stack`, `window`, `openWindow`.
 
 **Route records**: `path`, `name`, `component` (or a function returning it, sync or async), `children`, `redirect`, `meta`, `props` (`true`, an object or a function of the route), `beforeEnter`, plus `modal` and `transition`.
 
@@ -456,7 +456,7 @@ On iOS, the ActionBar's back button pops the page natively. While a leave guard 
 </RouterLink>
 ```
 
-**Helpers**: `isNavigationFailure`, `NavigationFailureType`, `START_LOCATION`, plus `$router` and `$route` in templates.
+**Helpers**: `isNavigationFailure`, `NavigationFailureType`, `START_LOCATION`, `getWindowRoute`, plus `$router` and `$route` in templates.
 
 ## How it works
 
@@ -467,6 +467,12 @@ In a `RouterView`, the native stack is the source of navigation history. After e
 Covered-page HMR reloads wait until the Frame returns to the page, then replace its native Page through NativeScript-Vue. History is preserved; remounting can reset local component state. See [page lifecycle and HMR](https://vue-router-ns.rafaelaugusto.dev/guide/pages#hmr-during-development).
 
 The [full API reference](https://vue-router-ns.rafaelaugusto.dev/guide/api) documents signatures, defaults, errors, component slots and exported types. In particular, `go(delta)` takes no options; `back`, `backTo` and `backToRoot` accept `animated`, `frame` and `result`.
+
+## Native windows
+
+On NativeScript core 9.1+, create one router per `NativeWindow` with `createRouter({ routes, window })`. Stacks, modals, results and Android back handling stay within that window. `router.openWindow(to, { data })` sends a typed destination to the OS; the app's window content resolver reads it with `getWindowRoute(request.data)` and mounts a new root/router.
+
+This integration is experimental and requires native multi-window configuration. Native surface recreation also depends on [NativeScript-Vue #1178](https://github.com/nativescript-vue/nativescript-vue/pull/1178); OS-driven iOS scene reconnection remains unverified. Restoration callbacks receive a window context so app storage can separate snapshots. See [native windows](https://vue-router-ns.rafaelaugusto.dev/guide/windows) for setup, lifecycle and NativeScript-Vue context limitations.
 
 ## Try it online
 

@@ -30,6 +30,14 @@ import {
   type BackGestureSession,
   type OnBackPressedDispatcherOwner,
 } from './android.js'
+import {
+  claimWindow,
+  hasNativeWindows,
+  openRouteWindow,
+  windowOf,
+  type OpenWindowOptions,
+  type RouterWindow,
+} from './windows.js'
 import { Deferred } from './components/Deferred.js'
 import { RouterLink } from './components/RouterLink.js'
 import { RouterSplitView } from './components/RouterSplitView.js'
@@ -78,6 +86,7 @@ import type {
   RouteRecordRaw,
   RestoreOptions,
   SavedStacks,
+  RestoreContext,
   SetStackOptions,
   TransitionOption,
 } from './types.js'
@@ -86,6 +95,8 @@ export interface RouterOptions<
   R extends readonly RouteRecordRaw[] = readonly RouteRecordRaw[],
 > {
   routes: R
+  /** One router per NativeWindow. Otherwise inferred from the first mounted view. */
+  window?: RouterWindow
   /** Save the stacks as the user navigates, and rebuild them after the app was killed. */
   restore?: RestoreOptions
   /** Android 14 and later: show the page below while the back swipe moves. Defaults to `true`. */
@@ -108,6 +119,9 @@ export interface Router<M extends RouteMapLike = RouteMapGeneric> {
   readonly currentRoute: Readonly<Ref<RouteLocation>>
   /** Routes of the stack this router navigates in, bottom to top. */
   readonly stack: Readonly<Ref<readonly RouteLocation[]>>
+  readonly window: Readonly<Ref<RouterWindow | undefined>>
+  /** Ask the OS to open a new window; its content resolver uses getWindowRoute(data). */
+  openWindow(to: RouteLocationRawOf<M>, options?: OpenWindowOptions): void
   readonly options: RouterOptions
 
   push(
@@ -193,6 +207,15 @@ const MAX_REDIRECTS = 20
 export function createRouter<const R extends readonly RouteRecordRaw[]>(
   options: RouterOptions<R>,
 ): Router<RouteMapFrom<R>> {
+  if (options.window && !hasNativeWindows())
+    throw new Error('Window-scoped routers require NativeScript core 9.1 or later')
+  const owner = {}
+  const nativeWindow = shallowRef<RouterWindow>()
+  const attached = shallowRef(true)
+  let stopped = false
+  let stopPlatform: (() => void) | undefined
+  let stopWindow: (() => void) | undefined
+  let platformInstalled = false
   const matcher = createMatcher(options.routes)
 
   const beforeGuards = callbacks<NavigationGuard>()
@@ -206,6 +229,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   const stacksByFrame = new WeakMap<Frame, Stack>()
   const entriesByPage = new WeakMap<Page, Entry>()
   const detachers = new WeakMap<Stack, () => void>()
+  const initializing = new WeakMap<Stack, Promise<void>>()
+  const windowWaiters = new Map<Stack, () => void>()
   const splits = new Map<Stack, SplitStack>()
   const previews = new Map<Stack, BackPreview>()
   const components = new WeakMap<RouteRecord, RouteComponent>()
@@ -255,6 +280,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   }
 
   function attach(stack: Stack, frame: Frame) {
+    const discover = () => {
+      const window = windowOf(frame)
+      if (window) bindWindow(window)
+    }
+    discover()
+    frame.on('loaded', discover)
     const onNavigated = () => sync(stack)
     const onBackPressed = (args: EventData) =>
       onModalBackPressed(stack, args as AndroidActivityBackPressedEventData)
@@ -284,6 +315,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     if (isIOS && stack.modal) frame.on('shownModally', onPresented)
 
     detachers.set(stack, () => {
+      frame.off('loaded', discover)
       frame.off(Frame.navigatedToEvent, onNavigated)
       frame.off('activityBackPressed', onBackPressed)
       frame.off('shownModally', onShown)
@@ -296,6 +328,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   function close(stack: Stack) {
     previews.get(stack)?.dispose()
     stack.closed = true
+    windowWaiters.get(stack)?.()
     detachers.get(stack)?.()
     splits.delete(stack)
     for (const entry of stack.entries.value) dispose(entry)
@@ -382,6 +415,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       backGesture: shallowRef(null),
       zoomFrom,
       isActive: () =>
+        attached.value &&
         (topOf(stack) === entry ||
           (!!splits.get(stack)?.expanded.value && stack.entries.value[0] === entry)) &&
         (stack.modal ? modals.value.at(-1) === stack : !modals.value.length),
@@ -415,7 +449,14 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   }
 
   function topmostStack(): Stack | undefined {
-    const frame = Frame.topmost()
+    const window = nativeWindow.value
+    const frame = Frame.topmost(window as never)
+    // Core prioritizes a newly created, unbound Frame even for another window.
+    // Until it attaches, keep input with this router's visible owning stack.
+    if (window && (!frame || windowOf(frame) !== window)) {
+      const stack = focused()
+      return stack?.frame && windowOf(stack.frame) === window ? stack : undefined
+    }
     return frame && stacksByFrame.get(frame)
   }
 
@@ -526,19 +567,33 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     for (const [name, stack] of frames) {
       stacks[name] = stack.entries.value.map((entry) => entry.route.fullPath)
     }
-    restore.save({ savedAt: Date.now(), stacks })
+    const context = restoreContext()
+    const state: SavedStacks = { savedAt: Date.now(), stacks }
+    if (context) state.windowKey = context.key
+    if (context) restore.save(state, context)
+    else restore.save(state)
+  }
+
+  function restoreContext(): RestoreContext | undefined {
+    const window = nativeWindow.value
+    return window ? { windowId: window.id, key: restore?.key ?? window.id } : undefined
   }
 
   /** The saved stack for a `<RouterView>`, if there is one worth restoring. */
   async function savedStackFor(name: string): Promise<RouteLocation[] | undefined> {
     if (!restore) return undefined
     loaded ??= Promise.resolve()
-      .then(() => restore.load())
+      .then(() => {
+        const context = restoreContext()
+        return context ? restore.load(context) : restore.load()
+      })
       .catch((error) => {
         if (__DEV__) console.warn('[vue-router-ns] restore.load() failed:', error)
         return undefined
       })
     const state = await loaded
+    if (state?.windowKey !== undefined && state.windowKey !== restoreContext()?.key)
+      return undefined
     const paths = state?.stacks[name]
     if (!paths?.length) return undefined
     if (Date.now() - state!.savedAt > (restore.maxAge ?? DEFAULT_MAX_AGE))
@@ -815,6 +870,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
     $showModal(ModalHost, {
       ...modal,
+      // NativeScript-Vue's default modal target is process-global.
+      target: request.stack.frame!.currentPage ?? request.stack.frame!,
       props: {
         onReady(frame: Frame) {
           attach(stack, frame)
@@ -943,9 +1000,150 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     ready.resolve()
   }
 
+  // -- window ownership -------------------------------------------------------
+
+  async function waitForWindow(stack: Stack, frame: Frame) {
+    if (stopped) throw new Error('The router window is closed')
+    if (!nativeWindow.value && hasNativeWindows() && frame.isLoaded !== true) {
+      await new Promise<void>((resolve) => {
+        const loaded = () => {
+          frame.off('loaded', loaded)
+          windowWaiters.delete(stack)
+          resolve()
+        }
+        windowWaiters.set(stack, loaded)
+        frame.on('loaded', loaded)
+      })
+    }
+    const window = windowOf(frame)
+    if (window) bindWindow(window)
+    if (stopped || stack.closed) throw new Error('The router view is closed')
+  }
+
+  function bindWindow(window: RouterWindow) {
+    if (nativeWindow.value === window) return
+    if (stopped) throw new Error('The router window is closed')
+    if (nativeWindow.value)
+      throw new Error('A router cannot own views in more than one NativeWindow')
+    const release = claimWindow(window, owner)
+    nativeWindow.value = window
+    attached.value = window.state === 'attached'
+    const detach = () => {
+      try {
+        persist()
+      } finally {
+        attached.value = false
+        stopPlatform?.()
+        stopPlatform = undefined
+        for (const preview of previews.values()) preview.dispose()
+      }
+    }
+    const attach = () => {
+      attached.value = true
+      installPlatform()
+    }
+    const closeWindow = () => {
+      try {
+        const context = restoreContext()
+        if (restore && context) restore.save(null, context)
+      } finally {
+        shutdown()
+      }
+    }
+    window.on('detached', detach)
+    window.on('attached', attach)
+    window.on('close', closeWindow)
+    stopWindow = () => {
+      window.off('detached', detach)
+      window.off('attached', attach)
+      window.off('close', closeWindow)
+      release()
+    }
+    if (platformInstalled) installPlatform()
+  }
+
+  function installPlatform() {
+    stopPlatform?.()
+    stopPlatform = undefined
+    if (stopped) return
+    const window = nativeWindow.value
+    const stops: (() => void)[] = []
+    if (restore) {
+      const onExit = () => {
+        // A process exit is not an explicit close of every native window.
+        if (nativeWindow.value) persist()
+        else restore.save(null)
+      }
+      Application.on('exit', onExit)
+      stops.push(() => Application.off('exit', onExit))
+    }
+    if (isAndroid && (!window || window.state === 'attached')) {
+      const android = Application.android
+      const events = window ?? android
+      const activities = new Map<OnBackPressedDispatcherOwner, () => void>()
+      const watchActivity = (activity: OnBackPressedDispatcherOwner) => {
+        if (!activities.has(activity))
+          activities.set(
+            activity,
+            watchBackGestures(activity, () => gestureSession(topmostStack())),
+          )
+      }
+      const onCreated = ({ activity }: AndroidActivityEventData) =>
+        watchActivity(activity)
+      const onDestroyed = ({ activity }: AndroidActivityEventData) => {
+        activities.get(activity)?.()
+        activities.delete(activity)
+      }
+      // Core 9.1 forwards a copy to NativeWindow: cancelling that copy does
+      // not cancel the native press. Filter the original event by its owner.
+      android.on('activityBackPressed', onActivityBackPressed)
+      stops.push(() => android.off('activityBackPressed', onActivityBackPressed))
+      if (hasBackGestures()) {
+        const activity =
+          window?.android?.activity ??
+          (!window ? (android.foregroundActivity ?? android.startActivity) : undefined)
+        if (activity) watchActivity(activity as OnBackPressedDispatcherOwner)
+        events.on('activityCreated', onCreated)
+        events.on('activityDestroyed', onDestroyed)
+        stops.push(() => {
+          events.off('activityCreated', onCreated)
+          events.off('activityDestroyed', onDestroyed)
+          for (const stop of activities.values()) stop()
+        })
+      }
+    }
+    stopPlatform = () => stops.forEach((stop) => stop())
+  }
+
+  function shutdown() {
+    if (stopped) return
+    stopped = true
+    for (const wake of windowWaiters.values()) wake()
+    attached.value = false
+    stopPlatform?.()
+    stopWindow?.()
+    for (const stack of [...modals.value].reverse()) {
+      stack.frame?.closeModal()
+      close(stack)
+    }
+    modals.value = []
+    for (const stack of frames.values()) close(stack)
+    frames.clear()
+    if (!isReady) ready.reject(new Error('The router window closed before it was ready'))
+  }
+
   // -- system back ------------------------------------------------------------
 
   function onActivityBackPressed(args: AndroidActivityBackPressedEventData) {
+    const window = nativeWindow.value
+    if (
+      window &&
+      (window.state !== 'attached' ||
+        (!args.activity && !args.window) ||
+        (args.activity && args.activity !== window.android?.activity) ||
+        (args.window && args.window !== window))
+    )
+      return
     const stack = topmostStack()
     if (!stack || stack.closed || stack.entries.value.length < 2) return
 
@@ -983,6 +1181,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       if (!isReady) await ready.promise
 
       const stack = stackFor(origin, options.frame)
+      await initializing.get(stack)
       const flags = typeof raw === 'object' ? raw : {}
       const to = resolveTarget(raw, topOf(stack)?.route ?? START_LOCATION)
       const request: Request = {
@@ -1045,6 +1244,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       if (!isReady) await ready.promise
 
       const stack = stackFor(origin, options.frame)
+      await initializing.get(stack)
       const targets: RouteLocation[] = []
       for (const location of raw) {
         const from = targets.at(-1) ?? topOf(stack)?.route ?? START_LOCATION
@@ -1054,6 +1254,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     }
 
     const methods: Partial<Router> = {
+      openWindow(raw, options) {
+        if (stopped) throw new Error('The router window is closed')
+        const from =
+          topOf(origin && !origin.closed ? origin : focused())?.route ?? START_LOCATION
+        openRouteWindow(resolveTarget(raw, from).fullPath, options)
+      },
       stack: computed(() => {
         const stack = origin && !origin.closed ? origin : focused()
         return stack?.entries.value.map((entry) => entry.route) ?? []
@@ -1128,6 +1334,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       attach(stack, frame)
 
       const show = async () => {
+        await waitForWindow(stack, frame)
         const saved = await savedStackFor(name)
         if (!saved) {
           return run({
@@ -1148,7 +1355,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         }
       }
 
-      return show().then(
+      const mounted = show().then(
         (failure) => {
           if (failure && __DEV__) {
             console.warn(
@@ -1159,9 +1366,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         },
         (error) => ready.reject(error),
       )
+      initializing.set(stack, mounted)
+      void mounted.then(() => initializing.delete(stack))
+      return mounted
     },
 
-    async mountSplit(name, listFrame, detailFrame, list, expanded, detailVisible) {
+    mountSplit(name, listFrame, detailFrame, list, expanded, detailVisible) {
       if (frames.has(name)) throw new Error(`Two router views are named "${name}"`)
       const stack = createStack(name, false)
       const placeholder = new Page()
@@ -1186,21 +1396,27 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         detach()
         listFrame.off(Frame.navigatedToEvent, syncList)
       })
-      try {
-        const saved = await savedStackFor(name)
-        restoring = !!saved
+      const mounted = (async () => {
         try {
-          await applyStack(stack, saved ?? [resolveTarget(list, START_LOCATION)], {
-            animated: false,
-          })
-        } finally {
-          restoring = false
-          persist()
+          await waitForWindow(stack, listFrame)
+          const saved = await savedStackFor(name)
+          restoring = !!saved
+          try {
+            await applyStack(stack, saved ?? [resolveTarget(list, START_LOCATION)], {
+              animated: false,
+            })
+          } finally {
+            restoring = false
+            persist()
+          }
+          markReady()
+        } catch (error) {
+          ready.reject(error)
         }
-        markReady()
-      } catch (error) {
-        ready.reject(error)
-      }
+      })()
+      initializing.set(stack, mounted)
+      void mounted.then(() => initializing.delete(stack))
+      return mounted
     },
 
     unmount(name) {
@@ -1214,6 +1430,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
   const router: Router = Object.assign(navigation(), {
     currentRoute,
+    window: nativeWindow,
     options: options as RouterOptions,
 
     addRoute(parentOrRoute: RouteRecordName | RouteRecordRaw, route?: RouteRecordRaw) {
@@ -1247,34 +1464,10 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       app.component('RouterLink', RouterLink)
       app.component('Deferred', Deferred)
 
-      if (restore) {
-        const onExit = () => restore.save(null)
-        Application.on('exit', onExit)
-        app.onUnmount(() => Application.off('exit', onExit))
-      }
-
-      if (isAndroid) {
-        const android = Application.android
-        const stops: (() => void)[] = []
-        const watchActivity = (activity: OnBackPressedDispatcherOwner) =>
-          stops.push(watchBackGestures(activity, () => gestureSession(topmostStack())))
-        const onActivityCreated = ({ activity }: AndroidActivityEventData) =>
-          watchActivity(activity)
-
-        android.on('activityBackPressed', onActivityBackPressed)
-        if (hasBackGestures()) {
-          const activity = android.foregroundActivity ?? android.startActivity
-          if (activity) watchActivity(activity)
-          android.on('activityCreated', onActivityCreated)
-        }
-
-        app.onUnmount(() => {
-          android.off('activityBackPressed', onActivityBackPressed)
-          android.off('activityCreated', onActivityCreated)
-          for (const stop of stops) stop()
-          for (const preview of previews.values()) preview.dispose()
-        })
-      }
+      if (options.window) bindWindow(options.window)
+      platformInstalled = true
+      installPlatform()
+      app.onUnmount(shutdown)
     },
   })
 

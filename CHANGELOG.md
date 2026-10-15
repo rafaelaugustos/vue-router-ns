@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Experimental NativeScript core 9.1+ window ownership: one router per NativeWindow, window-scoped Android back/gesture callbacks and modal targets, typed `openWindow()` handoff, and per-window restore context/key. Older core versions retain the single-window behavior.
+
 ## 0.1.0-beta.6 (2026-10-14)
 
 - Fixed: HMR reloads routed pages through NativeScript-Vue's native Page replacement. Covered pages wait until the Frame finishes returning to them, preserving the navigation history on iOS and Android.
