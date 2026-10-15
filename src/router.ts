@@ -41,6 +41,12 @@ import {
 } from './errors.js'
 import { routeKey, routerKey } from './injection.js'
 import { INTERNAL, type RouterInternals } from './internal.js'
+import {
+  createDiagnostics,
+  type DiagnosticsOptions,
+  type NavigationTrace,
+  type RouterDiagnostics,
+} from './diagnostics.js'
 import { previewBack, type BackPreview } from './back-preview.js'
 import { canZoom, configureSheet, viewOf, watchDismissAttempts } from './ios.js'
 import { createMatcher } from './matcher.js'
@@ -90,6 +96,8 @@ export interface RouterOptions<
   restore?: RestoreOptions
   /** Android 14 and later: show the page below while the back swipe moves. Defaults to `true`. */
   backPreview?: boolean
+  /** Collect a bounded, redacted navigation timeline and native stack snapshots. */
+  diagnostics?: boolean | DiagnosticsOptions
 }
 
 interface SplitStack {
@@ -109,6 +117,7 @@ export interface Router<M extends RouteMapLike = RouteMapGeneric> {
   /** Routes of the stack this router navigates in, bottom to top. */
   readonly stack: Readonly<Ref<readonly RouteLocation[]>>
   readonly options: RouterOptions
+  readonly diagnostics: RouterDiagnostics | undefined
 
   push(
     to: RouteLocationRawOf<M>,
@@ -209,6 +218,29 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   const splits = new Map<Stack, SplitStack>()
   const previews = new Map<Stack, BackPreview>()
   const components = new WeakMap<RouteRecord, RouteComponent>()
+  const diagnostics = options.diagnostics
+    ? createDiagnostics(
+        options.diagnostics === true ? {} : options.diagnostics,
+        () =>
+          [...frames.values(), ...modals.value].map((stack) => {
+            const split = splits.get(stack)
+            return {
+              stack,
+              hosts: split
+                ? [
+                    { frame: split.listFrame, role: 'list' as const },
+                    {
+                      frame: stack.frame,
+                      role: 'detail' as const,
+                      placeholder: split.placeholder,
+                    },
+                  ]
+                : [{ frame: stack.frame, role: 'main' as const }],
+            }
+          }),
+        (page) => entriesByPage.get(page),
+      )
+    : undefined
 
   const ready = deferred<void>()
   ready.promise.catch(() => {})
@@ -276,6 +308,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
     stack.frame = frame
     stacksByFrame.set(frame, stack)
+    diagnostics?.event('host', stack, 'attach')
     frame.on(Frame.navigatedToEvent, onNavigated)
     if (isAndroid && stack.modal) {
       frame.on('activityBackPressed', onBackPressed)
@@ -294,6 +327,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   }
 
   function close(stack: Stack) {
+    diagnostics?.event('host', stack, 'dispose')
     previews.get(stack)?.dispose()
     stack.closed = true
     detachers.get(stack)?.()
@@ -316,6 +350,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       return
     }
     const before = stack.entries.value
+    const initiated = !!stack.pending
     const after = [
       ...(split ? [split.listFrame.currentPage] : []),
       ...frame.backStack.map((entry) => entry.resolvedPage),
@@ -331,10 +366,16 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       if (!after.includes(entry)) dispose(entry)
     }
     if (!stack.modal) persist()
+    diagnostics?.event(
+      'native',
+      stack,
+      initiated ? 'completion' : after.length < before.length ? 'pop' : 'sync',
+    )
 
     if (stack.pending) {
       stack.pending.resolve()
       stack.pending = undefined
+      diagnostics?.audit()
       return
     }
 
@@ -345,6 +386,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       lastFrame.value = stack
       notifyAfter(to.route, from.route)
     }
+    diagnostics?.audit()
   }
 
   function onModalClosed(stack: Stack) {
@@ -395,12 +437,24 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
   const pageLink = {
     link(page: Page, entry: Entry) {
+      diagnostics?.event(
+        entry.page && entry.page !== page ? 'hmr' : 'page',
+        entry.stack,
+        entry.page && entry.page !== page ? 'relink' : 'link',
+        entry,
+      )
       entry.page = page
       entriesByPage.set(page, entry)
     },
     unlink(page: Page) {
+      const entry = diagnostics && entriesByPage.get(page)
+      if (entry) diagnostics?.event('page', entry.stack, 'unlink', entry)
       entriesByPage.delete(page)
     },
+    reload: diagnostics
+      ? (entry: Entry, state: string) =>
+          diagnostics.event('hmr', entry.stack, state, entry)
+      : undefined,
   }
 
   function stackFor(origin: Stack | undefined, frame?: string): Stack {
@@ -566,9 +620,41 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
   // -- navigation -------------------------------------------------------------
 
-  async function run(
+  function run(
     request: Request,
     keepPreview?: BackPreview,
+    parentNavigationId?: number,
+  ): Promise<NavigationFailure | undefined> {
+    const trace =
+      diagnostics && !diagnostics.api.stopped
+        ? diagnostics.begin(request.stack, request.type, request.to, parentNavigationId)
+        : undefined
+    const navigation = runNavigation(request, keepPreview, trace)
+    if (!trace) return navigation
+    return navigation.then(
+      (failure) => {
+        trace.end(
+          failure
+            ? failure.type === NavigationFailureType.aborted
+              ? 'aborted'
+              : failure.type === NavigationFailureType.cancelled
+                ? 'cancelled'
+                : 'duplicated'
+            : 'success',
+        )
+        return failure
+      },
+      (error) => {
+        trace.end('error')
+        throw error
+      },
+    )
+  }
+
+  async function runNavigation(
+    request: Request,
+    keepPreview?: BackPreview,
+    trace?: NavigationTrace,
   ): Promise<NavigationFailure | undefined> {
     for (const preview of previews.values()) {
       if (preview !== keepPreview) preview.dispose()
@@ -594,7 +680,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       stack.closed ||
       stack.attempt !== attempt ||
       (keepPreview !== undefined && !keepPreview.active)
+    const queued = trace?.span('queue')
     await Promise.all([settled, stack.settled])
+    queued?.end()
 
     const entries = stack.entries.value
     const from = topOf(stack)?.route ?? START_LOCATION
@@ -603,11 +691,15 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     let target: Entry | null | undefined
     if (type === 'back') {
       target = request.pick!(entries)
-      if (target === undefined) return undefined
+      if (target === undefined) {
+        trace?.end('noop')
+        return undefined
+      }
       to = target?.route ?? routeBelow(stack)
     } else {
       to = request.to!
     }
+    trace?.route(to)
 
     const fail = (kind: keyof typeof NavigationFailureType) => {
       const failure = createNavigationFailure(NavigationFailureType[kind], to, from)
@@ -645,25 +737,39 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     let outcome: GuardOutcome | undefined
     try {
       const info: NavigationInfo = { type }
-      const check = (guards: NavigationGuard[]) =>
-        runGuards(guards, to, from, info, isCancelled)
+      const check = (guards: NavigationGuard[], kind: string) =>
+        runGuards(guards, to, from, info, isCancelled, trace, kind)
 
       outcome = await check(
         leaving
           .reverse()
           .flatMap((entry) => [...entry.leaveGuards].filter(isGuardActive))
           .map(({ guard }) => guard),
+        'leave',
       )
-      outcome ??= await check(beforeGuards.list())
+      outcome ??= await check(beforeGuards.list(), 'beforeEach')
       if (type !== 'back') {
         outcome ??= await check(
           to.matched
             .filter((record) => !from.matched.includes(record))
             .flatMap((record) => record.beforeEnter),
+          'beforeEnter',
         )
-        if (!outcome) await loadComponent(to.matched.at(-1)!)
+        if (!outcome) {
+          const loading = trace?.span(
+            'load',
+            components.has(to.matched.at(-1)!) ? 'cached' : 'component',
+          )
+          try {
+            await loadComponent(to.matched.at(-1)!)
+            loading?.end()
+          } catch (error) {
+            loading?.end('error')
+            throw error
+          }
+        }
       }
-      outcome ??= await check(resolveGuards.list())
+      outcome ??= await check(resolveGuards.list(), 'beforeResolve')
     } catch (error) {
       reportError(error, to, from)
       throw error
@@ -675,25 +781,31 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       }
       const raw = outcome.redirect
       const flags = typeof raw === 'object' ? raw : {}
-      return run({
-        ...request,
-        type: type === 'replace' || flags.replace ? 'replace' : 'push',
-        to: { ...resolveTarget(raw, from), redirectedFrom: to.redirectedFrom ?? to },
-        pick: undefined,
-        force: flags.force,
-        redirects: request.redirects + 1,
-      })
+      trace?.end('redirected')
+      return run(
+        {
+          ...request,
+          type: type === 'replace' || flags.replace ? 'replace' : 'push',
+          to: { ...resolveTarget(raw, from), redirectedFrom: to.redirectedFrom ?? to },
+          pick: undefined,
+          force: flags.force,
+          redirects: request.redirects + 1,
+        },
+        undefined,
+        trace?.id,
+      )
     }
     if (outcome) return fail(outcome.stop)
     if (isCancelled()) return fail('cancelled')
     stack.attempt = undefined
 
+    const transition = trace?.span('transition')
     const commit =
       type === 'back'
         ? commitBack(stack, target ?? null, request.result, request.options.animated)
         : modal
-          ? commitModal(request, to, modal)
-          : commitPage(request, to, initial)
+          ? commitModal(request, to, modal, trace)
+          : commitPage(request, to, initial, trace)
 
     stack.settled = Promise.allSettled([stack.settled, commit])
     // a frame that isn't loaded, like a tab iOS hasn't shown yet, navigates once it shows up
@@ -702,7 +814,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     }
     try {
       await commit
+      transition?.end()
     } catch (error) {
+      transition?.end('error')
       reportError(error, to, from)
       throw error
     }
@@ -710,6 +824,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     if (stack.closed && !(type === 'back' && target === null)) return fail('cancelled')
     if (!stack.modal) lastFrame.value = stack
     notifyAfter(to, from)
+    diagnostics?.audit()
     return undefined
   }
 
@@ -719,9 +834,27 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     from: RouteLocation,
     info: NavigationInfo,
     isCancelled: () => boolean,
+    trace?: NavigationTrace,
+    kind?: string,
   ): Promise<GuardOutcome | undefined> {
     for (const guard of guards) {
-      const result = await guard(to, from, info)
+      const checking = trace?.span('guard', kind)
+      let result: Awaited<ReturnType<NavigationGuard>>
+      try {
+        result = await guard(to, from, info)
+      } catch (error) {
+        checking?.end('error')
+        throw error
+      }
+      checking?.end(
+        isCancelled()
+          ? 'cancelled'
+          : result === false
+            ? 'aborted'
+            : typeof result === 'string' || (result && typeof result === 'object')
+              ? 'redirected'
+              : 'success',
+      )
       if (isCancelled()) return { stop: 'cancelled' }
       if (result === false) return { stop: 'aborted' }
       if (typeof result === 'string' || (result && typeof result === 'object')) {
@@ -731,7 +864,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     return undefined
   }
 
-  async function commitPage(request: Request, to: RouteLocation, initial: boolean) {
+  async function commitPage(
+    request: Request,
+    to: RouteLocation,
+    initial: boolean,
+    trace?: NavigationTrace,
+  ) {
     const { stack, options } = request
     const split = splits.get(stack)
     const frame = split && initial ? split.listFrame : stack.frame!
@@ -792,16 +930,24 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     if (options.clearHistory && !split) navigation.clearHistory = true
 
     const shown = expect(stack)
+    const mounting = trace?.span('mount', 'page')
     try {
       $navigateTo(createPage(entry, pageLink), navigation)
+      mounting?.end()
     } catch (error) {
+      mounting?.end('error')
       stack.pending = undefined
       throw error
     }
     await shown
   }
 
-  async function commitModal(request: Request, to: RouteLocation, modal: ModalOptions) {
+  async function commitModal(
+    request: Request,
+    to: RouteLocation,
+    modal: ModalOptions,
+    trace?: NavigationTrace,
+  ) {
     const stack = createStack(`modal-${++modalId}`, modal)
     const entry = createEntry(
       stack,
@@ -813,22 +959,28 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     modals.value = [...modals.value, stack]
     const shown = expect(stack)
 
-    $showModal(ModalHost, {
+    const mounting = trace?.span('mount', 'modal-host')
+    const presented = $showModal(ModalHost, {
       ...modal,
       props: {
         onReady(frame: Frame) {
           attach(stack, frame)
           if (isIOS && modal.ios) configureSheet(frame, modal.ios)
+          const pageMount = trace?.span('mount', 'page')
           try {
             $navigateTo(createPage(entry, pageLink), { frame, animated: false })
+            pageMount?.end()
           } catch (error) {
+            pageMount?.end('error')
             stack.pending?.reject(error)
             stack.pending = undefined
             frame.closeModal()
           }
         },
       },
-    }).then(
+    })
+    mounting?.end()
+    presented.then(
       () => onModalClosed(stack),
       (error) => {
         stack.pending?.reject(error)
@@ -1065,7 +1217,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       pushForResult<T>(to: RouteLocationRaw, options?: NavigationOptions) {
         return new Promise<T | undefined>((resolve, reject) => {
           const settle = (entry: Entry) => {
-            entry.settle = resolve as (result: unknown) => void
+            entry.settle = diagnostics
+              ? (result) => {
+                  diagnostics.result(entry)
+                  resolve(result as T | undefined)
+                }
+              : (resolve as (result: unknown) => void)
           }
           navigate('push', to, options, settle).then(
             (failure) => failure && resolve(undefined),
@@ -1214,6 +1371,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
   const router: Router = Object.assign(navigation(), {
     currentRoute,
+    diagnostics: diagnostics?.api,
     options: options as RouterOptions,
 
     addRoute(parentOrRoute: RouteRecordName | RouteRecordRaw, route?: RouteRecordRaw) {
@@ -1246,6 +1404,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       app.component('RouterSplitView', RouterSplitView)
       app.component('RouterLink', RouterLink)
       app.component('Deferred', Deferred)
+      if (diagnostics) app.onUnmount(() => diagnostics.api.stop())
 
       if (restore) {
         const onExit = () => restore.save(null)

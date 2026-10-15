@@ -2,6 +2,8 @@
 import { RouterLink } from 'vue-router-ns'
 import StackTrail from '../components/StackTrail.vue'
 import { session } from '../store'
+
+const diagnosticsEnabled = __DEV__
 </script>
 
 <template>
@@ -22,6 +24,10 @@ import { session } from '../store'
 
         <RouterLink to="/does/not/exist">
           <Button class="button secondary" text="A page that does not exist" />
+        </RouterLink>
+
+        <RouterLink v-if="diagnosticsEnabled" to="/diagnostics">
+          <Button class="button secondary" text="Navigation diagnostics" />
         </RouterLink>
       </StackLayout>
       <StackTrail row="1" />
