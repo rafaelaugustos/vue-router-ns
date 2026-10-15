@@ -3,6 +3,20 @@ import type { RouteLocation } from './types.js'
 
 export { createRouter, START_LOCATION } from './router.js'
 export type { Router, RouterOptions } from './router.js'
+export type {
+  DiagnosticsOptions,
+  RouterDiagnostics,
+  DiagnosticsExport,
+  DiagnosticSnapshot,
+  DiagnosticStack,
+  DiagnosticHost,
+  DiagnosticEntry,
+  DiagnosticIssue,
+  DiagnosticIssueCode,
+  DiagnosticEvent,
+  DiagnosticPhase,
+  DiagnosticOutcome,
+} from './diagnostics.js'
 
 export {
   useRouter,

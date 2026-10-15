@@ -10,6 +10,7 @@ const router = createRouter({ routes, restore, backPreview: true })
 
 | Opção         | Padrão      | Significado                                                                                                                   |
 | ------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `diagnostics` | `false`     | `true` ou `{ maxEvents }` para timeline limitada e snapshots nativos. Veja [diagnóstico](./diagnostics).                      |
 | `routes`      | Obrigatória | Array readonly de `RouteRecordRaw`.                                                                                           |
 | `restore`     | Desativado  | `save(state)`, `load()` e `maxAge` opcional em milissegundos (padrão: 30 minutos). Veja [restauração](./restore).             |
 | `backPreview` | `true`      | Revela a página anterior durante o gesto de voltar no Android 14+. Exige a [ativação na plataforma](./android-back#ativando). |
@@ -70,6 +71,7 @@ Um `NavigationGuard` recebe `(to, from, { type })`, com `type` igual a `'push'`,
 
 - `currentRoute`: ref readonly da rota em foco, incluindo o modal ativo.
 - `stack`: ref readonly das rotas da base ao topo. Um router ligado a uma página expõe a pilha dela; o router exportado acompanha a pilha em foco.
+- `diagnostics`: `RouterDiagnostics` quando ativado; caso contrário, `undefined`. Veja [diagnóstico](./diagnostics).
 - `options`: configuração do router.
 - `START_LOCATION`: localização vazia antes da navegação inicial (`path: '/'`, nenhum record correspondente).
 
@@ -121,3 +123,7 @@ Os tipos públicos são exportados pela raiz do pacote:
 - Tipos inferidos: `Register`, `RegisteredRouter`, `RouteMapFrom`, `RouteMapGeneric`, `RouteNames`, `RouteLocationOf`, `RouteLocationRawOf`, `ParamsFromPath`.
 
 Estenda `Register` e `RouteMeta` como mostrado em [rotas tipadas](./typed-routes).
+
+## Diagnóstico
+
+`RouterDiagnostics` expõe `routerId`, `stopped`, `events`, `droppedEvents`, `snapshot()`, `subscribe(listener)`, `toJSON()`, `export()`, `clear()` e `stop()`. Os dados são readonly, limitados e sem valores de rota; `stop()` libera as fontes vivas. Tipos exportados: `DiagnosticsOptions`, `RouterDiagnostics`, `DiagnosticsExport`, `DiagnosticSnapshot`, `DiagnosticStack`, `DiagnosticHost`, `DiagnosticEntry`, `DiagnosticIssue`, `DiagnosticIssueCode`, `DiagnosticEvent`, `DiagnosticPhase` e `DiagnosticOutcome`. Veja [diagnóstico](./diagnostics) para formato, semântica dos tempos e ciclo de vida.

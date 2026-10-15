@@ -10,6 +10,7 @@ const router = createRouter({ routes, restore, backPreview: true })
 
 | Option        | Default  | Meaning                                                                                                                |
 | ------------- | -------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `diagnostics` | `false`  | `true` or `{ maxEvents }` for a bounded timeline and native snapshots. See [diagnostics](./diagnostics).               |
 | `routes`      | Required | Readonly array of `RouteRecordRaw`.                                                                                    |
 | `restore`     | Disabled | `save(state)`, `load()` and optional `maxAge` in milliseconds (default: 30 minutes). See [restoration](./restore).     |
 | `backPreview` | `true`   | Reveal the previous page during Android 14+ back gestures. Requires the [platform opt-in](./android-back#enabling-it). |
@@ -70,6 +71,7 @@ A `NavigationGuard` receives `(to, from, { type })`, where `type` is `'push'`, `
 
 - `currentRoute`: readonly ref to the focused route, including the active modal.
 - `stack`: readonly ref to routes in bottom-to-top order. A page-bound router exposes that page's stack; the exported router follows the focused stack.
+- `diagnostics`: `RouterDiagnostics` when enabled; otherwise `undefined`. See [diagnostics](./diagnostics).
 - `options`: the router configuration.
 - `START_LOCATION`: empty location before initial navigation (`path: '/'`, no matched records).
 
@@ -121,3 +123,7 @@ Public types are exported from the package root:
 - Inferred route types: `Register`, `RegisteredRouter`, `RouteMapFrom`, `RouteMapGeneric`, `RouteNames`, `RouteLocationOf`, `RouteLocationRawOf`, `ParamsFromPath`.
 
 Augment `Register` and `RouteMeta` as shown in [typed routes](./typed-routes).
+
+## Diagnostics
+
+`RouterDiagnostics` exposes `routerId`, `stopped`, `events`, `droppedEvents`, `snapshot()`, `subscribe(listener)`, `toJSON()`, `export()`, `clear()` and `stop()`. Data is readonly, bounded and redacted; `stop()` releases live sources. Exported types: `DiagnosticsOptions`, `RouterDiagnostics`, `DiagnosticsExport`, `DiagnosticSnapshot`, `DiagnosticStack`, `DiagnosticHost`, `DiagnosticEntry`, `DiagnosticIssue`, `DiagnosticIssueCode`, `DiagnosticEvent`, `DiagnosticPhase` and `DiagnosticOutcome`. See [diagnostics](./diagnostics) for format, timing semantics and lifetime.

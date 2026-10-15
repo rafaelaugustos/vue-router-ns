@@ -19,6 +19,7 @@ import { isBlocked, type Entry } from './stack.js'
 interface PageLink {
   link(page: Page, entry: Entry): void
   unlink(page: Page): void
+  reload?(entry: Entry, state: 'requested' | 'deferred' | 'applied'): void
 }
 
 /**
@@ -26,7 +27,7 @@ interface PageLink {
  * nothing provided by `<RouterView>` reaches it. This wrapper hands each page
  * its own route and a router bound to the stack it lives in.
  */
-export function createPage(entry: Entry, { link, unlink }: PageLink) {
+export function createPage(entry: Entry, { link, unlink, reload }: PageLink) {
   return defineComponent({
     name: 'RouterPage',
     inheritAttrs: false,
@@ -49,13 +50,16 @@ export function createPage(entry: Entry, { link, unlink }: PageLink) {
           const child = instance.subTree.component as { ceReload?: () => void } | null
           if (child && !child.ceReload) {
             child.ceReload = () => {
+              reload?.(entry, 'requested')
               const context = instance.appContext as { reload?: () => void }
               const frame = page?.frame
               if (!frame || frame.currentPage === page) {
+                reload?.(entry, 'applied')
                 context.reload?.()
                 return
               }
               if (stopReload) return
+              reload?.(entry, 'deferred')
               // Android's Page.navigatedTo precedes completion of the Frame
               // navigation. Replacing there can dispose the newly mounted app.
               const returned = () => {
@@ -63,7 +67,10 @@ export function createPage(entry: Entry, { link, unlink }: PageLink) {
                 stopReload?.()
                 stopReload = undefined
                 void nextTick(() => {
-                  if (!entry.disposed) context.reload?.()
+                  if (!entry.disposed) {
+                    reload?.(entry, 'applied')
+                    context.reload?.()
+                  }
                 })
               }
               frame.on(Frame.navigatedToEvent, returned)

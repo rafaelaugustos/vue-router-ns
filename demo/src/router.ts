@@ -4,6 +4,7 @@ import { session } from './store'
 // Pages load lazily. Besides keeping startup light, it lets TypeScript infer
 // route names and params here while the pages themselves use them.
 export const router = createRouter({
+  diagnostics: __DEV__,
   routes: [
     { path: '/', name: 'inbox', component: () => import('./pages/Inbox.vue') },
     {

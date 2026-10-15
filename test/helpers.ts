@@ -48,6 +48,7 @@ interface MountOptions {
   before?: (router: Router) => void
   restore?: RestoreOptions
   backPreview?: boolean
+  diagnostics?: import('../src/index.js').DiagnosticsOptions | boolean
 }
 
 export async function mount(
@@ -62,6 +63,7 @@ export async function mount(
     routes,
     restore: options.restore,
     backPreview: options.backPreview,
+    diagnostics: options.diagnostics,
   })
   options.before?.(router as Router)
   const App = defineComponent({

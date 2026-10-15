@@ -442,7 +442,7 @@ On iOS, the ActionBar's back button pops the page natively. While a leave guard 
 
 ## API
 
-**Router**: `createRouter({ routes, restore, backPreview })`, `push`, `replace`, `back`, `go`, `backTo`, `backToRoot`, `setStack`, `pushForResult`, `resolve`, `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`, `beforeEach`, `beforeResolve`, `afterEach`, `onError`, `isReady`, `currentRoute`, `stack`.
+**Router**: `createRouter({ routes, restore, backPreview, diagnostics })`, `push`, `replace`, `back`, `go`, `backTo`, `backToRoot`, `setStack`, `pushForResult`, `resolve`, `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`, `beforeEach`, `beforeResolve`, `afterEach`, `onError`, `isReady`, `currentRoute`, `stack`, `diagnostics`.
 
 **Route records**: `path`, `name`, `component` (or a function returning it, sync or async), `children`, `redirect`, `meta`, `props` (`true`, an object or a function of the route), `beforeEnter`, plus `modal` and `transition`.
 
@@ -467,6 +467,10 @@ In a `RouterView`, the native stack is the source of navigation history. After e
 Covered-page HMR reloads wait until the Frame returns to the page, then replace its native Page through NativeScript-Vue. History is preserved; remounting can reset local component state. See [page lifecycle and HMR](https://vue-router-ns.rafaelaugusto.dev/guide/pages#hmr-during-development).
 
 The [full API reference](https://vue-router-ns.rafaelaugusto.dev/guide/api) documents signatures, defaults, errors, component slots and exported types. In particular, `go(delta)` takes no options; `back`, `backTo` and `backToRoot` accept `animated`, `frame` and `result`.
+
+## Navigation diagnostics
+
+Opt in with `createRouter({ routes, diagnostics: __DEV__ })`. `router.diagnostics` provides a bounded navigation timeline, frozen logical/native snapshots, mismatch detection and JSON export. Guards, loading, mounting and transition completion have correlated timings; route values, props and results are omitted. The debug demo includes a native inspector with slow-guard, heavy-setup and unmanaged-Page scenarios. See [diagnostics](https://vue-router-ns.rafaelaugusto.dev/guide/diagnostics).
 
 ## Try it online
 

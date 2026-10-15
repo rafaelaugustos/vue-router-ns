@@ -46,6 +46,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('vueRouter', 'vue-router'),
         page('api', 'api'),
         page('internals', 'how-it-works'),
+        page('diagnostics', 'diagnostics'),
       ],
     },
   ]
@@ -74,6 +75,7 @@ const en = {
   vueRouter: 'Differences from Vue Router',
   api: 'API',
   internals: 'How it works',
+  diagnostics: 'Navigation diagnostics',
 }
 
 const pt = {
@@ -99,6 +101,7 @@ const pt = {
   vueRouter: 'Diferenças do Vue Router',
   api: 'API',
   internals: 'Como funciona',
+  diagnostics: 'Diagnóstico de navegação',
 }
 
 export default defineConfig({
