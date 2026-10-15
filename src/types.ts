@@ -189,16 +189,29 @@ export interface BackOptions {
 /** What `restore.save` receives and `restore.load` gives back: the paths of every named stack. */
 export interface SavedStacks {
   savedAt: number
+  /** Identifies a window snapshot; absent in the legacy path-only format. */
+  windowKey?: string
   stacks: Record<string, string[]>
 }
 
 export interface RestoreOptions {
-  /** Called with the stacks after every navigation, and with `null` when the app exits on its own. */
-  save(state: SavedStacks | null): void
+  /** Stable application key for this window's snapshot; defaults to NativeWindow.id. */
+  key?: string
+  /** Saves after navigation. `null` clears a closed window, or a legacy app exiting on its own. */
+  save(state: SavedStacks | null, context?: RestoreContext): void
   /** Called once, when the first `<RouterView>` mounts. */
-  load(): SavedStacks | null | undefined | Promise<SavedStacks | null | undefined>
+  load(
+    context?: RestoreContext,
+  ): SavedStacks | null | undefined | Promise<SavedStacks | null | undefined>
   /** Saves older than this, in milliseconds, are left alone. Defaults to 30 minutes. */
   maxAge?: number
+}
+
+/** Present for a window-scoped router; omitted in legacy single-window mode. */
+export interface RestoreContext {
+  windowId: string
+  /** restore.key, or the native window ID when no application key was supplied. */
+  key: string
 }
 
 export interface SetStackOptions {

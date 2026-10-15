@@ -27,3 +27,7 @@ Modais, e `props` passadas pelo `push`. Uma página que depende delas deve lidar
 `SavedStacks` tem a forma `{ savedAt: number, stacks: Record<string, string[]> }`. `savedAt` é um timestamp em milissegundos. Use nomes de pilha estáveis; o split view salva lista e detalhes como uma única pilha. `load()` é chamado uma vez por instância do router, e cada view restaura sua pilha quando é montada.
 
 A restauração recria páginas a partir de paths. Não salva refs locais, posição de scroll ou objetos arbitrários. Persista dados de formulário separadamente. `maxAge` fica dentro de `restore`, por exemplo `restore: { save, load, maxAge: Infinity }`.
+
+## Janelas nativas
+
+No core 9.1+, um router ligado a uma `NativeWindow` recebe contexto de janela em `save(state, context)` e `load(context)`. Use `restore.key` e `context.key` para separar os snapshots. Nesse modo, sair do processo preserva a pilha; fechar uma janela grava `null` somente no snapshot dela. O comportamento de limpar ao sair descrito acima se aplica ao modo legado, sem uma janela proprietária. Veja [janelas nativas](./windows#persistência-por-janela) para inicialização e limites.
