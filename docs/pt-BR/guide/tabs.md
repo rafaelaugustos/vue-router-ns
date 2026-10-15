@@ -24,3 +24,5 @@ No iOS, o router escuta na frente do delegate da barra de abas, que de outro mod
 ## Abas que ainda não apareceram
 
 No iOS, um `TabView` só carrega a aba selecionada. Um `<RouterView>` em outra aba espera a primeira página até aquela aba ser aberta, e uma navegação para dentro dele (um deep link, por exemplo) espera junto. As navegações nas outras pilhas não ficam presas.
+
+Selecionar `{ frame: 'settings' }` não altera `selectedIndex`. Para um deep link em outra aba, atualize o `selectedIndex` do `TabView` e então aguarde `router.push(to, { frame: 'settings' })`. Os nomes devem ser únicos entre `RouterView` e `RouterSplitView`.

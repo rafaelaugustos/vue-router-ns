@@ -24,3 +24,5 @@ On iOS, the router listens in front of the tab bar's delegate, which otherwise a
 ## Tabs that haven't been shown yet
 
 On iOS, a `TabView` only loads the selected tab. A `<RouterView>` in another tab waits for its first page until that tab is opened, and a navigation into it (a deep link, for example) waits with it. Navigations in the other stacks aren't held up.
+
+Targeting `{ frame: 'settings' }` does not change `selectedIndex`. For a deep link into another tab, update the `TabView`'s `selectedIndex`, then await `router.push(to, { frame: 'settings' })`. Names must be unique across `RouterView` and `RouterSplitView`.

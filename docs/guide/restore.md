@@ -21,3 +21,9 @@ Saves older than `maxAge` (30 minutes by default) are ignored; pass `Infinity` t
 ## What can't come back
 
 Modals, and `props` passed through `push`. A page that relies on them should cope with their absence, by reading its params instead. If a saved path matches no route anymore, after an update for example, the stack starts from `initial` instead.
+
+## Format and limits
+
+`SavedStacks` has the shape `{ savedAt: number, stacks: Record<string, string[]> }`. `savedAt` is a timestamp in milliseconds. Keep stack names stable; a split view saves list and details as one stack. `load()` runs once per router instance, and each view restores its stack when mounted.
+
+Restoration recreates pages from paths. It does not save local refs, scroll offsets or arbitrary objects. Persist form data separately. `maxAge` belongs inside `restore`, for example `restore: { save, load, maxAge: Infinity }`.

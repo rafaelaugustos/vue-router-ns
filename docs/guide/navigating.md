@@ -46,3 +46,20 @@ Navigations queue behind native transitions, so a double tap on a button opens t
 ```
 
 It takes `to`, `replace`, `clearHistory`, `withParents`, `zoom`, `transition` and `frame`.
+
+## Failures and errors
+
+A completed navigation resolves to `undefined`. An expected interruption resolves to `NavigationFailure`: `aborted` when a guard returns `false`, `duplicated` when the destination is already on top, or `cancelled` when a newer navigation supersedes one still pending.
+
+```ts
+import { isNavigationFailure, NavigationFailureType } from 'vue-router-ns'
+
+const failure = await router.push('/messages/42')
+if (isNavigationFailure(failure, NavigationFailureType.aborted)) {
+  // The current page remains open.
+}
+```
+
+An unmatched route, failed loader or thrown guard error rejects the promise. Use `try/catch` at the call site and `router.onError((error, to, from) => …)` for global observation. `afterEach((to, from, failure) => …)` receives expected navigation failures; these are distinct from exceptions.
+
+To push another instance of the current location, use `router.push({ path: '/messages/42', force: true })`. Without `force`, changes to params, query or hash already represent a different location.

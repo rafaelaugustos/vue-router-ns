@@ -1,36 +1,123 @@
 # API
 
-## Router
+## Criando um router
 
-`createRouter({ routes, restore })` retorna um router com:
+```ts
+import { createRouter } from 'vue-router-ns'
 
-- **Navegação**: `push`, `replace`, `back`, `go`, `backTo`, `backToRoot`, `setStack`, `pushForResult`, `resolve`.
-- **Rotas**: `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`.
-- **Guards**: `beforeEach`, `beforeResolve`, `afterEach`, `onError`.
-- **Estado**: `currentRoute`, `stack`, `isReady()`.
+const router = createRouter({ routes, restore, backPreview: true })
+```
 
-Os métodos de navegação retornam `Promise<NavigationFailure | undefined>`. O `pushForResult<T>()` retorna `Promise<T | undefined>`.
+| Opção         | Padrão      | Significado                                                                                                                   |
+| ------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `routes`      | Obrigatória | Array readonly de `RouteRecordRaw`.                                                                                           |
+| `restore`     | Desativado  | `save(state)`, `load()` e `maxAge` opcional em milissegundos (padrão: 30 minutos). Veja [restauração](./restore).             |
+| `backPreview` | `true`      | Revela a página anterior durante o gesto de voltar no Android 14+. Exige a [ativação na plataforma](./android-back#ativando). |
+
+Instale uma vez com `createApp(App).use(router).start()`. Isso registra os componentes e fornece `$router` e `$route` nos templates. `router.install(app)` é o hook de plugin do Vue.
+
+## Métodos do router
+
+`to` é um `RouteLocationRaw`: string de path, `{ path, query?, hash? }`, `{ name, params?, query?, hash? }` ou uma localização relativa à rota atual. Localizações em objeto também aceitam `replace` e `force`. Use `force: true` para empurrar outra instância da localização atual. Params pertencem a localizações nomeadas ou relativas, não a um objeto com `path`.
+
+| Método                           | Comportamento                                                                                                                              |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `push(to, options?)`             | Adiciona uma página ou apresenta um modal.                                                                                                 |
+| `replace(to, options?)`          | Substitui a página atual.                                                                                                                  |
+| `back(options?)`                 | Remove uma página; fecha um modal na raiz. Na raiz de uma pilha não modal, não faz nada. O back do sistema Android ainda pode sair do app. |
+| `go(delta)`                      | Volta um número negativo de páginas. Zero e valores positivos não fazem nada. Não recebe opções.                                           |
+| `backTo(to, options?)`           | Volta à página correspondente mais próxima abaixo do topo; rejeita se não existir.                                                         |
+| `backToRoot(options?)`           | Volta à primeira página da pilha atual.                                                                                                    |
+| `setStack(locations, options?)`  | Reconcilia uma lista não vazia com a pilha. Preserva o prefixo comum; para na primeira falha sem desfazer os passos concluídos.            |
+| `pushForResult<T>(to, options?)` | Abre uma página e espera `back({ result })`. Resolve para `T \| undefined` quando ela fecha ou a abertura é impedida.                      |
+| `resolve(to)`                    | Resolve uma localização de forma síncrona sem navegar. Retorna `RouteLocation`; lança erro se não houver rota correspondente.              |
+| `isReady()`                      | Promise que termina após a navegação inicial; não espera todas as abas ocultas carregarem.                                                 |
+
+Os métodos de navegação, exceto `pushForResult`, resolvem para `NavigationFailure | undefined`. Erros inesperados rejeitam a promise; veja [falhas](./navigating#falhas-e-erros). Os métodos de voltar seguem a [semântica do split view](./split-view#historico-e-voltar) quando chamados em uma pilha dividida.
 
 ### Opções de navegação
 
-`push` e `replace` aceitam `transition`, `animated`, `clearHistory`, `props`, `frame`, `modal`, `withParents` e `zoomFrom`. `back`, `go`, `backTo` e `backToRoot` aceitam `animated`, `frame` e `result`. `setStack` aceita `frame`, `animated` e `transition`.
+`push`, `replace` e `pushForResult` aceitam `NavigationOptions`:
 
-## Records de rota
+| Opção          | Significado                                                                                                                                   |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `frame`        | Pilha nomeada de destino. Sem ela, usa a pilha da página chamadora ou a pilha em foco fora de uma página. Não seleciona uma aba do `TabView`. |
+| `transition`   | Nome como `'fade'` ou objeto de transição do NativeScript; substitui o padrão da rota. Inclui `SharedTransition`.                             |
+| `animated`     | `false` desativa a animação.                                                                                                                  |
+| `clearHistory` | Remove páginas anteriores, passando pelos guards. Uma pilha split mantém a lista.                                                             |
+| `props`        | Props extras da página, mescladas sobre as props do record. Não são persistidas pelo `restore`.                                               |
+| `modal`        | `true`, `false` ou `ModalOptions`; substitui a apresentação definida na rota.                                                                 |
+| `withParents`  | Empurra os ancestrais com componente antes do destino.                                                                                        |
+| `zoomFrom`     | View, ref de elemento, componente ou `null`; origem do zoom nativo do iOS 18+.                                                                |
 
-`path`, `name`, `component` (ou uma função que o retorna, síncrona ou assíncrona), `children`, `redirect`, `meta`, `props` (`true`, um objeto ou uma função da rota), `beforeEnter`, mais `modal` (`true` ou `ModalOptions`) e `transition`.
+`back`, `backTo` e `backToRoot` aceitam `BackOptions`: `animated`, `frame` e `result`. `go(delta)` não tem parâmetro de opções. `setStack` aceita `SetStackOptions`: `frame`, `animated` e `transition`; a animação vale apenas para o último passo.
+
+### Rotas e hooks
+
+| Método                                              | Retorno                                                                     |
+| --------------------------------------------------- | --------------------------------------------------------------------------- |
+| `addRoute(record)` / `addRoute(parentName, record)` | Callback que remove a rota adicionada.                                      |
+| `removeRoute(name)`                                 | `void`. Remove uma rota registrada; não remove páginas existentes da pilha. |
+| `hasRoute(name)`                                    | `boolean`.                                                                  |
+| `getRoutes()`                                       | `RouteRecord[]` normalizado.                                                |
+| `beforeEach(guard)` / `beforeResolve(guard)`        | Callback que remove o guard.                                                |
+| `afterEach((to, from, failure?) => …)`              | Callback que remove o hook.                                                 |
+| `onError((error, to, from) => …)`                   | Callback que remove o handler.                                              |
+
+Um `NavigationGuard` recebe `(to, from, { type })`, com `type` igual a `'push'`, `'replace'` ou `'back'`. Pode retornar uma promise. Retorne `false` para abortar, uma localização para redirecionar, ou `undefined`/`true` para continuar. Guards usam valores de retorno, não `next()`. Veja [guards](./guards).
+
+### Estado
+
+- `currentRoute`: ref readonly da rota em foco, incluindo o modal ativo.
+- `stack`: ref readonly das rotas da base ao topo. Um router ligado a uma página expõe a pilha dela; o router exportado acompanha a pilha em foco.
+- `options`: configuração do router.
+- `START_LOCATION`: localização vazia antes da navegação inicial (`path: '/'`, nenhum record correspondente).
+
+## Localizações e records de rota
+
+`RouteLocation` contém `path`, `fullPath`, `name`, `params`, `query`, `hash`, `meta`, `matched` e `redirectedFrom`. Params resolvidos são strings ou arrays de strings. Valores de query são strings, `null` ou arrays; na entrada também aceitam números, booleanos e `undefined`. `meta` é mesclado do pai para o filho.
+
+`RouteRecordRaw` aceita `path`, `name` (string ou symbol), `component` (componente ou loader síncrono/assíncrono), `children`, `redirect` (localização ou função), `meta`, `props` (`true`, objeto ou função), `beforeEnter` (guard ou array), `modal` (`boolean` ou `ModalOptions`) e `transition`.
+
+Paths aceitam parâmetros nomeados, opcionais/repetidos e padrões personalizados. Veja [rotas tipadas](./typed-routes). `children` aninha paths e metadados; não cria UI aninhada automaticamente.
+
+`ModalOptions` repassa as opções de `showModal` do NativeScript, exceto `context` e `closeCallback`, controlados pelo router. As opções `ios` também aceitam `detents`, `selectedDetent`, `largestUndimmedDetent`, `grabber` e `cornerRadius`. Veja [modais e sheets](./modals).
 
 ## Composables
 
-`useRouter`, `useRoute`, `onBeforeRouteLeave`, `onPageActivated`, `onPageDeactivated`, `useBackGesture`.
+| Função                                 | Contrato                                                                                                               |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `useRouter()`                          | Router ligado à pilha da página atual; router do app fora de páginas. Exige um app usando o router.                    |
+| `useRoute(name?)`                      | Rota fixa desta página, ou rota em foco fora de páginas. O nome opcional restringe os tipos; não seleciona outra rota. |
+| `onBeforeRouteLeave(guard, { when }?)` | Leave guard da página. `when` aceita boolean, ref ou getter. Removido no unmount.                                      |
+| `onPageActivated(hook)`                | Chamado quando a página fica visível, incluindo a primeira ativação e os retornos.                                     |
+| `onPageDeactivated(hook)`              | Chamado quando a página é coberta. Para remoção, use `onUnmounted` do Vue.                                             |
+| `useBackGesture()`                     | Shallow ref readonly de `{ progress, edge }` ou `null`; Android 14+. `edge` é `'left'`, `'right'` ou `'none'`.         |
+
+Registre os hooks de página no setup do componente roteado. No split view expandido, lista e detalhe do topo ficam ativos. Veja [ciclo de vida e HMR](./pages).
 
 ## Componentes
 
-`<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents zoom transition frame>` e `<Deferred>`, que renderiza o conteúdo quando a página está na tela e um slot `fallback` até lá.
+| Componente        | Props e slots                                                                                                                                                                                                    |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `RouterView`      | `name` (`'default'`), `initial` (`'/'`), `backToRootOnReselect` (`false`). Monta um Frame.                                                                                                                       |
+| `RouterSplitView` | `list` obrigatório; `name` (`'default'`), `breakpoint` (840), `listWidth` (320), `backToRootOnReselect` (`false`). Slot: `empty`.                                                                                |
+| `RouterLink`      | `to` obrigatório; `replace`, `clearHistory`, `withParents`, `zoom` (todos `false`); `transition`, `frame`. Um filho no slot padrão; o slot recebe `{ navigate }`. Adiciona um handler de tap sem wrapper nativo. |
+| `Deferred`        | Sem props. Slots: conteúdo padrão e `fallback`. Mostra o conteúdo após a primeira ativação da página e o mantém montado. Fora de página roteada, renderiza imediatamente.                                        |
 
-## Helpers
+Nomes de router views devem ser únicos, incluindo split views. `name` e a rota inicial (`initial`/`list`) são lidos na montagem; use uma nova `key` do Vue para criar outra pilha. Dimensões do split view usam pixels independentes de dispositivo; a largura da lista é limitada à metade da largura disponível. Veja [split view](./split-view).
 
-`isNavigationFailure`, `NavigationFailureType`, `START_LOCATION`, mais `$router` e `$route` nos templates.
+## Falhas e tipos exportados
 
-## Tipos
+`isNavigationFailure(value, type?)` identifica um `NavigationFailure` (`Error` com `type`, `to`, `from`). `NavigationFailureType` contém `aborted` (4), `cancelled` (8) e `duplicated` (16); o argumento opcional também aceita uma máscara de bits.
 
-`Register` e `RouteMeta` para estender, `RouteLocation`, `RouteLocationRaw`, `RouteRecordRaw`, `NavigationGuard`, `NavigationOptions`, `BackOptions`, `SetStackOptions`, `RestoreOptions`, `SavedStacks`, `ModalOptions`, `ZoomSource`, `BackGesture`, `ParamsFromPath`, e o resto exportado pelo pacote.
+Os tipos públicos são exportados pela raiz do pacote:
+
+- Configuração: `Router`, `RouterOptions`, `RestoreOptions`, `SavedStacks`.
+- Rotas: `RouteRecordRaw`, `RouteRecord`, `RouteRecordName`, `RouteMeta`, `RouteProps`, `RouteComponent`, `RawRouteComponent`, `Lazy`.
+- Localizações: `RouteLocation`, `RouteLocationRaw`, `RouteLocationPathRaw`, `RouteLocationNamedRaw`, `RouteLocationRelativeRaw`, `RouteParams`, `RouteParamsRaw`, `RouteParamValue`, `RouteParamValueRaw`, `LocationQuery`, `LocationQueryRaw`, `LocationQueryValue`, `LocationQueryValueRaw`.
+- Navegação: `NavigationOptions`, `BackOptions`, `SetStackOptions`, `NavigationType`, `NavigationInfo`, `NavigationGuard`, `NavigationGuardReturn`, `NavigationHookAfter`, `NavigationErrorHandler`, `NavigationFailure`, `LeaveGuardOptions`.
+- Apresentação nativa: `ModalOptions`, `SheetOptions`, `SheetDetent`, `TransitionOption`, `ZoomSource`, `BackGesture`, `BackGestureEdge`.
+- Tipos inferidos: `Register`, `RegisteredRouter`, `RouteMapFrom`, `RouteMapGeneric`, `RouteNames`, `RouteLocationOf`, `RouteLocationRawOf`, `ParamsFromPath`.
+
+Estenda `Register` e `RouteMeta` como mostrado em [rotas tipadas](./typed-routes).

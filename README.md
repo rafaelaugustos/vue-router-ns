@@ -45,6 +45,7 @@ So this is not a wrapper around Vue Router. The frame's back stack is the source
 - [Leave guards](#guards) that the Android back button goes through, and that turn the iOS swipe off while they'd block it.
 - [Modal routes](#modals) with their own stack, and [`pushForResult()`](#getting-a-result-back) to get a value back from a page.
 - [One stack per tab](#tabs-and-other-independent-stacks), with named `<RouterView>`s, and [`setStack()`](#setting-the-whole-stack) to set a stack as a list.
+- [Adaptive list and detail](#list-and-detail) with `<RouterSplitView>`, preserving push history across layout changes.
 - [Typed routes](#typed-routes): names and params checked across the app, with no code generation.
 - [Zoom and shared elements](#zoom-and-shared-elements): iOS 18's zoom out of a view, and NativeScript's shared element transitions.
 - [Android predictive back](#android-predictive-back) for pages that want to follow the swipe.
@@ -290,6 +291,18 @@ Native tab bars go back to the first page when you tap the tab you're already on
 
 `router.backToRoot()` does the same on demand.
 
+## List and detail
+
+```vue
+<RouterSplitView name="inbox" list="/">
+  <template #empty><Label text="Select a message" /></template>
+</RouterSplitView>
+```
+
+The list stays mounted. At 840 device-independent pixels of available width, details appear alongside it; below that they cover it. `breakpoint` and `listWidth` (default 320) customize the layout. Resizing preserves page instances and history.
+
+`push()` retains every detail selection in history. Back walks through details, then returns to the list; `replace()` replaces the top detail, and `clearHistory` clears details while retaining the list. `setStack`, modal results, guards and restoration use the combined stack. The implementation uses two native Frames in a GridLayout; it is not a UIKit split controller or a drawer. See the [complete split-view guide](https://vue-router-ns.rafaelaugusto.dev/guide/split-view).
+
 ## When a page comes back into view
 
 A page that stays in the stack isn't mounted again when you return to it, so `onMounted` won't help you refresh it. Use these instead:
@@ -303,7 +316,7 @@ When the page leaves the stack it is unmounted, so cleanup goes in `onUnmounted`
 
 ## Pages with a lot to lay out
 
-In NativeScript the JavaScript runs on the main thread, so a page that takes a while to build delays its own push animation: the frame waits for the view before it moves. Native apps animate first and fill in after. `<Deferred>` does that: it renders its `fallback` until the page is on screen, after the transition, and only then its content.
+In NativeScript the JavaScript runs on the main thread, so a page that takes a while to build delays its own push animation: the frame waits for the view before it moves. `<Deferred>` lets the transition finish before mounting its content: it renders its `fallback` until the page is on screen, after the transition, and only then its content.
 
 ```vue
 <Page>
@@ -337,7 +350,7 @@ const scale = computed(() => 1 - (gesture.value?.progress ?? 0) * 0.1)
 </template>
 ```
 
-While the user drags, it's `{ progress, edge }`, with `progress` going from 0 to 1. The rest of the time it's `null`: once the swipe is cancelled or released, on iOS, on the first page (where back leaves the app), on a modal with `cancelable: false`, and while a leave guard is active, since letting go won't simply close the page then. Releasing goes back through the router like the back button, guards included.
+While the user drags, it's `{ progress, edge }`, with `progress` going from 0 to 1. The rest of the time it's `null`: once the swipe is cancelled or released, on iOS, on the first page (where back leaves the app), on the first page of a modal with `cancelable: false`, and while a leave guard is active, since letting go won't simply close the page then. Releasing goes back through the router like the back button, guards included.
 
 Set `android:enableOnBackInvokedCallback="true"` on `<application>` in `AndroidManifest.xml` to receive predictive back progress on Android 14 and 15, even when targeting API 36. The default opt-in for apps targeting API 36 applies only when running on Android 16 or later.
 
@@ -429,13 +442,13 @@ On iOS, the ActionBar's back button pops the page natively. While a leave guard 
 
 ## API
 
-**Router**: `createRouter({ routes, restore })`, `push`, `replace`, `back`, `go`, `backTo`, `backToRoot`, `setStack`, `pushForResult`, `resolve`, `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`, `beforeEach`, `beforeResolve`, `afterEach`, `onError`, `isReady`, `currentRoute`, `stack`.
+**Router**: `createRouter({ routes, restore, backPreview })`, `push`, `replace`, `back`, `go`, `backTo`, `backToRoot`, `setStack`, `pushForResult`, `resolve`, `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`, `beforeEach`, `beforeResolve`, `afterEach`, `onError`, `isReady`, `currentRoute`, `stack`.
 
 **Route records**: `path`, `name`, `component` (or a function returning it, sync or async), `children`, `redirect`, `meta`, `props` (`true`, an object or a function of the route), `beforeEnter`, plus `modal` and `transition`.
 
 **Composables**: `useRouter`, `useRoute`, `onBeforeRouteLeave`, `onPageActivated`, `onPageDeactivated`, `useBackGesture`.
 
-**Components**: `<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents zoom transition frame>` and `<Deferred>`. `RouterLink` makes its only child navigate on tap, without adding a view:
+**Components**: `<RouterSplitView name list breakpoint listWidth backToRootOnReselect>` (with an `empty` slot), `<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents zoom transition frame>` and `<Deferred>`. `RouterLink` makes its only child navigate on tap, without adding a view:
 
 ```vue
 <RouterLink to="/settings">
@@ -449,7 +462,15 @@ On iOS, the ActionBar's back button pops the page natively. While a leave guard 
 
 Each `<RouterView>` renders a NativeScript `Frame`. Pages are mounted with `$navigateTo`, inside a small wrapper that provides their route and a router bound to their stack. NativeScript-Vue mounts every page as its own app, so nothing provided by `<RouterView>` would reach them otherwise.
 
-The router never keeps a history of its own. After every `navigatedTo`, it reads `frame.backStack` and the current page and mirrors them. Pops it didn't start, like an iOS swipe, are picked up the same way as its own. `replace` marks the current entry `backstackVisible: false` before navigating, which is how the frame drops a page natively.
+In a `RouterView`, the native stack is the source of navigation history. After every `navigatedTo`, it reads `frame.backStack` and the current page and mirrors them. Pops it didn't start, like an iOS swipe, are picked up the same way as its own. `replace` marks the current entry `backstackVisible: false` before navigating, which is how the frame drops a page natively.
+
+Covered-page HMR reloads wait until the Frame returns to the page, then replace its native Page through NativeScript-Vue. History is preserved; remounting can reset local component state. See [page lifecycle and HMR](https://vue-router-ns.rafaelaugusto.dev/guide/pages#hmr-during-development).
+
+The [full API reference](https://vue-router-ns.rafaelaugusto.dev/guide/api) documents signatures, defaults, errors, component slots and exported types. In particular, `go(delta)` takes no options; `back`, `backTo` and `backToRoot` accept `animated`, `frame` and `result`.
+
+## Try it online
+
+[Open in StackBlitz](https://stackblitz.com/fork/github/rafaelaugustos/vue-router-ns/tree/master/examples/playground?file=src%2Frouter.ts) with [NativeScript Preview](https://preview.nativescript.org/). The example uses the published npm package and covers push/back history, modal results, leave guards and adaptive list/detail. Edit in the browser; scan the QR code to run natively on a device. See [setup and Preview limitations](https://vue-router-ns.rafaelaugusto.dev/guide/playground).
 
 ## Demo
 
@@ -459,7 +480,7 @@ With the [NativeScript CLI](https://docs.nativescript.org/setup/) installed:
 
 ```sh
 npm install
-npm run dev        # builds the router in watch mode
+npm run build
 
 cd demo
 npm install

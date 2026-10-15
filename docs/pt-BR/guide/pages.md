@@ -28,7 +28,7 @@ Quando a página sai da pilha ela é desmontada, então a limpeza vai no `onUnmo
 
 ## Páginas com muito para montar
 
-No NativeScript o JavaScript roda na main thread, então uma página que demora para ser construída atrasa a própria animação de push: o frame espera a view antes de se mover. Apps nativos animam primeiro e preenchem depois. O `<Deferred>` faz isso: renderiza o `fallback` até a página estar na tela, depois da transição, e só então o conteúdo.
+No NativeScript o JavaScript roda na main thread, então uma página que demora para ser construída atrasa a própria animação de push: o frame espera a view antes de se mover. O `<Deferred>` permite que a transição termine antes de montar seu conteúdo: renderiza o `fallback` até a página estar na tela, depois da transição, e só então o conteúdo.
 
 ```vue
 <Page>
@@ -41,3 +41,9 @@ No NativeScript o JavaScript roda na main thread, então uma página que demora 
 ```
 
 Medido num emulador Android com uma página de 400 linhas num `StackLayout`: a transição terminava de 1,1 a 2,7 segundos depois do toque; com as linhas dentro do `<Deferred>`, de 0,3 a 0,7 segundo. As linhas em si demoram mais ou menos o mesmo para aparecer, porque o trabalho não some: ele acontece depois de a página estar na tela em vez de antes. Para listas longas, um `ListView` ou `CollectionView` continua sendo a resposta, já que eles só constroem o que está visível.
+
+## HMR durante o desenvolvimento
+
+Desde a beta.6, um reload de componente de rota passa pela substituição da Page nativa do NativeScript-Vue. Se a página estiver coberta por outra na mesma pilha, o reload espera o Frame terminar de voltar a ela. A ordem da pilha é preservada e o conteúdo atualizado aparece ao retornar.
+
+Um reload que remonta o componente pode reiniciar seu estado local; preservar a pilha não significa preservar todas as refs do setup. Atualizações só de template seguem o HMR do Vue. Mudanças no módulo do router, na raiz do app ou em recursos nativos podem exigir reiniciar o app. Esse comportamento só se aplica ao desenvolvimento.

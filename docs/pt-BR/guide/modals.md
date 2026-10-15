@@ -48,3 +48,9 @@ router.back({ result: text.value })
 ```
 
 Se a página fecha de qualquer outro jeito (um swipe, o botão de voltar) ou um guard a impede de abrir, a promise resolve com `undefined`.
+
+## Fechamento e versões
+
+`cancelable: false` impede o fechamento pelo usuário (como back do Android na raiz do modal); o código ainda pode chamar `router.back()`, passando pelos guards. Uma página acima da raiz do modal ainda pode voltar dentro da pilha.
+
+Sheets com alturas `'medium'` e `'large'` exigem iOS 15+; alturas fracionárias exigem iOS 16+. A apresentação precisa ser compatível com sheets. Opções `ios` são ignoradas no Android. O resultado de `pushForResult<T>()` não é validado em runtime: `T` descreve o contrato entre as páginas.

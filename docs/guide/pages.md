@@ -28,7 +28,7 @@ When the page leaves the stack it is unmounted, so cleanup goes in `onUnmounted`
 
 ## Pages with a lot to lay out
 
-In NativeScript the JavaScript runs on the main thread, so a page that takes a while to build delays its own push animation: the frame waits for the view before it moves. Native apps animate first and fill in after. `<Deferred>` does that: it renders its `fallback` until the page is on screen, after the transition, and only then its content.
+In NativeScript the JavaScript runs on the main thread, so a page that takes a while to build delays its own push animation: the frame waits for the view before it moves. `<Deferred>` lets the transition finish before mounting its content: it renders its `fallback` until the page is on screen, after the transition, and only then its content.
 
 ```vue
 <Page>
@@ -41,3 +41,9 @@ In NativeScript the JavaScript runs on the main thread, so a page that takes a w
 ```
 
 Measured on an Android emulator with a page of 400 rows in a `StackLayout`: the transition finished 1.1 to 2.7 seconds after the tap; with the rows inside `<Deferred>`, 0.3 to 0.7 seconds. The rows themselves take about as long to appear as before, since the work doesn't go away: it happens after the page is up instead of before. For long lists, a `ListView` or `CollectionView` is still the answer, since they only build what's visible.
+
+## HMR during development
+
+Since beta.6, reloading a routed component goes through NativeScript-Vue's native Page replacement. If another page covers it in the same stack, the reload waits until the Frame finishes returning to it. Stack order is preserved and the updated content appears on return.
+
+A reload that remounts a component can reset its local state; preserving history does not preserve every setup ref. Template-only updates follow Vue's HMR behavior. Changes to the router module, app root or native resources may require restarting the app. This behavior applies only in development.
