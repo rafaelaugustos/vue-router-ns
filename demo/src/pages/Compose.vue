@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import { NavigationCommandScope } from 'vue-router-ns'
+import { useDemoCommands } from '../navigation-commands'
+
 import { computed, ref } from 'nativescript-vue'
 import { Dialogs } from '@nativescript/core'
 import { onBeforeRouteLeave, useRouter } from 'vue-router-ns'
@@ -27,6 +30,7 @@ function send() {
   sent.value = true
   router.back({ result: body.value.trim() })
 }
+const commands = useDemoCommands()
 </script>
 
 <template>
@@ -36,9 +40,11 @@ function send() {
       <ActionItem text="Send" ios.position="right" @tap="send" />
     </ActionBar>
 
-    <StackLayout class="section">
-      <TextField v-model="subject" hint="Subject" />
-      <TextView v-model="body" hint="Write something…" height="200" marginTop="12" />
-    </StackLayout>
+    <NavigationCommandScope :commands="commands">
+      <StackLayout class="section">
+        <TextField v-model="subject" hint="Subject" />
+        <TextView v-model="body" hint="Write something…" height="200" marginTop="12" />
+      </StackLayout>
+    </NavigationCommandScope>
   </Page>
 </template>

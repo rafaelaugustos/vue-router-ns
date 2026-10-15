@@ -12,6 +12,7 @@ import {
 import { Frame, Page, TabView, TabViewItem, View, type NavigationEntry } from './core.js'
 
 export * from '@vue/runtime-core'
+export function registerElement(_name: string, _resolver: () => unknown) {}
 
 export class TestNode {
   parentNode: TestNode | null = null

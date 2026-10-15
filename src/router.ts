@@ -964,6 +964,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     const mounting = trace?.span('mount', 'modal-host')
     const presented = $showModal(ModalHost, {
       ...modal,
+      // A command originating in another native window must present there.
+      target: request.stack.frame?.currentPage ?? request.stack.frame ?? undefined,
       props: {
         onReady(frame: Frame) {
           attach(stack, frame)
