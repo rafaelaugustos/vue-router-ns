@@ -104,6 +104,7 @@ export class TabView extends View {
 }
 
 export class Page extends View {
+  frame?: Frame
   actionBarHidden = false
   enableSwipeBackNavigation = true
   disposed = false
@@ -173,7 +174,9 @@ export class Frame extends View {
   navigate(entry: NavigationEntry) {
     Frame.navigations.push(entry)
     this.toTop()
-    this.queue.push({ type: 'forward', entry: { entry, resolvedPage: entry.create!() } })
+    const resolvedPage = entry.create!()
+    resolvedPage.frame = this
+    this.queue.push({ type: 'forward', entry: { entry, resolvedPage } })
     this.process()
   }
 

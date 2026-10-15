@@ -37,6 +37,6 @@ Enquanto o usuário arrasta, é `{ progress, edge }`, com `progress` indo de 0 a
 
 ## Ativando
 
-Apps que miram o Android 16 (API 36) têm predictive back por padrão. Alvos anteriores ativam com `android:enableOnBackInvokedCallback="true"` no `<application>` do `AndroidManifest.xml`.
+Defina `android:enableOnBackInvokedCallback="true"` no `<application>` do `AndroidManifest.xml` para receber o progresso do predictive back no Android 14 e 15, mesmo mirando a API 36. A ativação por padrão para apps que miram a API 36 só vale quando executados no Android 16 ou posterior.
 
 Consulte também a [documentação do Android sobre predictive back](https://developer.android.com/guide/navigation/custom-back/predictive-back-gesture).
