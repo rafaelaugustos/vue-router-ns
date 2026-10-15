@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Opt-in native keyboard commands scoped to a page/window, with UIKit discovery, Android unhandled-key dispatch, guard-aware back/modal actions and editing/IME protection.
+
 - Page-owned native search with `useNativeSearch()`: UISearchController on iOS and SearchView in the existing Android ActionBar. Query state survives navigation without adding route history; native bar/appearance recipes and a searchable demo inbox.
 
 ## 0.1.0-beta.7 (2026-10-15)

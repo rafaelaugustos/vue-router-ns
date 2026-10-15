@@ -131,3 +131,7 @@ Estenda `Register` e `RouteMeta` como mostrado em [rotas tipadas](./typed-routes
 ## Native search
 
 `useNativeSearch(options)` registers page-owned native search. Exports: `NativeSearchOptions`, `NativeSearch`. See [native bars and search](./native-bars) for query ownership, activation and platform differences.
+
+## Keyboard commands
+
+`useNavigationCommands(source)` and `NavigationCommandScope` bind opt-in commands to a page/window. Types: `NavigationCommand`, `NavigationCommandState`, `NavigationCommands`, `NavigationShortcut`, `KeyModifier`. See [keyboard commands](./keyboard).

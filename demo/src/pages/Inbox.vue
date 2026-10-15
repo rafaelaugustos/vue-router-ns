@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import { NavigationCommandScope } from 'vue-router-ns'
+import { useDemoCommands } from '../navigation-commands'
+
 import { computed, ref } from 'nativescript-vue'
 import { PageTransition, SharedTransition, type ItemEventData } from '@nativescript/core'
 import { onPageActivated, useNativeSearch, useRouter } from 'vue-router-ns'
@@ -43,6 +46,7 @@ function open({ index, view }: ItemEventData) {
     { zoomFrom: view, transition: SharedTransition.custom(new PageTransition()) },
   )
 }
+const commands = useDemoCommands()
 </script>
 
 <template>
@@ -52,7 +56,7 @@ function open({ index, view }: ItemEventData) {
       <ActionItem text="Compose" ios.position="right" @tap="compose" />
     </ActionBar>
 
-    <GridLayout rows="*, auto">
+    <NavigationCommandScope :commands="commands" rows="*, auto">
       <ListView :items="filtered" @itemTap="open">
         <template #default="{ item }">
           <StackLayout class="message" :class="{ unread: !item.read }">
@@ -66,6 +70,6 @@ function open({ index, view }: ItemEventData) {
         </template>
       </ListView>
       <StackTrail row="1" />
-    </GridLayout>
+    </NavigationCommandScope>
   </Page>
 </template>

@@ -95,6 +95,12 @@ export class TabViewItem extends View {
   }
 }
 
+export class GridLayout extends View {
+  createNativeView(): any {
+    return this.nativeView
+  }
+}
+
 export class TabView extends View {
   selectedIndex = 0
 

@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import { NavigationCommandScope } from 'vue-router-ns'
+import { useDemoCommands } from '../navigation-commands'
+
 import { computed, ref } from 'nativescript-vue'
 import { useRoute, useRouter } from 'vue-router-ns'
 import StackTrail from '../components/StackTrail.vue'
@@ -22,13 +25,14 @@ async function compose() {
     props: { subject: `Re: ${message.value?.subject}` },
   })
 }
+const commands = useDemoCommands()
 </script>
 
 <template>
   <Page>
     <ActionBar :title="message?.from ?? 'Message'" />
 
-    <GridLayout rows="*, auto">
+    <NavigationCommandScope :commands="commands" rows="*, auto">
       <StackLayout class="section">
         <Label class="title" :text="message?.subject" textWrap="true" />
         <Label
@@ -61,6 +65,6 @@ async function compose() {
         />
       </StackLayout>
       <StackTrail row="1" />
-    </GridLayout>
+    </NavigationCommandScope>
   </Page>
 </template>
