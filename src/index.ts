@@ -27,6 +27,8 @@ export {
   useBackGesture,
 } from './composables.js'
 export type { LeaveGuardOptions } from './composables.js'
+export { useNativeSearch } from './search.js'
+export type { NativeSearch, NativeSearchOptions } from './search.js'
 
 export type { BackGesture, BackGestureEdge } from './android.js'
 

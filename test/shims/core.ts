@@ -108,6 +108,7 @@ export class Page extends View {
   actionBarHidden = false
   enableSwipeBackNavigation = true
   disposed = false
+  actionBar = { title: '', titleView: undefined as View | undefined }
   override ios: any = { controller: {}, navigationItem: { backAction: null } }
 
   dispose() {
@@ -237,6 +238,7 @@ export class Frame extends View {
 
     this.current = entry
     this.toTop()
+    entry.resolvedPage.notify({ eventName: 'navigatedTo', object: entry.resolvedPage })
     this.notify({
       eventName: 'navigatedTo',
       object: this,
@@ -248,6 +250,16 @@ export class Frame extends View {
   private toTop() {
     Frame.stack = [...Frame.stack.filter((frame) => frame !== this), this]
   }
+}
+
+export class SearchBar extends View {
+  text = ''
+  hint = ''
+  android: any = { clearFocus() {} }
+  focus() {
+    return true
+  }
+  dismissSoftInput() {}
 }
 
 export interface AndroidActivityBackPressedEventData extends EventData {
