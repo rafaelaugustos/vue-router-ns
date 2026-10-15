@@ -74,7 +74,11 @@ function iosEditing(native: any): boolean {
   return !!responder && typeof responder.insertText === 'function'
 }
 
-export function bindCommands(view: View, dispatch: Dispatch): NativeCommandsHost {
+export function bindCommands(
+  view: View,
+  dispatch: Dispatch,
+  eventRoot: View = view,
+): NativeCommandsHost {
   const native = view.nativeViewProtected
   if (isIOS && native && typeof UIKeyCommand !== 'undefined') {
     const available = () => {
@@ -126,11 +130,15 @@ export function bindCommands(view: View, dispatch: Dispatch): NativeCommandsHost
     }
   }
   if (!isIOS && native && typeof android !== 'undefined')
-    return bindAndroid(native, dispatch)
+    return bindAndroid(native, dispatch, eventRoot.nativeViewProtected ?? native)
   return { focus: () => false, dispose() {} }
 }
 
-function bindAndroid(native: any, dispatch: Dispatch): NativeCommandsHost {
+function bindAndroid(
+  native: any,
+  dispatch: Dispatch,
+  eventRoot: any,
+): NativeCommandsHost {
   const compat = androidx.core.view.ViewCompat
   const held = new Set<number>()
   const listener = new compat.OnUnhandledKeyEventListenerCompat({
@@ -165,6 +173,16 @@ function bindAndroid(native: any, dispatch: Dispatch): NativeCommandsHost {
         alt: event.isAltPressed(),
         meta: event.isMetaPressed(),
       }
+      // A native search field lives in the Toolbar, beside the content scope.
+      // The owning Page receives its unhandled Escape even at a stack root.
+      if (
+        input === 'Escape' &&
+        !Object.values(modifiers).some(Boolean) &&
+        dispatch.escape()
+      ) {
+        held.add(code)
+        return true
+      }
       const command = dispatch
         .list(!!editable)
         .find(
@@ -178,12 +196,11 @@ function bindAndroid(native: any, dispatch: Dispatch): NativeCommandsHost {
         )
       if (!command) return false
       held.add(code)
-      if (input === 'Escape' && dispatch.escape()) return true
       dispatch.dispatch(command.id)
       return true
     },
   })
-  compat.addOnUnhandledKeyEventListener(native, listener)
+  compat.addOnUnhandledKeyEventListener(eventRoot, listener)
   return {
     focus() {
       if (native.getRootView().findFocus()?.getEditableText?.()) return false
@@ -192,7 +209,7 @@ function bindAndroid(native: any, dispatch: Dispatch): NativeCommandsHost {
     },
     dispose() {
       held.clear()
-      compat.removeOnUnhandledKeyEventListener(native, listener)
+      compat.removeOnUnhandledKeyEventListener(eventRoot, listener)
     },
   }
 }

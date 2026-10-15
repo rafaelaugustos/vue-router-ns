@@ -228,6 +228,7 @@ describe('native navigation commands', () => {
     expect(escape).toHaveBeenCalledOnce()
     expect(dispatch).not.toHaveBeenCalled()
     expect(listener.onUnhandledKeyEvent(native, event(1))).toBe(true)
+    escape.mockReturnValue(false)
     focus.getEditableText = () => ({})
     expect(listener.onUnhandledKeyEvent(native, event(0))).toBe(false)
     binding.dispose()

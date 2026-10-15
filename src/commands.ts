@@ -88,25 +88,37 @@ export function useNavigationCommands(
     native?.dispose()
     native =
       page && host && pageVisible(entry, page)
-        ? bindCommands(host, {
-            list: (editing) =>
-              commands()
-                .filter(
-                  (command) => enabled(command) && (!editing || command.allowInTextInput),
-                )
-                .map((command) => ({
-                  id: command.id,
-                  title: toValue(command.title),
-                  shortcut: command.shortcut,
-                })),
-            dispatch: (id) => {
-              void api.execute(id).catch((error) => {
-                if (__DEV__)
-                  console.error('[vue-router-ns] Navigation command failed:', error)
-              })
+        ? bindCommands(
+            host,
+            {
+              list: (editing) =>
+                commands()
+                  .filter(
+                    (command) =>
+                      enabled(command) && (!editing || command.allowInTextInput),
+                  )
+                  .map((command) => ({
+                    id: command.id,
+                    title: toValue(command.title),
+                    shortcut: command.shortcut,
+                  })),
+              dispatch: (id) => {
+                void api.execute(id).catch((error) => {
+                  if (__DEV__)
+                    console.error('[vue-router-ns] Navigation command failed:', error)
+                })
+              },
+              escape: () =>
+                !!page &&
+                commands().some(
+                  (command) =>
+                    command.shortcut.input === 'Escape' &&
+                    !command.shortcut.modifiers?.length,
+                ) &&
+                dismissPageSearch(page),
             },
-            escape: () => !!page && dismissPageSearch(page),
-          })
+            page,
+          )
         : undefined
   }
   const api: NavigationCommands = {
