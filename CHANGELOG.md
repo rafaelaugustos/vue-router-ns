@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- `<RouterSplitView list="/messages">` keeps list and detail pages in one logical history, showing them side by side in wide windows and as a single pane in narrow ones. Resizing preserves page instances and native detail history.
+
 - Android 14+ back swipes now reveal the previous page in the same stack, including inside modals. Cancellation restores the views, and completion goes through router guards. Set `createRouter({ backPreview: false, routes })` to keep only `useBackGesture()` for a custom animation.
 
 ## 0.1.0-beta.4 (2026-10-14)

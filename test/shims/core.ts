@@ -39,7 +39,16 @@ export class Observable {
   }
 }
 
+export class Color {
+  constructor(public value: string) {}
+}
+
 export class View extends Observable {
+  backgroundColor: unknown
+  width = 400
+  getActualSize() {
+    return { width: this.width, height: 800 }
+  }
   static presented: { view: View; options: any }[] = []
 
   parent: View | null = null
@@ -95,6 +104,7 @@ export class TabView extends View {
 }
 
 export class Page extends View {
+  actionBarHidden = false
   enableSwipeBackNavigation = true
   disposed = false
   override ios: any = { controller: {}, navigationItem: { backAction: null } }
