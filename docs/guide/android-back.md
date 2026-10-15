@@ -37,6 +37,6 @@ While the user drags, it's `{ progress, edge }`, with `progress` going from 0 to
 
 ## Enabling it
 
-Apps that target Android 16 (API 36) get predictive back by default. Earlier targets opt in with `android:enableOnBackInvokedCallback="true"` on `<application>` in `AndroidManifest.xml`.
+Set `android:enableOnBackInvokedCallback="true"` on `<application>` in `AndroidManifest.xml` to receive predictive back progress on Android 14 and 15, even when targeting API 36. The default opt-in for apps targeting API 36 applies only when running on Android 16 or later.
 
 See also the [Android predictive back documentation](https://developer.android.com/guide/navigation/custom-back/predictive-back-gesture).

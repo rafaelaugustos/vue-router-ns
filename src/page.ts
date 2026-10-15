@@ -1,9 +1,10 @@
-import { isIOS, type Frame, type Page } from '@nativescript/core'
+import { Frame, isIOS, type Page } from '@nativescript/core'
 import {
   computed,
   defineComponent,
   getCurrentInstance,
   h,
+  nextTick,
   onBeforeUnmount,
   onMounted,
   provide,
@@ -37,8 +38,39 @@ export function createPage(entry: Entry, { link, unlink }: PageLink) {
       const instance = getCurrentInstance()!
       const blocked = computed(() => isBlocked(entry))
       let page: Page | null = null
+      let stopReload: (() => void) | undefined
 
       onMounted(() => {
+        // Vue sees the routed SFC as a child of RouterPage. Its normal HMR
+        // reload would patch this wrapper, bypassing NativeScript-Vue's
+        // native Page replacement (and its deferral for covered pages).
+        // Use Vue's per-instance HMR hook to reach the native app reload.
+        if (__DEV__) {
+          const child = instance.subTree.component as { ceReload?: () => void } | null
+          if (child && !child.ceReload) {
+            child.ceReload = () => {
+              const context = instance.appContext as { reload?: () => void }
+              const frame = page?.frame
+              if (!frame || frame.currentPage === page) {
+                context.reload?.()
+                return
+              }
+              if (stopReload) return
+              // Android's Page.navigatedTo precedes completion of the Frame
+              // navigation. Replacing there can dispose the newly mounted app.
+              const returned = () => {
+                if (frame.currentPage !== page) return
+                stopReload?.()
+                stopReload = undefined
+                void nextTick(() => {
+                  if (!entry.disposed) context.reload?.()
+                })
+              }
+              frame.on(Frame.navigatedToEvent, returned)
+              stopReload = () => frame.off(Frame.navigatedToEvent, returned)
+            }
+          }
+        }
         // HMR remounts the page with a fresh native view; relinking keeps the entry
         page = instance.proxy!.$el?.nativeView ?? null
         if (!page) return
@@ -69,6 +101,7 @@ export function createPage(entry: Entry, { link, unlink }: PageLink) {
       })
 
       onBeforeUnmount(() => {
+        stopReload?.()
         if (page) unlink(page)
       })
 
