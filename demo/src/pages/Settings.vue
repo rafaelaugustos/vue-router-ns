@@ -21,7 +21,6 @@ const commands = useDemoCommands()
           :text="session.user ? `Signed in as ${session.user}` : 'Not signed in'"
         />
 
-        <!-- the account page needs a session: a guard sends you to /login first -->
         <RouterLink to="/settings/account">
           <Button class="button" text="Account" />
         </RouterLink>

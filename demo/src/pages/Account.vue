@@ -6,7 +6,6 @@ const router = useRouter()
 
 function signOut() {
   session.user = ''
-  // start the settings tab over, with nothing to go back to
   router.push('/settings', { clearHistory: true })
 }
 </script>
