@@ -37,6 +37,12 @@ jobs:
       - run: npm install --no-audit --no-fund
         working-directory: demo
       - run: npm install -g nativescript
+      - name: Prepare the NativeScript CLI
+        # the CLI's doctor refuses to build without an emulator package installed, and must not prompt
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install emulator >/dev/null
+          ns usage-reporting disable
+          ns error-reporting disable
       - name: Scaffold App_Resources
         # the demo's App_Resources are generated and not tracked; a blank template provides them
         run: |
