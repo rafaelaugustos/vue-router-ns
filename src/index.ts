@@ -27,6 +27,7 @@ export {
   useBackGesture,
 } from './composables.js'
 export type { LeaveGuardOptions } from './composables.js'
+export { useNativeHost } from './composables.js'
 export { useNativeSearch } from './search.js'
 export type { NativeSearch, NativeSearchOptions } from './search.js'
 export { useNavigationCommands } from './commands.js'
@@ -46,7 +47,26 @@ export type {
 } from './accessibility.js'
 export type { MotionPolicy } from './motion.js'
 
-export type { BackGesture, BackGestureEdge } from './android.js'
+export type { BackGesture, BackGestureEdge, BackGestureSession } from './android.js'
+export type { BackPreview } from './back-preview.js'
+
+export { NATIVE_HOST_VERSION } from './host.js'
+export type {
+  NativeHost,
+  NativeHostBackOptions,
+  NativeHostCapabilities,
+  NativeHostDelegate,
+  NativeHostHandle,
+  NativeHostPart,
+  NativeHostPushOptions,
+  NativeHostRole,
+  NativeHostVersion,
+} from './host.js'
+export { createFrameHost } from './hosts/frame.js'
+export type { FrameHostOptions } from './hosts/frame.js'
+export { createSplitFrameHost } from './hosts/split.js'
+export type { SplitFrameHostOptions, SplitFrames } from './hosts/split.js'
+export { mountNativeHost } from './hosts/mount.js'
 
 export { RouterSplitView } from './components/RouterSplitView.js'
 export { RouterView } from './components/RouterView.js'

@@ -139,3 +139,7 @@ Augment `Register` and `RouteMeta` as shown in [typed routes](./typed-routes).
 ## Accessibility and motion
 
 `useNavigationFocus(options)` supplies opt-in initial/return accessibility targets and modal initiator restoration. Types: `NavigationFocus`, `NavigationFocusOptions`, `NavigationFocusTarget`. `RouterOptions.motion` accepts `MotionPolicy` (`system`, `reduced`, `full`); default `system`. See [accessibility and motion](./accessibility).
+
+## Native hosts (experimental)
+
+`mountNativeHost(router, name, host, initial?)` drives a stack in a `NativeHost` and returns its unmount function. `useNativeHost<TNative>()` gives a page the `kind`, `capabilities` and `native` container of its host. `createFrameHost(frame, { modal? })` and `createSplitFrameHost(list, detail, { expanded, detailVisible })` are the built-in hosts; `NATIVE_HOST_VERSION` is the contract version the router accepts. Types: `NativeHost`, `NativeHostCapabilities`, `NativeHostDelegate`, `NativeHostPushOptions`, `NativeHostBackOptions`, `NativeHostPart`, `NativeHostRole`, `NativeHostHandle`, `NativeHostVersion`, `FrameHostOptions`, `SplitFrameHostOptions`, `SplitFrames`, `BackGestureSession`, `BackPreview`. See [native hosts](./native-hosts).

@@ -114,6 +114,21 @@ function mountNativeView(component: Component, props?: Record<string, unknown>) 
   return { app, view: (vm.$el as TestNode).nativeView }
 }
 
+/** Mounts a component to a native view without a frame, like the real one. */
+export function createNativeView(component: Component, props?: Record<string, unknown>) {
+  let mounted: ReturnType<typeof mountNativeView> | undefined
+  return {
+    mount() {
+      mounted ??= mountNativeView(component, props)
+      return mounted.view as View
+    },
+    unmount() {
+      mounted?.app.unmount()
+      mounted = undefined
+    },
+  }
+}
+
 export function $navigateTo(
   component: Component,
   options: NavigationEntry & { frame: Frame; props?: Record<string, unknown> },

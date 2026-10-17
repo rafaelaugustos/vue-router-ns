@@ -8,6 +8,7 @@ import {
   type PropType,
 } from 'nativescript-vue'
 import { useRouter } from '../composables.js'
+import { createFrameHost } from '../hosts/frame.js'
 import { INTERNAL, type RouterInternals } from '../internal.js'
 import { onTabReselect, tabOf } from '../tabs.js'
 import type { RouteLocationRaw } from '../types.js'
@@ -36,7 +37,7 @@ export const RouterView = defineComponent({
 
     onMounted(() => {
       const view = frame.value!.nativeView
-      internals.mount(name, view, props.initial)
+      internals.mount(name, createFrameHost(view), props.initial)
 
       if (props.backToRootOnReselect) {
         const tab = tabOf(view)

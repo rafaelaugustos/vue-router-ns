@@ -1,4 +1,5 @@
-import type { Frame, Page, View } from '@nativescript/core'
+import type { Page, View } from '@nativescript/core'
+import type { NativeHostPart } from './host.js'
 import type { Entry, Stack } from './stack.js'
 import type { NavigationType, RouteLocation } from './types.js'
 
@@ -124,7 +125,7 @@ export interface RouterDiagnostics {
 
 export interface DiagnosticSource {
   stack: Stack
-  hosts: { frame: Frame | null; role: DiagnosticHost['role']; placeholder?: Page }[]
+  hosts: readonly NativeHostPart[]
 }
 
 type Mutable<T> = { -readonly [K in keyof T]: T[K] }
@@ -199,7 +200,7 @@ export function createDiagnostics(
   }
   const context = (stack: Stack, entry?: Entry): Context => ({
     stackId: identity(stack, 'stack'),
-    windowId: windowId(stack.frame),
+    windowId: windowId(hostNative(stack)),
     ...(entry ? { entryId: entryId(entry), route: pattern(entry.route) } : {}),
   })
 
@@ -260,19 +261,15 @@ export function createDiagnostics(
         // The router's attempt token can outlive an aborted guard. Only the
         // latest live request owns input; older async guards may still unwind.
         const busy = !!stack.pending || active.has(stack)
-        const native: DiagnosticHost[] = []
+        const nativeHosts: DiagnosticHost[] = []
         const nativeEntries: (string | null)[] = []
-        for (const { frame, role, placeholder } of hosts) {
-          if (!frame) {
+        for (const { native, role, loaded, pages } of hosts) {
+          if (!native) {
             if (!busy && stack.entries.value.length)
               issues.push({ code: 'orphaned-host', stackId: id })
             continue
           }
-          const hostId = identity(frame, 'host')
-          const pages = [
-            ...frame.backStack.map((item) => item.resolvedPage),
-            frame.currentPage,
-          ].filter((page): page is Page => !!page && page !== placeholder)
+          const hostId = identity(native, 'host')
           const entries = pages.map((page) => {
             const entry = lookup?.(page)
             if (!busy && !entry)
@@ -282,14 +279,14 @@ export function createDiagnostics(
             return entry ? entryId(entry) : null
           })
           nativeEntries.push(...entries)
-          native.push({
+          nativeHosts.push({
             id: hostId,
             role,
-            loaded: frame.isLoaded === true,
-            windowId: windowId(frame),
+            loaded,
+            windowId: windowId(native),
             entries,
           })
-          if (!busy && nativeWindow(frame)?.state === 'closed')
+          if (!busy && nativeWindow(native)?.state === 'closed')
             issues.push({ code: 'orphaned-host', stackId: id, hostId })
         }
         const logical = stack.entries.value.map((entry) => ({
@@ -304,7 +301,14 @@ export function createDiagnostics(
             logical.some((entry, index) => entry.id !== nativeEntries[index]))
         )
           issues.push({ code: 'stack-mismatch', stackId: id })
-        stacks.push({ id, name: stack.name, modal: !!stack.modal, busy, logical, native })
+        stacks.push({
+          id,
+          name: stack.name,
+          modal: !!stack.modal,
+          busy,
+          logical,
+          native: nativeHosts,
+        })
       }
     } catch {
       issues.push({ code: 'inspection-failed' })
@@ -427,18 +431,23 @@ function pattern(route: RouteLocation): string {
   return route.matched.at(-1)?.path ?? '(unmatched)'
 }
 
-function nativeWindow(view: View | null): { state?: string } | undefined {
+/** The first native container of a stack's host, where a window can be looked up. */
+function hostNative(stack: Stack): object | null {
+  return stack.host?.parts?.()[0]?.native ?? stack.host?.native ?? null
+}
+
+function nativeWindow(native: object | null): { state?: string } | undefined {
   try {
     return (
-      view as (View & { getNativeWindow?(): { state?: string } }) | null
+      native as (View & { getNativeWindow?(): { state?: string } }) | null
     )?.getNativeWindow?.()
   } catch {
     return undefined
   }
 }
 
-function windowId(view: View | null): string | undefined {
-  const window = nativeWindow(view)
+function windowId(native: object | null): string | undefined {
+  const window = nativeWindow(native)
   if (!window) return undefined
   let id = windowIds.get(window)
   if (!id) windowIds.set(window, (id = `window-${++windowSequence}`))

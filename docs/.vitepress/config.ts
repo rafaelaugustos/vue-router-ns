@@ -50,6 +50,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('api', 'api'),
         page('internals', 'how-it-works'),
         page('diagnostics', 'diagnostics'),
+        page('hosts', 'native-hosts'),
       ],
     },
   ]
@@ -82,6 +83,7 @@ const en = {
   api: 'API',
   internals: 'How it works',
   diagnostics: 'Navigation diagnostics',
+  hosts: 'Native hosts (experimental)',
 }
 
 const pt = {
@@ -111,6 +113,7 @@ const pt = {
   api: 'API',
   internals: 'Como funciona',
   diagnostics: 'Diagnóstico de navegação',
+  hosts: 'Hosts nativos (experimental)',
 }
 
 export default defineConfig({

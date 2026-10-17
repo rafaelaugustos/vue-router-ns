@@ -50,6 +50,7 @@ So this is not a wrapper around Vue Router. The frame's back stack is the source
 - [Zoom and shared elements](#zoom-and-shared-elements): iOS 18's zoom out of a view, and NativeScript's shared element transitions.
 - [Android predictive back](#android-predictive-back) for pages that want to follow the swipe.
 - [Restoring the stack](#restoring-the-stack-after-the-app-is-killed) after the app is killed in the background.
+- [Native hosts](#native-hosts) (experimental): one contract between the router and the container it drives, so native drawers, sheets and controllers can be added as adapters.
 
 ## Install
 
@@ -473,6 +474,10 @@ The [full API reference](https://vue-router-ns.rafaelaugusto.dev/guide/api) docu
 - [Native bars and search](https://vue-router-ns.rafaelaugusto.dev/guide/native-bars): ActionBar titles/actions and page-owned UISearchController/SearchView with explicit query state.
 - [Keyboard commands](https://vue-router-ns.rafaelaugusto.dev/guide/keyboard): opt-in commands, iPad discovery and focused page/window ownership through `NavigationCommandScope`.
 - [Accessibility and motion](https://vue-router-ns.rafaelaugusto.dev/guide/accessibility): stable focus targets, modal initiator restoration and OS reduced-motion defaults.
+
+## Native hosts
+
+Every stack runs in a native **host**: the Frame of a `<RouterView>`, the frame inside a modal, or the two Frames of a `<RouterSplitView>`. They all go through one experimental contract, `NativeHost`, so the router keeps a single implementation of guards, results, history and reconciliation while the host owns presentation and gestures. Mount your own container with `mountNativeHost(router, name, host, initial)` and navigate there with `{ frame: name }`; inside a page, `useNativeHost<Frame>()` reaches the native container. Hosts declare capabilities such as `replace`, `clearHistory` and `close`, and the router rejects what a host can't do instead of faking it. A shared contract suite runs against the Frame hosts and an in-memory example. See [native hosts](https://vue-router-ns.rafaelaugusto.dev/guide/native-hosts) for the contract and its versioning policy.
 
 ## Navigation diagnostics
 
