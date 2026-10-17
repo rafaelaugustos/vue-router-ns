@@ -5,6 +5,7 @@ import {
   RouterView,
   useNativeSearch,
   type NativeSearch,
+  type SearchBarPlacement,
 } from '../src/index.js'
 import { dismissPageSearch } from '../src/search.js'
 import { mount, page, settle } from './helpers.js'
@@ -12,6 +13,35 @@ import { SearchBar, TabView } from './shims/core.js'
 import { views } from './shims/nativescript-vue.js'
 
 afterEach(() => vi.unstubAllGlobals())
+
+function stubUIKitSearch() {
+  vi.stubGlobal('NSObject', {
+    extend: (methods: object) => {
+      class Delegate {}
+      Object.assign(Delegate.prototype, methods)
+      return Delegate
+    },
+  })
+  for (const protocol of [
+    'UISearchResultsUpdating',
+    'UISearchControllerDelegate',
+    'UISearchBarDelegate',
+  ])
+    vi.stubGlobal(protocol, {})
+  vi.stubGlobal('UINavigationItemSearchBarPlacement', {
+    Automatic: 0,
+    Inline: 1,
+    Stacked: 2,
+    Integrated: 3,
+  })
+  const native: any = {
+    searchBar: { text: '', becomeFirstResponder() {}, resignFirstResponder() {} },
+  }
+  vi.stubGlobal('UISearchController', {
+    alloc: () => ({ initWithSearchResultsController: () => native }),
+  })
+  return native
+}
 
 describe('page-owned native search', () => {
   it('dismisses under a modal and preserves the query when it closes', async () => {
@@ -148,25 +178,7 @@ describe('page-owned native search', () => {
   })
 
   it('uses a page-local UISearchController without touching core delegates or backAction', async () => {
-    vi.stubGlobal('NSObject', {
-      extend: (methods: object) => {
-        class Delegate {}
-        Object.assign(Delegate.prototype, methods)
-        return Delegate
-      },
-    })
-    for (const protocol of [
-      'UISearchResultsUpdating',
-      'UISearchControllerDelegate',
-      'UISearchBarDelegate',
-    ])
-      vi.stubGlobal(protocol, {})
-    const native: any = {
-      searchBar: { text: '', becomeFirstResponder() {}, resignFirstResponder() {} },
-    }
-    vi.stubGlobal('UISearchController', {
-      alloc: () => ({ initWithSearchResultsController: () => native }),
-    })
+    const native = stubUIKitSearch()
     let search!: NativeSearch
     const query = ref('before')
     const { app, router, frame } = await mount([
@@ -206,5 +218,43 @@ describe('page-owned native search', () => {
     expect(item.searchController).toBeNull()
     expect(native.searchResultsUpdater).toBeNull()
     expect(controller.definesPresentationContext).toBeUndefined()
+  })
+
+  it('stacks the iOS search bar under the title inside a TabView, and only there', async () => {
+    stubUIKitSearch()
+    const List = (placement?: SearchBarPlacement) =>
+      page('List', () => {
+        useNativeSearch({ query: ref(''), ios: placement ? { placement } : undefined })
+      })
+    const tabbed = await mount([{ path: '/', component: List() }], {
+      render: () => h('TabView', {}, [h('TabViewItem', {}, [h(RouterView)])]),
+    })
+    const item = tabbed.frame().currentPage!.ios.navigationItem
+    expect(item.preferredSearchBarPlacement).toBe(2)
+    tabbed.app.unmount()
+    expect(item.preferredSearchBarPlacement).toBeUndefined()
+
+    const plain = await mount([{ path: '/', component: List() }])
+    expect(
+      plain.frame().currentPage!.ios.navigationItem.preferredSearchBarPlacement,
+    ).toBeUndefined()
+    plain.app.unmount()
+
+    const explicit = await mount([{ path: '/', component: List('integrated') }])
+    expect(
+      explicit.frame().currentPage!.ios.navigationItem.preferredSearchBarPlacement,
+    ).toBe(3)
+    explicit.app.unmount()
+
+    vi.stubGlobal('UINavigationItemSearchBarPlacement', {
+      Automatic: 0,
+      Inline: 1,
+      Stacked: 2,
+    })
+    const older = await mount([{ path: '/', component: List('integrated') }])
+    expect(
+      older.frame().currentPage!.ios.navigationItem.preferredSearchBarPlacement,
+    ).toBeUndefined()
+    older.app.unmount()
   })
 })

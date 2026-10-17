@@ -1,4 +1,4 @@
-import { isIOS, SearchBar, type Page } from '@nativescript/core'
+import { Frame, isIOS, SearchBar, type Page } from '@nativescript/core'
 import {
   inject,
   onUnmounted,
@@ -10,13 +10,27 @@ import {
 } from 'nativescript-vue'
 import { entryKey } from './injection.js'
 import { pageEffect, pageVisible, watchPageVisibility } from './page-effects.js'
+import type { Entry } from './stack.js'
+import { tabOf } from './tabs.js'
+
+/** Where UIKit puts the search bar: `UINavigationItem.preferredSearchBarPlacement`. */
+export type SearchBarPlacement = 'automatic' | 'stacked' | 'inline' | 'integrated'
 
 export interface NativeSearchOptions {
   /** App-owned state. Typing never navigates or changes the route query. */
   query: Ref<string>
   placeholder?: MaybeRefOrGetter<string>
   onSubmit?: (query: string) => void
-  ios?: { hidesWhenScrolling?: boolean }
+  ios?: {
+    hidesWhenScrolling?: boolean
+    /**
+     * iOS 16+. Defaults to `stacked` under the title inside a `TabView`,
+     * where iOS 26's automatic bottom placement sits behind the tab bar, and
+     * to `automatic` elsewhere. `integrated` needs iOS 26 and is otherwise
+     * ignored.
+     */
+    placement?: SearchBarPlacement
+  }
 }
 
 export interface NativeSearch {
@@ -66,7 +80,9 @@ export function useNativeSearch(options: NativeSearchOptions): NativeSearch {
       throw new Error('Only one useNativeSearch() may own a page')
     page = nativePage
     searches.set(page, search)
-    binding = isIOS ? bindIOS(page, options, active) : bindAndroid(page, options, active)
+    binding = isIOS
+      ? bindIOS(entry, page, options, active)
+      : bindAndroid(page, options, active)
     const stopVisibility = watchPageVisibility(entry, page, (visible) => {
       if (!visible) search.dismiss()
     })
@@ -138,7 +154,33 @@ declare const UISearchControllerDelegate: unknown
 declare const UISearchBarDelegate: unknown
 let SearchDelegate: { new (): any } | undefined
 
+declare const UINavigationItemSearchBarPlacement:
+  Record<string, number | undefined> | undefined
+const PLACEMENTS: Record<Exclude<SearchBarPlacement, 'automatic'>, string> = {
+  stacked: 'Stacked',
+  inline: 'Inline',
+  integrated: 'Integrated',
+}
+
+function placementValue(placement: SearchBarPlacement): number | undefined {
+  if (
+    placement === 'automatic' ||
+    typeof UINavigationItemSearchBarPlacement === 'undefined'
+  )
+    return undefined
+  return UINavigationItemSearchBarPlacement[PLACEMENTS[placement]]
+}
+
+/** The page binds before its Frame adopts it; the stack's host already knows the Frame. */
+function frameOf(entry: Entry, page: Page): Frame | undefined {
+  if (page.frame) return page.frame
+  const host = entry.stack.host
+  const native = host?.parts?.()[0]?.native ?? host?.native
+  return native instanceof Frame ? native : undefined
+}
+
 function bindIOS(
+  entry: Entry,
   page: Page,
   options: NativeSearchOptions,
   active: Ref<boolean>,
@@ -200,10 +242,16 @@ function bindIOS(
   const previous = {
     context: controller.definesPresentationContext,
     hides: item.hidesSearchBarWhenScrolling,
+    placement: item.preferredSearchBarPlacement,
   }
   controller.definesPresentationContext = true
   item.searchController = native
   item.hidesSearchBarWhenScrolling = options.ios?.hidesWhenScrolling ?? true
+  const frame = frameOf(entry, page)
+  const placement = placementValue(
+    options.ios?.placement ?? (frame && tabOf(frame) ? 'stacked' : 'automatic'),
+  )
+  if (placement !== undefined) item.preferredSearchBarPlacement = placement
   const stop = watch(
     () => [options.query.value, toValue(options.placeholder)] as const,
     ([query, hint]) => {
@@ -240,6 +288,7 @@ function bindIOS(
       if (item.searchController === native) {
         item.searchController = null
         item.hidesSearchBarWhenScrolling = previous.hides
+        if (placement !== undefined) item.preferredSearchBarPlacement = previous.placement
         controller.definesPresentationContext = previous.context
       }
     },

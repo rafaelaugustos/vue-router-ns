@@ -4,7 +4,12 @@ import { NavigationCommandScope } from 'vue-router-ns'
 import { useDemoCommands } from '../navigation-commands'
 
 import { computed, ref } from 'nativescript-vue'
-import { PageTransition, SharedTransition, type ItemEventData } from '@nativescript/core'
+import {
+  isIOS,
+  PageTransition,
+  SharedTransition,
+  type ItemEventData,
+} from '@nativescript/core'
 import {
   onPageActivated,
   useNativeSearch,
@@ -70,11 +75,12 @@ const commands = useDemoCommands()
     </ActionBar>
 
     <NavigationCommandScope :commands="commands" rows="*, auto">
+      <!-- `accessible` makes a row focusable, and Android's ListView drops taps on focusable rows; TalkBack reads the label either way -->
       <ListView id="messages" :items="filtered" @itemTap="open">
         <template #default="{ item }">
           <StackLayout
             :id="`message-${item.id}`"
-            accessible="true"
+            :accessible="isIOS"
             :accessibilityLabel="`${item.from}: ${item.subject}`"
             class="message"
             :class="{ unread: !item.read }"
