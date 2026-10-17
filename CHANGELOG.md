@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Android modal routes can be presented in Material bottom sheets with `modal.android.sheet`: peek height, opening state, half-expanded ratio, content height and dismissibility, on top of the same Frame, guards, results and nested history as every modal. A held sheet can't be dragged away; outside taps and back go through the leave guards. `supportsBottomSheets()` reports whether the build has Material, which the runtime includes only in debug.
+
 - Experimental native host contract: `NativeHost`, `mountNativeHost()`, `useNativeHost()`, `createFrameHost()`, `createSplitFrameHost()` and `NATIVE_HOST_VERSION`. `<RouterView>`, `<RouterSplitView>` and modal routes now drive their Frames through it. Hosts declare capabilities, and unsupported `replace`/`clearHistory` reject instead of being faked. A shared contract suite runs against the Frame hosts and an in-memory example adapter, with English/Portuguese guides and a versioning policy.
 
 ## 0.1.0-beta.8 (2026-10-15)

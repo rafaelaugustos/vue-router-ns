@@ -43,7 +43,7 @@ So this is not a wrapper around Vue Router. The frame's back stack is the source
 
 - [A route per page](#every-page-keeps-its-route): `useRoute()` inside a page never changes, even with other pages pushed on top.
 - [Leave guards](#guards) that the Android back button goes through, and that turn the iOS swipe off while they'd block it.
-- [Modal routes](#modals) with their own stack, and [`pushForResult()`](#getting-a-result-back) to get a value back from a page.
+- [Modal routes](#modals) with their own stack, iOS sheet detents and [Android Material bottom sheets](#bottom-sheets-on-android), and [`pushForResult()`](#getting-a-result-back) to get a value back from a page.
 - [One stack per tab](#tabs-and-other-independent-stacks), with named `<RouterView>`s, and [`setStack()`](#setting-the-whole-stack) to set a stack as a list.
 - [Adaptive list and detail](#list-and-detail) with `<RouterSplitView>`, preserving push history across layout changes.
 - [Typed routes](#typed-routes): names and params checked across the app, with no code generation.
@@ -248,7 +248,24 @@ iOS sheets can stop at medium height, at full height or at a fraction of the scr
 }
 ```
 
-The sheet is configured before it's presented, so it opens at the right height. `push` can pass the same options under `modal.ios`, merged with the record's. Android has no equivalent in `showModal` and ignores them.
+The sheet is configured before it's presented, so it opens at the right height. `push` can pass the same options under `modal.ios`, merged with the record's. Android ignores them and has bottom sheets of its own.
+
+### Bottom sheets on Android
+
+Material's bottom sheet rests collapsed at a peek height, half expanded, or expanded to its content. Set `sheet` in `android` of the modal options, with `true` for Material's defaults:
+
+```ts
+{
+  path: '/filters',
+  component: Filters,
+  modal: {
+    ios: { detents: ['medium', 'large'] },
+    android: { sheet: { peekHeight: 320, state: 'expanded', skipCollapsed: true } },
+  },
+}
+```
+
+Pages push inside the sheet, `pushForResult()` works, and dragging it away, tapping outside or pressing back closes it through the leave guards; a held sheet can't be dragged away. The NativeScript Android runtime ships Material only in debug builds: add `implementation "com.google.android.material:material:1.12.0"` to `App_Resources/Android/app.gradle` for release, or `push` rejects with an error that says so. See [modals](https://vue-router-ns.rafaelaugusto.dev/guide/modals#bottom-sheets-on-android).
 
 ## Getting a result back
 

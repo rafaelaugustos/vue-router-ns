@@ -32,7 +32,7 @@ onPageActivated(() => {
   unread.value = inbox.unread()
 })
 
-// a half-height sheet on iOS, with the inbox still usable behind it
+// a half-height sheet on iOS, with the inbox still usable behind it; a Material sheet on Android
 function compose() {
   focus.remember()
   router.push('/compose', {
@@ -41,6 +41,9 @@ function compose() {
         detents: ['medium', 'large'],
         largestUndimmedDetent: 'medium',
         grabber: true,
+      },
+      android: {
+        sheet: { peekHeight: 360, state: 'expanded', skipCollapsed: true, height: 520 },
       },
     },
   })

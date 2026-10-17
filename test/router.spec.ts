@@ -1422,6 +1422,27 @@ describe('modal dismiss attempts on iOS', () => {
     expect(router.currentRoute.value.path).toBe('/draft')
   })
 
+  it('ask again after the guard refused once', async () => {
+    const answers = [false, true]
+    const ask = vi.fn(async () => answers.shift()!)
+    const { router } = await mount([
+      ...routes,
+      { path: '/draft', component: guarded('Draft', ask), modal: true },
+    ])
+    await router.push('/draft')
+    await settle()
+
+    dismissAttempted(modalFrame())
+    await settle()
+    expect(View.presented).toHaveLength(1)
+    dismissAttempted(modalFrame())
+    await settle()
+
+    expect(ask).toHaveBeenCalledTimes(2)
+    expect(View.presented).toHaveLength(0)
+    expect(router.currentRoute.value.path).toBe('/')
+  })
+
   it('ignore a second attempt while the guard is still asking', async () => {
     let answer!: (value: boolean) => void
     const ask = vi.fn(() => new Promise<boolean>((resolve) => (answer = resolve)))
