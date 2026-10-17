@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- A native smoke suite for Android (`npm run test:native:android`, `scripts/native/`) drives the demo on an emulator through `adb`: links on cold and warm starts, page state after a process kill, the bottom sheet, shortcuts, the drawer and back, plus the router's diagnostics timings against committed baselines. A `Native` GitHub workflow runs it weekly, on demand and when the suite changes.
+
 - `<RouterDrawer>` wraps the app's stacks in an AndroidX `DrawerLayout` on Android: a `drawer` slot for the menu, `v-model:open`, `opened`/`closed` events and a ref with `open`, `close`, `toggle` and `isOpen`. The Android back and back swipe close an open drawer before any page pops, through the new `router.claimSystemBack()`, and a navigation closes it. iOS renders the content alone.
 
 - `useNativeFlow(flow)` runs system-owned UI with a typed input and result: `completed`, `cancelled` (user, guard, replaced or the page leaving) or `failed`, settled exactly once, keyed by a reserved Android request code and presented from the page's own controller on iOS. `createDocumentPicker()` is the first flow, returning scoped URIs on both platforms.

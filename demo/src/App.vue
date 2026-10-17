@@ -1,11 +1,17 @@
 <script lang="ts" setup>
+import type { TabView } from '@nativescript/core'
 import { onMounted, ref } from 'nativescript-vue'
 import { useRouter, type RouterDrawerHandle } from 'vue-router-ns'
 import { drawer } from './drawer'
+import { tabs } from './tabs'
 
 const router = useRouter()
 const menu = ref<RouterDrawerHandle>()
-onMounted(() => (drawer.value = menu.value ?? null))
+const tabView = ref<{ nativeView: TabView }>()
+onMounted(() => {
+  drawer.value = menu.value ?? null
+  tabs.value = tabView.value?.nativeView ?? null
+})
 
 // destinations go through the links policy, which also selects the tab
 const destinations = [
@@ -31,7 +37,7 @@ const destinations = [
       </StackLayout>
     </template>
 
-    <TabView androidTabsPosition="bottom">
+    <TabView ref="tabView" androidTabsPosition="bottom">
       <TabViewItem title="Inbox">
         <RouterSplitView name="inbox" list="/" backToRootOnReselect>
           <template #empty>

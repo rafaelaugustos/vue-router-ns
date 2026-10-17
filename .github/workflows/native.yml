@@ -1,0 +1,84 @@
+name: Native
+
+# Runs the demo on an Android emulator and drives it through adb: real links,
+# the Material sheet, shortcuts, process death, the drawer and the router's
+# timings against scripts/native/baselines.json. The unit suite cannot see
+# these; see scripts/native/smoke-android.sh.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * 1'
+  pull_request:
+    paths:
+      - scripts/native/**
+      - .github/workflows/native.yml
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - run: npm ci
+      - run: npm run build
+      - run: npm install --no-audit --no-fund
+        working-directory: demo
+      - run: npm install -g nativescript
+      - name: Prepare the NativeScript CLI
+        # the CLI's doctor refuses to build without an emulator package installed, and must not prompt
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install emulator >/dev/null
+          ns usage-reporting disable
+          ns error-reporting disable
+      - name: Scaffold App_Resources
+        # the demo's App_Resources are generated and not tracked; a blank template provides them
+        run: |
+          if [ ! -d demo/App_Resources ]; then
+            ns create scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null
+            cp -R /tmp/scaffold/App_Resources demo/App_Resources
+          fi
+          python3 - <<'PY'
+          import pathlib
+          p = pathlib.Path('demo/App_Resources/Android/src/main/AndroidManifest.xml'); s = p.read_text()
+          if 'android:scheme="vuerouterns"' not in s:
+              i = s.index('</intent-filter>') + len('</intent-filter>')
+              s = s[:i] + '''
+              <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="vuerouterns" />
+              </intent-filter>''' + s[i:]
+              p.write_text(s)
+          PY
+      - name: Build the demo
+        run: ns build android
+        working-directory: demo
+      - name: Smoke test on an emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          profile: pixel_7
+          disable-animations: false
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: bash scripts/native/smoke-android.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-smoke-android
+          path: scripts/native/out

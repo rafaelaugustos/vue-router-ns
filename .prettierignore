@@ -9,3 +9,6 @@ docs/.vitepress/dist
 
 examples/playground/platforms
 examples/playground/hooks
+
+scripts/native/*.sh
+scripts/native/out

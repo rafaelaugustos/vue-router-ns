@@ -40,6 +40,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:native:android": "bash scripts/native/smoke-android.sh",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "docs:dev": "vitepress dev docs",
