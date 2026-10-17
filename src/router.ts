@@ -57,7 +57,21 @@ import {
 import { createFrameHost } from './hosts/frame.js'
 import { canZoom, configureSheet, viewOf } from './ios.js'
 import { createMatcher } from './matcher.js'
+import {
+  installSystemLinks,
+  parseLink,
+  REPEAT_WINDOW,
+  screen,
+  type IncomingLink,
+  type LinkIgnoredReason,
+  type LinkListener,
+  type LinkOptions,
+  type LinkResult,
+  type LinkSource,
+  type LinksOptions,
+} from './links.js'
 import { createPage, ModalHost } from './page.js'
+import { collectPageState, DEFAULT_STATE_LIMIT } from './page-state.js'
 import { disconnectPageEffects } from './page-effects.js'
 import {
   clearFocusOrigin,
@@ -71,6 +85,7 @@ import {
   isBlocked,
   isGuardActive,
   topOf,
+  type Deferred as Pending,
   type Entry,
   type Stack,
 } from './stack.js'
@@ -98,7 +113,9 @@ import type {
   RouteRecordName,
   RouteRecordRaw,
   RestoreOptions,
+  SavedEntry,
   SavedStacks,
+  SavedState,
   SetStackOptions,
   TransitionOption,
 } from './types.js'
@@ -115,9 +132,17 @@ export interface RouterOptions<
   diagnostics?: boolean | DiagnosticsOptions
   /** Respect OS reduced motion by default; applications may explicitly override it. */
   motion?: MotionPolicy
+  /**
+   * Take links from the operating system: Android intents, iOS URLs and
+   * Universal Links. `true` for the defaults, or a policy of schemes, hosts
+   * and mapping. `openLink()` works without it.
+   */
+  links?: boolean | LinksOptions
 }
 
 const DEFAULT_MAX_AGE = 30 * 60 * 1000
+/** How long a link waits for the `<RouterView>` it targets. */
+const MOUNT_TIMEOUT = 10_000
 
 export interface Router<M extends RouteMapLike = RouteMapGeneric> {
   /** Route of the page the user is looking at. */
@@ -174,6 +199,20 @@ export interface Router<M extends RouteMapLike = RouteMapGeneric> {
   /** Resolves once the first `<RouterView>` has shown its initial page. */
   isReady(): Promise<void>
 
+  /**
+   * Opens what an operating-system link, a notification or a widget points
+   * at: a full URL or a bare path. Waits for the first page and for the
+   * target stack, brings the parents along, and resolves with what happened.
+   */
+  openLink(
+    href: string,
+    options?: LinkOptions & { source?: LinkSource },
+  ): Promise<LinkResult>
+  /** The location a URL points at under `links`, or `undefined` when it isn't for this app. */
+  resolveLink(href: string): RouteLocation | undefined
+  /** Hears every link the router was handed, taken or not. */
+  onLink(listener: LinkListener): () => void
+
   install(app: App): void
 }
 
@@ -200,6 +239,8 @@ interface Request {
   force?: boolean
   result?: unknown
   onEntry?: (entry: Entry) => void
+  /** Restoring: the identity and state the page had before, if it comes back at the same path. */
+  saved?: { path: string; key: string; state?: Record<string, SavedState> }
   redirects: number
 }
 
@@ -242,6 +283,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   ready.promise.catch(() => {})
   let isReady = false
   let entryId = 0
+  const keySeed = `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`
   let modalId = 0
   /** Native transitions in flight. Navigations wait for them, so they always start from a settled screen. */
   let settled: Promise<unknown> = Promise.resolve()
@@ -381,9 +423,11 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     route: RouteLocation,
     props: Record<string, unknown>,
     zoomFrom?: Entry['zoomFrom'],
+    saved?: Request['saved'],
   ) {
     const entry: Entry = {
       id: ++entryId,
+      key: saved?.key ?? `${keySeed}-${entryId}`,
       route,
       stack,
       component: components.get(route.matched.at(-1)!)!,
@@ -395,6 +439,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         (topOf(stack) === entry || isVisible(entry)) &&
         (stack.modal ? modals.value.at(-1) === stack : !modals.value.length),
       page: null,
+      state: new Map(),
+      saved: saved?.state,
       result: undefined,
       settle: undefined,
       disposed: false,
@@ -492,11 +538,16 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     return { gesture: top.backGesture, preview }
   }
 
-  /** Makes `stack` match `targets`: back to the last page both share, then push the rest. */
+  /**
+   * Makes `stack` match `targets`: back to the last page both share, then
+   * push the rest. `saved`, aligned with `targets`, gives restored pages back
+   * their identity and state.
+   */
   async function applyStack(
     stack: Stack,
     targets: readonly RouteLocation[],
     options: Pick<SetStackOptions, 'animated' | 'transition'>,
+    saved?: readonly SavedEntry[],
   ): Promise<NavigationFailure | undefined> {
     if (stack.host?.capabilities.pinnedRoot) {
       const root =
@@ -519,8 +570,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       to: RouteLocation | undefined,
       last: boolean,
       extra: NavigationOptions = {},
-    ) =>
-      run({
+    ) => {
+      const memory = to && saved?.[targets.indexOf(to)]
+      return run({
         type,
         stack,
         to,
@@ -532,8 +584,10 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
           transition: last ? options.transition : undefined,
         },
         force: true,
+        saved: memory && to ? { path: to.fullPath, ...memory } : undefined,
         redirects: 0,
       })
+    }
 
     let failure: NavigationFailure | undefined
     if (shared === 0) {
@@ -557,15 +611,27 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
   function persist() {
     if (!restore || restoring) return
+    const limit = restore.stateLimit ?? DEFAULT_STATE_LIMIT
     const stacks: Record<string, string[]> = {}
+    const entries: Record<string, SavedEntry[]> = {}
     for (const [name, stack] of frames) {
       stacks[name] = stack.entries.value.map((entry) => entry.route.fullPath)
+      entries[name] = stack.entries.value.map((entry) => {
+        const state = collectPageState(entry, limit)
+        return state ? { key: entry.key, state } : { key: entry.key }
+      })
     }
-    restore.save({ savedAt: Date.now(), stacks })
+    restore.save({ version: 2, savedAt: Date.now(), stacks, entries })
+  }
+
+  interface SavedStack {
+    targets: RouteLocation[]
+    /** Aligned with `targets`; absent for a path-only save. */
+    entries: SavedEntry[] | undefined
   }
 
   /** The saved stack for a `<RouterView>`, if there is one worth restoring. */
-  async function savedStackFor(name: string): Promise<RouteLocation[] | undefined> {
+  async function savedStackFor(name: string): Promise<SavedStack | undefined> {
     if (!restore) return undefined
     loaded ??= Promise.resolve()
       .then(() => restore.load())
@@ -583,7 +649,11 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       const targets: RouteLocation[] = []
       for (const path of paths)
         targets.push(resolveTarget(path, targets.at(-1) ?? START_LOCATION))
-      return targets
+      const entries = state!.entries?.[name]
+      return {
+        targets,
+        entries: entries?.length === paths.length ? entries : undefined,
+      }
     } catch (error) {
       if (__DEV__) {
         console.warn(`[vue-router-ns] Not restoring <RouterView name="${name}">:`, error)
@@ -881,7 +951,13 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       !reduced && !initial && !hidden && options.animated !== false && canZoom()
         ? viewOf(options.zoomFrom)
         : undefined
-    const entry = createEntry(stack, to, pageProps(to, record, options.props), zoom)
+    const entry = createEntry(
+      stack,
+      to,
+      pageProps(to, record, options.props),
+      zoom,
+      request.saved?.path === to.fullPath ? request.saved : undefined,
+    )
     request.onEntry?.(entry)
 
     // a transition of the frame's own would take the animation away from UIKit's zoom
@@ -1126,6 +1202,98 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     if (lastFrame.value === stack) lastFrame.value = undefined
   }
 
+  // -- links ------------------------------------------------------------------
+
+  const linkPolicy: LinksOptions = typeof options.links === 'object' ? options.links : {}
+  const linkListeners = callbacks<LinkListener>()
+  const mountWaiters = new Map<string, Pending<void>>()
+  let lastSystemLink: { href: string; at: number } | undefined
+
+  interface EvaluatedLink {
+    link: IncomingLink
+    location?: RouteLocation
+    ignored?: LinkIgnoredReason
+  }
+
+  /** Resolves once `<RouterView name>` is mounted, or rejects after a while. */
+  function stackMounted(name: string): Promise<void> {
+    if (frames.has(name)) return Promise.resolve()
+    let waiter = mountWaiters.get(name)
+    if (!waiter) {
+      const pending = deferred<void>()
+      waiter = pending
+      mountWaiters.set(name, pending)
+      setTimeout(() => {
+        if (mountWaiters.get(name) !== pending) return
+        mountWaiters.delete(name)
+        pending.reject(
+          new Error(`No <RouterView name="${name}"> mounted within ${MOUNT_TIMEOUT}ms`),
+        )
+      }, MOUNT_TIMEOUT)
+    }
+    return waiter.promise
+  }
+
+  function evaluateLink(href: string, source: LinkSource): EvaluatedLink {
+    const link = parseLink(href, source)
+    if (!link) {
+      return {
+        link: { href, scheme: '', host: '', path: '', query: {}, hash: '', source },
+        ignored: 'malformed',
+      }
+    }
+    const screened = screen(linkPolicy, link)
+    if (screened) return { link, ignored: screened }
+    const raw = linkPolicy.map
+      ? linkPolicy.map(link)
+      : { path: link.path, query: link.query, hash: link.hash }
+    if (raw === null || raw === undefined) return { link, ignored: 'unmatched' }
+    try {
+      return { link, location: resolveTarget(raw, START_LOCATION) }
+    } catch {
+      return { link, ignored: 'unmatched' }
+    }
+  }
+
+  async function takeLink(
+    evaluated: EvaluatedLink,
+    options: LinkOptions & { source?: LinkSource },
+  ): Promise<LinkResult> {
+    const { link, location } = evaluated
+    const done = (result: LinkResult) => {
+      for (const listener of linkListeners.list()) listener(result)
+      return result
+    }
+    if (!location) return done({ link, ignored: evaluated.ignored })
+    if (link.source !== 'app') {
+      const now = Date.now()
+      const repeat =
+        !!lastSystemLink &&
+        lastSystemLink.href === link.href &&
+        now - lastSystemLink.at < REPEAT_WINDOW
+      lastSystemLink = { href: link.href, at: now }
+      if (repeat) return done({ link, location, ignored: 'repeat' })
+    }
+    const policy =
+      typeof linkPolicy.options === 'function'
+        ? linkPolicy.options(location, link)
+        : linkPolicy.options
+    const frame = options.frame ?? linkPolicy.frame?.(location, link) ?? policy?.frame
+    const settings = { withParents: true, ...policy, ...options, frame }
+    if (!isReady) await ready.promise
+    if (frame !== undefined) await stackMounted(frame)
+    const target = { path: location.path, query: location.query, hash: location.hash }
+    const navigation: NavigationOptions = {
+      withParents: settings.withParents,
+      clearHistory: settings.clearHistory,
+      frame,
+    }
+    const failure = settings.replace
+      ? await router.replace(target, navigation)
+      : await router.push(target, navigation)
+    return done({ link, location, failure })
+  }
+
   // -- public API -------------------------------------------------------------
 
   /** Navigation methods bound to a stack (what pages get), or to the focused one. */
@@ -1307,8 +1475,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         try {
           return await applyStack(
             stack,
-            saved ?? [resolveTarget(initial, START_LOCATION)],
+            saved?.targets ?? [resolveTarget(initial, START_LOCATION)],
             { animated: false },
+            saved?.entries,
           )
         } finally {
           restoring = false
@@ -1324,8 +1493,15 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
             )
           }
           markReady()
+          // links waiting for this stack go in on top of its first page
+          mountWaiters.get(name)?.resolve()
+          mountWaiters.delete(name)
         },
-        (error) => ready.reject(error),
+        (error) => {
+          ready.reject(error)
+          mountWaiters.get(name)?.reject(error)
+          mountWaiters.delete(name)
+        },
       )
     },
 
@@ -1358,6 +1534,11 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     onError: errorHandlers.add,
     isReady: () => ready.promise,
 
+    openLink: (href: string, options: LinkOptions & { source?: LinkSource } = {}) =>
+      takeLink(evaluateLink(href, options.source ?? 'app'), options),
+    resolveLink: (href: string) => evaluateLink(href, 'app').location,
+    onLink: linkListeners.add,
+
     install(app: App) {
       const route = shallowReactive(reactiveRoute)
 
@@ -1375,10 +1556,30 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       app.component('Deferred', Deferred)
       if (diagnostics) app.onUnmount(() => diagnostics.api.stop())
 
+      if (options.links && linkPolicy.system !== false) {
+        const stop = installSystemLinks({
+          deliver(href, source) {
+            const evaluated = evaluateLink(href, source)
+            takeLink(evaluated, { source }).catch((error) => {
+              if (__DEV__)
+                console.warn(`[vue-router-ns] Opening "${href}" failed:`, error)
+            })
+            return !!evaluated.location
+          },
+        })
+        app.onUnmount(stop)
+      }
+
       if (restore) {
         const onExit = () => restore.save(null)
+        // the last chance to save before Android kills the process in the background
+        const onSuspend = () => persist()
         Application.on('exit', onExit)
-        app.onUnmount(() => Application.off('exit', onExit))
+        Application.on('suspend', onSuspend)
+        app.onUnmount(() => {
+          Application.off('exit', onExit)
+          Application.off('suspend', onSuspend)
+        })
       }
 
       if (isAndroid) {

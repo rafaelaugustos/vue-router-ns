@@ -8,12 +8,13 @@ import { createRouter } from 'vue-router-ns'
 const router = createRouter({ routes, restore, backPreview: true })
 ```
 
-| Opção         | Padrão      | Significado                                                                                                                   |
-| ------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `diagnostics` | `false`     | `true` ou `{ maxEvents }` para timeline limitada e snapshots nativos. Veja [diagnóstico](./diagnostics).                      |
-| `routes`      | Obrigatória | Array readonly de `RouteRecordRaw`.                                                                                           |
-| `restore`     | Desativado  | `save(state)`, `load()` e `maxAge` opcional em milissegundos (padrão: 30 minutos). Veja [restauração](./restore).             |
-| `backPreview` | `true`      | Revela a página anterior durante o gesto de voltar no Android 14+. Exige a [ativação na plataforma](./android-back#ativando). |
+| Opção         | Padrão      | Significado                                                                                                                                                         |
+| ------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `diagnostics` | `false`     | `true` ou `{ maxEvents }` para timeline limitada e snapshots nativos. Veja [diagnóstico](./diagnostics).                                                            |
+| `routes`      | Obrigatória | Array readonly de `RouteRecordRaw`.                                                                                                                                 |
+| `restore`     | Desativado  | `save(state)`, `load()`, `maxAge` opcional em milissegundos (padrão: 30 minutos) e `stateLimit` em bytes por página (padrão: 8 KiB). Veja [restauração](./restore). |
+| `backPreview` | `true`      | Revela a página anterior durante o gesto de voltar no Android 14+. Exige a [ativação na plataforma](./android-back#ativando).                                       |
+| `links`       | Desativado  | `true` ou `{ schemes, hosts, map, frame, options, system }` para receber URLs do sistema. Veja [deep links](./deep-links#recebendo-urls-do-sistema).                |
 
 Instale uma vez com `createApp(App).use(router).start()`. Isso registra os componentes e fornece `$router` e `$route` nos templates. `router.install(app)` é o hook de plugin do Vue.
 
@@ -21,18 +22,21 @@ Instale uma vez com `createApp(App).use(router).start()`. Isso registra os compo
 
 `to` é um `RouteLocationRaw`: string de path, `{ path, query?, hash? }`, `{ name, params?, query?, hash? }` ou uma localização relativa à rota atual. Localizações em objeto também aceitam `replace` e `force`. Use `force: true` para empurrar outra instância da localização atual. Params pertencem a localizações nomeadas ou relativas, não a um objeto com `path`.
 
-| Método                           | Comportamento                                                                                                                              |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `push(to, options?)`             | Adiciona uma página ou apresenta um modal.                                                                                                 |
-| `replace(to, options?)`          | Substitui a página atual.                                                                                                                  |
-| `back(options?)`                 | Remove uma página; fecha um modal na raiz. Na raiz de uma pilha não modal, não faz nada. O back do sistema Android ainda pode sair do app. |
-| `go(delta)`                      | Volta um número negativo de páginas. Zero e valores positivos não fazem nada. Não recebe opções.                                           |
-| `backTo(to, options?)`           | Volta à página correspondente mais próxima abaixo do topo; rejeita se não existir.                                                         |
-| `backToRoot(options?)`           | Volta à primeira página da pilha atual.                                                                                                    |
-| `setStack(locations, options?)`  | Reconcilia uma lista não vazia com a pilha. Preserva o prefixo comum; para na primeira falha sem desfazer os passos concluídos.            |
-| `pushForResult<T>(to, options?)` | Abre uma página e espera `back({ result })`. Resolve para `T \| undefined` quando ela fecha ou a abertura é impedida.                      |
-| `resolve(to)`                    | Resolve uma localização de forma síncrona sem navegar. Retorna `RouteLocation`; lança erro se não houver rota correspondente.              |
-| `isReady()`                      | Promise que termina após a navegação inicial; não espera todas as abas ocultas carregarem.                                                 |
+| Método                           | Comportamento                                                                                                                                                  |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `push(to, options?)`             | Adiciona uma página ou apresenta um modal.                                                                                                                     |
+| `replace(to, options?)`          | Substitui a página atual.                                                                                                                                      |
+| `back(options?)`                 | Remove uma página; fecha um modal na raiz. Na raiz de uma pilha não modal, não faz nada. O back do sistema Android ainda pode sair do app.                     |
+| `go(delta)`                      | Volta um número negativo de páginas. Zero e valores positivos não fazem nada. Não recebe opções.                                                               |
+| `backTo(to, options?)`           | Volta à página correspondente mais próxima abaixo do topo; rejeita se não existir.                                                                             |
+| `backToRoot(options?)`           | Volta à primeira página da pilha atual.                                                                                                                        |
+| `setStack(locations, options?)`  | Reconcilia uma lista não vazia com a pilha. Preserva o prefixo comum; para na primeira falha sem desfazer os passos concluídos.                                |
+| `pushForResult<T>(to, options?)` | Abre uma página e espera `back({ result })`. Resolve para `T \| undefined` quando ela fecha ou a abertura é impedida.                                          |
+| `resolve(to)`                    | Resolve uma localização de forma síncrona sem navegar. Retorna `RouteLocation`; lança erro se não houver rota correspondente.                                  |
+| `isReady()`                      | Promise que termina após a navegação inicial; não espera todas as abas ocultas carregarem.                                                                     |
+| `openLink(url, options?)`        | Abre uma URL completa ou um path puro como o sistema faria: por `links`, com os pais, depois da primeira página e da pilha alvo. Resolve para um `LinkResult`. |
+| `resolveLink(url)`               | A `RouteLocation` para onde uma URL aponta sob `links`, ou `undefined`.                                                                                        |
+| `onLink(listener)`               | Ouve todo link que o router recebeu, aceito ou não. Devolve a função que cancela a inscrição.                                                                  |
 
 Os métodos de navegação, exceto `pushForResult`, resolvem para `NavigationFailure | undefined`. Erros inesperados rejeitam a promise; veja [falhas](./navigating#falhas-e-erros). Os métodos de voltar seguem a [semântica do split view](./split-view#historico-e-voltar) quando chamados em uma pilha dividida.
 
@@ -87,14 +91,15 @@ Paths aceitam parâmetros nomeados, opcionais/repetidos e padrões personalizado
 
 ## Composables
 
-| Função                                 | Contrato                                                                                                               |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `useRouter()`                          | Router ligado à pilha da página atual; router do app fora de páginas. Exige um app usando o router.                    |
-| `useRoute(name?)`                      | Rota fixa desta página, ou rota em foco fora de páginas. O nome opcional restringe os tipos; não seleciona outra rota. |
-| `onBeforeRouteLeave(guard, { when }?)` | Leave guard da página. `when` aceita boolean, ref ou getter. Removido no unmount.                                      |
-| `onPageActivated(hook)`                | Chamado quando a página fica visível, incluindo a primeira ativação e os retornos.                                     |
-| `onPageDeactivated(hook)`              | Chamado quando a página é coberta. Para remoção, use `onUnmounted` do Vue.                                             |
-| `useBackGesture()`                     | Shallow ref readonly de `{ progress, edge }` ou `null`; Android 14+. `edge` é `'left'`, `'right'` ou `'none'`.         |
+| Função                                 | Contrato                                                                                                                                                                                                                                     |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `useRouter()`                          | Router ligado à pilha da página atual; router do app fora de páginas. Exige um app usando o router.                                                                                                                                          |
+| `useRoute(name?)`                      | Rota fixa desta página, ou rota em foco fora de páginas. O nome opcional restringe os tipos; não seleciona outra rota.                                                                                                                       |
+| `onBeforeRouteLeave(guard, { when }?)` | Leave guard da página. `when` aceita boolean, ref ou getter. Removido no unmount.                                                                                                                                                            |
+| `onPageActivated(hook)`                | Chamado quando a página fica visível, incluindo a primeira ativação e os retornos.                                                                                                                                                           |
+| `onPageDeactivated(hook)`              | Chamado quando a página é coberta. Para remoção, use `onUnmounted` do Vue.                                                                                                                                                                   |
+| `useBackGesture()`                     | Shallow ref readonly de `{ progress, edge }` ou `null`; Android 14+. `edge` é `'left'`, `'right'` ou `'none'`.                                                                                                                               |
+| `usePageState(key, options)`           | Mantém estado de página compatível com JSON através da morte do processo: `save`, `restore(value, { version, page })`, `version` e `migrate` opcionais. Precisa de `restore` no router. Veja [estado da página](./restore#estado-da-pagina). |
 
 Registre os hooks de página no setup do componente roteado. No split view expandido, lista e detalhe do topo ficam ativos. Veja [ciclo de vida e HMR](./pages).
 
@@ -115,10 +120,11 @@ Nomes de router views devem ser únicos, incluindo split views. `name` e a rota 
 
 Os tipos públicos são exportados pela raiz do pacote:
 
-- Configuração: `Router`, `RouterOptions`, `RestoreOptions`, `SavedStacks`.
+- Configuração: `Router`, `RouterOptions`, `RestoreOptions`, `SavedStacks`, `SavedEntry`, `SavedState`, `PageStateOptions`, `PageStateContext`.
 - Rotas: `RouteRecordRaw`, `RouteRecord`, `RouteRecordName`, `RouteMeta`, `RouteProps`, `RouteComponent`, `RawRouteComponent`, `Lazy`.
 - Localizações: `RouteLocation`, `RouteLocationRaw`, `RouteLocationPathRaw`, `RouteLocationNamedRaw`, `RouteLocationRelativeRaw`, `RouteParams`, `RouteParamsRaw`, `RouteParamValue`, `RouteParamValueRaw`, `LocationQuery`, `LocationQueryRaw`, `LocationQueryValue`, `LocationQueryValueRaw`.
 - Navegação: `NavigationOptions`, `BackOptions`, `SetStackOptions`, `NavigationType`, `NavigationInfo`, `NavigationGuard`, `NavigationGuardReturn`, `NavigationHookAfter`, `NavigationErrorHandler`, `NavigationFailure`, `LeaveGuardOptions`.
+- Links: `LinksOptions`, `LinkOptions`, `IncomingLink`, `LinkResult`, `LinkIgnoredReason`, `LinkSource`, `LinkListener`.
 - Apresentação nativa: `ModalOptions`, `SheetOptions`, `SheetDetent`, `AndroidModalOptions`, `BottomSheetOptions`, `BottomSheetState`, `TransitionOption`, `ZoomSource`, `BackGesture`, `BackGestureEdge`. `supportsBottomSheets()` informa se o build Android inclui o Material.
 - Tipos inferidos: `Register`, `RegisteredRouter`, `RouteMapFrom`, `RouteMapGeneric`, `RouteNames`, `RouteLocationOf`, `RouteLocationRawOf`, `ParamsFromPath`.
 

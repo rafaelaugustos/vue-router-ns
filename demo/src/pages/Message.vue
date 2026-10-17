@@ -2,8 +2,9 @@
 import { NavigationCommandScope } from 'vue-router-ns'
 import { useDemoCommands } from '../navigation-commands'
 
+import type { ScrollView } from '@nativescript/core'
 import { computed, ref } from 'nativescript-vue'
-import { useNavigationFocus, useRoute, useRouter } from 'vue-router-ns'
+import { useNavigationFocus, usePageState, useRoute, useRouter } from 'vue-router-ns'
 import StackTrail from '../components/StackTrail.vue'
 import { inbox } from '../store'
 
@@ -18,6 +19,19 @@ const message = computed(() => inbox.find(Number(props.id)))
 const next = computed(() => inbox.find(Number(route.params.id) + 1))
 const reply = ref<string>()
 const focus = useNavigationFocus({ initial: 'message-title', return: 'reply' })
+const scroller = ref<{ nativeView: ScrollView }>()
+
+// the reading position comes back after process death, once the content is laid out
+usePageState<{ offset: number }>('reading', {
+  save: () => {
+    const offset = scroller.value?.nativeView.verticalOffset ?? 0
+    return offset > 0 ? { offset } : undefined
+  },
+  restore({ offset }) {
+    const view = scroller.value?.nativeView
+    view?.once('layoutChanged', () => view.scrollToVerticalOffset(offset, false))
+  },
+})
 
 inbox.markRead(Number(props.id))
 
@@ -35,7 +49,7 @@ const commands = useDemoCommands()
     <ActionBar :title="message?.from ?? 'Message'" />
 
     <NavigationCommandScope :commands="commands" rows="*, auto">
-      <ScrollView>
+      <ScrollView ref="scroller">
         <StackLayout class="section">
           <Label
             id="message-title"

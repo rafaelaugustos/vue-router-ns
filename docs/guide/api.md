@@ -8,12 +8,13 @@ import { createRouter } from 'vue-router-ns'
 const router = createRouter({ routes, restore, backPreview: true })
 ```
 
-| Option        | Default  | Meaning                                                                                                                |
-| ------------- | -------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `diagnostics` | `false`  | `true` or `{ maxEvents }` for a bounded timeline and native snapshots. See [diagnostics](./diagnostics).               |
-| `routes`      | Required | Readonly array of `RouteRecordRaw`.                                                                                    |
-| `restore`     | Disabled | `save(state)`, `load()` and optional `maxAge` in milliseconds (default: 30 minutes). See [restoration](./restore).     |
-| `backPreview` | `true`   | Reveal the previous page during Android 14+ back gestures. Requires the [platform opt-in](./android-back#enabling-it). |
+| Option        | Default  | Meaning                                                                                                                                                             |
+| ------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `diagnostics` | `false`  | `true` or `{ maxEvents }` for a bounded timeline and native snapshots. See [diagnostics](./diagnostics).                                                            |
+| `routes`      | Required | Readonly array of `RouteRecordRaw`.                                                                                                                                 |
+| `restore`     | Disabled | `save(state)`, `load()`, optional `maxAge` in milliseconds (default: 30 minutes) and `stateLimit` in bytes per page (default: 8 KiB). See [restoration](./restore). |
+| `backPreview` | `true`   | Reveal the previous page during Android 14+ back gestures. Requires the [platform opt-in](./android-back#enabling-it).                                              |
+| `links`       | Disabled | `true` or `{ schemes, hosts, map, frame, options, system }` to take operating-system URLs. See [deep links](./deep-links#receiving-operating-system-urls).          |
 
 Install once with `createApp(App).use(router).start()`. This registers the components and provides `$router` and `$route` in templates. `router.install(app)` is the Vue plugin hook.
 
@@ -21,18 +22,21 @@ Install once with `createApp(App).use(router).start()`. This registers the compo
 
 `to` is a `RouteLocationRaw`: a path string, `{ path, query?, hash? }`, `{ name, params?, query?, hash? }`, or a location relative to the current route. Object locations also accept `replace` and `force`. Use `force: true` to push another instance of the current location. Params belong to named or relative locations, not a `path` object.
 
-| Method                           | Behavior                                                                                                                                             |
-| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `push(to, options?)`             | Add a page or present a modal.                                                                                                                       |
-| `replace(to, options?)`          | Replace the current page.                                                                                                                            |
-| `back(options?)`                 | Pop one page; close a modal at its root. At a non-modal root it does nothing. Android's system back can still leave the app.                         |
-| `go(delta)`                      | Go back by a negative number of pages. Zero and positive values do nothing. Takes no options argument.                                               |
-| `backTo(to, options?)`           | Return to the closest matching page below the top; rejects if absent.                                                                                |
-| `backToRoot(options?)`           | Return to the first page in the current stack.                                                                                                       |
-| `setStack(locations, options?)`  | Reconcile a nonempty list of locations with the stack. Preserves the common prefix; stops at the first failure without rolling back completed steps. |
-| `pushForResult<T>(to, options?)` | Open a page and wait for `back({ result })`. Resolves to `T \| undefined` when it closes or opening is prevented.                                    |
-| `resolve(to)`                    | Resolve a location synchronously without navigating. Returns `RouteLocation`; throws for an unmatched route.                                         |
-| `isReady()`                      | Promise that settles after initial navigation; does not wait for every hidden tab to load.                                                           |
+| Method                           | Behavior                                                                                                                                                    |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `push(to, options?)`             | Add a page or present a modal.                                                                                                                              |
+| `replace(to, options?)`          | Replace the current page.                                                                                                                                   |
+| `back(options?)`                 | Pop one page; close a modal at its root. At a non-modal root it does nothing. Android's system back can still leave the app.                                |
+| `go(delta)`                      | Go back by a negative number of pages. Zero and positive values do nothing. Takes no options argument.                                                      |
+| `backTo(to, options?)`           | Return to the closest matching page below the top; rejects if absent.                                                                                       |
+| `backToRoot(options?)`           | Return to the first page in the current stack.                                                                                                              |
+| `setStack(locations, options?)`  | Reconcile a nonempty list of locations with the stack. Preserves the common prefix; stops at the first failure without rolling back completed steps.        |
+| `pushForResult<T>(to, options?)` | Open a page and wait for `back({ result })`. Resolves to `T \| undefined` when it closes or opening is prevented.                                           |
+| `resolve(to)`                    | Resolve a location synchronously without navigating. Returns `RouteLocation`; throws for an unmatched route.                                                |
+| `isReady()`                      | Promise that settles after initial navigation; does not wait for every hidden tab to load.                                                                  |
+| `openLink(url, options?)`        | Opens a full URL or a bare path the way the OS would: through `links`, with parents, after the first page and the target stack. Resolves to a `LinkResult`. |
+| `resolveLink(url)`               | The `RouteLocation` a URL points at under `links`, or `undefined`.                                                                                          |
+| `onLink(listener)`               | Hears every link the router was handed, taken or not. Returns an unsubscribe function.                                                                      |
 
 Navigation methods other than `pushForResult` resolve to `NavigationFailure | undefined`. Unexpected errors reject; see [failures](./navigating#failures-and-errors). Back methods have the [split-view semantics](./split-view#history-and-back) when called in a split stack.
 
@@ -87,14 +91,15 @@ Paths support named parameters, optional/repeated parameters and custom patterns
 
 ## Composables
 
-| Function                               | Contract                                                                                                                        |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `useRouter()`                          | Router bound to the current page's stack; app router outside a page. Requires an app using the router.                          |
-| `useRoute(name?)`                      | This page's fixed route, or the focused route outside pages. The optional name narrows types; it does not select another route. |
-| `onBeforeRouteLeave(guard, { when }?)` | Page leave guard. `when` accepts a boolean, ref or getter. Removed on unmount.                                                  |
-| `onPageActivated(hook)`                | Called when the page becomes visible, including its first activation and returns.                                               |
-| `onPageDeactivated(hook)`              | Called when covered. For removal use Vue's `onUnmounted`.                                                                       |
-| `useBackGesture()`                     | Readonly shallow ref to `{ progress, edge }` or `null`; Android 14+. `edge` is `'left'`, `'right'` or `'none'`.                 |
+| Function                               | Contract                                                                                                                                                                                                     |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `useRouter()`                          | Router bound to the current page's stack; app router outside a page. Requires an app using the router.                                                                                                       |
+| `useRoute(name?)`                      | This page's fixed route, or the focused route outside pages. The optional name narrows types; it does not select another route.                                                                              |
+| `onBeforeRouteLeave(guard, { when }?)` | Page leave guard. `when` accepts a boolean, ref or getter. Removed on unmount.                                                                                                                               |
+| `onPageActivated(hook)`                | Called when the page becomes visible, including its first activation and returns.                                                                                                                            |
+| `onPageDeactivated(hook)`              | Called when covered. For removal use Vue's `onUnmounted`.                                                                                                                                                    |
+| `useBackGesture()`                     | Readonly shallow ref to `{ progress, edge }` or `null`; Android 14+. `edge` is `'left'`, `'right'` or `'none'`.                                                                                              |
+| `usePageState(key, options)`           | Keeps JSON-compatible page state across process death: `save`, `restore(value, { version, page })`, optional `version` and `migrate`. Needs `restore` on the router. See [page state](./restore#page-state). |
 
 Register page hooks in the routed component's setup. In an expanded split view, both list and top detail are active. See [page lifecycle and HMR](./pages).
 
@@ -115,10 +120,11 @@ Router view names must be unique, including split views. `name` and the initial 
 
 Public types are exported from the package root:
 
-- Router configuration: `Router`, `RouterOptions`, `RestoreOptions`, `SavedStacks`.
+- Router configuration: `Router`, `RouterOptions`, `RestoreOptions`, `SavedStacks`, `SavedEntry`, `SavedState`, `PageStateOptions`, `PageStateContext`.
 - Routes: `RouteRecordRaw`, `RouteRecord`, `RouteRecordName`, `RouteMeta`, `RouteProps`, `RouteComponent`, `RawRouteComponent`, `Lazy`.
 - Locations: `RouteLocation`, `RouteLocationRaw`, `RouteLocationPathRaw`, `RouteLocationNamedRaw`, `RouteLocationRelativeRaw`, `RouteParams`, `RouteParamsRaw`, `RouteParamValue`, `RouteParamValueRaw`, `LocationQuery`, `LocationQueryRaw`, `LocationQueryValue`, `LocationQueryValueRaw`.
 - Navigation: `NavigationOptions`, `BackOptions`, `SetStackOptions`, `NavigationType`, `NavigationInfo`, `NavigationGuard`, `NavigationGuardReturn`, `NavigationHookAfter`, `NavigationErrorHandler`, `NavigationFailure`, `LeaveGuardOptions`.
+- Links: `LinksOptions`, `LinkOptions`, `IncomingLink`, `LinkResult`, `LinkIgnoredReason`, `LinkSource`, `LinkListener`.
 - Native presentation: `ModalOptions`, `SheetOptions`, `SheetDetent`, `AndroidModalOptions`, `BottomSheetOptions`, `BottomSheetState`, `TransitionOption`, `ZoomSource`, `BackGesture`, `BackGestureEdge`. `supportsBottomSheets()` reports whether the Android build includes Material.
 - Inferred route types: `Register`, `RegisteredRouter`, `RouteMapFrom`, `RouteMapGeneric`, `RouteNames`, `RouteLocationOf`, `RouteLocationRawOf`, `ParamsFromPath`.
 

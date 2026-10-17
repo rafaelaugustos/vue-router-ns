@@ -49,7 +49,7 @@ So this is not a wrapper around Vue Router. The frame's back stack is the source
 - [Typed routes](#typed-routes): names and params checked across the app, with no code generation.
 - [Zoom and shared elements](#zoom-and-shared-elements): iOS 18's zoom out of a view, and NativeScript's shared element transitions.
 - [Android predictive back](#android-predictive-back) for pages that want to follow the swipe.
-- [Restoring the stack](#restoring-the-stack-after-the-app-is-killed) after the app is killed in the background.
+- [Restoring the stack](#restoring-the-stack-after-the-app-is-killed) after the app is killed in the background, with each page's own draft or reading position through `usePageState()`.
 - [Native hosts](#native-hosts) (experimental): one contract between the router and the container it drives, so native drawers, sheets and controllers can be added as adapters.
 
 ## Install
@@ -383,6 +383,8 @@ router.push('/messages/42')
 ```
 
 That's safe on a cold start: a navigation requested before the first page is up waits for it and stacks on top, so back still lands on your home page.
+
+With `links`, the router takes the URLs the operating system hands the app itself: Android launch and new intents, iOS `openURL`, Universal Links and scene connections, next to the handlers you already have. Allow schemes and hosts, map URLs to typed locations, pick the stack and select its tab, and the link lands with its parents, through the guards, after the first page and on top of a restored stack. `router.openLink(url)` is the same door for notifications and widgets, and tells you what happened. See [deep links](https://vue-router-ns.rafaelaugusto.dev/guide/deep-links#receiving-operating-system-urls) for the policy and the manifest, entitlements and association files each platform needs.
 
 A link into a nested page can bring its parents along, so back walks up the app's hierarchy instead of jumping home:
 

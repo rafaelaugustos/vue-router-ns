@@ -1,12 +1,18 @@
 <script lang="ts" setup>
 import { Dialogs } from '@nativescript/core'
 import { ref } from 'nativescript-vue'
-import { onBeforeRouteLeave, useRoute, useRouter } from 'vue-router-ns'
+import { onBeforeRouteLeave, usePageState, useRoute, useRouter } from 'vue-router-ns'
 import { session } from '../store'
 
 const router = useRouter()
 const route = useRoute('login')
 const name = ref('')
+
+// a half-typed name survives Android killing the app in the background
+usePageState<{ name: string }>('form', {
+  save: () => (name.value ? { name: name.value } : undefined),
+  restore: (value) => (name.value = value.name),
+})
 
 // asks on back, on the iOS back button and on a swipe, only while a name is typed
 onBeforeRouteLeave(

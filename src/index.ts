@@ -28,6 +28,17 @@ export {
 } from './composables.js'
 export type { LeaveGuardOptions } from './composables.js'
 export { useNativeHost } from './composables.js'
+export { usePageState } from './page-state.js'
+export type {
+  IncomingLink,
+  LinkIgnoredReason,
+  LinkListener,
+  LinkOptions,
+  LinkResult,
+  LinkSource,
+  LinksOptions,
+} from './links.js'
+export type { PageStateOptions, PageStateContext } from './page-state.js'
 export { useNativeSearch } from './search.js'
 export type { NativeSearch, NativeSearchOptions } from './search.js'
 export { useNavigationCommands } from './commands.js'

@@ -2,6 +2,7 @@ import type { Page, View } from '@nativescript/core'
 import { toValue, type MaybeRefOrGetter, type ShallowRef } from 'nativescript-vue'
 import type { BackGestureTarget } from './android.js'
 import type { NativeHost } from './host.js'
+import type { PageStateHooks } from './page-state.js'
 import type { Router } from './router.js'
 import type {
   ModalOptions,
@@ -9,6 +10,7 @@ import type {
   RouteComponent,
   RouteLocation,
   RouteLocationRaw,
+  SavedState,
 } from './types.js'
 
 /**
@@ -37,6 +39,8 @@ export interface Stack {
 /** A page in a stack, alive from the moment it is pushed until it leaves the stack. */
 export interface Entry {
   readonly id: number
+  /** Stable identity, kept across process death by `restore`. */
+  readonly key: string
   readonly route: RouteLocation
   readonly stack: Stack
   readonly component: RouteComponent
@@ -48,6 +52,10 @@ export interface Entry {
   /** Top of its stack and not covered by a modal. */
   readonly isActive: () => boolean
   page: Page | null
+  /** What the page's `usePageState()` hooks save, by key. */
+  readonly state: Map<string, PageStateHooks>
+  /** State saved by a previous life of this page, consumed as hooks restore it. */
+  saved: Record<string, SavedState> | undefined
   result: unknown
   settle: ((result: unknown) => void) | undefined
   disposed: boolean

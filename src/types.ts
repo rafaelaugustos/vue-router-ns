@@ -220,19 +220,44 @@ export interface BackOptions {
   animated?: boolean
 }
 
-/** What `restore.save` receives and `restore.load` gives back: the paths of every named stack. */
+/** What one `usePageState()` hook saved. */
+export interface SavedState {
+  version: number
+  value: unknown
+}
+
+/** One page in a saved stack, next to its path. */
+export interface SavedEntry {
+  /** Stable across process death: two pages at the same path keep their own. */
+  key: string
+  state?: Record<string, SavedState>
+}
+
+/**
+ * What `restore.save` receives and `restore.load` gives back: the paths of
+ * every named stack, and since version 2 the identity and state of each page.
+ * A save without `version` is the path-only format, and still loads.
+ */
 export interface SavedStacks {
+  version?: 2
   savedAt: number
   stacks: Record<string, string[]>
+  /** Aligned with `stacks`. */
+  entries?: Record<string, SavedEntry[]>
 }
 
 export interface RestoreOptions {
-  /** Called with the stacks after every navigation, and with `null` when the app exits on its own. */
+  /**
+   * Called with the stacks after every navigation and when the app goes to
+   * the background, and with `null` when the app exits on its own.
+   */
   save(state: SavedStacks | null): void
   /** Called once, when the first `<RouterView>` mounts. */
   load(): SavedStacks | null | undefined | Promise<SavedStacks | null | undefined>
   /** Saves older than this, in milliseconds, are left alone. Defaults to 30 minutes. */
   maxAge?: number
+  /** Bytes of JSON one page's `usePageState()` hooks may take together. Defaults to 8 KiB. */
+  stateLimit?: number
 }
 
 export interface SetStackOptions {
