@@ -58,6 +58,7 @@ import { createFrameHost } from './hosts/frame.js'
 import { canZoom, configureSheet, viewOf } from './ios.js'
 import { createMatcher } from './matcher.js'
 import { createPage, ModalHost } from './page.js'
+import { collectPageState, DEFAULT_STATE_LIMIT } from './page-state.js'
 import { disconnectPageEffects } from './page-effects.js'
 import {
   clearFocusOrigin,
@@ -98,7 +99,9 @@ import type {
   RouteRecordName,
   RouteRecordRaw,
   RestoreOptions,
+  SavedEntry,
   SavedStacks,
+  SavedState,
   SetStackOptions,
   TransitionOption,
 } from './types.js'
@@ -200,6 +203,8 @@ interface Request {
   force?: boolean
   result?: unknown
   onEntry?: (entry: Entry) => void
+  /** Restoring: the identity and state the page had before, if it comes back at the same path. */
+  saved?: { path: string; key: string; state?: Record<string, SavedState> }
   redirects: number
 }
 
@@ -242,6 +247,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   ready.promise.catch(() => {})
   let isReady = false
   let entryId = 0
+  const keySeed = `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`
   let modalId = 0
   /** Native transitions in flight. Navigations wait for them, so they always start from a settled screen. */
   let settled: Promise<unknown> = Promise.resolve()
@@ -381,9 +387,11 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     route: RouteLocation,
     props: Record<string, unknown>,
     zoomFrom?: Entry['zoomFrom'],
+    saved?: Request['saved'],
   ) {
     const entry: Entry = {
       id: ++entryId,
+      key: saved?.key ?? `${keySeed}-${entryId}`,
       route,
       stack,
       component: components.get(route.matched.at(-1)!)!,
@@ -395,6 +403,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         (topOf(stack) === entry || isVisible(entry)) &&
         (stack.modal ? modals.value.at(-1) === stack : !modals.value.length),
       page: null,
+      state: new Map(),
+      saved: saved?.state,
       result: undefined,
       settle: undefined,
       disposed: false,
@@ -492,11 +502,16 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     return { gesture: top.backGesture, preview }
   }
 
-  /** Makes `stack` match `targets`: back to the last page both share, then push the rest. */
+  /**
+   * Makes `stack` match `targets`: back to the last page both share, then
+   * push the rest. `saved`, aligned with `targets`, gives restored pages back
+   * their identity and state.
+   */
   async function applyStack(
     stack: Stack,
     targets: readonly RouteLocation[],
     options: Pick<SetStackOptions, 'animated' | 'transition'>,
+    saved?: readonly SavedEntry[],
   ): Promise<NavigationFailure | undefined> {
     if (stack.host?.capabilities.pinnedRoot) {
       const root =
@@ -519,8 +534,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       to: RouteLocation | undefined,
       last: boolean,
       extra: NavigationOptions = {},
-    ) =>
-      run({
+    ) => {
+      const memory = to && saved?.[targets.indexOf(to)]
+      return run({
         type,
         stack,
         to,
@@ -532,8 +548,10 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
           transition: last ? options.transition : undefined,
         },
         force: true,
+        saved: memory && to ? { path: to.fullPath, ...memory } : undefined,
         redirects: 0,
       })
+    }
 
     let failure: NavigationFailure | undefined
     if (shared === 0) {
@@ -557,15 +575,27 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
   function persist() {
     if (!restore || restoring) return
+    const limit = restore.stateLimit ?? DEFAULT_STATE_LIMIT
     const stacks: Record<string, string[]> = {}
+    const entries: Record<string, SavedEntry[]> = {}
     for (const [name, stack] of frames) {
       stacks[name] = stack.entries.value.map((entry) => entry.route.fullPath)
+      entries[name] = stack.entries.value.map((entry) => {
+        const state = collectPageState(entry, limit)
+        return state ? { key: entry.key, state } : { key: entry.key }
+      })
     }
-    restore.save({ savedAt: Date.now(), stacks })
+    restore.save({ version: 2, savedAt: Date.now(), stacks, entries })
+  }
+
+  interface SavedStack {
+    targets: RouteLocation[]
+    /** Aligned with `targets`; absent for a path-only save. */
+    entries: SavedEntry[] | undefined
   }
 
   /** The saved stack for a `<RouterView>`, if there is one worth restoring. */
-  async function savedStackFor(name: string): Promise<RouteLocation[] | undefined> {
+  async function savedStackFor(name: string): Promise<SavedStack | undefined> {
     if (!restore) return undefined
     loaded ??= Promise.resolve()
       .then(() => restore.load())
@@ -583,7 +613,11 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       const targets: RouteLocation[] = []
       for (const path of paths)
         targets.push(resolveTarget(path, targets.at(-1) ?? START_LOCATION))
-      return targets
+      const entries = state!.entries?.[name]
+      return {
+        targets,
+        entries: entries?.length === paths.length ? entries : undefined,
+      }
     } catch (error) {
       if (__DEV__) {
         console.warn(`[vue-router-ns] Not restoring <RouterView name="${name}">:`, error)
@@ -881,7 +915,13 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       !reduced && !initial && !hidden && options.animated !== false && canZoom()
         ? viewOf(options.zoomFrom)
         : undefined
-    const entry = createEntry(stack, to, pageProps(to, record, options.props), zoom)
+    const entry = createEntry(
+      stack,
+      to,
+      pageProps(to, record, options.props),
+      zoom,
+      request.saved?.path === to.fullPath ? request.saved : undefined,
+    )
     request.onEntry?.(entry)
 
     // a transition of the frame's own would take the animation away from UIKit's zoom
@@ -1307,8 +1347,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         try {
           return await applyStack(
             stack,
-            saved ?? [resolveTarget(initial, START_LOCATION)],
+            saved?.targets ?? [resolveTarget(initial, START_LOCATION)],
             { animated: false },
+            saved?.entries,
           )
         } finally {
           restoring = false
@@ -1377,8 +1418,14 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
       if (restore) {
         const onExit = () => restore.save(null)
+        // the last chance to save before Android kills the process in the background
+        const onSuspend = () => persist()
         Application.on('exit', onExit)
-        app.onUnmount(() => Application.off('exit', onExit))
+        Application.on('suspend', onSuspend)
+        app.onUnmount(() => {
+          Application.off('exit', onExit)
+          Application.off('suspend', onSuspend)
+        })
       }
 
       if (isAndroid) {

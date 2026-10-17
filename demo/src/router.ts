@@ -1,3 +1,4 @@
+import { ApplicationSettings } from '@nativescript/core'
 import { createRouter } from 'vue-router-ns'
 import { session } from './store'
 
@@ -5,6 +6,10 @@ import { session } from './store'
 // route names and params here while the pages themselves use them.
 export const router = createRouter({
   diagnostics: __DEV__,
+  restore: {
+    save: (state) => ApplicationSettings.setString('stacks', JSON.stringify(state)),
+    load: () => JSON.parse(ApplicationSettings.getString('stacks', 'null')),
+  },
   routes: [
     { path: '/', name: 'inbox', component: () => import('./pages/Inbox.vue') },
     {

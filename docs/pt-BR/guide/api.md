@@ -8,12 +8,12 @@ import { createRouter } from 'vue-router-ns'
 const router = createRouter({ routes, restore, backPreview: true })
 ```
 
-| Opção         | Padrão      | Significado                                                                                                                   |
-| ------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `diagnostics` | `false`     | `true` ou `{ maxEvents }` para timeline limitada e snapshots nativos. Veja [diagnóstico](./diagnostics).                      |
-| `routes`      | Obrigatória | Array readonly de `RouteRecordRaw`.                                                                                           |
-| `restore`     | Desativado  | `save(state)`, `load()` e `maxAge` opcional em milissegundos (padrão: 30 minutos). Veja [restauração](./restore).             |
-| `backPreview` | `true`      | Revela a página anterior durante o gesto de voltar no Android 14+. Exige a [ativação na plataforma](./android-back#ativando). |
+| Opção         | Padrão      | Significado                                                                                                                                                         |
+| ------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `diagnostics` | `false`     | `true` ou `{ maxEvents }` para timeline limitada e snapshots nativos. Veja [diagnóstico](./diagnostics).                                                            |
+| `routes`      | Obrigatória | Array readonly de `RouteRecordRaw`.                                                                                                                                 |
+| `restore`     | Desativado  | `save(state)`, `load()`, `maxAge` opcional em milissegundos (padrão: 30 minutos) e `stateLimit` em bytes por página (padrão: 8 KiB). Veja [restauração](./restore). |
+| `backPreview` | `true`      | Revela a página anterior durante o gesto de voltar no Android 14+. Exige a [ativação na plataforma](./android-back#ativando).                                       |
 
 Instale uma vez com `createApp(App).use(router).start()`. Isso registra os componentes e fornece `$router` e `$route` nos templates. `router.install(app)` é o hook de plugin do Vue.
 
@@ -87,14 +87,15 @@ Paths aceitam parâmetros nomeados, opcionais/repetidos e padrões personalizado
 
 ## Composables
 
-| Função                                 | Contrato                                                                                                               |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `useRouter()`                          | Router ligado à pilha da página atual; router do app fora de páginas. Exige um app usando o router.                    |
-| `useRoute(name?)`                      | Rota fixa desta página, ou rota em foco fora de páginas. O nome opcional restringe os tipos; não seleciona outra rota. |
-| `onBeforeRouteLeave(guard, { when }?)` | Leave guard da página. `when` aceita boolean, ref ou getter. Removido no unmount.                                      |
-| `onPageActivated(hook)`                | Chamado quando a página fica visível, incluindo a primeira ativação e os retornos.                                     |
-| `onPageDeactivated(hook)`              | Chamado quando a página é coberta. Para remoção, use `onUnmounted` do Vue.                                             |
-| `useBackGesture()`                     | Shallow ref readonly de `{ progress, edge }` ou `null`; Android 14+. `edge` é `'left'`, `'right'` ou `'none'`.         |
+| Função                                 | Contrato                                                                                                                                                                                                                                     |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `useRouter()`                          | Router ligado à pilha da página atual; router do app fora de páginas. Exige um app usando o router.                                                                                                                                          |
+| `useRoute(name?)`                      | Rota fixa desta página, ou rota em foco fora de páginas. O nome opcional restringe os tipos; não seleciona outra rota.                                                                                                                       |
+| `onBeforeRouteLeave(guard, { when }?)` | Leave guard da página. `when` aceita boolean, ref ou getter. Removido no unmount.                                                                                                                                                            |
+| `onPageActivated(hook)`                | Chamado quando a página fica visível, incluindo a primeira ativação e os retornos.                                                                                                                                                           |
+| `onPageDeactivated(hook)`              | Chamado quando a página é coberta. Para remoção, use `onUnmounted` do Vue.                                                                                                                                                                   |
+| `useBackGesture()`                     | Shallow ref readonly de `{ progress, edge }` ou `null`; Android 14+. `edge` é `'left'`, `'right'` ou `'none'`.                                                                                                                               |
+| `usePageState(key, options)`           | Mantém estado de página compatível com JSON através da morte do processo: `save`, `restore(value, { version, page })`, `version` e `migrate` opcionais. Precisa de `restore` no router. Veja [estado da página](./restore#estado-da-pagina). |
 
 Registre os hooks de página no setup do componente roteado. No split view expandido, lista e detalhe do topo ficam ativos. Veja [ciclo de vida e HMR](./pages).
 
@@ -115,7 +116,7 @@ Nomes de router views devem ser únicos, incluindo split views. `name` e a rota 
 
 Os tipos públicos são exportados pela raiz do pacote:
 
-- Configuração: `Router`, `RouterOptions`, `RestoreOptions`, `SavedStacks`.
+- Configuração: `Router`, `RouterOptions`, `RestoreOptions`, `SavedStacks`, `SavedEntry`, `SavedState`, `PageStateOptions`, `PageStateContext`.
 - Rotas: `RouteRecordRaw`, `RouteRecord`, `RouteRecordName`, `RouteMeta`, `RouteProps`, `RouteComponent`, `RawRouteComponent`, `Lazy`.
 - Localizações: `RouteLocation`, `RouteLocationRaw`, `RouteLocationPathRaw`, `RouteLocationNamedRaw`, `RouteLocationRelativeRaw`, `RouteParams`, `RouteParamsRaw`, `RouteParamValue`, `RouteParamValueRaw`, `LocationQuery`, `LocationQueryRaw`, `LocationQueryValue`, `LocationQueryValueRaw`.
 - Navegação: `NavigationOptions`, `BackOptions`, `SetStackOptions`, `NavigationType`, `NavigationInfo`, `NavigationGuard`, `NavigationGuardReturn`, `NavigationHookAfter`, `NavigationErrorHandler`, `NavigationFailure`, `LeaveGuardOptions`.

@@ -49,7 +49,7 @@ So this is not a wrapper around Vue Router. The frame's back stack is the source
 - [Typed routes](#typed-routes): names and params checked across the app, with no code generation.
 - [Zoom and shared elements](#zoom-and-shared-elements): iOS 18's zoom out of a view, and NativeScript's shared element transitions.
 - [Android predictive back](#android-predictive-back) for pages that want to follow the swipe.
-- [Restoring the stack](#restoring-the-stack-after-the-app-is-killed) after the app is killed in the background.
+- [Restoring the stack](#restoring-the-stack-after-the-app-is-killed) after the app is killed in the background, with each page's own draft or reading position through `usePageState()`.
 - [Native hosts](#native-hosts) (experimental): one contract between the router and the container it drives, so native drawers, sheets and controllers can be added as adapters.
 
 ## Install
