@@ -12,6 +12,7 @@ export interface NativeCommandsHost {
   dispose(): void
 }
 declare const UIView: any
+declare const UITapGestureRecognizer: any
 declare const UIKeyCommand: any
 declare const NSMutableArray: any
 declare const interop: any
@@ -48,6 +49,23 @@ export class CommandLayout extends GridLayout {
       },
     )
     return Responder.new()
+  }
+
+  /**
+   * Core answers the scope's tap with a recognizer that cancels the touch
+   * underneath once it fires, so a tapped table row would never be selected.
+   * Focusing only needs to see the tap.
+   */
+  override onLoaded() {
+    super.onLoaded()
+    if (!isIOS || typeof UITapGestureRecognizer === 'undefined') return
+    const list = this.nativeViewProtected?.gestureRecognizers
+    for (let i = 0; i < (list?.count ?? 0); i++) {
+      const recognizer = list.objectAtIndex(i)
+      if (!(recognizer instanceof UITapGestureRecognizer)) continue
+      recognizer.cancelsTouchesInView = false
+      recognizer.delaysTouchesEnded = false
+    }
   }
 }
 

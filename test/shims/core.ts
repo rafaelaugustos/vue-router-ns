@@ -76,6 +76,9 @@ export class View extends Observable {
     return {}
   }
   callLoaded() {
+    this.onLoaded()
+  }
+  onLoaded() {
     this.isLoaded = true
   }
   callUnloaded() {
