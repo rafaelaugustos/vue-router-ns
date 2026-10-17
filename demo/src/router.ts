@@ -1,4 +1,4 @@
-import { ApplicationSettings } from '@nativescript/core'
+import { Application, ApplicationSettings, TabView } from '@nativescript/core'
 import { createRouter } from 'vue-router-ns'
 import { session } from './store'
 
@@ -9,6 +9,16 @@ export const router = createRouter({
   restore: {
     save: (state) => ApplicationSettings.setString('stacks', JSON.stringify(state)),
     load: () => JSON.parse(ApplicationSettings.getString('stacks', 'null')),
+  },
+  links: {
+    schemes: ['https', 'vuerouterns'],
+    hosts: ['vue-router-ns.rafaelaugusto.dev'],
+    frame(location) {
+      const settings = location.path.startsWith('/settings') || location.path === '/login'
+      const root = Application.getRootView()
+      if (root instanceof TabView) root.selectedIndex = settings ? 1 : 0
+      return settings ? 'settings' : 'inbox'
+    },
   },
   routes: [
     { path: '/', name: 'inbox', component: () => import('./pages/Inbox.vue') },

@@ -789,9 +789,103 @@ export const SharedTransition = {
 
 export const Application = Object.assign(new Observable(), {
   android: createAndroidApplication(),
+  ios: createIOSApplication(),
   inBackground: false,
   getRootView: () => new View(),
 })
+
+type DelegateHandler = (...args: any[]) => unknown
+
+/** `Application.ios`: an Observable with core's `addDelegateHandler`, run the way UIKit would. */
+function createIOSApplication() {
+  const handlers = new Map<string, DelegateHandler[]>()
+  return Object.assign(new Observable(), {
+    addDelegateHandler(method: string, handler: DelegateHandler) {
+      handlers.set(method, [...(handlers.get(method) ?? []), handler])
+    },
+    /** Calls the delegate method, returning the last handler's result like core does. */
+    call(method: string, ...args: unknown[]) {
+      let result: unknown
+      for (const handler of handlers.get(method) ?? []) result = handler(...args)
+      return result
+    },
+  })
+}
+
+const nsurl = (href: string) => ({ absoluteString: href })
+const nsset = (items: unknown[]) => ({
+  allObjects: { count: items.length, objectAtIndex: (index: number) => items[index] },
+})
+const browsing = (href: string) => ({
+  activityType: 'NSUserActivityTypeBrowsingWeb',
+  webpageURL: nsurl(href),
+})
+
+/** What iOS does with a URL, a Universal Link or a scene connection. */
+export const iosLinks = {
+  launch(href?: string, activityHref?: string) {
+    return Application.ios.call(
+      'applicationDidFinishLaunchingWithOptions',
+      {},
+      {
+        objectForKey(key: string) {
+          if (key === 'UIApplicationLaunchOptionsURLKey') return href ? nsurl(href) : null
+          if (key === 'UIApplicationLaunchOptionsUserActivityDictionaryKey')
+            return { objectForKey: () => (activityHref ? browsing(activityHref) : null) }
+          return null
+        },
+      },
+    )
+  },
+  openURL: (href: string) =>
+    Application.ios.call('applicationOpenURLOptions', {}, nsurl(href), {}),
+  continueUserActivity: (href: string) =>
+    Application.ios.call(
+      'applicationContinueUserActivityRestorationHandler',
+      {},
+      browsing(href),
+      () => {},
+    ),
+  connectScene(hrefs: string[], activityHrefs: string[] = []) {
+    Application.ios.notify({
+      eventName: 'sceneWillConnect',
+      object: Application.ios,
+      connectionOptions: {
+        URLContexts: nsset(hrefs.map((href) => ({ URL: nsurl(href) }))),
+        userActivities: nsset(activityHrefs.map(browsing)),
+      },
+    })
+  },
+}
+
+export const FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY = 0x00100000
+
+const intent = (href: string | null, flags: number) => ({
+  getData: () => (href ? { toString: () => href } : null),
+  getFlags: () => flags,
+})
+
+/** What Android does with a launch or a new intent. */
+export const androidLinks = {
+  create(href: string | null, options: { bundle?: unknown; flags?: number } = {}) {
+    const activity = Object.assign(new Activity(), {
+      getIntent: () => intent(href, options.flags ?? 0),
+    })
+    Application.android.notify({
+      eventName: 'activityCreated',
+      object: Application.android,
+      activity,
+      bundle: options.bundle ?? null,
+    })
+  },
+  newIntent(href: string, flags = 0) {
+    Application.android.notify({
+      eventName: 'activityNewIntent',
+      object: Application.android,
+      intent: intent(href, flags),
+    })
+  },
+}
 
 function createAndroidApplication() {
   const application = Object.assign(new Observable(), {
@@ -858,6 +952,7 @@ export function resetNative() {
   SharedTransition.finished = []
   View.presented = []
   Application.android = createAndroidApplication()
+  Application.ios = createIOSApplication()
   Application.clear()
   Device.sdkVersion = '36'
   setPlatform('ios')

@@ -384,6 +384,8 @@ router.push('/messages/42')
 
 That's safe on a cold start: a navigation requested before the first page is up waits for it and stacks on top, so back still lands on your home page.
 
+With `links`, the router takes the URLs the operating system hands the app itself: Android launch and new intents, iOS `openURL`, Universal Links and scene connections, next to the handlers you already have. Allow schemes and hosts, map URLs to typed locations, pick the stack and select its tab, and the link lands with its parents, through the guards, after the first page and on top of a restored stack. `router.openLink(url)` is the same door for notifications and widgets, and tells you what happened. See [deep links](https://vue-router-ns.rafaelaugusto.dev/guide/deep-links#receiving-operating-system-urls) for the policy and the manifest, entitlements and association files each platform needs.
+
 A link into a nested page can bring its parents along, so back walks up the app's hierarchy instead of jumping home:
 
 ```ts

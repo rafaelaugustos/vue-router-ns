@@ -57,6 +57,19 @@ import {
 import { createFrameHost } from './hosts/frame.js'
 import { canZoom, configureSheet, viewOf } from './ios.js'
 import { createMatcher } from './matcher.js'
+import {
+  installSystemLinks,
+  parseLink,
+  REPEAT_WINDOW,
+  screen,
+  type IncomingLink,
+  type LinkIgnoredReason,
+  type LinkListener,
+  type LinkOptions,
+  type LinkResult,
+  type LinkSource,
+  type LinksOptions,
+} from './links.js'
 import { createPage, ModalHost } from './page.js'
 import { collectPageState, DEFAULT_STATE_LIMIT } from './page-state.js'
 import { disconnectPageEffects } from './page-effects.js'
@@ -72,6 +85,7 @@ import {
   isBlocked,
   isGuardActive,
   topOf,
+  type Deferred as Pending,
   type Entry,
   type Stack,
 } from './stack.js'
@@ -118,9 +132,17 @@ export interface RouterOptions<
   diagnostics?: boolean | DiagnosticsOptions
   /** Respect OS reduced motion by default; applications may explicitly override it. */
   motion?: MotionPolicy
+  /**
+   * Take links from the operating system: Android intents, iOS URLs and
+   * Universal Links. `true` for the defaults, or a policy of schemes, hosts
+   * and mapping. `openLink()` works without it.
+   */
+  links?: boolean | LinksOptions
 }
 
 const DEFAULT_MAX_AGE = 30 * 60 * 1000
+/** How long a link waits for the `<RouterView>` it targets. */
+const MOUNT_TIMEOUT = 10_000
 
 export interface Router<M extends RouteMapLike = RouteMapGeneric> {
   /** Route of the page the user is looking at. */
@@ -176,6 +198,20 @@ export interface Router<M extends RouteMapLike = RouteMapGeneric> {
   onError(handler: NavigationErrorHandler): () => void
   /** Resolves once the first `<RouterView>` has shown its initial page. */
   isReady(): Promise<void>
+
+  /**
+   * Opens what an operating-system link, a notification or a widget points
+   * at: a full URL or a bare path. Waits for the first page and for the
+   * target stack, brings the parents along, and resolves with what happened.
+   */
+  openLink(
+    href: string,
+    options?: LinkOptions & { source?: LinkSource },
+  ): Promise<LinkResult>
+  /** The location a URL points at under `links`, or `undefined` when it isn't for this app. */
+  resolveLink(href: string): RouteLocation | undefined
+  /** Hears every link the router was handed, taken or not. */
+  onLink(listener: LinkListener): () => void
 
   install(app: App): void
 }
@@ -1166,6 +1202,98 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     if (lastFrame.value === stack) lastFrame.value = undefined
   }
 
+  // -- links ------------------------------------------------------------------
+
+  const linkPolicy: LinksOptions = typeof options.links === 'object' ? options.links : {}
+  const linkListeners = callbacks<LinkListener>()
+  const mountWaiters = new Map<string, Pending<void>>()
+  let lastSystemLink: { href: string; at: number } | undefined
+
+  interface EvaluatedLink {
+    link: IncomingLink
+    location?: RouteLocation
+    ignored?: LinkIgnoredReason
+  }
+
+  /** Resolves once `<RouterView name>` is mounted, or rejects after a while. */
+  function stackMounted(name: string): Promise<void> {
+    if (frames.has(name)) return Promise.resolve()
+    let waiter = mountWaiters.get(name)
+    if (!waiter) {
+      const pending = deferred<void>()
+      waiter = pending
+      mountWaiters.set(name, pending)
+      setTimeout(() => {
+        if (mountWaiters.get(name) !== pending) return
+        mountWaiters.delete(name)
+        pending.reject(
+          new Error(`No <RouterView name="${name}"> mounted within ${MOUNT_TIMEOUT}ms`),
+        )
+      }, MOUNT_TIMEOUT)
+    }
+    return waiter.promise
+  }
+
+  function evaluateLink(href: string, source: LinkSource): EvaluatedLink {
+    const link = parseLink(href, source)
+    if (!link) {
+      return {
+        link: { href, scheme: '', host: '', path: '', query: {}, hash: '', source },
+        ignored: 'malformed',
+      }
+    }
+    const screened = screen(linkPolicy, link)
+    if (screened) return { link, ignored: screened }
+    const raw = linkPolicy.map
+      ? linkPolicy.map(link)
+      : { path: link.path, query: link.query, hash: link.hash }
+    if (raw === null || raw === undefined) return { link, ignored: 'unmatched' }
+    try {
+      return { link, location: resolveTarget(raw, START_LOCATION) }
+    } catch {
+      return { link, ignored: 'unmatched' }
+    }
+  }
+
+  async function takeLink(
+    evaluated: EvaluatedLink,
+    options: LinkOptions & { source?: LinkSource },
+  ): Promise<LinkResult> {
+    const { link, location } = evaluated
+    const done = (result: LinkResult) => {
+      for (const listener of linkListeners.list()) listener(result)
+      return result
+    }
+    if (!location) return done({ link, ignored: evaluated.ignored })
+    if (link.source !== 'app') {
+      const now = Date.now()
+      const repeat =
+        !!lastSystemLink &&
+        lastSystemLink.href === link.href &&
+        now - lastSystemLink.at < REPEAT_WINDOW
+      lastSystemLink = { href: link.href, at: now }
+      if (repeat) return done({ link, location, ignored: 'repeat' })
+    }
+    const policy =
+      typeof linkPolicy.options === 'function'
+        ? linkPolicy.options(location, link)
+        : linkPolicy.options
+    const frame = options.frame ?? linkPolicy.frame?.(location, link) ?? policy?.frame
+    const settings = { withParents: true, ...policy, ...options, frame }
+    if (!isReady) await ready.promise
+    if (frame !== undefined) await stackMounted(frame)
+    const target = { path: location.path, query: location.query, hash: location.hash }
+    const navigation: NavigationOptions = {
+      withParents: settings.withParents,
+      clearHistory: settings.clearHistory,
+      frame,
+    }
+    const failure = settings.replace
+      ? await router.replace(target, navigation)
+      : await router.push(target, navigation)
+    return done({ link, location, failure })
+  }
+
   // -- public API -------------------------------------------------------------
 
   /** Navigation methods bound to a stack (what pages get), or to the focused one. */
@@ -1365,8 +1493,15 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
             )
           }
           markReady()
+          // links waiting for this stack go in on top of its first page
+          mountWaiters.get(name)?.resolve()
+          mountWaiters.delete(name)
         },
-        (error) => ready.reject(error),
+        (error) => {
+          ready.reject(error)
+          mountWaiters.get(name)?.reject(error)
+          mountWaiters.delete(name)
+        },
       )
     },
 
@@ -1399,6 +1534,11 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     onError: errorHandlers.add,
     isReady: () => ready.promise,
 
+    openLink: (href: string, options: LinkOptions & { source?: LinkSource } = {}) =>
+      takeLink(evaluateLink(href, options.source ?? 'app'), options),
+    resolveLink: (href: string) => evaluateLink(href, 'app').location,
+    onLink: linkListeners.add,
+
     install(app: App) {
       const route = shallowReactive(reactiveRoute)
 
@@ -1415,6 +1555,20 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       app.component('RouterLink', RouterLink)
       app.component('Deferred', Deferred)
       if (diagnostics) app.onUnmount(() => diagnostics.api.stop())
+
+      if (options.links && linkPolicy.system !== false) {
+        const stop = installSystemLinks({
+          deliver(href, source) {
+            const evaluated = evaluateLink(href, source)
+            takeLink(evaluated, { source }).catch((error) => {
+              if (__DEV__)
+                console.warn(`[vue-router-ns] Opening "${href}" failed:`, error)
+            })
+            return !!evaluated.location
+          },
+        })
+        app.onUnmount(stop)
+      }
 
       if (restore) {
         const onExit = () => restore.save(null)
