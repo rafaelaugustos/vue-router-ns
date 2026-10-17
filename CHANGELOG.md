@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- `v-route-preview` and `<RouterLink menu>` give a view a native context menu for a route: on iOS a long press shows the destination in UIKit's preview with a menu of actions, and committing the preview navigates through the guards; Android shows the actions in a popup menu, with the route first. The preview is a Vue app of its own, never a stack entry, and list rows keep one interaction per recycled view.
+
 - Demo: a lighter look on both platforms, with system bars, avatars and previews in the inbox, cards on the message page, grouped settings cells and friendlier login and not-found pages. The drawer menu action shows only on Android, where `<RouterDrawer>` has a presentation.
 
 - A tap inside `NavigationCommandScope` no longer cancels the touch underneath on iOS, so `ListView` rows select again inside a scope. The tap only moves keyboard focus to the scope.

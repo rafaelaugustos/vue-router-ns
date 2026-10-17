@@ -54,6 +54,12 @@ export type {
   LinksOptions,
 } from './links.js'
 export type { PageStateOptions, PageStateContext } from './page-state.js'
+export { vRoutePreview, attachRouteMenu, detachRouteMenu } from './context-menu.js'
+export type {
+  RouteMenuAction,
+  RouteMenuOptions,
+  RoutePreviewOptions,
+} from './context-menu.js'
 export { useNativeSearch } from './search.js'
 export type { NativeSearch, NativeSearchOptions, SearchBarPlacement } from './search.js'
 export { useNavigationCommands } from './commands.js'

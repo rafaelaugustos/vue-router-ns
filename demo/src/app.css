@@ -216,6 +216,11 @@ TabView {
   font-weight: 600;
 }
 
+.message-preview {
+  padding: 16;
+  background-color: #ffffff;
+}
+
 .emoji {
   font-size: 56;
   margin-bottom: 8;

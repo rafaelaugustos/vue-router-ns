@@ -15,10 +15,13 @@ import {
   useNativeSearch,
   useNavigationFocus,
   useRouter,
+  vRoutePreview,
+  type RoutePreviewOptions,
 } from 'vue-router-ns'
+import MessagePreview from '../components/MessagePreview.vue'
 import StackTrail from '../components/StackTrail.vue'
 import { drawer } from '../drawer'
-import { inbox } from '../store'
+import { inbox, type Message } from '../store'
 import { initials, tone } from '../ui'
 
 const router = useRouter()
@@ -34,16 +37,18 @@ const filtered = computed(() => {
   )
 })
 
-// runs when the inbox shows up and every time the user comes back to it
-onPageActivated(() => {
+function refresh() {
   messages.value = inbox.list()
   unread.value = inbox.unread()
-})
+}
+// runs when the inbox shows up and every time the user comes back to it
+onPageActivated(refresh)
 
 // a half-height sheet on iOS, with the inbox still usable behind it; a Material sheet on Android
-function compose() {
+function compose(subject?: string) {
   focus.remember()
   router.push('/compose', {
+    props: subject ? { subject } : undefined,
     modal: {
       ios: {
         detents: ['medium', 'large'],
@@ -65,6 +70,29 @@ function open({ index, view }: ItemEventData) {
     { zoomFrom: view, transition: SharedTransition.custom(new PageTransition()) },
   )
 }
+// a long press previews the message and offers actions; opening it goes through the router like a tap
+function menuFor(item: Message): RoutePreviewOptions {
+  return {
+    to: { name: 'message', params: { id: item.id } },
+    preview: MessagePreview,
+    props: { id: item.id },
+    actions: [
+      {
+        title: 'Reply',
+        image: 'arrowshape.turn.up.left',
+        run: () => compose(`Re: ${item.subject}`),
+      },
+      {
+        title: 'Mark as read',
+        image: 'envelope.open',
+        run: () => {
+          inbox.markRead(item.id)
+          refresh()
+        },
+      },
+    ],
+  }
+}
 const commands = useDemoCommands()
 </script>
 
@@ -78,7 +106,12 @@ const commands = useDemoCommands()
         ios.position="right"
         @tap="search.activate()"
       />
-      <ActionItem text="Compose" ios.systemIcon="7" ios.position="right" @tap="compose" />
+      <ActionItem
+        text="Compose"
+        ios.systemIcon="7"
+        ios.position="right"
+        @tap="compose()"
+      />
     </ActionBar>
 
     <NavigationCommandScope :commands="commands" rows="*, auto">
@@ -87,6 +120,7 @@ const commands = useDemoCommands()
         <template #default="{ item }">
           <GridLayout
             :id="`message-${item.id}`"
+            v-route-preview="menuFor(item)"
             :accessible="isIOS"
             :accessibilityLabel="`${item.from}: ${item.subject}`"
             class="row"

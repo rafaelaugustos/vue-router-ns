@@ -28,6 +28,8 @@ import {
 } from './android.js'
 import { Deferred } from './components/Deferred.js'
 import { DrawerLayoutView, RouterDrawer } from './drawer.js'
+import { vRoutePreview } from './context-menu.js'
+import { forgetPageRouter, registerPageRouter } from './page-router.js'
 import { RouterLink } from './components/RouterLink.js'
 import { RouterSplitView } from './components/RouterSplitView.js'
 import { RouterView } from './components/RouterView.js'
@@ -495,11 +497,13 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       )
       entry.page = page
       entriesByPage.set(page, entry)
+      registerPageRouter(page, entry.stack.router)
     },
     unlink(page: Page) {
       const entry = diagnostics && entriesByPage.get(page)
       if (entry) diagnostics?.event('page', entry.stack, 'unlink', entry)
       entriesByPage.delete(page)
+      forgetPageRouter(page)
     },
     reload: diagnostics
       ? (entry: Entry, state: string) =>
@@ -1608,6 +1612,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       app.component('RouterLink', RouterLink)
       app.component('Deferred', Deferred)
       app.component('RouterDrawer', RouterDrawer)
+      app.directive('route-preview', vRoutePreview)
       if (isAndroid) {
         registerElement('RouterDrawerLayout', () => DrawerLayoutView, {
           viewFlags: 4,

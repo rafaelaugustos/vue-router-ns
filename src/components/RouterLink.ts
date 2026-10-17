@@ -1,6 +1,11 @@
 import type { EventData, View } from '@nativescript/core'
 import { cloneVNode, defineComponent, type PropType } from 'nativescript-vue'
 import { useRouter } from '../composables.js'
+import {
+  attachRouteMenu,
+  detachRouteMenu,
+  type RouteMenuOptions,
+} from '../context-menu.js'
 import type { NavigationOptions, RouteLocationRaw, TransitionOption } from '../types.js'
 
 /**
@@ -23,6 +28,8 @@ export const RouterLink = defineComponent({
     zoom: Boolean,
     transition: [String, Object] as PropType<TransitionOption>,
     frame: String,
+    /** A long press previews the route and offers actions; see the context menus guide. */
+    menu: Object as PropType<RouteMenuOptions>,
   },
   setup(props, { slots }) {
     const router = useRouter()
@@ -40,6 +47,25 @@ export const RouterLink = defineComponent({
         : router.push(props.to, options)
     }
 
+    const attach = (args: EventData) => {
+      if (!props.menu) return
+      attachRouteMenu(
+        args.object as View,
+        {
+          ...props.menu,
+          to: props.to,
+          replace: props.replace,
+          clearHistory: props.clearHistory,
+          withParents: props.withParents,
+          frame: props.frame,
+          transition: props.transition,
+          zoom: props.zoom,
+        },
+        router as never,
+      )
+    }
+    const detach = (args: EventData) => detachRouteMenu(args.object as View)
+
     return () => {
       const children = slots.default?.({ navigate }) ?? []
       if (children.length !== 1) {
@@ -48,7 +74,12 @@ export const RouterLink = defineComponent({
         }
         return children
       }
-      return cloneVNode(children[0]!, { onTap: navigate })
+      return cloneVNode(
+        children[0]!,
+        props.menu
+          ? { onTap: navigate, onLoaded: attach, onUnloaded: detach }
+          : { onTap: navigate },
+      )
     }
   },
 })
