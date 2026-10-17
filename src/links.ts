@@ -1,6 +1,7 @@
 import { Application, isAndroid, isIOS } from '@nativescript/core'
 import type { NavigationFailure } from './errors.js'
 import { parseQuery, parseURL } from './query.js'
+import { shortcutItemURL } from './shortcuts.js'
 import type { LocationQuery, RouteLocation, RouteLocationRaw } from './types.js'
 
 /** Where a link came from: the launch, a running app, or the app's own code. */
@@ -18,6 +19,8 @@ export interface IncomingLink {
   readonly query: LocationQuery
   readonly hash: string
   readonly source: LinkSource
+  /** The id of the home-screen shortcut it came from, if it did. */
+  readonly shortcut?: string
 }
 
 export type LinkIgnoredReason = 'malformed' | 'scheme' | 'host' | 'unmatched' | 'repeat'
@@ -216,11 +219,25 @@ function installIOS(deliver: SystemLinkHandlers['deliver']): () => void {
     'applicationContinueUserActivityRestorationHandler',
     (_app, candidate) => activity(candidate, 'resume'),
   )
+  // a quick action; UIKit calls this after the launch too, so the launch options skip it
+  const shortcut = (item: unknown, source: LinkSource) => {
+    const href = shortcutItemURL(item)
+    return href ? deliver(href, source) : false
+  }
+  ios.addDelegateHandler(
+    'applicationPerformActionForShortcutItemCompletionHandler',
+    (_app, item, completion) => {
+      const taken = shortcut(item, 'resume')
+      if (typeof completion === 'function') completion(taken)
+      return taken
+    },
+  )
   // a scene connecting with a URL: the cold start of an app with scenes
   const onConnect = (args: { connectionOptions?: any }) => {
     const options = args.connectionOptions
     each(options?.URLContexts, (context) => url(context?.URL, 'launch'))
     each(options?.userActivities, (item) => activity(item, 'launch'))
+    shortcut(options?.shortcutItem, 'launch')
   }
   ios.on('sceneWillConnect', onConnect)
   return () => ios.off('sceneWillConnect', onConnect)

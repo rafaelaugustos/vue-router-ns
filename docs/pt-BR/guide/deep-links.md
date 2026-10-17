@@ -71,6 +71,24 @@ result.ignored // 'scheme', 'host', 'unmatched', 'malformed' ou 'repeat'
 
 O `resolveLink(url)` diz para onde uma URL iria sem ir, e o `onLink` ouve todo link que o router recebeu, aceito ou não. Para retomar um link depois de um login, faça como o demo: o guard redireciona para o login com `query.next`, e a página de login se substitui por ele. O `onLink` também serve: guarde `result.location` quando `failure` ou a rota atual disser que um login entrou na frente, e faça `push` dele depois de entrar.
 
+## Atalhos da tela inicial
+
+Os mesmos destinos podem ser oferecidos antes de o app abrir: atalhos dinâmicos do Android e quick actions do iOS, com uma única chamada:
+
+```ts
+router.setShortcuts([
+  {
+    id: 'compose',
+    title: 'Nova mensagem',
+    to: '/compose',
+    icon: { android: 'ic_compose', ios: 'square.and.pencil' },
+  },
+  { id: 'account', title: 'Conta', to: { name: 'account' } },
+])
+```
+
+Cada atalho carrega o próprio id e o path resolvido da rota, com versão, e um toque nele passa pelo `openLink` como qualquer link: pais, guards, cold start e seleção de aba incluídos, com `link.shortcut` igual ao id no `LinkResult`. Chame `setShortcuts` de novo quando os destinos mudarem, com uma lista vazia para remover todos, por exemplo ao sair da conta. O Android mostra até o seu `getMaxShortcutCountPerActivity` e o iOS quatro; os demais ficam de fora com um aviso em desenvolvimento. Os `id`s precisam ser únicos e `to` precisa resolver na hora de definir; um atalho cuja rota deixou de existir depois de uma atualização é ignorado ao ser tocado, como qualquer link sem rota. Os ícones são um nome de drawable no Android e um nome de SF Symbols no iOS. `supportsShortcuts()` diz se a plataforma os mostra. Atalhos estáticos, indexação no Spotlight, widgets e App Intents ficam fora do router.
+
 ### Configuração por plataforma
 
 O router lê o que a plataforma entrega; registrar-se para isso é do app. O pacote não consegue verificar a posse de um domínio nem publicar arquivos de associação.

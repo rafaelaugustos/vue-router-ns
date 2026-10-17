@@ -445,6 +445,18 @@ export class Activity {
     return false
   }
 
+  getClass() {
+    return { getName: () => 'com.tns.NativeScriptActivity' }
+  }
+
+  getPackageName() {
+    return 'org.nativescript.demo'
+  }
+
+  getResources() {
+    return { getIdentifier: (name: string) => (name === 'ic_compose' ? 42 : 0) }
+  }
+
   private press() {
     const args = { eventName: 'activityBackPressed', cancel: false }
     lastBackPress = args
@@ -846,19 +858,197 @@ export const iosLinks = {
       browsing(href),
       () => {},
     ),
-  connectScene(hrefs: string[], activityHrefs: string[] = []) {
+  connectScene(hrefs: string[], activityHrefs: string[] = [], shortcutItem?: unknown) {
     Application.ios.notify({
       eventName: 'sceneWillConnect',
       object: Application.ios,
       connectionOptions: {
         URLContexts: nsset(hrefs.map((href) => ({ URL: nsurl(href) }))),
         userActivities: nsset(activityHrefs.map(browsing)),
+        shortcutItem,
       },
     })
+  },
+  /** A tap on a quick action. Resolves with what the completion handler was told. */
+  performShortcut(item: unknown) {
+    let completed: boolean | undefined
+    const returned = Application.ios.call(
+      'applicationPerformActionForShortcutItemCompletionHandler',
+      {},
+      item,
+      (taken: boolean) => (completed = taken),
+    )
+    return { returned, completed }
   },
 }
 
 export const FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY = 0x00100000
+
+/** What each platform was told to show on the home screen. */
+export const shortcuts = {
+  android: [] as {
+    id: string
+    shortLabel: string
+    longLabel: string
+    url: string
+    icon?: number
+  }[],
+  ios: [] as {
+    type: string
+    title: string
+    subtitle: string | null
+    icon: unknown
+    url: string
+  }[],
+  androidLimit: 4,
+}
+
+/** The native shortcut APIs, recording what they are given. */
+export function installShortcuts(): () => void {
+  const g = globalThis as any
+  const previous = {
+    androidx: g.androidx,
+    android: g.android,
+    java: g.java,
+    UIApplicationShortcutItem: g.UIApplicationShortcutItem,
+    UIApplicationShortcutIcon: g.UIApplicationShortcutIcon,
+    UIApplication: g.UIApplication,
+    NSDictionary: g.NSDictionary,
+    NSArray: g.NSArray,
+  }
+  class Builder {
+    private record: (typeof shortcuts.android)[number]
+    constructor(_context: unknown, id: string) {
+      this.record = { id, shortLabel: '', longLabel: '', url: '' }
+    }
+    setShortLabel(label: string) {
+      this.record.shortLabel = label
+      return this
+    }
+    setLongLabel(label: string) {
+      this.record.longLabel = label
+      return this
+    }
+    setIcon(icon: number) {
+      this.record.icon = icon
+      return this
+    }
+    setIntent(intent: { url: string }) {
+      this.record.url = intent.url
+      return this
+    }
+    build() {
+      return this.record
+    }
+  }
+  g.androidx = {
+    ...(g.androidx ?? {}),
+    core: {
+      content: {
+        pm: {
+          ShortcutManagerCompat: {
+            getMaxShortcutCountPerActivity: () => shortcuts.androidLimit,
+            setDynamicShortcuts(_context: unknown, list: { items: unknown[] }) {
+              shortcuts.android = list.items as typeof shortcuts.android
+            },
+            removeAllDynamicShortcuts() {
+              shortcuts.android = []
+            },
+          },
+          ShortcutInfoCompat: { Builder },
+        },
+      },
+      graphics: {
+        drawable: {
+          IconCompat: { createWithResource: (_context: unknown, id: number) => id },
+        },
+      },
+    },
+  }
+  g.android = {
+    animation: { ValueAnimator: { areAnimatorsEnabled: () => true } },
+    ...(g.android ?? {}),
+    content: {
+      ...(g.android?.content ?? {}),
+      Intent: class {
+        url: string
+        constructor(_action: string, data: { url: string }) {
+          this.url = data.url
+        }
+        setComponent() {
+          return this
+        }
+        addFlags() {
+          return this
+        }
+      },
+      ComponentName: class {
+        constructor(
+          public context: unknown,
+          public className: string,
+        ) {}
+      },
+    },
+    net: { ...(g.android?.net ?? {}), Uri: { parse: (url: string) => ({ url }) } },
+  }
+  g.java = {
+    ...(g.java ?? {}),
+    util: {
+      ...(g.java?.util ?? {}),
+      ArrayList: class {
+        items: unknown[] = []
+        add(item: unknown) {
+          this.items.push(item)
+        }
+      },
+    },
+  }
+  g.UIApplicationShortcutItem = {
+    alloc: () => ({
+      initWithTypeLocalizedTitleLocalizedSubtitleIconUserInfo(
+        type: string,
+        title: string,
+        subtitle: string | null,
+        icon: unknown,
+        userInfo: { objectForKey(key: string): unknown },
+      ) {
+        return {
+          type,
+          title,
+          subtitle,
+          icon,
+          url: userInfo.objectForKey('url'),
+          userInfo,
+        }
+      },
+    }),
+  }
+  g.UIApplicationShortcutIcon = {
+    iconWithSystemImageName: (name: string) => `symbol:${name}`,
+  }
+  g.UIApplication = { sharedApplication: { shortcutItems: null as unknown } }
+  g.NSDictionary = {
+    dictionaryWithObjectsForKeys(objects: unknown[], keys: string[]) {
+      const map = new Map(keys.map((key, index) => [key, objects[index]]))
+      return { objectForKey: (key: string) => map.get(key) ?? null }
+    },
+  }
+  g.NSArray = { arrayWithArray: (items: unknown[]) => items }
+  Object.defineProperty(g.UIApplication.sharedApplication, 'shortcutItems', {
+    get: () => shortcuts.ios,
+    set: (items: typeof shortcuts.ios) => {
+      shortcuts.ios = items
+    },
+  })
+  shortcuts.android = []
+  shortcuts.ios = []
+  return () => {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === undefined) delete g[key]
+      else g[key] = value
+    }
+  }
+}
 
 const intent = (href: string | null, flags: number) => ({
   getData: () => (href ? { toString: () => href } : null),

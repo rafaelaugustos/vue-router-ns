@@ -72,6 +72,12 @@ import {
 } from './links.js'
 import { createPage, ModalHost } from './page.js'
 import { collectPageState, DEFAULT_STATE_LIMIT } from './page-state.js'
+import {
+  publishShortcuts,
+  readShortcutURL,
+  SHORTCUT_SCHEME,
+  type RouteShortcut,
+} from './shortcuts.js'
 import { disconnectPageEffects } from './page-effects.js'
 import {
   clearFocusOrigin,
@@ -212,6 +218,12 @@ export interface Router<M extends RouteMapLike = RouteMapGeneric> {
   resolveLink(href: string): RouteLocation | undefined
   /** Hears every link the router was handed, taken or not. */
   onLink(listener: LinkListener): () => void
+  /**
+   * Replaces the app's home-screen shortcuts (Android dynamic shortcuts, iOS
+   * quick actions) with these, within the platform's limit. Each opens its
+   * route through `openLink` when tapped. Returns the ids that were published.
+   */
+  setShortcuts(shortcuts: readonly RouteShortcut<RouteLocationRawOf<M>>[]): string[]
 
   install(app: App): void
 }
@@ -1235,18 +1247,24 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   }
 
   function evaluateLink(href: string, source: LinkSource): EvaluatedLink {
-    const link = parseLink(href, source)
+    let link = parseLink(href, source)
     if (!link) {
       return {
         link: { href, scheme: '', host: '', path: '', query: {}, hash: '', source },
         ignored: 'malformed',
       }
     }
-    const screened = screen(linkPolicy, link)
+    const shortcut = readShortcutURL(link)
+    if (!shortcut && link.scheme === SHORTCUT_SCHEME)
+      return { link, ignored: 'malformed' }
+    const screened = shortcut ? undefined : screen(linkPolicy, link)
     if (screened) return { link, ignored: screened }
-    const raw = linkPolicy.map
-      ? linkPolicy.map(link)
-      : { path: link.path, query: link.query, hash: link.hash }
+    const raw = shortcut
+      ? shortcut.to
+      : linkPolicy.map
+        ? linkPolicy.map(link)
+        : { path: link.path, query: link.query, hash: link.hash }
+    if (shortcut) link = { ...link, shortcut: shortcut.id }
     if (raw === null || raw === undefined) return { link, ignored: 'unmatched' }
     try {
       return { link, location: resolveTarget(raw, START_LOCATION) }
@@ -1538,6 +1556,16 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       takeLink(evaluateLink(href, options.source ?? 'app'), options),
     resolveLink: (href: string) => evaluateLink(href, 'app').location,
     onLink: linkListeners.add,
+    setShortcuts(shortcuts: readonly RouteShortcut[]) {
+      const seen = new Set<string>()
+      const published = shortcuts.map((shortcut) => {
+        if (seen.has(shortcut.id))
+          throw new Error(`Two shortcuts are named "${shortcut.id}"`)
+        seen.add(shortcut.id)
+        return { ...shortcut, location: resolveTarget(shortcut.to, START_LOCATION) }
+      })
+      return publishShortcuts(published)
+    },
 
     install(app: App) {
       const route = shallowReactive(reactiveRoute)

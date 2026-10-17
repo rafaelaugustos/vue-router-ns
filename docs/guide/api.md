@@ -22,21 +22,22 @@ Install once with `createApp(App).use(router).start()`. This registers the compo
 
 `to` is a `RouteLocationRaw`: a path string, `{ path, query?, hash? }`, `{ name, params?, query?, hash? }`, or a location relative to the current route. Object locations also accept `replace` and `force`. Use `force: true` to push another instance of the current location. Params belong to named or relative locations, not a `path` object.
 
-| Method                           | Behavior                                                                                                                                                    |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `push(to, options?)`             | Add a page or present a modal.                                                                                                                              |
-| `replace(to, options?)`          | Replace the current page.                                                                                                                                   |
-| `back(options?)`                 | Pop one page; close a modal at its root. At a non-modal root it does nothing. Android's system back can still leave the app.                                |
-| `go(delta)`                      | Go back by a negative number of pages. Zero and positive values do nothing. Takes no options argument.                                                      |
-| `backTo(to, options?)`           | Return to the closest matching page below the top; rejects if absent.                                                                                       |
-| `backToRoot(options?)`           | Return to the first page in the current stack.                                                                                                              |
-| `setStack(locations, options?)`  | Reconcile a nonempty list of locations with the stack. Preserves the common prefix; stops at the first failure without rolling back completed steps.        |
-| `pushForResult<T>(to, options?)` | Open a page and wait for `back({ result })`. Resolves to `T \| undefined` when it closes or opening is prevented.                                           |
-| `resolve(to)`                    | Resolve a location synchronously without navigating. Returns `RouteLocation`; throws for an unmatched route.                                                |
-| `isReady()`                      | Promise that settles after initial navigation; does not wait for every hidden tab to load.                                                                  |
-| `openLink(url, options?)`        | Opens a full URL or a bare path the way the OS would: through `links`, with parents, after the first page and the target stack. Resolves to a `LinkResult`. |
-| `resolveLink(url)`               | The `RouteLocation` a URL points at under `links`, or `undefined`.                                                                                          |
-| `onLink(listener)`               | Hears every link the router was handed, taken or not. Returns an unsubscribe function.                                                                      |
+| Method                           | Behavior                                                                                                                                                         |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `push(to, options?)`             | Add a page or present a modal.                                                                                                                                   |
+| `replace(to, options?)`          | Replace the current page.                                                                                                                                        |
+| `back(options?)`                 | Pop one page; close a modal at its root. At a non-modal root it does nothing. Android's system back can still leave the app.                                     |
+| `go(delta)`                      | Go back by a negative number of pages. Zero and positive values do nothing. Takes no options argument.                                                           |
+| `backTo(to, options?)`           | Return to the closest matching page below the top; rejects if absent.                                                                                            |
+| `backToRoot(options?)`           | Return to the first page in the current stack.                                                                                                                   |
+| `setStack(locations, options?)`  | Reconcile a nonempty list of locations with the stack. Preserves the common prefix; stops at the first failure without rolling back completed steps.             |
+| `pushForResult<T>(to, options?)` | Open a page and wait for `back({ result })`. Resolves to `T \| undefined` when it closes or opening is prevented.                                                |
+| `resolve(to)`                    | Resolve a location synchronously without navigating. Returns `RouteLocation`; throws for an unmatched route.                                                     |
+| `isReady()`                      | Promise that settles after initial navigation; does not wait for every hidden tab to load.                                                                       |
+| `openLink(url, options?)`        | Opens a full URL or a bare path the way the OS would: through `links`, with parents, after the first page and the target stack. Resolves to a `LinkResult`.      |
+| `resolveLink(url)`               | The `RouteLocation` a URL points at under `links`, or `undefined`.                                                                                               |
+| `onLink(listener)`               | Hears every link the router was handed, taken or not. Returns an unsubscribe function.                                                                           |
+| `setShortcuts(shortcuts)`        | Replaces the home-screen shortcuts (Android dynamic shortcuts, iOS quick actions) with `RouteShortcut`s that open through `openLink`. Returns the published ids. |
 
 Navigation methods other than `pushForResult` resolve to `NavigationFailure | undefined`. Unexpected errors reject; see [failures](./navigating#failures-and-errors). Back methods have the [split-view semantics](./split-view#history-and-back) when called in a split stack.
 
@@ -124,7 +125,7 @@ Public types are exported from the package root:
 - Routes: `RouteRecordRaw`, `RouteRecord`, `RouteRecordName`, `RouteMeta`, `RouteProps`, `RouteComponent`, `RawRouteComponent`, `Lazy`.
 - Locations: `RouteLocation`, `RouteLocationRaw`, `RouteLocationPathRaw`, `RouteLocationNamedRaw`, `RouteLocationRelativeRaw`, `RouteParams`, `RouteParamsRaw`, `RouteParamValue`, `RouteParamValueRaw`, `LocationQuery`, `LocationQueryRaw`, `LocationQueryValue`, `LocationQueryValueRaw`.
 - Navigation: `NavigationOptions`, `BackOptions`, `SetStackOptions`, `NavigationType`, `NavigationInfo`, `NavigationGuard`, `NavigationGuardReturn`, `NavigationHookAfter`, `NavigationErrorHandler`, `NavigationFailure`, `LeaveGuardOptions`.
-- Links: `LinksOptions`, `LinkOptions`, `IncomingLink`, `LinkResult`, `LinkIgnoredReason`, `LinkSource`, `LinkListener`.
+- Links: `LinksOptions`, `LinkOptions`, `IncomingLink`, `LinkResult`, `LinkIgnoredReason`, `LinkSource`, `LinkListener`, `RouteShortcut`. `supportsShortcuts()` reports whether the platform shows home-screen shortcuts.
 - Native presentation: `ModalOptions`, `SheetOptions`, `SheetDetent`, `AndroidModalOptions`, `BottomSheetOptions`, `BottomSheetState`, `TransitionOption`, `ZoomSource`, `BackGesture`, `BackGestureEdge`. `supportsBottomSheets()` reports whether the Android build includes Material.
 - Inferred route types: `Register`, `RegisteredRouter`, `RouteMapFrom`, `RouteMapGeneric`, `RouteNames`, `RouteLocationOf`, `RouteLocationRawOf`, `ParamsFromPath`.
 
