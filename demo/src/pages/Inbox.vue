@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { drawer } from '../drawer'
 import { NavigationCommandScope } from 'vue-router-ns'
 import { useDemoCommands } from '../navigation-commands'
 
 import { computed, ref } from 'nativescript-vue'
 import {
+  isAndroid,
   isIOS,
   PageTransition,
   SharedTransition,
@@ -17,7 +17,9 @@ import {
   useRouter,
 } from 'vue-router-ns'
 import StackTrail from '../components/StackTrail.vue'
+import { drawer } from '../drawer'
 import { inbox } from '../store'
+import { initials, tone } from '../ui'
 
 const router = useRouter()
 const messages = ref(inbox.list())
@@ -69,29 +71,55 @@ const commands = useDemoCommands()
 <template>
   <Page>
     <ActionBar :title="unread ? `Inbox (${unread})` : 'Inbox'" iosLargeTitle="true">
-      <ActionItem text="Menu" android.position="actionBar" @tap="drawer?.open()" />
-      <ActionItem text="Search" ios.position="right" @tap="search.activate()" />
-      <ActionItem text="Compose" ios.position="right" @tap="compose" />
+      <ActionItem v-if="isAndroid" text="Menu" @tap="drawer?.open()" />
+      <ActionItem
+        text="Search"
+        ios.systemIcon="12"
+        ios.position="right"
+        @tap="search.activate()"
+      />
+      <ActionItem text="Compose" ios.systemIcon="7" ios.position="right" @tap="compose" />
     </ActionBar>
 
     <NavigationCommandScope :commands="commands" rows="*, auto">
       <!-- `accessible` makes a row focusable, and Android's ListView drops taps on focusable rows; TalkBack reads the label either way -->
-      <ListView id="messages" :items="filtered" @itemTap="open">
+      <ListView id="messages" class="list" :items="filtered" @itemTap="open">
         <template #default="{ item }">
-          <StackLayout
+          <GridLayout
             :id="`message-${item.id}`"
             :accessible="isIOS"
             :accessibilityLabel="`${item.from}: ${item.subject}`"
-            class="message"
+            class="row"
             :class="{ unread: !item.read }"
+            columns="auto, *, auto"
           >
-            <Label
-              class="from"
-              :text="item.from"
-              :sharedTransitionTag="`from-${item.id}`"
+            <GridLayout class="avatar" :backgroundColor="tone(item.from)">
+              <Label
+                :text="initials(item.from)"
+                horizontalAlignment="center"
+                verticalAlignment="middle"
+              />
+            </GridLayout>
+            <StackLayout col="1" class="text">
+              <GridLayout columns="*, auto">
+                <Label
+                  class="from"
+                  :text="item.from"
+                  :sharedTransitionTag="`from-${item.id}`"
+                />
+                <Label col="1" class="time" :text="item.at" />
+              </GridLayout>
+              <Label class="subject" :text="item.subject" />
+              <Label class="preview" :text="item.body" />
+            </StackLayout>
+            <StackLayout
+              v-if="!item.read"
+              col="2"
+              class="dot"
+              verticalAlignment="top"
+              marginTop="18"
             />
-            <Label class="muted" :text="item.subject" />
-          </StackLayout>
+          </GridLayout>
         </template>
       </ListView>
       <StackTrail row="1" />

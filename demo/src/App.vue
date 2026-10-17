@@ -15,25 +15,36 @@ onMounted(() => {
 
 // destinations go through the links policy, which also selects the tab
 const destinations = [
-  { title: 'Inbox', to: '/' },
-  { title: 'Settings', to: '/settings' },
-  { title: 'Account', to: '/settings/account' },
-  { title: 'New message', to: '/compose' },
+  { icon: '📥', title: 'Inbox', to: '/' },
+  { icon: '⚙️', title: 'Settings', to: '/settings' },
+  { icon: '👤', title: 'Account', to: '/settings/account' },
+  { icon: '✍️', title: 'New message', to: '/compose' },
 ]
 </script>
 
 <template>
   <RouterDrawer ref="menu" :width="280">
     <template #drawer>
-      <StackLayout class="section">
-        <Label class="title" text="vue-router-ns" />
-        <Button
+      <StackLayout>
+        <StackLayout class="drawer-header">
+          <Label class="title" text="vue-router-ns" />
+          <Label
+            class="caption"
+            text="Every item opens through the links policy."
+            textWrap="true"
+          />
+        </StackLayout>
+        <GridLayout
           v-for="destination of destinations"
           :key="destination.to"
-          class="button secondary"
-          :text="destination.title"
+          class="drawer-item"
+          rows="auto"
+          columns="32, *"
           @tap="router.openLink(destination.to)"
-        />
+        >
+          <Label :text="destination.icon" />
+          <Label col="1" :text="destination.title" />
+        </GridLayout>
       </StackLayout>
     </template>
 
@@ -41,12 +52,10 @@ const destinations = [
       <TabViewItem title="Inbox">
         <RouterSplitView name="inbox" list="/" backToRootOnReselect>
           <template #empty>
-            <Label
-              text="Select a message"
-              class="muted"
-              horizontalAlignment="center"
-              verticalAlignment="middle"
-            />
+            <StackLayout verticalAlignment="middle" horizontalAlignment="center">
+              <Label class="emoji" text="✉️" />
+              <Label text="Select a message" class="muted" textAlignment="center" />
+            </StackLayout>
           </template>
         </RouterSplitView>
       </TabViewItem>
