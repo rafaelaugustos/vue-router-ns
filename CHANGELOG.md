@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- `useNativeFlow(flow)` runs system-owned UI with a typed input and result: `completed`, `cancelled` (user, guard, replaced or the page leaving) or `failed`, settled exactly once, keyed by a reserved Android request code and presented from the page's own controller on iOS. `createDocumentPicker()` is the first flow, returning scoped URIs on both platforms.
+
 - `router.setShortcuts(shortcuts)` publishes routes as Android dynamic shortcuts and iOS quick actions in one call, within each platform's limit; a tap opens the route through `openLink`, with the shortcut id on the `LinkResult`. Destinations that no longer exist are ignored when tapped. `supportsShortcuts()` reports platform support.
 
 - `createRouter({ links })` takes operating-system URLs: Android launch and new intents, iOS `openURL`, Universal Links and scene connections, next to the app's own handlers. Schemes and hosts are allow-listed, `map` turns URLs into typed locations, `frame` picks the stack and selects its tab, and links land with their parents through the guards, after the first page and on top of a restored stack. `router.openLink(url)`, `resolveLink(url)` and `onLink(listener)` serve notifications, widgets and deferred logins; a repeated system delivery within 1.5 s is one tap.

@@ -30,6 +30,19 @@ export type { LeaveGuardOptions } from './composables.js'
 export { useNativeHost } from './composables.js'
 export { usePageState } from './page-state.js'
 export { supportsShortcuts } from './shortcuts.js'
+export { useNativeFlow, startNativeFlow } from './native-flows.js'
+export type {
+  NativeFlow,
+  NativeFlowContext,
+  NativeFlowHandle,
+  NativeFlowOutcome,
+  NativeFlowRunOptions,
+} from './native-flows.js'
+export { createDocumentPicker } from './flows/document-picker.js'
+export type {
+  DocumentPickerInput,
+  DocumentPickerResult,
+} from './flows/document-picker.js'
 export type { RouteShortcut } from './shortcuts.js'
 export type {
   IncomingLink,

@@ -166,7 +166,15 @@ export class Page extends View {
   enableSwipeBackNavigation = true
   disposed = false
   actionBar = { title: '', titleView: undefined as View | undefined }
-  override ios: any = { controller: {}, navigationItem: { backAction: null } }
+  override ios: any = {
+    controller: {},
+    navigationItem: { backAction: null },
+    presented: [] as any[],
+    presentViewControllerAnimatedCompletion(controller: any) {
+      controller.presentingViewController = this
+      this.presented.push(controller)
+    },
+  }
 
   dispose() {
     if (this.disposed) return
@@ -447,6 +455,13 @@ export class Activity {
 
   getClass() {
     return { getName: () => 'com.tns.NativeScriptActivity' }
+  }
+
+  /** What was launched for a result, by request code. */
+  static launched: { intent: any; requestCode: number }[] = []
+
+  startActivityForResult(intent: unknown, requestCode: number) {
+    Activity.launched.push({ intent, requestCode })
   }
 
   getPackageName() {
@@ -901,6 +916,110 @@ export const shortcuts = {
     url: string
   }[],
   androidLimit: 4,
+}
+
+/** The Android picker intent and result plumbing, and iOS's document picker, as stand-ins. */
+export function installDocumentPicker(): () => void {
+  const g = globalThis as any
+  const previous = {
+    android: g.android,
+    NSObject: g.NSObject,
+    UIDocumentPickerDelegate: g.UIDocumentPickerDelegate,
+    UIDocumentPickerViewController: g.UIDocumentPickerViewController,
+    UTType: g.UTType,
+    NSArray: g.NSArray,
+  }
+  class Intent {
+    static ACTION_OPEN_DOCUMENT = 'android.intent.action.OPEN_DOCUMENT'
+    static CATEGORY_OPENABLE = 'android.intent.category.OPENABLE'
+    static EXTRA_MIME_TYPES = 'android.intent.extra.MIME_TYPES'
+    static EXTRA_ALLOW_MULTIPLE = 'android.intent.extra.ALLOW_MULTIPLE'
+    categories: string[] = []
+    type = ''
+    extras: Record<string, unknown> = {}
+    constructor(public action: string) {}
+    addCategory(category: string) {
+      this.categories.push(category)
+      return this
+    }
+    setType(type: string) {
+      this.type = type
+      return this
+    }
+    putExtra(name: string, value: unknown) {
+      this.extras[name] = value
+      return this
+    }
+  }
+  g.android = {
+    animation: { ValueAnimator: { areAnimatorsEnabled: () => true } },
+    ...(g.android ?? {}),
+    content: { ...(g.android?.content ?? {}), Intent },
+    app: { ...(g.android?.app ?? {}), Activity: { RESULT_OK: -1 } },
+  }
+  g.NSObject = {
+    extend(methods: object) {
+      return class {
+        constructor() {
+          Object.assign(this, methods)
+        }
+      }
+    },
+  }
+  g.UIDocumentPickerDelegate = {}
+  g.UTType = { typeWithMIMEType: (mime: string) => `uttype:${mime}`, item: 'uttype:item' }
+  g.NSArray = { arrayWithArray: (items: unknown[]) => items }
+  g.UIDocumentPickerViewController = {
+    alloc: () => ({
+      initForOpeningContentTypes(types: unknown) {
+        const picker = {
+          types,
+          allowsMultipleSelection: false,
+          delegate: null as any,
+          presentingViewController: null as unknown,
+          dismissViewControllerAnimatedCompletion() {
+            picker.presentingViewController = null
+          },
+        }
+        return picker
+      },
+    }),
+  }
+  Activity.launched = []
+  return () => {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === undefined) delete g[key]
+      else g[key] = value
+    }
+  }
+}
+
+/** What Android does when the picked activity finishes. */
+export const activityResults = {
+  deliver(requestCode: number, uris: string[] | null) {
+    const intent =
+      uris === null
+        ? null
+        : {
+            getData: () => (uris.length === 1 ? { toString: () => uris[0] } : null),
+            getClipData: () =>
+              uris.length > 1
+                ? {
+                    getItemCount: () => uris.length,
+                    getItemAt: (index: number) => ({
+                      getUri: () => ({ toString: () => uris[index] }),
+                    }),
+                  }
+                : null,
+          }
+    Application.android.notify({
+      eventName: 'activityResult',
+      object: Application.android,
+      requestCode,
+      resultCode: uris === null ? 0 : -1,
+      intent,
+    })
+  },
 }
 
 /** The native shortcut APIs, recording what they are given. */
