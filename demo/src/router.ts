@@ -1,6 +1,7 @@
-import { Application, ApplicationSettings, TabView } from '@nativescript/core'
+import { ApplicationSettings } from '@nativescript/core'
 import { createRouter } from 'vue-router-ns'
 import { session } from './store'
+import { tabs } from './tabs'
 
 // Pages load lazily. Besides keeping startup light, it lets TypeScript infer
 // route names and params here while the pages themselves use them.
@@ -15,8 +16,7 @@ export const router = createRouter({
     hosts: ['vue-router-ns.rafaelaugusto.dev'],
     frame(location) {
       const settings = location.path.startsWith('/settings') || location.path === '/login'
-      const root = Application.getRootView()
-      if (root instanceof TabView) root.selectedIndex = settings ? 1 : 0
+      if (tabs.value) tabs.value.selectedIndex = settings ? 1 : 0
       return settings ? 'settings' : 'inbox'
     },
   },

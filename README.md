@@ -525,6 +525,8 @@ ns run ios         # or: ns run android
 
 ## Development
 
+`npm run test:native:android` drives the built demo on a connected Android emulator or device through `adb`, covering what the unit suite cannot: links, process death, the Material sheet, shortcuts, the drawer and the router's timings against `scripts/native/baselines.json`. The `Native` GitHub workflow runs the same suite on an emulator.
+
 ```sh
 npm test           # unit tests, plus type tests for typed routes
 npm run typecheck

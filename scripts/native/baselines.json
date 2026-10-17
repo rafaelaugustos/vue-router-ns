@@ -1,0 +1,9 @@
+{
+  "note": "Milliseconds measured by the router's diagnostics on an Android emulator with software rendering. Medians catch regressions; ceilings catch stalls. Cold-start navigations and modal presentations are included.",
+  "phases": {
+    "navigation": { "p50Max": 2500, "max": 10000 },
+    "transition": { "p50Max": 2000, "max": 10000 },
+    "guard": { "p50Max": 200, "max": 5000 },
+    "mount": { "p50Max": 800, "max": 5000 }
+  }
+}
