@@ -56,7 +56,22 @@ export class View extends Observable {
   parent: View | null = null
   children: View[] = []
   isLoaded = true
-  ios: any = { controller: {} }
+  ios: any = {
+    controller: {},
+    interactions: [] as any[],
+    addInteraction(interaction: any) {
+      this.interactions.push(interaction)
+    },
+    removeInteraction(interaction: any) {
+      this.interactions = this.interactions.filter((other: any) => other !== interaction)
+    },
+  }
+  android: any
+  viewController: any
+  measure(_width: number, _height: number) {}
+  getMeasuredHeight() {
+    return 600
+  }
   /** On Android, the dialog a modal is shown in. */
   dialog: Dialog | SheetDialog | undefined
   private closeCallback: ((...args: unknown[]) => void) | undefined
@@ -198,6 +213,8 @@ export class DrawerLayoutStub extends LayoutBase {
     else this.closeDrawer()
   }
 }
+
+export class ListView extends View {}
 
 export class TabView extends View {
   selectedIndex = 0
@@ -381,7 +398,7 @@ export class Frame extends View {
 export class SearchBar extends View {
   text = ''
   hint = ''
-  android: any = { clearFocus() {} }
+  override android: any = { clearFocus() {} }
   focus() {
     return true
   }
@@ -581,7 +598,29 @@ Object.assign(globalThis, {
 })
 
 export const Device = { sdkVersion: '36' }
-export const Utils = { layout: { toDevicePixels: (dip: number) => dip * 3 } }
+export const Utils = {
+  layout: {
+    EXACTLY: 1073741824,
+    UNSPECIFIED: 0,
+    toDevicePixels: (dip: number) => dip * 3,
+    toDeviceIndependentPixels: (px: number) => px / 3,
+    makeMeasureSpec: (px: number, mode: number) => px + mode,
+  },
+}
+export const IOSHelper = {
+  UILayoutViewController: {
+    initWithOwner: (owner: WeakRef<View>) => ({
+      owner,
+      preferredContentSize: undefined as unknown,
+      view: {
+        subviews: [] as unknown[],
+        addSubview(view: unknown) {
+          this.subviews.push(view)
+        },
+      },
+    }),
+  },
+}
 
 // -- Material bottom sheets ---------------------------------------------------
 
