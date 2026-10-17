@@ -1,25 +1,30 @@
-import type { Frame, Page, View } from '@nativescript/core'
+import type { Page, View } from '@nativescript/core'
 import { toValue, type MaybeRefOrGetter, type ShallowRef } from 'nativescript-vue'
 import type { BackGestureTarget } from './android.js'
+import type { NativeHost } from './host.js'
 import type { Router } from './router.js'
 import type {
   ModalOptions,
   NavigationGuard,
   RouteComponent,
   RouteLocation,
+  RouteLocationRaw,
 } from './types.js'
 
 /**
- * One native back stack: the frame of a `<RouterView>`, or the frame a modal
- * route is presented in. Its entries mirror `frame.backStack` + `frame.currentPage`.
+ * One native back stack: the host of a `<RouterView>`, or the frame a modal
+ * route is presented in. Its entries mirror what the host reports in `pages()`.
  */
 export interface Stack {
   readonly name: string
   readonly modal: ModalOptions | false
+  /** Where the stack started: a `<RouterView>`'s `initial`, a split view's `list`. */
+  readonly initial: RouteLocationRaw
   readonly entries: ShallowRef<readonly Entry[]>
   /** Router bound to this stack: what `useRouter()` returns inside its pages. */
   readonly router: Router
-  frame: Frame | null
+  /** `null` while a modal is being presented, and once the stack has closed. */
+  host: NativeHost | null
   /** The navigation running guards here; a newer one cancels it. */
   attempt: object | undefined
   /** Settles once the native navigation the router started here is done. */

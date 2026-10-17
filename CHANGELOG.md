@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Experimental native host contract: `NativeHost`, `mountNativeHost()`, `useNativeHost()`, `createFrameHost()`, `createSplitFrameHost()` and `NATIVE_HOST_VERSION`. `<RouterView>`, `<RouterSplitView>` and modal routes now drive their Frames through it. Hosts declare capabilities, and unsupported `replace`/`clearHistory` reject instead of being faked. A shared contract suite runs against the Frame hosts and an in-memory example adapter, with English/Portuguese guides and a versioning policy.
+
 ## 0.1.0-beta.8 (2026-10-15)
 
 - Opt-in accessibility focus targets and modal initiator restoration after confirmed native transitions, plus live system reduced-motion defaults for router-owned animations.

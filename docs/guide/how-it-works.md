@@ -1,8 +1,10 @@
 # How it works
 
-Each `<RouterView>` renders a NativeScript `Frame`. Pages are mounted with `$navigateTo`, inside a small wrapper that provides their route and a router bound to their stack. NativeScript-Vue mounts every page as its own app, so nothing provided by `<RouterView>` would reach them otherwise.
+Each `<RouterView>` renders a NativeScript `Frame` and hands it to the router as a [native host](./native-hosts). Pages are mounted with `$navigateTo`, inside a small wrapper that provides their route and a router bound to their stack. NativeScript-Vue mounts every page as its own app, so nothing provided by `<RouterView>` would reach them otherwise.
 
-In a `RouterView`, the native stack is the source of navigation history. After every `navigatedTo`, it reads `frame.backStack` and the current page and mirrors them. Pops it didn't start, like an iOS swipe, are picked up the same way as its own. `replace` marks the current entry `backstackVisible: false` before navigating, which is how the frame drops a page natively.
+In a `RouterView`, the native stack is the source of navigation history. After every `navigatedTo`, the Frame host reports a change, and the router reads the host's pages and mirrors them. Pops it didn't start, like an iOS swipe, are picked up the same way as its own. `replace` marks the current entry `backstackVisible: false` before navigating, which is how the frame drops a page natively.
+
+The router talks to every container through the same host contract: the Frame of a `<RouterView>`, the frame inside a modal, and the two Frames of a `<RouterSplitView>`. Matching, guards, results and reconciliation live in the router once; presentation, gestures and native handles live in the host. The contract is experimental and documented in [native hosts](./native-hosts).
 
 ## Where it talks to the platform
 

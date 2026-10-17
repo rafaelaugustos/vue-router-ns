@@ -104,7 +104,7 @@ export function createPage(entry: Entry, { link, unlink, reload }: PageLink) {
         if (entry.stack.modal) {
           watch(
             () => entry.isActive() && blocked.value,
-            (value) => preventModalDismissal(entry.stack.frame, value),
+            (value) => entry.stack.host?.holdDismissal?.(value),
             { immediate: true },
           )
         }
@@ -136,9 +136,3 @@ export const ModalHost = defineComponent({
     return () => h('Frame', { ref: frame })
   },
 })
-
-function preventModalDismissal(frame: Frame | null, prevent: boolean) {
-  // iOS 13+ sheets close with a swipe; `modalInPresentation` turns that off
-  const controller = frame?.ios?.controller
-  if (controller) controller.modalInPresentation = prevent
-}

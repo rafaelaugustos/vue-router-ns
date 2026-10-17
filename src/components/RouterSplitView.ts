@@ -9,6 +9,7 @@ import {
   type PropType,
 } from 'nativescript-vue'
 import { useRouter } from '../composables.js'
+import { createSplitFrameHost } from '../hosts/split.js'
 import { INTERNAL, type RouterInternals } from '../internal.js'
 import { onTabReselect, tabOf } from '../tabs.js'
 import type { RouteLocationRaw } from '../types.js'
@@ -41,13 +42,13 @@ export const RouterSplitView = defineComponent({
 
     onMounted(() => {
       measure()
-      internals.mountSplit(
+      internals.mount(
         name,
-        list.value!.nativeView,
-        detail.value!.nativeView,
+        createSplitFrameHost(list.value!.nativeView, detail.value!.nativeView, {
+          expanded,
+          detailVisible,
+        }),
         props.list,
-        expanded,
-        detailVisible,
       )
       if (props.backToRootOnReselect) {
         const tab = tabOf(list.value!.nativeView)

@@ -1,30 +1,25 @@
 import {
   Application,
-  Color,
-  Frame,
   isAndroid,
   isIOS,
   SharedTransition,
+  View,
   type AndroidActivityBackPressedEventData,
   type AndroidActivityEventData,
-  type EventData,
-  type NavigationEntry,
-  Page,
+  type Frame,
+  type Page,
 } from '@nativescript/core'
 import {
-  $navigateTo,
   $showModal,
   computed,
   hasInjectionContext,
   inject,
-  nextTick,
   shallowReactive,
   shallowRef,
   type App,
   type Ref,
 } from 'nativescript-vue'
 import {
-  backOwnerOf,
   hasBackGestures,
   watchBackGestures,
   type BackGestureSession,
@@ -47,8 +42,15 @@ import {
   type NavigationTrace,
   type RouterDiagnostics,
 } from './diagnostics.js'
-import { previewBack, type BackPreview } from './back-preview.js'
-import { canZoom, configureSheet, viewOf, watchDismissAttempts } from './ios.js'
+import type { BackPreview } from './back-preview.js'
+import {
+  assertHostVersion,
+  unsupportedOperation,
+  type NativeHost,
+  type NativeHostPart,
+} from './host.js'
+import { createFrameHost } from './hosts/frame.js'
+import { canZoom, configureSheet, viewOf } from './ios.js'
 import { createMatcher } from './matcher.js'
 import { createPage, ModalHost } from './page.js'
 import { disconnectPageEffects } from './page-effects.js'
@@ -107,15 +109,6 @@ export interface RouterOptions<
   diagnostics?: boolean | DiagnosticsOptions
   /** Respect OS reduced motion by default; applications may explicitly override it. */
   motion?: MotionPolicy
-}
-
-interface SplitStack {
-  listFrame: Frame
-  placeholder: Page
-  list: RouteLocationRaw
-  expanded: Readonly<Ref<boolean>>
-  detailVisible: Ref<boolean>
-  resetting: boolean
 }
 
 const DEFAULT_MAX_AGE = 30 * 60 * 1000
@@ -221,34 +214,20 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   const frames = shallowReactive(new Map<string, Stack>())
   const modals = shallowRef<readonly Stack[]>([])
   const lastFrame = shallowRef<Stack>()
-  const stacksByFrame = new WeakMap<Frame, Stack>()
   const entriesByPage = new WeakMap<Page, Entry>()
-  const detachers = new WeakMap<Stack, () => void>()
-  const splits = new Map<Stack, SplitStack>()
   const previews = new Map<Stack, BackPreview>()
   const modalOrigins = new WeakMap<Stack, Entry>()
   const components = new WeakMap<RouteRecord, RouteComponent>()
-  const shouldReduceMotion = (frame?: Frame) => reduceMotion(options.motion, frame)
+  const shouldReduceMotion = (stack?: Stack) =>
+    reduceMotion(options.motion, hostView(stack))
   const diagnostics = options.diagnostics
     ? createDiagnostics(
         options.diagnostics === true ? {} : options.diagnostics,
         () =>
-          [...frames.values(), ...modals.value].map((stack) => {
-            const split = splits.get(stack)
-            return {
-              stack,
-              hosts: split
-                ? [
-                    { frame: split.listFrame, role: 'list' as const },
-                    {
-                      frame: stack.frame,
-                      role: 'detail' as const,
-                      placeholder: split.placeholder,
-                    },
-                  ]
-                : [{ frame: stack.frame, role: 'main' as const }],
-            }
-          }),
+          [...frames.values(), ...modals.value].map((stack) => ({
+            stack,
+            hosts: hostParts(stack.host),
+          })),
         (page) => entriesByPage.get(page),
       )
     : undefined
@@ -282,12 +261,17 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
   // -- stacks -----------------------------------------------------------------
 
-  function createStack(name: string, modal: ModalOptions | false): Stack {
+  function createStack(
+    name: string,
+    modal: ModalOptions | false,
+    initial: RouteLocationRaw,
+  ): Stack {
     const stack = {
       name,
       modal,
+      initial,
       entries: shallowRef<readonly Entry[]>([]),
-      frame: null,
+      host: null,
       attempt: undefined,
       pending: undefined,
       settled: Promise.resolve(),
@@ -297,43 +281,16 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     return Object.assign(stack, { router: navigation(stack) })
   }
 
-  function attach(stack: Stack, frame: Frame) {
-    const onNavigated = () => sync(stack)
-    const onBackPressed = (args: EventData) =>
-      onModalBackPressed(stack, args as AndroidActivityBackPressedEventData)
-
-    let stopGestures: (() => void) | undefined
-    const onShown = () => {
-      stopGestures?.()
-      const dialog = backOwnerOf(frame.nativeView)
-      stopGestures = dialog
-        ? watchBackGestures(dialog, () => gestureSession(stack))
-        : undefined
-    }
-
-    let stopDismiss: (() => void) | undefined
-    const onPresented = () => {
-      stopDismiss?.()
-      stopDismiss = watchDismissAttempts(frame, () => onDismissAttempt(stack))
-    }
-
-    stack.frame = frame
-    stacksByFrame.set(frame, stack)
+  function attach(stack: Stack, host: NativeHost) {
+    assertHostVersion(host)
+    stack.host = host
     diagnostics?.event('host', stack, 'attach')
-    frame.on(Frame.navigatedToEvent, onNavigated)
-    if (isAndroid && stack.modal) {
-      frame.on('activityBackPressed', onBackPressed)
-      if (hasBackGestures()) frame.on('shownModally', onShown)
-    }
-    if (isIOS && stack.modal) frame.on('shownModally', onPresented)
-
-    detachers.set(stack, () => {
-      frame.off(Frame.navigatedToEvent, onNavigated)
-      frame.off('activityBackPressed', onBackPressed)
-      frame.off('shownModally', onShown)
-      frame.off('shownModally', onPresented)
-      stopGestures?.()
-      stopDismiss?.()
+    host.attach({
+      changed: () => sync(stack),
+      closed: () => onHostClosed(stack),
+      dismissAttempted: () => onDismissAttempt(stack),
+      backPressed: () => onHostBackPressed(stack),
+      backGesture: () => gestureSession(stack),
     })
   }
 
@@ -341,37 +298,27 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     diagnostics?.event('host', stack, 'dispose')
     previews.get(stack)?.dispose()
     stack.closed = true
-    detachers.get(stack)?.()
-    splits.delete(stack)
+    stack.host?.dispose()
+    stack.host = null
     for (const entry of stack.entries.value) dispose(entry)
     stack.entries.value = []
     stack.pending?.resolve()
     stack.pending = undefined
   }
 
-  /** Mirrors the frame into the stack after every native navigation. */
+  /** Mirrors the host into the stack after every native navigation. */
   function sync(stack: Stack) {
-    const frame = stack.frame
-    if (!frame || stack.closed) return
+    const host = stack.host
+    if (!host || stack.closed) return
 
-    const split = splits.get(stack)
-    if (split?.resetting) {
-      stack.pending?.resolve()
-      stack.pending = undefined
-      return
-    }
     const before = stack.entries.value
     const initiated = !!stack.pending
-    const after = [
-      ...(split ? [split.listFrame.currentPage] : []),
-      ...frame.backStack.map((entry) => entry.resolvedPage),
-      frame.currentPage,
-    ]
-      .map((page) => page && entriesByPage.get(page))
+    const after = host
+      .pages()
+      .map((page) => entriesByPage.get(page))
       .filter((entry): entry is Entry => !!entry)
 
     stack.entries.value = after
-    if (split) split.detailVisible.value = after.length > 1
     if (before.at(-1) !== after.at(-1)) previews.get(stack)?.dispose()
     for (const entry of before) {
       if (!after.includes(entry)) dispose(entry)
@@ -439,8 +386,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       backGesture: shallowRef(null),
       zoomFrom,
       isActive: () =>
-        (topOf(stack) === entry ||
-          (!!splits.get(stack)?.expanded.value && stack.entries.value[0] === entry)) &&
+        (topOf(stack) === entry || isVisible(entry)) &&
         (stack.modal ? modals.value.at(-1) === stack : !modals.value.length),
       page: null,
       result: undefined,
@@ -448,6 +394,13 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       disposed: false,
     }
     return entry
+  }
+
+  /** On screen next to the page on top, in a host that shows more than one page. */
+  function isVisible(entry: Entry): boolean {
+    const host = entry.stack.host
+    if (!host?.visible || !entry.page) return false
+    return host.visible().includes(entry.page)
   }
 
   const pageLink = {
@@ -483,9 +436,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     return stack
   }
 
+  /** The stack whose host holds the window's system back right now. */
   function topmostStack(): Stack | undefined {
-    const frame = Frame.topmost()
-    return frame && stacksByFrame.get(frame)
+    for (const stack of [...modals.value, ...frames.values()]) {
+      if (!stack.closed && stack.host?.ownsSystemBack?.()) return stack
+    }
+    return undefined
   }
 
   /** The page a back swipe in `stack` would simply close, if there is one. */
@@ -503,11 +459,10 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       options.backPreview !== false &&
       below?.page &&
       top.page &&
-      stack.frame &&
-      !shouldReduceMotion(stack.frame)
+      stack.host?.previewBack &&
+      !shouldReduceMotion(stack)
     ) {
-      preview = previewBack(
-        stack.frame,
+      preview = stack.host.previewBack(
         top.page,
         below.page,
         () =>
@@ -537,11 +492,10 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     targets: readonly RouteLocation[],
     options: Pick<SetStackOptions, 'animated' | 'transition'>,
   ): Promise<NavigationFailure | undefined> {
-    const split = splits.get(stack)
-    if (split) {
-      const list =
-        stack.entries.value[0]?.route ?? resolveTarget(split.list, START_LOCATION)
-      if (targets[0]?.fullPath !== list.fullPath) targets = [list, ...targets]
+    if (stack.host?.capabilities.pinnedRoot) {
+      const root =
+        stack.entries.value[0]?.route ?? resolveTarget(stack.initial, START_LOCATION)
+      if (targets[0]?.fullPath !== root.fullPath) targets = [root, ...targets]
     }
     const entries = stack.entries.value
     let shared = 0
@@ -681,10 +635,10 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       if (preview !== keepPreview) preview.dispose()
     }
     const stack = request.stack
-    const split = splits.get(stack)
+    const pinned = !!stack.host?.capabilities.pinnedRoot
     const root = stack.entries.value[0]
     if (
-      split &&
+      pinned &&
       root &&
       request.type !== 'back' &&
       request.to?.fullPath === root.route.fullPath
@@ -740,6 +694,17 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         return fail('duplicated')
       }
     }
+    if (type !== 'back' && !initial && !modal && stack.host) {
+      const { capabilities } = stack.host
+      if (request.options.clearHistory && !capabilities.clearHistory)
+        throw unsupportedOperation(stack.host, 'clearHistory')
+      if (
+        type === 'replace' &&
+        !capabilities.replace &&
+        !(pinned && entries.length === 1)
+      )
+        throw unsupportedOperation(stack.host, 'replace')
+    }
 
     // pages that get destroyed: a push keeps the current page alive underneath
     const leaving =
@@ -748,9 +713,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         : modal
           ? []
           : request.options.clearHistory
-            ? entries.slice(split ? 1 : 0)
+            ? entries.slice(pinned ? 1 : 0)
             : type === 'replace'
-              ? split && entries.length === 1
+              ? pinned && entries.length === 1
                 ? []
                 : entries.slice(-1)
               : []
@@ -830,7 +795,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
     stack.settled = Promise.allSettled([stack.settled, commit])
     // a frame that isn't loaded, like a tab iOS hasn't shown yet, navigates once it shows up
-    if (modal || stack.frame?.isLoaded) {
+    if (modal || stack.host?.loaded) {
       settled = Promise.allSettled([settled, commit])
     }
     try {
@@ -892,70 +857,38 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     trace?: NavigationTrace,
   ) {
     const { stack, options } = request
+    const host = stack.host!
     clearFocusOrigin(stack)
-    const split = splits.get(stack)
-    const frame = split && initial ? split.listFrame : stack.frame!
-    const firstDetail =
-      !!split && !initial && (stack.entries.value.length === 1 || !!options.clearHistory)
-    if (split && !initial) {
-      split.detailVisible.value = true
-      await nextTick()
-      if (stack.closed) return
-      // iOS does not finish presenting a page in an invisible controller.
-      // Initialize the native detail root only when its pane first opens.
-      if (!frame.currentPage || (options.clearHistory && frame.canGoBack())) {
-        split.resetting = true
-        try {
-          const ready = expect(stack)
-          if (!frame.currentPage)
-            frame.navigate({ create: () => split.placeholder, animated: false })
-          else {
-            frame.currentEntry.animated = false
-            frame.goBack(frame.backStack[0])
-          }
-          await ready
-        } finally {
-          split.resetting = false
-        }
-      }
-    }
-    if (stack.closed) return
     const record = to.matched.at(-1)!
-    const reduced = shouldReduceMotion(frame)
+    const reduced = shouldReduceMotion(stack)
+    const clearHistory = !!options.clearHistory
+    // a pane that isn't on screen yet, like a split's first detail, can't carry a zoom or a shared element
+    const hidden = !initial && host.willAnimate?.({ clearHistory }) === false
     const zoom =
-      !reduced && !initial && !firstDetail && options.animated !== false && canZoom()
+      !reduced && !initial && !hidden && options.animated !== false && canZoom()
         ? viewOf(options.zoomFrom)
         : undefined
     const entry = createEntry(stack, to, pageProps(to, record, options.props), zoom)
     request.onEntry?.(entry)
 
-    // the frame drops the current page from its back stack once we navigate away
-    if (
-      request.type === 'replace' &&
-      frame.currentEntry &&
-      !firstDetail &&
-      !options.clearHistory
-    ) {
-      frame.currentEntry.backstackVisible = false
-    }
-
-    const navigation: NavigationEntry & { frame: Frame } = { frame }
     // a transition of the frame's own would take the animation away from UIKit's zoom
     const requested = toTransition(options.transition ?? record.transition)
     const transition =
-      reduced || zoom || (firstDetail && requested?.instance) ? undefined : requested
-    if (transition) navigation.transition = transition
+      reduced || zoom || (hidden && requested?.instance) ? undefined : requested
     // a shared transition left unused would keep its state in core forever
-    if ((reduced || zoom || firstDetail) && requested?.instance)
+    if ((reduced || zoom || hidden) && requested?.instance)
       SharedTransition.finishState(requested.instance.id)
-    if (initial || reduced) navigation.animated = false
-    else if (options.animated !== undefined) navigation.animated = options.animated
-    if (options.clearHistory && !split) navigation.clearHistory = true
 
     const shown = expect(stack)
     const mounting = trace?.span('mount', 'page')
     try {
-      $navigateTo(createPage(entry, pageLink), navigation)
+      await host.push(createPage(entry, pageLink), {
+        initial,
+        animated: initial || reduced ? false : options.animated,
+        transition,
+        replace: request.type === 'replace' && !clearHistory && !hidden,
+        clearHistory,
+      })
       mounting?.end()
     } catch (error) {
       mounting?.end('error')
@@ -971,7 +904,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     modal: ModalOptions,
     trace?: NavigationTrace,
   ) {
-    const stack = createStack(`modal-${++modalId}`, modal)
+    const stack = createStack(`modal-${++modalId}`, modal, to.fullPath)
     const origin = modalFocusOrigin(request.stack) ?? topOf(request.stack)
     if (origin) modalOrigins.set(stack, origin)
     const entry = createEntry(
@@ -987,18 +920,23 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     const mounting = trace?.span('mount', 'modal-host')
     const presented = $showModal(ModalHost, {
       ...modal,
-      ...(shouldReduceMotion(request.stack.frame ?? undefined)
-        ? { animated: false }
-        : {}),
+      ...(shouldReduceMotion(request.stack) ? { animated: false } : {}),
       // A command originating in another native window must present there.
-      target: request.stack.frame?.currentPage ?? request.stack.frame ?? undefined,
+      target: topOf(request.stack)?.page ?? hostView(request.stack),
       props: {
         onReady(frame: Frame) {
-          attach(stack, frame)
+          const host = createFrameHost(frame, { modal: true })
+          attach(stack, host)
           if (isIOS && modal.ios) configureSheet(frame, modal.ios)
           const pageMount = trace?.span('mount', 'page')
           try {
-            $navigateTo(createPage(entry, pageLink), { frame, animated: false })
+            host.push(createPage(entry, pageLink), {
+              initial: true,
+              animated: false,
+              transition: undefined,
+              replace: false,
+              clearHistory: false,
+            })
             pageMount?.end()
           } catch (error) {
             pageMount?.end('error')
@@ -1031,33 +969,23 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     const top = topOf(stack)
     if (top && result !== undefined) top.result = result
 
-    const frame = stack.frame!
-    if (shouldReduceMotion(frame)) {
+    const host = stack.host!
+    if (shouldReduceMotion(stack)) {
       animated = false
       if (top?.zoomFrom && top.page?.ios) top.page.ios.preferredTransition = null
     }
-    if (!target) {
-      const closed = expect(stack)
-      frame.closeModal()
-      return closed
-    }
-
-    const split = splits.get(stack)
-    const targetPage =
-      split && target === stack.entries.value[0] ? split.placeholder : target.page
-    const entry = frame.backStack.find(
-      (candidate) => candidate.resolvedPage === targetPage,
-    )
-    if (!entry) {
+    if (target && (!target.page || !host.pages().includes(target.page))) {
       throw new Error(`"${target.route.fullPath}" is no longer in the native stack`)
     }
-
-    // the frame animates a pop the way the page being popped came in
-    if (animated !== undefined && frame.currentEntry)
-      frame.currentEntry.animated = animated
+    if (!target && !host.capabilities.close) throw unsupportedOperation(host, 'closing')
 
     const done = expect(stack)
-    frame.goBack(entry)
+    try {
+      await host.back(target?.page ?? null, { animated })
+    } catch (error) {
+      stack.pending = undefined
+      throw error
+    }
     await done
   }
 
@@ -1146,11 +1074,24 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     stack.router.go(-stack.entries.value.length).catch(() => {})
   }
 
-  function onModalBackPressed(stack: Stack, args: AndroidActivityBackPressedEventData) {
-    args.cancel = true
+  /** The system back a host claimed as its own: the Android back inside a modal dialog. */
+  function onHostBackPressed(stack: Stack) {
+    if (stack.closed) return
     const isRoot = stack.entries.value.length < 2
     if (isRoot && stack.modal && stack.modal.cancelable === false) return
     stack.router.back().catch(() => {})
+  }
+
+  /** A host that went away on its own, before the router closed it. */
+  function onHostClosed(stack: Stack) {
+    if (stack.closed) return
+    if (stack.modal) {
+      onModalClosed(stack)
+      return
+    }
+    frames.delete(stack.name)
+    close(stack)
+    if (lastFrame.value === stack) lastFrame.value = undefined
   }
 
   // -- public API -------------------------------------------------------------
@@ -1311,16 +1252,16 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   }
 
   const internals: RouterInternals = {
-    mount(name, frame, initial) {
-      if (frames.has(name)) throw new Error(`Two <RouterView>s are named "${name}"`)
+    mount(name, host, initial) {
+      if (frames.has(name)) throw new Error(`Two router views are named "${name}"`)
 
-      const stack = createStack(name, false)
+      const stack = createStack(name, false, initial)
+      attach(stack, host)
       frames.set(name, stack)
-      attach(stack, frame)
 
       const show = async () => {
         const saved = await savedStackFor(name)
-        if (!saved) {
+        if (!saved && !host.capabilities.pinnedRoot) {
           return run({
             type: 'push',
             stack,
@@ -1330,9 +1271,13 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
           })
         }
         // the saved pages go in without animating, and without saving every step
-        restoring = true
+        restoring = !!saved
         try {
-          return await applyStack(stack, saved, { animated: false })
+          return await applyStack(
+            stack,
+            saved ?? [resolveTarget(initial, START_LOCATION)],
+            { animated: false },
+          )
         } finally {
           restoring = false
           persist()
@@ -1350,48 +1295,6 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         },
         (error) => ready.reject(error),
       )
-    },
-
-    async mountSplit(name, listFrame, detailFrame, list, expanded, detailVisible) {
-      if (frames.has(name)) throw new Error(`Two router views are named "${name}"`)
-      const stack = createStack(name, false)
-      const placeholder = new Page()
-      placeholder.actionBarHidden = true
-      placeholder.backgroundColor = new Color('transparent')
-      const split: SplitStack = {
-        listFrame,
-        placeholder,
-        list,
-        expanded,
-        detailVisible,
-        resetting: false,
-      }
-      splits.set(stack, split)
-      frames.set(name, stack)
-      attach(stack, detailFrame)
-      stacksByFrame.set(listFrame, stack)
-      const syncList = () => sync(stack)
-      listFrame.on(Frame.navigatedToEvent, syncList)
-      const detach = detachers.get(stack)!
-      detachers.set(stack, () => {
-        detach()
-        listFrame.off(Frame.navigatedToEvent, syncList)
-      })
-      try {
-        const saved = await savedStackFor(name)
-        restoring = !!saved
-        try {
-          await applyStack(stack, saved ?? [resolveTarget(list, START_LOCATION)], {
-            animated: false,
-          })
-        } finally {
-          restoring = false
-          persist()
-        }
-        markReady()
-      } catch (error) {
-        ready.reject(error)
-      }
     },
 
     unmount(name) {
@@ -1474,6 +1377,19 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   Object.defineProperty(router, INTERNAL, { value: internals })
 
   return router as unknown as Router<RouteMapFrom<R>>
+}
+
+/** The containers a host reports, or one empty part while a modal host is still presenting. */
+function hostParts(host: NativeHost | null): NativeHostPart[] {
+  if (!host) return [{ role: 'main', native: null, loaded: false, pages: [] }]
+  if (host.parts) return [...host.parts()]
+  return [{ role: 'main', native: host.native, loaded: host.loaded, pages: host.pages() }]
+}
+
+/** A view inside the stack's host, for platform lookups that need a window or context. */
+function hostView(stack: Stack | undefined): View | undefined {
+  const native = stack?.host?.parts?.()[0]?.native ?? stack?.host?.native
+  return native instanceof View ? native : undefined
 }
 
 function modalOptionsFor(
