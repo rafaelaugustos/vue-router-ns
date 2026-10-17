@@ -493,6 +493,7 @@ The [full API reference](https://vue-router-ns.rafaelaugusto.dev/guide/api) docu
 - [Native bars and search](https://vue-router-ns.rafaelaugusto.dev/guide/native-bars): ActionBar titles/actions and page-owned UISearchController/SearchView with explicit query state.
 - [Keyboard commands](https://vue-router-ns.rafaelaugusto.dev/guide/keyboard): opt-in commands, iPad discovery and focused page/window ownership through `NavigationCommandScope`.
 - [Accessibility and motion](https://vue-router-ns.rafaelaugusto.dev/guide/accessibility): stable focus targets, modal initiator restoration and OS reduced-motion defaults.
+- [System pickers and native flows](https://vue-router-ns.rafaelaugusto.dev/guide/native-flows): `useNativeFlow()` gives the document picker and other system-owned UI a typed result that settles once, outside the back stack.
 
 ## Native hosts
 

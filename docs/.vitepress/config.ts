@@ -41,6 +41,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('nativeBars', 'native-bars'),
         page('keyboard', 'keyboard'),
         page('accessibility', 'accessibility'),
+        page('flows', 'native-flows'),
       ],
     },
     {
@@ -79,6 +80,7 @@ const en = {
   nativeBars: 'Native bars and search',
   keyboard: 'Keyboard commands',
   accessibility: 'Accessibility and motion',
+  flows: 'System pickers and native flows',
   vueRouter: 'Differences from Vue Router',
   api: 'API',
   internals: 'How it works',
@@ -109,6 +111,7 @@ const pt = {
   nativeBars: 'Barras e busca nativas',
   keyboard: 'Comandos de teclado',
   accessibility: 'Acessibilidade e movimento',
+  flows: 'Pickers do sistema e fluxos nativos',
   vueRouter: 'Diferenças do Vue Router',
   api: 'API',
   internals: 'Como funciona',
