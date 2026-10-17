@@ -14,6 +14,7 @@ import {
   computed,
   hasInjectionContext,
   inject,
+  registerElement,
   shallowReactive,
   shallowRef,
   type App,
@@ -26,6 +27,7 @@ import {
   type OnBackPressedDispatcherOwner,
 } from './android.js'
 import { Deferred } from './components/Deferred.js'
+import { DrawerLayoutView, RouterDrawer } from './drawer.js'
 import { RouterLink } from './components/RouterLink.js'
 import { RouterSplitView } from './components/RouterSplitView.js'
 import { RouterView } from './components/RouterView.js'
@@ -219,6 +221,12 @@ export interface Router<M extends RouteMapLike = RouteMapGeneric> {
   /** Hears every link the router was handed, taken or not. */
   onLink(listener: LinkListener): () => void
   /**
+   * Lets a native container take the Android system back while it owns it, a
+   * drawer that is open for example, before any page pops. Returns what
+   * releases the claim.
+   */
+  claimSystemBack(claimant: SystemBackClaimant): () => void
+  /**
    * Replaces the app's home-screen shortcuts (Android dynamic shortcuts, iOS
    * quick actions) with these, within the platform's limit. Each opens its
    * route through `openLink` when tapped. Returns the ids that were published.
@@ -226,6 +234,14 @@ export interface Router<M extends RouteMapLike = RouteMapGeneric> {
   setShortcuts(shortcuts: readonly RouteShortcut<RouteLocationRawOf<M>>[]): string[]
 
   install(app: App): void
+}
+
+/** Something other than a page that the system back should go to first. */
+export interface SystemBackClaimant {
+  /** Whether it wants the next back. Asked on every press and at the start of a swipe. */
+  owns(): boolean
+  /** Takes the press. */
+  back(): void
 }
 
 export const START_LOCATION: RouteLocation = {
@@ -269,6 +285,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   const resolveGuards = callbacks<NavigationGuard>()
   const afterHooks = callbacks<NavigationHookAfter>()
   const errorHandlers = callbacks<NavigationErrorHandler>()
+  const backClaimants = callbacks<SystemBackClaimant>()
+  const claimedBack = () => backClaimants.list().find((claimant) => claimant.owns())
 
   const frames = shallowReactive(new Map<string, Stack>())
   const modals = shallowRef<readonly Stack[]>([])
@@ -1180,6 +1198,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   // -- system back ------------------------------------------------------------
 
   function onActivityBackPressed(args: AndroidActivityBackPressedEventData) {
+    const owner = claimedBack()
+    if (owner) {
+      args.cancel = true
+      owner.back()
+      return
+    }
     const stack = topmostStack()
     if (!stack || stack.closed || stack.entries.value.length < 2) return
 
@@ -1556,6 +1580,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       takeLink(evaluateLink(href, options.source ?? 'app'), options),
     resolveLink: (href: string) => evaluateLink(href, 'app').location,
     onLink: linkListeners.add,
+    claimSystemBack: backClaimants.add,
     setShortcuts(shortcuts: readonly RouteShortcut[]) {
       const seen = new Set<string>()
       const published = shortcuts.map((shortcut) => {
@@ -1582,6 +1607,13 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       app.component('RouterSplitView', RouterSplitView)
       app.component('RouterLink', RouterLink)
       app.component('Deferred', Deferred)
+      app.component('RouterDrawer', RouterDrawer)
+      if (isAndroid) {
+        registerElement('RouterDrawerLayout', () => DrawerLayoutView, {
+          viewFlags: 4,
+          overwriteExisting: true,
+        })
+      }
       if (diagnostics) app.onUnmount(() => diagnostics.api.stop())
 
       if (options.links && linkPolicy.system !== false) {
@@ -1614,7 +1646,11 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         const android = Application.android
         const stops: (() => void)[] = []
         const watchActivity = (activity: OnBackPressedDispatcherOwner) =>
-          stops.push(watchBackGestures(activity, () => gestureSession(topmostStack())))
+          stops.push(
+            watchBackGestures(activity, () =>
+              claimedBack() ? undefined : gestureSession(topmostStack()),
+            ),
+          )
         const onActivityCreated = ({ activity }: AndroidActivityEventData) =>
           watchActivity(activity)
 

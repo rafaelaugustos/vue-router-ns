@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { drawer } from '../drawer'
 import { NavigationCommandScope } from 'vue-router-ns'
 import { useDemoCommands } from '../navigation-commands'
 
@@ -63,6 +64,7 @@ const commands = useDemoCommands()
 <template>
   <Page>
     <ActionBar :title="unread ? `Inbox (${unread})` : 'Inbox'" iosLargeTitle="true">
+      <ActionItem text="Menu" android.position="actionBar" @tap="drawer?.open()" />
       <ActionItem text="Search" ios.position="right" @tap="search.activate()" />
       <ActionItem text="Compose" ios.position="right" @tap="compose" />
     </ActionBar>

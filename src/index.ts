@@ -2,7 +2,7 @@ import type { RegisteredRouter } from './typed.js'
 import type { RouteLocation } from './types.js'
 
 export { createRouter, START_LOCATION } from './router.js'
-export type { Router, RouterOptions } from './router.js'
+export type { Router, RouterOptions, SystemBackClaimant } from './router.js'
 export type {
   DiagnosticsOptions,
   RouterDiagnostics,
@@ -96,6 +96,8 @@ export { mountNativeHost } from './hosts/mount.js'
 export { supportsBottomSheets } from './hosts/bottom-sheet.js'
 
 export { RouterSplitView } from './components/RouterSplitView.js'
+export { RouterDrawer } from './drawer.js'
+export type { RouterDrawerHandle } from './drawer.js'
 export { RouterView } from './components/RouterView.js'
 export { RouterLink } from './components/RouterLink.js'
 export { Deferred } from './components/Deferred.js'
@@ -126,6 +128,7 @@ declare module '@vue/runtime-core' {
   interface GlobalComponents {
     NavigationCommandScope: typeof import('./components/NavigationCommandScope.js').NavigationCommandScope
     RouterSplitView: typeof import('./components/RouterSplitView.js').RouterSplitView
+    RouterDrawer: typeof import('./drawer.js').RouterDrawer
     RouterView: typeof import('./components/RouterView.js').RouterView
     RouterLink: typeof import('./components/RouterLink.js').RouterLink
     Deferred: typeof import('./components/Deferred.js').Deferred
