@@ -49,6 +49,11 @@ import {
   type NativeHost,
   type NativeHostPart,
 } from './host.js'
+import {
+  assertBottomSheetsAvailable,
+  bottomSheetOptions,
+  createBottomSheetPresenter,
+} from './hosts/bottom-sheet.js'
 import { createFrameHost } from './hosts/frame.js'
 import { canZoom, configureSheet, viewOf } from './ios.js'
 import { createMatcher } from './matcher.js'
@@ -76,6 +81,7 @@ import type {
   RouteMapLike,
 } from './typed.js'
 import type {
+  AndroidModalOptions,
   BackOptions,
   ModalOptions,
   NavigationErrorHandler,
@@ -655,6 +661,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       stack.closed ||
       stack.attempt !== attempt ||
       (keepPreview !== undefined && !keepPreview.active)
+    const release = () => {
+      if (stack.attempt === attempt) stack.attempt = undefined
+    }
     const queued = trace?.span('queue')
     await Promise.all([settled, stack.settled])
     queued?.end()
@@ -705,6 +714,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       )
         throw unsupportedOperation(stack.host, 'replace')
     }
+    if (modal && isAndroid && modal.android?.sheet) assertBottomSheetsAvailable()
 
     // pages that get destroyed: a push keeps the current page alive underneath
     const leaving =
@@ -757,9 +767,13 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       }
       outcome ??= await check(resolveGuards.list(), 'beforeResolve')
     } catch (error) {
+      release()
       reportError(error, to, from)
       throw error
     }
+    // the guards are done either way: the next dismissal the platform asks about is a new request
+    const cancelled = isCancelled()
+    release()
 
     if (outcome && 'redirect' in outcome) {
       if (request.redirects >= MAX_REDIRECTS) {
@@ -782,8 +796,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       )
     }
     if (outcome) return fail(outcome.stop)
-    if (isCancelled()) return fail('cancelled')
-    stack.attempt = undefined
+    if (cancelled) return fail('cancelled')
 
     const transition = trace?.span('transition')
     const commit =
@@ -917,36 +930,55 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     modals.value = [...modals.value, stack]
     const shown = expect(stack)
 
-    const mounting = trace?.span('mount', 'modal-host')
-    const presented = $showModal(ModalHost, {
-      ...modal,
-      ...(shouldReduceMotion(request.stack) ? { animated: false } : {}),
-      // A command originating in another native window must present there.
-      target: topOf(request.stack)?.page ?? hostView(request.stack),
-      props: {
-        onReady(frame: Frame) {
-          const host = createFrameHost(frame, { modal: true })
-          attach(stack, host)
-          if (isIOS && modal.ios) configureSheet(frame, modal.ios)
-          const pageMount = trace?.span('mount', 'page')
-          try {
-            host.push(createPage(entry, pageLink), {
-              initial: true,
-              animated: false,
-              transition: undefined,
-              replace: false,
-              clearHistory: false,
-            })
-            pageMount?.end()
-          } catch (error) {
-            pageMount?.end('error')
-            stack.pending?.reject(error)
-            stack.pending = undefined
-            frame.closeModal()
-          }
-        },
+    const animated = !shouldReduceMotion(request.stack) && modal.animated !== false
+    const sheet =
+      isAndroid && modal.android?.sheet
+        ? createBottomSheetPresenter({
+            sheet: bottomSheetOptions(modal.android.sheet),
+            animated,
+            cancelable: modal.cancelable !== false,
+            windowSoftInputMode: modal.android.windowSoftInputMode,
+            onDismissAttempt: () => onDismissAttempt(stack),
+          })
+        : undefined
+    // A command originating in another native window must present there.
+    const target = topOf(request.stack)?.page ?? hostView(request.stack)
+    const props = {
+      onReady(frame: Frame) {
+        const host = createFrameHost(frame, {
+          modal: true,
+          kind: sheet ? 'bottom-sheet' : undefined,
+          holdDismissal: sheet?.hold,
+        })
+        attach(stack, host)
+        if (isIOS && modal.ios) configureSheet(frame, modal.ios)
+        const pageMount = trace?.span('mount', 'page')
+        try {
+          host.push(createPage(entry, pageLink), {
+            initial: true,
+            animated: false,
+            transition: undefined,
+            replace: false,
+            clearHistory: false,
+          })
+          pageMount?.end()
+        } catch (error) {
+          pageMount?.end('error')
+          stack.pending?.reject(error)
+          stack.pending = undefined
+          frame.closeModal()
+        }
       },
-    })
+    }
+    const mounting = trace?.span('mount', 'modal-host')
+    const presented = sheet
+      ? sheet.present(ModalHost, props, target)
+      : $showModal(ModalHost, {
+          ...modal,
+          ...(animated ? {} : { animated: false }),
+          target,
+          props,
+        })
     mounting?.end()
     presented.then(
       () => onModalClosed(stack),
@@ -1403,7 +1435,23 @@ function modalOptionsFor(
   const merged: ModalOptions = { ...(fromRecord || {}), ...extra }
   if (fromRecord && fromRecord.ios && extra.ios)
     merged.ios = { ...fromRecord.ios, ...extra.ios }
+  if (fromRecord && fromRecord.android && extra.android) {
+    merged.android = {
+      ...fromRecord.android,
+      ...extra.android,
+      sheet: mergeSheet(fromRecord.android.sheet, extra.android.sheet),
+    }
+  }
   return merged
+}
+
+function mergeSheet(
+  base: AndroidModalOptions['sheet'],
+  extra: AndroidModalOptions['sheet'],
+): AndroidModalOptions['sheet'] {
+  if (extra === undefined) return base
+  if (!extra || !base) return extra
+  return { ...(base === true ? {} : base), ...(extra === true ? {} : extra) }
 }
 
 function pageProps(

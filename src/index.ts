@@ -67,6 +67,7 @@ export type { FrameHostOptions } from './hosts/frame.js'
 export { createSplitFrameHost } from './hosts/split.js'
 export type { SplitFrameHostOptions, SplitFrames } from './hosts/split.js'
 export { mountNativeHost } from './hosts/mount.js'
+export { supportsBottomSheets } from './hosts/bottom-sheet.js'
 
 export { RouterSplitView } from './components/RouterSplitView.js'
 export { RouterView } from './components/RouterView.js'

@@ -58,8 +58,36 @@ export class View extends Observable {
   isLoaded = true
   ios: any = { controller: {} }
   /** On Android, the dialog a modal is shown in. */
-  dialog: Dialog | undefined
+  dialog: Dialog | SheetDialog | undefined
   private closeCallback: ((...args: unknown[]) => void) | undefined
+  static nextDomId = 1
+  /** The private members core's Android modal flow reads and writes. */
+  _domId = View.nextDomId++
+  _context: unknown = undefined
+  _modalParent: View | null = null
+  _modalOptions: any
+  _dialogFragment: SheetFragment | null = null
+  _isAddedToNativeVisualTree = false
+  horizontalAlignment = 'stretch'
+  verticalAlignment = 'stretch'
+  height: number | string = 'auto'
+  _setupAsRootView(_context: unknown) {}
+  _getRootFragmentManager() {
+    return {}
+  }
+  callLoaded() {
+    this.isLoaded = true
+  }
+  callUnloaded() {
+    this.isLoaded = false
+  }
+  _tearDownUI(_force?: boolean) {
+    this.tearDown()
+  }
+  _raiseShowingModallyEvent() {}
+  _raiseShownModallyEvent() {
+    this.notify({ eventName: 'shownModally', object: this })
+  }
 
   /** A stand-in for the platform view, for tests that need one. */
   native: any
@@ -74,6 +102,13 @@ export class View extends Observable {
 
   showModal(view: View, options: any) {
     view.closeCallback = options.closeCallback
+    view._modalParent = this
+    view._modalOptions = options
+    // a presenter of its own, like core's Android view lets a subclass have
+    if (Object.hasOwn(view, '_showNativeModalView')) {
+      ;(view as any)._showNativeModalView(this, options)
+      return
+    }
     if (isAndroid) view.dialog = new Dialog(view)
     View.presented.push({ view, options })
     void Promise.resolve().then(() => {
@@ -85,7 +120,11 @@ export class View extends Observable {
   closeModal(...args: unknown[]) {
     const callback = this.closeCallback
     this.closeCallback = undefined
+    this._modalParent = null
     View.presented = View.presented.filter((modal) => modal.view !== this)
+    const fragment = this._dialogFragment
+    this._dialogFragment = null
+    fragment?.dismissAllowingStateLoss()
     callback?.(...args)
     // like core: the closed modal's UI is torn down after the callback
     this.tearDown()
@@ -130,6 +169,7 @@ export class Page extends View {
   override ios: any = { controller: {}, navigationItem: { backAction: null } }
 
   dispose() {
+    if (this.disposed) return
     this.disposed = true
     this.notify({ eventName: 'disposeNativeView', object: this })
   }
@@ -188,6 +228,10 @@ export class Frame extends View {
   load() {
     this.isLoaded = true
     this.process()
+  }
+
+  override callLoaded() {
+    this.load()
   }
 
   navigate(entry: NavigationEntry) {
@@ -393,6 +437,14 @@ export class Activity {
     return this.dispatcher
   }
 
+  getWindow() {
+    return { getAttributes: () => ({ softInputMode: 16 }) }
+  }
+
+  isChangingConfigurations() {
+    return false
+  }
+
   private press() {
     const args = { eventName: 'activityBackPressed', cancel: false }
     lastBackPress = args
@@ -448,6 +500,275 @@ Object.assign(globalThis, {
 })
 
 export const Device = { sdkVersion: '36' }
+export const Utils = { layout: { toDevicePixels: (dip: number) => dip * 3 } }
+
+// -- Material bottom sheets ---------------------------------------------------
+
+/** Material's `BottomSheetBehavior` state constants. */
+export const SheetStates = { EXPANDED: 3, COLLAPSED: 4, HIDDEN: 5, HALF_EXPANDED: 6 }
+const TOUCH_OUTSIDE = 7001
+
+export class SheetBehavior {
+  state = SheetStates.COLLAPSED
+  peekHeight = -1
+  maxHeight = -1
+  hideable = true
+  skipCollapsed = false
+  fitToContents = true
+  halfExpandedRatio = 0.5
+  draggable = true
+
+  constructor(private dialog: SheetDialog) {}
+
+  setPeekHeight(px: number) {
+    this.peekHeight = px
+  }
+  setMaxHeight(px: number) {
+    this.maxHeight = px
+  }
+  setHideable(value: boolean) {
+    this.hideable = value
+  }
+  isHideable() {
+    return this.hideable
+  }
+  setSkipCollapsed(value: boolean) {
+    this.skipCollapsed = value
+  }
+  setFitToContents(value: boolean) {
+    this.fitToContents = value
+  }
+  setHalfExpandedRatio(value: number) {
+    this.halfExpandedRatio = value
+  }
+  setDraggable(value: boolean) {
+    this.draggable = value
+  }
+  getState() {
+    return this.state
+  }
+  setState(state: number) {
+    this.state = state
+    if (state === SheetStates.HIDDEN) this.dialog.cancel()
+  }
+
+  /** What the user does: drags the sheet to `state`. Refused while it can't hide. */
+  drag(state: number) {
+    if (state === SheetStates.HIDDEN && !this.hideable) return false
+    this.setState(state)
+    return true
+  }
+}
+
+class Bundle {
+  private values = new Map<string, number>()
+  putInt(key: string, value: number) {
+    this.values.set(key, value)
+  }
+  getInt(key: string) {
+    return this.values.get(key) ?? 0
+  }
+}
+
+/** Material's `BottomSheetDialog`: a dialog with a behavior and a dimmed area to tap. */
+export class SheetDialog {
+  _domId = 0
+  fragment: SheetFragment | undefined
+  behavior = new SheetBehavior(this)
+  cancelable = true
+  canceledOnTouchOutside = true
+  dismissWithAnimation = false
+  showing = false
+  content: unknown
+  outside: { onClick(view: unknown): void } | undefined
+  dispatcher = new BackDispatcher(() => this.onBackPressed())
+
+  constructor(
+    public context: unknown,
+    public theme: number,
+  ) {}
+
+  static extend(_name: string, methods: object) {
+    const Extended = class extends SheetDialog {}
+    Object.assign(Extended.prototype, methods)
+    return Extended
+  }
+
+  get super() {
+    return { onBackPressed: () => SheetDialog.prototype.onBackPressed.call(this) }
+  }
+
+  onBackPressed() {
+    this.cancel()
+  }
+  getOnBackPressedDispatcher() {
+    return this.dispatcher
+  }
+  getBehavior() {
+    return this.behavior
+  }
+  setContentView(view: unknown) {
+    this.content = view
+  }
+  setCancelable(value: boolean) {
+    this.cancelable = value
+  }
+  setCanceledOnTouchOutside(value: boolean) {
+    this.canceledOnTouchOutside = value
+  }
+  setDismissWithAnimation(value: boolean) {
+    this.dismissWithAnimation = value
+  }
+  isShowing() {
+    return this.showing
+  }
+  getWindow() {
+    return { setSoftInputMode(_mode: number) {} }
+  }
+  findViewById(id: number) {
+    if (id !== TOUCH_OUTSIDE) return null
+    return {
+      setOnClickListener: (listener: { onClick(view: unknown): void }) => {
+        this.outside = listener
+      },
+    }
+  }
+  cancel() {
+    this.dismiss()
+  }
+  dismiss() {
+    if (!this.showing) return
+    this.showing = false
+    this.fragment?.onDismiss(this)
+    this.fragment?.onDestroy()
+  }
+
+  /** A tap on the dimmed area behind the sheet. */
+  tapOutside() {
+    this.outside?.onClick(null)
+  }
+}
+
+/** Material's `BottomSheetDialogFragment`, run through its lifecycle synchronously. */
+export class SheetFragment {
+  owner: View | undefined
+  presentation: unknown
+  dialog: SheetDialog | undefined
+  args: Bundle | undefined
+
+  static extend(_name: string, methods: object) {
+    const Extended = class extends SheetFragment {}
+    Object.assign(Extended.prototype, methods)
+    return Extended
+  }
+
+  get super() {
+    return {
+      onCreate(_saved: unknown) {},
+      onStart() {},
+      onDismiss(_dialog: unknown) {},
+      onDestroy() {},
+    }
+  }
+
+  setArguments(args: Bundle) {
+    this.args = args
+  }
+  getArguments() {
+    return this.args!
+  }
+  getActivity() {
+    return Application.android.foregroundActivity
+  }
+  getTheme() {
+    return 0
+  }
+  getDialog() {
+    return this.dialog!
+  }
+  getFragmentManager() {
+    return {}
+  }
+  onCreate(_saved: unknown) {}
+  onCreateDialog(_saved: unknown): SheetDialog {
+    return new SheetDialog(this.getActivity(), 0)
+  }
+  onCreateView(): unknown {
+    return null
+  }
+  onStart() {}
+  onDismiss(_dialog: unknown) {}
+  onDestroy() {}
+
+  show(_manager: unknown, _tag: string) {
+    this.onCreate(null)
+    this.dialog = this.onCreateDialog(null)
+    this.dialog.fragment = this
+    this.dialog.setContentView(this.onCreateView())
+    const owner = this.owner!
+    owner.dialog = this.dialog
+    View.presented.push({ view: owner, options: owner._modalOptions })
+    this.dialog.showing = true
+    this.onStart()
+  }
+
+  dismissAllowingStateLoss() {
+    this.dialog?.dismiss()
+  }
+}
+
+/** Puts Material's bottom sheet classes in the build, the way a release app's gradle would. */
+export function installMaterial(): () => void {
+  const g = globalThis as any
+  const previous = { com: g.com, android: g.android }
+  g.com = {
+    google: {
+      android: {
+        material: {
+          R: { id: { touch_outside: TOUCH_OUTSIDE } },
+          bottomsheet: {
+            BottomSheetDialog: SheetDialog,
+            BottomSheetDialogFragment: SheetFragment,
+            BottomSheetBehavior: {
+              STATE_COLLAPSED: SheetStates.COLLAPSED,
+              STATE_HALF_EXPANDED: SheetStates.HALF_EXPANDED,
+              STATE_EXPANDED: SheetStates.EXPANDED,
+              STATE_HIDDEN: SheetStates.HIDDEN,
+            },
+          },
+        },
+      },
+    },
+  }
+  g.android = {
+    animation: { ValueAnimator: { areAnimatorsEnabled: () => true } },
+    ...(g.android ?? {}),
+    os: { ...(g.android?.os ?? {}), Bundle },
+    view: {
+      ...(g.android?.view ?? {}),
+      MotionEvent: { ACTION_UP: 1 },
+      View: {
+        ...(g.android?.view?.View ?? {}),
+        OnClickListener: class {
+          constructor(impl: object) {
+            Object.assign(this, impl)
+          }
+        },
+        OnTouchListener: class {
+          constructor(impl: object) {
+            Object.assign(this, impl)
+          }
+        },
+      },
+    },
+  }
+  return () => {
+    if (previous.com === undefined) delete g.com
+    else g.com = previous.com
+    if (previous.android === undefined) delete g.android
+    else g.android = previous.android
+  }
+}
 export let screenReaderEnabled = false
 export function isAccessibilityServiceEnabled() {
   return screenReaderEnabled
@@ -468,13 +789,23 @@ export const SharedTransition = {
 
 export const Application = Object.assign(new Observable(), {
   android: createAndroidApplication(),
+  inBackground: false,
+  getRootView: () => new View(),
 })
 
 function createAndroidApplication() {
-  return Object.assign(new Observable(), {
+  const application = Object.assign(new Observable(), {
     foregroundActivity: undefined as Activity | undefined,
     startActivity: undefined as Activity | undefined,
   })
+  const notify = application.notify.bind(application)
+  // what a dialog of its own reports first, like core's does
+  application.notify = (data) => {
+    if (data.eventName === 'activityBackPressed')
+      lastBackPress = data as AndroidActivityBackPressedEventData
+    notify(data)
+  }
+  return application
 }
 
 export let isAndroid = false
@@ -489,7 +820,7 @@ export function setPlatform(platform: 'ios' | 'android') {
 }
 
 /** Where Android sends back right now: the dialog of the top modal, or the activity. */
-export function backOwner() {
+export function backOwner(): Dialog | SheetDialog | Activity {
   return View.presented.at(-1)?.view.dialog ?? Application.android.foregroundActivity!
 }
 

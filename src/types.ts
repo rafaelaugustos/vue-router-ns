@@ -59,11 +59,45 @@ export interface SheetOptions {
   cornerRadius?: number
 }
 
+/** The resting states of an Android Material bottom sheet. */
+export type BottomSheetState = 'collapsed' | 'halfExpanded' | 'expanded'
+
+/**
+ * How an Android bottom sheet behaves. These are Material's states, not
+ * UIKit's detents: the sheet rests collapsed at `peekHeight`, half expanded at
+ * a share of the screen, or expanded to its content.
+ */
+export interface BottomSheetOptions {
+  /** Height of the collapsed state, in device-independent pixels. Material picks one when unset. */
+  peekHeight?: number
+  /** The state to open at. Defaults to `'collapsed'`. */
+  state?: BottomSheetState
+  /** Height of the sheet's content, in device-independent pixels. By default, as tall as the content. */
+  height?: number
+  /** Tallest the sheet gets, in device-independent pixels. */
+  maxHeight?: number
+  /** Expanded stops at the content's height. Defaults to `true`; `false` enables the half-expanded state. */
+  fitToContents?: boolean
+  /** Height of the half-expanded state as a share of the parent, with `fitToContents: false`. */
+  halfExpandedRatio?: number
+  /** Hiding from expanded skips the collapsed state. */
+  skipCollapsed?: boolean
+  /** Whether the user can drag the sheet between states. Defaults to `true`. */
+  draggable?: boolean
+}
+
+/** Android options of a modal route. `sheet` presents it in a Material bottom sheet. */
+export interface AndroidModalOptions extends NonNullable<ShowModalOptions['android']> {
+  /** Present in a Material bottom sheet: `true` for Material's defaults, or `BottomSheetOptions`. */
+  sheet?: boolean | BottomSheetOptions
+}
+
 /** Options forwarded to `showModal` when a route is presented modally. */
 export interface ModalOptions extends Partial<
-  Omit<ShowModalOptions, 'context' | 'closeCallback' | 'ios'>
+  Omit<ShowModalOptions, 'context' | 'closeCallback' | 'ios' | 'android'>
 > {
   ios?: NonNullable<ShowModalOptions['ios']> & SheetOptions
+  android?: AndroidModalOptions
 }
 
 /**

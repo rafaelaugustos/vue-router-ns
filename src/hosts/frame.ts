@@ -25,6 +25,10 @@ export interface FrameHostOptions {
    * back inside its dialog and the iOS dismissal attempts are its own.
    */
   modal?: boolean
+  /** A name other than `'frame'` or `'modal-frame'`, for a presenter wrapping the frame. */
+  kind?: string
+  /** What holds the user's dismissal, instead of iOS's `modalInPresentation`. */
+  holdDismissal?: (hold: boolean) => void
 }
 
 /** The pages a frame holds, bottom to top. */
@@ -75,7 +79,7 @@ export function createFrameHost(
 
   return {
     version: NATIVE_HOST_VERSION,
-    kind: modal ? 'modal-frame' : 'frame',
+    kind: options.kind ?? (modal ? 'modal-frame' : 'frame'),
     capabilities: {
       replace: true,
       clearHistory: true,
@@ -138,6 +142,10 @@ export function createFrameHost(
       else frame.closeModal()
     },
     holdDismissal(hold) {
+      if (options.holdDismissal) {
+        options.holdDismissal(hold)
+        return
+      }
       // iOS 13+ sheets close with a swipe; `modalInPresentation` turns that off
       const controller = frame.ios?.controller
       if (controller) controller.modalInPresentation = hold

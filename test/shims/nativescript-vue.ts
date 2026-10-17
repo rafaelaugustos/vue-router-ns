@@ -118,6 +118,9 @@ function mountNativeView(component: Component, props?: Record<string, unknown>) 
 export function createNativeView(component: Component, props?: Record<string, unknown>) {
   let mounted: ReturnType<typeof mountNativeView> | undefined
   return {
+    get nativeView() {
+      return mounted?.view as View | undefined
+    },
     mount() {
       mounted ??= mountNativeView(component, props)
       return mounted.view as View

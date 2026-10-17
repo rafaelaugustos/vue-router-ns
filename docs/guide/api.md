@@ -119,7 +119,7 @@ Public types are exported from the package root:
 - Routes: `RouteRecordRaw`, `RouteRecord`, `RouteRecordName`, `RouteMeta`, `RouteProps`, `RouteComponent`, `RawRouteComponent`, `Lazy`.
 - Locations: `RouteLocation`, `RouteLocationRaw`, `RouteLocationPathRaw`, `RouteLocationNamedRaw`, `RouteLocationRelativeRaw`, `RouteParams`, `RouteParamsRaw`, `RouteParamValue`, `RouteParamValueRaw`, `LocationQuery`, `LocationQueryRaw`, `LocationQueryValue`, `LocationQueryValueRaw`.
 - Navigation: `NavigationOptions`, `BackOptions`, `SetStackOptions`, `NavigationType`, `NavigationInfo`, `NavigationGuard`, `NavigationGuardReturn`, `NavigationHookAfter`, `NavigationErrorHandler`, `NavigationFailure`, `LeaveGuardOptions`.
-- Native presentation: `ModalOptions`, `SheetOptions`, `SheetDetent`, `TransitionOption`, `ZoomSource`, `BackGesture`, `BackGestureEdge`.
+- Native presentation: `ModalOptions`, `SheetOptions`, `SheetDetent`, `AndroidModalOptions`, `BottomSheetOptions`, `BottomSheetState`, `TransitionOption`, `ZoomSource`, `BackGesture`, `BackGestureEdge`. `supportsBottomSheets()` reports whether the Android build includes Material.
 - Inferred route types: `Register`, `RegisteredRouter`, `RouteMapFrom`, `RouteMapGeneric`, `RouteNames`, `RouteLocationOf`, `RouteLocationRawOf`, `ParamsFromPath`.
 
 Augment `Register` and `RouteMeta` as shown in [typed routes](./typed-routes).
