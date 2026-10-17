@@ -12,6 +12,8 @@ async function reply() {
 
 Os alvos são ids estáveis de views, views/refs de template ou getters retornando a view (ou null/undefined). Configure ids em controles nativos acessíveis, como `<Label id="heading" accessible="true" textWrap="true" />` e `<Button id="reply" />`. O alvo precisa estar carregado, visível e pertencer à página.
 
+No Android, não marque linhas de `ListView` como `accessible`: o core torna a view focável e a lista deixa de disparar `itemTap` nela. Um `accessibilityLabel` na linha basta para o TalkBack lê-la como um item só, e ela continua sendo um alvo de foco válido. No iOS `accessible` não afeta os toques na `UITableView`.
+
 Após a transição nativa confirmada, push usa `initial` e back usa `return`. O anúncio da página é substituído por uma notificação de mudança de layout do UIKit ou uma ação de foco de acessibilidade Android, sem um segundo anúncio paralelo. Recusa de guard ou cancelamento do gesto não muda foco. Alvos ausentes, removidos ou destruídos voltam ao comportamento normal do NativeScript. Nenhuma chamada pede foco de teclado ou abre o IME. `accessibilityAnnouncePageEnabled="false"` mantém os anúncios automáticos desabilitados.
 
 `remember(target?)` identifica o elemento e a página que iniciam um modal; sem argumento usa `return`. Funciona também na lista de um split expandido com detalhe visível: fechar o modal devolve foco à lista iniciadora. Sem iniciador explícito, retorna ao topo da pilha. `focus.focus('initial' | 'return')` tenta foco imediatamente e retorna boolean, útil para conteúdo assíncrono que aparece depois da transição.

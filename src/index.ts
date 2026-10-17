@@ -55,7 +55,7 @@ export type {
 } from './links.js'
 export type { PageStateOptions, PageStateContext } from './page-state.js'
 export { useNativeSearch } from './search.js'
-export type { NativeSearch, NativeSearchOptions } from './search.js'
+export type { NativeSearch, NativeSearchOptions, SearchBarPlacement } from './search.js'
 export { useNavigationCommands } from './commands.js'
 export type {
   NavigationCommands,
