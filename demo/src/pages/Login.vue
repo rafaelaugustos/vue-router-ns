@@ -39,16 +39,26 @@ function signIn() {
   <Page>
     <ActionBar title="Sign in" />
 
-    <StackLayout class="section">
-      <Label class="muted" text="Account needs a session." textWrap="true" />
+    <StackLayout class="content center">
+      <Label class="emoji" text="🔐" />
+      <Label class="title" text="Welcome back" textAlignment="center" />
+      <Label
+        class="caption"
+        text="Account needs a session. Your name is enough here."
+        textWrap="true"
+        textAlignment="center"
+        marginTop="4"
+        marginBottom="24"
+      />
       <TextField
         v-model="name"
+        class="field"
         hint="Your name"
         returnKeyType="done"
+        width="100%"
         @returnPress="signIn"
-        marginTop="12"
       />
-      <Button class="button" text="Sign in" @tap="signIn" />
+      <Button class="button" text="Sign in" width="100%" @tap="signIn" />
     </StackLayout>
   </Page>
 </template>

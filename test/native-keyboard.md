@@ -10,3 +10,7 @@
 - Automated tests additionally cover async guard rejection/acceptance, repeat suppression, reactive labels/enabled state, typed route actions, modal stack closure, editor opt-out, active IME composition, reserved editing bindings and removal of Android listeners. Library/demo typechecks and documentation build pass.
 
 A physical keyboard discovery overlay and manual IME exercise are not asserted by this automated run. The view-owned bridge and explicit modal target avoid process-global Activity/Frame selection. Retaining the original surface across Activity recreation or scene reconnect remains tracked by #46; the concurrent-window checks do not claim to resolve that separate lifecycle issue.
+
+## 2026-10-17 — taps inside the scope
+
+- iPhone 17 simulator, iOS 26.0, driven with `idb ui tap`: the scope's focus tap was a core `UITapGestureRecognizer` with `cancelsTouchesInView`, so a tap on an inbox row reached the `UITableView` cell (confirmed with a `hitTest` probe) and was then cancelled; `itemTap` never fired while `UIButton`s kept working. With the recognizer set to observe only, rows 1 and 3 open their messages, back returns to the list, and the Settings tab's Account button still routes through its guard.

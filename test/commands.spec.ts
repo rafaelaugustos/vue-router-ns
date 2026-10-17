@@ -63,6 +63,32 @@ describe('native navigation commands', () => {
     binding.dispose()
     expect(native.routerKeys).toBeNull()
   })
+  it('lets a tap inside the scope reach the table row underneath on iOS', () => {
+    setPlatform('ios')
+    class UITapGestureRecognizer {
+      cancelsTouchesInView = true
+      delaysTouchesEnded = true
+    }
+    class UIPanGestureRecognizer {
+      cancelsTouchesInView = true
+    }
+    vi.stubGlobal('UITapGestureRecognizer', UITapGestureRecognizer)
+    const recognizers = [new UITapGestureRecognizer(), new UIPanGestureRecognizer()]
+    const layout = new CommandLayout()
+    ;(layout as any).native = {
+      gestureRecognizers: {
+        count: 2,
+        objectAtIndex: (index: number) => recognizers[index],
+      },
+    }
+    layout.onLoaded()
+    expect(recognizers[0]).toMatchObject({
+      cancelsTouchesInView: false,
+      delaysTouchesEnded: false,
+    })
+    expect(recognizers[1]!.cancelsTouchesInView).toBe(true)
+  })
+
   it('computes back availability, runs guards and disables repeat dispatch while awaiting them', async () => {
     let commands!: NavigationCommands
     let allow!: (value: boolean) => void

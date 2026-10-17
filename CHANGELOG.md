@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Demo: a lighter look on both platforms, with system bars, avatars and previews in the inbox, cards on the message page, grouped settings cells and friendlier login and not-found pages. The drawer menu action shows only on Android, where `<RouterDrawer>` has a presentation.
+
+- A tap inside `NavigationCommandScope` no longer cancels the touch underneath on iOS, so `ListView` rows select again inside a scope. The tap only moves keyboard focus to the scope.
+
 - `useNativeSearch` takes `ios.placement` (`automatic`, `stacked`, `inline` or `integrated`). Inside a `TabView` the search bar now defaults to `stacked`, under the title: on iOS 26 the automatic placement moved it to the bottom of the screen, behind the tab bar. The demo's inbox rows are `accessible` only on iOS, since Android's `ListView` ignores taps on focusable rows.
 
 - A native smoke suite for Android (`npm run test:native:android`, `scripts/native/`) drives the demo on an emulator through `adb`: links on cold and warm starts, page state after a process kill, the bottom sheet, shortcuts, the drawer and back, plus the router's diagnostics timings against committed baselines. A `Native` GitHub workflow runs it weekly, on demand and when the suite changes.

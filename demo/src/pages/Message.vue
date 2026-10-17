@@ -7,6 +7,7 @@ import { computed, ref } from 'nativescript-vue'
 import { useNavigationFocus, usePageState, useRoute, useRouter } from 'vue-router-ns'
 import StackTrail from '../components/StackTrail.vue'
 import { inbox } from '../store'
+import { initials, tone } from '../ui'
 
 // `props: true` on the route turns params into props
 const props = defineProps<{ id: string }>()
@@ -50,29 +51,40 @@ const commands = useDemoCommands()
 
     <NavigationCommandScope :commands="commands" rows="*, auto">
       <ScrollView ref="scroller">
-        <StackLayout class="section">
-          <Label
-            id="message-title"
-            accessible="true"
-            accessibilityRole="header"
-            class="title"
-            :text="message?.subject"
-            textWrap="true"
-          />
-          <Label
-            class="muted"
-            :text="`From ${message?.from}`"
-            :sharedTransitionTag="`from-${props.id}`"
-          />
-          <Label :text="message?.body" textWrap="true" marginTop="16" />
+        <StackLayout class="content">
+          <GridLayout class="card" rows="auto" columns="auto, *">
+            <GridLayout class="avatar large" :backgroundColor="tone(message?.from ?? '')">
+              <Label
+                :text="initials(message?.from ?? '')"
+                horizontalAlignment="center"
+                verticalAlignment="middle"
+              />
+            </GridLayout>
+            <StackLayout col="1" verticalAlignment="middle" marginLeft="14">
+              <Label
+                id="message-title"
+                accessible="true"
+                accessibilityRole="header"
+                class="headline"
+                :text="message?.subject"
+                textWrap="true"
+              />
+              <Label
+                class="caption"
+                :text="`${message?.from} · ${message?.at}`"
+                :sharedTransitionTag="`from-${props.id}`"
+              />
+            </StackLayout>
+          </GridLayout>
 
-          <Label
-            v-if="reply"
-            class="muted"
-            marginTop="16"
-            :text="`You replied: ${reply}`"
-            textWrap="true"
-          />
+          <StackLayout class="card">
+            <Label class="body" :text="message?.body" textWrap="true" />
+          </StackLayout>
+
+          <StackLayout v-if="reply" class="card quote">
+            <Label class="caption" text="You replied" />
+            <Label :text="reply" textWrap="true" marginTop="4" />
+          </StackLayout>
 
           <Button id="reply" class="button" text="Reply" @tap="compose" />
           <Button

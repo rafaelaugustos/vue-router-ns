@@ -58,22 +58,21 @@ const commands = useDemoCommands()
 <template>
   <Page>
     <ActionBar title="New message">
-      <ActionItem text="Cancel" ios.position="left" @tap="router.back()" />
+      <ActionItem
+        text="Cancel"
+        ios.systemIcon="1"
+        ios.position="left"
+        @tap="router.back()"
+      />
+      <ActionItem text="Attach" ios.systemIcon="4" ios.position="right" @tap="attach" />
       <ActionItem text="Send" ios.position="right" @tap="send" />
-      <ActionItem text="Attach" ios.position="right" @tap="attach" />
     </ActionBar>
 
     <NavigationCommandScope :commands="commands">
-      <StackLayout class="section">
-        <TextField id="compose-subject" v-model="subject" hint="Subject" />
-        <TextView v-model="body" hint="Write something…" height="200" marginTop="12" />
-        <Label
-          v-if="attachment"
-          id="attachment"
-          class="muted"
-          :text="attachment"
-          marginTop="12"
-        />
+      <StackLayout class="content">
+        <TextField id="compose-subject" v-model="subject" class="field" hint="Subject" />
+        <TextView v-model="body" class="field" hint="Write something…" height="200" />
+        <Label v-if="attachment" id="attachment" class="chip" :text="attachment" />
       </StackLayout>
     </NavigationCommandScope>
   </Page>
