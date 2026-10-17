@@ -34,7 +34,7 @@ jobs:
           sudo udevadm trigger --name-match=kvm
       - run: npm ci
       - run: npm run build
-      - run: npm ci
+      - run: npm install --no-audit --no-fund
         working-directory: demo
       - run: npm install -g nativescript
       - name: Scaffold App_Resources
