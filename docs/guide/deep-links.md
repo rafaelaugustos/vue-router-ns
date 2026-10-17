@@ -71,6 +71,24 @@ result.ignored // 'scheme', 'host', 'unmatched', 'malformed' or 'repeat'
 
 `resolveLink(url)` tells where a URL would go without going there, and `onLink` hears every link the router was handed, taken or not. To resume a link after a login, do what the demo does: the guard redirects to the login with `query.next`, and the login page replaces itself with it. `onLink` works too: keep `result.location` when `failure` or the current route says a login got in the way, and `push` it after signing in.
 
+## Home-screen shortcuts
+
+The same destinations can be offered before the app opens: Android dynamic shortcuts and iOS quick actions, both from one call:
+
+```ts
+router.setShortcuts([
+  {
+    id: 'compose',
+    title: 'New message',
+    to: '/compose',
+    icon: { android: 'ic_compose', ios: 'square.and.pencil' },
+  },
+  { id: 'account', title: 'Account', to: { name: 'account' } },
+])
+```
+
+Each shortcut carries its id and the route's resolved path, versioned, and a tap on it goes through `openLink` like any link: parents, guards, cold start and tab selection included, with `link.shortcut` set to the id in the `LinkResult`. Call `setShortcuts` again when the destinations change, with an empty list to remove them all, for example on sign-out. Android shows up to its `getMaxShortcutCountPerActivity` and iOS four; extra ones are left out with a warning in development. `id`s must be unique and `to` must resolve when set; a shortcut whose route no longer exists after an update is ignored when tapped, like any unmatched link. Icons are an Android drawable name and an SF Symbols name. `supportsShortcuts()` says whether the platform shows them. Static shortcuts, Spotlight indexing, widgets and App Intents stay outside the router.
+
 ### Platform setup
 
 The router reads what the platform delivers; registering for it is the app's. The package cannot verify domain ownership or publish association files.

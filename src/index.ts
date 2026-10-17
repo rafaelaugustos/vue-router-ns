@@ -29,6 +29,8 @@ export {
 export type { LeaveGuardOptions } from './composables.js'
 export { useNativeHost } from './composables.js'
 export { usePageState } from './page-state.js'
+export { supportsShortcuts } from './shortcuts.js'
+export type { RouteShortcut } from './shortcuts.js'
 export type {
   IncomingLink,
   LinkIgnoredReason,
