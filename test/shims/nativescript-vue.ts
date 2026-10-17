@@ -9,7 +9,15 @@ import {
   type Component,
   type ComponentPublicInstance,
 } from '@vue/runtime-core'
-import { Frame, Page, TabView, TabViewItem, View, type NavigationEntry } from './core.js'
+import {
+  DrawerLayoutStub,
+  Frame,
+  Page,
+  TabView,
+  TabViewItem,
+  View,
+  type NavigationEntry,
+} from './core.js'
 
 export * from '@vue/runtime-core'
 export function registerElement(_name: string, _resolver: () => unknown) {}
@@ -39,7 +47,9 @@ function viewFor(tag: string) {
           ? new TabView()
           : tag === 'TabViewItem'
             ? new TabViewItem()
-            : new View()
+            : tag === 'RouterDrawerLayout'
+              ? new DrawerLayoutStub()
+              : new View()
   views.set(tag, [...(views.get(tag) ?? []), view])
   return view
 }

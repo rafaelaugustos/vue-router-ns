@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- `<RouterDrawer>` wraps the app's stacks in an AndroidX `DrawerLayout` on Android: a `drawer` slot for the menu, `v-model:open`, `opened`/`closed` events and a ref with `open`, `close`, `toggle` and `isOpen`. The Android back and back swipe close an open drawer before any page pops, through the new `router.claimSystemBack()`, and a navigation closes it. iOS renders the content alone.
+
 - `useNativeFlow(flow)` runs system-owned UI with a typed input and result: `completed`, `cancelled` (user, guard, replaced or the page leaving) or `failed`, settled exactly once, keyed by a reserved Android request code and presented from the page's own controller on iOS. `createDocumentPicker()` is the first flow, returning scoped URIs on both platforms.
 
 - `router.setShortcuts(shortcuts)` publishes routes as Android dynamic shortcuts and iOS quick actions in one call, within each platform's limit; a tap opens the route through `openLink`, with the shortcut id on the `LinkResult`. Destinations that no longer exist are ignored when tapped. `supportsShortcuts()` reports platform support.

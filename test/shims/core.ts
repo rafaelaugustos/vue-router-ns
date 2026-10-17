@@ -145,6 +145,57 @@ export class GridLayout extends View {
   }
 }
 
+/** Core's layout container, as far as child bookkeeping goes. */
+export class LayoutBase extends View {
+  initNativeView() {}
+  disposeNativeView() {}
+  getChildrenCount() {
+    return this.children.length
+  }
+  getChildAt(index: number) {
+    return this.children[index]
+  }
+  getChildIndex(child: View) {
+    return this.children.indexOf(child)
+  }
+  addChild(child: View) {
+    this.insertChild(child, this.children.length)
+  }
+  insertChild(child: View, index: number) {
+    this.children.splice(index, 0, child)
+    child.parent = this
+    return true
+  }
+  removeChild(child: View) {
+    this.children = this.children.filter((item) => item !== child)
+    child.parent = null
+  }
+}
+
+/** The Android drawer layout the router wraps, opening and closing on request. */
+export class DrawerLayoutStub extends LayoutBase {
+  drawerWidth = 300
+  opened = false
+  openDrawer() {
+    if (this.opened) return
+    this.opened = true
+    this.notify({ eventName: 'drawerOpened', object: this })
+  }
+  closeDrawer() {
+    if (!this.opened) return
+    this.opened = false
+    this.notify({ eventName: 'drawerClosed', object: this })
+  }
+  get isDrawerOpen() {
+    return this.opened
+  }
+  /** What a swipe from the edge does. */
+  drag(open: boolean) {
+    if (open) this.openDrawer()
+    else this.closeDrawer()
+  }
+}
+
 export class TabView extends View {
   selectedIndex = 0
 

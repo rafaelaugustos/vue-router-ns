@@ -38,6 +38,7 @@ Install once with `createApp(App).use(router).start()`. This registers the compo
 | `resolveLink(url)`               | The `RouteLocation` a URL points at under `links`, or `undefined`.                                                                                               |
 | `onLink(listener)`               | Hears every link the router was handed, taken or not. Returns an unsubscribe function.                                                                           |
 | `setShortcuts(shortcuts)`        | Replaces the home-screen shortcuts (Android dynamic shortcuts, iOS quick actions) with `RouteShortcut`s that open through `openLink`. Returns the published ids. |
+| `claimSystemBack(claimant)`      | Lets a native container (`{ owns(), back() }`) take the Android back and back swipe first, like an open drawer. Returns the release function.                    |
 
 Navigation methods other than `pushForResult` resolve to `NavigationFailure | undefined`. Unexpected errors reject; see [failures](./navigating#failures-and-errors). Back methods have the [split-view semantics](./split-view#history-and-back) when called in a split stack.
 
@@ -107,12 +108,13 @@ Register page hooks in the routed component's setup. In an expanded split view, 
 
 ## Components
 
-| Component         | Props and slots                                                                                                                                                                                          |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `RouterView`      | `name` (`'default'`), `initial` (`'/'`), `backToRootOnReselect` (`false`). Mounts one Frame.                                                                                                             |
-| `RouterSplitView` | Required `list`; `name` (`'default'`), `breakpoint` (840), `listWidth` (320), `backToRootOnReselect` (`false`). Slot: `empty`.                                                                           |
-| `RouterLink`      | Required `to`; `replace`, `clearHistory`, `withParents`, `zoom` (all `false`); `transition`, `frame`. One default-slot child; slot receives `{ navigate }`. Adds a tap handler without a native wrapper. |
-| `Deferred`        | No props. Slots: default content and `fallback`. Shows content after the page's first activation and keeps it mounted afterward. Outside a routed page, renders immediately.                             |
+| Component         | Props and slots                                                                                                                                                                                                                                           |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `RouterView`      | `name` (`'default'`), `initial` (`'/'`), `backToRootOnReselect` (`false`). Mounts one Frame.                                                                                                                                                              |
+| `RouterSplitView` | Required `list`; `name` (`'default'`), `breakpoint` (840), `listWidth` (320), `backToRootOnReselect` (`false`). Slot: `empty`.                                                                                                                            |
+| `RouterDrawer`    | `width` (300), `open` (`v-model:open`), `closeOnNavigate` (`true`). Slots: default content and `drawer`. Events `opened`, `closed`; ref `open()`, `close()`, `toggle()`, `isOpen`. Android only; iOS renders the content. See [Android drawer](./drawer). |
+| `RouterLink`      | Required `to`; `replace`, `clearHistory`, `withParents`, `zoom` (all `false`); `transition`, `frame`. One default-slot child; slot receives `{ navigate }`. Adds a tap handler without a native wrapper.                                                  |
+| `Deferred`        | No props. Slots: default content and `fallback`. Shows content after the page's first activation and keeps it mounted afterward. Outside a routed page, renders immediately.                                                                              |
 
 Router view names must be unique, including split views. `name` and the initial route (`initial`/`list`) are read at mount; use a new Vue `key` to create a different stack. Split view dimensions are device-independent pixels; list width is capped at half the available width. See [split view](./split-view).
 
@@ -122,7 +124,7 @@ Router view names must be unique, including split views. `name` and the initial 
 
 Public types are exported from the package root:
 
-- Router configuration: `Router`, `RouterOptions`, `RestoreOptions`, `SavedStacks`, `SavedEntry`, `SavedState`, `PageStateOptions`, `PageStateContext`.
+- Router configuration: `Router`, `RouterOptions`, `SystemBackClaimant`, `RouterDrawerHandle`, `RestoreOptions`, `SavedStacks`, `SavedEntry`, `SavedState`, `PageStateOptions`, `PageStateContext`.
 - Routes: `RouteRecordRaw`, `RouteRecord`, `RouteRecordName`, `RouteMeta`, `RouteProps`, `RouteComponent`, `RawRouteComponent`, `Lazy`.
 - Locations: `RouteLocation`, `RouteLocationRaw`, `RouteLocationPathRaw`, `RouteLocationNamedRaw`, `RouteLocationRelativeRaw`, `RouteParams`, `RouteParamsRaw`, `RouteParamValue`, `RouteParamValueRaw`, `LocationQuery`, `LocationQueryRaw`, `LocationQueryValue`, `LocationQueryValueRaw`.
 - Navigation: `NavigationOptions`, `BackOptions`, `SetStackOptions`, `NavigationType`, `NavigationInfo`, `NavigationGuard`, `NavigationGuardReturn`, `NavigationHookAfter`, `NavigationErrorHandler`, `NavigationFailure`, `LeaveGuardOptions`.

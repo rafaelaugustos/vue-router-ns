@@ -38,6 +38,7 @@ Instale uma vez com `createApp(App).use(router).start()`. Isso registra os compo
 | `resolveLink(url)`               | A `RouteLocation` para onde uma URL aponta sob `links`, ou `undefined`.                                                                                              |
 | `onLink(listener)`               | Ouve todo link que o router recebeu, aceito ou não. Devolve a função que cancela a inscrição.                                                                        |
 | `setShortcuts(shortcuts)`        | Substitui os atalhos da tela inicial (atalhos dinâmicos do Android, quick actions do iOS) por `RouteShortcut`s que abrem pelo `openLink`. Devolve os ids publicados. |
+| `claimSystemBack(claimant)`      | Deixa um contêiner nativo (`{ owns(), back() }`) receber o voltar e o swipe de voltar do Android primeiro, como um drawer aberto. Devolve a função que libera.       |
 
 Os métodos de navegação, exceto `pushForResult`, resolvem para `NavigationFailure | undefined`. Erros inesperados rejeitam a promise; veja [falhas](./navigating#falhas-e-erros). Os métodos de voltar seguem a [semântica do split view](./split-view#historico-e-voltar) quando chamados em uma pilha dividida.
 
@@ -107,12 +108,13 @@ Registre os hooks de página no setup do componente roteado. No split view expan
 
 ## Componentes
 
-| Componente        | Props e slots                                                                                                                                                                                                    |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `RouterView`      | `name` (`'default'`), `initial` (`'/'`), `backToRootOnReselect` (`false`). Monta um Frame.                                                                                                                       |
-| `RouterSplitView` | `list` obrigatório; `name` (`'default'`), `breakpoint` (840), `listWidth` (320), `backToRootOnReselect` (`false`). Slot: `empty`.                                                                                |
-| `RouterLink`      | `to` obrigatório; `replace`, `clearHistory`, `withParents`, `zoom` (todos `false`); `transition`, `frame`. Um filho no slot padrão; o slot recebe `{ navigate }`. Adiciona um handler de tap sem wrapper nativo. |
-| `Deferred`        | Sem props. Slots: conteúdo padrão e `fallback`. Mostra o conteúdo após a primeira ativação da página e o mantém montado. Fora de página roteada, renderiza imediatamente.                                        |
+| Componente        | Props e slots                                                                                                                                                                                                                                                 |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `RouterView`      | `name` (`'default'`), `initial` (`'/'`), `backToRootOnReselect` (`false`). Monta um Frame.                                                                                                                                                                    |
+| `RouterSplitView` | `list` obrigatório; `name` (`'default'`), `breakpoint` (840), `listWidth` (320), `backToRootOnReselect` (`false`). Slot: `empty`.                                                                                                                             |
+| `RouterDrawer`    | `width` (300), `open` (`v-model:open`), `closeOnNavigate` (`true`). Slots: conteúdo padrão e `drawer`. Eventos `opened`, `closed`; ref `open()`, `close()`, `toggle()`, `isOpen`. Só Android; o iOS renderiza o conteúdo. Veja [drawer no Android](./drawer). |
+| `RouterLink`      | `to` obrigatório; `replace`, `clearHistory`, `withParents`, `zoom` (todos `false`); `transition`, `frame`. Um filho no slot padrão; o slot recebe `{ navigate }`. Adiciona um handler de tap sem wrapper nativo.                                              |
+| `Deferred`        | Sem props. Slots: conteúdo padrão e `fallback`. Mostra o conteúdo após a primeira ativação da página e o mantém montado. Fora de página roteada, renderiza imediatamente.                                                                                     |
 
 Nomes de router views devem ser únicos, incluindo split views. `name` e a rota inicial (`initial`/`list`) são lidos na montagem; use uma nova `key` do Vue para criar outra pilha. Dimensões do split view usam pixels independentes de dispositivo; a largura da lista é limitada à metade da largura disponível. Veja [split view](./split-view).
 
@@ -122,7 +124,7 @@ Nomes de router views devem ser únicos, incluindo split views. `name` e a rota 
 
 Os tipos públicos são exportados pela raiz do pacote:
 
-- Configuração: `Router`, `RouterOptions`, `RestoreOptions`, `SavedStacks`, `SavedEntry`, `SavedState`, `PageStateOptions`, `PageStateContext`.
+- Configuração: `Router`, `RouterOptions`, `SystemBackClaimant`, `RouterDrawerHandle`, `RestoreOptions`, `SavedStacks`, `SavedEntry`, `SavedState`, `PageStateOptions`, `PageStateContext`.
 - Rotas: `RouteRecordRaw`, `RouteRecord`, `RouteRecordName`, `RouteMeta`, `RouteProps`, `RouteComponent`, `RawRouteComponent`, `Lazy`.
 - Localizações: `RouteLocation`, `RouteLocationRaw`, `RouteLocationPathRaw`, `RouteLocationNamedRaw`, `RouteLocationRelativeRaw`, `RouteParams`, `RouteParamsRaw`, `RouteParamValue`, `RouteParamValueRaw`, `LocationQuery`, `LocationQueryRaw`, `LocationQueryValue`, `LocationQueryValueRaw`.
 - Navegação: `NavigationOptions`, `BackOptions`, `SetStackOptions`, `NavigationType`, `NavigationInfo`, `NavigationGuard`, `NavigationGuardReturn`, `NavigationHookAfter`, `NavigationErrorHandler`, `NavigationFailure`, `LeaveGuardOptions`.
