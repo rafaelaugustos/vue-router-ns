@@ -29,6 +29,12 @@ import {
 import { Deferred } from './components/Deferred.js'
 import { DrawerLayoutView, RouterDrawer } from './drawer.js'
 import { vRoutePreview } from './context-menu.js'
+import {
+  MaterialNavigationBar,
+  RouterTab,
+  RouterTabs,
+  TabsHostView,
+} from './tabs-host.js'
 import { forgetPageRouter, registerPageRouter } from './page-router.js'
 import { RouterLink } from './components/RouterLink.js'
 import { RouterSplitView } from './components/RouterSplitView.js'
@@ -320,10 +326,15 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   /** Native transitions in flight. Navigations wait for them, so they always start from a settled screen. */
   let settled: Promise<unknown> = Promise.resolve()
 
-  const focusedFrame = (): Stack | undefined =>
-    (lastFrame.value?.closed ? undefined : lastFrame.value) ??
-    frames.get('default') ??
-    frames.values().next().value
+  const focusedFrame = (): Stack | undefined => {
+    const last = lastFrame.value
+    if (last && !last.closed && last.selected?.() !== false) return last
+    return (
+      [...frames.values()].find((stack) => stack.selected?.()) ??
+      frames.get('default') ??
+      frames.values().next().value
+    )
+  }
 
   // a modal still being presented has no page yet: the one below stays current
   const focused = (): Stack | undefined =>
@@ -352,6 +363,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       initial,
       entries: shallowRef<readonly Entry[]>([]),
       host: null,
+      reveal: undefined,
+      selected: undefined,
       attempt: undefined,
       pending: undefined,
       settled: Promise.resolve(),
@@ -525,6 +538,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   /** The stack whose host holds the window's system back right now. */
   function topmostStack(): Stack | undefined {
     for (const stack of [...modals.value, ...frames.values()]) {
+      if (stack.selected?.() === false) continue
+      if (!stack.closed && stack.selected?.()) return stack
       if (!stack.closed && stack.host?.ownsSystemBack?.()) return stack
     }
     return undefined
@@ -1358,6 +1373,10 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       const stack = stackFor(origin, options.frame)
       const flags = typeof raw === 'object' ? raw : {}
       const to = resolveTarget(raw, topOf(stack)?.route ?? START_LOCATION)
+      // An unopened iOS tab must load before its pending initial navigation can
+      // settle. Reveal at the public boundary, including duplicates and modals;
+      // restoring a stack internally must not change the selected tab.
+      stack.reveal?.()
       const request: Request = {
         type: type === 'replace' || flags.replace ? 'replace' : 'push',
         stack,
@@ -1400,6 +1419,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
     function goBack(pick: NonNullable<Request['pick']>, options: BackOptions = {}) {
       const stack = stackFor(origin, options.frame)
+      stack.reveal?.()
       return run({
         type: 'back',
         stack,
@@ -1423,6 +1443,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         const from = targets.at(-1) ?? topOf(stack)?.route ?? START_LOCATION
         targets.push(resolveTarget(location, from))
       }
+      stack.reveal?.()
       return applyStack(stack, targets, options)
     }
 
@@ -1498,10 +1519,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   }
 
   const internals: RouterInternals = {
-    mount(name, host, initial) {
+    mount(name, host, initial, reveal, selected) {
       if (frames.has(name)) throw new Error(`Two router views are named "${name}"`)
 
       const stack = createStack(name, false, initial)
+      stack.reveal = reveal
+      stack.selected = selected
       attach(stack, host)
       frames.set(name, stack)
 
@@ -1612,7 +1635,11 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       app.component('RouterLink', RouterLink)
       app.component('Deferred', Deferred)
       app.component('RouterDrawer', RouterDrawer)
+      app.component('RouterTabs', RouterTabs)
+      app.component('RouterTab', RouterTab)
       app.directive('route-preview', vRoutePreview)
+      registerElement('RouterTabsHost', () => TabsHostView, { viewFlags: 4 })
+      if (isAndroid) registerElement('RouterNavigationBar', () => MaterialNavigationBar)
       if (isAndroid) {
         registerElement('RouterDrawerLayout', () => DrawerLayoutView, {
           viewFlags: 4,

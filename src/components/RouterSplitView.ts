@@ -3,12 +3,14 @@ import {
   computed,
   defineComponent,
   h,
+  inject,
   onBeforeUnmount,
   onMounted,
   shallowRef,
   type PropType,
 } from 'nativescript-vue'
 import { useRouter } from '../composables.js'
+import { tabKey } from '../injection.js'
 import { createSplitFrameHost } from '../hosts/split.js'
 import { INTERNAL, type RouterInternals } from '../internal.js'
 import { onTabReselect, tabOf } from '../tabs.js'
@@ -27,6 +29,7 @@ export const RouterSplitView = defineComponent({
   },
   setup(props, { slots }) {
     const router = useRouter()
+    const tab = inject(tabKey, null)
     const internals = (router as unknown as { [INTERNAL]: RouterInternals })[INTERNAL]
     const layout = shallowRef<{ nativeView: View }>()
     const list = shallowRef<{ nativeView: Frame }>()
@@ -49,6 +52,8 @@ export const RouterSplitView = defineComponent({
           detailVisible,
         }),
         props.list,
+        tab?.reveal,
+        tab?.selected,
       )
       if (props.backToRootOnReselect) {
         const tab = tabOf(list.value!.nativeView)

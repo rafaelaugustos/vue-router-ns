@@ -134,6 +134,7 @@ export function installSystemLinks({ deliver }: SystemLinkHandlers): () => void 
 
 function installAndroid(deliver: SystemLinkHandlers['deliver']): () => void {
   const android = Application.android
+  const created = new WeakSet<object>()
   const intent = (candidate: AndroidIntent | null | undefined, source: LinkSource) => {
     const data = candidate?.getData?.()
     if (!data) return
@@ -141,17 +142,28 @@ function installAndroid(deliver: SystemLinkHandlers['deliver']): () => void {
     if ((candidate!.getFlags() & FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) !== 0) return
     deliver(String(data.toString()), source)
   }
-  const onCreated = (args: {
-    activity: { getIntent(): AndroidIntent }
-    bundle?: unknown
+  const onLaunch = (args: {
+    android?: AndroidIntent
+    intent?: AndroidIntent
+    savedInstanceState?: unknown
   }) => {
-    // a recreated activity (rotation, process death) brings its old intent back
-    if (!args.bundle) intent(args.activity.getIntent(), 'launch')
+    // Core passes null to Activity.onCreate after process death to avoid
+    // restoring native fragments. Its activityCreated event therefore loses
+    // the bundle, but launch retains it: do not replay the old task's URL.
+    if (!args.savedInstanceState) intent(args.intent ?? args.android, 'launch')
   }
-  const onNewIntent = (args: { intent: AndroidIntent }) => intent(args.intent, 'resume')
+  const onCreated = (args: { activity: object }) => created.add(args.activity)
+  const onNewIntent = (args: { activity?: object; intent: AndroidIntent }) => {
+    // Core also emits activityNewIntent from onCreate, before launch. Launch
+    // owns that delivery because only it knows whether this is restoration.
+    if (args.activity && created.delete(args.activity)) return
+    intent(args.intent, 'resume')
+  }
+  Application.on(Application.launchEvent, onLaunch)
   android.on('activityCreated', onCreated)
   android.on('activityNewIntent', onNewIntent)
   return () => {
+    Application.off(Application.launchEvent, onLaunch)
     android.off('activityCreated', onCreated)
     android.off('activityNewIntent', onNewIntent)
   }

@@ -20,7 +20,10 @@ import {
 } from './core.js'
 
 export * from '@vue/runtime-core'
-export function registerElement(_name: string, _resolver: () => unknown) {}
+const elements = new Map<string, () => new () => View>()
+export function registerElement(name: string, resolver: () => unknown) {
+  elements.set(name, resolver as () => new () => View)
+}
 
 export class TestNode {
   parentNode: TestNode | null = null
@@ -49,7 +52,9 @@ function viewFor(tag: string) {
             ? new TabViewItem()
             : tag === 'RouterDrawerLayout'
               ? new DrawerLayoutStub()
-              : new View()
+              : elements.has(tag)
+                ? new (elements.get(tag)!())()
+                : new View()
   views.set(tag, [...(views.get(tag) ?? []), view])
   return view
 }

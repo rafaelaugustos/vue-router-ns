@@ -1,29 +1,62 @@
-import { isAndroid, isIOS, TabView, TabViewItem, type Frame } from '@nativescript/core'
+import {
+  isAndroid,
+  isIOS,
+  TabView,
+  TabViewItem,
+  type Frame,
+  type View,
+} from '@nativescript/core'
 
 type Callback = () => void
+
+/** What the router reads from a tab container: core's `TabView` or `<RouterTabs>`' Android host. */
+export interface TabLike {
+  selectedIndex: number
+  on(event: string, callback: (data: any) => void): void
+  off(event: string, callback?: (data: any) => void): void
+}
+interface RouterTabsHostLike extends TabLike {
+  routerTabsHost: true
+  getChildIndex(view: View): number
+}
 
 interface Watched {
   callbacks: Map<number, Set<Callback>>
   detach: () => void
 }
 
-const watched = new WeakMap<TabView, Watched>()
+const watched = new WeakMap<TabLike, Watched>()
+const vetoes = new WeakMap<TabView, (index: number) => boolean>()
 
 /** The tab a frame sits in, if any. */
-export function tabOf(frame: Frame): { tabView: TabView; index: number } | undefined {
+export function tabOf(frame: Frame): { tabView: TabLike; index: number } | undefined {
   for (let view = frame.parent; view; view = view.parent) {
     if (view instanceof TabViewItem && view.parent instanceof TabView) {
       const tabView = view.parent
       const index = tabView.items?.indexOf(view) ?? -1
       return index < 0 ? undefined : { tabView, index }
     }
+    const host = view.parent as (View & Partial<RouterTabsHostLike>) | null
+    if (host?.routerTabsHost) {
+      const index = host.getChildIndex!(view as View)
+      return index < 0 ? undefined : { tabView: host as RouterTabsHostLike, index }
+    }
   }
   return undefined
 }
 
+/** `<RouterTabs>` answers a tap on another tab with this before the widget moves. */
+export function setSelectVeto(
+  tabView: TabView,
+  veto: ((index: number) => boolean) | undefined,
+) {
+  if (veto) vetoes.set(tabView, veto)
+  else vetoes.delete(tabView)
+}
+
 /** Runs `callback` when the tab at `index` is tapped while already selected. */
 export function onTabReselect(
-  tabView: TabView,
+  tabView: TabLike,
   index: number,
   callback: Callback,
 ): () => void {
@@ -47,12 +80,18 @@ export function onTabReselect(
 }
 
 /** What the platform glue calls. Exported so tests can stand in for a tap. */
-export function reselected(tabView: TabView, index: number) {
+export function reselected(tabView: TabLike, index: number) {
   for (const callback of [...(watched.get(tabView)?.callbacks.get(index) ?? [])])
     callback()
 }
 
-function watchTabBar(tabView: TabView): () => void {
+function watchTabBar(tabView: TabLike): () => void {
+  if ((tabView as Partial<RouterTabsHostLike>).routerTabsHost) {
+    const onReselect = (data: { index: number }) => reselected(tabView, data.index)
+    tabView.on('tabReselected', onReselect)
+    return () => tabView.off('tabReselected', onReselect)
+  }
+  if (!(tabView instanceof TabView)) return () => {}
   if (isIOS && typeof NSObject !== 'undefined') return watchIOS(tabView)
   if (isAndroid && typeof android !== 'undefined') return watchAndroid(tabView)
   return () => {}
@@ -93,9 +132,9 @@ function watchIOS(tabView: TabView): () => void {
         controller: any,
         vc: any,
       ) {
-        if (controller.selectedViewController === vc) {
-          notify(this, controller.viewControllers.indexOfObject(vc))
-        }
+        const index = controller.viewControllers.indexOfObject(vc)
+        if (controller.selectedViewController === vc) notify(this, index)
+        else if (!allowed(this, index)) return false
         return (
           this._inner?.tabBarControllerShouldSelectViewController(controller, vc) ?? true
         )
@@ -104,8 +143,10 @@ function watchIOS(tabView: TabView): () => void {
         this._inner?.tabBarControllerDidSelectViewController(controller, vc)
       },
       tabBarControllerShouldSelectTab(this: Wrapper, controller: any, tab: any) {
-        if (!controller.viewControllers && controller.selectedTab === tab) {
-          notify(this, controller.tabs.indexOfObject(tab))
+        if (!controller.viewControllers) {
+          const index = controller.tabs.indexOfObject(tab)
+          if (controller.selectedTab === tab) notify(this, index)
+          else if (!allowed(this, index)) return false
         }
         return this._inner?.tabBarControllerShouldSelectTab(controller, tab) ?? true
       },
@@ -124,6 +165,11 @@ function watchIOS(tabView: TabView): () => void {
   const notify = (wrapper: Wrapper, index: number) => {
     const owner = wrapper._tabView.deref()
     if (owner && index >= 0) reselected(owner, index)
+  }
+  const allowed = (wrapper: Wrapper, index: number) => {
+    const owner = wrapper._tabView.deref()
+    const veto = owner && vetoes.get(owner)
+    return !veto || index < 0 || veto(index)
   }
 
   let wrapper: Wrapper | undefined
