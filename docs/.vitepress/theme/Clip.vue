@@ -10,22 +10,45 @@ withDefaults(
 const video = ref<HTMLVideoElement>()
 let observer: IntersectionObserver | undefined
 let motion: MediaQueryList | undefined
-const stopForReducedMotion = () => {
-  if (motion?.matches) video.value?.pause()
+let visible = false
+let manuallyPaused = false
+let automaticPause = false
+
+const pause = () => {
+  if (video.value && !video.value.paused) {
+    automaticPause = true
+    video.value.pause()
+  }
+}
+const playWhenVisible = () => {
+  if (visible && !motion?.matches && !manuallyPaused) {
+    void video.value?.play().catch(() => {})
+  }
+}
+const onPause = () => {
+  if (!automaticPause && visible) manuallyPaused = true
+  automaticPause = false
+}
+const onPlay = () => {
+  manuallyPaused = false
+}
+const onMotionChange = () => {
+  if (motion?.matches) pause()
+  else playWhenVisible()
 }
 
 onMounted(() => {
   const element = video.value!
+  element.muted = true
+  element.addEventListener('pause', onPause)
+  element.addEventListener('play', onPlay)
   motion = window.matchMedia('(prefers-reduced-motion: reduce)')
-  motion.addEventListener('change', stopForReducedMotion)
-  let started = false
+  motion.addEventListener('change', onMotionChange)
   observer = new IntersectionObserver(
     ([entry]) => {
-      if (!entry.isIntersecting) element.pause()
-      else if (!started && !motion?.matches) {
-        started = true
-        void element.play().catch(() => {})
-      }
+      visible = entry.isIntersecting && entry.intersectionRatio >= 0.25
+      if (visible) playWhenVisible()
+      else pause()
     },
     { threshold: 0.25 },
   )
@@ -34,7 +57,9 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   observer?.disconnect()
-  motion?.removeEventListener('change', stopForReducedMotion)
+  motion?.removeEventListener('change', onMotionChange)
+  video.value?.removeEventListener('pause', onPause)
+  video.value?.removeEventListener('play', onPlay)
 })
 </script>
 
