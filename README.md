@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/master/.github/assets/logo-dark.png">
-    <img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/master/.github/assets/logo.png" alt="vue-router-ns" width="360">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/main/.github/assets/logo-dark.png">
+    <img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/main/.github/assets/logo.png" alt="vue-router-ns" width="360">
   </picture>
 </p>
 
@@ -12,7 +12,7 @@
 <p align="center">
   <a href="https://www.npmjs.com/package/vue-router-ns"><img src="https://img.shields.io/npm/v/vue-router-ns/next?label=npm%40next" alt="npm"></a>
   <a href="https://github.com/rafaelaugustos/vue-router-ns/actions/workflows/ci.yml"><img src="https://github.com/rafaelaugustos/vue-router-ns/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://github.com/rafaelaugustos/vue-router-ns/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/vue-router-ns" alt="MIT license"></a>
+  <a href="https://github.com/rafaelaugustos/vue-router-ns/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/vue-router-ns" alt="MIT license"></a>
 </p>
 
 <p align="center">
@@ -45,10 +45,10 @@ Recorded in the NativeScript demo. Watch more clips, with the code for each feat
     <th><a href="https://vue-router-ns.rafaelaugusto.dev/guide/drawer">Drawer · Android</a></th>
   </tr>
   <tr>
-    <td><img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/master/.github/assets/demo-ios-tabs.gif" width="200" alt="Switch tabs while preserving the message stack, then reselect Inbox to return to its root"></td>
-    <td><img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/master/.github/assets/demo-ios-context-menu.gif" width="200" alt="Long-press a message to preview it, then open its route"></td>
-    <td><img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/master/.github/assets/demo-android-sheet.gif" width="200" alt="Open a Material bottom sheet and dismiss it with system Back"></td>
-    <td><img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/master/.github/assets/demo-android-drawer.gif" width="200" alt="Open Settings from the Android drawer and close the drawer with system Back"></td>
+    <td><img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/main/.github/assets/demo-ios-tabs.gif" width="200" alt="Switch tabs while preserving the message stack, then reselect Inbox to return to its root"></td>
+    <td><img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/main/.github/assets/demo-ios-context-menu.gif" width="200" alt="Long-press a message to preview it, then open its route"></td>
+    <td><img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/main/.github/assets/demo-android-sheet.gif" width="200" alt="Open a Material bottom sheet and dismiss it with system Back"></td>
+    <td><img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/main/.github/assets/demo-android-drawer.gif" width="200" alt="Open Settings from the Android drawer and close the drawer with system Back"></td>
   </tr>
 </table>
 
@@ -525,7 +525,7 @@ Opt in with `createRouter({ routes, diagnostics: __DEV__ })`. `router.diagnostic
 
 ## Try it online
 
-[Open in StackBlitz](https://stackblitz.com/fork/github/rafaelaugustos/vue-router-ns/tree/master/examples/playground?file=src%2Frouter.ts) with [NativeScript Preview](https://preview.nativescript.org/). The example uses the published npm package and covers push/back history, modal results, leave guards and adaptive list/detail. Edit in the browser; scan the QR code to run natively on a device. See [setup and Preview limitations](https://vue-router-ns.rafaelaugusto.dev/guide/playground).
+[Open in StackBlitz](https://stackblitz.com/fork/github/rafaelaugustos/vue-router-ns/tree/main/examples/playground?file=src%2Frouter.ts) with [NativeScript Preview](https://preview.nativescript.org/). The example uses the published npm package and covers push/back history, modal results, leave guards and adaptive list/detail. Edit in the browser; scan the QR code to run natively on a device. See [setup and Preview limitations](https://vue-router-ns.rafaelaugusto.dev/guide/playground).
 
 ## Demo
 
@@ -556,13 +556,13 @@ The tests run against a stand-in for NativeScript's `Frame` ([`test/shims/core.t
 
 ### Releasing
 
-Releases go out from `master` on their own. Bump the version and move the changes under it in `CHANGELOG.md`:
+Releases go out from `main` on their own. Bump the version and move the changes under it in `CHANGELOG.md`:
 
 ```sh
 npm version 0.2.0 --no-git-tag-version
 ```
 
-Once that lands on `master`, the [release workflow](./.github/workflows/release.yml) sees a version that isn't on npm yet. It runs the tests, publishes the package and creates the `v0.2.0` GitHub release from the changelog entry. Versions with a suffix, like `0.2.0-beta.1`, go out under `next` as pre-releases, and under `latest` too until a stable version is out. Pushes that don't change the version do nothing.
+Once that lands on `main`, the [release workflow](./.github/workflows/release.yml) sees a version that isn't on npm yet. It runs the tests, publishes the package and creates the `v0.2.0` GitHub release from the changelog entry. Versions with a suffix, like `0.2.0-beta.1`, go out under `next` as pre-releases, and under `latest` too until a stable version is out. Pushes that don't change the version do nothing.
 
 npm authenticates the workflow through [trusted publishing](https://docs.npmjs.com/trusted-publishers), so the repository holds no npm token. An `NPM_TOKEN` secret works too, if you'd rather use one.
 

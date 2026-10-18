@@ -182,7 +182,7 @@ export default defineConfig({
         sidebar: { '/guide/': sidebar('', en) },
         outline: { level: [2, 3], label: 'On this page' },
         editLink: {
-          pattern: `${repo}/edit/master/docs/:path`,
+          pattern: `${repo}/edit/main/docs/:path`,
           text: 'Edit this page on GitHub',
         },
         footer: {
@@ -206,7 +206,7 @@ export default defineConfig({
         sidebar: { '/pt-BR/guide/': sidebar('/pt-BR', pt) },
         outline: { level: [2, 3], label: 'Nesta página' },
         editLink: {
-          pattern: `${repo}/edit/master/docs/:path`,
+          pattern: `${repo}/edit/main/docs/:path`,
           text: 'Editar esta página no GitHub',
         },
         docFooter: { prev: 'Anterior', next: 'Próxima' },

@@ -1,6 +1,6 @@
 # See the router on a device
 
-These clips come from the NativeScript-Vue mail app in [`demo/`](https://github.com/rafaelaugustos/vue-router-ns/tree/master/demo), running on iOS 26 and iPadOS 26 simulators and an Android 16 emulator. Each feature's guide includes its recording beside the code. The app uses local sample messages; it does not connect to an email service.
+These clips come from the NativeScript-Vue mail app in [`demo/`](https://github.com/rafaelaugustos/vue-router-ns/tree/main/demo), running on iOS 26 and iPadOS 26 simulators and an Android 16 emulator. Each feature's guide includes its recording beside the code. The app uses local sample messages; it does not connect to an email service.
 
 Clips are silent, loop while visible, and have playback controls. With Reduce Motion enabled, they wait for you to press play.
 
@@ -70,4 +70,4 @@ ns run ios
 # or: ns run android
 ```
 
-The demo resolves `vue-router-ns` from the local `dist` directory. Use `npm run dev` in a separate terminal while changing the router. See the [demo README](https://github.com/rafaelaugustos/vue-router-ns/blob/master/demo/README.md) for the APIs used by each page.
+The demo resolves `vue-router-ns` from the local `dist` directory. Use `npm run dev` in a separate terminal while changing the router. See the [demo README](https://github.com/rafaelaugustos/vue-router-ns/blob/main/demo/README.md) for the APIs used by each page.

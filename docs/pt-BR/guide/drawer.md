@@ -40,7 +40,7 @@ O drawer não apaga o histórico de um destino ao selecioná-lo novamente. O bot
 
 O painel é um `GridLayout` com a classe `router-drawer` e fundo branco; dê à raiz do seu slot o próprio fundo e espaçamento. `width` é em pixels independentes de densidade. O `DrawerLayout` vem com o AppCompat, então nada é adicionado ao build; o `NavigationView` opcional do Material não é usado, as suas próprias views são o menu.
 
-O pequeno host nativo fica neste pacote e usa as dependências AndroidX já fornecidas pelo runtime do NativeScript. Não exige um plugin de drawer separado nem alterações no core. O [relatório de validação nativa](https://github.com/rafaelaugustos/vue-router-ns/blob/master/test/native-drawer.md) lista as versões de Android e das dependências testadas.
+O pequeno host nativo fica neste pacote e usa as dependências AndroidX já fornecidas pelo runtime do NativeScript. Não exige um plugin de drawer separado nem alterações no core. O [relatório de validação nativa](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer.md) lista as versões de Android e das dependências testadas.
 
 No iOS, o `<RouterDrawer>` renderiza só o conteúdo e o slot `drawer` é ignorado. Para navegar entre abas pela sidebar nativa no iPad, use [`<RouterTabs sidebar>`](./tabs).
 

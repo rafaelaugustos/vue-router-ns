@@ -82,7 +82,7 @@ host.native?.ios // o UINavigationController, no iOS
 
 ## Escrevendo um host
 
-O menor host completo é o exemplo em memória contra o qual a suíte de contrato roda: [`test/hosts/memory.ts`](https://github.com/rafaelaugustos/vue-router-ns/blob/master/test/hosts/memory.ts). Ele não tem contêiner nativo nenhum; monta páginas com `createNativeView`, guarda numa lista e reporta num tick posterior, como uma transição faria. Um host baseado em Frame pode reaproveitar `createFrameHost()` e envolvê-lo, que é como os hosts embutidos de modal e split são montados.
+O menor host completo é o exemplo em memória contra o qual a suíte de contrato roda: [`test/hosts/memory.ts`](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/hosts/memory.ts). Ele não tem contêiner nativo nenhum; monta páginas com `createNativeView`, guarda numa lista e reporta num tick posterior, como uma transição faria. Um host baseado em Frame pode reaproveitar `createFrameHost()` e envolvê-lo, que é como os hosts embutidos de modal e split são montados.
 
 Do que o router depende:
 
@@ -92,7 +92,7 @@ Do que o router depende:
 - Descarte por completo. Depois de `dispose()`, `native` é `null`, os listeners se foram e eventos de plataforma posteriores são ignorados.
 - Empacote dependências nativas com o adaptador. Um host que precisa do Android Material ou de um wrapper Swift vira um plugin próprio; o router fica livre disso.
 
-Rode a suíte de contrato contra o host antes de declarar suporte. Ela fica em [`test/host-contract.ts`](https://github.com/rafaelaugustos/vue-router-ns/blob/master/test/host-contract.ts) e confere ordem, pops externos, navegações canceladas e concorrentes, descarte, operações sem suporte e resultados resolvidos exatamente uma vez. Ela roda contra o host de Frame, o de split e o de memória. Ela não substitui verificações em aparelho: gestos do sistema, morte do processo e acessibilidade precisam da plataforma real, registradas nos [relatórios de validação](https://github.com/rafaelaugustos/vue-router-ns/blob/master/test/native-validation.md).
+Rode a suíte de contrato contra o host antes de declarar suporte. Ela fica em [`test/host-contract.ts`](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/host-contract.ts) e confere ordem, pops externos, navegações canceladas e concorrentes, descarte, operações sem suporte e resultados resolvidos exatamente uma vez. Ela roda contra o host de Frame, o de split e o de memória. Ela não substitui verificações em aparelho: gestos do sistema, morte do processo e acessibilidade precisam da plataforma real, registradas nos [relatórios de validação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-validation.md).
 
 ## Política de versionamento
 

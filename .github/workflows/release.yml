@@ -1,13 +1,13 @@
 name: Release
 
-# On every push to master, checks whether the version in package.json is out.
+# On every push to main, checks whether the version in package.json is out.
 # When it isn't, runs the tests, publishes it to npm and creates the GitHub
 # release from its CHANGELOG entry. Versions like 1.0.0-beta.1 go out under
 # the `next` tag, as pre-releases, and under `latest` too until a stable
 # version is out.
 on:
   push:
-    branches: [master]
+    branches: [main]
   workflow_dispatch:
 
 concurrency: release

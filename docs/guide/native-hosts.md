@@ -82,7 +82,7 @@ host.native?.ios // the UINavigationController, on iOS
 
 ## Writing a host
 
-The smallest complete host is the in-memory example the contract suite runs against: [`test/hosts/memory.ts`](https://github.com/rafaelaugustos/vue-router-ns/blob/master/test/hosts/memory.ts). It has no native container at all; it mounts pages with `createNativeView`, keeps them in an array and reports on a later tick, the way a transition would. A Frame-based host can reuse `createFrameHost()` and wrap it, which is how the built-in modal and split hosts are put together.
+The smallest complete host is the in-memory example the contract suite runs against: [`test/hosts/memory.ts`](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/hosts/memory.ts). It has no native container at all; it mounts pages with `createNativeView`, keeps them in an array and reports on a later tick, the way a transition would. A Frame-based host can reuse `createFrameHost()` and wrap it, which is how the built-in modal and split hosts are put together.
 
 What the router relies on:
 
@@ -92,7 +92,7 @@ What the router relies on:
 - Dispose completely. After `dispose()`, `native` is `null`, listeners are gone and later platform events are ignored.
 - Ship native dependencies with the adapter. A host that needs Android Material or a Swift wrapper packages it as its own plugin; the router stays free of it.
 
-Run the contract suite against the host before claiming support. It lives in [`test/host-contract.ts`](https://github.com/rafaelaugustos/vue-router-ns/blob/master/test/host-contract.ts) and checks order, external pops, cancelled and concurrent navigations, disposal, unsupported operations and results settled exactly once. It runs against the Frame host, the split host and the memory host. It cannot replace device checks: system gestures, process death and accessibility need the real platform, recorded in the [validation reports](https://github.com/rafaelaugustos/vue-router-ns/blob/master/test/native-validation.md).
+Run the contract suite against the host before claiming support. It lives in [`test/host-contract.ts`](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/host-contract.ts) and checks order, external pops, cancelled and concurrent navigations, disposal, unsupported operations and results settled exactly once. It runs against the Frame host, the split host and the memory host. It cannot replace device checks: system gestures, process death and accessibility need the real platform, recorded in the [validation reports](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-validation.md).
 
 ## Versioning policy
 

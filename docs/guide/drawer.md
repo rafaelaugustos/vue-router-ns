@@ -40,7 +40,7 @@ The drawer does not reset a destination's history when selected again. Its butto
 
 The pane is a `GridLayout` with the class `router-drawer` and a white background; give your slot's root its own background and padding. `width` is in device-independent pixels. `DrawerLayout` comes with AppCompat, so nothing is added to the build; the optional Material `NavigationView` is not used, your own views are the menu.
 
-The small native host lives in this package and uses the AndroidX dependencies already shipped with the NativeScript runtime. It does not require a separate drawer plugin or a core patch. See the [native validation report](https://github.com/rafaelaugustos/vue-router-ns/blob/master/test/native-drawer.md) for the tested Android and dependency versions.
+The small native host lives in this package and uses the AndroidX dependencies already shipped with the NativeScript runtime. It does not require a separate drawer plugin or a core patch. See the [native validation report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer.md) for the tested Android and dependency versions.
 
 On iOS, `<RouterDrawer>` renders the content alone and the `drawer` slot is ignored. To navigate between tabs through the native iPad sidebar, use [`<RouterTabs sidebar>`](./tabs).
 

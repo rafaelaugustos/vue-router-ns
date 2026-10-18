@@ -1,6 +1,6 @@
 # Experimente com StackBlitz
 
-[Abrir o playground do router no StackBlitz](https://stackblitz.com/fork/github/rafaelaugustos/vue-router-ns/tree/master/examples/playground?file=src%2Frouter.ts)
+[Abrir o playground do router no StackBlitz](https://stackblitz.com/fork/github/rafaelaugustos/vue-router-ns/tree/main/examples/playground?file=src%2Frouter.ts)
 
 Edite um app NativeScript-Vue no navegador e execute sua interface nativa em um celular ou tablet pelo [NativeScript Preview](https://preview.nativescript.org/). O navegador hospeda o editor e a compilação; ele não emula views do UIKit ou Android.
 
@@ -11,7 +11,7 @@ Edite um app NativeScript-Vue no navegador e execute sua interface nativa em um 
 3. Espere o QR code do Preview e escaneie com o aparelho. Mantenha a sessão aberta enquanto edita.
 4. Abra `src/router.ts` para mudar rotas, ou uma página em `src/pages/` para mudar a interface.
 
-O [código do exemplo](https://github.com/rafaelaugustos/vue-router-ns/tree/master/examples/playground) é independente e fixa `vue-router-ns@0.1.0-beta.6`. Não exige compilar este repositório nem resolver um alias para `../dist`.
+O [código do exemplo](https://github.com/rafaelaugustos/vue-router-ns/tree/main/examples/playground) é independente e fixa `vue-router-ns@0.1.0-beta.6`. Não exige compilar este repositório nem resolver um alias para `../dist`.
 
 ## O que experimentar
 

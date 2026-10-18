@@ -5,14 +5,14 @@
 ## 0.1.0-beta.11 (2026-10-18)
 
 - Android Material tabs preserve their native menu items when Vue updates the page, title, icon or badge. Previously, rebuilding the menu could move TalkBack focus from the destination heading to the selected tab after navigation. Changing the tab names or order still rebuilds the menu and removes obsolete badges.
-- Accessibility validation now includes physical iPhone VoiceOver focus and ASUS TalkBack push, rejected guard and modal-result focus restoration. See the [validation report](https://github.com/rafaelaugustos/vue-router-ns/blob/master/test/native-accessibility.md) for the observed behavior and coverage limits.
+- Accessibility validation now includes physical iPhone VoiceOver focus and ASUS TalkBack push, rejected guard and modal-result focus restoration. See the [validation report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-accessibility.md) for the observed behavior and coverage limits.
 
 ## 0.1.0-beta.10 (2026-10-18)
 
 - Android drawer navigation now keeps the pane open when a guard refuses the destination. Selecting an already-current route still closes it.
 - Back now reaches a modal or Material bottom sheet before an open drawer underneath it. NativeScript emits the dialog's Back event globally before notifying its Frame; the router now leaves that event to the modal host, preserving guards and results.
 - The demo uses native buttons for drawer destinations, with route-driven selection and keyboard activation. The English and Portuguese guides explain reselect behavior, RTL, accessibility and system edge gestures.
-- A dedicated native drawer fixture and CI suite exercise three stacks, guards, modals, rotation, RTL, keyboard input, deep links and process restoration. See the [device validation report](https://github.com/rafaelaugustos/vue-router-ns/blob/master/test/native-drawer.md).
+- A dedicated native drawer fixture and CI suite exercise three stacks, guards, modals, rotation, RTL, keyboard input, deep links and process restoration. See the [device validation report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer.md).
 
 ## 0.1.0-beta.9 (2026-10-18)
 
