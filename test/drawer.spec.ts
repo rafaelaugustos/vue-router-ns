@@ -7,7 +7,12 @@ import {
   type RouterDrawerHandle,
 } from '../src/index.js'
 import { mount, page, paths, settle } from './helpers.js'
-import { DrawerLayoutStub, pressAndroidBack, swipeAndroidBack } from './shims/core.js'
+import {
+  DrawerLayoutStub,
+  installMaterial,
+  pressAndroidBack,
+  swipeAndroidBack,
+} from './shims/core.js'
 import { views } from './shims/nativescript-vue.js'
 
 const routes = [
@@ -127,7 +132,12 @@ describe('RouterDrawer', () => {
 
     const swipe = swipeAndroidBack()
     swipe.move(0.5)
-    swipe.release()
+    swipe.cancel()
+    await settle()
+    expect(layout().isDrawerOpen).toBe(true)
+    expect(paths(router.stack.value)).toEqual(['/', '/list'])
+
+    swipeAndroidBack().release()
     await settle()
 
     expect(layout().isDrawerOpen).toBe(false)
@@ -147,6 +157,70 @@ describe('RouterDrawer', () => {
     await second.router.push('/list')
     expect(kept.layout().isDrawerOpen).toBe(true)
   })
+
+  it('keeps the drawer open when a guard refuses its destination', async () => {
+    const { mounted, handle, layout } = drawerApp()
+    const { router } = await mounted
+    router.beforeEach(() => false)
+    handle.value!.open()
+
+    await router.push('/list')
+
+    expect(layout().isDrawerOpen).toBe(true)
+    expect(paths(router.stack.value)).toEqual(['/'])
+  })
+
+  it('still closes when the selected destination is already current', async () => {
+    const { mounted, handle, layout } = drawerApp()
+    const { router } = await mounted
+    handle.value!.open()
+
+    await router.push('/')
+
+    expect(layout().isDrawerOpen).toBe(false)
+    expect(paths(router.stack.value)).toEqual(['/'])
+  })
+
+  it.each(['dialog', 'sheet'] as const)(
+    'gives a %s, its guards and result precedence over the drawer behind it',
+    async (presentation) => {
+      const uninstall = installMaterial()
+      try {
+        const { mounted, handle, layout } = drawerApp({ closeOnNavigate: false })
+        const { router } = await mounted
+        handle.value!.open()
+        const options = {
+          modal: presentation === 'sheet' ? { android: { sheet: {} } } : true,
+        }
+        const result = router.pushForResult('/list', options)
+        await settle()
+        const release = router.beforeEach(() => false)
+
+        pressAndroidBack()
+        await settle()
+        expect(router.currentRoute.value.path).toBe('/list')
+        expect(layout().isDrawerOpen).toBe(true)
+
+        release()
+        await router.back({ result: 'accepted' })
+        expect(await result).toBe('accepted')
+        expect(layout().isDrawerOpen).toBe(true)
+
+        const dismissed = router.pushForResult('/list', options)
+        await settle()
+        pressAndroidBack()
+        await settle()
+        expect(await dismissed).toBeUndefined()
+        expect(layout().isDrawerOpen).toBe(true)
+        pressAndroidBack()
+        await settle()
+        expect(layout().isDrawerOpen).toBe(false)
+        expect(paths(router.stack.value)).toEqual(['/'])
+      } finally {
+        uninstall()
+      }
+    },
+  )
 
   it('lets any claimant take the system back first', async () => {
     const { router } = await mount(routes, { platform: 'android' })

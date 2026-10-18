@@ -239,6 +239,20 @@ TabView {
 }
 
 .drawer-item {
+  height: 52;
+  margin: 0;
   padding: 14 20;
   font-size: 16;
+  text-align: left;
+  text-transform: none;
+  background-color: transparent;
+  border-width: 0;
+  border-radius: 0;
+  android-elevation: 0;
+}
+
+.drawer-item.selected {
+  background-color: #eef2ff;
+  color: #4f46e5;
+  font-weight: 600;
 }

@@ -12,6 +12,12 @@ on:
     paths:
       - scripts/native/**
       - .github/workflows/native.yml
+      - src/drawer.ts
+      - src/router.ts
+      - test/drawer.spec.ts
+      - test/shims/core.ts
+      - demo/src/testing/**
+      - demo/webpack.config.js
 
 jobs:
   android:
@@ -53,6 +59,10 @@ jobs:
           python3 - <<'PY'
           import pathlib
           p = pathlib.Path('demo/App_Resources/Android/src/main/AndroidManifest.xml'); s = p.read_text()
+          if 'android:supportsRtl=' not in s:
+              s = s.replace('<application', '<application android:supportsRtl="true"', 1)
+          if 'android:enableOnBackInvokedCallback=' not in s:
+              s = s.replace('<application', '<application android:enableOnBackInvokedCallback="true"', 1)
           if 'android:scheme="vuerouterns"' not in s:
               i = s.index('</intent-filter>') + len('</intent-filter>')
               s = s[:i] + '''
@@ -62,10 +72,14 @@ jobs:
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="vuerouterns" />
               </intent-filter>''' + s[i:]
-              p.write_text(s)
+          p.write_text(s)
           PY
       - name: Build the demo
-        run: ns build android
+        run: |
+          ns build android
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-demo.apk
+          ns build android --env.drawerTest
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-drawer.apk
         working-directory: demo
       - name: Smoke test on an emulator
         uses: reactivecircus/android-emulator-runner@v2
@@ -76,7 +90,10 @@ jobs:
           profile: pixel_7
           disable-animations: false
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          script: bash scripts/native/smoke-android.sh
+          script: |
+            APK=/tmp/router-demo.apk bash scripts/native/smoke-android.sh
+            adb install -r /tmp/router-drawer.apk
+            ANDROID_SERIAL=emulator-5554 node scripts/native/drawer-android.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

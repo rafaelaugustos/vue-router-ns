@@ -582,6 +582,9 @@ export class Dialog {
   private press() {
     const args = { eventName: 'activityBackPressed', object: this.view, cancel: false }
     lastBackPress = args
+    // NativeScript's dialog notifies the app before the modal Frame.
+    Application.android.notify(args)
+    if (args.cancel) return
     this.view.notify(args)
     if (args.cancel) return
 

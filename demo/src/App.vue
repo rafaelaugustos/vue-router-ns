@@ -15,11 +15,16 @@ onMounted(() => {
 
 // destinations go through the links policy, which also selects the tab
 const destinations = [
-  { icon: '📥', title: 'Inbox', to: '/' },
-  { icon: '⚙️', title: 'Settings', to: '/settings' },
-  { icon: '👤', title: 'Account', to: '/settings/account' },
-  { icon: '✍️', title: 'New message', to: '/compose' },
+  { title: 'Inbox', to: '/' },
+  { title: 'Settings', to: '/settings' },
+  { title: 'Account', to: '/settings/account' },
+  { title: 'New message', to: '/compose' },
 ]
+const isSelected = (to: string) => {
+  const path = router.currentRoute.value.path
+  if (to === '/') return path === '/' || path.startsWith('/messages/')
+  return path === to
+}
 </script>
 
 <template>
@@ -34,17 +39,16 @@ const destinations = [
             textWrap="true"
           />
         </StackLayout>
-        <GridLayout
+        <Button
           v-for="destination of destinations"
           :key="destination.to"
           class="drawer-item"
-          rows="auto"
-          columns="32, *"
+          :class="{ selected: isSelected(destination.to) }"
+          :text="destination.title"
+          :accessibilityLabel="destination.title"
+          :accessibilityState="isSelected(destination.to) ? 'selected' : undefined"
           @tap="router.openLink(destination.to)"
-        >
-          <Label :text="destination.icon" />
-          <Label col="1" :text="destination.title" />
-        </GridLayout>
+        />
       </StackLayout>
     </template>
 

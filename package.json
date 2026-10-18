@@ -1,6 +1,6 @@
 {
   "name": "vue-router-ns",
-  "version": "0.1.0-beta.9",
+  "version": "0.1.0-beta.10",
   "description": "Vue Router's API for NativeScript-Vue, built on top of the native navigation stack.",
   "keywords": [
     "nativescript",
@@ -41,6 +41,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:native:android": "bash scripts/native/smoke-android.sh",
+    "test:native:drawer": "node scripts/native/drawer-android.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "docs:dev": "vitepress dev docs",
