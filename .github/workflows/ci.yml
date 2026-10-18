@@ -16,6 +16,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run format:check
+      - run: bash scripts/native/test-ui.sh
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
