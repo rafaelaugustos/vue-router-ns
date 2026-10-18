@@ -10,6 +10,8 @@ router.backTo({ name: 'inbox' }) // a página mais próxima abaixo que correspon
 router.backToRoot() // a primeira página da pilha
 ```
 
+<Clip name="ios-navigation" caption="Abrindo duas mensagens e voltando à caixa de entrada em uma navegação. Simulador iOS 26." />
+
 Tudo retorna uma promise que resolve quando a página está na tela, com um `NavigationFailure` quando um guard a impediu, como no Vue Router.
 
 ## Opções

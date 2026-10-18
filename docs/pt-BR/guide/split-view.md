@@ -10,6 +10,8 @@ O `RouterSplitView` mostra a lista e o detalhe lado a lado quando há espaço. N
 </RouterSplitView>
 ```
 
+<Clip name="ipad-split" :width="480" aspect="3 / 4" caption="A caixa de entrada continua visível enquanto mensagens entram na pilha de detalhes. Simulador iPadOS 26." />
+
 A rota `list` é a primeira página, fixa. Toda rota não modal empilhada nessa stack vira um detalhe, independentemente do caminho ou da posição na árvore de rotas. Rotas com `modal` continuam abrindo separadamente. Uma split view nomeada pode conviver com `RouterView`s comuns, inclusive em abas diferentes.
 
 ```ts

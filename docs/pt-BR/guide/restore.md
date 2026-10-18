@@ -14,6 +14,8 @@ const router = createRouter({
 })
 ```
 
+<Clip name="android-restore" aspect="9 / 20" caption="O nome digitado volta depois que o demo vai para segundo plano, tem o processo encerrado e abre novamente. Emulador Android 16." />
+
 O `save` roda depois de cada navegação e quando o app vai para o segundo plano, com os paths de cada `<RouterView>` nomeado, e com `null` quando o app sai por conta própria, para um início depois que o usuário saiu continuar limpo. Quando um `<RouterView>` monta, o router chama o `load` uma vez (pode ser assíncrono) e reconstrói a pilha salva sem animar, passando pelos guards, então uma página que precisa de sessão ainda manda você para o login.
 
 Saves mais velhos que `maxAge` (30 minutos por padrão) são ignorados; passe `Infinity` para restaurar sempre.

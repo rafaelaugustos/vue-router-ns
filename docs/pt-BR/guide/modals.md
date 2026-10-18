@@ -6,6 +6,11 @@ Marque uma rota com `modal: true`, ou passe `ModalOptions` (`fullscreen`, `anima
 { path: '/compose', component: Compose, modal: { fullscreen: true } }
 ```
 
+<div class="clips">
+<Clip name="ios-sheet" caption="Compose abre em uma sheet nativa com alturas média e grande. Simulador iOS 26." />
+<Clip name="android-sheet" aspect="9 / 20" caption="Compose abre em uma bottom sheet do Material; o Voltar do sistema a fecha. Emulador Android 16." />
+</div>
+
 `router.push('/compose')` apresenta a rota dentro do próprio frame, então ela tem uma ActionBar e a própria pilha. As páginas de dentro empurram dentro do modal. `router.back()` na primeira página do modal o fecha. Puxar para baixo, tocar fora ou apertar o botão de voltar do Android também fecham, passando pelos leave guards das páginas dele. O router acompanha e roda o `afterEach`.
 
 O `push` também aceita `modal` como opção, para apresentar qualquer rota como modal independente do que o record diz.

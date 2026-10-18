@@ -36,3 +36,17 @@ features:
   - title: Nada roda entre os toques
     details: O router espelha o frame depois de cada navegação nativa. Swipes e pops que ele não iniciou são captados do mesmo jeito que os dele.
 ---
+
+<div class="home-demos">
+
+## Navegação nativa em movimento
+
+Gravações do demo NativeScript-Vue no iPhone e no Android. [Veja as funcionalidades e o código →](./guide/demo)
+
+<div class="clips">
+<Clip name="ios-tabs" caption="Cada aba mantém sua pilha. Selecione de novo para voltar à raiz." />
+<Clip name="ios-context-menu" caption="Veja a prévia da mensagem e abra sua rota." />
+<Clip name="android-sheet" aspect="9 / 20" caption="Uma página roteada dentro de uma bottom sheet do Material." />
+</div>
+
+</div>

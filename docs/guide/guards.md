@@ -11,6 +11,8 @@ router.beforeEach((to, from, { type }) => {
 })
 ```
 
+<Clip name="ios-guards" caption="Account redirects to sign-in. A typed name activates the leave guard, which can keep the page open. iOS 26 simulator." />
+
 `beforeResolve`, `afterEach` and `onError` are there too, with Vue Router's signatures.
 
 ## Leave guards

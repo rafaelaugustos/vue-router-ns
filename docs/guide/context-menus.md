@@ -36,6 +36,8 @@ function menuFor(item: Message): RoutePreviewOptions {
 </template>
 ```
 
+<Clip name="ios-context-menu" caption="A long press previews a message; tapping the preview opens its route. iOS 26 simulator." />
+
 `v-route-preview` works on any view, list rows included; the options are read again at every press, so a recycled row previews the item it shows now. `<RouterLink>` takes the same options without `to` through its `menu` prop:
 
 ```vue

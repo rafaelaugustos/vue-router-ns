@@ -6,6 +6,11 @@ Mark a route with `modal: true`, or pass `ModalOptions` (`fullscreen`, `animated
 { path: '/compose', component: Compose, modal: { fullscreen: true } }
 ```
 
+<div class="clips">
+<Clip name="ios-sheet" caption="Compose opens in a native sheet with medium and large detents. iOS 26 simulator." />
+<Clip name="android-sheet" aspect="9 / 20" caption="Compose opens in a Material bottom sheet; system Back dismisses it. Android 16 emulator." />
+</div>
+
 `router.push('/compose')` presents it inside its own frame, so it has an ActionBar and its own stack. Pages inside push within the modal. `router.back()` from the first page of the modal closes it. Swiping it down, tapping outside or pressing the Android back button closes it too, through the leave guards of its pages. The router follows along and runs `afterEach`.
 
 `push` also takes `modal` as an option, to present any route modally regardless of what its record says.

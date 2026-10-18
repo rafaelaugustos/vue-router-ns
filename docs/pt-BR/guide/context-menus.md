@@ -28,6 +28,8 @@ function menuFor(item: Message): RoutePreviewOptions {
 </template>
 ```
 
+<Clip name="ios-context-menu" caption="Uma pressão longa mostra a prévia; tocar nela abre a rota da mensagem. Simulador iOS 26." />
+
 `v-route-preview` funciona em qualquer view, inclusive linhas de lista: as opções são lidas de novo a cada pressão, então uma linha reciclada mostra o item atual. `<RouterLink>` aceita as mesmas opções, sem o `to`, no prop `menu`.
 
 | Opção              | Significado                                                                                                                         |
