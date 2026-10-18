@@ -13,7 +13,9 @@ dump() {
 }
 nodes() { dump | grep -o '<node[^>]*>'; }
 has_text() { nodes | grep -c "text=\"$1\"" ; }
-has() { nodes | grep -q "$1"; }
+# Read the whole hierarchy: grep -q exits at the first match, which can give
+# the producer SIGPIPE and turn a successful match into failure under pipefail.
+has() { nodes | grep "$1" >/dev/null; }
 # Center of the last node whose text matches, "x y".
 center() {
   nodes | grep -i "text=\"$1\"" | tail -1 | grep -o 'bounds="[^"]*"' \
