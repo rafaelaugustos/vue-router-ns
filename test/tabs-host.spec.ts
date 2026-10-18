@@ -295,6 +295,73 @@ describe('native tab host', () => {
     app.unmount()
   })
 
+  it('preserves Material menu items through page, badge and label updates', async () => {
+    const uninstall = installMaterial()
+    try {
+      const badge = ref<number | string | null>(2)
+      const title = ref('Inbox')
+      const icon = ref<string | undefined>('tab_inbox')
+      const showSettings = ref(true)
+      const { app, router } = await mount(routes, {
+        platform: 'android',
+        render: () =>
+          h(RouterTabs, {}, () => [
+            h(
+              RouterTab,
+              {
+                name: 'a',
+                title: title.value,
+                androidIcon: icon.value,
+                badge: badge.value,
+              },
+              () => h(RouterView, { name: 'a' }),
+            ),
+            ...(showSettings.value
+              ? [
+                  h(RouterTab, { name: 'b', title: 'Settings', badge: 3 }, () =>
+                    h(RouterView, { name: 'b', initial: '/b' }),
+                  ),
+                ]
+              : []),
+          ]),
+      })
+      const bar = views.get('RouterNavigationBar')!.at(-1) as any
+      bar._context = { getTheme: () => ({ resolveAttribute: () => false }) }
+      bar.native = bar.createNativeView()
+      bar.initNativeView()
+      const native = NavigationBarStub.created.at(-1)!
+      const [inbox, settings] = native.items
+      native.tap(1)
+      await settle()
+      expect(native.items[0]).toBe(inbox)
+      expect(native.items[1]).toBe(settings)
+      badge.value = 1
+      await settle()
+      expect(native.items[0]).toBe(inbox)
+      expect(native.items[1]).toBe(settings)
+      expect(native.badges.get(0)?.number).toBe(1)
+      expect(native.selected).toBe(1)
+      title.value = 'Mail'
+      icon.value = undefined
+      badge.value = 'new'
+      await settle()
+      expect(native.items[0]).toBe(inbox)
+      expect(inbox).toMatchObject({ title: 'Mail', icon: 0 })
+      expect(native.badges.get(0)).toEqual({ text: 'new', visible: true })
+      await router.push('/b/detail', { frame: 'b' })
+      expect(native.items[1]).toBe(settings)
+      badge.value = null
+      showSettings.value = false
+      await settle()
+      expect(native.items.map((item) => item.title)).toEqual(['Mail'])
+      expect(native.badges.size).toBe(0)
+      expect(native.selected).toBe(0)
+      app.unmount()
+    } finally {
+      uninstall()
+    }
+  })
+
   it('keeps three fragment-rendered destinations and their histories across rail changes', async () => {
     const uninstall = installMaterial()
     try {

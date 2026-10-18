@@ -395,6 +395,7 @@ export class MaterialNavigationBar extends View {
   rail = false
   veto: ((index: number) => boolean) | undefined
   private tabItems: RouterTabDescriptor[] = []
+  private appliedItems: RouterTabDescriptor[] = []
   private index = 0
   private updating = false
   private layoutListener: any
@@ -479,6 +480,7 @@ export class MaterialNavigationBar extends View {
   }
 
   override disposeNativeView() {
+    this.appliedItems = []
     this.nativeViewProtected?.removeOnLayoutChangeListener(this.layoutListener)
     this.layoutListener = undefined
     this.nativeViewProtected?.setOnItemSelectedListener(null)
@@ -506,19 +508,33 @@ export class MaterialNavigationBar extends View {
     const native = this.nativeViewProtected
     if (typeof native?.getMenu !== 'function') return
     const menu = native.getMenu()
+    const previous = this.appliedItems
+    const structureChanged =
+      menu.size() !== this.tabItems.length ||
+      this.tabItems.some((tab, index) => tab.name !== previous[index]?.name)
     this.updating = true
     try {
-      menu.clear()
+      if (structureChanged) {
+        previous.forEach((_, index) => native.removeBadge(index))
+        menu.clear()
+      }
       this.tabItems.forEach((tab, index) => {
-        const item = menu.add(0, index, index, tab.title)
-        const icon = drawableId(tab.androidIcon)
-        if (icon) item.setIcon(icon)
+        // Recreating Material's menu also recreates its accessibility nodes,
+        // which can steal TalkBack focus from the page after a Vue update.
+        const item = structureChanged
+          ? menu.add(0, index, index, tab.title)
+          : menu.getItem(index)
+        if (!structureChanged && tab.title !== previous[index]?.title)
+          item.setTitle(tab.title)
+        if (structureChanged || tab.androidIcon !== previous[index]?.androidIcon)
+          item.setIcon(drawableId(tab.androidIcon))
       })
     } finally {
       this.updating = false
     }
     this.applySelection()
     this.tabItems.forEach((tab, index) => {
+      if (!structureChanged && tab.badge === previous[index]?.badge) return
       const value = tab.badge
       if (value == null || value === 0 || value === '') {
         native.removeBadge(index)
@@ -535,6 +551,7 @@ export class MaterialNavigationBar extends View {
       }
       badge.setVisible(true)
     })
+    this.appliedItems = this.tabItems.map((tab) => ({ ...tab }))
   }
 
   private applySelection() {

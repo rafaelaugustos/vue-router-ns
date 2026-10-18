@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 0.1.0-beta.11 (2026-10-18)
+
+- Android Material tabs preserve their native menu items when Vue updates the page, title, icon or badge. Previously, rebuilding the menu could move TalkBack focus from the destination heading to the selected tab after navigation. Changing the tab names or order still rebuilds the menu and removes obsolete badges.
+- Accessibility validation now includes physical iPhone VoiceOver focus and ASUS TalkBack push, rejected guard and modal-result focus restoration. See the [validation report](https://github.com/rafaelaugustos/vue-router-ns/blob/master/test/native-accessibility.md) for the observed behavior and coverage limits.
+
 ## 0.1.0-beta.10 (2026-10-18)
 
 - Android drawer navigation now keeps the pane open when a guard refuses the destination. Selecting an already-current route still closes it.
