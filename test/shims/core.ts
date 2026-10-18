@@ -895,12 +895,15 @@ export class NavigationBarStub {
   getMenu() {
     const items = this.items
     return {
+      size: () => items.length,
+      getItem: (index: number) => items[index],
       clear: () => void items.splice(0),
       add: (_group: number, id: number, _order: number, title: string) => {
         const item = {
           id,
           title,
           icon: 0,
+          setTitle: (title: string) => void (item.title = title),
           setIcon: (icon: number) => void (item.icon = icon),
         }
         items.push(item)
