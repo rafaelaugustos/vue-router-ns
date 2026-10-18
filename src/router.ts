@@ -1217,13 +1217,16 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   // -- system back ------------------------------------------------------------
 
   function onActivityBackPressed(args: AndroidActivityBackPressedEventData) {
+    const stack = topmostStack()
+    // Core also emits this global event from dialogs, before the modal
+    // Frame's event. Let that host handle its guards, result and dismissal.
+    if (stack?.modal) return
     const owner = claimedBack()
     if (owner) {
       args.cancel = true
       owner.back()
       return
     }
-    const stack = topmostStack()
     if (!stack || stack.closed || stack.entries.value.length < 2) return
 
     // go back through the router, so leave guards get a say

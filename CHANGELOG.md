@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 0.1.0-beta.10 (2026-10-18)
+
+- Android drawer navigation now keeps the pane open when a guard refuses the destination. Selecting an already-current route still closes it.
+- Back now reaches a modal or Material bottom sheet before an open drawer underneath it. NativeScript emits the dialog's Back event globally before notifying its Frame; the router now leaves that event to the modal host, preserving guards and results.
+- The demo uses native buttons for drawer destinations, with route-driven selection and keyboard activation. The English and Portuguese guides explain reselect behavior, RTL, accessibility and system edge gestures.
+- A dedicated native drawer fixture and CI suite exercise three stacks, guards, modals, rotation, RTL, keyboard input, deep links and process restoration. See the [device validation report](https://github.com/rafaelaugustos/vue-router-ns/blob/master/test/native-drawer.md).
+
 ## 0.1.0-beta.9 (2026-10-18)
 
 - Documentation now includes native demo recordings beside feature examples in English and Portuguese: tabs, the iPad sidebar and split view, navigation, context menus, sheets, guards, search, the Android drawer and form restoration. A visual demo guide collects the clips, and the README includes GIF previews.

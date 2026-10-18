@@ -8,6 +8,7 @@ import {
   watch,
 } from 'nativescript-vue'
 import { useRouter } from './composables.js'
+import { NavigationFailureType } from './errors.js'
 import type { Router } from './router.js'
 
 const GRAVITY_START = 0x00800003
@@ -151,8 +152,10 @@ export const RouterDrawer = defineComponent({
       if (!isAndroid) return
       const release = router.claimSystemBack({ owns: () => isOpen.value, back: close })
       // a stack showing its first page is not the user going somewhere
-      const after = router.afterEach((_to, from) => {
-        if (props.closeOnNavigate && isOpen.value && from.matched.length) close()
+      const after = router.afterEach((_to, from, failure) => {
+        const selected = !failure || failure.type === NavigationFailureType.duplicated
+        if (selected && props.closeOnNavigate && isOpen.value && from.matched.length)
+          close()
       })
       stop = () => {
         release()
