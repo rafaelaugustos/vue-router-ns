@@ -109,6 +109,8 @@ export class View extends Observable {
 
   /** A stand-in for the platform view, for tests that need one. */
   native: any
+  initNativeView() {}
+  disposeNativeView() {}
 
   /** Lets the androidx stand-in find the dialog or activity a view lives in. */
   get nativeView() {
@@ -161,12 +163,15 @@ export class GridLayout extends View {
   createNativeView(): any {
     return this.nativeView
   }
+  getChildIndex(view: View) {
+    return this.children.indexOf(view)
+  }
 }
 
 /** Core's layout container, as far as child bookkeeping goes. */
 export class LayoutBase extends View {
-  initNativeView() {}
-  disposeNativeView() {}
+  override initNativeView() {}
+  override disposeNativeView() {}
   getChildrenCount() {
     return this.children.length
   }
@@ -217,7 +222,15 @@ export class DrawerLayoutStub extends LayoutBase {
 export class ListView extends View {}
 
 export class TabView extends View {
-  selectedIndex = 0
+  private index = 0
+  get selectedIndex() {
+    return this.index
+  }
+  set selectedIndex(value: number) {
+    if (value === this.index) return
+    this.index = value
+    this.notify({ eventName: 'selectedIndexChanged', object: this })
+  }
 
   get items() {
     return this.children.filter((child) => child instanceof TabViewItem)
@@ -599,6 +612,9 @@ Object.assign(globalThis, {
 
 export const Device = { sdkVersion: '36' }
 export const Utils = {
+  android: {
+    resources: { getDrawableId: (name: string) => (name === 'tab_inbox' ? 7 : 0) },
+  },
   layout: {
     EXACTLY: 1073741824,
     UNSPECIFIED: 0,
@@ -837,7 +853,95 @@ export class SheetFragment {
   }
 }
 
-/** Puts Material's bottom sheet classes in the build, the way a release app's gradle would. */
+/** Material's bottom navigation and rail, as far as menu items, selection and badges go. */
+export class NavigationBarStub {
+  static created: NavigationBarStub[] = []
+  items: { id: number; title: string; icon: number }[] = []
+  badges = new Map<number, { number?: number; text?: string; visible: boolean }>()
+  selected = -1
+  onSelected: any
+  onReselected: any
+  layoutListener: any
+  addOnLayoutChangeListener(listener: any) {
+    this.layoutListener = listener
+  }
+  removeOnLayoutChangeListener(_listener: any) {
+    this.layoutListener = undefined
+  }
+  constructor(public context: unknown) {
+    NavigationBarStub.created.push(this)
+  }
+  getMinimumHeight() {
+    return 56
+  }
+  getMinimumWidth() {
+    return 72
+  }
+  getPaddingTop() {
+    return 0
+  }
+  getPaddingBottom() {
+    return 24
+  }
+  getPaddingLeft() {
+    return 0
+  }
+  getPaddingRight() {
+    return 0
+  }
+  getMenu() {
+    const items = this.items
+    return {
+      clear: () => void items.splice(0),
+      add: (_group: number, id: number, _order: number, title: string) => {
+        const item = {
+          id,
+          title,
+          icon: 0,
+          setIcon: (icon: number) => void (item.icon = icon),
+        }
+        items.push(item)
+        return item
+      },
+    }
+  }
+  setOnItemSelectedListener(listener: any) {
+    this.onSelected = listener
+  }
+  setOnItemReselectedListener(listener: any) {
+    this.onReselected = listener
+  }
+  getSelectedItemId() {
+    return this.selected
+  }
+  setSelectedItemId(id: number) {
+    if (this.selected === id) return
+    if (this.onSelected?.onNavigationItemSelected({ getItemId: () => id }) !== false)
+      this.selected = id
+  }
+  /** A finger on the bar. */
+  tap(id: number) {
+    if (id === this.selected)
+      this.onReselected?.onNavigationItemReselected({ getItemId: () => id })
+    else this.setSelectedItemId(id)
+  }
+  getOrCreateBadge(id: number) {
+    const badge = this.badges.get(id) ?? { visible: false }
+    this.badges.set(id, badge)
+    return {
+      setNumber: (value: number) => void (badge.number = value),
+      setText: (value: string) => void (badge.text = value),
+      clearNumber: () => void delete badge.number,
+      clearText: () => void delete badge.text,
+      setVisible: (value: boolean) => void (badge.visible = value),
+    }
+  }
+  removeBadge(id: number) {
+    this.badges.delete(id)
+  }
+}
+
+/** Puts Material's classes in the build, the way an app's Gradle dependency does. */
 export function installMaterial(): () => void {
   const g = globalThis as any
   const previous = { com: g.com, android: g.android }
@@ -845,7 +949,31 @@ export function installMaterial(): () => void {
     google: {
       android: {
         material: {
-          R: { id: { touch_outside: TOUCH_OUTSIDE } },
+          R: {
+            id: { touch_outside: TOUCH_OUTSIDE },
+            attr: { colorPrimaryVariant: 1 },
+            style: { Theme_MaterialComponents_DayNight_NoActionBar: 2 },
+          },
+          navigation: {
+            NavigationBarView: {
+              OnItemSelectedListener: class {
+                constructor(impl: object) {
+                  Object.assign(this, impl)
+                }
+              },
+              OnItemReselectedListener: class {
+                constructor(impl: object) {
+                  Object.assign(this, impl)
+                }
+              },
+            },
+          },
+          bottomnavigation: { BottomNavigationView: NavigationBarStub },
+          navigationrail: {
+            NavigationRailView: class extends NavigationBarStub {
+              rail = true
+            },
+          },
           bottomsheet: {
             BottomSheetDialog: SheetDialog,
             BottomSheetDialogFragment: SheetFragment,
@@ -864,8 +992,15 @@ export function installMaterial(): () => void {
     animation: { ValueAnimator: { areAnimatorsEnabled: () => true } },
     ...(g.android ?? {}),
     os: { ...(g.android?.os ?? {}), Bundle },
+    util: { ...(g.android?.util ?? {}), TypedValue: class {} },
     view: {
       ...(g.android?.view ?? {}),
+      ContextThemeWrapper: class {
+        constructor(
+          public base: unknown,
+          public theme: number,
+        ) {}
+      },
       MotionEvent: { ACTION_UP: 1 },
       View: {
         ...(g.android?.view?.View ?? {}),
@@ -875,6 +1010,11 @@ export function installMaterial(): () => void {
           }
         },
         OnTouchListener: class {
+          constructor(impl: object) {
+            Object.assign(this, impl)
+          }
+        },
+        OnLayoutChangeListener: class {
           constructor(impl: object) {
             Object.assign(this, impl)
           }
@@ -908,6 +1048,7 @@ export const SharedTransition = {
 }
 
 export const Application = Object.assign(new Observable(), {
+  launchEvent: 'launch',
   android: createAndroidApplication(),
   ios: createIOSApplication(),
   inBackground: false,
@@ -1277,7 +1418,21 @@ export const androidLinks = {
       eventName: 'activityCreated',
       object: Application.android,
       activity,
-      bundle: options.bundle ?? null,
+      // After process death, core deliberately passes null to super.onCreate.
+      bundle: null,
+    })
+    Application.android.notify({
+      eventName: 'activityNewIntent',
+      object: Application.android,
+      activity,
+      intent: activity.getIntent(),
+    })
+    Application.notify({
+      eventName: Application.launchEvent,
+      object: Application,
+      android: activity.getIntent(),
+      intent: activity.getIntent(),
+      savedInstanceState: options.bundle ?? null,
     })
   },
   newIntent(href: string, flags = 0) {

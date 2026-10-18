@@ -3,7 +3,13 @@ import type { RouteLocationRaw } from './types.js'
 
 /** What `<RouterView>` and `mountNativeHost()` need from the router, kept off the public API. */
 export interface RouterInternals {
-  mount(name: string, host: NativeHost, initial: RouteLocationRaw): Promise<void>
+  mount(
+    name: string,
+    host: NativeHost,
+    initial: RouteLocationRaw,
+    reveal?: () => void,
+    selected?: () => boolean,
+  ): Promise<void>
   unmount(name: string): void
 }
 

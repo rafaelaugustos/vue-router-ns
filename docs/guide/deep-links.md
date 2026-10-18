@@ -45,7 +45,7 @@ const router = createRouter({
         : { path: link.path, query: link.query, hash: link.hash },
     frame(location) {
       const settings = location.path.startsWith('/settings')
-      tabView.selectedIndex = settings ? 1 : 0 // select the tab before the navigation
+      // RouterTabs selects the tab that owns this stack.
       return settings ? 'settings' : 'inbox'
     },
   },
@@ -54,7 +54,7 @@ const router = createRouter({
 
 `links: true` takes every URL as a path. Each URL becomes an `IncomingLink`: a lower-case `scheme`, a `host` for `http` and `https` (for a custom scheme such as `myapp://messages/42`, everything after `://` is the path), the `path`, the parsed `query`, the `hash` and where it came from: `'launch'`, `'resume'` or `'app'`. The matcher decodes params the way it does for `push`. Without `map`, the link's path, query and hash are the location; a URL that matches no route is ignored, unless a catch-all route takes it. Return `null` from `map` to ignore a link yourself.
 
-A link lands the way `push(path, { withParents: true })` does, through the guards, so an authenticated route still sends it to the login. Set `options` to change that for every link, or per link with a function. On a cold start the link waits for the first page, and when `restore` rebuilt a stack it lands on top of it: saved history first, then the link. With `frame`, it waits for that `<RouterView>` to show its first page, up to ten seconds; select the tab inside `frame` so an unloaded tab appears before the navigation.
+A link lands the way `push(path, { withParents: true })` does, through the guards, so an authenticated route still sends it to the login. Set `options` to change that for every link, or per link with a function. On a cold start the link waits for the first page, and when `restore` rebuilt a stack it lands on top of it: saved history first, then the link. With `frame`, it waits for that `<RouterView>` to show its first page, up to ten seconds. [`RouterTabs`](./tabs) selects the target tab automatically. With a plain `TabView`, set its `selectedIndex` inside `frame` so an unloaded tab appears before the navigation.
 
 The platform can hand over the same URL twice for one tap, in the launch options and again on resume. A second system delivery of the same URL within 1.5 seconds is dropped; a later one, or any call from your own code, is taken. A page already on top turns the repeat into a `duplicated` failure, like `push` would.
 

@@ -2,6 +2,8 @@
 
 Empurrar uma página não destrói a de baixo: ela continua montada até sair da pilha. Por isso o `useRoute()` dentro de uma página retorna a rota daquela página, e ela nunca muda. Enquanto `/messages/2` está em cima de `/messages/1`, a primeira página continua vendo `id: '1'`, e nada roda de novo porque outra página se moveu.
 
+<Clip name="ios-navigation" caption="Cada mensagem adiciona sua própria entrada à pilha mostrada no rodapé. Simulador iOS 26." />
+
 Fora das páginas (no `App.vue`, por exemplo), o `useRoute()` acompanha a página na tela. `router.currentRoute` é sempre a página na tela, e `router.stack` é a pilha inteira, de baixo para cima, reativa:
 
 ```ts

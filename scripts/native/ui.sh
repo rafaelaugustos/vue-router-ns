@@ -36,7 +36,7 @@ key_home() { $ADB shell input keyevent 3; }
 wait_text() {
   local text=$1 timeout=${2:-30} waited=0
   while [ "$waited" -lt "$timeout" ]; do
-    if [ "$(has_text "$text")" != "0" ]; then return 0; fi
+    if has "text=\"$text\""; then return 0; fi
     sleep 2; waited=$((waited + 2))
   done
   return 1

@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 0.1.0-beta.9 (2026-10-18)
+
+- Documentation now includes native demo recordings beside feature examples in English and Portuguese: tabs, the iPad sidebar and split view, navigation, context menus, sheets, guards, search, the Android drawer and form restoration. A visual demo guide collects the clips, and the README includes GIF previews.
+
+- Fixed Android process restoration replaying the task's original deep link. The link bridge now distinguishes NativeScript's synthetic `activityNewIntent` during creation from a new delivery, using the launch event's original saved state.
+
+- `<RouterTabs>` and `<RouterTab>` put named stacks behind a native tab bar: `UITabBarController` with `UITab` on iOS (SF Symbol icons, badges, the iPad sidebar with `sidebar`, the iOS 26 minimizing bar with `minimize`, search tabs with `role`), Material's `BottomNavigationView` or a `NavigationRailView` on Android, and the core `TabView` without Material. A navigation into a stack in another tab brings that tab forward first, including deep links; `canSelect` can refuse a tap, `select` and `reselect` report, and `backToRootOnReselect` keeps working. `supportsNativeTabs()` reports the Android dependency.
+
 - `v-route-preview` and `<RouterLink menu>` give a view a native context menu for a route: on iOS a long press shows the destination in UIKit's preview with a menu of actions, and committing the preview navigates through the guards; Android shows the actions in a popup menu, with the route first. The preview is a Vue app of its own, never a stack entry, and list rows keep one interaction per recycled view.
 
 - Demo: a lighter look on both platforms, with system bars, avatars and previews in the inbox, cards on the message page, grouped settings cells and friendlier login and not-found pages. The drawer menu action shows only on Android, where `<RouterDrawer>` has a presentation.

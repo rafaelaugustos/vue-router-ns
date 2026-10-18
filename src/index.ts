@@ -55,6 +55,8 @@ export type {
 } from './links.js'
 export type { PageStateOptions, PageStateContext } from './page-state.js'
 export { vRoutePreview, attachRouteMenu, detachRouteMenu } from './context-menu.js'
+export { RouterTabs, RouterTab, supportsNativeTabs } from './tabs-host.js'
+export type { RouterTabDescriptor, TabMinimize, TabRole } from './tabs-host.js'
 export type {
   RouteMenuAction,
   RouteMenuOptions,

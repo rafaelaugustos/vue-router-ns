@@ -1,16 +1,16 @@
 <script lang="ts" setup>
-import type { TabView } from '@nativescript/core'
-import { onMounted, ref } from 'nativescript-vue'
+import { ApplicationSettings } from '@nativescript/core'
+import { onMounted, ref, watch } from 'nativescript-vue'
 import { useRouter, type RouterDrawerHandle } from 'vue-router-ns'
 import { drawer } from './drawer'
-import { tabs } from './tabs'
+import { counts } from './store'
 
 const router = useRouter()
 const menu = ref<RouterDrawerHandle>()
-const tabView = ref<{ nativeView: TabView }>()
+const tab = ref(ApplicationSettings.getString('selected-tab', 'inbox'))
+watch(tab, (name) => ApplicationSettings.setString('selected-tab', name))
 onMounted(() => {
   drawer.value = menu.value ?? null
-  tabs.value = tabView.value?.nativeView ?? null
 })
 
 // destinations go through the links policy, which also selects the tab
@@ -48,8 +48,15 @@ const destinations = [
       </StackLayout>
     </template>
 
-    <TabView ref="tabView" androidTabsPosition="bottom">
-      <TabViewItem title="Inbox">
+    <!-- UITabBarController with UITab on iOS (sidebar on iPad, minimizing bar on iOS 26); Material bottom navigation or rail on Android -->
+    <RouterTabs v-model:selected="tab" sidebar minimize="onScrollDown">
+      <RouterTab
+        name="inbox"
+        title="Inbox"
+        icon="tray.fill"
+        androidIcon="sys://ic_dialog_email"
+        :badge="counts.unread || null"
+      >
         <RouterSplitView name="inbox" list="/" backToRootOnReselect>
           <template #empty>
             <StackLayout verticalAlignment="middle" horizontalAlignment="center">
@@ -58,10 +65,15 @@ const destinations = [
             </StackLayout>
           </template>
         </RouterSplitView>
-      </TabViewItem>
-      <TabViewItem title="Settings">
+      </RouterTab>
+      <RouterTab
+        name="settings"
+        title="Settings"
+        icon="gearshape.fill"
+        androidIcon="sys://ic_menu_preferences"
+      >
         <RouterView name="settings" initial="/settings" backToRootOnReselect />
-      </TabViewItem>
-    </TabView>
+      </RouterTab>
+    </RouterTabs>
   </RouterDrawer>
 </template>

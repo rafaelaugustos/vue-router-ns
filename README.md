@@ -35,6 +35,23 @@ const router = createRouter({
 router.push({ name: 'message', params: { id: 42 } })
 ```
 
+Recorded in the NativeScript demo. Watch more clips, with the code for each feature, in the [visual guide](https://vue-router-ns.rafaelaugusto.dev/guide/demo).
+
+<table>
+  <tr>
+    <th><a href="https://vue-router-ns.rafaelaugusto.dev/guide/tabs">Native tabs · iOS</a></th>
+    <th><a href="https://vue-router-ns.rafaelaugusto.dev/guide/context-menus">Context menus · iOS</a></th>
+    <th><a href="https://vue-router-ns.rafaelaugusto.dev/guide/modals">Sheets · Android</a></th>
+    <th><a href="https://vue-router-ns.rafaelaugusto.dev/guide/drawer">Drawer · Android</a></th>
+  </tr>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/master/.github/assets/demo-ios-tabs.gif" width="200" alt="Switch tabs while preserving the message stack, then reselect Inbox to return to its root"></td>
+    <td><img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/master/.github/assets/demo-ios-context-menu.gif" width="200" alt="Long-press a message to preview it, then open its route"></td>
+    <td><img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/master/.github/assets/demo-android-sheet.gif" width="200" alt="Open a Material bottom sheet and dismiss it with system Back"></td>
+    <td><img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/master/.github/assets/demo-android-drawer.gif" width="200" alt="Open Settings from the Android drawer and close the drawer with system Back"></td>
+  </tr>
+</table>
+
 Vue Router can't drive a mobile app: it models navigation as one URL that changes, with a `<RouterView>` that swaps components. A NativeScript app has a `Frame` with a stack of pages that stay alive underneath each other, a back button and an iOS swipe that pop pages without asking anyone, modals, and often one stack per tab.
 
 So this is not a wrapper around Vue Router. The frame's back stack is the source of truth, and the router mirrors it after every native navigation. What you get is the API you already know (`push`, guards, `useRoute`, named routes, params) with semantics that make sense on a phone.
@@ -47,6 +64,7 @@ So this is not a wrapper around Vue Router. The frame's back stack is the source
 - [One stack per tab](#tabs-and-other-independent-stacks), with named `<RouterView>`s, and [`setStack()`](#setting-the-whole-stack) to set a stack as a list.
 - [Adaptive list and detail](#list-and-detail) with `<RouterSplitView>`, preserving push history across layout changes.
 - [A native Android drawer](https://vue-router-ns.rafaelaugusto.dev/guide/drawer) with `<RouterDrawer>`: AndroidX `DrawerLayout` around your stacks, closed by back before any page pops.
+- [Native tabs](https://vue-router-ns.rafaelaugusto.dev/guide/tabs) with `<RouterTabs>`: `UITabBarController` with `UITab`, badges and the iPad sidebar on iOS, Material bottom navigation or a rail on Android, and navigations that bring their tab forward.
 - [Context menu previews](https://vue-router-ns.rafaelaugusto.dev/guide/context-menus) with `v-route-preview` and `<RouterLink menu>`: a long press shows the route in UIKit's preview with actions and commits it through the guards; Android offers the actions in a popup menu.
 - [Typed routes](#typed-routes): names and params checked across the app, with no code generation.
 - [Zoom and shared elements](#zoom-and-shared-elements): iOS 18's zoom out of a view, and NativeScript's shared element transitions.
@@ -470,7 +488,7 @@ On iOS, the ActionBar's back button pops the page natively. While a leave guard 
 
 **Composables**: `useRouter`, `useRoute`, `onBeforeRouteLeave`, `onPageActivated`, `onPageDeactivated`, `useBackGesture`, `useNativeSearch`, `useNavigationCommands`, `useNavigationFocus`.
 
-**Components**: `<RouterSplitView name list breakpoint listWidth backToRootOnReselect>` (with an `empty` slot), `<RouterDrawer width open closeOnNavigate>` (with a `drawer` slot, Android), `<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents zoom transition frame menu>`, `<NavigationCommandScope :commands="commands">` and `<Deferred>`. `RouterLink` makes its only child navigate on tap, without adding a view:
+**Components**: `<RouterSplitView name list breakpoint listWidth backToRootOnReselect>` (with an `empty` slot), `<RouterDrawer width open closeOnNavigate>` (with a `drawer` slot, Android), `<RouterTabs selected canSelect sidebar minimize rail>` with `<RouterTab name title icon androidIcon badge role>` children, `<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents zoom transition frame menu>`, `<NavigationCommandScope :commands="commands">` and `<Deferred>`. `RouterLink` makes its only child navigate on tap, without adding a view:
 
 ```vue
 <RouterLink to="/settings">

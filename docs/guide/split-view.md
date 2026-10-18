@@ -10,6 +10,8 @@
 </RouterSplitView>
 ```
 
+<Clip name="ipad-split" :width="480" aspect="3 / 4" caption="The inbox stays visible as messages are pushed onto the detail stack. iPadOS 26 simulator." />
+
 The `list` route is the pinned first page. Every non-modal route pushed into this stack becomes a detail, regardless of its path or nesting in the route table. Routes with `modal` still open separately. A named split view can live alongside ordinary `RouterView`s, including in different tabs.
 
 ```ts

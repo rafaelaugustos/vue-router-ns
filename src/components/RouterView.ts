@@ -2,12 +2,14 @@ import type { Frame } from '@nativescript/core'
 import {
   defineComponent,
   h,
+  inject,
   onBeforeUnmount,
   onMounted,
   shallowRef,
   type PropType,
 } from 'nativescript-vue'
 import { useRouter } from '../composables.js'
+import { tabKey } from '../injection.js'
 import { createFrameHost } from '../hosts/frame.js'
 import { INTERNAL, type RouterInternals } from '../internal.js'
 import { onTabReselect, tabOf } from '../tabs.js'
@@ -29,6 +31,7 @@ export const RouterView = defineComponent({
   },
   setup(props) {
     const router = useRouter()
+    const tab = inject(tabKey, null)
     const internals = (router as unknown as { [INTERNAL]: RouterInternals })[INTERNAL]
     const frame = shallowRef<{ nativeView: Frame }>()
     // the name is read once: renaming a live stack would orphan its pages
@@ -37,7 +40,13 @@ export const RouterView = defineComponent({
 
     onMounted(() => {
       const view = frame.value!.nativeView
-      internals.mount(name, createFrameHost(view), props.initial)
+      internals.mount(
+        name,
+        createFrameHost(view),
+        props.initial,
+        tab?.reveal,
+        tab?.selected,
+      )
 
       if (props.backToRootOnReselect) {
         const tab = tabOf(view)

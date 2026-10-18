@@ -45,7 +45,7 @@ const router = createRouter({
         : { path: link.path, query: link.query, hash: link.hash },
     frame(location) {
       const settings = location.path.startsWith('/settings')
-      tabView.selectedIndex = settings ? 1 : 0 // selecione a aba antes da navegação
+      // RouterTabs seleciona a aba que contém esta pilha.
       return settings ? 'settings' : 'inbox'
     },
   },
@@ -54,7 +54,7 @@ const router = createRouter({
 
 `links: true` recebe toda URL como um path. Cada URL vira um `IncomingLink`: um `scheme` em minúsculas, um `host` para `http` e `https` (num scheme próprio como `myapp://messages/42`, tudo depois de `://` é o path), o `path`, a `query` já analisada, o `hash` e de onde veio: `'launch'`, `'resume'` ou `'app'`. O matcher decodifica os params como faz no `push`. Sem `map`, o path, a query e o hash do link são a localização; uma URL que não casa com nenhuma rota é ignorada, a menos que uma rota curinga a receba. Devolva `null` do `map` para ignorar um link você mesmo.
 
-Um link chega como um `push(path, { withParents: true })`, passando pelos guards, então uma rota autenticada ainda o manda para o login. Defina `options` para mudar isso para todo link, ou por link com uma função. Num cold start o link espera a primeira página, e quando o `restore` reconstruiu uma pilha ele chega em cima dela: primeiro o histórico salvo, depois o link. Com `frame`, ele espera aquele `<RouterView>` mostrar a primeira página, por até dez segundos; selecione a aba dentro de `frame` para que uma aba ainda não carregada apareça antes da navegação.
+Um link chega como um `push(path, { withParents: true })`, passando pelos guards, então uma rota autenticada ainda o manda para o login. Defina `options` para mudar isso para todo link, ou por link com uma função. Num cold start o link espera a primeira página, e quando o `restore` reconstruiu uma pilha ele chega em cima dela: primeiro o histórico salvo, depois o link. Com `frame`, ele espera aquele `<RouterView>` mostrar a primeira página, por até dez segundos. [`RouterTabs`](./tabs) seleciona a aba de destino automaticamente. Com um `TabView` comum, defina seu `selectedIndex` dentro de `frame` para que uma aba ainda não carregada apareça antes da navegação.
 
 A plataforma pode entregar a mesma URL duas vezes por um toque só, nas opções de lançamento e de novo no resume. Uma segunda entrega do sistema da mesma URL dentro de 1,5 segundo é descartada; uma posterior, ou qualquer chamada do seu próprio código, é aceita. Uma página já no topo transforma a repetição numa falha `duplicated`, como o `push` faria.
 

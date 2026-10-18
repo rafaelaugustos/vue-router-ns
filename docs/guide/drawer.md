@@ -12,14 +12,20 @@ On Android, a drawer that slides in from the start edge is a native container: A
     </StackLayout>
   </template>
 
-  <TabView>
-    <TabViewItem title="Inbox"><RouterView name="inbox" /></TabViewItem>
-    <TabViewItem title="Settings"><RouterView name="settings" initial="/settings" /></TabViewItem>
-  </TabView>
+  <RouterTabs>
+    <RouterTab name="inbox" title="Inbox" icon="tray.fill">
+      <RouterView name="inbox" />
+    </RouterTab>
+    <RouterTab name="settings" title="Settings" icon="gearshape.fill">
+      <RouterView name="settings" initial="/settings" />
+    </RouterTab>
+  </RouterTabs>
 </RouterDrawer>
 ```
 
-The default slot is the content: a `<TabView>`, a `<RouterView>`, a `<RouterSplitView>`. The `drawer` slot is the pane. Opening or closing the menu is not a navigation and creates no route entry; the destinations are whatever the pane navigates to, and each keeps its own named stack. Taking destinations through `openLink` lets the `links.frame` policy select the tab as well as the stack. Highlight the current destination from `router.currentRoute`.
+<Clip name="android-drawer" aspect="9 / 20" caption="The drawer opens Settings; system Back closes the drawer before popping a page. Android 16 emulator." />
+
+The default slot is the content: a `<RouterTabs>`, a `<TabView>`, a `<RouterView>` or a `<RouterSplitView>`. The `drawer` slot is the pane. Opening or closing the menu is not a navigation and creates no route entry; the destinations are whatever the pane navigates to, and each keeps its own named stack. Taking destinations through `openLink` lets the `links.frame` policy select the tab as well as the stack. Highlight the current destination from `router.currentRoute`.
 
 ## Open, close, back
 
@@ -31,4 +37,4 @@ The default slot is the content: a `<TabView>`, a `<RouterView>`, a `<RouterSpli
 
 The pane is a `GridLayout` with the class `router-drawer` and a white background; give your slot's root its own background and padding. `width` is in device-independent pixels. `DrawerLayout` comes with AppCompat, so nothing is added to the build; the optional Material `NavigationView` is not used, your own views are the menu.
 
-On iOS, `<RouterDrawer>` renders the content alone and the `drawer` slot is ignored: a sidebar there is UIKit's split view, which NativeScript exposes as `SplitView`, not a custom sliding panel. Tracked separately.
+On iOS, `<RouterDrawer>` renders the content alone and the `drawer` slot is ignored. To navigate between tabs through the native iPad sidebar, use [`<RouterTabs sidebar>`](./tabs).

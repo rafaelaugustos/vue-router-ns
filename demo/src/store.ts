@@ -37,14 +37,20 @@ const messages: Message[] = [
   },
 ]
 
+/** What the tab bar badge watches. */
+export const counts = reactive({
+  unread: messages.filter((message) => !message.read).length,
+})
+
 export const inbox = {
   list: () => messages.map((message) => ({ ...message })),
   find: (id: number) => messages.find((message) => message.id === id),
   markRead(id: number) {
     const message = messages.find((candidate) => candidate.id === id)
     if (message) message.read = true
+    counts.unread = messages.filter((candidate) => !candidate.read).length
   },
-  unread: () => messages.filter((message) => !message.read).length,
+  unread: () => counts.unread,
 }
 
 export const session = reactive({ user: '' })

@@ -27,6 +27,9 @@ export interface Stack {
   readonly router: Router
   /** `null` while a modal is being presented, and once the stack has closed. */
   host: NativeHost | null
+  /** Brings the tab this stack lives in to the front, before a page is pushed. */
+  reveal: (() => void) | undefined
+  selected: (() => boolean) | undefined
   /** The navigation running guards here; a newer one cancels it. */
   attempt: object | undefined
   /** Settles once the native navigation the router started here is done. */

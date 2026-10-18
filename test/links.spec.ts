@@ -216,6 +216,28 @@ describe('links', () => {
     expect(heard.map((result) => result.link.source)).toEqual(['launch', 'resume'])
   })
 
+  it('does not replay the old Android intent after process death', async () => {
+    const heard = vi.fn()
+    const { router } = await mount(routes, {
+      platform: 'android',
+      links: policy,
+      before: (router) => router.onLink(heard),
+    })
+    await router.push('/settings')
+
+    // Core emits activityCreated(null bundle), then a synthetic new intent,
+    // then launch with the real savedInstanceState, even in a new JS runtime.
+    androidLinks.create('app://items/7', { bundle: {} })
+    await settle()
+    expect(router.currentRoute.value.path).toBe('/settings')
+    expect(heard).not.toHaveBeenCalled()
+
+    androidLinks.newIntent('app://items/7')
+    await settle()
+    expect(router.currentRoute.value.path).toBe('/items/7')
+    expect(heard).toHaveBeenCalledOnce()
+  })
+
   it('take iOS URLs, Universal Links and scene connections', async () => {
     const { router } = await mount(routes, { links: policy })
 

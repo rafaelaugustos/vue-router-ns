@@ -36,3 +36,17 @@ features:
   - title: Native history stays in sync
     details: The router mirrors the frame after every native navigation. Swipes and pops it didn't start are picked up the same way as its own.
 ---
+
+<div class="home-demos">
+
+## Native navigation, in motion
+
+Recordings of the NativeScript-Vue demo on iPhone and Android. [Explore the features and their code →](./guide/demo)
+
+<div class="clips">
+<Clip name="ios-tabs" caption="Each tab keeps its own stack. Reselect to return to the root." />
+<Clip name="ios-context-menu" caption="Preview a message, then open its route." />
+<Clip name="android-sheet" aspect="9 / 20" caption="A routed page inside a Material bottom sheet." />
+</div>
+
+</div>

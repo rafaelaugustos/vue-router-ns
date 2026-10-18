@@ -14,6 +14,8 @@ const router = createRouter({
 })
 ```
 
+<Clip name="android-restore" aspect="9 / 20" caption="A typed name returns after the demo goes to the background, its process is killed, and it opens again. Android 16 emulator." />
+
 `save` runs after every navigation and when the app goes to the background, with the paths of every named `<RouterView>`, and with `null` when the app exits on its own, so a fresh start after the user left stays fresh. When a `<RouterView>` mounts, the router asks `load` once (it can be async) and rebuilds the saved stack without animating, through the guards, so a page that needs a session still sends you to the login.
 
 Saves older than `maxAge` (30 minutes by default) are ignored; pass `Infinity` to always restore.

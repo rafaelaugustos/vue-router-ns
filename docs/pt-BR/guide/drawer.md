@@ -12,14 +12,20 @@ No Android, um drawer que desliza a partir da borda inicial é um contêiner nat
     </StackLayout>
   </template>
 
-  <TabView>
-    <TabViewItem title="Inbox"><RouterView name="inbox" /></TabViewItem>
-    <TabViewItem title="Settings"><RouterView name="settings" initial="/settings" /></TabViewItem>
-  </TabView>
+  <RouterTabs>
+    <RouterTab name="inbox" title="Inbox" icon="tray.fill">
+      <RouterView name="inbox" />
+    </RouterTab>
+    <RouterTab name="settings" title="Settings" icon="gearshape.fill">
+      <RouterView name="settings" initial="/settings" />
+    </RouterTab>
+  </RouterTabs>
 </RouterDrawer>
 ```
 
-O slot padrão é o conteúdo: um `<TabView>`, um `<RouterView>`, um `<RouterSplitView>`. O slot `drawer` é o painel. Abrir ou fechar o menu não é uma navegação e não cria entrada de rota; os destinos são o que o painel navegar, e cada um mantém a própria pilha nomeada. Levar os destinos pelo `openLink` deixa a política `links.frame` selecionar a aba além da pilha. Destaque o destino atual a partir de `router.currentRoute`.
+<Clip name="android-drawer" aspect="9 / 20" caption="O drawer abre Settings; o Voltar do sistema fecha o drawer antes de remover uma página. Emulador Android 16." />
+
+O slot padrão é o conteúdo: um `<RouterTabs>`, um `<TabView>`, um `<RouterView>` ou um `<RouterSplitView>`. O slot `drawer` é o painel. Abrir ou fechar o menu não é uma navegação e não cria entrada de rota; os destinos são o que o painel navegar, e cada um mantém a própria pilha nomeada. Levar os destinos pelo `openLink` deixa a política `links.frame` selecionar a aba além da pilha. Destaque o destino atual a partir de `router.currentRoute`.
 
 ## Abrir, fechar, voltar
 
@@ -31,4 +37,4 @@ O slot padrão é o conteúdo: um `<TabView>`, um `<RouterView>`, um `<RouterSpl
 
 O painel é um `GridLayout` com a classe `router-drawer` e fundo branco; dê à raiz do seu slot o próprio fundo e espaçamento. `width` é em pixels independentes de densidade. O `DrawerLayout` vem com o AppCompat, então nada é adicionado ao build; o `NavigationView` opcional do Material não é usado, as suas próprias views são o menu.
 
-No iOS, o `<RouterDrawer>` renderiza só o conteúdo e o slot `drawer` é ignorado: uma barra lateral lá é o split view do UIKit, que o NativeScript expõe como `SplitView`, não um painel deslizante customizado. Acompanhado à parte.
+No iOS, o `<RouterDrawer>` renderiza só o conteúdo e o slot `drawer` é ignorado. Para navegar entre abas pela sidebar nativa no iPad, use [`<RouterTabs sidebar>`](./tabs).

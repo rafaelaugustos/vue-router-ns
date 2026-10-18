@@ -1,7 +1,6 @@
 import { ApplicationSettings } from '@nativescript/core'
 import { createRouter } from 'vue-router-ns'
 import { session } from './store'
-import { tabs } from './tabs'
 
 export const router = createRouter({
   diagnostics: __DEV__,
@@ -12,9 +11,9 @@ export const router = createRouter({
   links: {
     schemes: ['https', 'vuerouterns'],
     hosts: ['vue-router-ns.rafaelaugusto.dev'],
+    // the stack decides the tab: <RouterTabs> brings it forward before the page shows
     frame(location) {
       const settings = location.path.startsWith('/settings') || location.path === '/login'
-      if (tabs.value) tabs.value.selectedIndex = settings ? 1 : 0
       return settings ? 'settings' : 'inbox'
     },
   },
