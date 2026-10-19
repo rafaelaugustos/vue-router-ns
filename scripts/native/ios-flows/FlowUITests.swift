@@ -27,17 +27,26 @@ final class FlowUITests: XCTestCase {
         app.buttons["pick"].tap()
         XCTAssertTrue(app.buttons["Cancel"].firstMatch.waitForExistence(timeout: 15))
         app.tabBars.buttons["Browse"].tap()
-        let document = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "router-flow-sample")).firstMatch
-        if !document.waitForExistence(timeout: 2) {
-            let local = app.staticTexts["On My iPhone"].firstMatch
-            XCTAssertTrue(local.waitForExistence(timeout: 10), app.debugDescription)
-            local.tap()
-            let folder = app.staticTexts["demo"].firstMatch
-            XCTAssertTrue(folder.waitForExistence(timeout: 10), app.debugDescription)
-            folder.tap()
-            XCTAssertTrue(document.waitForExistence(timeout: 10), app.debugDescription)
-        }
         let cell = app.cells.matching(NSPredicate(format: "identifier BEGINSWITH %@", "router-flow-sample")).firstMatch
+        // Files can restore the app folder before its asynchronous provider has
+        // listed the document. Do not mistake that loading state for Locations.
+        let deadline = Date().addingTimeInterval(30)
+        var openedLocal = false
+        var openedFolder = false
+        while !cell.exists && Date() < deadline {
+            let local = app.staticTexts["On My iPhone"].firstMatch
+            let folder = app.cells.matching(NSPredicate(format: "identifier BEGINSWITH %@", "demo,")).firstMatch
+            if !openedFolder && folder.exists && folder.isHittable {
+                folder.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)).tap()
+                openedFolder = true
+            } else if !openedLocal && local.exists && local.isHittable {
+                local.tap()
+                openedLocal = true
+            } else {
+                RunLoop.current.run(until: Date().addingTimeInterval(0.25))
+            }
+        }
+        XCTAssertTrue(cell.exists, app.debugDescription)
         cell.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)).tap()
         let pickedShot = XCTAttachment(screenshot: app.screenshot())
         pickedShot.name = "document-selection"
