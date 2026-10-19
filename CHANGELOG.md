@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.1.0-beta.12 (2026-10-19)
+
 - Optional NativeScript webpack file-routing setup: generate routes/types before compilation, erase page metadata macros, discover layouts/middleware and apply native route-table HMR. Adds a separate native example, live watch acceptance, bundle checks and English/Portuguese setup guides with recordings. Explicit route configuration remains available unchanged.
 
 - Native completion now waits for the destination's Vue Page registration before reconciling history. This preserves activation hooks and one `afterEach` notification when the native host finishes during Vue's mounted-hook flush.
@@ -12,6 +14,10 @@
 
 - Optional named/global route middleware reuses the existing guard transaction: register with `router.addRouteMiddleware()`, reference through `meta.middleware`, and type functions with `defineRouteMiddleware()`. Existing explicit route declarations and guards keep their API.
 - `useNavigateTo()` captures the routed page's stack; `navigateTo(router, to, options)` accepts explicit context outside setup. Both delegate to native push/replace, retain typed locations and native completion semantics, and reject browser/server-only options. No Nuxt or Vue Router runtime is added.
+
+- Native Android smoke checks now require three clean launches and preserve startup screenshots, view hierarchies, Activity state and streamed logs. An opt-in demo flag captures the native/logical lifecycle after startup without synchronous per-event logging.
+
+Validation: an earlier [scheduled Android run](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/39249750869) reported an initial Inbox activation failure. Its cause remains unconfirmed. Repeated local launches and the [final native suite](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/39305635415), including three clean launches, passed; the startup snapshots showed synchronized native/logical stacks with no diagnostic issues. See [the validation change](https://github.com/rafaelaugustos/vue-router-ns/pull/98).
 
 ## 0.1.0-beta.11 (2026-10-18)
 
