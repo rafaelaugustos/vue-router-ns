@@ -9,7 +9,8 @@ platform document picker, not a JavaScript replacement. See the
 
 2026-10-19: NativeScript Core 9.1.3, NativeScript-Vue 3.1.2, Android runtime 9.1.1
 and iOS runtime 9.1.0. Local targets are Android 16 / API 36 on the dedicated
-RouterFold60CI emulator, and iPhone 17 / iOS 26 simulator with Xcode 27.0.
+RouterFold60CI emulator, and iPhone 17 / iOS 26.0 simulator with Xcode 27.0. The final file-selection
+automation also passes on a fresh iPhone 17 Pro / iOS 26.5 simulator.
 These results do not claim physical-device or independent-window restoration coverage.
 
 ## Contract tests

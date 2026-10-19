@@ -43,6 +43,17 @@ jobs:
           ns error-reporting disable
           ns create flow-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null
           cp -R /tmp/flow-scaffold/App_Resources demo/App_Resources
+      - name: Install the emulator image
+        # SDK downloads occasionally return a truncated archive; validate before
+        # entering emulator-runner so a retry does not rebuild the entire job.
+        run: |
+          for attempt in 1 2 3; do
+            if "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install 'system-images;android-35;google_apis;x86_64' && test -s "$ANDROID_HOME/system-images/android-35/google_apis/x86_64/system.img"; then
+              exit 0
+            fi
+            sleep 5
+          done
+          exit 1
       - run: ns build android --env.flowsTest
         working-directory: demo
       - uses: reactivecircus/android-emulator-runner@v2

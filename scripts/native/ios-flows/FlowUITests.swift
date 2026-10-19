@@ -26,40 +26,32 @@ final class FlowUITests: XCTestCase {
     func testPickDocument() {
         app.buttons["pick"].tap()
         XCTAssertTrue(app.buttons["Cancel"].firstMatch.waitForExistence(timeout: 15))
-        app.tabBars.buttons["Browse"].tap()
-        let cell = app.cells.matching(NSPredicate(format: "identifier BEGINSWITH %@", "router-flow-sample")).firstMatch
-        // Files can restore the app folder before its asynchronous provider has
-        // listed the document. Do not mistake that loading state for Locations.
-        let deadline = Date().addingTimeInterval(30)
-        var openedLocal = false
-        var openedFolder = false
-        while !cell.exists && Date() < deadline {
-            let local = app.staticTexts["On My iPhone"].firstMatch
-            let folder = app.cells.matching(NSPredicate(format: "identifier BEGINSWITH %@", "demo,")).firstMatch
-            if !openedFolder && folder.exists && folder.isHittable {
-                folder.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)).tap()
-                openedFolder = true
-            } else if !openedLocal && local.exists && local.isHittable {
-                local.tap()
-                openedLocal = true
-            } else {
-                RunLoop.current.run(until: Date().addingTimeInterval(0.25))
-            }
-        }
-        XCTAssertTrue(cell.exists, app.debugDescription)
+        let browse = app.tabBars.buttons["Browse"]
+        if !browse.isSelected { browse.tap() }
         let completed = app.staticTexts["pick:completed"].firstMatch
-        let open = app.buttons["Open"].firstMatch
-        // Files may expose a cell before its thumbnail/hit region has settled.
-        // Only retry the UI interaction while the same picker remains visible.
-        for _ in 0..<3 {
-            if completed.exists { break }
+        let deadline = Date().addingTimeInterval(40)
+        var selections = 0
+        // Re-query after every Files transition: tapping an already selected
+        // Browse tab can pop its folder, and provider cells load asynchronously.
+        while !completed.exists && Date() < deadline {
+            let cell = app.cells.matching(NSPredicate(format: "identifier BEGINSWITH %@", "router-flow-sample")).firstMatch
+            let folder = app.cells.matching(NSPredicate(format: "identifier BEGINSWITH %@", "demo,")).firstMatch
+            let local = app.cells["DOC.sidebar.item.On My iPhone"]
+            let open = app.buttons["Open"].firstMatch
             if open.exists && open.isHittable {
                 open.tap()
             } else if cell.exists && cell.isHittable {
+                if selections == 3 { break }
                 let thumbnail = cell.images.firstMatch
                 if thumbnail.exists && thumbnail.isHittable { thumbnail.tap() }
+                else { cell.tap() }
+                selections += 1
+            } else if folder.exists && folder.isHittable {
+                folder.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)).tap()
+            } else if local.exists && local.isHittable {
+                local.tap()
             }
-            if completed.waitForExistence(timeout: 3) { break }
+            if completed.waitForExistence(timeout: 1) { break }
         }
         let pickedShot = XCTAttachment(screenshot: app.screenshot())
         pickedShot.name = "document-selection"
