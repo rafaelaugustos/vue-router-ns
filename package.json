@@ -60,6 +60,7 @@
     "test:native:drawer": "node scripts/native/drawer-android.mjs",
     "test:native:middleware": "bash scripts/native/middleware-android.sh",
     "test:native:layouts": "bash scripts/native/layouts-android.sh",
+    "test:native:state": "bash scripts/native/state-android.sh",
     "test:native:files": "bash scripts/native/files-android.sh",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

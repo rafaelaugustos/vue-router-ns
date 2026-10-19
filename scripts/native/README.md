@@ -10,6 +10,14 @@ The smoke suite checks three clean-data launches before the navigation scenarios
 
 Build the normal demo with `ns build android --env.startupTrace` to add a delayed diagnostic snapshot per process. CI enables this flag. It records native/logical stacks and the initial lifecycle without synchronous per-event logging; normal demo builds omit it.
 
+## Page state after process death
+
+Build `ns build android --env.stateTest` in `demo`, install its APK and run `ANDROID_SERIAL=<serial> npm run test:native:state`. This clears the fixture app's data. The fixture opens `/edit` twice with different drafts and native ScrollView offsets. The runner backgrounds the app, kills its process, verifies that its PID disappears and relaunches it with a different PID. It checks the top page, then goes back to verify the earlier instance and its reading position. Stable entry keys and loaded native Pages are asserted inside the fixture; the runner checks the displayed drafts and captures screenshots and UI hierarchies.
+
+Five more process restarts cover a previous state schema, expired data, a removed route, authentication refusal and the legacy path-only format. Those cases deliberately seed persisted snapshots and freeze the old process's writes until it dies; the duplicate-page case uses the router's normal save-on-background callback. `am kill` is used first, with a same-PID `run-as … kill -9` fallback if Android retains the app above the cached-process threshold. The test never force-stops or clears data between restoration checks.
+
+Logs, screenshots, hierarchies, PID transitions and the JSON report are written under `scripts/native/out/state`. Native CI runs the suite on Android 14. Independent native windows remain part of #46's acceptance; this single-window fixture does not claim to validate them. See [page state evidence](../../test/native-page-state.md).
+
 ## Convention setup and live watch
 
 Prepare [the separate example](../../examples/file-routing/README.md), then run `ANDROID_SERIAL=<serial> node scripts/native/conventions-watch.mjs android` or `IOS_SIMULATOR=<uuid> node scripts/native/conventions-watch.mjs ios`. The runner starts the actual NativeScript CLI with native HMR and uses the public webpack plugin. It tests the generated list/detail flow, layout, middleware, native modal result, Page identity/drafts, two stacks and accessibility visibility/focus targets. It then adds/edits/renames/removes source pages and introduces/corrects a compilation error while the app stays open.
