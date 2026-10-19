@@ -76,7 +76,7 @@ const router = createRouter({
 
 `layouts` aceita componentes ou factories, incluindo imports lazy de `.vue`. O registro é capturado na criação do router. `defaultLayout` é `false` até ser definido explicitamente: registrar um componente chamado `default` não o ativa sozinho. `meta.layout` escolhe um nome registrado ou `false` para não usar layout. Sem layout selecionado, o destino mantém o contrato atual e monta sua própria `Page` raiz, como `LegacyPage.vue` no exemplo.
 
-Metadados são mesclados do pai para o filho. O filho herda o layout, salvo quando define outro nome ou `false`. A seleção e o carregamento acontecem após os guards de entrada e middleware, junto do carregamento do componente, antes de `beforeResolve`; escolha o layout no registro da rota ou em um guard anterior. Um padrão desconhecido falha na criação do router. Um nome de rota desconhecido ou import com erro rejeita a navegação e chega a `onError()` antes de montar uma página nativa. Imports que falharam podem ser tentados novamente.
+Metadados são mesclados do pai para o filho. O filho herda o layout, salvo quando define outro nome ou `false`. A seleção e o carregamento acontecem após os guards de entrada e middleware, junto do carregamento do componente, antes de `beforeResolve`; escolha o layout no registro da rota ou em um guard anterior. Um padrão desconhecido falha na criação do router. Um nome de layout desconhecido ou import com erro rejeita a navegação e chega a `onError()` antes de montar uma página nativa. Imports que falharam podem ser tentados novamente.
 
 Esta API de runtime não descobre arquivos automaticamente. Rotas por arquivos e integração de build continuam sendo entregas separadas do roadmap; layouts já funcionam com arrays explícitos de rotas.
 
