@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Optional native layouts: register `layouts`, opt into `defaultLayout` or select `meta.layout`, and use `layout: false` for existing Page-owning destinations. Each entry gets a separate layout/content instance; the layout owns Page/ActionBar and renders the destination once through its slot. Layout and destination HMR use the existing native Page replacement and covered-page deferral.
+
 - Optional named/global route middleware reuses the existing guard transaction: register with `router.addRouteMiddleware()`, reference through `meta.middleware`, and type functions with `defineRouteMiddleware()`. Existing explicit route declarations and guards keep their API.
 - `useNavigateTo()` captures the routed page's stack; `navigateTo(router, to, options)` accepts explicit context outside setup. Both delegate to native push/replace, retain typed locations and native completion semantics, and reject browser/server-only options. No Nuxt or Vue Router runtime is added.
 

@@ -11,6 +11,7 @@ import {
 } from '@vue/runtime-core'
 import {
   DrawerLayoutStub,
+  ActionBar,
   Frame,
   Page,
   TabView,
@@ -42,19 +43,21 @@ export const views = new Map<string, View[]>()
 
 function viewFor(tag: string) {
   const view =
-    tag === 'Frame'
-      ? new Frame()
-      : tag === 'Page'
-        ? new Page()
-        : tag === 'TabView'
-          ? new TabView()
-          : tag === 'TabViewItem'
-            ? new TabViewItem()
-            : tag === 'RouterDrawerLayout'
-              ? new DrawerLayoutStub()
-              : elements.has(tag)
-                ? new (elements.get(tag)!())()
-                : new View()
+    tag === 'ActionBar' || tag === 'NSCActionBar'
+      ? new ActionBar()
+      : tag === 'Frame'
+        ? new Frame()
+        : tag === 'Page'
+          ? new Page()
+          : tag === 'TabView'
+            ? new TabView()
+            : tag === 'TabViewItem'
+              ? new TabViewItem()
+              : tag === 'RouterDrawerLayout'
+                ? new DrawerLayoutStub()
+                : elements.has(tag)
+                  ? new (elements.get(tag)!())()
+                  : new View()
   views.set(tag, [...(views.get(tag) ?? []), view])
   return view
 }

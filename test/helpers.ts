@@ -51,6 +51,8 @@ interface MountOptions {
   diagnostics?: import('../src/index.js').DiagnosticsOptions | boolean
   motion?: import('../src/index.js').MotionPolicy
   links?: import('../src/index.js').LinksOptions | boolean
+  layouts?: import('../src/index.js').RouterOptions['layouts']
+  defaultLayout?: string | false
 }
 
 export async function mount(
@@ -63,6 +65,8 @@ export async function mount(
 
   const router = createRouter({
     routes,
+    layouts: options.layouts,
+    defaultLayout: options.defaultLayout,
     restore: options.restore,
     backPreview: options.backPreview,
     diagnostics: options.diagnostics,

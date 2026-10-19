@@ -10,6 +10,12 @@ Both suites clear their installed test app's data. Use a test device or emulator
 
 Build the same fixture with `ns build ios --emulator --env.middlewareTest` to run those 15 checks on the iOS runtime. Both platforms print `MIDDLEWARE_RESULT` with the outcome; a passing fixture remains on a guarded page for native Back checks. The fixture does not use file routing or a Nuxt/Vue Router runtime. Building without either test flag restores the normal demo entry point.
 
+## Layout acceptance
+
+Build `ns build android --env.layoutsTest` in `demo`, install its APK and run `ANDROID_SERIAL=<serial> npm run test:native:layouts`. The fixture checks default/named/disabled layouts, one Page/ActionBar per entry, isolated drafts, two native tabs, modal guards/results, missing layouts, disposal and actual native Page replacement for layout/destination HMR. Its 18-check report is followed by a real Android system Back refusal/allow test. Logs, JSON and screenshots go to `scripts/native/out/layouts`.
+
+Use `ns build ios --emulator --env.layoutsTest` for the same fixture on iOS; inspect the unified log's `LAYOUT_RESULT`. The final screen remains on a layout-guarded page so its UIKit ActionBar Back can be tested. Both script HMR cases exercise Vue's real HMR runtime and NativeScript-Vue's Page replacement; no router/native host methods are patched. Building without a fixture flag restores the normal demo.
+
 ## Drawer acceptance
 
 Build the router, then build and install the fixture:

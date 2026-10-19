@@ -97,6 +97,10 @@ Paths aceitam parâmetros nomeados, opcionais/repetidos e padrões personalizado
 
 `ModalOptions` repassa as opções de `showModal` do NativeScript, exceto `context` e `closeCallback`, controlados pelo router. As opções `ios` também aceitam `detents`, `selectedDetent`, `largestUndimmedDetent`, `grabber` e `cornerRadius`. Veja [modais e sheets](./modals).
 
+## Layouts nativos opcionais
+
+`createRouter({ layouts, defaultLayout })` registra componentes/factories de layouts por router. `defaultLayout` é `false` por padrão; `meta.layout` seleciona um nome ou desativa o layout com `false`. O layout monta a Page raiz e a ActionBar opcional; o destino fornece o corpo pelo slot padrão. A seleção fica fixa por entrada, com instâncias separadas do layout/conteúdo por visita. Nomes desconhecidos/imports com erro rejeitam antes da montagem. Veja [layouts nativos](./layouts) para ciclo de vida, HMR, diagnósticos e exemplos.
+
 ## Composables
 
 | Função                                 | Contrato                                                                                                                                                                                                                                                             |

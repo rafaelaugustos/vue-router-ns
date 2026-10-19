@@ -67,6 +67,7 @@ import {
 import { createFrameHost } from './hosts/frame.js'
 import { canZoom, configureSheet, viewOf } from './ios.js'
 import { createMatcher } from './matcher.js'
+import { createLayouts, type EntryLayout } from './layouts.js'
 import {
   createMiddlewareRegistry,
   type RouteMiddleware,
@@ -145,6 +146,10 @@ export interface RouterOptions<
   R extends readonly RouteRecordRaw[] = readonly RouteRecordRaw[],
 > {
   routes: R
+  /** Optional native layouts. Each owns a Page and renders its destination through a slot. */
+  layouts?: Readonly<Record<string, RawRouteComponent>>
+  /** Applied when meta.layout is absent. No default layout is enabled unless explicitly set. */
+  defaultLayout?: string | false
   /** Save the stacks as the user navigates, and rebuild them after the app was killed. */
   restore?: RestoreOptions
   /** Android 14 and later: show the page below while the back swipe moves. Defaults to `true`. */
@@ -276,6 +281,7 @@ export const START_LOCATION: RouteLocation = {
 }
 
 interface Request {
+  layout?: EntryLayout
   type: NavigationType
   stack: Stack
   /** Push and replace: where to go. */
@@ -299,6 +305,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   options: RouterOptions<R>,
 ): Router<RouteMapFrom<R>> {
   const matcher = createMatcher(options.routes)
+  const layouts = createLayouts(options.layouts, options.defaultLayout)
 
   const beforeGuards = callbacks<NavigationGuard>()
   const middleware = createMiddlewareRegistry()
@@ -481,6 +488,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     props: Record<string, unknown>,
     zoomFrom?: Entry['zoomFrom'],
     saved?: Request['saved'],
+    layout?: EntryLayout,
   ) {
     const entry: Entry = {
       id: ++entryId,
@@ -488,6 +496,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       route,
       stack,
       component: components.get(route.matched.at(-1)!)!,
+      layout,
       props,
       leaveGuards: shallowReactive(new Set()),
       backGesture: shallowRef(null),
@@ -893,6 +902,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
           )
           try {
             await loadComponent(to.matched.at(-1)!)
+            const layout = layouts.select(to)
+            request.layout = layout === undefined ? undefined : await layouts.load(layout)
             loading?.end()
           } catch (error) {
             loading?.end('error')
@@ -1022,6 +1033,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       pageProps(to, record, options.props),
       zoom,
       request.saved?.path === to.fullPath ? request.saved : undefined,
+      request.layout,
     )
     request.onEntry?.(entry)
 
@@ -1065,6 +1077,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       stack,
       to,
       pageProps(to, to.matched.at(-1)!, request.options.props),
+      undefined,
+      undefined,
+      request.layout,
     )
     request.onEntry?.(entry)
 

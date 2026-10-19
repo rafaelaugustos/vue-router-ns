@@ -123,6 +123,21 @@ describe('typed routers', () => {
 })
 
 describe('untyped routers', () => {
+  it('types optional native layouts without changing route types', () => {
+    const router = createRouter({
+      routes: [{ path: '/', name: 'home', component: Page, meta: { layout: 'shared' } }],
+      layouts: { shared: Page, lazy: () => Promise.resolve({ default: Page }) },
+      defaultLayout: 'shared',
+    })
+    router.push({ name: 'home' })
+    router.addRoute({ path: '/own', component: Page, meta: { layout: false } })
+    // @ts-expect-error: layout selection is a name or false
+    router.addRoute({ path: '/invalid', meta: { layout: true } })
+    // @ts-expect-error: defaults are explicitly named or disabled
+    createRouter({ routes: [], defaultLayout: true })
+    // @ts-expect-error: layout values are component factories/components
+    createRouter({ routes: [], layouts: { invalid: 42 } })
+  })
   it('fall back to loose names and params', () => {
     const routes: RouteRecordRaw[] = [
       { path: '/users/:id', name: 'user', component: Page },

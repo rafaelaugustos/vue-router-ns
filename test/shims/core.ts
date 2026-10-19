@@ -237,6 +237,10 @@ export class TabView extends View {
   }
 }
 
+export class ActionBar extends View {
+  title = ''
+}
+
 export class Page extends View {
   accessibilityAnnouncePageEnabled = true
   accessibilityScreenChanged(_refocus?: boolean) {}
