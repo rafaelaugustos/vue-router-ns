@@ -15,6 +15,10 @@ on:
       - src/drawer.ts
       - src/router.ts
       - src/layouts.ts
+      - src/folding.ts
+      - src/components/RouterSplitView.ts
+      - test/folding.spec.ts
+      - test/split.spec.ts
       - src/page.ts
       - src/page-state.ts
       - test/page-state.spec.ts
@@ -136,3 +140,58 @@ jobs:
         with:
           name: native-smoke-android
           path: scripts/native/out
+
+  foldable:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - run: npm ci
+      - run: npm run build
+      - run: npm install --no-audit --no-fund
+        working-directory: demo
+      - run: npm install -g nativescript
+      - name: Prepare native fixture resources
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install emulator >/dev/null
+          ns usage-reporting disable
+          ns error-reporting disable
+          ns create fold-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null
+          cp -R /tmp/fold-scaffold/App_Resources demo/App_Resources
+          node scripts/native/prepare-folds.mjs
+      - name: Build the foldable fixture
+        working-directory: demo
+        run: ns build android --env.foldsTest
+      - name: Native fold/posture acceptance
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          target: google_apis
+          profile: pixel_fold
+          disable-animations: false
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: |
+            adb install -r demo/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+            ANDROID_SERIAL=emulator-5554 node scripts/native/folds-android.mjs
+            ANDROID_SERIAL=emulator-5554 EXPECT_OCCLUDING=1 FOLD_DISPLAY_FEATURES='hinge-[1056,0,1152,1840]' OUT=scripts/native/out/hinges node scripts/native/folds-android.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-foldable-android
+          path: |
+            scripts/native/out/folds
+            scripts/native/out/hinges
