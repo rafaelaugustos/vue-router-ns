@@ -148,7 +148,10 @@ try {
   await until(async () => (await ui()).includes('Flow home'), 'origin page removed')
   await capture('disposed-origin')
   await start()
-  await until(() => tap('modal'), 'open modal')
+  // On smaller phones the modal button is below the viewport. Send the fixture
+  // command before opening it; use a real tap inside the modal so am start does
+  // not bring the underlying Activity forward and dismiss the dialog.
+  await command('modal')
   await pause(1200)
   await until(() => tap('pick'), 'modal picker button')
   await picker()
@@ -208,6 +211,9 @@ try {
   await outcome('close:disposed')
   await back()
   console.log(`Passed ${checks.length} native flow outcomes`)
+} catch (error) {
+  await capture('failure').catch(() => {})
+  throw error
 } finally {
   await writeFile(resolve(out, 'results.json'), JSON.stringify(checks, null, 2) + '\n')
   await writeFile(
