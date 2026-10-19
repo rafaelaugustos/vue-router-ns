@@ -46,6 +46,7 @@ const PickerPage = defineComponent({
       const paths = router.stack.value.map((r) => r.path).join(',')
       ApplicationSettings.setString(marker, `${pid()}:${name}`)
       status.value = `PENDING ${name}`
+      console.log(`FLOW_PENDING ${name}`)
       const outcome = await handle.run(
         { types: ['text/plain'], multiple: false },
         { before },
@@ -66,6 +67,7 @@ const PickerPage = defineComponent({
       return outcome
     }
     const handleCommand = async (name: string) => {
+      console.log(`FLOW_COMMAND ${name}`)
       if (name === 'pick') {
         await run('pick')
         return
@@ -98,7 +100,8 @@ const PickerPage = defineComponent({
       }
       if (name === 'dispose') {
         const pending = run('dispose')
-        setTimeout(() => router.back().catch(fatal), 2000)
+        // Remove the covered page without awaiting an animation in a paused Activity.
+        setTimeout(() => router.back({ animated: false }).catch(fatal), 2000)
         await pending
         return
       }

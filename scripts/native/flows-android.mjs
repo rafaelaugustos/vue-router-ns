@@ -88,6 +88,11 @@ async function selectDocument() {
   }
 }
 async function command(name) {
+  // Result delivery can precede DocumentsUI's exit animation and Activity resume.
+  await until(async () => {
+    const xml = await ui()
+    return xml.includes(`package="${pkg}"`) && !xml.includes('documentsui')
+  }, `origin visible before ${name}`)
   await adb('shell', 'am', 'start', '-n', activity, '--es', 'flowCommand', name)
 }
 const back = () => adb('shell', 'input', 'keyevent', '4')
