@@ -61,7 +61,11 @@ O Android não tem detents. O bottom sheet do Material tem estados de repouso: r
 }
 ```
 
-A rota continua com um Frame próprio, então as páginas empurram dentro do sheet, `pushForResult()` funciona e `router.back()` na primeira página o fecha. Arrastar o sheet para fora, tocar fora ou apertar voltar o fecham passando pelos leave guards: enquanto um guard está ativo o sheet não pode ser arrastado para fora, e um toque fora ou o voltar perguntam ao guard. O Material não tem callback para um arrasto recusado, então um sheet segurado simplesmente fica onde está. `cancelable: false` impede o usuário de fechá-lo. O `push` mescla o seu `modal.android.sheet` com o do record, como no `ios`.
+A rota continua com um Frame próprio, então as páginas empurram dentro do sheet, `pushForResult()` funciona e `router.back()` na primeira página o fecha. Arrastar o sheet para fora, tocar fora ou apertar voltar o fecham passando pelos leave guards: enquanto um guard está ativo o sheet não pode ser arrastado para fora, e um toque fora ou o voltar perguntam ao guard. O Material não tem callback para recusar o gesto de ocultar: um sheet bloqueado ainda pode recolher, mas não pode ser arrastado até o estado oculto. `cancelable: false` impede o usuário de fechá-lo. O `push` mescla o seu `modal.android.sheet` com o do record, como no `ios`.
+
+Use um `ScrollView` nativo para conteúdo longo. O `height` do sheet limita a área visível, e a rolagem aninhada nativa permite rolar seu conteúdo. O voltar primeiro fecha um teclado aberto antes de atuar no histórico do sheet.
+
+O sheet usa o tratamento de voltar do router para executar os guards antes do fechamento. A animação interativa de predictive back do sheet Material não é suportada. Veja o [relatório de validação nativa](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-bottom-sheets.md) para os comportamentos conferidos e limites de plataforma.
 
 Dentro das páginas dele, `useNativeHost()` reporta `kind: 'bottom-sheet'`, e `native` é o Frame.
 

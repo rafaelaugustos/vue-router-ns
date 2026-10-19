@@ -61,7 +61,11 @@ Android has no detents. Material's bottom sheet has resting states instead: coll
 }
 ```
 
-The route still gets its own Frame, so pages push inside the sheet, `pushForResult()` works and `router.back()` on its first page closes it. Dragging the sheet away, tapping outside or pressing back closes it through the leave guards: while a guard is active the sheet can't be dragged away, and an outside tap or back asks the guard. Material has no callback for a refused drag, so a held sheet simply stays put. `cancelable: false` keeps the user from closing it at all. `push` merges its `modal.android.sheet` with the record's, like `ios`.
+The route still gets its own Frame, so pages push inside the sheet, `pushForResult()` works and `router.back()` on its first page closes it. Dragging the sheet away, tapping outside or pressing back closes it through the leave guards: while a guard is active the sheet can't be dragged away, and an outside tap or back asks the guard. Material has no callback for refusing a hide gesture: a held sheet can still collapse, but cannot be dragged to its hidden state. `cancelable: false` keeps the user from closing it at all. `push` merges its `modal.android.sheet` with the record's, like `ios`.
+
+Use a native `ScrollView` for long sheet content. The sheet's `height` limits its visible area, and native nested scrolling lets its content scroll within it. Back first dismisses an open keyboard before acting on the sheet's history.
+
+The sheet uses the router's Back handling so guards run before dismissal. Material's interactive predictive-back sheet animation is unsupported. See the [native validation report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-bottom-sheets.md) for the checked behavior and platform limits.
 
 Inside its pages, `useNativeHost()` reports `kind: 'bottom-sheet'`, and `native` is the Frame.
 
