@@ -10,9 +10,14 @@ module.exports = (env) => {
       return args
     })
     // Separate opt-in acceptance fixtures; the normal demo keeps explicit routes.
-    const fixtures = ['drawer', 'middleware', 'layouts', 'files', 'state'].filter(
-      (name) => env[`${name}Test`],
-    )
+    const fixtures = [
+      'drawer',
+      'middleware',
+      'layouts',
+      'files',
+      'state',
+      'folds',
+    ].filter((name) => env[`${name}Test`])
     if (fixtures.length > 1) throw new Error('Select only one native acceptance fixture')
     if (fixtures.length) {
       const entry = config.entry('bundle')

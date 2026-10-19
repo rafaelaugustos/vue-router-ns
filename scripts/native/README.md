@@ -66,3 +66,41 @@ Run the automated suite with TalkBack off. UIAutomator temporarily suppresses ot
 On Android 14 and later with gesture navigation, check both cancelled and committed Back swipes while the drawer is open, then repeat with a modal above it. Android owns the edge; an ActionBar menu button remains necessary when an edge drag is interpreted as system Back.
 
 The checked device/version matrix and outcomes belong in [`test/native-drawer.md`](../../test/native-drawer.md).
+
+## Foldable split layout
+
+The fixture uses the optional AndroidX WindowManager Java bridge. Prepare the demo's
+`App_Resources` as above, then run from the repository root:
+
+```sh
+npm run build
+node scripts/native/prepare-folds.mjs
+(cd demo && ns build android --env.foldsTest)
+adb -s emulator-5580 install -r demo/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+ANDROID_SERIAL=emulator-5580 node scripts/native/folds-android.mjs
+```
+
+Use a dedicated Pixel Fold AVD with a hinge-angle sensor. The runner changes its
+hinge angle, rotation and display size; it resets those settings and stops its own
+fixture app on exit. It verifies actual AndroidX feature callbacks, native Frame
+bounds, retained page identities/drafts/scroll, input focus, RTL, opt-out, modal
+return and Back. Results include PID and feature/pane geometry; screenshots and
+runtime logs are saved in `scripts/native/out/folds`. This is an emulator lane;
+it does not claim physical foldable or screen-reader speech coverage.
+
+For the Pixel Fold profile (2208×1840 pixels), test an occluding hinge delivered
+through Android's WindowManager Extensions settings provider:
+
+```sh
+ANDROID_SERIAL=emulator-5580 EXPECT_OCCLUDING=1 \
+  FOLD_DISPLAY_FEATURES='hinge-[1056,0,1152,1840]' \
+  OUT=scripts/native/out/hinges node scripts/native/folds-android.mjs
+```
+
+The runner restores the previous `display_features` setting on exit. It verifies
+`FoldingFeature.OcclusionType.FULL` and actual pane bounds; this is an OS-provided
+emulated feature, not evidence from physical dual-screen hardware. See [native folding evidence](../../test/native-folding.md)
+for the tested hardware configuration and platform versions. The `Native` workflow
+runs the standard Pixel Fold posture fixture in its own Android emulator job.
+
+The CI runner starts from the SDK’s available `pixel_7` catalog entry, then applies the Pixel Fold screen, hinge-sensor and posture properties with `prepare-fold-avd.mjs` before its first boot. This avoids depending on newer SDK catalogs that include `pixel_fold`; the app still receives real OS/AndroidX folding features.

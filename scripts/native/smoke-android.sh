@@ -35,8 +35,20 @@ step "cold starts"
 for attempt in 1 2 3; do
   if [ "$attempt" != "1" ]; then $ADB shell pm clear "$PKG" >/dev/null || exit 2; fi
   launch
-  wait_text "Inbox (2)" 60
+  wait_text "Inbox (2)" 10
   status=$?
+  # Some fresh API 34 CI images leave a Pixel Launcher ANR above our healthy app.
+  # Recover only that named system dialog; never dismiss an ANR from the app under test.
+  if [ "$status" != "0" ]; then
+    if has "text=\"Pixel Launcher isn't responding\" resource-id=\"android:id/alertTitle\""; then
+      dump > "$OUT/launcher-anr-$attempt.xml"
+      screenshot "launcher-anr-$attempt"
+      echo "Recovering Pixel Launcher ANR (evidence saved); checking the app again"
+      tap_text "Close app"
+    fi
+    wait_text "Inbox (2)" 60
+    status=$?
+  fi
   check "cold start $attempt shows the inbox" "$status" "$(top_activity)"
   screenshot "01-inbox-$attempt"
   dump > "$OUT/01-startup-$attempt.xml"
