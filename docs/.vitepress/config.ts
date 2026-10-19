@@ -4,6 +4,27 @@ const site = 'https://vue-router-ns.rafaelaugusto.dev'
 const repo = 'https://github.com/rafaelaugustos/vue-router-ns'
 const cortex = '<a href="https://getcortexlabs.com/">Cortex Labs</a>'
 
+const trackingHead = `<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TWQ2MWQG');</script>
+<!-- End Google Tag Manager -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NXBR732XZY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NXBR732XZY');
+</script>`
+
+const trackingBody = `<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TWQ2MWQG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->`
+
 function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.SidebarItem[] {
   const page = (key: string, path: string) => ({
     text: t[key],
@@ -135,6 +156,10 @@ export default defineConfig({
   cleanUrls: true,
   lastUpdated: true,
   sitemap: { hostname: site },
+  transformHtml: (html) =>
+    html
+      .replace('<head>', `<head>\n${trackingHead}`)
+      .replace('<body>', `<body>\n${trackingBody}`),
   head: [
     ['link', { rel: 'icon', type: 'image/png', href: '/icon.png' }],
     ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
