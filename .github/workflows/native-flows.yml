@@ -100,8 +100,13 @@ jobs:
         working-directory: demo
       - name: Drive the system picker with XCTest
         run: |
-          SIM=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; d=json.load(sys.stdin); print(next(x["udid"] for group in d["devices"].values() for x in group if x["name"].startswith("iPhone")))')
-          xcrun simctl boot "$SIM" || true
+          # Use a new device: hosted-image simulators carry persistent provider
+          # state. Keep the installed runtime, but isolate this test's storage.
+          RUNTIME=$(xcrun simctl list runtimes -j | python3 -c 'import json,sys; print(next(x["identifier"] for x in json.load(sys.stdin)["runtimes"] if x["isAvailable"] and x["name"].startswith("iOS")))')
+          SIM=$(xcrun simctl create RouterFlows com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro "$RUNTIME")
+          echo "Testing $SIM on $RUNTIME"
+          trap 'xcrun simctl shutdown "$SIM"; xcrun simctl delete "$SIM"' EXIT
+          xcrun simctl boot "$SIM"
           xcrun simctl bootstatus "$SIM" -b
           xcrun simctl install "$SIM" demo/platforms/ios/build/Debug-iphonesimulator/demo.app
           ruby scripts/native/ios-flows/project.rb /tmp/router-flow-tests
@@ -110,6 +115,8 @@ jobs:
           xcodebuild test -project /tmp/router-flow-tests/FlowChecks.xcodeproj -scheme FlowChecks -destination "platform=iOS Simulator,id=$SIM" -derivedDataPath /tmp/router-flow-tests/build -collect-test-diagnostics never -resultBundlePath scripts/native/out/flows-ios/FlowChecks.xcresult
           test_status=$?
           xcrun simctl spawn "$SIM" log show --last 10m --style compact --predicate 'process == "demo" OR eventMessage CONTAINS "FLOW_" OR subsystem CONTAINS[c] "FileProvider" OR subsystem CONTAINS[c] "DocumentManager"' > scripts/native/out/flows-ios/runtime.log
+          DATA=$(xcrun simctl get_app_container "$SIM" org.nativescript.vuerouterns data)
+          ls -l "$DATA/Documents" > scripts/native/out/flows-ios/documents.txt
           exit "$test_status"
       - uses: actions/upload-artifact@v4
         if: always()

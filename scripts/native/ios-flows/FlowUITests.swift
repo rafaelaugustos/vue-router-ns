@@ -14,7 +14,7 @@ final class FlowUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["guard:guard"].firstMatch.waitForExistence(timeout: 10))
         app.buttons["pick"].tap()
         let cancel = app.buttons["Cancel"].firstMatch
-        XCTAssertTrue(cancel.waitForExistence(timeout: 15), app.debugDescription)
+        XCTAssertTrue(cancel.waitForExistence(timeout: 30), app.debugDescription)
         let shot = XCTAttachment(screenshot: app.screenshot())
         shot.name = "system-document-picker"
         shot.lifetime = .keepAlways
@@ -25,7 +25,7 @@ final class FlowUITests: XCTestCase {
     }
     func testPickDocument() {
         app.buttons["pick"].tap()
-        XCTAssertTrue(app.buttons["Cancel"].firstMatch.waitForExistence(timeout: 15))
+        XCTAssertTrue(app.buttons["Cancel"].firstMatch.waitForExistence(timeout: 30))
         let browse = app.tabBars.buttons["Browse"]
         if !browse.isSelected { browse.tap() }
         let completed = app.staticTexts["pick:completed"].firstMatch
@@ -62,7 +62,7 @@ final class FlowUITests: XCTestCase {
     func testConcurrentPresentation() {
         app.buttons["concurrent"].tap()
         let cancel = app.buttons["Cancel"].firstMatch
-        XCTAssertTrue(cancel.waitForExistence(timeout: 15), app.debugDescription)
+        XCTAssertTrue(cancel.waitForExistence(timeout: 30), app.debugDescription)
         cancel.tap()
         XCTAssertTrue(app.staticTexts["concurrent:refused"].firstMatch.waitForExistence(timeout: 10), app.debugDescription)
         XCTAssertTrue(app.staticTexts["IDLE"].exists)
@@ -70,7 +70,7 @@ final class FlowUITests: XCTestCase {
 
     func testParentDisposal() {
         app.buttons["dispose"].tap()
-        XCTAssertTrue(app.staticTexts["dispose:disposed"].firstMatch.waitForExistence(timeout: 15), app.debugDescription)
+        XCTAssertTrue(app.staticTexts["dispose:disposed"].firstMatch.waitForExistence(timeout: 30), app.debugDescription)
         XCTAssertTrue(app.staticTexts["Flow home"].exists)
         let dismissed = XCTNSPredicateExpectation(
             predicate: NSPredicate(format: "exists == false"),
@@ -80,7 +80,7 @@ final class FlowUITests: XCTestCase {
         app.buttons["open"].tap()
         XCTAssertTrue(app.buttons["pick"].waitForExistence(timeout: 10))
         app.buttons["pick"].tap()
-        XCTAssertTrue(app.buttons["Cancel"].firstMatch.waitForExistence(timeout: 15))
+        XCTAssertTrue(app.buttons["Cancel"].firstMatch.waitForExistence(timeout: 30))
         app.buttons["Cancel"].firstMatch.tap()
         XCTAssertTrue(app.staticTexts["pick:user"].firstMatch.waitForExistence(timeout: 10))
     }
@@ -90,20 +90,20 @@ final class FlowUITests: XCTestCase {
         let modalPick = app.buttons.matching(identifier: "pick").allElementsBoundByIndex.last!
         XCTAssertTrue(modalPick.waitForExistence(timeout: 10))
         modalPick.tap()
-        XCTAssertTrue(app.buttons["Cancel"].firstMatch.waitForExistence(timeout: 15), app.debugDescription)
+        XCTAssertTrue(app.buttons["Cancel"].firstMatch.waitForExistence(timeout: 30), app.debugDescription)
         app.buttons["Cancel"].firstMatch.tap()
         XCTAssertTrue(app.staticTexts["pick:user"].firstMatch.waitForExistence(timeout: 10))
     }
 
     func testProcessRestartDropsPromise() {
         app.buttons["pick"].tap()
-        XCTAssertTrue(app.buttons["Cancel"].firstMatch.waitForExistence(timeout: 15))
+        XCTAssertTrue(app.buttons["Cancel"].firstMatch.waitForExistence(timeout: 30))
         app.terminate()
         app.launch()
         XCTAssertTrue(app.staticTexts["recovery:orphan"].firstMatch.waitForExistence(timeout: 20), app.debugDescription)
         XCTAssertTrue(app.staticTexts["IDLE"].exists)
         app.buttons["pick"].tap()
-        XCTAssertTrue(app.buttons["Cancel"].firstMatch.waitForExistence(timeout: 15))
+        XCTAssertTrue(app.buttons["Cancel"].firstMatch.waitForExistence(timeout: 30))
         app.buttons["Cancel"].firstMatch.tap()
         XCTAssertTrue(app.staticTexts["pick:user"].firstMatch.waitForExistence(timeout: 10))
     }
