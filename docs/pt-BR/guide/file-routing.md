@@ -98,7 +98,7 @@ const router = createRouter({
 
 ## Regeneração e páginas abertas
 
-`generateFileRoutes()` retorna código, árvore de páginas, fontes e caminhos sem escrever. `writeFileRoutes()` escreve atomicamente apenas se a saída mudou. Uma edição inválida mantém o último módulo válido.
+`generateFileRoutes()` retorna código, árvore de páginas, fontes e caminhos sem escrever. `writeFileRoutes()` escreve atomicamente apenas se a saída mudou. Uma falha na geração mantém o último módulo válido; compilação e diagnósticos de tipos continuam sob responsabilidade do builder.
 
 `watchFileRoutes(options, { onGenerated, onError })` oferece um watcher Node para integrações de build. Ele serializa a regeneração ao criar/editar/renomear/apagar arquivos, relata erros e retoma após correções. Aguarde `close()` no handle retornado para encerrá-lo. Os callbacks devem relatar erros sem lançar exceções. O suporte segue o Node/filesystem. O builder cuida de compilação, diagnóstico, encerramento e entrega do módulo atualizado ao aplicativo.
 
@@ -112,7 +112,7 @@ const fileRoutes = createFileRouteUpdater(router, routes)
 fileRoutes.update(nextModule.routes)
 ```
 
-A atualização altera os destinos do matcher para **navegações futuras**. Entradas abertas mantêm Page, snapshot da rota, layout, guards e rascunhos, mesmo se o arquivo foi removido/renomeado. Voltar ainda retorna a essas entradas; um destino removido não pode ser aberto novamente pela tabela atualizada. HMR do script/template Vue é uma operação separada, com o contrato existente de HMR das páginas. O updater não recria o router nem reinicia outras pilhas.
+A atualização altera o **matching futuro por caminho/nome**. Entradas abertas mantêm Page, snapshot da rota, layout, guards e rascunhos, mesmo se o arquivo foi removido/renomeado. Voltar ainda retorna a essas entradas; tentar abrir um destino removido por caminho/nome falha. Localizações relativas a uma entrada retida continuam usando o registro original, incluindo seus metadados, conforme a semântica existente de `addRoute`/`removeRoute`. Use caminho ou nome para resolver pela tabela atualizada. HMR do script/template Vue é uma operação separada, com o contrato existente de HMR das páginas. O updater não recria o router nem reinicia outras pilhas.
 
 Conflitos com destinos explícitos e registros alterados externamente são rejeitados antes de modificar a tabela. Se `addRoute`/`removeRoute` substituiu um registro gerado, recrie o updater com a tabela gerada realmente instalada. Remova filhos adicionados manualmente antes de atualizar seu pai gerado. Assim, o registro direto continua sendo respeitado.
 

@@ -13,7 +13,7 @@ export function mergeFileRoutes<
 }
 
 export interface FileRouteUpdater {
-  /** Future navigations see the new table. Retained entries keep their Page/route/state. */
+  /** Future path/name matching sees the new table. Retained entries keep their Page/route/state. */
   update(routes: readonly RouteRecordRaw[]): void
 }
 

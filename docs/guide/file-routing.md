@@ -98,7 +98,7 @@ const router = createRouter({
 
 ## Regeneration and retained pages
 
-`generateFileRoutes()` returns code, the page tree, source files and directory/output paths without writing. `writeFileRoutes()` writes atomically only when the generated code changes. A failed edit leaves the last valid output in place.
+`generateFileRoutes()` returns code, the page tree, source files and directory/output paths without writing. `writeFileRoutes()` writes atomically only when the generated code changes. A failed generation leaves the last valid output in place; builders remain responsible for compilation and type diagnostics.
 
 `watchFileRoutes(options, { onGenerated, onError })` is an optional Node watcher for build integrations. It serializes regeneration on creation/edit/rename/removal, reports failures, and resumes after corrections. Await its returned handle's `close()` to stop it. Callbacks must report errors without throwing. Watcher availability follows Node/filesystem support. Builders own compilation, diagnostics, shutdown and delivery of module updates to the app.
 
@@ -112,7 +112,7 @@ const fileRoutes = createFileRouteUpdater(router, routes)
 fileRoutes.update(nextModule.routes)
 ```
 
-An update changes the matcher's destinations for **future** navigations. Existing native entries keep their Page, route snapshot, layout, guards and drafts, even when their file was removed or renamed. Back still returns to those retained entries; a removed destination cannot be opened again through the updated table. Vue script/template HMR remains a separate component operation and follows the existing page-HMR contract. The updater does not recreate the router or reset other stacks.
+An update changes **future path/name matching**. Existing native entries keep their Page, route snapshot, layout, guards and drafts, even when their file was removed or renamed. Back still returns to those retained entries; targeting a removed destination by path/name fails. Relative locations from a retained entry continue to use its original matched record, including metadata, following the existing `addRoute`/`removeRoute` semantics. Use a path or name to resolve against the updated table. Vue script/template HMR remains a separate component operation and follows the existing page-HMR contract. The updater does not recreate the router or reset other stacks.
 
 The updater rejects conflicts with explicit destinations and externally changed registrations before mutating the table. If `addRoute`/`removeRoute` has replaced one of its records, recreate the updater with the actual current generated table. Remove manually attached children before updating their generated parent. These rules keep direct registration authoritative.
 
