@@ -16,6 +16,8 @@ on:
       - src/router.ts
       - src/layouts.ts
       - src/page.ts
+      - src/file-routing/**
+      - test/file-routing.spec.ts
       - test/layouts.spec.ts
       - src/middleware.ts
       - src/navigation.ts
@@ -91,6 +93,9 @@ jobs:
           cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-middleware.apk
           ns build android --env.layoutsTest
           cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-layouts.apk
+          ns build android --env.filesTest
+          npx tsc --noEmit -p tsconfig.files.json
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-files.apk
         working-directory: demo
       - name: Smoke test on an emulator
         uses: reactivecircus/android-emulator-runner@v2
@@ -109,6 +114,8 @@ jobs:
             bash scripts/native/middleware-android.sh
             adb install -r /tmp/router-layouts.apk
             bash scripts/native/layouts-android.sh
+            adb install -r /tmp/router-files.apk
+            bash scripts/native/files-android.sh
       - uses: actions/upload-artifact@v4
         if: always()
         with:

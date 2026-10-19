@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/testing/files-app.ts",
+    "src/testing/file-state.ts",
+    "src/testing/file-generated",
+    "types"
+  ],
+  "exclude": ["node_modules", "platforms"]
+}
