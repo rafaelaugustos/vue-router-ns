@@ -16,6 +16,8 @@ on:
       - src/router.ts
       - src/layouts.ts
       - src/page.ts
+      - src/page-state.ts
+      - test/page-state.spec.ts
       - src/file-routing/**
       - test/file-routing.spec.ts
       - test/file-routing-setup.spec.ts
@@ -98,6 +100,9 @@ jobs:
           ns build android --env.filesTest
           npx tsc --noEmit -p tsconfig.files.json
           cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-files.apk
+          ns build android --env.stateTest
+          npx tsc --noEmit
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-state.apk
         working-directory: demo
       - name: Prepare the convention-based example
         working-directory: examples/file-routing
@@ -123,6 +128,8 @@ jobs:
             bash scripts/native/layouts-android.sh
             adb install -r /tmp/router-files.apk
             bash scripts/native/files-android.sh
+            adb install -r /tmp/router-state.apk
+            ANDROID_SERIAL=emulator-5554 bash scripts/native/state-android.sh
             ANDROID_SERIAL=emulator-5554 node scripts/native/conventions-watch.mjs android
       - uses: actions/upload-artifact@v4
         if: always()
