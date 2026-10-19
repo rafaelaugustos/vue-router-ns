@@ -4,6 +4,12 @@
 
 Both suites clear their installed test app's data. Use a test device or emulator. With multiple devices connected, set `ANDROID_SERIAL` explicitly. The drawer runner restores the device's rotation settings even after an assertion fails; it writes screenshots, the accessibility hierarchy and `results.json` under `scripts/native/out/drawer-<serial>`.
 
+## Middleware and helper acceptance
+
+`npm run test:native:middleware` runs the fixture built with `ns build android --env.middlewareTest`. Install that APK first and select a test device with `ANDROID_SERIAL`. The fixture performs 15 checks of real Frame history, authentication redirects, async refusal, errors, page-bound helpers across two stacks, repeated entries, disposal, guarded Back and modal results. The runner then uses Android system Back to verify refusal while dirty and successful return after allowing. It records logs, the JSON report and screenshots under `scripts/native/out/middleware`.
+
+Build the same fixture with `ns build ios --emulator --env.middlewareTest` to run those 15 checks on the iOS runtime. Both platforms print `MIDDLEWARE_RESULT` with the outcome; a passing fixture remains on a guarded page for native Back checks. The fixture does not use file routing or a Nuxt/Vue Router runtime. Building without either test flag restores the normal demo entry point.
+
 ## Drawer acceptance
 
 Build the router, then build and install the fixture:

@@ -68,6 +68,11 @@ import { createFrameHost } from './hosts/frame.js'
 import { canZoom, configureSheet, viewOf } from './ios.js'
 import { createMatcher } from './matcher.js'
 import {
+  createMiddlewareRegistry,
+  type RouteMiddleware,
+  type RouteMiddlewareOptions,
+} from './middleware.js'
+import {
   installSystemLinks,
   parseLink,
   REPEAT_WINDOW,
@@ -210,6 +215,12 @@ export interface Router<M extends RouteMapLike = RouteMapGeneric> {
 
   beforeEach(guard: NavigationGuard): () => void
   beforeResolve(guard: NavigationGuard): () => void
+  /** Optional named/global middleware, after beforeEach and before beforeEnter. */
+  addRouteMiddleware(
+    name: string,
+    middleware: RouteMiddleware,
+    options?: RouteMiddlewareOptions,
+  ): () => void
   afterEach(hook: NavigationHookAfter): () => void
   onError(handler: NavigationErrorHandler): () => void
   /** Resolves once the first `<RouterView>` has shown its initial page. */
@@ -290,6 +301,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   const matcher = createMatcher(options.routes)
 
   const beforeGuards = callbacks<NavigationGuard>()
+  const middleware = createMiddlewareRegistry()
   const resolveGuards = callbacks<NavigationGuard>()
   const afterHooks = callbacks<NavigationHookAfter>()
   const errorHandlers = callbacks<NavigationErrorHandler>()
@@ -863,6 +875,10 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         'leave',
       )
       outcome ??= await check(beforeGuards.list(), 'beforeEach')
+      if (!outcome) {
+        const guards = middleware.guards(to)
+        if (guards.length) outcome = await check(guards, 'middleware')
+      }
       if (type !== 'back') {
         outcome ??= await check(
           to.matched
@@ -1602,6 +1618,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
     beforeEach: beforeGuards.add,
     beforeResolve: resolveGuards.add,
+    addRouteMiddleware: middleware.add,
     afterEach: afterHooks.add,
     onError: errorHandlers.add,
     isReady: () => ready.promise,

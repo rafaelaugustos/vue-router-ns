@@ -73,6 +73,12 @@ Os métodos de navegação, exceto `pushForResult`, resolvem para `NavigationFai
 
 Um `NavigationGuard` recebe `(to, from, { type })`, com `type` igual a `'push'`, `'replace'` ou `'back'`. Pode retornar uma promise. Retorne `false` para abortar, uma localização para redirecionar, ou `undefined`/`true` para continuar. Guards usam valores de retorno, não `next()`. Veja [guards](./guards).
 
+### Middleware e helpers opcionais
+
+`router.addRouteMiddleware(name, guard, { global }?)` registra middleware nomeado e retorna uma função para removê-lo. `meta.middleware` do destino aceita nomes/funções ou um array readonly. Middleware executa depois de `beforeEach`: globais primeiro, seguidos da lista do destino, antes de `beforeEnter`. `defineRouteMiddleware(guard)` tipa a função sem registrá-la.
+
+`useNavigateTo()` captura no setup um helper vinculado à pilha daquela página. Fora do setup, use `navigateTo(router, to, options?)` com contexto explícito. Ambos delegam para push/replace e retornam `Promise<NavigationFailure | undefined>`. Opções: `NavigationOptions` mais `replace`. Tipos: `RouteMiddleware`, `RouteMiddlewareReference`, `RouteMiddlewareOptions`, `NavigateTo`, `NavigateToOptions`. Veja [middleware e helpers opcionais](./middleware) para ordem, descarte, convenções e limites dos gestos nativos.
+
 ### Estado
 
 - `currentRoute`: ref readonly da rota em foco, incluindo o modal ativo.

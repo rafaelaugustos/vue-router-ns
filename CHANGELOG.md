@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Optional named/global route middleware reuses the existing guard transaction: register with `router.addRouteMiddleware()`, reference through `meta.middleware`, and type functions with `defineRouteMiddleware()`. Existing explicit route declarations and guards keep their API.
+- `useNavigateTo()` captures the routed page's stack; `navigateTo(router, to, options)` accepts explicit context outside setup. Both delegate to native push/replace, retain typed locations and native completion semantics, and reject browser/server-only options. No Nuxt or Vue Router runtime is added.
+
 ## 0.1.0-beta.11 (2026-10-18)
 
 - Android Material tabs preserve their native menu items when Vue updates the page, title, icon or badge. Previously, rebuilding the menu could move TalkBack focus from the destination heading to the selected tab after navigation. Changing the tab names or order still rebuilds the menu and removes obsolete badges.

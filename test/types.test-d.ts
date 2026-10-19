@@ -3,6 +3,10 @@ import { defineComponent } from 'nativescript-vue'
 import { describe, expectTypeOf, it } from 'vitest'
 import {
   createRouter,
+  defineRouteMiddleware,
+  navigateTo,
+  useNavigateTo,
+  type NavigateTo,
   type ParamsFromPath,
   type RouteLocationOf,
   type RouteRecordRaw,
@@ -66,6 +70,40 @@ describe('typed routers', () => {
     router.push({ name: 'nope' })
     // @ts-expect-error: unknown param
     router.push({ name: 'user', params: { slug: 'x' } })
+  })
+
+  it('checks helper locations and supports only native options', () => {
+    navigateTo(
+      router,
+      { name: 'user', params: { id: 1 } },
+      { replace: true, frame: 'settings', modal: true },
+    )
+    // @ts-expect-error: missing required param
+    navigateTo(router, { name: 'user' })
+    // @ts-expect-error: unknown name must not widen the inferred router map
+    navigateTo(router, { name: 'nope' })
+    // @ts-expect-error: browser options are not native navigation options
+    navigateTo(router, '/', { external: true })
+    expectTypeOf(useNavigateTo).returns.toEqualTypeOf<NavigateTo>()
+  })
+
+  it('types middleware like existing guards and preserves metadata references', () => {
+    const auth = defineRouteMiddleware((to, from, info) => {
+      expectTypeOf(to.fullPath).toBeString()
+      expectTypeOf(from.params).toEqualTypeOf<Record<string, string | string[]>>()
+      expectTypeOf(info.type).toEqualTypeOf<'push' | 'replace' | 'back'>()
+      return to.meta.requiresAuth ? { name: 'home' } : undefined
+    })
+    router.addRouteMiddleware('auth', auth, { global: true })
+    router.addRoute({
+      path: '/private',
+      component: Page,
+      meta: { middleware: ['auth', auth] },
+    })
+    // @ts-expect-error: middleware uses guard outcomes, not result objects
+    defineRouteMiddleware(() => ({ redirectCode: 302 }))
+    // @ts-expect-error: invalid middleware metadata
+    router.addRoute({ path: '/invalid', meta: { middleware: 42 } })
   })
 
   it('takes shared transitions and zoom sources', () => {
