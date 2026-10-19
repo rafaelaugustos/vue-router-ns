@@ -21,6 +21,7 @@ on:
       - src/file-routing/**
       - test/file-routing.spec.ts
       - test/file-routing-setup.spec.ts
+      - test/file-routing-vite.spec.ts
       - examples/file-routing/**
       - test/layouts.spec.ts
       - src/middleware.ts
@@ -131,6 +132,7 @@ jobs:
             adb install -r /tmp/router-state.apk
             ANDROID_SERIAL=emulator-5554 bash scripts/native/state-android.sh
             ANDROID_SERIAL=emulator-5554 node scripts/native/conventions-watch.mjs android
+            ROUTER_BUNDLER=vite NATIVE_HMR=0 ANDROID_SERIAL=emulator-5554 node scripts/native/conventions-watch.mjs android
       - uses: actions/upload-artifact@v4
         if: always()
         with:

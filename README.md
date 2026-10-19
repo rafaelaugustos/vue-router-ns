@@ -35,7 +35,7 @@ const router = createRouter({
 router.push({ name: 'message', params: { id: 42 } })
 ```
 
-Prefer file conventions? The optional [file-routing setup](https://vue-router-ns.rafaelaugusto.dev/guide/file-routing) generates typed native routes, with opt-in layouts, middleware discovery and webpack HMR. Choose explicit records, native page files, or combine them on the same router. See the separate [native example](examples/file-routing/README.md).
+Prefer file conventions? The optional [file-routing setup](https://vue-router-ns.rafaelaugusto.dev/guide/file-routing) generates typed native routes, with opt-in layouts, middleware discovery and webpack HMR. An experimental Vite build plugin is in development; see the guide for its native HMR limitation. Choose explicit records, native page files, or combine them on the same router. See the separate [native example](examples/file-routing/README.md).
 
 Recorded in the NativeScript demo. Watch more clips, with the code for each feature, in the [visual guide](https://vue-router-ns.rafaelaugusto.dev/guide/demo).
 

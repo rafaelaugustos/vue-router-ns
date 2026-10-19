@@ -2,7 +2,7 @@
 import { useRoute, useRouter } from 'vue-router-ns'
 import { useDraft, selectedColor } from '../../state'
 definePageMeta({ meta: { title: 'Field notes', revision: 1 } })
-const route = useRoute(),
+const route = useRoute('products-id'),
   router = useRouter()
 const draft = useDraft('')
 async function color() {

@@ -60,6 +60,48 @@ await prepareFileRouting({
 
 Compartilhe as opções entre o script e o webpack. O `index.d.ts` gerado descreve a **última plataforma preparada**: prepare e verifique os tipos de cada plataforma em sequência. Não gere ambas simultaneamente no mesmo diretório de saída. O NativeScript seleciona `index.android.ts`/`index.ios.ts` em runtime. Os módulos Node de setup/plugin/compilador nunca devem ser importados pelo app.
 
+## Configuração com NativeScript Vite (experimental, ainda não publicada)
+
+A entrada opcional `vue-router-ns/file-routing/vite` gera as mesmas rotas nativas e remove `definePageMeta` antes da compilação Vue. Requer Vite 8 e `@vue/compiler-sfc@^3.5` como dependências de desenvolvimento. Comece pela [configuração Vue do NativeScript Vite](https://docs.nativescript.org/configuration/vite) e adicione o plugin:
+
+```ts
+// vite.config.mts
+import { defineConfig, mergeConfig } from 'vite'
+import { getCliFlags } from '@nativescript/vite'
+import { vueConfig } from '@nativescript/vite/vue'
+import { nativeFileRoutes } from 'vue-router-ns/file-routing/vite'
+
+export default defineConfig(({ mode }) => {
+  const flags = {
+    ...getCliFlags(),
+    ...JSON.parse(process.env.NATIVESCRIPT_BUNDLER_ENV ?? '{}'),
+  }
+  if (!flags.android && !flags.ios) throw new Error('Select an Android or iOS build')
+  return mergeConfig(vueConfig({ mode }), {
+    plugins: [
+      nativeFileRoutes({
+        platform: flags.android ? 'android' : 'ios',
+        pagesDir: 'src/pages',
+        outDir: 'src/generated/router',
+        layoutsDir: 'src/layouts',
+        middlewareDir: 'src/middleware',
+        autoImports: true,
+      }),
+    ],
+  })
+})
+```
+
+Defina `bundler: 'vite'` e `bundlerConfigPath: 'vite.config.mts'` em `nativescript.config.ts`. Inclua `vite/client` nos tipos do TypeScript para o `import.meta.hot` gerado. Nas chamadas independentes de `prepareFileRouting()`, use também `bundler: 'vite'`. `installFileRouting`, layouts nativos, middleware e composição com rotas explícitas usam a mesma API do exemplo acima.
+
+::: warning HMR nativo bloqueado no @nativescript/vite 8.0.19
+Use `ns run android --no-hmr` ou `ns run ios --emulator --no-hmr` nesta integração. O compilador de SFCs do HMR nativo lê a página original do disco e pula a transformação do macro pelo plugin; assim, `definePageMeta` chega ao runtime. Imports de pacotes vinculados também podem falhar na reescrita de dependências nativas. Build Vite ou teste unitário do dev server passando não comprovam suporte a HMR nativo. A [#100](https://github.com/rafaelaugustos/vue-router-ns/issues/100) acompanha o trabalho e as evidências de aceitação.
+:::
+
+Validado com `@nativescript/vite` 8.0.19 sem patches, Vite 8.3.4 e Node 22.23.3: Android API 36 e iOS 26 passam 15 checks de navegação nativa cada, com HMR desativado. A inspeção dos bundles encontra uma instância do renderer/Core nativo e nenhum compilador de rotas ou router web. Essa integração ainda não faz parte da beta.12.
+
+O watcher Vite e os callbacks HMR gerados têm cobertura automatizada para edição de metadados, criação/renomeação/remoção e recuperação de diagnósticos. O HMR nativo segue pendente até a integração upstream passar pela fixture no dispositivo. O fluxo webpack descrito após a tabela de compatibilidade mantém sua cobertura existente de HMR nativo.
+
 ## Descoberta e imports opcionais
 
 `layouts/default.vue` registra `default`; `layouts/account/settings.vue` registra `account-settings`. A descoberta não ativa um layout padrão: defina `defaultLayout` ou os metadados da página. O layout é responsável pela única `Page` nativa; seu conteúdo roteado não deve criar outra `Page`. Veja [layouts](./layouts).
@@ -79,15 +121,15 @@ O [exemplo de rotas por arquivos](https://github.com/rafaelaugustos/vue-router-n
   <Clip name="android-file-routing" caption="Android: as mesmas convenções sobre Pages e Frames nativos." aspect="9 / 20" />
 </div>
 
-| Camada                     | Configuração verificada                                                   |
-| -------------------------- | ------------------------------------------------------------------------- |
-| Integração                 | Subpaths opcionais experimentais; API explícita permanece disponível      |
-| NativeScript-Vue / Core    | 3.1.2 / 9.1.3; uma instância de cada no bundle inspecionado               |
-| Builder / compilador       | `@nativescript/webpack` 5.0.39, webpack 5.112, `@vue/compiler-sfc` 3.5.44 |
-| Node / tipos do exemplo    | Node 20.19.4 local e Node 22 no CI; TypeScript 6.0.3                      |
-| Android                    | Runtime 9.1.1; API 36 local, API 34 no CI nativo                          |
-| iOS                        | Runtime 9.1.0; simulador iOS 26, aceitação nativa local                   |
-| Outros builders/frameworks | Integração com Vite e runtime Nuxt não é fornecida nem verificada         |
+| Camada                     | Configuração verificada                                                     |
+| -------------------------- | --------------------------------------------------------------------------- |
+| Integração                 | Subpaths opcionais experimentais; API explícita permanece disponível        |
+| NativeScript-Vue / Core    | 3.1.2 / 9.1.3; uma instância de cada no bundle inspecionado                 |
+| Builder / compilador       | `@nativescript/webpack` 5.0.39, webpack 5.112, `@vue/compiler-sfc` 3.5.44   |
+| Node / tipos do exemplo    | Node 20.19.4 local e Node 22 no CI; TypeScript 6.0.3                        |
+| Android                    | Runtime 9.1.1; API 36 local, API 34 no CI nativo                            |
+| iOS                        | Runtime 9.1.0; simulador iOS 26, aceitação nativa local                     |
+| Outros builders/frameworks | Build Vite experimental; HMR nativo bloqueado. Runtime Nuxt não é fornecido |
 
 `scripts/native/conventions-watch.mjs android|ios` executa o exemplo pelo CLI NativeScript real e edita os arquivos enquanto o app está aberto. Verifica identidade de Page, rascunhos, Voltar, cancelamento, redirects de autenticação, resultados de modal, visibilidade de acessibilidade/alvos de foco e recuperação do watch. Restaura suas alterações temporárias ao sair. A fixture não verifica anúncios audíveis de leitores de tela; a cobertura de acessibilidade separada do router continua valendo.
 
@@ -171,7 +213,7 @@ O macro aceita `name`, `path`, `layout`, `middleware`, `meta`, `props`, `modal` 
 
 Os valores precisam ser dados literais: strings, números finitos, booleanos, null, arrays e objetos simples. Wrappers TypeScript `as`/`satisfies` são aceitos. Constantes importadas, variáveis do setup, chamadas, funções, spreads, getters e chaves calculadas são rejeitados sem execução. Registre guards/layouts funcionais no router e referencie seus nomes. Use rotas explícitas para props por callback, redirects ou objetos de transição que precisem ser construídos em runtime.
 
-Chame o macro uma vez no nível superior de `<script setup>`. Imports explícitos podem usar aliases. O plugin webpack faz a transformação automaticamente. Num builder próprio, execute `transformPageMeta(source, filename, { autoImports: false })` **antes do compilador SFC do Vue**, usando `code` e o source `map` retornados. A transformação remove a chamada/import do macro e preserva o restante. Um macro sem transformação lança erro no setup. A descoberta pertence à API opcional de setup, não ao gerador de baixo nível.
+Chame o macro uma vez no nível superior de `<script setup>`. Imports explícitos podem usar aliases. Os plugins de build webpack e Vite fazem a transformação automaticamente; a limitação de HMR nativo Vite acima continua valendo. Num builder próprio, execute `transformPageMeta(source, filename, { autoImports: false })` **antes do compilador SFC do Vue**, usando `code` e o source `map` retornados. A transformação remove a chamada/import do macro e preserva o restante. Um macro sem transformação lança erro no setup. A descoberta pertence à API opcional de setup, não ao gerador de baixo nível.
 
 ## Combinar com rotas explícitas
 

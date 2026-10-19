@@ -13,7 +13,9 @@ import { FileRouteError, generateFileRoutes } from './generator.js'
 
 export interface FileRoutingOptions {
   platform: 'ios' | 'android'
-  /** Paths are relative to rootDir (the webpack context or current directory). */
+  /** Generated HMR dialect. Defaults to webpack for existing integrations. */
+  bundler?: 'webpack' | 'vite'
+  /** Paths are relative to rootDir (the bundler root or current directory). */
   rootDir?: string
   pagesDir?: string
   outDir?: string
@@ -35,12 +37,15 @@ export interface PreparedFileRouting {
   outDir: string
 }
 
-/** Prepare types without launching a native build; the webpack plugin uses the same function. */
+/** Prepare types without launching a native build; both plugins use this function. */
 export async function prepareFileRouting(
   options: FileRoutingOptions,
 ): Promise<PreparedFileRouting> {
   if (!['ios', 'android'].includes(options.platform))
     throw new Error('File routing requires platform: ios or android')
+  if (options.bundler && !['webpack', 'vite'].includes(options.bundler))
+    throw new Error('File routing requires bundler: webpack or vite')
+  const vite = options.bundler === 'vite'
   const root = await realpath(resolve(options.rootDir ?? '.')),
     pagesDir = resolve(root, options.pagesDir ?? 'src/pages'),
     outDir = resolve(root, options.outDir ?? 'src/generated/router'),
@@ -70,7 +75,21 @@ export async function prepareFileRouting(
     if (!path.startsWith('.')) path = './' + path
     return JSON.stringify(path.replace(/\.ts$/, ''))
   }
-  const registrations = `// Generated native registrations. Adding/removing registrations requires an app restart.
+  const registrations = vite
+    ? `// Generated native registrations. Adding/removing registrations requires an app restart.
+import type { RouteComponent, RouteMiddleware } from 'vue-router-ns'
+${middleware.map((m, i) => `import middleware${i} from ${specifier(m.file)}\nlet guard${i}: RouteMiddleware = middleware${i}`).join('\n')}
+export const layouts = {
+${layouts.map((l) => `${JSON.stringify(l.name)}: (): Promise<RouteComponent> => import(${specifier(l.file)}).then(m => m.default)`).join(',\n')}
+}
+export const middleware: readonly { name: string; guard: RouteMiddleware; global: boolean }[] = [
+${middleware.map((m, i) => `{name: ${JSON.stringify(m.name)}, global: ${m.global}, guard: (...args) => guard${i}(...args)}`).join(',\n')}
+]
+if (import.meta.hot) {
+${middleware.map((m, i) => `  import.meta.hot.accept(${specifier(m.file)}, (next) => { if (next) guard${i} = next.default })`).join('\n')}
+}
+`
+    : `// Generated native registrations. Adding/removing registrations requires an app restart.
 import type { RouteComponent, RouteMiddleware } from 'vue-router-ns'
 ${middleware.map((m, i) => `import type middleware${i} from ${specifier(m.file)}`).join('\n')}
 export const layouts = {
@@ -90,9 +109,9 @@ if (module.hot) {
   const entry = `// Generated native integration. Create the router once, then installFileRouting(router).
 import type { Router } from 'vue-router-ns'
 import { createFileRouteUpdater } from 'vue-router-ns/file-routing'
-import { routes } from './routes.${platform}'
+import { routes${vite ? ' as initialRoutes' : ''} } from './routes.${platform}'
 import { middleware } from './registrations.${platform}'
-export { routes } from './routes.${platform}'
+${vite ? 'export let routes = initialRoutes' : `export { routes } from './routes.${platform}'`}
 export type { FileRouteMap, FileRouteName, FileRouteParams } from './routes.${platform}'
 export { layouts } from './registrations.${platform}'
 const updates = new Set<ReturnType<typeof createFileRouteUpdater>>()
@@ -109,16 +128,24 @@ export function installFileRouting(router: Router<any>): () => void {
   updates.add(updater)
   return () => { updates.delete(updater); installed.delete(router); stops.splice(0).reverse().forEach(stop => stop()) }
 }
-declare const module: { hot?: { accept(dependency: string, callback: () => void): void } }
+${
+  vite
+    ? `if (import.meta.hot) import.meta.hot.accept('./routes.${platform}', (next) => {
+  if (!next) return
+  routes = next.routes
+  for (const updater of updates) updater.update(routes)
+})`
+    : `declare const module: { hot?: { accept(dependency: string, callback: () => void): void } }
 if (module.hot) module.hot.accept('./routes.${platform}', () => {
   for (const updater of updates) updater.update(routes)
-})
+})`
+}
 `
   const outputs = new Map([
     [
       routeFile,
       generated.code +
-        '\n// module.hot: the generated index accepts route-table updates.\n',
+        `\n// ${vite ? 'import.meta.hot' : 'module.hot'}: the generated index accepts route-table updates.\n`,
     ],
     [resolve(outDir, `registrations.${platform}.ts`), registrations],
     [resolve(outDir, `index.${platform}.ts`), entry],

@@ -1,4 +1,4 @@
-// Actual webpack -> NativeScript CLI -> native HMR acceptance. Edits are restored in finally.
+// Actual bundler -> NativeScript CLI -> native navigation/HMR acceptance. Edits are restored in finally.
 import assert from 'node:assert/strict'
 import { spawn, execFile } from 'node:child_process'
 import { promisify, stripVTControlCharacters } from 'node:util'
@@ -11,6 +11,9 @@ import { prepareFileRouting } from '../../dist/file-routing/setup.js'
 
 const exec = promisify(execFile)
 const platform = process.argv[2]
+const bundler = process.env.ROUTER_BUNDLER ?? 'webpack'
+const watch = process.env.NATIVE_HMR !== '0'
+assert(['webpack', 'vite'].includes(bundler), 'ROUTER_BUNDLER must be webpack or vite')
 assert(['android', 'ios'].includes(platform), 'Pass android or ios')
 const serial =
   platform === 'ios'
@@ -20,7 +23,10 @@ assert(serial, 'Set IOS_SIMULATOR to a booted simulator UUID')
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const project = resolve(root, 'examples/file-routing'),
   pages = resolve(project, 'src/pages')
-const out = resolve(root, process.env.OUT ?? `scripts/native/out/conventions-${platform}`)
+const out = resolve(
+  root,
+  process.env.OUT ?? `scripts/native/out/conventions-${bundler}-${platform}`,
+)
 await mkdir(out, { recursive: true })
 const id = String(Date.now())
 const product = resolve(pages, 'products/[id].vue')
@@ -55,7 +61,7 @@ const args = [
   '--device',
   serial,
   '--env.conventionsTest',
-  '--env.conventionsWatch',
+  ...(watch ? ['--env.conventionsWatch'] : ['--no-hmr']),
   `--env.conventionsRun=${id}`,
 ]
 const child = spawn('ns', args, {
@@ -78,6 +84,7 @@ child.on('exit', () => {
 })
 const pause = () => new Promise((resolve) => setTimeout(resolve, 1000))
 let runtime = ''
+let launchedAndroid = false
 async function readRuntime() {
   const command = platform === 'android' ? 'adb' : 'xcrun'
   const args =
@@ -114,6 +121,37 @@ async function waitFor(test, description, timeout = 180000) {
       throw new Error(
         `NativeScript stopped while ${description}: ${cliOutput.slice(-5000)}`,
       )
+    // Some CLI versions stall discovering the launcher after syncing the APK.
+    if (
+      platform === 'android' &&
+      !launchedAndroid &&
+      cliOutput.includes('Restarting application')
+    ) {
+      launchedAndroid = true
+      const running = await exec('adb', [
+        '-s',
+        serial,
+        'shell',
+        'pidof',
+        'org.nativescript.routerfiles',
+      ]).catch(() => ({ stdout: '' }))
+      if (!running.stdout.trim()) {
+        await exec(
+          'adb',
+          [
+            '-s',
+            serial,
+            'shell',
+            'am',
+            'start',
+            '-n',
+            'org.nativescript.routerfiles/com.tns.NativeScriptActivity',
+          ],
+          { timeout: 20000 },
+        )
+        console.log('Launched the synced Android fixture through adb')
+      }
+    }
     await readRuntime()
     if (test()) return
     await pause()
@@ -127,37 +165,40 @@ const phase = (name, timeout) =>
     timeout,
   )
 try {
-  // A clean checkout can still be downloading/building its native runtime.
-  await phase('ready', 600000)
-  console.log(`${platform}: native baseline passed; applying real filesystem edits`)
-  await writeFile(
-    product,
-    original.replace(/(revision\s*:\s*)1/, (match, prefix) => `${prefix}2`),
-  )
-  await writeFile(added, live())
-  await phase('added')
-  await rename(added, renamed)
-  await phase('renamed')
-  await rm(renamed)
-  await phase('removed')
-  await writeFile(added, live("definePageMeta({name:'products-id'})"))
-  await waitFor(
-    () => cliOutput.includes('Duplicate route name'),
-    'waiting for a compilation diagnostic',
-  )
-  await writeFile(added, live("definePageMeta({name:'recovered'})"))
-  await phase('recovered')
+  if (watch) {
+    // A clean checkout can still be downloading/building its native runtime.
+    await phase('ready', 600000)
+    console.log(`${platform}: native baseline passed; applying real filesystem edits`)
+    await writeFile(
+      product,
+      original.replace(/(revision\s*:\s*)1/, (match, prefix) => `${prefix}2`),
+    )
+    await writeFile(added, live())
+    await phase('added')
+    await rename(added, renamed)
+    await phase('renamed')
+    await rm(renamed)
+    await phase('removed')
+    await writeFile(added, live("definePageMeta({name:'products-id'})"))
+    await waitFor(
+      () => cliOutput.includes('Duplicate route name'),
+      'waiting for a compilation diagnostic',
+    )
+    await writeFile(added, live("definePageMeta({name:'recovered'})"))
+    await phase('recovered')
+  }
   await waitFor(
     () => runtime.includes(`CONVENTIONS_RESULT {"id":"${id}"`),
     'waiting for final result',
+    watch ? 180000 : 600000,
   )
   const line = runtime
     .split('\n')
     .find((l) => l.includes(`CONVENTIONS_RESULT {"id":"${id}"`))
   const result = JSON.parse(line.slice(line.indexOf('CONVENTIONS_RESULT ') + 19))
   assert.equal(result.ok, true, result.error)
-  assert.equal(result.checks.length, 22)
-  assert.equal(new Set(result.checks).size, 22)
+  assert.equal(result.checks.length, watch ? 22 : 15)
+  assert.equal(new Set(result.checks).size, watch ? 22 : 15)
   await writeFile(resolve(out, 'results.json'), JSON.stringify(result, null, 2) + '\n')
   console.log(`Passed ${result.checks.length} native setup/watch checks on ${platform}`)
 } finally {

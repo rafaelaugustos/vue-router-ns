@@ -101,6 +101,8 @@ Paths aceitam parâmetros nomeados, opcionais/repetidos e padrões personalizado
 
 `vue-router-ns/file-routing/webpack`, exclusivo do Node, exporta `NativeFileRoutesPlugin`, compatível com CommonJS e webpack 5. `vue-router-ns/file-routing/setup` exporta `prepareFileRouting(options)`, `FileRoutingOptions` e `PreparedFileRouting`. Essas entradas opcionais de build geram módulos por plataforma e tipos; o `installFileRouting(router)` gerado registra middlewares descobertos e trata HMR da tabela. Veja [configuração e suporte](./file-routing).
 
+`vue-router-ns/file-routing/vite`, exclusivo do Node, exporta `nativeFileRoutes(options)` e `NativeFileRoutesOptions` para Vite 8. Essa integração experimental de build possui uma limitação documentada de HMR nativo. O setup independente aceita `bundler: 'vite'`; o padrão continua webpack.
+
 `vue-router-ns/file-routing` exporta o macro tipado de compilação `definePageMeta()`, `PageMeta`, `PageMetaValue`, `mergeFileRoutes(generated, explicit)` e `createFileRouteUpdater(router, routes)` (`FileRouteUpdater`). O updater altera o matching futuro e preserva as entradas nativas.
 
 `vue-router-ns/file-routing/generator`, exclusivo do Node, exporta `generateFileRoutes(options)`, `writeFileRoutes(options)`, `watchFileRoutes(options, callbacks)`, `transformPageMeta(source, filename)` e `FileRouteError`; tipos: `FileRoutesOptions`, `GeneratedFileRoutes`, `FilePage`. O peer do compilador é opcional e necessário apenas no build. Veja [rotas por arquivos](./file-routing) para convenções, restrições de metadados, ownership de HMR e estado da integração.
