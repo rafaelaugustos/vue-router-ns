@@ -11,7 +11,13 @@ export function installDiagnosticsDemo(
   // hide it. Avoid synchronous per-event logging, which changes startup timing.
   if (__ROUTER_STARTUP_TRACE__) {
     setTimeout(() => {
-      console.log('[vue-router-ns:startup]', router.diagnostics?.export())
+      const report = router.diagnostics?.toJSON()
+      if (!report) return
+      // NativeScript truncates long/multiline console messages. Emit bounded
+      // records after startup so the retained evidence includes every phase.
+      console.log('[vue-router-ns:startup]', JSON.stringify(report.snapshot))
+      for (const event of report.events)
+        console.log('[vue-router-ns:startup-event]', JSON.stringify(event))
     }, 5000)
   }
   // `vuerouterns://diagnostics/export` prints a timing summary for the native smoke suite
