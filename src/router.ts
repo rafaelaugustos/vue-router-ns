@@ -14,6 +14,7 @@ import {
   computed,
   hasInjectionContext,
   inject,
+  nextTick,
   registerElement,
   shallowReactive,
   shallowRef,
@@ -423,10 +424,18 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     const host = stack.host
     if (!host || stack.closed) return
 
+    const pages = host.pages()
+    const mounting = stack.pending?.entry
+    // A native completion can precede Vue's mounted hooks. Keep the previous
+    // stack and pending navigation until the destination Page has been linked.
+    if (mounting && (!mounting.page || !pages.includes(mounting.page))) {
+      stack.pending!.nativeCompleted = true
+      return
+    }
+
     const before = stack.entries.value
     const initiated = !!stack.pending
-    const after = host
-      .pages()
+    const after = pages
       .map((page) => entriesByPage.get(page))
       .filter((entry): entry is Entry => !!entry)
 
@@ -532,6 +541,11 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       entry.page = page
       entriesByPage.set(page, entry)
       registerPageRouter(page, entry.stack.router)
+      const pending = entry.stack.pending
+      // Finish the mounted hook first: focus, state and other page effects must
+      // be connected before activation and navigation completion are delivered.
+      if (pending?.entry === entry && pending.nativeCompleted)
+        void nextTick(() => sync(entry.stack))
     },
     unlink(page: Page) {
       const entry = diagnostics && entriesByPage.get(page)
@@ -1045,7 +1059,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     if ((reduced || zoom || hidden) && requested?.instance)
       SharedTransition.finishState(requested.instance.id)
 
-    const shown = expect(stack)
+    const shown = expect(stack, entry)
     const mounting = trace?.span('mount', 'page')
     try {
       await host.push(createPage(entry, pageLink), {
@@ -1084,7 +1098,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     request.onEntry?.(entry)
 
     modals.value = [...modals.value, stack]
-    const shown = expect(stack)
+    const shown = expect(stack, entry)
 
     const animated = !shouldReduceMotion(request.stack) && modal.animated !== false
     const sheet =
@@ -1177,8 +1191,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     await done
   }
 
-  function expect(stack: Stack): Promise<void> {
-    stack.pending = deferred()
+  function expect(stack: Stack, entry?: Entry): Promise<void> {
+    stack.pending = { ...deferred<void>(), entry }
     return stack.pending.promise
   }
 

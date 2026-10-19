@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Native completion now waits for the destination's Vue Page registration before reconciling history. This preserves activation hooks and one `afterEach` notification when the native host finishes during Vue's mounted-hook flush.
+
+- Experimental opt-in file routing: deterministic typed native routes from page files, literal AST-based `definePageMeta`, platform-specific SFC selection, atomic generation and a Node watcher. Optional runtime helpers combine explicit routes and update generated tables while retaining open native entries. Compiler/filesystem tooling lives in a separate subpath with an optional compiler peer; turnkey build integration remains in #92.
+
 - Optional native layouts: register `layouts`, opt into `defaultLayout` or select `meta.layout`, and use `layout: false` for existing Page-owning destinations. Each entry gets a separate layout/content instance; the layout owns Page/ActionBar and renders the destination once through its slot. Layout and destination HMR use the existing native Page replacement and covered-page deferral.
 
 - Optional named/global route middleware reuses the existing guard transaction: register with `router.addRouteMiddleware()`, reference through `meta.middleware`, and type functions with `defineRouteMiddleware()`. Existing explicit route declarations and guards keep their API.

@@ -12,3 +12,4 @@ examples/playground/hooks
 
 scripts/native/*.sh
 scripts/native/out
+demo/src/testing/file-generated

@@ -45,6 +45,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
       text: t.pages,
       items: [
         page('routes', 'pages'),
+        page('fileRouting', 'file-routing'),
         page('layouts', 'layouts'),
         page('guards', 'guards'),
         page('middleware', 'middleware'),
@@ -94,6 +95,7 @@ const en = {
   playground: 'Try with StackBlitz',
   navigating: 'Navigating',
   routes: 'Every page keeps its route',
+  fileRouting: 'Optional routes from files',
   layouts: 'Optional native layouts',
   guards: 'Guards',
   middleware: 'Optional middleware and helpers',
@@ -130,6 +132,7 @@ const pt = {
   playground: 'Experimente com StackBlitz',
   navigating: 'Navegando',
   routes: 'Cada página guarda sua rota',
+  fileRouting: 'Rotas por arquivos opcionais',
   layouts: 'Layouts nativos opcionais',
   guards: 'Guards',
   middleware: 'Middleware e helpers opcionais',

@@ -97,6 +97,12 @@ Paths aceitam parâmetros nomeados, opcionais/repetidos e padrões personalizado
 
 `ModalOptions` repassa as opções de `showModal` do NativeScript, exceto `context` e `closeCallback`, controlados pelo router. As opções `ios` também aceitam `detents`, `selectedDetent`, `largestUndimmedDetent`, `grabber` e `cornerRadius`. Veja [modais e sheets](./modals).
 
+## APIs opcionais de rotas por arquivos
+
+`vue-router-ns/file-routing` exporta o macro tipado de compilação `definePageMeta()`, `PageMeta`, `PageMetaValue`, `mergeFileRoutes(generated, explicit)` e `createFileRouteUpdater(router, routes)` (`FileRouteUpdater`). O updater altera o matching futuro e preserva as entradas nativas.
+
+`vue-router-ns/file-routing/generator`, exclusivo do Node, exporta `generateFileRoutes(options)`, `writeFileRoutes(options)`, `watchFileRoutes(options, callbacks)`, `transformPageMeta(source, filename)` e `FileRouteError`; tipos: `FileRoutesOptions`, `GeneratedFileRoutes`, `FilePage`. O peer do compilador é opcional e necessário apenas no build. Veja [rotas por arquivos](./file-routing) para convenções, restrições de metadados, ownership de HMR e estado da integração.
+
 ## Layouts nativos opcionais
 
 `createRouter({ layouts, defaultLayout })` registra componentes/factories de layouts por router. `defaultLayout` é `false` por padrão; `meta.layout` seleciona um nome ou desativa o layout com `false`. O layout monta a Page raiz e a ActionBar opcional; o destino fornece o corpo pelo slot padrão. A seleção fica fixa por entrada, com instâncias separadas do layout/conteúdo por visita. Nomes desconhecidos/imports com erro rejeitam antes da montagem. Veja [layouts nativos](./layouts) para ciclo de vida, HMR, diagnósticos e exemplos.

@@ -6,7 +6,7 @@ module.exports = (env) => {
 
   webpack.chainWebpack((config) => {
     // Separate opt-in acceptance fixtures; the normal demo keeps explicit routes.
-    const fixtures = ['drawer', 'middleware', 'layouts'].filter(
+    const fixtures = ['drawer', 'middleware', 'layouts', 'files'].filter(
       (name) => env[`${name}Test`],
     )
     if (fixtures.length > 1) throw new Error('Select only one native acceptance fixture')
@@ -23,9 +23,29 @@ module.exports = (env) => {
           ),
         )
     }
+    if (env.filesTest) {
+      require('child_process').execFileSync(
+        process.execPath,
+        [
+          resolve(__dirname, '../scripts/native/prepare-files.mjs'),
+          env.android ? 'android' : 'ios',
+        ],
+        { cwd: resolve(__dirname, '..'), stdio: 'inherit' },
+      )
+      config.module
+        .rule('page-meta')
+        .test(/\.vue$/)
+        .enforce('pre')
+        .use('page-meta')
+        .loader(resolve(__dirname, '../scripts/native/page-meta-loader.cjs'))
+    }
     config.resolve.alias
       // the router from this repository: run `npm run dev` at the root
-      .set('vue-router-ns', resolve(__dirname, '../dist/index.js'))
+      .set('vue-router-ns$', resolve(__dirname, '../dist/index.js'))
+      .set(
+        'vue-router-ns/file-routing$',
+        resolve(__dirname, '../dist/file-routing/index.js'),
+      )
       // sharing this app's copies of Vue and NativeScript
       .set('nativescript-vue', resolve(__dirname, 'node_modules/nativescript-vue'))
       .set('@nativescript/core', resolve(__dirname, 'node_modules/@nativescript/core'))

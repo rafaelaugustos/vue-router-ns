@@ -97,6 +97,12 @@ Paths support named parameters, optional/repeated parameters and custom patterns
 
 `ModalOptions` forwards NativeScript `showModal` options except `context` and `closeCallback`, which the router owns. Its `ios` options also accept `detents`, `selectedDetent`, `largestUndimmedDetent`, `grabber` and `cornerRadius`. See [modals and sheets](./modals).
 
+## Optional file-routing APIs
+
+`vue-router-ns/file-routing` exports the typed compile-time `definePageMeta()` macro, `PageMeta`, `PageMetaValue`, `mergeFileRoutes(generated, explicit)` and `createFileRouteUpdater(router, routes)` (`FileRouteUpdater`). The updater changes future matching while retaining native entries.
+
+Node-only `vue-router-ns/file-routing/generator` exports `generateFileRoutes(options)`, `writeFileRoutes(options)`, `watchFileRoutes(options, callbacks)`, `transformPageMeta(source, filename)` and `FileRouteError`; types: `FileRoutesOptions`, `GeneratedFileRoutes`, `FilePage`. The compiler peer is optional and needed only by build tooling. See [file routing](./file-routing) for conventions, metadata restrictions, HMR ownership and integration status.
+
 ## Optional native layouts
 
 `createRouter({ layouts, defaultLayout })` registers native layout components/factories per router. `defaultLayout` defaults to `false`; `meta.layout` selects a registered name or opts out with `false`. The layout owns the root Page and optional ActionBar; the destination supplies its body through the default slot. Layout selection is fixed per entry, with separate layout/content instances for every visit. Unknown names/import failures reject before mounting. See [native layouts](./layouts) for lifecycle, HMR, diagnostics and authoring examples.
