@@ -3,6 +3,14 @@ import type { RouteLocation } from './types.js'
 
 export { createRouter, START_LOCATION } from './router.js'
 export type { Router, RouterOptions, SystemBackClaimant } from './router.js'
+export { defineRouteMiddleware } from './middleware.js'
+export type {
+  RouteMiddleware,
+  RouteMiddlewareOptions,
+  RouteMiddlewareReference,
+} from './middleware.js'
+export { navigateTo, useNavigateTo } from './navigation.js'
+export type { NavigateTo, NavigateToOptions } from './navigation.js'
 export type {
   DiagnosticsOptions,
   RouterDiagnostics,

@@ -46,6 +46,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
       items: [
         page('routes', 'pages'),
         page('guards', 'guards'),
+        page('middleware', 'middleware'),
         page('modals', 'modals'),
         page('transitions', 'transitions'),
         page('tabs', 'tabs'),
@@ -93,6 +94,7 @@ const en = {
   navigating: 'Navigating',
   routes: 'Every page keeps its route',
   guards: 'Guards',
+  middleware: 'Optional middleware and helpers',
   modals: 'Modals and results',
   transitions: 'Zoom and shared elements',
   tabs: 'Tabs',
@@ -127,6 +129,7 @@ const pt = {
   navigating: 'Navegando',
   routes: 'Cada página guarda sua rota',
   guards: 'Guards',
+  middleware: 'Middleware e helpers opcionais',
   modals: 'Modais e resultados',
   transitions: 'Zoom e elementos compartilhados',
   tabs: 'Abas',

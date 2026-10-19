@@ -1,6 +1,7 @@
 import type { Component } from 'nativescript-vue'
 import type { NavigationTransition, ShowModalOptions, View } from '@nativescript/core'
 import type { NavigationFailure } from './errors.js'
+import type { RouteMiddlewareReference } from './middleware.js'
 
 export type RouteRecordName = string | symbol
 
@@ -15,7 +16,10 @@ export type RouteRecordName = string | symbol
  * }
  * ```
  */
-export interface RouteMeta extends Record<PropertyKey, unknown> {}
+export interface RouteMeta extends Record<PropertyKey, unknown> {
+  /** Optional middleware, after beforeEach. Child metadata overrides the parent's list. */
+  middleware?: RouteMiddlewareReference | readonly RouteMiddlewareReference[]
+}
 
 export type RouteParamValue = string
 export type RouteParams = Record<string, RouteParamValue | RouteParamValue[]>

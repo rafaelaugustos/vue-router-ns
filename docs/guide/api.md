@@ -73,6 +73,12 @@ Navigation methods other than `pushForResult` resolve to `NavigationFailure | un
 
 A `NavigationGuard` receives `(to, from, { type })`, where `type` is `'push'`, `'replace'` or `'back'`. It can return a promise. Return `false` to abort, a location to redirect, or `undefined`/`true` to continue. Guards use return values, not `next()`. See [guards](./guards).
 
+### Optional middleware and helpers
+
+`router.addRouteMiddleware(name, guard, { global }?)` registers a named middleware and returns its disposer. Destination `meta.middleware` accepts names/functions or a readonly array. Middleware runs after `beforeEach`, globals first, then the destination list, before `beforeEnter`. `defineRouteMiddleware(guard)` types a function without registering it.
+
+`useNavigateTo()` captures a helper in page setup, bound to that page's stack. Outside setup use `navigateTo(router, to, options?)` with explicit context. Both delegate to push/replace and return `Promise<NavigationFailure | undefined>`. Options: `NavigationOptions` plus `replace`. Types: `RouteMiddleware`, `RouteMiddlewareReference`, `RouteMiddlewareOptions`, `NavigateTo`, `NavigateToOptions`. See [optional middleware and helpers](./middleware) for ordering, disposal, supported conventions and native gesture limits.
+
 ### State
 
 - `currentRoute`: readonly ref to the focused route, including the active modal.
