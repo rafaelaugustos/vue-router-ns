@@ -95,7 +95,11 @@ jobs:
           xcrun simctl install "$SIM" demo/platforms/ios/build/Debug-iphonesimulator/demo.app
           ruby scripts/native/ios-flows/project.rb /tmp/router-flow-tests
           mkdir -p scripts/native/out/flows-ios
+          set +e
           xcodebuild test -project /tmp/router-flow-tests/FlowChecks.xcodeproj -scheme FlowChecks -destination "platform=iOS Simulator,id=$SIM" -derivedDataPath /tmp/router-flow-tests/build -collect-test-diagnostics never -resultBundlePath scripts/native/out/flows-ios/FlowChecks.xcresult
+          test_status=$?
+          xcrun simctl spawn "$SIM" log show --last 10m --style compact --predicate 'process == "demo" OR eventMessage CONTAINS "FLOW_" OR subsystem CONTAINS[c] "FileProvider" OR subsystem CONTAINS[c] "DocumentManager"' > scripts/native/out/flows-ios/runtime.log
+          exit "$test_status"
       - uses: actions/upload-artifact@v4
         if: always()
         with:

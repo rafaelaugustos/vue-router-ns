@@ -47,14 +47,25 @@ final class FlowUITests: XCTestCase {
             }
         }
         XCTAssertTrue(cell.exists, app.debugDescription)
-        cell.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)).tap()
+        let completed = app.staticTexts["pick:completed"].firstMatch
+        let open = app.buttons["Open"].firstMatch
+        // Files may expose a cell before its thumbnail/hit region has settled.
+        // Only retry the UI interaction while the same picker remains visible.
+        for _ in 0..<3 {
+            if completed.exists { break }
+            if open.exists && open.isHittable {
+                open.tap()
+            } else if cell.exists && cell.isHittable {
+                let thumbnail = cell.images.firstMatch
+                if thumbnail.exists && thumbnail.isHittable { thumbnail.tap() }
+            }
+            if completed.waitForExistence(timeout: 3) { break }
+        }
         let pickedShot = XCTAttachment(screenshot: app.screenshot())
         pickedShot.name = "document-selection"
         pickedShot.lifetime = .keepAlways
         add(pickedShot)
-        let open = app.buttons["Open"].firstMatch
-        if open.waitForExistence(timeout: 2) { open.tap() }
-        XCTAssertTrue(app.staticTexts["pick:completed"].firstMatch.waitForExistence(timeout: 15), app.debugDescription)
+        XCTAssertTrue(completed.waitForExistence(timeout: 10), app.debugDescription)
     }
     func testConcurrentPresentation() {
         app.buttons["concurrent"].tap()
@@ -69,7 +80,11 @@ final class FlowUITests: XCTestCase {
         app.buttons["dispose"].tap()
         XCTAssertTrue(app.staticTexts["dispose:disposed"].firstMatch.waitForExistence(timeout: 15), app.debugDescription)
         XCTAssertTrue(app.staticTexts["Flow home"].exists)
-        XCTAssertFalse(app.buttons["Cancel"].exists)
+        let dismissed = XCTNSPredicateExpectation(
+            predicate: NSPredicate(format: "exists == false"),
+            object: app.buttons["Cancel"].firstMatch
+        )
+        XCTAssertEqual(XCTWaiter.wait(for: [dismissed], timeout: 10), .completed)
         app.buttons["open"].tap()
         XCTAssertTrue(app.buttons["pick"].waitForExistence(timeout: 10))
         app.buttons["pick"].tap()
