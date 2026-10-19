@@ -3,6 +3,7 @@ import {
   createApp,
   createNativeView,
   h,
+  inject,
   ref,
   watch,
   type Component,
@@ -18,6 +19,8 @@ import {
 import { createMemoryHost } from './hosts/memory.js'
 import { page } from './helpers.js'
 import { resetNative } from './shims/core.js'
+import { entryKey } from '../src/injection.js'
+import { pageEffect } from '../src/page-effects.js'
 
 it.each(['push', 'replace', 'clearHistory'] as const)(
   'reconciles native completion before Vue mounted hooks on startup and %s',
@@ -25,11 +28,19 @@ it.each(['push', 'replace', 'clearHistory'] as const)(
     resetNative()
     let activations = 0
     let after = 0
-    const component = page('Destination', () =>
+    const component = page('Destination', () => {
+      let effectsConnected = false
+      pageEffect(inject(entryKey)!, () => {
+        effectsConnected = true
+        return () => {
+          effectsConnected = false
+        }
+      })
       onPageActivated(() => {
+        expect(effectsConnected).toBe(true)
         activations++
-      }),
-    )
+      })
+    })
     const router = createRouter({
       routes: [
         { path: '/', name: 'home', component },

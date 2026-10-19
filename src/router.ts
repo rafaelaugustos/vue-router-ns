@@ -14,6 +14,7 @@ import {
   computed,
   hasInjectionContext,
   inject,
+  nextTick,
   registerElement,
   shallowReactive,
   shallowRef,
@@ -541,7 +542,10 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       entriesByPage.set(page, entry)
       registerPageRouter(page, entry.stack.router)
       const pending = entry.stack.pending
-      if (pending?.entry === entry && pending.nativeCompleted) sync(entry.stack)
+      // Finish the mounted hook first: focus, state and other page effects must
+      // be connected before activation and navigation completion are delivered.
+      if (pending?.entry === entry && pending.nativeCompleted)
+        void nextTick(() => sync(entry.stack))
     },
     unlink(page: Page) {
       const entry = diagnostics && entriesByPage.get(page)
