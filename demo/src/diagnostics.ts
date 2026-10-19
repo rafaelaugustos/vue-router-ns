@@ -5,6 +5,10 @@ import type { Router, RouterDiagnostics } from 'vue-router-ns'
 export function installDiagnosticsDemo(
   router: Pick<Router, 'addRoute' | 'onLink' | 'diagnostics'>,
 ) {
+  router.diagnostics?.subscribe((event) =>
+    console.log('[startup-trace]', JSON.stringify(event)),
+  )
+  setTimeout(() => console.log('[startup-snapshot]', router.diagnostics?.export()), 5000)
   // `vuerouterns://diagnostics/export` prints a timing summary for the native smoke suite
   router.onLink((result) => {
     if (result.link.path !== '/diagnostics/export' || !router.diagnostics) return

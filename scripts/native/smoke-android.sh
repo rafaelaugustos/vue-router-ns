@@ -31,6 +31,8 @@ step "cold start"
 launch
 wait_text "Inbox (2)" 60; check "cold start shows the inbox" $? "$(top_activity)"
 screenshot 01-inbox
+$ADB logcat -d > "$OUT/01-startup-logcat.txt" 2>&1
+$ADB shell dumpsys activity activities > "$OUT/01-startup-activities.txt" 2>&1
 
 step "native tab selection"
 tap_text Settings && wait_text Guest 15; check "settings tab selects its stack" $?
