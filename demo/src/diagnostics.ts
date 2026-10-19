@@ -1,10 +1,25 @@
 import { Button, Frame, Label, Page, StackLayout, Utils } from '@nativescript/core'
 import type { Router, RouterDiagnostics } from 'vue-router-ns'
 
+declare const __ROUTER_STARTUP_TRACE__: boolean
+
 /** Deliberately slow/faulty scenarios are registered only in the debug demo. */
 export function installDiagnosticsDemo(
   router: Pick<Router, 'addRoute' | 'onLink' | 'diagnostics'>,
 ) {
+  // Test builds retain the initial lifecycle before a later process restart can
+  // hide it. Avoid synchronous per-event logging, which changes startup timing.
+  if (__ROUTER_STARTUP_TRACE__) {
+    setTimeout(() => {
+      const report = router.diagnostics?.toJSON()
+      if (!report) return
+      // NativeScript truncates long/multiline console messages. Emit bounded
+      // records after startup so the retained evidence includes every phase.
+      console.log('[vue-router-ns:startup]', JSON.stringify(report.snapshot))
+      for (const event of report.events)
+        console.log('[vue-router-ns:startup-event]', JSON.stringify(event))
+    }, 5000)
+  }
   // `vuerouterns://diagnostics/export` prints a timing summary for the native smoke suite
   router.onLink((result) => {
     if (result.link.path !== '/diagnostics/export' || !router.diagnostics) return

@@ -26,11 +26,24 @@ $ADB shell getprop ro.build.version.sdk | tr -d '\r' | sed 's/^/API /'
 $ADB install -r "$APK" | tail -1 || exit 2
 $ADB shell pm clear "$PKG" >/dev/null || exit 2
 $ADB logcat -c || exit 2
+# Stream from launch: a slow/failing startup can overflow logcat's ring buffer.
+$ADB logcat -v threadtime > "$OUT/logcat.txt" 2>&1 &
+logcat_pid=$!
+trap 'kill "$logcat_pid" 2>/dev/null || true; wait "$logcat_pid" 2>/dev/null || true' EXIT
 
-step "cold start"
-launch
-wait_text "Inbox (2)" 60; check "cold start shows the inbox" $? "$(top_activity)"
-screenshot 01-inbox
+step "cold starts"
+for attempt in 1 2 3; do
+  if [ "$attempt" != "1" ]; then $ADB shell pm clear "$PKG" >/dev/null || exit 2; fi
+  launch
+  wait_text "Inbox (2)" 60
+  status=$?
+  check "cold start $attempt shows the inbox" "$status" "$(top_activity)"
+  screenshot "01-inbox-$attempt"
+  dump > "$OUT/01-startup-$attempt.xml"
+  $ADB shell dumpsys activity activities > "$OUT/01-startup-$attempt-activities.txt" 2>&1
+  # Preserve the first failed process instead of restarting into a working one.
+  if [ "$status" != "0" ]; then printf '%s\n' "${results[@]}"; exit 1; fi
+done
 
 step "native tab selection"
 tap_text Settings && wait_text Guest 15; check "settings tab selects its stack" $?

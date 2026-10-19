@@ -87,7 +87,7 @@ jobs:
           PY
       - name: Build the demo
         run: |
-          ns build android
+          ns build android --env.startupTrace
           cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-demo.apk
           ns build android --env.drawerTest
           cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-drawer.apk

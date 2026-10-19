@@ -4,6 +4,12 @@
 
 Both suites clear their installed test app's data. Use a test device or emulator. With multiple devices connected, set `ANDROID_SERIAL` explicitly. The drawer runner restores the device's rotation settings even after an assertion fails; it writes screenshots, the accessibility hierarchy and `results.json` under `scripts/native/out/drawer-<serial>`.
 
+## Initial navigation evidence
+
+The smoke suite checks three clean-data launches before the navigation scenarios. Each must reach `Inbox (2)`, which requires the page activation hook; it fails on the first unsuccessful launch rather than restarting into a working process. It streams logcat from launch and preserves each startup screenshot, hierarchy and Activity state under the output directory.
+
+Build the normal demo with `ns build android --env.startupTrace` to add a delayed diagnostic snapshot per process. CI enables this flag. It records native/logical stacks and the initial lifecycle without synchronous per-event logging; normal demo builds omit it.
+
 ## Convention setup and live watch
 
 Prepare [the separate example](../../examples/file-routing/README.md), then run `ANDROID_SERIAL=<serial> node scripts/native/conventions-watch.mjs android` or `IOS_SIMULATOR=<uuid> node scripts/native/conventions-watch.mjs ios`. The runner starts the actual NativeScript CLI with native HMR and uses the public webpack plugin. It tests the generated list/detail flow, layout, middleware, native modal result, Page identity/drafts, two stacks and accessibility visibility/focus targets. It then adds/edits/renames/removes source pages and introduces/corrects a compilation error while the app stays open.

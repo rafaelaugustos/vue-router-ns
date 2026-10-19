@@ -5,6 +5,10 @@ module.exports = (env) => {
   webpack.init(env)
 
   webpack.chainWebpack((config) => {
+    config.plugin('DefinePlugin').tap((args) => {
+      args[0].__ROUTER_STARTUP_TRACE__ = JSON.stringify(!!env.startupTrace)
+      return args
+    })
     // Separate opt-in acceptance fixtures; the normal demo keeps explicit routes.
     const fixtures = ['drawer', 'middleware', 'layouts', 'files'].filter(
       (name) => env[`${name}Test`],
