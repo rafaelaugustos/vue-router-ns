@@ -43,6 +43,7 @@
     "test:native:android": "bash scripts/native/smoke-android.sh",
     "test:native:drawer": "node scripts/native/drawer-android.mjs",
     "test:native:middleware": "bash scripts/native/middleware-android.sh",
+    "test:native:layouts": "bash scripts/native/layouts-android.sh",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "docs:dev": "vitepress dev docs",

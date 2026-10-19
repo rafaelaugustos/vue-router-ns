@@ -2,6 +2,7 @@ import type { Page, View } from '@nativescript/core'
 import { toValue, type MaybeRefOrGetter, type ShallowRef } from 'nativescript-vue'
 import type { BackGestureTarget } from './android.js'
 import type { NativeHost } from './host.js'
+import type { EntryLayout } from './layouts.js'
 import type { PageStateHooks } from './page-state.js'
 import type { Router } from './router.js'
 import type {
@@ -47,6 +48,7 @@ export interface Entry {
   readonly route: RouteLocation
   readonly stack: Stack
   readonly component: RouteComponent
+  readonly layout: EntryLayout | undefined
   readonly props: Record<string, unknown>
   readonly leaveGuards: Set<LeaveGuard>
   readonly backGesture: BackGestureTarget

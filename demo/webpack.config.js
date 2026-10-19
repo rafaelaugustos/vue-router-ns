@@ -6,9 +6,11 @@ module.exports = (env) => {
 
   webpack.chainWebpack((config) => {
     // Separate opt-in acceptance fixtures; the normal demo keeps explicit routes.
-    if (env.drawerTest && env.middlewareTest)
-      throw new Error('Select only one native acceptance fixture')
-    if (env.drawerTest || env.middlewareTest) {
+    const fixtures = ['drawer', 'middleware', 'layouts'].filter(
+      (name) => env[`${name}Test`],
+    )
+    if (fixtures.length > 1) throw new Error('Select only one native acceptance fixture')
+    if (fixtures.length) {
       const entry = config.entry('bundle')
       const paths = entry.values()
       entry
@@ -16,12 +18,7 @@ module.exports = (env) => {
         .merge(
           paths.map((path) =>
             path === resolve(__dirname, 'src/app.ts')
-              ? resolve(
-                  __dirname,
-                  env.middlewareTest
-                    ? 'src/testing/middleware-app.ts'
-                    : 'src/testing/drawer-app.ts',
-                )
+              ? resolve(__dirname, `src/testing/${fixtures[0]}-app.ts`)
               : path,
           ),
         )

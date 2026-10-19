@@ -17,6 +17,8 @@ export type RouteRecordName = string | symbol
  * ```
  */
 export interface RouteMeta extends Record<PropertyKey, unknown> {
+  /** Named native layout, or false for a destination that owns its own Page. */
+  layout?: string | false
   /** Optional middleware, after beforeEach. Child metadata overrides the parent's list. */
   middleware?: RouteMiddlewareReference | readonly RouteMiddlewareReference[]
 }

@@ -11,11 +11,13 @@ import {
   shallowRef,
   watch,
   type PropType,
+  type VNode,
 } from 'nativescript-vue'
 import { entryKey, routeKey, routerKey } from './injection.js'
 import { holdBackButton, zoomFrom } from './ios.js'
 import { isBlocked, type Entry } from './stack.js'
 import { connectPageEffects } from './page-effects.js'
+import { layoutIssues, walkLayoutTree } from './layouts.js'
 
 interface PageLink {
   link(page: Page, entry: Entry): void
@@ -42,44 +44,61 @@ export function createPage(entry: Entry, { link, unlink, reload }: PageLink) {
       let page: Page | null = null
       let stopReload: (() => void) | undefined
       let stopEffects: (() => void) | undefined
+      const diagnose = () => {
+        if (!__DEV__ || !entry.layout) return
+        const issues = layoutIssues(instance.subTree, entry.component)
+        for (const issue of issues)
+          console.warn(
+            `[vue-router-ns] Layout "${entry.layout.name}" for "${entry.route.fullPath}": ${issue}`,
+          )
+      }
+
+      // A layout and its destination share one native Page and reload boundary.
+      const reloadPage = () => {
+        reload?.(entry, 'requested')
+        const context = instance.appContext as { reload?: () => void }
+        const frame = page?.frame
+        if (!frame || frame.currentPage === page) {
+          reload?.(entry, 'applied')
+          context.reload?.()
+          return
+        }
+        if (stopReload) return
+        reload?.(entry, 'deferred')
+        // Android's Page.navigatedTo precedes completion of the Frame
+        // navigation. Replacing there can dispose the newly mounted app.
+        const returned = () => {
+          if (frame.currentPage !== page) return
+          stopReload?.()
+          stopReload = undefined
+          void nextTick(() => {
+            if (!entry.disposed) {
+              reload?.(entry, 'applied')
+              context.reload?.()
+            }
+          })
+        }
+        frame.on(Frame.navigatedToEvent, returned)
+        stopReload = () => frame.off(Frame.navigatedToEvent, returned)
+      }
+      const refreshLayout = () => {
+        if (__DEV__) {
+          const install = (vnode: VNode) => {
+            if (vnode.type !== entry.component && vnode.type !== entry.layout?.component)
+              return
+            const child = vnode.component as { ceReload?: () => void } | null
+            if (child && !child.ceReload) child.ceReload = reloadPage
+          }
+          if (entry.layout) walkLayoutTree(instance.subTree, install)
+          else install(instance.subTree)
+        }
+        diagnose()
+      }
 
       onMounted(() => {
-        // Vue sees the routed SFC as a child of RouterPage. Its normal HMR
-        // reload would patch this wrapper, bypassing NativeScript-Vue's
-        // native Page replacement (and its deferral for covered pages).
-        // Use Vue's per-instance HMR hook to reach the native app reload.
-        if (__DEV__) {
-          const child = instance.subTree.component as { ceReload?: () => void } | null
-          if (child && !child.ceReload) {
-            child.ceReload = () => {
-              reload?.(entry, 'requested')
-              const context = instance.appContext as { reload?: () => void }
-              const frame = page?.frame
-              if (!frame || frame.currentPage === page) {
-                reload?.(entry, 'applied')
-                context.reload?.()
-                return
-              }
-              if (stopReload) return
-              reload?.(entry, 'deferred')
-              // Android's Page.navigatedTo precedes completion of the Frame
-              // navigation. Replacing there can dispose the newly mounted app.
-              const returned = () => {
-                if (frame.currentPage !== page) return
-                stopReload?.()
-                stopReload = undefined
-                void nextTick(() => {
-                  if (!entry.disposed) {
-                    reload?.(entry, 'applied')
-                    context.reload?.()
-                  }
-                })
-              }
-              frame.on(Frame.navigatedToEvent, returned)
-              stopReload = () => frame.off(Frame.navigatedToEvent, returned)
-            }
-          }
-        }
+        // Route/layout script HMR uses NativeScript-Vue's Page replacement,
+        // deferred until this entry is current and Frame navigation has settled.
+        refreshLayout()
         // HMR remounts the page with a fresh native view; relinking keeps the entry
         page = instance.proxy!.$el?.nativeView ?? null
         if (!page) return
@@ -116,7 +135,21 @@ export function createPage(entry: Entry, { link, unlink, reload }: PageLink) {
         if (page) unlink(page)
       })
 
-      return () => h(entry.component, entry.props)
+      return () =>
+        entry.layout
+          ? h(
+              entry.layout.component,
+              { onVnodeMounted: refreshLayout, onVnodeUpdated: refreshLayout },
+              {
+                default: () =>
+                  h(entry.component, {
+                    ...entry.props,
+                    onVnodeMounted: refreshLayout,
+                    onVnodeUpdated: refreshLayout,
+                  }),
+              },
+            )
+          : h(entry.component, entry.props)
     },
   })
 }
