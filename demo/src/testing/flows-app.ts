@@ -210,9 +210,11 @@ createApp({ render: () => h(RouterView) })
   .use(router)
   .start()
 void (async () => {
-  await File.fromPath(
-    `${knownFolders.documents().path}/router-flow-sample.txt`,
-  ).writeText('Native flow acceptance document')
+  const documentPath = `${knownFolders.documents().path}/router-flow-sample.txt`
+  // Preserve the inode across app launches: rewriting atomically invalidates
+  // the local Files provider's cached bookmark on iOS 26.4.
+  if (!File.exists(documentPath))
+    await File.fromPath(documentPath).writeText('Native flow acceptance document')
   await pause(700)
   if (ApplicationSettings.hasKey(marker)) {
     report('recovery:orphan', { previous: ApplicationSettings.getString(marker) })

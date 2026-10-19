@@ -119,7 +119,7 @@ ANDROID_SERIAL=<serial> node scripts/native/flows-android.mjs
 
 The runner clears this fixture app's data, seeds a Downloads document, drives the real DocumentsUI, rotates the device, recreates/closes the owning Activity, removes the originating page, and kills the app process while the picker is foreground. It checks typed outcomes, unchanged history, late-result isolation and a fresh attempt after restart. Logs, screenshots and JSON go to `scripts/native/out/flows-android`. Run on an English test emulator with other accessibility services off.
 
-For iOS, `prepare-flows.py` enables file sharing only in the generated demo resources, making its seeded document available to Files. Install CocoaPods and the `xcodeproj` Ruby gem, then:
+For iOS, `prepare-flows.py` enables file sharing only in the generated demo resources, making its seeded document available to Files. The fixture creates that document once: replacing it on every app launch invalidates cached FileProvider bookmarks on iOS 26.4. Install CocoaPods and the `xcodeproj` Ruby gem, then:
 
 ```sh
 (cd demo && ns build ios --for-device false --env.flowsTest)
