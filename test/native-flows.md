@@ -1,28 +1,59 @@
 # Native flow validation — #54
 
-2026-10-16, NativeScript Android runtime 9.1.1, NativeScript-Vue 3.1.2, Medium Phone emulator, Android 16 / API 36. The demo's compose sheet has an Attach action that runs `useNativeFlow(createDocumentPicker())` with `multiple: true` and shows the outcome in a label. A text file was pushed to the emulator's Downloads first.
+The dedicated `--env.flowsTest` NativeScript fixture and runners live in
+`scripts/native/flows-android.mjs` and `scripts/native/ios-flows`. They drive the
+platform document picker, not a JavaScript replacement. See the
+[native test instructions](../scripts/native/README.md#system-pickers-and-native-flows).
 
-## Android
+## Environment
 
-| Check               | Result                                                                                                                                                         |
-| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Launch              | Attach brought `com.android.documentsui.picker.PickActivity` to the front, listing the pushed file; the compose sheet and its page stayed as they were.        |
-| Cancel              | Back on the picker returned to the sheet with the label "Picker cancelled" (`cancelled`, reason `user`).                                                       |
-| Success             | Tapping the file returned "1 attached": the `content://` URI from the result intent.                                                                           |
-| Activity recreation | Picker open, device rotated to landscape (the activity was recreated), then cancelled: the label changed to "Picker cancelled" in the same process (pid 7360). |
-| History             | Nothing entered the stack: the sheet, the compose page and the trail below were unchanged throughout.                                                          |
+2026-10-19: NativeScript Core 9.1.3, NativeScript-Vue 3.1.2, Android runtime 9.1.1
+and iOS runtime 9.1.0. Local targets are Android 16 / API 36 on the dedicated
+RouterFold60CI emulator, and iPhone 17 / iOS 26 simulator with Xcode 27.0.
+These results do not claim physical-device or independent-window restoration coverage.
 
-No JavaScript errors or warnings were logged.
+## Contract tests
 
-## iOS
+441 tests pass, 8 are skipped; 13 tests cover native flows. They check typed
+success/cancellation, one/multiple URIs, guards, concurrent/replaced attempts,
+late callbacks, owning Activity isolation, buffered AndroidX results after
+recreation without relaunch, owner destruction, support/launch/parser/cleanup
+errors, latest asynchronous invocation ownership, and synchronous UIKit
+presentation reservation. Build, router/demo type checks and documentation build pass.
 
-`UIDocumentPickerViewController` is presented from the page's view controller with a delegate the adapter owns. The simulator offers no command-line way to drive the picker's UI, so the iOS path is covered by the automated suite against the delegate contract.
+## Native acceptance
 
-## Automated
+The Android runner checks selection/cancellation, guards, rotation, two concurrent
+requests, page disposal, presentation from a modal, explicit Activity recreation,
+a late result, process death while DocumentsUI owns the foreground, a fresh flow
+after restart and owner Activity closure. It writes actual URI outcomes, process
+IDs, screenshots, hierarchies and runtime logs to `scripts/native/out/flows-android`.
 
-`test/native-flows.spec.ts` covers the Android intent (`ACTION_OPEN_DOCUMENT`, MIME types, multiple selection) and its results, cancellation, single and multiple URIs, concurrent attempts kept apart by request code across an activity recreation, an attempt replaced by a newer one, a result arriving after the page left (dropped, the promise already settled as `disposed`), the `before` guard, unsupported flows, the iOS picker's delegate, and use outside a page. 300 tests pass.
+The six XCTest cases check real file selection, cancellation/guard refusal,
+simultaneous presentation refusal, a modal presenter, parent disposal, and process
+restart with an application-owned pending marker. Screenshots and native test
+results are retained in the `.xcresult` bundle. The fixture asserts that system UI
+itself never changes router history.
 
-## Not validated natively
+Final local runner results and CI links are recorded in the implementation PR.
+The `Native flows` workflow runs both platforms on pull requests affecting this
+contract and can also be dispatched manually.
 
-- A result delivered after the originating page disappeared: the system picker covers the app, so the page cannot be popped from under it with the tools here; the automated suite covers the settlement.
-- Process death while the picker is open: by design no promise survives, and the result the system hands the new process is dropped. The guide says to keep "a picker was open" in page state and ask again.
+## Lifecycle and recovery boundaries
+
+- Ordinary rotation can be handled by the existing Activity. It is not proof of
+  Activity recreation; the runner separately calls `Activity.recreate()` and
+  compares actual owner identities.
+- On NativeScript-Vue 3.1.2, explicit recreation disposes the originating Vue page.
+  The correct outcome is `cancelled/disposed`, once. A late result is ignored.
+  AndroidX registration rebinding for a retained owner/attempt is separately
+  covered by contract tests; this does not promise Vue page retention.
+- Android process-death acceptance kills only the debug app's process while the
+  external picker remains open, retains its task, and verifies a different PID on
+  return. iOS XCTest terminates/relaunches the app with the picker open. Neither
+  restores the old Promise: the app detects its saved marker and starts a fresh flow.
+- UIKit has one presentation slot per window. A simultaneous second document
+  picker reports `failed` explicitly; it cannot leave an unresolved Promise.
+- URI strings identify selected documents. Persistable Android permissions,
+  security-scoped iOS URL access/bookmarks, and reading/copying data remain the
+  application or custom adapter's responsibility.

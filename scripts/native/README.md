@@ -104,3 +104,31 @@ for the tested hardware configuration and platform versions. The `Native` workfl
 runs the standard Pixel Fold posture fixture in its own Android emulator job.
 
 The CI runner starts from the SDK’s available `pixel_7` catalog entry, then applies the Pixel Fold screen, hinge-sensor and posture properties with `prepare-fold-avd.mjs` before its first boot. This avoids depending on newer SDK catalogs that include `pixel_fold`; the app still receives real OS/AndroidX folding features.
+
+## System pickers and native flows
+
+Scaffold the demo resources as above, then build the router and the separate fixture:
+
+```sh
+npm run build
+python3 scripts/native/prepare-flows.py
+(cd demo && ns build android --env.flowsTest)
+adb -s <serial> install -r demo/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+ANDROID_SERIAL=<serial> node scripts/native/flows-android.mjs
+```
+
+The runner clears this fixture app's data, seeds a Downloads document, drives the real DocumentsUI, rotates the device, recreates/closes the owning Activity, removes the originating page, and kills the app process while the picker is foreground. It checks typed outcomes, unchanged history, late-result isolation and a fresh attempt after restart. Logs, screenshots and JSON go to `scripts/native/out/flows-android`. Run on an English test emulator with other accessibility services off.
+
+For iOS, `prepare-flows.py` enables file sharing only in the generated demo resources, making its seeded document available to Files. Install CocoaPods and the `xcodeproj` Ruby gem, then:
+
+```sh
+(cd demo && ns build ios --for-device false --env.flowsTest)
+xcrun simctl install <uuid> demo/platforms/ios/build/Debug-iphonesimulator/demo.app
+ruby scripts/native/ios-flows/project.rb /tmp/router-flow-tests
+xcodebuild test -project /tmp/router-flow-tests/FlowChecks.xcodeproj \
+  -scheme FlowChecks -destination 'platform=iOS Simulator,id=<uuid>' \
+  -derivedDataPath /tmp/router-flow-tests/build -collect-test-diagnostics never \
+  -resultBundlePath /tmp/FlowChecks.xcresult
+```
+
+Use a booted English iPhone simulator. XCTest drives actual file selection, cancel, guard, concurrent presentation refusal, modal ownership, parent disposal and process restart. Screenshots live in the result bundle. The `Native flows` workflow runs both platform suites. See [validation and lifecycle boundaries](../../test/native-flows.md); these checks do not claim physical-device or full multi-window restoration coverage.

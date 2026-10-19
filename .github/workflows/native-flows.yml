@@ -1,0 +1,103 @@
+name: Native flows
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - src/native-flows.ts
+      - src/flows/**
+      - test/native-flows.spec.ts
+      - test/shims/core.ts
+      - demo/src/testing/flows-app.ts
+      - demo/webpack.config.js
+      - scripts/native/flows-android.mjs
+      - scripts/native/prepare-flows.py
+      - scripts/native/ios-flows/**
+      - .github/workflows/native-flows.yml
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - run: npm ci && npm run build
+      - run: npm install --no-audit --no-fund
+        working-directory: demo
+      - run: npm install -g nativescript
+      - name: Prepare NativeScript
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install emulator >/dev/null
+          ns usage-reporting disable
+          ns error-reporting disable
+          ns create flow-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null
+          cp -R /tmp/flow-scaffold/App_Resources demo/App_Resources
+      - run: ns build android --env.flowsTest
+        working-directory: demo
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          target: google_apis
+          profile: pixel_7
+          disable-animations: false
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: |
+            adb install -r demo/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+            ANDROID_SERIAL=emulator-5554 node scripts/native/flows-android.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: flows-android
+          path: scripts/native/out/flows-android
+  ios:
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - run: gem install cocoapods xcodeproj --no-document
+      - run: npm ci && npm run build
+      - run: npm install --no-audit --no-fund
+        working-directory: demo
+      - run: npm install -g nativescript
+      - name: Prepare NativeScript
+        run: |
+          ns usage-reporting disable
+          ns error-reporting disable
+          ns create flow-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null
+          cp -R /tmp/flow-scaffold/App_Resources demo/App_Resources
+          python3 scripts/native/prepare-flows.py
+      - run: ns build ios --for-device false --env.flowsTest
+        working-directory: demo
+      - name: Drive the system picker with XCTest
+        run: |
+          SIM=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; d=json.load(sys.stdin); print(next(x["udid"] for group in d["devices"].values() for x in group if x["name"].startswith("iPhone")))')
+          xcrun simctl boot "$SIM" || true
+          xcrun simctl bootstatus "$SIM" -b
+          xcrun simctl install "$SIM" demo/platforms/ios/build/Debug-iphonesimulator/demo.app
+          ruby scripts/native/ios-flows/project.rb /tmp/router-flow-tests
+          mkdir -p scripts/native/out/flows-ios
+          xcodebuild test -project /tmp/router-flow-tests/FlowChecks.xcodeproj -scheme FlowChecks -destination "platform=iOS Simulator,id=$SIM" -derivedDataPath /tmp/router-flow-tests/build -collect-test-diagnostics never -resultBundlePath scripts/native/out/flows-ios/FlowChecks.xcresult
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: flows-ios
+          path: scripts/native/out/flows-ios

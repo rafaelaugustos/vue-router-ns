@@ -2,6 +2,7 @@ import { Application, isAndroid, type Page } from '@nativescript/core'
 import { inject, onUnmounted, shallowRef, type Ref } from 'nativescript-vue'
 import { entryKey } from './injection.js'
 import { pageEffect } from './page-effects.js'
+import { flowActivity, launchActivityResult } from './flows/activity-result.js'
 
 /** How a native flow ended. Exactly one of these, exactly once. */
 export type NativeFlowOutcome<Output> =
@@ -15,12 +16,17 @@ export interface NativeFlowContext<Output> {
   readonly id: string
   /** The page that started the flow, when one did: present from its controller or window. */
   readonly page: Page | undefined
-  /** Android: a request code reserved for this attempt. */
+  /** Legacy Android request code. Prefer launchActivity() and AndroidX registration. */
   readonly requestCode: number
-  /** Android: hears the activity result for `requestCode`, once. */
+  /** Legacy: hears a result from the original Activity for `requestCode`, once. */
   onActivityResult(handler: (resultCode: number, intent: any) => void): void
+  /** AndroidX: launch from this page's Activity; registration is disposed with the flow. */
+  launchActivity(
+    intent: unknown,
+    handler: (resultCode: number, intent: any) => void,
+  ): void
   complete(value: Output): void
-  cancel(): void
+  cancel(reason?: 'user' | 'disposed'): void
   fail(error: unknown): void
 }
 
@@ -36,8 +42,8 @@ export interface NativeFlow<Input, Output> {
   supported?(): boolean
   /**
    * Launches the native UI. Report through the context, once. Throwing fails
-   * the attempt. The returned function, if any, runs when the attempt is
-   * abandoned: the page left, or a newer attempt replaced it.
+   * the attempt. The returned function, if any, runs on every terminal outcome,
+   * including completion, cancellation, failure and page disposal.
    */
   start(input: Input, context: NativeFlowContext<Output>): void | (() => void)
 }
@@ -63,6 +69,7 @@ interface Attempt {
   settle: (outcome: NativeFlowOutcome<any>) => void
   result?: (resultCode: number, intent: any) => void
   cleanup?: () => void
+  activity?: any
 }
 
 const REQUEST_CODE_BASE = 0x7a00
@@ -85,10 +92,14 @@ function listenForActivityResults() {
   listening.add(Application.android)
   Application.android.on('activityResult', (args: any) => {
     const attempt = attempts.get(args.requestCode)
-    if (!attempt?.result) return
+    if (!attempt?.result || args.activity !== attempt.activity) return
     const handler = attempt.result
     attempt.result = undefined
-    handler(args.resultCode, args.intent)
+    try {
+      handler(args.resultCode, args.intent)
+    } catch (error) {
+      attempt.settle({ status: 'failed', error })
+    }
   })
 }
 
@@ -109,11 +120,13 @@ export function startNativeFlow<Input, Output>(
   const requestCode = nextRequestCode()
   const id = `${flow.kind}-${requestCode.toString(16)}-${Date.now().toString(36)}`
   let settled = false
+  const nativeCleanups: (() => void)[] = []
   let resolve!: (outcome: NativeFlowOutcome<Output>) => void
   const outcome = new Promise<NativeFlowOutcome<Output>>((done) => (resolve = done))
   const attempt: Attempt = {
     id,
     requestCode,
+    activity: isAndroid ? flowActivity(page) : undefined,
     settle(result) {
       if (settled) return
       settled = true
@@ -121,18 +134,17 @@ export function startNativeFlow<Input, Output>(
       const cleanup = attempt.cleanup
       attempt.cleanup = undefined
       attempt.result = undefined
-      cleanup?.()
+      for (const stop of [...nativeCleanups.splice(0), ...(cleanup ? [cleanup] : [])]) {
+        try {
+          stop()
+        } catch (error) {
+          result = { status: 'failed', error }
+        }
+      }
       resolve(result)
     },
   }
   attempts.set(requestCode, attempt)
-  if (flow.supported && !flow.supported()) {
-    attempt.settle({
-      status: 'failed',
-      error: new Error(`[vue-router-ns] The "${flow.kind}" flow isn't supported here`),
-    })
-    return { outcome, dispose: () => {} }
-  }
   const context: NativeFlowContext<Output> = {
     id,
     page,
@@ -140,11 +152,27 @@ export function startNativeFlow<Input, Output>(
     onActivityResult(handler) {
       attempt.result = handler
     },
+    launchActivity(intent, handler) {
+      if (!isAndroid) throw new Error('[vue-router-ns] Activity results require Android')
+      if (settled) return
+      const stop = launchActivityResult(
+        page,
+        `vue-router-ns:flow:${id}`,
+        intent,
+        handler,
+        () => attempt.settle({ status: 'cancelled', reason: 'disposed' }),
+        (error) => attempt.settle({ status: 'failed', error }),
+      )
+      if (settled) stop()
+      else nativeCleanups.push(stop)
+    },
     complete: (value) => attempt.settle({ status: 'completed', value }),
-    cancel: () => attempt.settle({ status: 'cancelled', reason: 'user' }),
+    cancel: (reason = 'user') => attempt.settle({ status: 'cancelled', reason }),
     fail: (error) => attempt.settle({ status: 'failed', error }),
   }
   try {
+    if (flow.supported && !flow.supported())
+      throw new Error(`[vue-router-ns] The "${flow.kind}" flow isn't supported here`)
     const cleanup = flow.start(input, context)
     if (typeof cleanup === 'function') {
       if (settled) cleanup()
@@ -172,6 +200,7 @@ export function useNativeFlow<Input, Output>(
   if (!entry) throw new Error('useNativeFlow() must be used inside a routed page')
   const running = shallowRef(false)
   let page: Page | undefined
+  let invocation = 0
   let current: { dispose(reason?: 'disposed' | 'replaced'): void } | undefined
 
   const unregister = pageEffect(entry, (view) => {
@@ -180,20 +209,27 @@ export function useNativeFlow<Input, Output>(
       page = undefined
       current?.dispose()
       current = undefined
+      running.value = false
     }
   })
   onUnmounted(() => {
     unregister()
     current?.dispose()
     current = undefined
+    running.value = false
   })
 
   return {
     running,
     async run(input, options = {}) {
-      if (options.before && !(await options.before(input))) {
-        return { status: 'cancelled', reason: 'guard' }
+      const call = ++invocation
+      try {
+        if (options.before && !(await options.before(input)))
+          return { status: 'cancelled', reason: 'guard' }
+      } catch (error) {
+        return { status: 'failed', error }
       }
+      if (call !== invocation) return { status: 'cancelled', reason: 'replaced' }
       if (entry.disposed || !page) return { status: 'cancelled', reason: 'disposed' }
       current?.dispose('replaced')
       const started = startNativeFlow(flow, input, page)
@@ -202,8 +238,10 @@ export function useNativeFlow<Input, Output>(
       try {
         return await started.outcome
       } finally {
-        if (current === started) current = undefined
-        running.value = false
+        if (current === started) {
+          current = undefined
+          running.value = false
+        }
       }
     },
   }
