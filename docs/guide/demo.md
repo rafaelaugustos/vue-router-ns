@@ -57,6 +57,15 @@ Search filters the current page without adding routes. The Android drawer takes 
 <Clip name="android-drawer" aspect="9 / 20" caption="Select Settings from the drawer, then close the drawer with system Back." />
 </div>
 
+## Choose file conventions
+
+The separate collection example uses generated routes, a native layout, authentication middleware and a typed modal result. Both authoring styles use the same native router. [Optional setup and source](./file-routing).
+
+<div class="clips">
+<Clip name="ios-file-routing" caption="Generated routes on iOS: detail, modal result and guarded account." />
+<Clip name="android-file-routing" aspect="9 / 20" caption="The same collection flow on Android native Pages." />
+</div>
+
 ## Run the same app
 
 Install the [NativeScript CLI](https://docs.nativescript.org/setup/), then build the local router from the repository root:

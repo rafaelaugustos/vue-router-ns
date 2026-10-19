@@ -57,6 +57,15 @@ A busca filtra a página atual sem adicionar rotas. O drawer do Android usa a po
 <Clip name="android-drawer" aspect="9 / 20" caption="Selecione Settings pelo drawer e depois feche o drawer com o Voltar do sistema." />
 </div>
 
+## Escolha as convenções por arquivos
+
+O exemplo separado de coleção usa rotas geradas, layout nativo, middleware de autenticação e modal com resultado tipado. Os dois estilos usam o mesmo router nativo. [Configuração opcional e código](./file-routing).
+
+<div class="clips">
+<Clip name="ios-file-routing" caption="Rotas geradas no iOS: detalhe, resultado de modal e conta protegida." />
+<Clip name="android-file-routing" aspect="9 / 20" caption="O mesmo fluxo da coleção em Pages nativas no Android." />
+</div>
+
 ## Rode o mesmo app
 
 Instale a [CLI do NativeScript](https://docs.nativescript.org/setup/) e compile o router local a partir da raiz do repositório:

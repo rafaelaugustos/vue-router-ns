@@ -2,7 +2,98 @@
 
 O gerador produz um array de rotas tipado para o router nativo existente. O aplicativo pode declarar rotas em JavaScript/TypeScript, gerá-las a partir de páginas Vue nativas ou combinar tabelas independentes. Pages, Frames, guards, resultados e histórico continuam seguindo os mesmos contratos.
 
-Esta entrega fornece APIs de build. A instalação pronta para webpack, os auto-imports e o exemplo completo de configuração ficam na [#92](https://github.com/rafaelaugustos/vue-router-ns/issues/92). A biblioteca não executa o Nuxt nem o Vue Router web.
+O plugin webpack opcional cuida da geração, compilação de metadados e HMR nativo. Aplicativos com rotas explícitas não precisam alterar o build. Todas as telas usam componentes NativeScript; a biblioteca não executa Nuxt, Vue Router web, renderer DOM ou navegação em WebView, nem converte templates web.
+
+## Configuração com NativeScript webpack
+
+Instale `@vue/compiler-sfc@^3.5` e `webpack@^5` como dependências de desenvolvimento, junto ao `@nativescript/webpack` do aplicativo. São peers opcionais do router. Adicione ao `webpack.config.js` existente:
+
+```js
+const webpack = require('@nativescript/webpack')
+const { NativeFileRoutesPlugin } = require('vue-router-ns/file-routing/webpack')
+
+module.exports = (env) => {
+  webpack.init(env)
+  webpack.chainWebpack((config) => {
+    config.plugin('native-file-routes').use(NativeFileRoutesPlugin, [
+      {
+        platform: env.android ? 'android' : 'ios',
+        pagesDir: 'src/pages',
+        outDir: 'src/generated/router',
+        layoutsDir: 'src/layouts', // descoberta opcional
+        middlewareDir: 'src/middleware', // descoberta opcional
+        autoImports: true, // somente o macro definePageMeta
+      },
+    ])
+  })
+  return webpack.resolveConfig()
+}
+```
+
+Os caminhos são relativos ao contexto do projeto no webpack (`rootDir` permite sobrescrevê-lo). A saída deve ficar fora dos diretórios escaneados. Inclua os arquivos gerados no `include` do TypeScript e ignore-os no Git. Omita `layoutsDir`/`middlewareDir` ou use `false` para manter o registro explícito.
+
+```ts
+import { createRouter } from 'vue-router-ns'
+import { routes, layouts, installFileRouting } from './generated/router'
+
+export const router = createRouter({ routes, layouts, defaultLayout: 'default' })
+const disposeFileRouting = installFileRouting(router)
+// Depois, app.use(router). Descarte a integração quando encerrar o app/janela.
+```
+
+Crie o router uma vez. `installFileRouting` registra os middlewares descobertos e aceita HMR da tabela nessa instância; retorna uma função de limpeza. Remova `layouts` e `defaultLayout` se não usar layout. O aplicativo monta `RouterView`/outros containers nativos normalmente.
+
+A geração ocorre antes da compilação, inclusive no watch de `ns run`. Antes de executar `tsc --noEmit` separadamente, prepare os tipos com as mesmas opções num script Node:
+
+```js
+import { prepareFileRouting } from 'vue-router-ns/file-routing/setup'
+
+await prepareFileRouting({
+  platform: 'android',
+  pagesDir: 'src/pages',
+  outDir: 'src/generated/router',
+  layoutsDir: 'src/layouts',
+  middlewareDir: 'src/middleware',
+  autoImports: true,
+})
+```
+
+Compartilhe as opções entre o script e o webpack. O `index.d.ts` gerado descreve a **última plataforma preparada**: prepare e verifique os tipos de cada plataforma em sequência. Não gere ambas simultaneamente no mesmo diretório de saída. O NativeScript seleciona `index.android.ts`/`index.ios.ts` em runtime. Os módulos Node de setup/plugin/compilador nunca devem ser importados pelo app.
+
+## Descoberta e imports opcionais
+
+`layouts/default.vue` registra `default`; `layouts/account/settings.vue` registra `account-settings`. A descoberta não ativa um layout padrão: defina `defaultLayout` ou os metadados da página. O layout é responsável pela única `Page` nativa; seu conteúdo roteado não deve criar outra `Page`. Veja [layouts](./layouts).
+
+Middlewares exportam uma função `RouteMiddleware` como default. `middleware/auth.ts` registra `auth`; `middleware/01-audit.global.ts` registra middleware global em ordem determinística de nomes de arquivos. Prefixos numéricos permitem expressar a ordem. Middlewares nomeados executam quando selecionados nos metadados da página. `router.addRouteMiddleware()` continua disponível; a descoberta não sobrescreve nomes duplicados silenciosamente. Veja [middleware e helpers](./middleware).
+
+Os dois diretórios aceitam variantes `.ios`/`.android` antes da extensão, como `auth.global.android.ts`. Nomes permitem letras, números, underscores e hífens; pastas aninhadas são unidas por `-`. Ambiguidades geram erro. Entradas ocultas/com prefixo `_` são ignoradas e symlinks rejeitados. Diretórios configurados devem existir.
+
+Com `autoImports: true`, somente uma chamada sem binding local de `definePageMeta()` no nível superior do `<script setup>` de uma página pode omitir o import. A declaração gerada fornece seu tipo. Bindings locais e imports de outros módulos preservam seu significado. Helpers de runtime sempre usam imports explícitos. Com o padrão `autoImports: false`, escreva `import { definePageMeta } from 'vue-router-ns/file-routing'`.
+
+## Exemplo nativo e suporte verificado
+
+O [exemplo de rotas por arquivos](https://github.com/rafaelaugustos/vue-router-ns/tree/main/examples/file-routing) inclui coleção/detalhe, rascunho editável, duas pilhas em abas nativas, layout, middleware de autenticação e modal com resultado tipado. Também combina `/about` explícita com as rotas geradas. O [playground existente](https://github.com/rafaelaugustos/vue-router-ns/tree/main/examples/playground) mantém a configuração explícita.
+
+<div class="clips">
+  <Clip name="ios-file-routing" caption="iOS: lista/detalhe nativos, resultado de modal e autenticação com rotas geradas." />
+  <Clip name="android-file-routing" caption="Android: as mesmas convenções sobre Pages e Frames nativos." aspect="9 / 20" />
+</div>
+
+| Camada                     | Configuração verificada                                                   |
+| -------------------------- | ------------------------------------------------------------------------- |
+| Integração                 | Subpaths opcionais experimentais; API explícita permanece disponível      |
+| NativeScript-Vue / Core    | 3.1.2 / 9.1.3; uma instância de cada no bundle inspecionado               |
+| Builder / compilador       | `@nativescript/webpack` 5.0.39, webpack 5.112, `@vue/compiler-sfc` 3.5.44 |
+| Node / tipos do exemplo    | Node 20.19.4 local e Node 22 no CI; TypeScript 6.0.3                      |
+| Android                    | Runtime 9.1.1; API 36 local, API 34 no CI nativo                          |
+| iOS                        | Runtime 9.1.0; simulador iOS 26, aceitação nativa local                   |
+| Outros builders/frameworks | Integração com Vite e runtime Nuxt não é fornecida nem verificada         |
+
+`scripts/native/conventions-watch.mjs android|ios` executa o exemplo pelo CLI NativeScript real e edita os arquivos enquanto o app está aberto. Verifica identidade de Page, rascunhos, Voltar, cancelamento, redirects de autenticação, resultados de modal, visibilidade de acessibilidade/alvos de foco e recuperação do watch. Restaura suas alterações temporárias ao sair. A fixture não verifica anúncios audíveis de leitores de tela; a cobertura de acessibilidade separada do router continua valendo.
+
+O plugin usa o watcher do webpack. Criar, renomear ou apagar uma página e editar apenas seus metadados atualiza o matching futuro sem recriar entradas abertas ou outras pilhas. Geração inválida apresenta erro de build e preserva a última saída válida; corrigir a fonte retoma a compilação. Alterar script/template Vue segue o HMR do Vue e pode remontar o componente/perder estado local. Adicionar, remover ou renomear registros de layouts/middlewares exige reiniciar o app; editar módulos existentes segue o HMR do NativeScript/Vue.
+
+Para voltar às rotas explícitas, troque os imports gerados por suas tabelas de rotas/layouts, registre middlewares explicitamente e remova `installFileRouting`, o plugin, seu script de preparação e declarações geradas. Mova os campos de `definePageMeta` para os registros de rota e remova as chamadas. O router nativo e sua API de navegação permanecem os mesmos.
 
 ## Gerar o módulo
 
@@ -80,7 +171,7 @@ O macro aceita `name`, `path`, `layout`, `middleware`, `meta`, `props`, `modal` 
 
 Os valores precisam ser dados literais: strings, números finitos, booleanos, null, arrays e objetos simples. Wrappers TypeScript `as`/`satisfies` são aceitos. Constantes importadas, variáveis do setup, chamadas, funções, spreads, getters e chaves calculadas são rejeitados sem execução. Registre guards/layouts funcionais no router e referencie seus nomes. Use rotas explícitas para props por callback, redirects ou objetos de transição que precisem ser construídos em runtime.
 
-Importe `definePageMeta` explicitamente, com alias se quiser, e chame uma vez como declaração no nível superior de `<script setup>`. O build precisa executar `transformPageMeta(source, filename)` **antes do compilador SFC do Vue**, usando `code` e o source `map` retornados. A transformação remove a chamada/import do macro e preserva o restante do script/template. Um macro sem transformação lança erro no setup. Descoberta e imports automáticos ficam fora deste gerador.
+Chame o macro uma vez no nível superior de `<script setup>`. Imports explícitos podem usar aliases. O plugin webpack faz a transformação automaticamente. Num builder próprio, execute `transformPageMeta(source, filename, { autoImports: false })` **antes do compilador SFC do Vue**, usando `code` e o source `map` retornados. A transformação remove a chamada/import do macro e preserva o restante. Um macro sem transformação lança erro no setup. A descoberta pertence à API opcional de setup, não ao gerador de baixo nível.
 
 ## Combinar com rotas explícitas
 
@@ -118,4 +209,4 @@ Conflitos com destinos explícitos e registros alterados externamente são rejei
 
 IDs de arquivos e nomes de rotas são separados da chave de restauração de cada entrada nativa. Renomear um arquivo pode mudar o nome da rota; declare um nome estável quando necessário. Caminhos salvos, migrações e destinos indisponíveis seguem a [restauração](./restore) existente. Gerar outra tabela não migra dados salvos do app.
 
-A fixture `--env.filesTest` do repositório usa um loader webpack local e snapshots gerados para validar a saída no iOS/Android. O watcher de filesystem e as atualizações nativas da tabela são testados separadamente; a integração pronta entre watch e dispositivo fica na #92.
+A fixture `--env.filesTest` continua validando a saída de baixo nível no iOS/Android. O exemplo separado de convenções exercita o plugin público e o HMR entre filesystem e dispositivo descrito acima.
