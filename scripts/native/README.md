@@ -102,3 +102,5 @@ The runner restores the previous `display_features` setting on exit. It verifies
 emulated feature, not evidence from physical dual-screen hardware. See [native folding evidence](../../test/native-folding.md)
 for the tested hardware configuration and platform versions. The `Native` workflow
 runs the standard Pixel Fold posture fixture in its own Android emulator job.
+
+The CI runner starts from the SDK’s available `pixel_7` catalog entry, then applies the Pixel Fold screen, hinge-sensor and posture properties with `prepare-fold-avd.mjs` before its first boot. This avoids depending on newer SDK catalogs that include `pixel_fold`; the app still receives real OS/AndroidX folding features.

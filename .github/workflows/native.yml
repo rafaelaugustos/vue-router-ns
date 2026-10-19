@@ -181,7 +181,9 @@ jobs:
           api-level: 35
           arch: x86_64
           target: google_apis
-          profile: pixel_fold
+          # Older runner SDK catalogs do not include pixel_fold.
+          profile: pixel_7
+          pre-emulator-launch-script: node scripts/native/prepare-fold-avd.mjs "$ANDROID_AVD_HOME/test.avd/config.ini"
           disable-animations: false
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           script: |
