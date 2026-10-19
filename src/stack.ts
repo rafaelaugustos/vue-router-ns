@@ -34,7 +34,7 @@ export interface Stack {
   /** The navigation running guards here; a newer one cancels it. */
   attempt: object | undefined
   /** Settles once the native navigation the router started here is done. */
-  pending: Deferred<void> | undefined
+  pending: (Deferred<void> & { entry?: Entry; nativeCompleted?: boolean }) | undefined
   /** Navigations committed here, including ones waiting for the frame to load. */
   settled: Promise<unknown>
   closed: boolean
