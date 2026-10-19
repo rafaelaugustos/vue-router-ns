@@ -1,4 +1,10 @@
-import { babelParse, MagicString, parse, walkIdentifiers } from '@vue/compiler-sfc'
+import {
+  babelParse,
+  extractIdentifiers,
+  MagicString,
+  parse,
+  walkIdentifiers,
+} from '@vue/compiler-sfc'
 import type { PageMeta, PageMetaValue } from './index.js'
 
 // Only the build entry imports this module. Never evaluate setup or imported code.
@@ -36,7 +42,11 @@ export class FileRouteError extends Error {
 }
 
 /** Extract literal metadata and erase its macro/import before the Vue compiler runs. */
-export function transformPageMeta(source: string, filename: string): PageMetaTransform {
+export function transformPageMeta(
+  source: string,
+  filename: string,
+  options: { autoImports?: boolean } = {},
+): PageMetaTransform {
   const fail = (message: string, offset = 0): never => {
     const lines = source.slice(0, offset).split('\n')
     throw new FileRouteError(filename, message, lines.length, lines.at(-1)!.length + 1)
@@ -52,34 +62,81 @@ export function transformPageMeta(source: string, filename: string): PageMetaTra
   const output = new MagicString(source)
   let metadata: PageMeta = {}
   let found = false
-  for (const block of [descriptor.script, descriptor.scriptSetup]) {
-    if (!block) continue
-    if (block.src)
-      fail(
-        'External script src is unsupported for file-routed pages',
-        block.loc.start.offset,
+  const scripts = [descriptor.script, descriptor.scriptSetup]
+    .filter((block) => block != null)
+    .map((block) => {
+      if (block.src)
+        fail(
+          'External script src is unsupported for file-routed pages',
+          block.loc.start.offset,
+        )
+      if (block.lang && !['js', 'ts', 'jsx', 'tsx'].includes(block.lang))
+        fail(
+          'File-routed scripts must use JavaScript or TypeScript',
+          block.loc.start.offset,
+        )
+      const base = block.loc.start.offset
+      let ast
+      try {
+        ast = babelParse(block.content, {
+          sourceType: 'module',
+          plugins: [
+            ...(block.lang?.includes('ts') ? ['typescript' as const] : []),
+            ...(block.lang?.includes('x') ? ['jsx' as const] : []),
+          ],
+        })
+      } catch (error) {
+        const e = error as { message: string; pos?: number }
+        fail(e.message, base + (e.pos ?? 0))
+      }
+      return { block, ast: ast! }
+    })
+  // A normal script's module bindings are also visible to script setup.
+  const bindings = new Set<string>()
+  for (const { ast } of scripts) {
+    for (const statement of ast!.program.body) {
+      const node =
+        statement.type === 'ExportNamedDeclaration' ? statement.declaration : statement
+      if (!node) continue
+      if (node.type === 'ImportDeclaration')
+        node.specifiers.forEach((s) => bindings.add(s.local.name))
+      else if (node.type === 'VariableDeclaration')
+        node.declarations.forEach((d) =>
+          extractIdentifiers(d.id).forEach((id) => bindings.add(id.name)),
+        )
+      else if (
+        (node.type === 'FunctionDeclaration' || node.type === 'ClassDeclaration') &&
+        node.id
       )
-    if (block.lang && !['js', 'ts', 'jsx', 'tsx'].includes(block.lang))
-      fail(
-        'File-routed scripts must use JavaScript or TypeScript',
-        block.loc.start.offset,
-      )
-    const base = block.loc.start.offset
-    let ast
-    try {
-      ast = babelParse(block.content, {
-        sourceType: 'module',
-        plugins: [
-          ...(block.lang?.includes('ts') ? ['typescript' as const] : []),
-          ...(block.lang?.includes('x') ? ['jsx' as const] : []),
-        ],
-      })
-    } catch (error) {
-      const e = error as { message: string; pos?: number }
-      fail(e.message, base + (e.pos ?? 0))
+        bindings.add(node.id.name)
     }
+  }
+  for (const { block, ast } of scripts) {
+    const base = block.loc.start.offset
     const aliases = new Set<string>()
     const ignored = new Set<Node>()
+    const references = new Set<Node>()
+    walkIdentifiers(ast.program, (node) => references.add(node))
+    if (
+      options.autoImports &&
+      block === descriptor.scriptSetup &&
+      !bindings.has('definePageMeta')
+    ) {
+      // Only an unbound, top-level macro call is implicit. Local declarations
+      // and explicit imports retain their meaning and must not be erased.
+      let implicit = false
+      walkIdentifiers(ast!.program, (node, parent, parents) => {
+        if (
+          parents.length === 3 &&
+          node.name === 'definePageMeta' &&
+          parent?.type === 'CallExpression' &&
+          parent.callee === node &&
+          parents.at(-2)?.type === 'ExpressionStatement'
+        )
+          implicit = true
+      })
+      if (implicit) aliases.add('definePageMeta')
+    }
     for (const statement of ast!.program.body) {
       if (
         statement.type !== 'ImportDeclaration' ||
@@ -94,6 +151,8 @@ export function transformPageMeta(source: string, filename: string): PageMetaTra
           s.importKind !== 'type' &&
           statement.importKind !== 'type',
       )
+      if (macros.length && block !== descriptor.scriptSetup)
+        fail('Import definePageMeta inside <script setup>', base + statement.start!)
       for (const specifier of macros) {
         aliases.add(specifier.local.name)
         ignored.add(specifier)
@@ -149,7 +208,9 @@ export function transformPageMeta(source: string, filename: string): PageMetaTra
         node.type === 'CallExpression' &&
         node.callee?.type === 'Identifier' &&
         node.callee.name === 'definePageMeta' &&
-        !aliases.has('definePageMeta')
+        references.has(node.callee) &&
+        !aliases.has('definePageMeta') &&
+        !bindings.has('definePageMeta')
       )
         fail(`Import definePageMeta from '${sourceModule}'`, base + node.start!)
       if (

@@ -2,9 +2,11 @@
 
 ## Unreleased
 
+- Optional NativeScript webpack file-routing setup: generate routes/types before compilation, erase page metadata macros, discover layouts/middleware and apply native route-table HMR. Adds a separate native example, live watch acceptance, bundle checks and English/Portuguese setup guides with recordings. Explicit route configuration remains available unchanged.
+
 - Native completion now waits for the destination's Vue Page registration before reconciling history. This preserves activation hooks and one `afterEach` notification when the native host finishes during Vue's mounted-hook flush.
 
-- Experimental opt-in file routing: deterministic typed native routes from page files, literal AST-based `definePageMeta`, platform-specific SFC selection, atomic generation and a Node watcher. Optional runtime helpers combine explicit routes and update generated tables while retaining open native entries. Compiler/filesystem tooling lives in a separate subpath with an optional compiler peer; turnkey build integration remains in #92.
+- Experimental opt-in file routing: deterministic typed native routes from page files, literal AST-based `definePageMeta`, platform-specific SFC selection, atomic generation and a Node watcher. Optional runtime helpers combine explicit routes and update generated tables while retaining open native entries. Compiler/filesystem tooling lives in separate subpaths with optional build peers.
 
 - Optional native layouts: register `layouts`, opt into `defaultLayout` or select `meta.layout`, and use `layout: false` for existing Page-owning destinations. Each entry gets a separate layout/content instance; the layout owns Page/ActionBar and renders the destination once through its slot. Layout and destination HMR use the existing native Page replacement and covered-page deferral.
 

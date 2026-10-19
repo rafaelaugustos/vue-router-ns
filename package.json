@@ -35,6 +35,14 @@
     "./file-routing/generator": {
       "types": "./dist/file-routing/generator.d.ts",
       "default": "./dist/file-routing/generator.js"
+    },
+    "./file-routing/setup": {
+      "types": "./dist/file-routing/setup.d.ts",
+      "default": "./dist/file-routing/setup.js"
+    },
+    "./file-routing/webpack": {
+      "types": "./dist/file-routing/webpack.d.cts",
+      "default": "./dist/file-routing/webpack.cjs"
     }
   },
   "files": [
@@ -63,10 +71,14 @@
   "peerDependencies": {
     "@nativescript/core": ">=8.9.0",
     "@vue/compiler-sfc": "^3.5.0",
-    "nativescript-vue": "^3.0.0"
+    "nativescript-vue": "^3.0.0",
+    "webpack": "^5.0.0"
   },
   "peerDependenciesMeta": {
     "@vue/compiler-sfc": {
+      "optional": true
+    },
+    "webpack": {
       "optional": true
     }
   },
@@ -79,7 +91,8 @@
     "prettier": "^3.9.10",
     "typescript": "^7.0.2",
     "vitepress": "^1.6.4",
-    "vitest": "^5.0.4"
+    "vitest": "^5.0.4",
+    "webpack": "^5.112.0"
   },
   "engines": {
     "node": ">=20"

@@ -57,4 +57,25 @@ Native CI runs `39209971540` (attempt 1) and `39213818295` stopped at the existi
 
 Attempt 2 of `39209971540` separately captured a `Pixel Launcher isn't responding` dialog covering the app and failed ten early UI checks; subsequent restoration, modal, drawer and timing checks passed. That launcher ANR is distinct from the synchronization regression. Failed runs are not counted as file-route acceptance passes.
 
-Filesystem watching and native table updates are verified as separate stages. This does not claim a turnkey filesystem-to-device HMR plugin: public webpack installation, watch delivery, automatic imports, compatibility setup and recordings remain in #92. Existing Vue component HMR is unchanged. This pass does not add physical-device, screen-reader, process-death, multi-window or interactive gesture coverage; saved-entry migration remains app-owned.
+That #89 pass verified filesystem watching and native table updates as separate stages. The #92 pass below additionally verifies the public plugin through actual CLI-to-device HMR. Existing Vue component HMR is unchanged. Neither pass adds physical-device, screen-reader speech, process-death, multi-window or interactive gesture coverage; saved-entry migration remains app-owned.
+
+## Public setup and live HMR — #92
+
+The separate `examples/file-routing` application uses the public `file-routing/webpack` plugin and `file-routing/setup` API. It has generated native collection/detail pages, a discovered layout, global/auth middleware, a result-returning modal, two tab stacks and an explicit `/about` route.
+
+| Environment                   | Live acceptance                   |
+| ----------------------------- | --------------------------------- |
+| Android API 36 arm64 emulator | 22/22 passed, run `1792398148983` |
+| iPhone 17 simulator, iOS 26.0 | 22/22 passed, run `1792398359495` |
+
+The runner, `scripts/native/conventions-watch.mjs`, launches `ns run` with native HMR. After the baseline flow it actually edits metadata, creates a page, renames it while open, removes it while open, introduces a duplicate route name, and corrects it. Assertions require the original native Page objects and drafts to survive, including the other tab's stack. Future navigation must receive the revised metadata, and Back must return to retained entries whose files have moved or disappeared. No host/router methods are patched. The driver restores its source edits and stops its own processes in `finally`.
+
+The baseline covers real Frame push/back and parameters, layout Page/ActionBar ownership, global middleware, cancelled auth before mounting, auth redirect/allow, typed modal results, explicit/generated coexistence and retained state. Focus assertions check a registered layout focus owner, a real loaded native heading target, covered-page accessibility hiding and visibility restoration after modal dismissal. They complement, rather than replace, the separate VoiceOver/TalkBack acceptance in `native-accessibility.md`.
+
+The real webpack-watch regression also covers an invalid initial build, scope-safe macro auto-imports, excluded child components, and recovery after a later generation error. A failed generation must preserve **both** the emitted files and webpack's previous HMR record/hash. Otherwise the corrected build refers to an update the device never received. The public plugin now prevents recording failed generations, and native recovery passes on both platforms.
+
+Both bundles were inspected with `examples/file-routing/scripts/check-bundle.mjs`: one NativeScript-Vue/Core/runtime-core instance, the native file-route updater, and no scanner, AST/compiler, Node filesystem, Nuxt, Vue Router or DOM renderer modules. The local example resolved NativeScript webpack 5.0.39, webpack 5.112.0, compiler-sfc 3.5.44 and TypeScript 6.0.3 on Node 20.19.4. NativeScript-Vue/Core and native runtimes are the versions listed above.
+
+The ordinary CI lane prepares, typechecks, builds and inspects both platform bundles from a clean checkout on Node 22. The existing Native Android job runs the live watch fixture after the explicit-demo, drawer, middleware, layout and low-level file-route fixtures. The [setup guide](../docs/guide/file-routing.md) publishes the matrix and includes actual native recordings on both platforms. iOS execution is a local simulator check; it is not presented as an iOS CI lane.
+
+Open entries retain snapshots for route-table changes; edits to component code can trigger the existing Vue remount behavior. Adding/removing/renaming discovered layout or middleware registrations requires restarting the app. Standalone declarations describe the last prepared platform, so platform type preparation/checking is sequential. The integration remains optional and experimental.

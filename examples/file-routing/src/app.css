@@ -1,0 +1,77 @@
+Page.screen {
+  background-color: #f6f3ed;
+  color: #183b35;
+}
+ActionBar {
+  background-color: #f6f3ed;
+  color: #183b35;
+}
+.content {
+  padding: 24;
+}
+.eyebrow {
+  font-size: 10;
+  font-weight: 600;
+  letter-spacing: 0.12;
+  color: #687d72;
+  margin-bottom: 12;
+}
+.heading {
+  font-size: 32;
+  font-weight: 700;
+  margin-bottom: 16;
+}
+.subtitle {
+  font-size: 15;
+  color: #65766e;
+  line-height: 5;
+  margin-bottom: 20;
+}
+.card {
+  background-color: #e6ebdd;
+  border-radius: 18;
+  padding: 22;
+  margin-top: 12;
+  margin-bottom: 26;
+}
+.card-title {
+  font-size: 23;
+  font-weight: 600;
+  margin-bottom: 10;
+}
+Button {
+  font-size: 15;
+  color: #183b35;
+  background-color: #e6ebdd;
+  border-radius: 12;
+  padding: 12;
+  margin: 8 0;
+}
+Button.primary {
+  background-color: #1e5547;
+  color: #ffffff;
+}
+TextField {
+  font-size: 16;
+  color: #183b35;
+  padding: 12;
+  margin-bottom: 12;
+}
+.swatch {
+  height: 170;
+  border-radius: 18;
+  background-color: #b8d5ce;
+  margin-bottom: 22;
+  vertical-align: middle;
+}
+.swatch-text {
+  font-size: 26;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 66;
+}
+.status {
+  font-size: 10;
+  padding: 8;
+  color: #65766e;
+}

@@ -18,6 +18,8 @@ on:
       - src/page.ts
       - src/file-routing/**
       - test/file-routing.spec.ts
+      - test/file-routing-setup.spec.ts
+      - examples/file-routing/**
       - test/layouts.spec.ts
       - src/middleware.ts
       - src/navigation.ts
@@ -97,6 +99,11 @@ jobs:
           npx tsc --noEmit -p tsconfig.files.json
           cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-files.apk
         working-directory: demo
+      - name: Prepare the convention-based example
+        working-directory: examples/file-routing
+        run: |
+          npm ci
+          npm run setup
       - name: Smoke test on an emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -116,6 +123,7 @@ jobs:
             bash scripts/native/layouts-android.sh
             adb install -r /tmp/router-files.apk
             bash scripts/native/files-android.sh
+            ANDROID_SERIAL=emulator-5554 node scripts/native/conventions-watch.mjs android
       - uses: actions/upload-artifact@v4
         if: always()
         with:

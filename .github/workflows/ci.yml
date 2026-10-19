@@ -38,3 +38,30 @@ jobs:
       - run: npm run typecheck
       - run: npm run build:android
       - run: npm run build:ios
+
+  file-routing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            examples/file-routing/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - run: npm ci
+        working-directory: examples/file-routing
+      - name: Prepare types and inspect both native bundles
+        working-directory: examples/file-routing
+        run: |
+          npm run routes:android
+          npm run typecheck
+          npm run build:android -- --env sourceMap
+          node scripts/check-bundle.mjs android
+          npm run routes:ios
+          npm run typecheck
+          npm run build:ios -- --env sourceMap
+          node scripts/check-bundle.mjs ios

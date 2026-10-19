@@ -16,6 +16,8 @@ export interface FileRoutesOptions {
   platform?: 'ios' | 'android'
   /** Relative files/directories to skip. Exact names/prefixes, not glob patterns. */
   exclude?: readonly string[]
+  /** Opt into an unbound definePageMeta macro in page <script setup>. */
+  autoImports?: boolean
 }
 
 export interface FilePage {
@@ -101,7 +103,11 @@ export async function generateFileRoutes(
   for (const [id, variants] of groups) {
     const file = variants.get(options.platform ?? 'default') ?? variants.get('default')
     if (!file) continue // A platform-only destination is absent from the other build.
-    const metadata = transformPageMeta(await readFile(file, 'utf8'), file).metadata
+    const metadata = transformPageMeta(
+      await readFile(file, 'utf8'),
+      file,
+      options,
+    ).metadata
     const segments = id.split('/')
     segments.forEach((s) => segment(s, file))
     const name =
