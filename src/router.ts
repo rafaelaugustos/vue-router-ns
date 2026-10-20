@@ -90,6 +90,11 @@ import {
   type LinksOptions,
 } from './links.js'
 import { createPage, ModalHost } from './page.js'
+import {
+  assertNativeDestination,
+  disposeNativeDestination,
+  nativeDestinationReady,
+} from './native-destinations.js'
 import { collectPageState, DEFAULT_STATE_LIMIT } from './page-state.js'
 import {
   publishShortcuts,
@@ -417,6 +422,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     stack.host = null
     for (const entry of stack.entries.value) dispose(entry)
     stack.entries.value = []
+    // A queued destination may own SDK resources before its Page joins the
+    // visible native history (for example an unloaded tab closed by its owner).
+    if (stack.pending?.entry) dispose(stack.pending.entry)
     stack.pending?.resolve()
     stack.pending = undefined
   }
@@ -488,6 +496,11 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   function dispose(entry: Entry) {
     if (entry.disposed) return
     entry.disposed = true
+    try {
+      disposeNativeDestination(entry)
+    } catch (error) {
+      reportError(error, entry.route, entry.route)
+    }
     disconnectPageEffects(entry)
     entry.settle?.(entry.result)
     entry.settle = undefined
@@ -1074,10 +1087,13 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       mounting?.end()
     } catch (error) {
       mounting?.end('error')
+      entry.settle = undefined
+      dispose(entry)
       stack.pending = undefined
       throw error
     }
     await shown
+    await finishNativeDestination(entry)
   }
 
   async function commitModal(
@@ -1136,6 +1152,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
           pageMount?.end()
         } catch (error) {
           pageMount?.end('error')
+          entry.settle = undefined
+          dispose(entry)
           stack.pending?.reject(error)
           stack.pending = undefined
           frame.closeModal()
@@ -1162,6 +1180,29 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     )
 
     await shown
+    await finishNativeDestination(entry)
+  }
+
+  async function finishNativeDestination(entry: Entry) {
+    const ready = nativeDestinationReady(entry)
+    if (!ready) return
+    try {
+      await ready
+    } catch (error) {
+      // Let pushForResult reject with the mount error instead of settling as a
+      // successful user cancellation when rollback disposes the failed entry.
+      entry.settle = undefined
+      // A failing SDK attachment must not leave a dead Page above the caller.
+      // This is rollback of a failed mount, not a user navigation/leave guard.
+      const stack = entry.stack
+      if (!entry.disposed && topOf(stack) === entry) {
+        const previous = stack.entries.value.at(-2)
+        if (previous || stack.modal)
+          await commitBack(stack, previous ?? null, undefined, false)
+      }
+      dispose(entry)
+      throw error
+    }
   }
 
   async function commitBack(
@@ -1200,7 +1241,10 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
   async function loadComponent(record: RouteRecord): Promise<RouteComponent> {
     const cached = components.get(record)
-    if (cached) return cached
+    if (cached) {
+      assertNativeDestination(cached)
+      return cached
+    }
 
     const raw = record.component
     if (!raw) throw new Error(`Route "${record.path}" has no component`)
@@ -1213,6 +1257,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
           ? loaded.default
           : loaded
     }
+    assertNativeDestination(component)
     components.set(record, component)
     return component
   }

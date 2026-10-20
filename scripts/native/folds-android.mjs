@@ -21,12 +21,39 @@ const pause = () => new Promise((done) => setTimeout(done, 300))
 let pid,
   log = ''
 const results = []
+const postures = []
 const occluding = process.env.EXPECT_OCCLUDING === '1'
 const displayFeatures = process.env.FOLD_DISPLAY_FEATURES
 const previousFeatures =
   displayFeatures === undefined
     ? undefined
     : (await adb('shell', 'settings', 'get', 'global', 'display_features')).trim()
+async function hinge(angle) {
+  const expected = angle === 180 ? 'OPENED' : 'HALF_OPENED'
+  await adb('emu', 'sensor', 'set', 'hinge-angle0', String(angle))
+  // A successful emulator-console reply only acknowledges the sensor write.
+  // Wait for Android's DeviceStateManager to commit the physical posture before
+  // asking WindowManager/the app to validate its resulting FoldingFeature.
+  let state = ''
+  for (let attempt = 0; attempt < 50; attempt++) {
+    state = await adb('shell', 'cmd', 'device_state', 'state')
+    const committed = state
+      .split('\n')
+      .find((line) => line.startsWith('Committed state:'))
+    if (committed?.includes(`name='${expected}'`)) {
+      postures.push({ angle, state: state.trim() })
+      return
+    }
+    if (attempt === 10 || attempt === 25) {
+      // A listener attached after the first sample needs a fresh sensor edge.
+      await adb('emu', 'sensor', 'set', 'hinge-angle0', String(angle === 180 ? 179 : 91))
+      await pause()
+      await adb('emu', 'sensor', 'set', 'hinge-angle0', String(angle))
+    }
+    await pause()
+  }
+  throw new Error(`Android did not commit hinge angle ${angle}: ${state}`)
+}
 async function wait(find, label) {
   const until = Date.now() + 60000
   while (Date.now() < until) {
@@ -91,19 +118,23 @@ try {
   if (displayFeatures !== undefined)
     await adb('shell', 'settings', 'put', 'global', 'display_features', displayFeatures)
   await adb('shell', 'wm', 'user-rotation', 'lock', '0')
-  await adb('emu', 'sensor', 'set', 'hinge-angle0', '180')
+  // Exercise the real sensor/provider before launching the app. On a freshly
+  // booted AVD, the default OPENED state alone does not prove that the hinge
+  // listener is ready to deliver a transition.
+  await hinge(90)
+  await hinge(180)
   await adb('shell', 'am', 'start', '-W', '-n', activity)
   pid = (await adb('shell', 'pidof', pkg)).trim()
   assert(pid, 'App did not launch')
   await wait((text) => text.includes('FOLD_READY '), 'fixture readiness')
   await command(occluding ? 'occluding' : 'flat')
-  await adb('emu', 'sensor', 'set', 'hinge-angle0', '90')
+  await hinge(90)
   await command('vertical')
   await command('focus')
-  await adb('emu', 'sensor', 'set', 'hinge-angle0', '180')
+  await hinge(180)
   await command(occluding ? 'occluding' : 'flat')
   await command('focused')
-  await adb('emu', 'sensor', 'set', 'hinge-angle0', '90')
+  await hinge(90)
   await command('vertical')
   await command('focused')
   await command('rtl')
@@ -131,6 +162,10 @@ try {
   console.log(`Passed ${results.length} native fold checkpoints`)
 } finally {
   await writeFile(resolve(out, 'runtime.log'), log)
+  await writeFile(resolve(out, 'postures.json'), JSON.stringify(postures, null, 2))
+  const state = await adb('shell', 'dumpsys', 'device_state').catch(String)
+  const sensors = await adb('emu', 'sensor', 'get', 'hinge-angle0').catch(String)
+  await writeFile(resolve(out, 'device-state.txt'), state + '\n' + sensors)
   await adb('shell', 'am', 'force-stop', pkg).catch(() => {})
   if (previousFeatures !== undefined) {
     if (previousFeatures === 'null')

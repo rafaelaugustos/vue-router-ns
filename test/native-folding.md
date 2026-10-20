@@ -22,6 +22,23 @@ Both runs passed all **21 checkpoints**. The non-occluding run used PID `6875` a
 
 The occluding feature comes from the emulator's **OS WindowManager Extensions settings provider**, then passes through real AndroidX callbacks and native layout. It is not an application-level mock or evidence from physical dual-screen hardware. The normal posture run uses the emulator hinge sensor and default device feature. No physical foldable was connected; no screen-reader speech claim is made.
 
+### CI setup follow-up, 2026-10-20
+
+Two CI boots reported no native feature after a sensor write, while the same
+emulator version had passed earlier. CI creates its foldable geometry from a
+Pixel 7 profile because older SDK catalogs lack Pixel Fold. The CI runs now pin
+both the fold (`fold-[1104,0,1104,1840]`) and the occluding hinge through the OS
+WindowManager Extensions settings provider, instead of depending on that
+profile's default resource overlay for the first run. This provider is part of
+[AOSP's native feature producer](https://android.googlesource.com/platform/frameworks/base/+/9b3b95f93ac95720ae04c2f69fb421ca6c6bb6da/libs/WindowManager/Jetpack/src/androidx/window/common/RawFoldingFeatureProducer.java).
+
+Posture still comes from the emulator hinge sensor. The driver first exercises
+the sensor and waits for Android's committed `HALF_OPENED`/`OPENED` state before
+asserting app geometry. It saves `postures.json` and `device-state.txt`, including
+on failure. No application callbacks or JavaScript fold data are substituted,
+and the existing geometry, focus, identity and back assertions remain required.
+The default-feature local mode remains available by omitting `FOLD_DISPLAY_FEATURES`.
+
 ## Implementation and regression coverage
 
 - Each observer obtains the Activity from the mounted view's context, subscribes on load and removes its callback on unload/disposal. No foreground-Activity singleton selects its owner.

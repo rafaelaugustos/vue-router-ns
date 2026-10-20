@@ -37,6 +37,12 @@ export {
 export type { LeaveGuardOptions } from './composables.js'
 export { useNativeHost } from './composables.js'
 export { usePageState } from './page-state.js'
+export { defineNativeDestination } from './native-destinations.js'
+export type {
+  NativeDestinationContext,
+  NativeDestinationInstance,
+  NativeDestinationOptions,
+} from './native-destinations.js'
 export { supportsShortcuts } from './shortcuts.js'
 export { useNativeFlow, startNativeFlow } from './native-flows.js'
 export type {
