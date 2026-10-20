@@ -160,7 +160,7 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           script: |
             adb install -r demo/platforms/android/app/build/outputs/apk/debug/app-debug.apk
-            ANDROID_SERIAL=emulator-5554 node scripts/native/folds-android.mjs
+            ANDROID_SERIAL=emulator-5554 FOLD_DISPLAY_FEATURES='fold-[1104,0,1104,1840]' node scripts/native/folds-android.mjs
             ANDROID_SERIAL=emulator-5554 EXPECT_OCCLUDING=1 FOLD_DISPLAY_FEATURES='hinge-[1056,0,1152,1840]' OUT=scripts/native/out/hinges node scripts/native/folds-android.mjs
       - uses: actions/upload-artifact@v4
         if: always()
