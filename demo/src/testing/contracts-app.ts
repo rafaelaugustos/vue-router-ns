@@ -324,7 +324,20 @@ async function coveredHmr() {
       frame.backStack[0]!.resolvedPage === original &&
       (original.getViewById('contract-heading') as Label)?.text !== `Root:${revision}:/`,
   )
-  await router.back({ animated: false })
+  let backDeadline: ReturnType<typeof setTimeout> | undefined
+  try {
+    await Promise.race([
+      router.back({ animated: false }),
+      new Promise<never>((_, reject) => {
+        backDeadline = setTimeout(
+          () => reject(new Error('Timed out: covered HMR native return')),
+          10000,
+        )
+      }),
+    ])
+  } finally {
+    clearTimeout(backDeadline)
+  }
   await until(
     () =>
       frame.currentPage !== original &&

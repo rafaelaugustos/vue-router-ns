@@ -24,6 +24,20 @@
       "livePages": 0,
       "nativeRetained": 6,
       "evidence": "2026-10-20 iPhone 17 Pro simulator, macOS ARM, four batches: native controller retention 5/3/4/3, zero JS Pages"
+    },
+    "ios-ci-18": {
+      "platform": "ios",
+      "sdk": "18.6",
+      "model": "iPhone",
+      "medianMs": 279,
+      "p95Ms": 355,
+      "tolerance": 1.5,
+      "jitterMs": 100,
+      "livePages": 0,
+      "nativeRetained": 8,
+      "evidence": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/39409377428/artifacts/12258618926",
+      "device": "iPhone 16 Pro simulator, macOS 15 ARM",
+      "retentionNote": "Observed 4/6/3/3 native controllers after collection; allow two additional transient controllers, no retained JS Pages"
     }
   }
 }

@@ -47,9 +47,14 @@ reload path: the native Page is not replaced when returning to the covered route
 The control must fail with that specific HMR assertion and identify itself as a
 fault build. A startup crash or arbitrary failure does not qualify.
 
-The fixed build must pass that same scenario before the other contracts. Published
+The fixed build must pass that same scenario alongside the other contracts. Published
 router sources and dependencies are never patched for the control. #4 remains
 closed; this suite continuously protects the behavior it established.
+
+In the broken iOS build, the old native Page may stop reacting altogether. The
+negative-control driver therefore requires the persisted HMR failure report,
+including its fault flag and PID; it does not rely on that broken Page updating
+its status label. The positive XCTest always requires the visible pass label.
 
 ## Timing and retention
 
@@ -72,6 +77,11 @@ leak-free.
 `validate.mjs` rejects missing scenarios, incomplete/invalid samples, reused PIDs,
 wrong fault builds, slow transitions and retained objects. Its unit tests exercise
 those rejection paths independently of the native app.
+
+Artifacts also record the commit, dirty state, host/CPU, installed NativeScript
+versions, runner image and device configuration. Android process death waits for
+both `/proc` and ActivityManager to release the old PID before reopening the
+saved task; it does not force-stop away that task or retry a failed restoration.
 
 ## Local execution
 

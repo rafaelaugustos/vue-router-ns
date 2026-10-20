@@ -60,6 +60,16 @@ module.exports = (env) => {
         .use('covered-hmr-regression')
         .loader(resolve(__dirname, '../scripts/native/contracts/hmr-regression.cjs'))
     }
+    if (env.startupTrace) {
+      config.module
+        .rule('native-disposal-trace')
+        .include.add(
+          resolve(__dirname, 'node_modules/nativescript-vue/dist/plugins/navigation.js'),
+        )
+        .end()
+        .use('native-disposal-trace')
+        .loader(resolve(__dirname, '../scripts/native/disposal-trace.cjs'))
+    }
     config.resolve.alias
       // the router from this repository: run `npm run dev` at the root
       .set('vue-router-ns$', resolve(__dirname, '../dist/index.js'))

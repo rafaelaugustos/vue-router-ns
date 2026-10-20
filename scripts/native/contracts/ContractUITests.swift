@@ -84,7 +84,10 @@ final class ContractUITests: XCTestCase {
         app.launch()
         XCTAssertTrue(app.staticTexts["PASS ready"].firstMatch.waitForExistence(timeout: 30))
         button("hmr").tap()
-        XCTAssertTrue(app.staticTexts["FAIL hmr"].firstMatch.waitForExistence(timeout: 30), app.debugDescription)
+        // The regression itself can leave an unmounted, non-reactive native
+        // Page visible. Its status label is therefore not the oracle. ios.mjs
+        // requires the fault build's persisted, specific HMR failure report.
+        _ = app.staticTexts["FAIL hmr"].firstMatch.waitForExistence(timeout: 25)
         capture("covered-hmr-regression-detected")
     }
 }

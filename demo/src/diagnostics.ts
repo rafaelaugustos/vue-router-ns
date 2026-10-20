@@ -18,6 +18,13 @@ export function installDiagnosticsDemo(
       console.log('[vue-router-ns:startup]', JSON.stringify(report.snapshot))
       for (const event of report.events)
         console.log('[vue-router-ns:startup-event]', JSON.stringify(event))
+      const disposals = (globalThis as any).__routerNativeDisposals ?? []
+      for (const disposal of disposals) {
+        const { stack, ...context } = disposal
+        console.log('[vue-router-ns:native-disposal]', JSON.stringify(context))
+        for (const line of String(stack).split('\n'))
+          console.log('[vue-router-ns:disposal-stack]', line)
+      }
     }, 5000)
   }
   // `vuerouterns://diagnostics/export` prints a timing summary for the native smoke suite

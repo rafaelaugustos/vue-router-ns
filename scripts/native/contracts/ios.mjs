@@ -3,6 +3,8 @@ import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
 import { mkdir, readFile, readdir, copyFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { recordEnvironment } from './environment.mjs'
+import { validate } from './validate.mjs'
 const exec = promisify(execFile)
 const sim = process.env.IOS_SIMULATOR
 assert(sim, 'Select a dedicated simulator with IOS_SIMULATOR')
@@ -13,6 +15,15 @@ const negative = process.env.EXPECT_HMR_FAILURE === '1'
 const run = (command, args, options = {}) =>
   exec(command, args, { maxBuffer: 32 * 1024 * 1024, ...options })
 await mkdir(out, { recursive: true })
+const devices = JSON.parse(
+  (await run('xcrun', ['simctl', 'list', 'devices', '-j'])).stdout,
+)
+await recordEnvironment(out, {
+  simulator: Object.values(devices.devices)
+    .flat()
+    .find((device) => device.udid === sim),
+  xcode: (await run('xcodebuild', ['-version'])).stdout.trim(),
+})
 await run('ruby', ['scripts/native/contracts/project.rb', project])
 await run('xcrun', ['simctl', 'uninstall', sim, pkg]).catch(() => {})
 await run('xcrun', [
@@ -84,4 +95,6 @@ try {
   await run('xcrun', ['simctl', 'terminate', sim, pkg]).catch(() => {})
 }
 assert(!failure, `Native XCTest failed; see ${out}/xcodebuild.log`)
+if (negative)
+  validate(JSON.parse(await readFile(`${out}/results.json`, 'utf8')), undefined, true)
 console.log(`Native iOS ${negative ? 'negative control' : 'contracts'} passed: ${out}`)

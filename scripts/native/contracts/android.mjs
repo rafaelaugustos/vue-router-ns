@@ -3,6 +3,7 @@ import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { recordEnvironment } from './environment.mjs'
 const exec = promisify(execFile)
 const serial = process.env.ANDROID_SERIAL
 assert(serial, 'Select a dedicated emulator with ANDROID_SERIAL')
@@ -103,8 +104,12 @@ async function capture(name) {
   await writeFile(resolve(out, `${name}.png`), shot.stdout)
 }
 async function launch() {
-  await adb('shell', 'am', 'start', '-W', '-n', activity)
-  currentPid = (await adb('shell', 'pidof', pkg)).trim()
+  const launch = await adb('shell', 'am', 'start', '-W', '-n', activity)
+  await writeFile(resolve(out, `launch-${reports.length}.txt`), launch)
+  await until(async () => {
+    currentPid = (await adb('shell', 'pidof', pkg).catch(() => '')).trim()
+    return /^\d+$/.test(currentPid)
+  }, 'launched process PID')
   lastSequence = 0
   await result('ready')
 }
@@ -146,6 +151,17 @@ async function swipe(commit) {
 const previousBackAnimation = (
   await adb('shell', 'settings', 'get', 'global', 'enable_back_animation')
 ).trim()
+const previousNavigation = (await adb('shell', 'cmd', 'overlay', 'list'))
+  .split('\n')
+  .find((line) => /^\[x\] com\.android\.internal\.systemui\.navbar\./.test(line))
+  ?.slice(4)
+await recordEnvironment(out, {
+  serial,
+  fingerprint: (await adb('shell', 'getprop', 'ro.build.fingerprint')).trim(),
+  avd: (await adb('emu', 'avd', 'name')).trim(),
+  size: (await adb('shell', 'wm', 'size')).trim(),
+  density: (await adb('shell', 'wm', 'density')).trim(),
+})
 try {
   await adb('shell', 'pm', 'clear', pkg)
   await adb('logcat', '-c')
@@ -189,12 +205,27 @@ try {
     await pause(1500)
     await adb('shell', 'am', 'kill', pkg)
     await pause(500)
-    if ((await adb('shell', 'pidof', pkg).catch(() => '')).trim() === oldPid)
-      await adb('shell', 'run-as', pkg, 'kill', '-9', oldPid)
+    if ((await adb('shell', 'pidof', pkg).catch(() => '')).trim() === oldPid) {
+      try {
+        await adb('shell', 'run-as', pkg, 'kill', '-9', oldPid)
+      } catch (error) {
+        if ((await adb('shell', 'pidof', pkg).catch(() => '')).trim() === oldPid)
+          throw error
+      }
+    }
     await until(
       async () => !(await adb('shell', 'pidof', pkg).catch(() => '')).trim(),
       'old process exits',
     )
+    // /proc can lose the PID before ActivityManager handles binder death.
+    // Starting in that interval delivers to the dying Activity instead of
+    // restoring its saved task. Wait for the system's process record as well.
+    let processes
+    await until(async () => {
+      processes = await adb('shell', 'dumpsys', 'activity', 'processes')
+      return !processes.includes(`${oldPid}:${pkg}/`)
+    }, 'ActivityManager acknowledges process death')
+    await writeFile(resolve(out, `process-death-${oldPid}.txt`), processes)
     await launch()
     assert.notEqual(currentPid, oldPid)
     await command('restore-check')
@@ -219,4 +250,13 @@ try {
     ...(previousBackAnimation === 'null' ? [] : [previousBackAnimation]),
   )
   await adb('shell', 'am', 'force-stop', pkg)
+  if (previousNavigation)
+    await adb(
+      'shell',
+      'cmd',
+      'overlay',
+      'enable-exclusive',
+      '--category',
+      previousNavigation,
+    )
 }
