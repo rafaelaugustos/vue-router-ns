@@ -419,7 +419,9 @@ async function measure() {
     for (let round = 0; round < 3; round++) {
       await pause(300)
       Utils.GC()
-      if (isAndroid) java.lang.System.gc()
+      // Android 14's System.gc() only sets a flag until runFinalization().
+      // Runtime.gc() actually requests ART collection on every supported API.
+      if (isAndroid) java.lang.Runtime.getRuntime().gc()
       await pause(300)
       // Never call WeakReference.get(): crossing the bridge would create a new
       // strong JS wrapper for the very Fragment whose collection we measure.

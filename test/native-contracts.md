@@ -84,6 +84,10 @@ the fixed three-round protocol gives both heaps time to collect without polling
 until a desired count appears. Android requires zero remaining Pages/Fragments.
 Android counts collected references from the queue without calling `get()`,
 which would create strong bridge wrappers and contaminate subsequent observations.
+It requests ART collection through `Runtime.getRuntime().gc()`: Android 14's
+[`System.gc()` implementation](https://android.googlesource.com/platform/libcore/+/refs/heads/android14-release/ojluni/src/main/java/java/lang/System.java)
+can defer the request until finalization, making it unsuitable for these fixed
+observation rounds. The artifact's logcat includes ART's explicit collections.
 The iOS profile includes an explicit bounded allowance for transient UIKit
 controllers, based on its measured samples.
 
