@@ -12,8 +12,14 @@ let LifecycleClass: any
 function ensureLifecycleClass() {
   LifecycleClass ??=
     androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks.extend({
-      onFragmentDetached(this: any, _manager: any, fragment: any) {
-        if (fragment === this.fragment) {
+      onFragmentDetached(this: any, manager: any, fragment: any) {
+        // Activity/parent teardown also detaches children. Only an explicit
+        // remove transaction is an SDK dismissal of this destination.
+        if (
+          fragment === this.fragment &&
+          fragment.isRemoving() &&
+          !manager.isDestroyed()
+        ) {
           const session = this.session
           // Do not navigate from inside FragmentManager's transaction.
           setTimeout(() => {
