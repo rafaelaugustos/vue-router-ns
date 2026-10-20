@@ -25,6 +25,7 @@ jobs:
           xcrun simctl boot "$SIM"
           xcrun simctl bootstatus "$SIM" -b
           xcrun simctl install "$SIM" /tmp/picker-probe/demo.app
+          python3 scripts/native/ios-flows/seed-external.py "$SIM"
           ruby scripts/native/ios-flows/project.rb /tmp/picker-tests
           mkdir -p /tmp/picker-results
           set +e

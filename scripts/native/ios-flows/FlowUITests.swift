@@ -34,7 +34,7 @@ final class FlowUITests: XCTestCase {
         // Re-query after every Files transition: tapping an already selected
         // Browse tab can pop its folder, and provider cells load asynchronously.
         while !completed.exists && Date() < deadline {
-            let cell = app.cells.matching(NSPredicate(format: "identifier BEGINSWITH %@", "router-flow-sample")).firstMatch
+            let cell = app.cells.matching(NSPredicate(format: "identifier BEGINSWITH %@", "router-flow-external")).firstMatch
             let folder = app.cells.matching(NSPredicate(format: "identifier BEGINSWITH %@", "demo,")).firstMatch
             let local = app.cells["DOC.sidebar.item.On My iPhone"]
             let open = app.buttons["Open"].firstMatch
@@ -42,9 +42,7 @@ final class FlowUITests: XCTestCase {
                 open.tap()
             } else if cell.exists && cell.isHittable {
                 if selections == 3 { break }
-                let thumbnail = cell.images.firstMatch
-                if thumbnail.exists && thumbnail.isHittable { thumbnail.tap() }
-                else { cell.tap() }
+                cell.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)).tap()
                 selections += 1
             } else if folder.exists && folder.isHittable {
                 folder.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)).tap()

@@ -26,8 +26,8 @@ final class PickerPage: UIViewController, UIDocumentPickerDelegate {
         present(picker, animated: true)
     }
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        print("PROBE_COMPLETED \(urls)")
-        status.text = "pick:completed"
+        NSLog("PROBE_COMPLETED %@", urls.description)
+        status.text = urls.first?.path.contains("/Shared/AppGroup/") == true ? "pick:completed" : "unexpected-document"
     }
 }
 final class App: UIResponder, UIApplicationDelegate {
