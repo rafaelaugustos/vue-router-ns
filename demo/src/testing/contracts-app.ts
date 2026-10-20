@@ -48,6 +48,7 @@ const samples: {
   durations: number[]
   livePages: number
   nativeRetained: number
+  collections: { round: number; livePages: number; nativeRetained: number }[]
 }[] = []
 const weakPages: WeakRef<Page>[] = []
 const weakNative: { deref(): unknown }[] = []
@@ -366,9 +367,17 @@ async function modalSetup() {
 function retainWeak(page: Page) {
   weakPages.push(new WeakRef(page))
   if (isAndroid) {
-    const reference = new java.lang.ref.WeakReference(fragmentFor(page))
+    const fragment = fragmentFor(page)
+    check('measured Fragment is attached before pop', !!fragment?.isAdded())
+    const reference = new java.lang.ref.WeakReference(fragment)
     weakNative.push({ deref: () => reference.get() })
-  } else weakControllers!.addObject(page.ios)
+  } else {
+    check(
+      'measured UIKit controller is presented before pop',
+      page.ios === frame.ios.controller.topViewController,
+    )
+    weakControllers!.addObject(page.ios)
+  }
 }
 async function measure() {
   await root()
@@ -389,17 +398,29 @@ async function measure() {
       await router.back({ animated: true })
       durations.push(performance.now() - start)
     }
-    await pause(300)
-    Utils.GC()
-    if (isAndroid) java.lang.System.gc()
-    await pause(300)
+    // JS finalizers release bridge references asynchronously; ART then needs
+    // another collection to release the native object. Fixed rounds also make
+    // that delay visible, rather than polling until a desired count appears.
+    const collections = []
+    for (let round = 0; round < 3; round++) {
+      await pause(300)
+      Utils.GC()
+      if (isAndroid) java.lang.System.gc()
+      await pause(300)
+      collections.push({
+        round,
+        livePages: weakPages.filter((ref) => !!ref.deref()).length,
+        nativeRetained: isIOS
+          ? weakControllers!.allObjects.count
+          : weakNative.filter((ref) => !!ref.deref()).length,
+      })
+    }
     const sample = {
       batch,
       durations,
-      livePages: weakPages.filter((ref) => !!ref.deref()).length,
-      nativeRetained: isIOS
-        ? weakControllers!.allObjects.count
-        : weakNative.filter((ref) => !!ref.deref()).length,
+      livePages: collections.at(-1)!.livePages,
+      nativeRetained: collections.at(-1)!.nativeRetained,
+      collections,
     }
     samples.push(sample)
     check(`batch ${batch}: only root component mounted`, active.size === 1)

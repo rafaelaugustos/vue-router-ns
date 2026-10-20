@@ -135,7 +135,10 @@ if [ -n "$summary" ]; then
     const ms = (value) => Math.round(value);
     for (const [phase, limit] of Object.entries(limits.phases)) {
       const got = measured.phases[phase];
-      if (!got) { lines.push(`${phase}: no spans`); continue; }
+      if (!got || !Number.isInteger(got.count) || got.count < 1 ||
+          !Number.isFinite(got.p50) || !Number.isFinite(got.max)) {
+        bad++; lines.push(`${phase}: missing or invalid spans`); continue;
+      }
       const over = got.p50 > limit.p50Max || got.max > limit.max;
       if (over) bad++;
       lines.push(`${phase}: p50 ${ms(got.p50)}ms (limit ${limit.p50Max}) max ${ms(got.max)}ms (limit ${limit.max}) over ${got.count} spans${over ? " OVER" : ""}`);

@@ -1,9 +1,18 @@
 import { describe, expect, it } from 'vitest'
 // Native acceptance tooling is ordinary Node code, independent of Core shims.
 // @ts-expect-error standalone .mjs tooling
-import { validate } from '../scripts/native/contracts/validate.mjs'
+import { validate as validateReport } from '../scripts/native/contracts/validate.mjs'
+
+const environment = { host: { platform: 'linux', arch: 'x64' } }
+const validate = (
+  reports: unknown,
+  profile: unknown,
+  negative = false,
+  env = environment,
+) => validateReport(reports, profile, negative, env)
 
 const baseline = {
+  host: environment.host,
   platform: 'android',
   sdk: '36',
   model: 'fixture',
@@ -41,6 +50,7 @@ function evidence() {
       durations: number[]
       livePages: number
       nativeRetained: number
+      collections: { round: number; livePages: number; nativeRetained: number }[]
     }[],
   }))
   reports.at(-1)!.samples = Array.from({ length: 4 }, (_, batch) => ({
@@ -48,6 +58,11 @@ function evidence() {
     durations: Array(10).fill(250),
     livePages: 0,
     nativeRetained: 0,
+    collections: Array.from({ length: 3 }, (_, round) => ({
+      round,
+      livePages: 0,
+      nativeRetained: 0,
+    })),
   }))
   return reports
 }
@@ -66,6 +81,12 @@ describe('native acceptance evidence', () => {
     expect(() => validate(reports, baseline)).toThrow('PID')
     expect(() => validate(evidence(), { ...baseline, sdk: '35' })).toThrow('sdk')
     expect(() => validate(evidence(), undefined)).toThrow('baseline')
+    expect(() =>
+      validate(evidence(), baseline, false, {
+        host: { platform: 'linux', arch: 'arm64' },
+      }),
+    ).toThrow('arch')
+    expect(() => validateReport(evidence(), baseline)).toThrow('Host metadata')
   })
   it('rejects missing, invalid, slow or retaining samples', () => {
     for (const mutation of [
@@ -78,10 +99,13 @@ describe('native acceptance evidence', () => {
       },
       (r: ReturnType<typeof evidence>) => {
         r.at(-1)!.samples[0]!.livePages = 1
+        r.at(-1)!.samples[0]!.collections[2]!.livePages = 1
       },
       (r: ReturnType<typeof evidence>) => {
         r.at(-1)!.samples[0]!.nativeRetained = 1
+        r.at(-1)!.samples[0]!.collections[2]!.nativeRetained = 1
       },
+      (r: ReturnType<typeof evidence>) => r.at(-1)!.samples[0]!.collections.pop(),
     ]) {
       const reports = evidence()
       mutation(reports)

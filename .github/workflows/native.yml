@@ -6,8 +6,6 @@ name: Native
 # these; see scripts/native/smoke-android.sh.
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 6 * * 1'
   workflow_call:
 
 jobs:

@@ -30,3 +30,21 @@ if [ "$status" -ne 17 ]; then
   exit 1
 fi
 echo 'Hierarchy matching passed: early match, absent node and producer failure.'
+
+# Model a five-second inspection without delaying the test process. The timeout
+# must include inspection time, not only the sleeps between inspections.
+attempts=0
+has() { attempts=$((attempts + 1)); SECONDS=$((SECONDS + 5)); return 1; }
+sleep() { :; }
+if wait_has missing 3 || [ "$attempts" -ne 1 ]; then
+  echo 'FAIL: hierarchy wait ignored elapsed inspection time'
+  exit 1
+fi
+
+status=0
+node scripts/native/command-timeout.mjs 100 node -e 'setInterval(() => {}, 1000)' >/dev/null 2>&1 || status=$?
+if [ "$status" -ne 124 ]; then
+  echo "FAIL: stalled inspection did not terminate with timeout status (got $status)"
+  exit 1
+fi
+echo 'Hierarchy deadlines passed: inspection time counted and stalled command terminated.'

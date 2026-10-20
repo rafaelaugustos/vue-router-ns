@@ -8,7 +8,9 @@ mkdir -p "$OUT"
 
 dump() {
   $ADB shell rm -f /sdcard/ui.xml
-  $ADB shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1
+  # Accessibility inspection can stall when the app is unresponsive. Keep the
+  # failing process available for screenshots/logs instead of exhausting CI.
+  node scripts/native/command-timeout.mjs 15000 $ADB shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1
   $ADB shell cat /sdcard/ui.xml 2>/dev/null
 }
 nodes() { dump | grep -o '<node[^>]*>'; }
@@ -36,27 +38,30 @@ key_back() { $ADB shell input keyevent 4; }
 key_home() { $ADB shell input keyevent 3; }
 # Polls until a text shows up, or the timeout (seconds) passes. Returns 1 on timeout.
 wait_text() {
-  local text=$1 timeout=${2:-30} waited=0
-  while [ "$waited" -lt "$timeout" ]; do
+  local text=$1 timeout=${2:-30} deadline
+  deadline=$((SECONDS + timeout))
+  while [ "$SECONDS" -lt "$deadline" ]; do
     if has "text=\"$text\""; then return 0; fi
-    sleep 2; waited=$((waited + 2))
+    sleep 2
   done
   return 1
 }
 # Polls until the hierarchy matches a pattern.
 wait_has() {
-  local pattern=$1 timeout=${2:-20} waited=0
-  while [ "$waited" -lt "$timeout" ]; do
+  local pattern=$1 timeout=${2:-20} deadline
+  deadline=$((SECONDS + timeout))
+  while [ "$SECONDS" -lt "$deadline" ]; do
     if has "$pattern"; then return 0; fi
-    sleep 2; waited=$((waited + 2))
+    sleep 2
   done
   return 1
 }
 wait_gone() {
-  local text=$1 timeout=${2:-20} waited=0
-  while [ "$waited" -lt "$timeout" ]; do
+  local text=$1 timeout=${2:-20} deadline
+  deadline=$((SECONDS + timeout))
+  while [ "$SECONDS" -lt "$deadline" ]; do
     if [ "$(has_text "$text")" = "0" ]; then return 0; fi
-    sleep 2; waited=$((waited + 2))
+    sleep 2
   done
   return 1
 }

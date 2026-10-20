@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { readFile, writeFile } from 'node:fs/promises'
 import { pathToFileURL } from 'node:url'
 
-export function validate(reports, baseline, negative = false) {
+export function validate(reports, baseline, negative = false, environment) {
   assert(Array.isArray(reports) && reports.length > 0, 'Native reports are required')
   for (const report of reports) {
     assert.equal(report.version, 1, 'Unsupported report version')
@@ -41,6 +41,26 @@ export function validate(reports, baseline, negative = false) {
   assert.notEqual(before.pid, after.pid, 'Process-death test reused its PID')
   const measured = reports.find((r) => r.command === 'measure')
   assert(baseline, 'No reviewed baseline for this runner/device/version')
+  assert(environment?.host && baseline.host, 'Host metadata and baseline are required')
+  for (const key of ['platform', 'arch'])
+    assert.equal(
+      environment.host[key],
+      baseline.host[key],
+      `Baseline host ${key} mismatch`,
+    )
+  if (baseline.simulatorType)
+    assert.equal(
+      environment.device?.simulator?.deviceTypeIdentifier,
+      baseline.simulatorType,
+      'Baseline simulator mismatch',
+    )
+  if (baseline.display)
+    for (const key of ['size', 'density'])
+      assert.equal(
+        environment.device?.[key],
+        baseline.display[key],
+        `Baseline display ${key} mismatch`,
+      )
   for (const key of ['platform', 'sdk', 'model'])
     assert.equal(measured[key], baseline[key], `Baseline ${key} mismatch`)
   assert.equal(measured.samples.length, 4, 'Four measured batches required')
@@ -53,8 +73,22 @@ export function validate(reports, baseline, negative = false) {
       'Invalid timing',
     )
     durations.push(...sample.durations)
+    assert.equal(sample.collections?.length, 3, 'Three fixed collection rounds required')
+    for (const [round, collection] of sample.collections.entries()) {
+      assert.equal(collection.round, round, 'Collection order')
+      for (const key of ['livePages', 'nativeRetained'])
+        assert(
+          Number.isInteger(collection[key]) && collection[key] >= 0,
+          `Missing collected ${key}`,
+        )
+    }
     for (const key of ['livePages', 'nativeRetained']) {
       assert(Number.isInteger(sample[key]) && sample[key] >= 0, `Missing ${key}`)
+      assert.equal(
+        sample[key],
+        sample.collections.at(-1)[key],
+        `Final ${key} must match the last collection`,
+      )
       assert(sample[key] <= baseline[key], `Batch ${index}: ${key} exceeds baseline`)
     }
   }
@@ -91,11 +125,13 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const baselines = JSON.parse(
     await readFile(new URL('./baselines.json', import.meta.url), 'utf8'),
   )
-  const result = validate(
-    reports,
-    baselines.profiles[profile],
-    process.env.EXPECT_HMR_FAILURE === '1',
-  )
+  const negative = process.env.EXPECT_HMR_FAILURE === '1'
+  const environment = negative
+    ? undefined
+    : JSON.parse(
+        await readFile(new URL('./environment.json', pathToFileURL(file)), 'utf8'),
+      )
+  const result = validate(reports, baselines.profiles[profile], negative, environment)
   if (output) await writeFile(output, JSON.stringify(result, null, 2))
   console.log(JSON.stringify(result, null, 2))
 }

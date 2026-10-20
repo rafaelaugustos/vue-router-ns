@@ -22,6 +22,11 @@ and diagnostics. An aborted gesture must have reported native progress.
 | Native integration | Android API 34 and foldable API 35                 | Existing tabs, drawer, sheets, deep links, shortcuts, state, conventions and fold/hinge suites |
 | Native flows       | Android API 35 and iOS 18.6                        | System pickers, cancellation, results and lifecycle                                            |
 
+The active [Native navigation acceptance rule](https://github.com/rafaelaugustos/vue-router-ns/rules/25469946)
+requires `native-contracts` from the GitHub Actions app on `main`, with the branch
+up to date and no bypass actors. A check with the same name from another
+integration does not satisfy it.
+
 The aggregate runs on every PR, including documentation-only PRs, so a required
 check never disappears due to workflow path filtering. It accepts skipped native
 jobs only when change detection confirms that no relevant code changed. Source,
@@ -61,18 +66,24 @@ its status label. The positive XCTest always requires the visible pass label.
 After five unmeasured warm-up pairs, measure four batches of ten animated
 push/pop pairs (100 ms fade in each direction). Compare the median and p95 of all
 40 pairs with the profile's measured value, multiplier and absolute jitter
-allowance. Profiles match the platform, SDK and device model; an absent or
-mismatched profile fails.
+allowance. Profiles match the platform, SDK, device model, host architecture and
+simulator type or emulator display configuration; an absent or mismatched profile
+fails.
 
 Each batch checks that only the root Vue component remains mounted and that
-native and logical history still agree. After yielding, collecting and yielding
-again, count live JS Page weak references and native weak references:
+native and logical history still agree. After three fixed rounds of yielding,
+collecting and yielding again, count live JS Page weak references and native weak references:
 `java.lang.ref.WeakReference<Fragment>` on Android and an Objective-C weak
 `NSHashTable<UIViewController>` on iOS. Native lifetime is not inferred solely
 from the JS wrapper's lifetime. Limits apply to every batch, so increasing
 retention cannot be hidden in an average. These are regression indicators for the
 fixture's navigation objects, not a claim that every allocation in the OS is
-leak-free.
+leak-free. Every collection round is retained in the report. A single collection
+can observe JS wrappers disappearing before their native references are released;
+the fixed three-round protocol gives both heaps time to collect without polling
+until a desired count appears. Android requires zero remaining Pages/Fragments.
+The iOS profile includes an explicit bounded allowance for transient UIKit
+controllers, based on its measured samples.
 
 `validate.mjs` rejects missing scenarios, incomplete/invalid samples, reused PIDs,
 wrong fault builds, slow transitions and retained objects. Its unit tests exercise
@@ -108,6 +119,12 @@ The reversing iOS touch path uses XCTest's event synthesizer in the test runner
 only, as WebDriverAgent does. No private interface is added to the app or library.
 A missing XCTest interface fails explicitly. The fixture pushes gesture targets
 with animation enabled so UIKit actually provides an interactive transition.
+
+The older shell UI helpers bound accessibility dumps and use wall-clock deadlines
+(including inspection time). A slow or hung hierarchy query cannot silently turn
+a 60-second wait into many minutes. Startup-trace builds buffer native Page
+disposal stacks, keeping evidence for the previously observed intermittent
+`unknown-native-page` startup failure without altering disposal behavior.
 
 ## Complementary physical-device and accessibility lane
 
