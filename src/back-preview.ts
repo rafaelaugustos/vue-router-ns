@@ -1,4 +1,5 @@
 import { SharedTransition, type Frame, type Page } from '@nativescript/core'
+import { coreBackPreview } from './core-back-preview.js'
 import type { BackGestureEdge } from './android.js'
 
 interface Animator {
@@ -80,7 +81,12 @@ export function previewBack(
   below: Page,
   goBack: () => Promise<unknown>,
   onDispose: () => void = () => {},
+  preferCore = false,
 ): BackPreview | undefined {
+  if (preferCore) {
+    const session = coreBackPreview(frame, top, below, goBack, onDispose)
+    if (session) return session
+  }
   const container = frame.nativeView as Container | undefined
   const topView = top.nativeView as NativeView | undefined
   const belowView = below.nativeView as NativeView | undefined

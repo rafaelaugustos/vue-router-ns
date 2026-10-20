@@ -15,12 +15,13 @@ and diagnostics. An aborted gesture must have reported native progress.
 
 `Native contracts / native-contracts` aggregates the following lanes:
 
-| Lane               | Environment                                        | Evidence                                                                                       |
-| ------------------ | -------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| Contract Android   | API 34 and 36, Pixel 7 profile, x86_64 Google APIs | JSON per command, screenshots (including held gesture), UI XML, logcat, PIDs                   |
-| Contract iOS       | macOS 15 ARM, iOS 18.6, iPhone 16 Pro              | XCTest result bundle and screenshots, JSON per command, unified log, PIDs                      |
-| Native integration | Android API 34 and foldable API 35                 | Existing tabs, drawer, sheets, deep links, shortcuts, state, conventions and fold/hinge suites |
-| Native flows       | Android API 35 and iOS 18.6                        | System pickers, cancellation, results and lifecycle                                            |
+| Lane                 | Environment                                        | Evidence                                                                                                               |
+| -------------------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Contract Android     | API 34 and 36, Pixel 7 profile, x86_64 Google APIs | JSON per command, screenshots (including held gesture), UI XML, logcat, PIDs                                           |
+| Contract iOS         | macOS 15 ARM, iOS 18.6, iPhone 16 Pro              | XCTest result bundle and screenshots, JSON per command, unified log, PIDs                                              |
+| Native integration   | Android API 34 and foldable API 35                 | Existing tabs, drawer, sheets, deep links, shortcuts, state, conventions and fold/hinge suites                         |
+| Native flows         | Android API 35 and iOS 18.6                        | System pickers, cancellation, results and lifecycle                                                                    |
+| Predictive prototype | Android API 34/35/36, pinned candidate Core        | Legacy/Core comparison, native gestures and bitmap collection, Activity recreation and published-Core negative control |
 
 The active [Native navigation acceptance rule](https://github.com/rafaelaugustos/vue-router-ns/rules/25469946)
 requires `native-contracts` from the GitHub Actions app on `main`, with the branch

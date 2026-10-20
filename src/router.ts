@@ -160,8 +160,8 @@ export interface RouterOptions<
   defaultLayout?: string | false
   /** Save the stacks as the user navigates, and rebuild them after the app was killed. */
   restore?: RestoreOptions
-  /** Android 14 and later: show the page below while the back swipe moves. Defaults to `true`. */
-  backPreview?: boolean
+  /** Android 14+: preview the previous page. `core` opts into the experimental Core API with legacy fallback. Defaults to `true`. */
+  backPreview?: boolean | 'core'
   /** Collect a bounded, redacted navigation timeline and native stack snapshots. */
   diagnostics?: boolean | DiagnosticsOptions
   /** Respect OS reduced motion by default; applications may explicitly override it. */
@@ -631,6 +631,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
           top.backGesture.value = null
           if (previews.get(stack) === preview) previews.delete(stack)
         },
+        { preferCore: options.backPreview === 'core' },
       )
       if (preview) previews.set(stack, preview)
     }

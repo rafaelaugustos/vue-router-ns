@@ -8,13 +8,13 @@ import { createRouter } from 'vue-router-ns'
 const router = createRouter({ routes, restore, backPreview: true })
 ```
 
-| Option        | Default  | Meaning                                                                                                                                                             |
-| ------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `diagnostics` | `false`  | `true` or `{ maxEvents }` for a bounded timeline and native snapshots. See [diagnostics](./diagnostics).                                                            |
-| `routes`      | Required | Readonly array of `RouteRecordRaw`.                                                                                                                                 |
-| `restore`     | Disabled | `save(state)`, `load()`, optional `maxAge` in milliseconds (default: 30 minutes) and `stateLimit` in bytes per page (default: 8 KiB). See [restoration](./restore). |
-| `backPreview` | `true`   | Reveal the previous page during Android 14+ back gestures. Requires the [platform opt-in](./android-back#enabling-it).                                              |
-| `links`       | Disabled | `true` or `{ schemes, hosts, map, frame, options, system }` to take operating-system URLs. See [deep links](./deep-links#receiving-operating-system-urls).          |
+| Option        | Default  | Meaning                                                                                                                                                                                                             |
+| ------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `diagnostics` | `false`  | `true` or `{ maxEvents }` for a bounded timeline and native snapshots. See [diagnostics](./diagnostics).                                                                                                            |
+| `routes`      | Required | Readonly array of `RouteRecordRaw`.                                                                                                                                                                                 |
+| `restore`     | Disabled | `save(state)`, `load()`, optional `maxAge` in milliseconds (default: 30 minutes) and `stateLimit` in bytes per page (default: 8 KiB). See [restoration](./restore).                                                 |
+| `backPreview` | `true`   | Reveal the previous page during Android 14+ back gestures. `false` disables it; experimental `'core'` tries the proposed Core API with legacy fallback. Requires the [platform opt-in](./android-back#enabling-it). |
+| `links`       | Disabled | `true` or `{ schemes, hosts, map, frame, options, system }` to take operating-system URLs. See [deep links](./deep-links#receiving-operating-system-urls).                                                          |
 
 Install once with `createApp(App).use(router).start()`. This registers the components and provides `$router` and `$route` in templates. `router.install(app)` is the Vue plugin hook.
 

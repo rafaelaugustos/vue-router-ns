@@ -133,3 +133,7 @@ xcodebuild test -project /tmp/router-flow-tests/FlowChecks.xcodeproj \
 ```
 
 Use a dedicated, booted English iPhone simulator. The seed helper locates the system provider’s app group through its container metadata; it does not modify the app or intercept picker callbacks. XCTest drives actual file selection, cancel, guard, concurrent presentation refusal, modal ownership, parent disposal and process restart. Screenshots live in the result bundle. The `Native flows` workflow runs both platform suites. See [validation and lifecycle boundaries](../../test/native-flows.md); these checks do not claim physical-device or full multi-window restoration coverage.
+
+## Core-owned predictive-back prototype
+
+`predictive/android.mjs` compares the existing preview and the opt-in Core candidate with actual system gestures on Android 14/15/16. `predictive/recreation.mjs` verifies native Frame recovery after Activity recreation, with a published-Core negative control. See [the evidence and reproduction guide](../../test/native-predictive-back.md) for the pinned upstream revision, build options and limitations. The candidate is compiled separately; installed packages are never patched.

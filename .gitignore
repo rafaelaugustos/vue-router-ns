@@ -21,3 +21,5 @@ examples/file-routing/src/generated/
 examples/file-routing/src/pages/live-added.vue
 examples/file-routing/src/pages/live-renamed.vue
 examples/file-routing/nsconfig.json
+
+.native-core/
