@@ -20,6 +20,7 @@ module.exports = (env) => {
       'folds',
       'flows',
       'contracts',
+      'uikitsplit',
     ].filter((name) => env[`${name}Test`])
     if (fixtures.length > 1) throw new Error('Select only one native acceptance fixture')
     if (fixtures.length) {

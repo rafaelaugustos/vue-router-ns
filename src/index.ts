@@ -112,6 +112,9 @@ export { mountNativeHost } from './hosts/mount.js'
 export { supportsBottomSheets } from './hosts/bottom-sheet.js'
 
 export { RouterSplitView } from './components/RouterSplitView.js'
+export { RouterUIKitSplitView } from './components/RouterUIKitSplitView.js'
+export { supportsUIKitSplitView, type UIKitSplitView } from './uikit-split.js'
+export type { UIKitSplitFrames } from './hosts/uikit-split.js'
 export { RouterDrawer } from './drawer.js'
 export type { RouterDrawerHandle } from './drawer.js'
 export { RouterView } from './components/RouterView.js'
@@ -143,6 +146,7 @@ declare module '@vue/runtime-core' {
 
   interface GlobalComponents {
     NavigationCommandScope: typeof import('./components/NavigationCommandScope.js').NavigationCommandScope
+    RouterUIKitSplitView: typeof import('./components/RouterUIKitSplitView.js').RouterUIKitSplitView
     RouterSplitView: typeof import('./components/RouterSplitView.js').RouterSplitView
     RouterDrawer: typeof import('./drawer.js').RouterDrawer
     RouterView: typeof import('./components/RouterView.js').RouterView

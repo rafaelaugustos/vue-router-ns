@@ -88,3 +88,39 @@ Lista e detalhe usam um Frame nativo cada. Uma página raiz transparente no Fram
 O primeiro detalhe abre entre painéis, então não usa shared transitions ou o zoom do iOS a partir da lista. Transições entre páginas de detalhe funcionam normalmente, incluindo o preview do predictive back no Android. Voltar do primeiro detalhe para a lista usa a transição normal do Frame.
 
 `name` e `list` são lidos na montagem. Para criar outra split stack, monte um novo componente com uma `key` do Vue diferente.
+
+## Colunas UIKit opcionais
+
+Use `RouterUIKitSplitView` como **raiz da janela nativa** para deixar o `UISplitViewController` gerenciar as colunas primária e secundária. Requer iOS 18 ou posterior e o `SplitView` do Core; a versão do Core testada é 9.1.3. No Android, ou para colocar o split dentro de abas ou outro layout, escolha o componente adaptativo existente:
+
+```vue
+<script setup lang="ts">
+import { supportsUIKitSplitView } from 'vue-router-ns'
+const nativeColumns = supportsUIKitSplitView()
+</script>
+
+<template>
+  <RouterUIKitSplitView
+    v-if="nativeColumns"
+    name="inbox"
+    list="/messages"
+    :primaryWidthFraction="0.32"
+  />
+  <RouterSplitView v-else name="inbox" list="/messages" />
+</template>
+```
+
+O plugin do router registra os dois componentes. Ambos usam a mesma tabela de rotas, Pages nativas, guards, resultados e formato de histórico salvo. A escolha acontece ao criar a janela; não é uma troca entre stacks já montadas.
+
+O UIKit controla o recolhimento, a expansão e os botões nativos da barra lateral. `primaryWidthFraction` indica uma fração preferida da largura disponível, sujeita aos limites do UIKit. Mostrar ou ocultar a coluna primária muda apenas a apresentação: selecionar um item continua chamando `push()`, acrescentando um detalhe e preservando as seleções anteriores. Voltar percorre esses detalhes e finalmente limpa a coluna. Back nativo, fechamento com guard, modais e `restore` mantêm a semântica de histórico descrita acima. A adaptação das colunas preserva as mesmas Pages e seu estado local.
+
+Para redimensionar a janela de verdade no iPad, permita multitarefa no `App_Resources/iOS/Info.plist` e suporte todas as orientações do iPad:
+
+```xml
+<key>UIRequiresFullScreen</key>
+<false/>
+```
+
+O modo de compatibilidade em tela cheia pode apenas escalar a imagem do aplicativo sem entregar uma janela UIKit menor. A [matriz de validação nativa e os comandos](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-uikit-split.md) registram essa diferença e as versões testadas.
+
+O componente oferece `name`, `list` obrigatório e `primaryWidthFraction` (padrão `0.32`). Sem seleção, o detalhe fica vazio; não há slot `empty`, breakpoint, coluna suplementar ou inspector. Ele precisa ser a raiz da janela: não o envolva em `RouterDrawer`, `RouterTabs`, Page ou outro layout. A coluna primária é a barra lateral dessa janela; use `RouterDrawer` separadamente no layout Android. O `RouterSplitView` existente continua disponível nas duas plataformas.
