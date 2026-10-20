@@ -4,6 +4,7 @@ import { promisify } from 'node:util'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { recordEnvironment } from '../contracts/environment.mjs'
+import { captureLogcat } from './logcat.mjs'
 const exec = promisify(execFile)
 const serial = process.env.ANDROID_SERIAL
 assert(serial, 'Set ANDROID_SERIAL to a dedicated emulator')
@@ -206,10 +207,7 @@ try {
   )
   throw error
 } finally {
-  await writeFile(
-    resolve(out, 'logcat.txt'),
-    await adb('logcat', '-d', '-v', 'threadtime'),
-  )
+  await captureLogcat(serial, resolve(out, 'logcat.txt'))
   if (previousNavigation)
     await adb(
       'shell',
