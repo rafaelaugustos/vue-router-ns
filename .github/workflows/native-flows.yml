@@ -73,7 +73,9 @@ jobs:
           name: flows-android
           path: scripts/native/out/flows-android
   ios:
-    runs-on: macos-latest
+    # Hosted macOS 26 ARM FileProvider fails even in a UIKit-only control.
+    # Keep all picker cases on the working baseline; see test/native-flows.md.
+    runs-on: macos-15-intel
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
@@ -100,14 +102,15 @@ jobs:
         working-directory: demo
       - name: Drive the system picker with XCTest
         run: |
-          # Match the locally verified runtime and isolate this test's storage.
-          RUNTIME=com.apple.CoreSimulator.SimRuntime.iOS-26-5
-          SIM=$(xcrun simctl create RouterFlows com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro "$RUNTIME")
+          # Pin the native acceptance baseline and isolate its storage.
+          RUNTIME=com.apple.CoreSimulator.SimRuntime.iOS-18-6
+          SIM=$(xcrun simctl create RouterFlows com.apple.CoreSimulator.SimDeviceType.iPhone-16-Pro "$RUNTIME")
           echo "Testing $SIM on $RUNTIME"
           trap 'xcrun simctl shutdown "$SIM"; xcrun simctl delete "$SIM"' EXIT
           xcrun simctl boot "$SIM"
           xcrun simctl bootstatus "$SIM" -b
           xcrun simctl install "$SIM" demo/platforms/ios/build/Debug-iphonesimulator/demo.app
+          python3 scripts/native/ios-flows/seed-document.py "$SIM"
           ruby scripts/native/ios-flows/project.rb /tmp/router-flow-tests
           mkdir -p scripts/native/out/flows-ios
           set +e

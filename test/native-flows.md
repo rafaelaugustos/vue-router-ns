@@ -10,8 +10,16 @@ platform document picker, not a JavaScript replacement. See the
 2026-10-19: NativeScript Core 9.1.3, NativeScript-Vue 3.1.2, Android runtime 9.1.1
 and iOS runtime 9.1.0. Local targets are Android 16 / API 36 on the dedicated
 RouterFold60CI emulator, and iPhone 17 / iOS 26.0 simulator with Xcode 27.0. All six XCTest cases also pass on a fresh iPhone 17 Pro / iOS 26.5 simulator
-(64 seconds), with a document whose identity is preserved across app launches.
+(66 seconds), including selection of a document in the local Files provider outside the presenting app’s container.
 These results do not claim physical-device or independent-window restoration coverage.
+
+The CI baseline is macOS 15 Intel with iOS 18.6. On the hosted macOS 26 ARM image,
+FileProvider fails to resolve the selected file's bookmark (`-1005`, underlying
+`-1012`) before the application receives its delegate callback. The same failure
+occurs in a [standalone Swift/UIKit control](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/39357562599),
+without NativeScript or the router; the [identical control passes on the pinned baseline](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/39358487514).
+All six picker cases remain enabled. The fixture seeds a real external document
+in the simulator's local Files provider; it does not replace the picker or its result.
 
 ## Contract tests
 
