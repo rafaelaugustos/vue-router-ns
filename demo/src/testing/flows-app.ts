@@ -17,6 +17,7 @@ import {
 
 const status = ref('READY')
 const records = ref<string[]>([])
+const stackGeneration = ref(0)
 const marker = 'router-flow-fixture-pending'
 const pid = () =>
   isAndroid ? android.os.Process.myPid() : NSProcessInfo.processInfo.processIdentifier
@@ -100,8 +101,12 @@ const PickerPage = defineComponent({
       }
       if (name === 'dispose') {
         const pending = run('dispose')
-        // Remove the covered page without awaiting an animation in a paused Activity.
-        setTimeout(() => router.back({ animated: false }).catch(fatal), 2000)
+        // A stopped Android Activity unloads its Frame and defers back navigation.
+        // Unmount the owning stack to exercise disposal while DocumentsUI stays open.
+        setTimeout(() => {
+          if (isAndroid) stackGeneration.value++
+          else router.back({ animated: false }).catch(fatal)
+        }, 2000)
         await pending
         return
       }
@@ -206,7 +211,12 @@ Application.android?.on('activityCreated', (args: any) => {
   if (args.activity.isNativeScriptActivity)
     console.log(`FLOW_OWNER_CREATED ${args.activity.hashCode()}`)
 })
-createApp({ render: () => h(RouterView) })
+createApp({
+  render: () =>
+    isAndroid
+      ? h('GridLayout', [h(RouterView, { key: stackGeneration.value })])
+      : h(RouterView),
+})
   .use(router)
   .start()
 void (async () => {

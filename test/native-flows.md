@@ -40,6 +40,11 @@ requests, page disposal, presentation from a modal, explicit Activity recreation
 a late result, process death while DocumentsUI owns the foreground, a fresh flow
 after restart and owner Activity closure. It writes actual URI outcomes, process
 IDs, screenshots, hierarchies and runtime logs to `scripts/native/out/flows-android`.
+For parent disposal, the Android fixture unmounts the owning `RouterView` while
+DocumentsUI remains open, then verifies cancellation and ignores the late result.
+A stopped Activity unloads its Frame, so `router.back()` can wait until resume;
+that deferred navigation is not evidence that the page has already been disposed.
+The iOS fixture removes the page with `router.back()`.
 
 The six XCTest cases check real file selection, cancellation/guard refusal,
 simultaneous presentation refusal, a modal presenter, parent disposal, and process

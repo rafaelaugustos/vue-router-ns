@@ -20,6 +20,7 @@ const adb = async (...args) =>
 const pause = (ms = 300) => new Promise((done) => setTimeout(done, ms))
 const checks = []
 let runtime = ''
+let activePid = ''
 async function logs() {
   runtime = await adb('logcat', '-d', '-v', 'brief', '-s', 'JS', 'AndroidRuntime')
   assert(!runtime.includes('FLOW_FATAL'), runtime.slice(-6000))
@@ -38,6 +39,7 @@ const resultLines = () =>
     .split('\n')
     .filter((l) => l.includes('FLOW_RESULT '))
     .map((l) => JSON.parse(l.slice(l.indexOf('FLOW_RESULT ') + 12)))
+    .filter((result) => String(result.pid) === activePid)
 async function count(name) {
   await logs()
   return resultLines().filter((r) => r.name === name).length
@@ -100,6 +102,7 @@ async function start() {
   await adb('shell', 'am', 'force-stop', pkg)
   await adb('shell', 'am', 'start', '-W', '-n', activity)
   const pid = (await adb('shell', 'pidof', pkg)).trim()
+  activePid = pid
   await until(async () => (await logs()).includes(`FLOW_READY ${pid}`), 'fixture ready')
   return pid
 }
@@ -149,8 +152,14 @@ try {
   await command('dispose')
   await picker()
   await outcome('dispose:disposed')
-  await back()
+  await selectDocument()
   await until(async () => (await ui()).includes('Flow home'), 'origin page removed')
+  await logs()
+  assert.equal(
+    resultLines().filter((result) => result.name.startsWith('dispose:')).length,
+    1,
+    'A result after parent disposal must not settle the flow again',
+  )
   await capture('disposed-origin')
   await start()
   // On smaller phones the modal button is below the viewport. Send the fixture
@@ -161,7 +170,7 @@ try {
   await until(() => tap('pick'), 'modal picker button')
   await picker()
   await back()
-  await outcome('pick:user', 1)
+  await outcome('pick:user')
   await start()
   await command('recreate')
   await picker()
@@ -195,13 +204,16 @@ try {
   await until(async () => {
     try {
       const now = (await adb('shell', 'pidof', pkg)).trim()
-      return !!now && now !== before
+      if (!now || now === before) return false
+      activePid = now
+      return true
     } catch {
       return false
     }
   }, 'system result recreates process')
   const recovery = await outcome('recovery:orphan')
-  assert.notEqual(String(recovery.pid), before)
+  assert.equal(String(recovery.pid), activePid)
+  assert.equal(recovery.outcome.previous, `${before}:pick`)
   await until(
     async () => (await logs()).includes(`FLOW_READY ${recovery.pid}`),
     'new page ready',
