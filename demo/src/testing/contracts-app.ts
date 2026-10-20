@@ -51,7 +51,11 @@ const samples: {
   collections: { round: number; livePages: number; nativeRetained: number }[]
 }[] = []
 const weakPages: WeakRef<Page>[] = []
-const weakNative: { deref(): unknown }[] = []
+const weakNative: java.lang.ref.WeakReference<androidx.fragment.app.Fragment>[] = []
+const collectedNative = isAndroid
+  ? new java.lang.ref.ReferenceQueue<androidx.fragment.app.Fragment>()
+  : undefined
+let nativeCollected = 0
 // Objective-C weak storage observes controller lifetime, not just JS wrappers.
 const weakControllers = isIOS
   ? NSHashTable.weakObjectsHashTable<UIViewController>()
@@ -191,7 +195,7 @@ function pageComponent(title: string, version = 1) {
                 commands.map((name) =>
                   h('Button', {
                     text: name,
-                    automationText: name,
+                    automationText: `command:${route.path}:${name}`,
                     fontSize: 11,
                     height: 38,
                     onTap: () => void command(name),
@@ -200,7 +204,7 @@ function pageComponent(title: string, version = 1) {
               ),
               h('Button', {
                 text: 'finish-modal',
-                automationText: 'finish-modal',
+                automationText: `command:${route.path}:finish-modal`,
                 onTap: () => void owned.back({ result: 'native-result' }),
               }),
             ]),
@@ -380,8 +384,7 @@ function retainWeak(page: Page) {
   if (isAndroid) {
     const fragment = fragmentFor(page)
     check('measured Fragment is attached before pop', !!fragment?.isAdded())
-    const reference = new java.lang.ref.WeakReference(fragment)
-    weakNative.push({ deref: () => reference.get() })
+    weakNative.push(new java.lang.ref.WeakReference(fragment, collectedNative!))
   } else {
     check(
       'measured UIKit controller is presented before pop',
@@ -418,12 +421,15 @@ async function measure() {
       Utils.GC()
       if (isAndroid) java.lang.System.gc()
       await pause(300)
+      // Never call WeakReference.get(): crossing the bridge would create a new
+      // strong JS wrapper for the very Fragment whose collection we measure.
+      if (isAndroid) while (collectedNative!.poll()) nativeCollected++
       collections.push({
         round,
         livePages: weakPages.filter((ref) => !!ref.deref()).length,
         nativeRetained: isIOS
           ? weakControllers!.allObjects.count
-          : weakNative.filter((ref) => !!ref.deref()).length,
+          : weakNative.length - nativeCollected,
       })
     }
     const sample = {

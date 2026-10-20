@@ -4,10 +4,12 @@ final class ContractUITests: XCTestCase {
     let app = XCUIApplication(bundleIdentifier: "org.nativescript.vuerouterns")
 
     func button(_ name: String) -> XCUIElement {
-        let matches = app.buttons.matching(identifier: name)
+        let matches = app.buttons.matching(NSPredicate(
+            format: "identifier BEGINSWITH 'command:' AND identifier ENDSWITH %@", ":\(name)"))
         XCTAssertTrue(matches.firstMatch.waitForExistence(timeout: 15), app.debugDescription)
         // UIKit includes the presenting Page in the tree beneath a sheet.
-        // Its coordinates are not the modal's coordinates.
+        // Its coordinates are not the modal's coordinates. Each page has unique
+        // identifiers so XCTest resolves the chosen element again unambiguously.
         return matches.allElementsBoundByIndex.last(where: { $0.isHittable })!
     }
     func command(_ name: String, timeout: TimeInterval = 30) {

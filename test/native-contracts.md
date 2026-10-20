@@ -73,7 +73,7 @@ fails.
 Each batch checks that only the root Vue component remains mounted and that
 native and logical history still agree. After three fixed rounds of yielding,
 collecting and yielding again, count live JS Page weak references and native weak references:
-`java.lang.ref.WeakReference<Fragment>` on Android and an Objective-C weak
+`java.lang.ref.WeakReference<Fragment>` with a `ReferenceQueue` on Android and an Objective-C weak
 `NSHashTable<UIViewController>` on iOS. Native lifetime is not inferred solely
 from the JS wrapper's lifetime. Limits apply to every batch, so increasing
 retention cannot be hidden in an average. These are regression indicators for the
@@ -82,6 +82,8 @@ leak-free. Every collection round is retained in the report. A single collection
 can observe JS wrappers disappearing before their native references are released;
 the fixed three-round protocol gives both heaps time to collect without polling
 until a desired count appears. Android requires zero remaining Pages/Fragments.
+Android counts collected references from the queue without calling `get()`,
+which would create strong bridge wrappers and contaminate subsequent observations.
 The iOS profile includes an explicit bounded allowance for transient UIKit
 controllers, based on its measured samples.
 

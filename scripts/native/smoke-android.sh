@@ -31,6 +31,7 @@ $ADB logcat -v threadtime > "$OUT/logcat.txt" 2>&1 &
 logcat_pid=$!
 trap 'kill "$logcat_pid" 2>/dev/null || true; wait "$logcat_pid" 2>/dev/null || true' EXIT
 
+prepare_home || { echo 'FAIL: launcher did not become ready before app startup'; exit 1; }
 step "cold starts"
 for attempt in 1 2 3; do
   if [ "$attempt" != "1" ]; then $ADB shell pm clear "$PKG" >/dev/null || exit 2; fi
