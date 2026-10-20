@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Experimental `backPreview: 'core'` opts Frame hosts into the proposed version-1 Core snapshot preview API, with the existing preview as fallback. The default remains unchanged. Android 14/15/16 acceptance compares real gestures, guards, modal stacks, native bitmap collection and Activity recreation against a pinned Core prototype; see [NativeScript #11558](https://github.com/NativeScript/NativeScript/pull/11558). The Core API is not part of the currently released dependency.
+
 ## 0.1.0-beta.13 (2026-10-20)
 
 - Experimental `defineNativeDestination()` routes embed existing UIKit controllers and AndroidX Fragments in native Pages. Platform factories receive typed input, guarded completion/cancellation, external-dismissal reporting and cleanup. History restoration recreates factories; native instances and pending results are never serialized. Includes English/Portuguese guides and native lifecycle, result, memory and restart acceptance in the required CI suite.

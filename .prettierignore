@@ -17,3 +17,5 @@ examples/file-routing/platforms
 examples/file-routing/hooks
 examples/file-routing/App_Resources
 examples/file-routing/src/generated
+
+.native-core/

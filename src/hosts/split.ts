@@ -128,8 +128,8 @@ export function createSplitFrameHost(
       const page = target === list.currentPage ? placeholder : target
       popFrame(detail, page, backOptions)
     },
-    previewBack: (top, below, commit, onDispose) =>
-      previewBack(detail, top, below, commit, onDispose),
+    previewBack: (top, below, commit, onDispose, options) =>
+      previewBack(detail, top, below, commit, onDispose, options?.preferCore),
     ownsSystemBack: () => {
       const topmost = Frame.topmost()
       return topmost === detail || topmost === list

@@ -231,9 +231,13 @@ jobs:
     needs: changes
     if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
     uses: ./.github/workflows/native-flows.yml
+  predictive:
+    needs: changes
+    if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
+    uses: ./.github/workflows/native-predictive.yml
   native-contracts:
     if: always()
-    needs: [changes, android, ios, uikit-split, integration, flows]
+    needs: [changes, android, ios, uikit-split, integration, flows, predictive]
     runs-on: ubuntu-latest
     steps:
       - name: Require every applicable native lane
@@ -246,6 +250,6 @@ jobs:
           import assert from 'node:assert/strict'
           assert.equal(process.env.CHANGE_RESULT, 'success', 'Change detection failed')
           const needs = JSON.parse(process.env.RESULTS)
-          for (const name of ['android', 'ios', 'uikit-split', 'integration', 'flows'])
+          for (const name of ['android', 'ios', 'uikit-split', 'integration', 'flows', 'predictive'])
             assert.equal(needs[name].result, process.env.RELEVANT === 'true' ? 'success' : 'skipped', `${name} must pass`)
           JS

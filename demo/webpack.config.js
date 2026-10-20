@@ -7,6 +7,7 @@ module.exports = (env) => {
   webpack.chainWebpack((config) => {
     config.plugin('DefinePlugin').tap((args) => {
       args[0].__ROUTER_STARTUP_TRACE__ = JSON.stringify(!!env.startupTrace)
+      args[0].__PREDICTIVE_CORE__ = JSON.stringify(!!env.predictiveCore)
       args[0].__CONTRACT_FAULT__ = JSON.stringify(!!env.contractFault)
       return args
     })
@@ -22,6 +23,8 @@ module.exports = (env) => {
       'contracts',
       'uikitsplit',
       'destinations',
+      'predictive',
+      'predictiveplain',
     ].filter((name) => env[`${name}Test`])
     if (fixtures.length > 1) throw new Error('Select only one native acceptance fixture')
     if (fixtures.length) {
@@ -81,7 +84,12 @@ module.exports = (env) => {
       )
       // sharing this app's copies of Vue and NativeScript
       .set('nativescript-vue', resolve(__dirname, 'node_modules/nativescript-vue'))
-      .set('@nativescript/core', resolve(__dirname, 'node_modules/@nativescript/core'))
+      .set(
+        '@nativescript/core',
+        env.predictiveCore
+          ? resolve(env.predictiveCore)
+          : resolve(__dirname, 'node_modules/@nativescript/core'),
+      )
   })
 
   return webpack.resolveConfig()
