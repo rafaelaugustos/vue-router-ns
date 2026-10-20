@@ -166,6 +166,55 @@ jobs:
         with:
           name: contracts-ios-18
           path: scripts/native/out
+  uikit-split:
+    needs: changes
+    if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
+    runs-on: macos-15
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        device: [iPhone-16-Pro, iPad-Pro-13-inch-M4-8GB]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - run: gem install cocoapods xcodeproj --no-document
+      - run: npm ci && npm run build
+      - run: npm install --no-audit --no-fund
+        working-directory: demo
+      - run: npm install -g nativescript
+      - name: Prepare a resizable native app
+        run: |
+          ns usage-reporting disable
+          ns error-reporting disable
+          ns create split-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null
+          cp -R /tmp/split-scaffold/App_Resources demo/App_Resources
+          node scripts/native/uikit-split/prepare.mjs
+      - run: ns build ios --for-device false --env.uikitsplitTest
+        working-directory: demo
+      - name: Create dedicated simulator
+        run: |
+          SIM=$(xcrun simctl create RouterUIKitSplit com.apple.CoreSimulator.SimDeviceType.${{ matrix.device }} com.apple.CoreSimulator.SimRuntime.iOS-18-6)
+          echo "IOS_SIMULATOR=$SIM" >> "$GITHUB_ENV"
+          xcrun simctl boot "$SIM"
+          xcrun simctl bootstatus "$SIM" -b
+      - run: node scripts/native/uikit-split/ios.mjs
+      - name: Clean up dedicated simulator
+        if: always() && env.IOS_SIMULATOR != ''
+        run: |
+          xcrun simctl shutdown "$IOS_SIMULATOR"
+          xcrun simctl delete "$IOS_SIMULATOR"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: uikit-split-${{ matrix.device }}
+          path: scripts/native/out
   integration:
     needs: changes
     if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
@@ -176,7 +225,7 @@ jobs:
     uses: ./.github/workflows/native-flows.yml
   native-contracts:
     if: always()
-    needs: [changes, android, ios, integration, flows]
+    needs: [changes, android, ios, uikit-split, integration, flows]
     runs-on: ubuntu-latest
     steps:
       - name: Require every applicable native lane
@@ -189,6 +238,6 @@ jobs:
           import assert from 'node:assert/strict'
           assert.equal(process.env.CHANGE_RESULT, 'success', 'Change detection failed')
           const needs = JSON.parse(process.env.RESULTS)
-          for (const name of ['android', 'ios', 'integration', 'flows'])
+          for (const name of ['android', 'ios', 'uikit-split', 'integration', 'flows'])
             assert.equal(needs[name].result, process.env.RELEVANT === 'true' ? 'success' : 'skipped', `${name} must pass`)
           JS

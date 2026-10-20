@@ -14,6 +14,8 @@ export interface SplitFrameHostOptions {
   expanded: Readonly<Ref<boolean>>
   /** Set by the host: the detail pane has a page to show. */
   detailVisible: Ref<boolean>
+  /** Controller-backed containers reveal only after the native detail root exists. */
+  revealDetail?: () => void
 }
 
 export interface SplitFrames {
@@ -114,7 +116,9 @@ export function createSplitFrameHost(
       options.detailVisible.value = true
       await nextTick()
       if (disposed) return
-      await reset(pushOptions.clearHistory)
+      const ready = reset(pushOptions.clearHistory)
+      options.revealDetail?.()
+      await ready
       if (disposed) return
       // the reset above already cleared the history
       navigateFrame(detail, component, { ...pushOptions, clearHistory: false })

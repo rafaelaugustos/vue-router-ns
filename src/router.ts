@@ -39,6 +39,8 @@ import {
 import { forgetPageRouter, registerPageRouter } from './page-router.js'
 import { RouterLink } from './components/RouterLink.js'
 import { RouterSplitView } from './components/RouterSplitView.js'
+import { RouterUIKitSplitView } from './components/RouterUIKitSplitView.js'
+import { uikitSplitViewClass } from './uikit-split.js'
 import { RouterView } from './components/RouterView.js'
 import {
   createNavigationFailure,
@@ -1681,12 +1683,14 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       })
       app.component('RouterView', RouterView)
       app.component('RouterSplitView', RouterSplitView)
+      app.component('RouterUIKitSplitView', RouterUIKitSplitView)
       app.component('RouterLink', RouterLink)
       app.component('Deferred', Deferred)
       app.component('RouterDrawer', RouterDrawer)
       app.component('RouterTabs', RouterTabs)
       app.component('RouterTab', RouterTab)
       app.directive('route-preview', vRoutePreview)
+      registerElement('RouterUIKitSplitHost', uikitSplitViewClass, { viewFlags: 4 })
       registerElement('RouterTabsHost', () => TabsHostView, { viewFlags: 4 })
       if (isAndroid) registerElement('RouterNavigationBar', () => MaterialNavigationBar)
       if (isAndroid) {
