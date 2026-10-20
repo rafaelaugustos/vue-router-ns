@@ -103,6 +103,7 @@ the workflow, then:
 ```sh
 node scripts/native/contracts/prepare.mjs
 (cd demo && ns build android --env.contractsTest)
+node scripts/native/contracts/build-touch.mjs
 adb -s "$ANDROID_SERIAL" install -r demo/platforms/android/app/build/outputs/apk/debug/app-debug.apk
 ANDROID_SERIAL="$ANDROID_SERIAL" node scripts/native/contracts/android.mjs
 node scripts/native/contracts/validate.mjs scripts/native/out/contracts-android/results.json android-local-36
@@ -119,6 +120,20 @@ The reversing iOS touch path uses XCTest's event synthesizer in the test runner
 only, as WebDriverAgent does. No private interface is added to the app or library.
 A missing XCTest interface fails explicitly. The fixture pushes gesture targets
 with animation enabled so UIKit actually provides an interactive transition.
+
+Android uses a separate self-instrumented APK and the public
+[UiAutomation input API](https://developer.android.com/reference/android/app/UiAutomation).
+It injects one continuous MotionEvent sequence with a shared down time, including
+the reversal, and captures the screen while the pointer is down. The router app's
+PID must stay unchanged. The input driver waits for UI idle; the fixture also
+checks that its Fragment is resumed, its Activity has focus and its Frame owns
+native Back before accepting a gesture.
+
+After changing navigation mode, the driver waits for two successful launcher
+inspections before launching the fixture. A single, specifically identified
+**Pixel Launcher** ANR can be dismissed, with its screenshot/XML and recovery
+record retained. Repeated launcher ANRs fail the lane. App ANRs and failed
+navigation scenarios are never dismissed or restarted into a passing run.
 
 The older shell UI helpers bound accessibility dumps and use wall-clock deadlines
 (including inspection time). A slow or hung hierarchy query cannot silently turn

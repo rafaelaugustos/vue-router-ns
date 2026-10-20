@@ -82,6 +82,17 @@ const report = (command: string, error?: unknown) => {
     sdk: Device.sdkVersion,
     model: Device.model,
     fault: __CONTRACT_FAULT__,
+    gesture: { events: gestureEvents, peak: gesturePeak },
+    nativeFocus: isAndroid
+      ? {
+          frame: (frame as any)?._domId,
+          topmost: (Frame.topmost() as any)?._domId,
+          resumed: frame?.currentPage
+            ? !!fragmentFor(frame.currentPage)?.isResumed()
+            : false,
+          focused: !!Application.android.foregroundActivity?.hasWindowFocus(),
+        }
+      : undefined,
     checks: records,
     samples,
     stack: router.stack.value.map((route) => route.path),
@@ -439,6 +450,14 @@ async function command(name: string) {
       await root()
       blocked.value = name === 'guard-setup'
       await router.push(blocked.value ? '/guard' : '/a', { animated: true })
+      if (isAndroid)
+        await until(
+          () =>
+            Frame.topmost() === frame &&
+            !!fragmentFor(frame.currentPage!)?.isResumed() &&
+            !!Application.android.foregroundActivity?.hasWindowFocus(),
+          'gesture target resumed, focused and owns native Back',
+        )
       gesturePage = frame.currentPage
       gestureEvents = 0
       gesturePeak = 0

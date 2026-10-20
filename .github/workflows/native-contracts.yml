@@ -81,6 +81,8 @@ jobs:
           cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/contracts-fixed.apk
           ns build android --env.contractsTest --env.contractFault
           cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/contracts-former.apk
+      - name: Build continuous native input driver
+        run: node scripts/native/contracts/build-touch.mjs
       - name: Native contracts and negative control
         uses: reactivecircus/android-emulator-runner@v2
         with:

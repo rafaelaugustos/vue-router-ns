@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.nativescript.contracttouch">
+    <uses-sdk android:minSdkVersion="34" android:targetSdkVersion="36" />
+    <application android:label="Native contract input" android:debuggable="true" />
+    <instrumentation android:name=".ContractTouch"
+        android:targetPackage="org.nativescript.contracttouch" />
+</manifest>

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
 import { mkdir, writeFile } from 'node:fs/promises'
+import { existsSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { recordEnvironment } from './environment.mjs'
 const exec = promisify(execFile)
@@ -11,6 +12,12 @@ const pkg = 'org.nativescript.vuerouterns'
 const activity = `${pkg}/com.tns.NativeScriptActivity`
 const out = resolve(process.env.OUT ?? 'scripts/native/out/contracts-android')
 const negative = process.env.EXPECT_HMR_FAILURE === '1'
+const touchPkg = 'org.nativescript.contracttouch'
+const touchApk = process.env.TOUCH_APK ?? '/tmp/router-contract-touch/touch.apk'
+assert(
+  negative || existsSync(touchApk),
+  'Build the input driver: node scripts/native/contracts/build-touch.mjs',
+)
 const adb = async (...args) =>
   (
     await exec('adb', ['-s', serial, ...args], {
@@ -22,6 +29,7 @@ const pause = (ms = 200) => new Promise((done) => setTimeout(done, ms))
 const reports = []
 let currentPid = ''
 let lastSequence = 0
+let launcherRecoveries = 0
 await mkdir(out, { recursive: true })
 async function until(test, label, timeout = 30000) {
   const end = Date.now() + timeout
@@ -74,9 +82,12 @@ async function command(name, timeout, expectFailure) {
   await tap(name)
   return result(name, timeout, expectFailure)
 }
-async function tap(name) {
+async function hierarchy() {
+  await adb('shell', 'rm', '-f', '/sdcard/contracts.xml')
   await adb('shell', 'uiautomator', 'dump', '/sdcard/contracts.xml')
-  const xml = await adb('shell', 'cat', '/sdcard/contracts.xml')
+  return adb('shell', 'cat', '/sdcard/contracts.xml')
+}
+async function tapNode(xml, name) {
   const node = (xml.match(/<node\b[^>]*>/g) ?? []).find(
     (node) => node.includes(`text="${name}"`) || node.includes(`content-desc="${name}"`),
   )
@@ -89,6 +100,67 @@ async function tap(name) {
     'tap',
     String(Math.round((+coords[1] + +coords[3]) / 2)),
     String(Math.round((+coords[2] + +coords[4]) / 2)),
+  )
+}
+const launcherAnr = (xml) => xml.includes('text="Pixel Launcher isn\'t responding"')
+async function recoverLauncher(xml) {
+  assert.equal(launcherRecoveries++, 0, 'Repeated Pixel Launcher ANR: unstable emulator')
+  await capture('pixel-launcher-anr')
+  await writeFile(
+    resolve(out, 'launcher-recovery.json'),
+    JSON.stringify(
+      {
+        at: new Date().toISOString(),
+        title: "Pixel Launcher isn't responding",
+        applicationPid: currentPid || null,
+      },
+      null,
+      2,
+    ),
+  )
+  await tapNode(xml, 'Close app')
+  await pause(500)
+}
+async function tap(name) {
+  let xml = await hierarchy()
+  // Recover only this named system process, never an ANR from the app under test.
+  // No app restart or failed scenario is retried.
+  if (launcherAnr(xml)) {
+    await recoverLauncher(xml)
+    xml = await hierarchy()
+  }
+  await tapNode(xml, name)
+}
+async function prepareLauncher() {
+  await adb('shell', 'input', 'keyevent', '3')
+  let stable = 0
+  await until(
+    async () => {
+      const xml = await hierarchy().catch(async (error) => {
+        await writeFile(resolve(out, 'launcher-probe-error.txt'), String(error))
+        return ''
+      })
+      if (!xml) {
+        stable = 0
+        return false
+      }
+      if (launcherAnr(xml)) {
+        await recoverLauncher(xml)
+        await adb('shell', 'input', 'keyevent', '3')
+        stable = 0
+        return false
+      }
+      const focused = (await adb('shell', 'dumpsys', 'window'))
+        .split('\n')
+        .some((line) => line.includes('mCurrentFocus=') && line.includes('nexuslauncher'))
+      stable =
+        focused && xml.includes('package="com.google.android.apps.nexuslauncher"')
+          ? stable + 1
+          : 0
+      return stable >= 2
+    },
+    'Pixel Launcher ready after navigation mode change',
+    120000,
   )
 }
 async function capture(name) {
@@ -116,37 +188,39 @@ async function launch() {
 async function swipe(commit) {
   const size = await adb('shell', 'wm', 'size')
   const match = [...size.matchAll(/(\d+)x(\d+)/g)].at(-1)
-  const width = Number(match[1]),
-    y = Math.round(Number(match[2]) * 0.5)
-  const motion = (action, x) =>
-    adb(
-      'shell',
-      'input',
-      'touchscreen',
-      'motionevent',
-      action,
-      String(Math.round(x)),
-      String(y),
-    )
-  await motion('DOWN', 1)
-  for (const x of [0.05, 0.1, 0.2, 0.3]) await motion('MOVE', width * x)
-  // Capture the actual preview while the system still owns the pointer.
-  const shot = await exec('adb', ['-s', serial, 'exec-out', 'screencap', '-p'], {
-    encoding: 'buffer',
-    maxBuffer: 8 * 1024 * 1024,
-  })
-  await writeFile(
-    resolve(out, `gesture-${commit ? 'commit' : 'cancel'}.png`),
-    shot.stdout,
+  const mode = commit ? 'commit' : 'cancel'
+  const output = await adb(
+    'shell',
+    'am',
+    'instrument',
+    '-w',
+    '-e',
+    'mode',
+    mode,
+    '-e',
+    'width',
+    match[1],
+    '-e',
+    'height',
+    match[2],
+    `${touchPkg}/.ContractTouch`,
   )
-  if (commit) {
-    await motion('MOVE', width * 0.75)
-    await motion('UP', width * 0.85)
-  } else {
-    for (const x of [0.2, 0.1, 0.02]) await motion('MOVE', width * x)
-    await motion('UP', 1)
-  }
-  await pause(700)
+  await writeFile(resolve(out, `gesture-${mode}-${reports.length}.txt`), output)
+  assert.match(output, /result=CONTRACT_TOUCH_OK/, output)
+  assert.equal(
+    (await adb('shell', 'pidof', pkg)).trim(),
+    currentPid,
+    'Input instrumentation must not restart the NativeScript process',
+  )
+  const shot = await exec(
+    'adb',
+    ['-s', serial, 'exec-out', 'run-as', touchPkg, 'cat', 'files/gesture.png'],
+    {
+      encoding: 'buffer',
+      maxBuffer: 8 * 1024 * 1024,
+    },
+  )
+  await writeFile(resolve(out, `gesture-${mode}-${reports.length}.png`), shot.stdout)
 }
 const previousBackAnimation = (
   await adb('shell', 'settings', 'get', 'global', 'enable_back_animation')
@@ -174,6 +248,11 @@ try {
     'com.android.internal.systemui.navbar.gestural',
   )
   await adb('shell', 'settings', 'put', 'global', 'enable_back_animation', '1')
+  if (!negative) {
+    await adb('uninstall', touchPkg).catch(() => {})
+    await adb('install', touchApk)
+  }
+  await prepareLauncher()
   await launch()
   if (negative) {
     await command('hmr', 30000, true)
@@ -250,6 +329,7 @@ try {
     ...(previousBackAnimation === 'null' ? [] : [previousBackAnimation]),
   )
   await adb('shell', 'am', 'force-stop', pkg)
+  if (!negative) await adb('uninstall', touchPkg)
   if (previousNavigation)
     await adb(
       'shell',
