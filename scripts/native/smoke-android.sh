@@ -31,6 +31,7 @@ $ADB logcat -v threadtime > "$OUT/logcat.txt" 2>&1 &
 logcat_pid=$!
 trap 'kill "$logcat_pid" 2>/dev/null || true; wait "$logcat_pid" 2>/dev/null || true' EXIT
 
+prepare_home || { echo 'FAIL: launcher did not become ready before app startup'; exit 1; }
 step "cold starts"
 for attempt in 1 2 3; do
   if [ "$attempt" != "1" ]; then $ADB shell pm clear "$PKG" >/dev/null || exit 2; fi
@@ -135,7 +136,10 @@ if [ -n "$summary" ]; then
     const ms = (value) => Math.round(value);
     for (const [phase, limit] of Object.entries(limits.phases)) {
       const got = measured.phases[phase];
-      if (!got) { lines.push(`${phase}: no spans`); continue; }
+      if (!got || !Number.isInteger(got.count) || got.count < 1 ||
+          !Number.isFinite(got.p50) || !Number.isFinite(got.max)) {
+        bad++; lines.push(`${phase}: missing or invalid spans`); continue;
+      }
       const over = got.p50 > limit.p50Max || got.max > limit.max;
       if (over) bad++;
       lines.push(`${phase}: p50 ${ms(got.p50)}ms (limit ${limit.p50Max}) max ${ms(got.max)}ms (limit ${limit.max}) over ${got.count} spans${over ? " OVER" : ""}`);

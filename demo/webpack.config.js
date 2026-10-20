@@ -7,6 +7,7 @@ module.exports = (env) => {
   webpack.chainWebpack((config) => {
     config.plugin('DefinePlugin').tap((args) => {
       args[0].__ROUTER_STARTUP_TRACE__ = JSON.stringify(!!env.startupTrace)
+      args[0].__CONTRACT_FAULT__ = JSON.stringify(!!env.contractFault)
       return args
     })
     // Separate opt-in acceptance fixtures; the normal demo keeps explicit routes.
@@ -18,6 +19,7 @@ module.exports = (env) => {
       'state',
       'folds',
       'flows',
+      'contracts',
     ].filter((name) => env[`${name}Test`])
     if (fixtures.length > 1) throw new Error('Select only one native acceptance fixture')
     if (fixtures.length) {
@@ -48,6 +50,25 @@ module.exports = (env) => {
         .enforce('pre')
         .use('page-meta')
         .loader(resolve(__dirname, '../scripts/native/page-meta-loader.cjs'))
+    }
+    if (env.contractFault) {
+      if (!env.contractsTest) throw new Error('contractFault requires contractsTest')
+      config.module
+        .rule('covered-hmr-regression')
+        .include.add(resolve(__dirname, '../dist/page.js'))
+        .end()
+        .use('covered-hmr-regression')
+        .loader(resolve(__dirname, '../scripts/native/contracts/hmr-regression.cjs'))
+    }
+    if (env.startupTrace) {
+      config.module
+        .rule('native-disposal-trace')
+        .include.add(
+          resolve(__dirname, 'node_modules/nativescript-vue/dist/plugins/navigation.js'),
+        )
+        .end()
+        .use('native-disposal-trace')
+        .loader(resolve(__dirname, '../scripts/native/disposal-trace.cjs'))
     }
     config.resolve.alias
       // the router from this repository: run `npm run dev` at the root

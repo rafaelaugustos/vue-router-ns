@@ -124,6 +124,10 @@ try {
   const document = resolve(out, 'router-flow-sample.txt')
   await writeFile(document, 'Native flow acceptance document\n')
   await adb('push', document, '/sdcard/Download/router-flow-sample.txt')
+  await exec('bash', ['-c', 'source scripts/native/ui.sh; prepare_home'], {
+    env: { ...process.env, ADB: 'adb', ANDROID_SERIAL: serial, OUT: out },
+    timeout: 150000,
+  })
   await start()
   await command('guard')
   await outcome('guard:guard')

@@ -1,0 +1,103 @@
+{
+  "version": 1,
+  "profiles": {
+    "android-local-36": {
+      "platform": "android",
+      "sdk": "36",
+      "model": "sdk_gphone64_arm64",
+      "medianMs": 283,
+      "p95Ms": 321,
+      "tolerance": 1.5,
+      "jitterMs": 100,
+      "livePages": 0,
+      "nativeRetained": 0,
+      "evidence": "2026-10-20 RouterFold60CI, ARM emulator on macOS, four batches of ten animated push/pop pairs",
+      "host": {
+        "platform": "darwin",
+        "arch": "arm64"
+      },
+      "display": {
+        "size": "Physical size: 2208x1840",
+        "density": "Physical density: 420"
+      }
+    },
+    "ios-local-26": {
+      "platform": "ios",
+      "sdk": "26.5",
+      "model": "iPhone",
+      "medianMs": 249,
+      "p95Ms": 257,
+      "tolerance": 1.5,
+      "jitterMs": 100,
+      "livePages": 0,
+      "nativeRetained": 6,
+      "evidence": "2026-10-20 iPhone 17 Pro simulator, macOS ARM, four batches: native controller retention 5/3/4/3, zero JS Pages",
+      "host": {
+        "platform": "darwin",
+        "arch": "arm64"
+      },
+      "simulatorType": "com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro"
+    },
+    "ios-ci-18": {
+      "platform": "ios",
+      "sdk": "18.6",
+      "model": "iPhone",
+      "medianMs": 279,
+      "p95Ms": 355,
+      "tolerance": 1.5,
+      "jitterMs": 100,
+      "livePages": 0,
+      "nativeRetained": 8,
+      "evidence": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/39409377428/artifacts/12258618926",
+      "device": "iPhone 16 Pro simulator, macOS 15 ARM",
+      "retentionNote": "Observed 4/6/3/3 native controllers after collection; allow two additional transient controllers, no retained JS Pages",
+      "host": {
+        "platform": "darwin",
+        "arch": "arm64"
+      },
+      "simulatorType": "com.apple.CoreSimulator.SimDeviceType.iPhone-16-Pro"
+    },
+    "android-ci-34": {
+      "platform": "android",
+      "sdk": "34",
+      "model": "sdk_gphone64_x86_64",
+      "host": {
+        "platform": "linux",
+        "arch": "x64"
+      },
+      "display": {
+        "size": "Physical size: 1080x2400",
+        "density": "Physical density: 420"
+      },
+      "medianMs": 669,
+      "p95Ms": 862,
+      "tolerance": 1.5,
+      "jitterMs": 100,
+      "livePages": 0,
+      "nativeRetained": 0,
+      "evidence": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/39411107783/artifacts/12260195852",
+      "retentionNote": "Zero retained Pages/Fragments required after three fixed JS/native collection rounds. The one-round calibration retained native references and is not accepted as leak-pass evidence."
+    },
+    "android-ci-36": {
+      "platform": "android",
+      "sdk": "36",
+      "model": "sdk_gphone64_x86_64",
+      "host": {
+        "platform": "linux",
+        "arch": "x64"
+      },
+      "display": {
+        "size": "Physical size: 1080x2400",
+        "density": "Physical density: 420"
+      },
+      "medianMs": 492,
+      "p95Ms": 558,
+      "tolerance": 1.5,
+      "jitterMs": 100,
+      "livePages": 0,
+      "nativeRetained": 0,
+      "evidence": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/39411107783/artifacts/12259148700",
+      "retentionNote": "Observed zero retained Pages/Fragments in all four calibration batches; keep zero as the three-round limit."
+    }
+  }
+}
