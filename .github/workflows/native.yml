@@ -8,33 +8,7 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 6 * * 1'
-  pull_request:
-    paths:
-      - scripts/native/**
-      - .github/workflows/native.yml
-      - src/drawer.ts
-      - src/router.ts
-      - src/layouts.ts
-      - src/folding.ts
-      - src/components/RouterSplitView.ts
-      - test/folding.spec.ts
-      - test/split.spec.ts
-      - src/page.ts
-      - src/page-state.ts
-      - test/page-state.spec.ts
-      - src/file-routing/**
-      - test/file-routing.spec.ts
-      - test/file-routing-setup.spec.ts
-      - examples/file-routing/**
-      - test/layouts.spec.ts
-      - src/middleware.ts
-      - src/navigation.ts
-      - test/middleware.spec.ts
-      - test/navigation.spec.ts
-      - test/drawer.spec.ts
-      - test/shims/core.ts
-      - demo/src/testing/**
-      - demo/webpack.config.js
+  workflow_call:
 
 jobs:
   android:

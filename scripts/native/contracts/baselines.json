@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "profiles": {
+    "android-local-36": {
+      "platform": "android",
+      "sdk": "36",
+      "model": "sdk_gphone64_arm64",
+      "medianMs": 283,
+      "p95Ms": 321,
+      "tolerance": 1.5,
+      "jitterMs": 100,
+      "livePages": 0,
+      "nativeRetained": 0,
+      "evidence": "2026-10-20 RouterFold60CI, ARM emulator on macOS, four batches of ten animated push/pop pairs"
+    },
+    "ios-local-26": {
+      "platform": "ios",
+      "sdk": "26.5",
+      "model": "iPhone",
+      "medianMs": 249,
+      "p95Ms": 257,
+      "tolerance": 1.5,
+      "jitterMs": 100,
+      "livePages": 0,
+      "nativeRetained": 6,
+      "evidence": "2026-10-20 iPhone 17 Pro simulator, macOS ARM, four batches: native controller retention 5/3/4/3, zero JS Pages"
+    }
+  }
+}

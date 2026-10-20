@@ -1,18 +1,8 @@
 name: Native flows
 on:
   workflow_dispatch:
-  pull_request:
-    paths:
-      - src/native-flows.ts
-      - src/flows/**
-      - test/native-flows.spec.ts
-      - test/shims/core.ts
-      - demo/src/testing/flows-app.ts
-      - demo/webpack.config.js
-      - scripts/native/flows-android.mjs
-      - scripts/native/prepare-flows.py
-      - scripts/native/ios-flows/**
-      - .github/workflows/native-flows.yml
+  workflow_call:
+
 jobs:
   android:
     runs-on: ubuntu-latest
