@@ -77,7 +77,44 @@ async function screenshot(name, touch = false) {
   })
   await writeFile(resolve(out, `${name}.png`), image.stdout)
 }
+async function systemUi() {
+  return adb(
+    'shell',
+    'dumpsys',
+    'activity',
+    'service',
+    'com.android.systemui/.SystemUIService',
+  )
+}
+async function prepareLauncher() {
+  await adb('shell', 'input', 'keyevent', '3')
+  let stable = 0
+  await until(
+    async () => {
+      const state = await systemUi()
+      await writeFile(resolve(out, 'launcher-system-ui.txt'), state)
+      const windows = await adb('shell', 'dumpsys', 'window')
+      const focused = windows
+        .split('\n')
+        .some((line) => line.includes('mCurrentFocus=') && line.includes('nexuslauncher'))
+      await adb('shell', 'uiautomator', 'dump', '/sdcard/predictive-launcher.xml')
+      const hierarchy = await adb('shell', 'cat', '/sdcard/predictive-launcher.xml')
+      await writeFile(resolve(out, 'launcher.xml'), hierarchy)
+      const edge = state.split('EdgeBackGestureHandler:')[1] ?? ''
+      const ready =
+        focused &&
+        hierarchy.includes('package="com.google.android.apps.nexuslauncher"') &&
+        edge.includes('mIsEnabled=true') &&
+        edge.includes('mIsBackGestureAllowed=true')
+      stable = ready ? stable + 1 : 0
+      return stable >= 2
+    },
+    'launcher and system back gesture ready after navigation mode change',
+    120000,
+  )
+}
 async function swipe(name, commit) {
+  await writeFile(resolve(out, `${name}-system-ui-before.txt`), await systemUi())
   const size = [...(await adb('shell', 'wm', 'size')).matchAll(/(\d+)x(\d+)/g)].at(-1)
   const output = await adb(
     'shell',
@@ -96,6 +133,7 @@ async function swipe(name, commit) {
     'org.nativescript.contracttouch/.ContractTouch',
   )
   await writeFile(resolve(out, `${name}-input.txt`), output)
+  await writeFile(resolve(out, `${name}-system-ui-after.txt`), await systemUi())
   assert.match(output, /result=CONTRACT_TOUCH_OK/)
   assert.equal((await adb('shell', 'pidof', pkg)).trim(), pid)
   await screenshot(`${name}-progress`, true)
@@ -127,8 +165,7 @@ try {
     'com.android.internal.systemui.navbar.gestural',
   )
   await adb('shell', 'am', 'force-stop', pkg)
-  await adb('shell', 'input', 'keyevent', '3')
-  await pause(2000)
+  await prepareLauncher()
   await adb('shell', 'am', 'start', '-W', '-n', activity)
   pid = await until(
     async () => (await adb('shell', 'pidof', pkg).catch(() => '')).trim(),
@@ -169,7 +206,10 @@ try {
   )
   throw error
 } finally {
-  await writeFile(resolve(out, 'logcat.txt'), await adb('logcat', '-d', '-t', '3000'))
+  await writeFile(
+    resolve(out, 'logcat.txt'),
+    await adb('logcat', '-d', '-v', 'threadtime'),
+  )
   if (previousNavigation)
     await adb(
       'shell',
