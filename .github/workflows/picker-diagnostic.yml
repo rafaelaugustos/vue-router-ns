@@ -1,0 +1,42 @@
+name: UIKit picker diagnostic
+on:
+  push:
+    branches: [diag/native-picker-54]
+jobs:
+  ios:
+    runs-on: macos-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - run: gem install xcodeproj --no-document
+      - name: Build UIKit-only probe
+        run: |
+          mkdir -p /tmp/picker-probe/demo.app
+          cp scripts/native/ios-flows/PickerProbe.plist /tmp/picker-probe/demo.app/Info.plist
+          xcrun --sdk iphonesimulator swiftc -target arm64-apple-ios18.0-simulator -sdk "$(xcrun --sdk iphonesimulator --show-sdk-path)" scripts/native/ios-flows/PickerProbe.swift -o /tmp/picker-probe/demo.app/demo
+          codesign --force --sign - /tmp/picker-probe/demo.app
+      - name: Select a real document
+        run: |
+          SIM=$(xcrun simctl create PickerProbe com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro com.apple.CoreSimulator.SimRuntime.iOS-26-5)
+          trap 'xcrun simctl shutdown "$SIM"; xcrun simctl delete "$SIM"' EXIT
+          xcrun simctl boot "$SIM"
+          xcrun simctl bootstatus "$SIM" -b
+          xcrun simctl install "$SIM" /tmp/picker-probe/demo.app
+          ruby scripts/native/ios-flows/project.rb /tmp/picker-tests
+          mkdir -p /tmp/picker-results
+          set +e
+          xcodebuild test -project /tmp/picker-tests/FlowChecks.xcodeproj -scheme FlowChecks -destination "platform=iOS Simulator,id=$SIM" -derivedDataPath /tmp/picker-tests/build -only-testing:FlowChecks/FlowUITests/testPickDocument -collect-test-diagnostics never -resultBundlePath /tmp/picker-results/Picker.xcresult
+          result=$?
+          xcrun simctl spawn "$SIM" log show --last 5m --style compact --predicate 'process == "demo" OR process == "ResolverService" OR subsystem CONTAINS[c] "FileProvider" OR subsystem CONTAINS[c] "DocumentManager"' > /tmp/picker-results/runtime.log
+          DATA=$(xcrun simctl get_app_container "$SIM" org.nativescript.vuerouterns data)
+          ls -l "$DATA/Documents" > /tmp/picker-results/documents.txt
+          diskutil info "$DATA" > /tmp/picker-results/volume.txt
+          exit "$result"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: picker-diagnostic
+          path: /tmp/picker-results
