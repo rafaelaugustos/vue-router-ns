@@ -106,6 +106,8 @@ try {
     await adb('shell', 'input', 'keyevent', 'KEYCODE_BACK')
   }
   const first = await waitReport('restart-required')
+  assert.equal(first.collections.length, 3, 'Expected three fixed GC rounds')
+  assert.equal(first.collections.at(-1), 0, 'No native instances may remain after GC')
   for (const name of [
     'Complete/native/42',
     'Cancel/native/42',

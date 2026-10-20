@@ -20,6 +20,11 @@ type Context = NativeDestinationContext<{ id: string }, string>
 const status = ref('Starting')
 const checks: string[] = []
 const weak: any[] = []
+const collected = isAndroid
+  ? new java.lang.ref.ReferenceQueue<androidx.fragment.app.Fragment>()
+  : undefined
+let nativeCollected = 0
+const collections: number[] = []
 let created = 0
 let disposed = 0
 let latest: { context: Context; native: any; activate(name: string): void } | undefined
@@ -36,6 +41,7 @@ const report = (name: string, error?: unknown) => {
     checks,
     created,
     disposed,
+    collections,
     pid: isAndroid
       ? android.os.Process.myPid()
       : NSProcessInfo.processInfo.processIdentifier,
@@ -185,7 +191,7 @@ const editor = defineNativeDestination<{ id: string }, string>({
     ensureFragment()
     const fragment = new Fragment()
     fragment.context = context
-    weak.push(new java.lang.ref.WeakReference(fragment))
+    weak.push(new java.lang.ref.WeakReference(fragment, collected!))
     latest = {
       context,
       native: fragment,
@@ -298,20 +304,24 @@ async function run() {
   await latest!.context.cancel()
   report('cover-return')
   for (let i = 0; i < 8; i++) await roundtrip('Cancel', `/native/${i}`)
-  await pause(200)
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 3; i++) {
+    await pause(300)
     Utils.GC()
-    if (isAndroid) java.lang.System.gc()
-    await pause(250)
+    // Same collection protocol as the native contract suite. System.gc()
+    // merely sets a flag on Android 14; Runtime.gc() requests ART collection.
+    if (isAndroid) java.lang.Runtime.getRuntime().gc()
+    await pause(300)
+    // Reading WeakReference.get() would create a new strong bridge wrapper.
+    if (isAndroid) while (collected!.poll()) nativeCollected++
+    collections.push(
+      isAndroid
+        ? weak.length - nativeCollected
+        : weak.filter((reference) => reference.allObjects.count > 0).length,
+    )
   }
-  const alive = weak.flatMap((reference, index) =>
-    (isAndroid ? reference.get() !== null : reference.allObjects.count > 0)
-      ? [index]
-      : [],
-  )
   assert(
-    alive.length === 0,
-    `Native instances ${alive.join(',')} retained after disposal and GC`,
+    collections.at(-1) === 0,
+    `Native instances retained after disposal and GC: ${collections.join(',')}`,
   )
   assert(
     router.diagnostics!.snapshot().issues.length === 0,

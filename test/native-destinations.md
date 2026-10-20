@@ -74,6 +74,13 @@ Native callback classes now live outside per-instance scopes; the same pattern
 is used by the Fragment lifecycle listener. The fixture verifies collection,
 not just that a cleanup callback ran.
 
+The initial Android 14 CI run exposed a fixture collection-method error:
+`System.gc()` did not request ART collection there. The fixture now uses the
+same fixed three-round JS/`Runtime.gc()` protocol as the existing native
+contracts. A `ReferenceQueue` counts collected Fragments without obtaining new
+strong bridge wrappers through `WeakReference.get()`. Per-round counts are
+included in the reports; the final required retained count remains zero.
+
 ## Explicit limits
 
 - This is the interoperability prototype requested by #53. UIKit controllers
