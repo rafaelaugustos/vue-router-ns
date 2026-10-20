@@ -18,6 +18,7 @@ import { holdBackButton, zoomFrom } from './ios.js'
 import { isBlocked, type Entry } from './stack.js'
 import { connectPageEffects } from './page-effects.js'
 import { layoutIssues, walkLayoutTree } from './layouts.js'
+import { nativeDestinationPage } from './native-destinations.js'
 
 interface PageLink {
   link(page: Page, entry: Entry): void
@@ -31,6 +32,7 @@ interface PageLink {
  * its own route and a router bound to the stack it lives in.
  */
 export function createPage(entry: Entry, { link, unlink, reload }: PageLink) {
+  const component = nativeDestinationPage(entry) ?? entry.component
   return defineComponent({
     name: 'RouterPage',
     inheritAttrs: false,
@@ -149,7 +151,7 @@ export function createPage(entry: Entry, { link, unlink, reload }: PageLink) {
                   }),
               },
             )
-          : h(entry.component, entry.props)
+          : h(component, entry.props)
     },
   })
 }

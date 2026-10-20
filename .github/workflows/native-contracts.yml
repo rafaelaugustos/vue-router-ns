@@ -81,6 +81,8 @@ jobs:
           cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/contracts-fixed.apk
           ns build android --env.contractsTest --env.contractFault
           cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/contracts-former.apk
+          ns build android --env.destinationsTest
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/native-destinations.apk
       - name: Build continuous native input driver
         run: node scripts/native/contracts/build-touch.mjs
       - name: Native contracts and negative control
@@ -97,6 +99,7 @@ jobs:
             ANDROID_SERIAL=emulator-5554 OUT=scripts/native/out/contracts-fixed node scripts/native/contracts/android.mjs
             adb install -r /tmp/contracts-former.apk
             ANDROID_SERIAL=emulator-5554 OUT=scripts/native/out/contracts-former EXPECT_HMR_FAILURE=1 node scripts/native/contracts/android.mjs
+            ANDROID_SERIAL=emulator-5554 ANDROID_APP=/tmp/native-destinations.apk node scripts/native/destinations.mjs android
       - name: Enforce timing and retention budgets
         run: |
           node scripts/native/contracts/validate.mjs scripts/native/out/contracts-fixed/results.json android-ci-${{ matrix.api }} scripts/native/out/contracts-fixed/verdict.json
@@ -156,6 +159,11 @@ jobs:
         run: |
           node scripts/native/contracts/validate.mjs scripts/native/out/contracts-fixed/results.json ios-ci-18 scripts/native/out/contracts-fixed/verdict.json
           EXPECT_HMR_FAILURE=1 node scripts/native/contracts/validate.mjs scripts/native/out/contracts-former/results.json negative
+      - name: Build native controller destination fixture
+        working-directory: demo
+        run: ns build ios --for-device false --env.destinationsTest
+      - name: Native controller results, disposal and restoration
+        run: node scripts/native/destinations.mjs ios
       - name: Clean up dedicated simulator
         if: always() && env.IOS_SIMULATOR != ''
         run: |

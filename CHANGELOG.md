@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Experimental `defineNativeDestination()` routes embed existing UIKit controllers and AndroidX Fragments in native Pages. Platform factories receive typed input, guarded completion/cancellation, external-dismissal reporting and cleanup. History restoration recreates factories; native instances and pending results are never serialized. Includes English/Portuguese guides and native lifecycle, result, memory and restart acceptance in the required CI suite.
+
 ## 0.1.0-beta.12 (2026-10-19)
 
 - Optional NativeScript webpack file-routing setup: generate routes/types before compilation, erase page metadata macros, discover layouts/middleware and apply native route-table HMR. Adds a separate native example, live watch acceptance, bundle checks and English/Portuguese setup guides with recordings. Explicit route configuration remains available unchanged.
