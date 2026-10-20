@@ -1,6 +1,6 @@
 # Pickers do sistema e fluxos nativos
 
-Alguns destinos não são páginas: o seletor de documentos, a activity de outro app, uma folha de compartilhamento. O sistema é dono deles, eles sobrevivem a uma rotação de tela, e nada sobre eles pertence à pilha de voltar. Um **fluxo nativo** dá a eles uma entrada tipada, um resultado tipado e um de três desfechos, resolvido exatamente uma vez.
+Alguns destinos não são páginas: o seletor de documentos, a activity de outro app, uma folha de compartilhamento. O sistema é dono deles, eles podem sobreviver a uma rotação de tela, e nada sobre eles pertence à pilha de voltar. Um **fluxo nativo** dá a eles uma entrada tipada, um resultado tipado e um de três desfechos, resolvido exatamente uma vez.
 
 ```ts
 import { createDocumentPicker, useNativeFlow } from 'vue-router-ns'
@@ -22,11 +22,19 @@ Faça as verificações antes de lançar, não depois: `picker.run(input, { befo
 
 ## O seletor de documentos
 
-`createDocumentPicker()` abre o `ACTION_OPEN_DOCUMENT` no Android e o `UIDocumentPickerViewController` no iOS 14 ou mais novo, apresentado a partir do view controller da própria página. `types` são tipos MIME, `multiple` permite vários. O resultado são URIs com escopo: `content://` no Android, URLs `file://` com escopo de segurança no iOS. Ler, manter acesso persistente e copiar o que o app precisa é tarefa do app, com as APIs da própria plataforma; o router nunca entrega caminhos de arquivo que não tem.
+`createDocumentPicker()` abre `ACTION_OPEN_DOCUMENT` pelo registro AndroidX Activity Result da Activity da página de origem, ou `UIDocumentPickerViewController` pelo controller dessa página no iOS 14 ou superior. A página precisa estar montada. `types` aceita tipos MIME, incluindo `image/*`, `audio/*`, `video/*`, `text/*` e `*/*`; `multiple` permite vários documentos.
+
+O resultado contém strings de URI: `content://` no Android e `file://` no iOS. Uma URI não é um caminho de arquivo nem uma permissão permanente. Ler/copiar dados, manter permissões persistentes no Android e gerenciar URLs com escopo de segurança/bookmarks no iOS são responsabilidades do app. Use um adaptador próprio se precisar dos objetos nativos originais para gerenciar esse acesso.
+
+Handles separados podem executar fluxos independentes no Android. O UIKit oferece um espaço de apresentação por janela: um segundo seletor simultâneo resolve como `failed`, sem deixar uma Promise pendente. Aguarde a dispensa antes de apresentar outro controller. Uma nova chamada no mesmo handle substitui a tentativa anterior; guards assíncronos não lançam uma chamada antiga por cima de uma mais recente.
 
 ## Escrevendo um fluxo
 
-Um fluxo é um objeto com um `kind`, um `supported()` opcional e um `start(input, context)`. O contexto tem a página, um `requestCode` Android reservado com `onActivityResult(handler)` ligado ao evento `activityResult` do core, e `complete`, `cancel` e `fail`. Devolva uma função do `start` para ser avisado quando a tentativa for abandonada, para dispensar um controller por exemplo. Os request codes vêm de uma faixa própria, então não colidem com os de outros plugins, e tentativas concorrentes resolvem de forma independente.
+Um fluxo tem `kind`, `supported()` opcional e `start(input, context)`. O contexto fornece a `page` de origem, `id` de correlação, `complete`, `cancel` e `fail`. Retorne uma função de limpeza de `start`: ela executa em **todo desfecho**, incluindo sucesso, cancelamento, falha e descarte. Libere delegates/listeners e dispense a UI nativa que o adaptador controla.
+
+No Android, use `context.launchActivity(intent, (resultCode, intent) => { ... })`. Ele registra na Activity AndroidX de origem, lança uma vez e remove o registro quando o fluxo termina. Interprete o resultado e chame `complete`, `cancel` ou `fail`. Exceções nessa interpretação viram resultados `failed`. O registro não usa uma Activity global escolhida pelo foreground.
+
+`requestCode` e `onActivityResult(handler)` continuam disponíveis para adaptadores antigos. A faixa numérica reservada não garante ausência de colisão com plugins que usem os mesmos códigos; novos adaptadores devem usar `launchActivity`.
 
 ```ts
 const share: NativeFlow<string, void> = {
@@ -46,4 +54,10 @@ const share: NativeFlow<string, void> = {
 
 ## Rotação e morte do processo
 
-Uma activity Android recriada durante o fluxo, por uma rotação, ainda recebe o resultado: a tentativa é indexada pelo request code no processo JavaScript, que sobrevive. A morte do processo não: não há promise para resolver quando o app volta, e o resultado que o sistema entrega ao novo processo é descartado. Uma página que precisa sobreviver a isso guarda "um seletor estava aberto" no seu [estado de página](./restore#estado-da-pagina) e pergunta de novo, ou lê o que o sistema já concedeu.
+O adaptador AndroidX salva a chave de registro da tentativa no estado da Activity e registra novamente essa chave após a recriação **enquanto a página de origem e a tentativa JavaScript continuarem vivas**. Ele não lança a Activity externa duas vezes. A destruição da Activity de origem sem mudança de configuração cancela com `disposed`.
+
+A vida da página tem precedência. No NativeScript-Vue 3.1.2, `Activity.recreate()` descarta a página Vue de origem: o fluxo pendente resolve com `cancelled/disposed`. Um resultado tardio não resolve essa tentativa novamente nem completa uma nova. Uma rotação tratada pela Activity existente pode manter a tentativa.
+
+Nenhuma Promise sobrevive à morte do processo. Persista um marcador “seletor estava aberto” no [estado de página](./restore#estado-da-pagina) ou no armazenamento do app; após reiniciar, decida se deve tentar novamente ou recuperar um acesso já concedido. O router não entrega um resultado antigo a um fluxo novo. Persistir o marcador não persiste a permissão do documento.
+
+`useNativeFlow` descarta tentativas junto com a página. Quem usa `startNativeFlow` diretamente deve chamar o `dispose()` retornado quando o dono fechar. A UI do sistema não cria entradas no histórico nem dispara desativação de página do router; os eventos normais de background/foreground da plataforma continuam valendo.
