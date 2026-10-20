@@ -74,8 +74,8 @@ jobs:
           path: scripts/native/out/flows-android
   ios:
     # Hosted macOS 26 ARM FileProvider fails even in a UIKit-only control.
-    # Keep all picker cases on the working baseline; see test/native-flows.md.
-    runs-on: macos-15-intel
+    # Keep the older host OS and ARM runtime; see test/native-flows.md.
+    runs-on: macos-15
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7

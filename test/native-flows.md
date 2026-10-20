@@ -13,11 +13,14 @@ RouterFold60CI emulator, and iPhone 17 / iOS 26.0 simulator with Xcode 27.0. All
 (66 seconds), including selection of a document in the local Files provider outside the presenting app’s container.
 These results do not claim physical-device or independent-window restoration coverage.
 
-The CI baseline is macOS 15 Intel with iOS 18.6. On the hosted macOS 26 ARM image,
+The CI target is macOS 15 ARM with iOS 18.6. On the hosted macOS 26 ARM image,
 FileProvider fails to resolve the selected file's bookmark (`-1005`, underlying
 `-1012`) before the application receives its delegate callback. The same failure
 occurs in a [standalone Swift/UIKit control](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/39357562599),
-without NativeScript or the router; the [identical control passes on the pinned baseline](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/39358487514).
+without NativeScript or the router; the [identical control passes on macOS 15 Intel](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/39358487514).
+The full NativeScript fixture on Intel failed before reaching the picker, including
+an `NSInvalidArgumentException` in the Core `Page` constructor. The CI target
+therefore keeps ARM, as used in the passing local native runs, on the older host OS.
 All six picker cases remain enabled. The fixture seeds a real external document
 in the simulator's local Files provider; it does not replace the picker or its result.
 

@@ -119,7 +119,7 @@ ANDROID_SERIAL=<serial> node scripts/native/flows-android.mjs
 
 The runner clears this fixture app's data, seeds a Downloads document, drives the real DocumentsUI, rotates the device, recreates/closes the owning Activity, removes the originating page, and kills the app process while the picker is foreground. It checks typed outcomes, unchanged history, late-result isolation and a fresh attempt after restart. Logs, screenshots and JSON go to `scripts/native/out/flows-android`. Run on an English test emulator with other accessibility services off.
 
-For iOS, `prepare-flows.py` enables file sharing in the generated demo resources for manual exploration. The automated selection test uses an external document in the local Files provider, seeded by `seed-document.py` in a dedicated simulator. The picker must return its actual scoped URL. CI uses a fresh iOS 18.6 simulator on macOS 15 Intel; local acceptance also covers iOS 26.0 and 26.5. Install CocoaPods and the `xcodeproj` Ruby gem, then:
+For iOS, `prepare-flows.py` enables file sharing in the generated demo resources for manual exploration. The automated selection test uses an external document in the local Files provider, seeded by `seed-document.py` in a dedicated simulator. The picker must return its actual scoped URL. CI uses a fresh iOS 18.6 simulator on macOS 15 ARM; local acceptance also covers iOS 26.0 and 26.5. Install CocoaPods and the `xcodeproj` Ruby gem, then:
 
 ```sh
 (cd demo && ns build ios --for-device false --env.flowsTest)
