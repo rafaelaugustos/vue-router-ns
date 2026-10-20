@@ -43,6 +43,7 @@ export const RouterUIKitSplitView = defineComponent({
         {
           ref: container,
           displayMode: 'oneBesideSecondary',
+          splitBehavior: 'tile',
           preferredPrimaryColumnWidthFraction: props.primaryWidthFraction,
         },
         [

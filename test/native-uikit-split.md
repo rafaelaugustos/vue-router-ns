@@ -15,6 +15,10 @@ mode UIKit can put the secondary navigation controller into the primary
 navigation controller's controller array. The Pages still belong to their
 original Frames; the fixture checks that ownership after every operation.
 
+The detail placeholder navigation starts before revealing its column: iOS 18
+rejects an empty nested UINavigationController. Expanded columns use UIKit's
+tiled behavior so rotation does not put the primary over the detail.
+
 The adapter chooses the primary column when collapsing an empty detail, uses
 UIKit's proposed expansion mode, and leaves system sidebar controls to UIKit.
 Core's manual button helpers are suppressed because they overwrite application

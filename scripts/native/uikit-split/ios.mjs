@@ -62,7 +62,9 @@ const container = (
   await run('xcrun', ['simctl', 'get_app_container', sim, pkg, 'data'])
 ).stdout.trim()
 const reports = []
-for (const name of await readdir(`${container}/Documents`)) {
+const documentNames = await readdir(`${container}/Documents`)
+await writeFile(`${out}/documents.json`, JSON.stringify(documentNames, null, 2))
+for (const name of documentNames) {
   if (!/^uikitsplit-\d+-\d+\.json$/.test(name)) continue
   await copyFile(`${container}/Documents/${name}`, `${out}/${name}`)
   reports.push(JSON.parse(await readFile(`${container}/Documents/${name}`, 'utf8')))
@@ -72,6 +74,20 @@ await writeFile(`${out}/results.json`, JSON.stringify(reports, null, 2))
 await run('xcrun', ['simctl', 'io', sim, 'screenshot', `${out}/final.png`]).catch(
   () => {},
 )
+const runtime = await run('xcrun', [
+  'simctl',
+  'spawn',
+  sim,
+  'log',
+  'show',
+  '--last',
+  '10m',
+  '--style',
+  'compact',
+  '--predicate',
+  'process == "demo"',
+]).catch((error) => ({ stdout: String(error) }))
+await writeFile(`${out}/runtime.log`, runtime.stdout)
 await run('xcrun', ['simctl', 'terminate', sim, pkg]).catch(() => {})
 assert(!failure, `XCTest failed: ${out}/xcodebuild.log`)
 assert(reports.length > 0, 'No native reports')

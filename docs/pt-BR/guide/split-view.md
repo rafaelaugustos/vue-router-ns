@@ -112,7 +112,7 @@ const nativeColumns = supportsUIKitSplitView()
 
 O plugin do router registra os dois componentes. Ambos usam a mesma tabela de rotas, Pages nativas, guards, resultados e formato de histórico salvo. A escolha acontece ao criar a janela; não é uma troca entre stacks já montadas.
 
-O UIKit controla o recolhimento, a expansão e os botões nativos da barra lateral. `primaryWidthFraction` indica uma fração preferida da largura disponível, sujeita aos limites do UIKit. Mostrar ou ocultar a coluna primária muda apenas a apresentação: selecionar um item continua chamando `push()`, acrescentando um detalhe e preservando as seleções anteriores. Voltar percorre esses detalhes e finalmente limpa a coluna. Back nativo, fechamento com guard, modais e `restore` mantêm a semântica de histórico descrita acima. A adaptação das colunas preserva as mesmas Pages e seu estado local.
+O UIKit controla o recolhimento, a expansão e os botões nativos da barra lateral. As colunas expandidas usam o layout lado a lado do UIKit. `primaryWidthFraction` indica uma fração preferida da largura disponível, sujeita aos limites do UIKit. Mostrar ou ocultar a coluna primária muda apenas a apresentação: selecionar um item continua chamando `push()`, acrescentando um detalhe e preservando as seleções anteriores. Voltar percorre esses detalhes e finalmente limpa a coluna. Back nativo, fechamento com guard, modais e `restore` mantêm a semântica de histórico descrita acima. A adaptação das colunas preserva as mesmas Pages e seu estado local.
 
 Para redimensionar a janela de verdade no iPad, permita multitarefa no `App_Resources/iOS/Info.plist` e suporte todas as orientações do iPad:
 

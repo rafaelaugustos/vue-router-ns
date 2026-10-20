@@ -112,7 +112,7 @@ const nativeColumns = supportsUIKitSplitView()
 
 The router plugin registers both components. Each uses the same route table, native Pages, guards, results and saved stack format. The choice is made when creating the window; it is not a runtime switch between mounted stacks.
 
-UIKit owns collapse/expansion and its system sidebar controls. `primaryWidthFraction` is a preferred fraction of the available width, subject to UIKit's constraints. Showing or hiding the primary column changes presentation only: selecting an item still calls `push()`, adds a detail and preserves previous selections. Back returns through those details and finally clears the detail column. Native Back, guarded dismissal, modals and `restore` retain the history semantics described above. Column adaptation keeps the same Pages and their local state.
+UIKit owns collapse/expansion and its system sidebar controls. Expanded columns use UIKit’s tiled layout. `primaryWidthFraction` is a preferred fraction of the available width, subject to UIKit's constraints. Showing or hiding the primary column changes presentation only: selecting an item still calls `push()`, adds a detail and preserves previous selections. Back returns through those details and finally clears the detail column. Native Back, guarded dismissal, modals and `restore` retain the history semantics described above. Column adaptation keeps the same Pages and their local state.
 
 For actual iPad window resizing, allow multitasking in `App_Resources/iOS/Info.plist` and support all iPad orientations:
 

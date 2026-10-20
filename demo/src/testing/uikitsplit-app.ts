@@ -174,7 +174,9 @@ function report(command: string, error?: unknown) {
     diagnostics: router.diagnostics!.snapshot(),
   }
   const path = `${knownFolders.documents().path}/uikitsplit-${data.pid}-${reportNumber}.json`
-  File.fromPath(path).writeTextSync(JSON.stringify(data, null, 2))
+  File.fromPath(path).writeTextSync(JSON.stringify(data, null, 2), (error) => {
+    throw error
+  })
   status.value = error ? `FAIL ${command}: ${error}` : `PASS ${command}`
   console.log('UIKIT_SPLIT', JSON.stringify(data))
 }

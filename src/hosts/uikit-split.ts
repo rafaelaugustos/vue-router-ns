@@ -16,14 +16,19 @@ export function createUIKitSplitHost(
 ): NativeHost<UIKitSplitFrames> {
   const expanded = shallowRef(false)
   const detailVisible = shallowRef(false)
-  const base = createSplitFrameHost(list, detail, { expanded, detailVisible })
+  const base = createSplitFrameHost(list, detail, {
+    expanded,
+    detailVisible,
+    // iOS 18 refuses to display an empty nested UINavigationController.
+    // Start the placeholder navigation before UIKit reveals its column.
+    revealDetail: () => view.showSecondary(),
+  })
   const native = { view, list, detail }
   const stop = watch(
     detailVisible,
     (visible) => {
       view.hasDetail = visible
-      if (visible) view.showSecondary()
-      else view.showPrimary()
+      if (!visible) view.showPrimary()
     },
     { flush: 'sync' },
   )

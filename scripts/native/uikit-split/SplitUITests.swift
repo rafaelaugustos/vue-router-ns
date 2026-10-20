@@ -15,8 +15,12 @@ final class SplitUITests: XCTestCase {
         button.tap()
         XCTAssertTrue(app.staticTexts["PASS \(name)"].firstMatch.waitForExistence(timeout: 20), app.debugDescription)
     }
-    func back() {
-        app.navigationBars.buttons.matching(identifier: "BackButton").firstMatch.tap()
+    func back(_ route: String, previous: String = "Back") {
+        let button = app.navigationBars[route].buttons.matching(
+            NSPredicate(format: "identifier == 'BackButton' OR label == %@ OR label == 'Back'", previous)
+        ).firstMatch
+        XCTAssertTrue(button.waitForExistence(timeout: 10), app.debugDescription)
+        button.tap()
     }
     func start() {
         continueAfterFailure = false
@@ -51,10 +55,10 @@ final class SplitUITests: XCTestCase {
             command("/detail/2", "identities")
         }
         command("/detail/2", "guard")
-        back()
+        back("/detail/2", previous: "/detail/1")
         command("/detail/2", "guarded")
         command("/detail/2", "guard")
-        back()
+        back("/detail/2", previous: "/detail/1")
         command("/detail/1", "capture")
         command("/detail/1", "hold")
         command("/detail/1", "modal")
@@ -67,10 +71,10 @@ final class SplitUITests: XCTestCase {
         command("/modal", "close")
         command("/detail/1", "identities")
         command("/detail/1", "guard")
-        back()
+        back("/detail/1")
         command("/detail/1", "guarded")
         command("/detail/1", "guard")
-        back()
+        back("/detail/1")
         command("/", "capture")
         command("/", "push")
         command("/detail/3", "replace")
