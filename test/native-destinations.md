@@ -62,10 +62,11 @@ clearing are not used as process-restoration evidence.
 
 ## Regression coverage and findings
 
-Eleven unit contract cases cover exactly-once results, guarded cancellation,
+Twelve unit contract cases cover exactly-once results, guarded cancellation,
 external/native back, reconstruction, unsupported platforms, factory failure,
 attachment rollback, late callbacks after native-view recreation, replacement/
-clearHistory and SDK cleanup errors. They use a container stand-in and do not
+clearHistory, SDK cleanup errors and a queued destination whose host unmounts
+before showing it. They use a container stand-in and do not
 claim to prove native containment.
 
 The native weak-reference check initially detected retention of the first

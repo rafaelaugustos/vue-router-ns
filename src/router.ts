@@ -422,6 +422,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     stack.host = null
     for (const entry of stack.entries.value) dispose(entry)
     stack.entries.value = []
+    // A queued destination may own SDK resources before its Page joins the
+    // visible native history (for example an unloaded tab closed by its owner).
+    if (stack.pending?.entry) dispose(stack.pending.entry)
     stack.pending?.resolve()
     stack.pending = undefined
   }

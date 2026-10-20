@@ -229,4 +229,18 @@ describe('native destinations', () => {
     )
     expect(router.currentRoute.value.path).toBe('/')
   })
+
+  it('disposes a destination queued in a host that unmounts before showing it', async () => {
+    const f = fixture()
+    const { router, app, frame } = await mount(f.routes)
+    frame().isLoaded = false
+    const result = router.pushForResult('/native/42')
+    await settle()
+    expect(f.create).toHaveBeenCalledTimes(1)
+    expect(router.stack.value).toHaveLength(1)
+    app.unmount()
+    expect(await result).toBeUndefined()
+    expect(f.dispose).toHaveBeenCalledTimes(1)
+    expect(f.contexts[0]!.page).toBeNull()
+  })
 })
