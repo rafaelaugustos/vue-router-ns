@@ -1,8 +1,15 @@
 # Changelog
 
-## Unreleased
+## 0.1.0-beta.13 (2026-10-20)
 
 - Experimental `defineNativeDestination()` routes embed existing UIKit controllers and AndroidX Fragments in native Pages. Platform factories receive typed input, guarded completion/cancellation, external-dismissal reporting and cleanup. History restoration recreates factories; native instances and pending results are never serialized. Includes English/Portuguese guides and native lifecycle, result, memory and restart acceptance in the required CI suite.
+
+- Opt-in `RouterUIKitSplitView` uses UIKit's native primary/secondary columns at the window root on iOS 18 and later. `supportsUIKitSplitView()` reports availability. Column adaptation preserves Pages and state, with native Back, guards, modals and restoration covered on iPhone and iPad.
+- `RouterSplitView` observes native Android fold posture and hinge bounds through the optional AndroidX WindowManager bridge. Its panes avoid separating folds and occluding hinges, including horizontal layouts and RTL, while retaining their existing Frames, history and page state. `foldAware: false` opts out; devices without the bridge retain width-based adaptation.
+- Native flows now use the originating page's AndroidX Activity Result registry, settle and clean up every terminal outcome, and reject stale callbacks after replacement or disposal. Document-picker presentation uses the owning page/controller, with explicit handling of concurrent UIKit presentations and Activity recreation. Existing Promises are not restored after process death.
+- Required native CI now covers Android 14/16 and iOS 18.6 navigation contracts, real back gestures and cancellation, transition performance baselines, repeated-cycle memory checks, HMR regression controls, system pickers, iPhone/iPad split navigation and foldable layouts. Android page-state acceptance verifies restoration after native process death, including duplicate-route entries, schema migration and lazy tab restoration.
+
+Validation: 470 tests passed (10 existing skips), with package/demo typechecks and builds. The [complete native suite](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/39483473469) passed on the implementation included in this release. Native destinations and UIKit split navigation remain experimental; platform requirements and validation limits are documented in the guides.
 
 ## 0.1.0-beta.12 (2026-10-19)
 
