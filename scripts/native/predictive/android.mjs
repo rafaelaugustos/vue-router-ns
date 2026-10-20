@@ -90,6 +90,7 @@ async function systemUi() {
 async function prepareLauncher() {
   await adb('shell', 'input', 'keyevent', '3')
   let stable = 0
+  let launcherRecoveries = 0
   await until(
     async () => {
       const state = await systemUi()
@@ -98,9 +99,38 @@ async function prepareLauncher() {
       const focused = windows
         .split('\n')
         .some((line) => line.includes('mCurrentFocus=') && line.includes('nexuslauncher'))
-      await adb('shell', 'uiautomator', 'dump', '/sdcard/predictive-launcher.xml')
-      const hierarchy = await adb('shell', 'cat', '/sdcard/predictive-launcher.xml')
+      let hierarchy
+      try {
+        await adb('shell', 'rm', '-f', '/sdcard/predictive-launcher.xml')
+        await adb('shell', 'uiautomator', 'dump', '/sdcard/predictive-launcher.xml')
+        hierarchy = await adb('shell', 'cat', '/sdcard/predictive-launcher.xml')
+      } catch (error) {
+        // A cold launcher can have no accessibility root yet. This is only a
+        // readiness probe, before the app or any test scenario has started.
+        await writeFile(resolve(out, 'launcher-probe-error.txt'), String(error))
+        stable = 0
+        return false
+      }
       await writeFile(resolve(out, 'launcher.xml'), hierarchy)
+      if (hierarchy.includes('text="Pixel Launcher isn\'t responding"')) {
+        assert.equal(launcherRecoveries++, 0, 'Repeated Pixel Launcher ANR')
+        await screenshot('pixel-launcher-anr')
+        const close = (hierarchy.match(/<node\b[^>]*>/g) ?? []).find((node) =>
+          node.includes('text="Close app"'),
+        )
+        const bounds = /bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"/.exec(close ?? '')
+        assert(bounds, 'Visible launcher Close app button')
+        await adb(
+          'shell',
+          'input',
+          'tap',
+          String(Math.round((+bounds[1] + +bounds[3]) / 2)),
+          String(Math.round((+bounds[2] + +bounds[4]) / 2)),
+        )
+        await adb('shell', 'input', 'keyevent', '3')
+        stable = 0
+        return false
+      }
       const edge = state.split('EdgeBackGestureHandler:')[1] ?? ''
       const ready =
         focused &&
