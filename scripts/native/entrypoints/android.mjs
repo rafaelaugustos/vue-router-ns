@@ -89,36 +89,68 @@ async function hierarchy() {
   await adb('shell', 'uiautomator', 'dump', '/sdcard/entrypoints.xml')
   return adb('shell', 'cat', '/sdcard/entrypoints.xml')
 }
-async function tap(name, hold = false) {
-  const xml = await hierarchy()
-  const node = (xml.match(/<node\b[^>]*>/g) ?? []).find(
+function control(xml, name) {
+  return (xml.match(/<node\b[^>]*>/g) ?? []).find(
     (node) => node.includes(`text="${name}"`) || node.includes(`content-desc="${name}"`),
   )
-  assert(node, `Visible launcher control ${name}: ${xml}`)
+}
+async function press(node, hold = false) {
   const bounds = /bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"/.exec(node)
   assert(bounds)
   const x = String(Math.round((+bounds[1] + +bounds[3]) / 2))
   const y = String(Math.round((+bounds[2] + +bounds[4]) / 2))
   await adb('shell', 'input', ...(hold ? ['swipe', x, y, x, y, '1000'] : ['tap', x, y]))
 }
+async function tap(name) {
+  const xml = await hierarchy()
+  const node = control(xml, name)
+  if (!node) await writeFile(`${out}/missing-control.xml`, xml)
+  assert(node, `Visible launcher control ${name}; see missing-control.xml`)
+  await press(node)
+}
 async function shortcut(title) {
-  await adb('shell', 'input', 'keyevent', 'KEYCODE_HOME')
-  await pause(400)
   const size = /Physical size: (\d+)x(\d+)/.exec(await adb('shell', 'wm', 'size'))
-  await adb(
-    'shell',
-    'input',
-    'swipe',
-    String(+size[1] / 2),
-    String(+size[2] * 0.85),
-    String(+size[1] / 2),
-    String(+size[2] * 0.15),
-    '400',
-  )
-  await pause(500)
-  await tap(process.env.ENTRYPOINT_APP_LABEL ?? 'demo', true)
-  await writeFile(`${out}/launcher-menu.xml`, await hierarchy())
-  await tap(title)
+  const label = process.env.ENTRYPOINT_APP_LABEL ?? 'demo'
+  let xml = ''
+  // A Home animation can still occlude input after am/input returns. Wait for
+  // an idle hierarchy and verify the app drawer before pressing an icon. A
+  // predicted home-screen icon may instead open launcher onboarding.
+  for (let attempt = 0; attempt < 3; attempt++) {
+    await adb('shell', 'input', 'keyevent', 'KEYCODE_HOME')
+    await hierarchy()
+    await adb(
+      'shell',
+      'input',
+      'swipe',
+      String(+size[1] / 2),
+      String(+size[2] * 0.85),
+      String(+size[1] / 2),
+      String(+size[2] * 0.15),
+      '400',
+    )
+    xml = await hierarchy()
+    const drawer = /resource-id="[^"]*\/apps_(?:view|list_view|recycler_view)"/.test(xml)
+    const icon = (xml.match(/<node\b[^>]*>/g) ?? []).find(
+      (node) =>
+        node.includes(`content-desc="${label}"`) &&
+        node.includes('long-clickable="true"'),
+    )
+    if (!drawer || !icon) continue
+    await press(icon, true)
+    for (let poll = 0; poll < 3; poll++) {
+      xml = await hierarchy()
+      const action = control(xml, title)
+      if (action) {
+        await writeFile(`${out}/launcher-menu.xml`, xml)
+        await press(action)
+        return
+      }
+      await pause(200)
+    }
+    await adb('shell', 'input', 'keyevent', 'KEYCODE_BACK')
+  }
+  await writeFile(`${out}/launcher-menu.xml`, xml)
+  assert.fail(`Launcher did not expose ${title}; see launcher-menu.xml`)
 }
 async function screenshot(name) {
   await adb('shell', 'screencap', '-p', `/sdcard/${name}.png`)
