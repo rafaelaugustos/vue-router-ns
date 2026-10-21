@@ -14,6 +14,8 @@ export interface SplitFrameHostOptions {
   expanded: Readonly<Ref<boolean>>
   /** Set by the host: the detail pane has a page to show. */
   detailVisible: Ref<boolean>
+  /** Controller-backed containers reveal only after the native detail root exists. */
+  revealDetail?: () => void
 }
 
 export interface SplitFrames {
@@ -114,7 +116,9 @@ export function createSplitFrameHost(
       options.detailVisible.value = true
       await nextTick()
       if (disposed) return
-      await reset(pushOptions.clearHistory)
+      const ready = reset(pushOptions.clearHistory)
+      options.revealDetail?.()
+      await ready
       if (disposed) return
       // the reset above already cleared the history
       navigateFrame(detail, component, { ...pushOptions, clearHistory: false })
@@ -124,8 +128,8 @@ export function createSplitFrameHost(
       const page = target === list.currentPage ? placeholder : target
       popFrame(detail, page, backOptions)
     },
-    previewBack: (top, below, commit, onDispose) =>
-      previewBack(detail, top, below, commit, onDispose),
+    previewBack: (top, below, commit, onDispose, options) =>
+      previewBack(detail, top, below, commit, onDispose, options?.preferCore),
     ownsSystemBack: () => {
       const topmost = Frame.topmost()
       return topmost === detail || topmost === list

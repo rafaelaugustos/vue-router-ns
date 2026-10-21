@@ -150,8 +150,8 @@ export function createFrameHost(
       const controller = frame.ios?.controller
       if (controller) controller.modalInPresentation = hold
     },
-    previewBack: (top, below, commit, onDispose) =>
-      previewBack(frame, top, below, commit, onDispose),
+    previewBack: (top, below, commit, onDispose, options) =>
+      previewBack(frame, top, below, commit, onDispose, options?.preferCore),
     ownsSystemBack: () => Frame.topmost() === frame,
     parts: () => [
       { role: 'main', native: frame, loaded: !!frame.isLoaded, pages: framePages(frame) },

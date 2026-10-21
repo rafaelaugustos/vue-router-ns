@@ -47,7 +47,7 @@ interface MountOptions {
   /** Runs before the app starts, e.g. to add guards that see the initial navigation. */
   before?: (router: Router) => void
   restore?: RestoreOptions
-  backPreview?: boolean
+  backPreview?: boolean | 'core'
   diagnostics?: import('../src/index.js').DiagnosticsOptions | boolean
   motion?: import('../src/index.js').MotionPolicy
   links?: import('../src/index.js').LinksOptions | boolean

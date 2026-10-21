@@ -7,12 +7,25 @@ module.exports = (env) => {
   webpack.chainWebpack((config) => {
     config.plugin('DefinePlugin').tap((args) => {
       args[0].__ROUTER_STARTUP_TRACE__ = JSON.stringify(!!env.startupTrace)
+      args[0].__PREDICTIVE_CORE__ = JSON.stringify(!!env.predictiveCore)
+      args[0].__CONTRACT_FAULT__ = JSON.stringify(!!env.contractFault)
       return args
     })
     // Separate opt-in acceptance fixtures; the normal demo keeps explicit routes.
-    const fixtures = ['drawer', 'middleware', 'layouts', 'files', 'state'].filter(
-      (name) => env[`${name}Test`],
-    )
+    const fixtures = [
+      'drawer',
+      'middleware',
+      'layouts',
+      'files',
+      'state',
+      'folds',
+      'flows',
+      'contracts',
+      'uikitsplit',
+      'destinations',
+      'predictive',
+      'predictiveplain',
+    ].filter((name) => env[`${name}Test`])
     if (fixtures.length > 1) throw new Error('Select only one native acceptance fixture')
     if (fixtures.length) {
       const entry = config.entry('bundle')
@@ -43,6 +56,25 @@ module.exports = (env) => {
         .use('page-meta')
         .loader(resolve(__dirname, '../scripts/native/page-meta-loader.cjs'))
     }
+    if (env.contractFault) {
+      if (!env.contractsTest) throw new Error('contractFault requires contractsTest')
+      config.module
+        .rule('covered-hmr-regression')
+        .include.add(resolve(__dirname, '../dist/page.js'))
+        .end()
+        .use('covered-hmr-regression')
+        .loader(resolve(__dirname, '../scripts/native/contracts/hmr-regression.cjs'))
+    }
+    if (env.startupTrace) {
+      config.module
+        .rule('native-disposal-trace')
+        .include.add(
+          resolve(__dirname, 'node_modules/nativescript-vue/dist/plugins/navigation.js'),
+        )
+        .end()
+        .use('native-disposal-trace')
+        .loader(resolve(__dirname, '../scripts/native/disposal-trace.cjs'))
+    }
     config.resolve.alias
       // the router from this repository: run `npm run dev` at the root
       .set('vue-router-ns$', resolve(__dirname, '../dist/index.js'))
@@ -52,7 +84,12 @@ module.exports = (env) => {
       )
       // sharing this app's copies of Vue and NativeScript
       .set('nativescript-vue', resolve(__dirname, 'node_modules/nativescript-vue'))
-      .set('@nativescript/core', resolve(__dirname, 'node_modules/@nativescript/core'))
+      .set(
+        '@nativescript/core',
+        env.predictiveCore
+          ? resolve(env.predictiveCore)
+          : resolve(__dirname, 'node_modules/@nativescript/core'),
+      )
   })
 
   return webpack.resolveConfig()

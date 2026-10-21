@@ -1,4 +1,4 @@
-import { Application, Device, isAndroid, isIOS } from '@nativescript/core'
+import { Device, isAndroid, isIOS } from '@nativescript/core'
 import type { NativeFlow } from '../native-flows.js'
 
 export interface DocumentPickerInput {
@@ -8,7 +8,7 @@ export interface DocumentPickerInput {
 }
 
 export interface DocumentPickerResult {
-  /** Scoped URIs the platform granted: `content://` on Android, `file://` security-scoped on iOS. */
+  /** Selected URI strings: `content://` on Android, `file://` on iOS. Access lifetime is app-owned. */
   uris: string[]
 }
 
@@ -42,10 +42,11 @@ declare const UIDocumentPickerViewController: {
 }
 declare const UTType: {
   typeWithMIMEType(mime: string): unknown
-  item: unknown
-  data: unknown
+  typeWithIdentifier(identifier: string): unknown
 }
 declare const NSArray: { arrayWithArray(items: unknown[]): unknown }
+
+const presentingWindows = new WeakSet<object>()
 
 let PickerDelegate: { new (): any } | undefined
 
@@ -80,9 +81,6 @@ function startAndroid(
   input: DocumentPickerInput,
   context: Parameters<NativeFlow<DocumentPickerInput, DocumentPickerResult>['start']>[1],
 ) {
-  const activity =
-    Application.android.foregroundActivity ?? Application.android.startActivity
-  if (!activity) throw new Error('[vue-router-ns] No activity to pick a document from')
   const Intent = android.content.Intent
   const intent = new Intent(Intent.ACTION_OPEN_DOCUMENT)
     .addCategory(Intent.CATEGORY_OPENABLE)
@@ -90,7 +88,7 @@ function startAndroid(
   if (input.types && input.types.length > 1)
     intent.putExtra(Intent.EXTRA_MIME_TYPES, input.types)
   if (input.multiple) intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-  context.onActivityResult((resultCode, result: AndroidIntent | null) => {
+  context.launchActivity(intent, (resultCode, result: AndroidIntent | null) => {
     if (resultCode !== android.app.Activity.RESULT_OK) {
       context.cancel()
       return
@@ -106,7 +104,6 @@ function startAndroid(
     }
     context.complete({ uris })
   })
-  ;(activity as any).startActivityForResult(intent, context.requestCode)
 }
 
 function startIOS(
@@ -117,6 +114,15 @@ function startIOS(
   if (!controller)
     throw new Error(
       '[vue-router-ns] No view controller to present a document picker from',
+    )
+  const owner = controller.view?.window ?? controller
+  if (
+    presentingWindows.has(owner) ||
+    controller.presentedViewController ||
+    controller.beingDismissed
+  )
+    throw new Error(
+      '[vue-router-ns] The originating controller is already presenting native UI',
     )
   PickerDelegate ??= NSObject.extend(
     {
@@ -134,18 +140,37 @@ function startIOS(
     },
     { protocols: [UIDocumentPickerDelegate] },
   )
-  const types = (input.types ?? [])
-    .map((mime) => UTType.typeWithMIMEType(mime))
-    .filter((type) => !!type)
+  const wildcards: Record<string, string> = {
+    '*/*': 'public.item',
+    'image/*': 'public.image',
+    'audio/*': 'public.audio',
+    'video/*': 'public.movie',
+    'text/*': 'public.text',
+  }
+  const types = (input.types?.length ? input.types : ['*/*']).map((mime) => {
+    const type = wildcards[mime]
+      ? UTType.typeWithIdentifier(wildcards[mime]!)
+      : UTType.typeWithMIMEType(mime)
+    if (!type) throw new Error(`[vue-router-ns] Unsupported document MIME type: ${mime}`)
+    return type
+  })
   const picker = UIDocumentPickerViewController.alloc().initForOpeningContentTypes(
-    NSArray.arrayWithArray(types.length ? types : [UTType.item]),
+    NSArray.arrayWithArray(types),
   )
   picker.allowsMultipleSelection = !!input.multiple
   const delegate = new PickerDelegate()
   delegate._context = context
   picker.delegate = delegate
-  controller.presentViewControllerAnimatedCompletion(picker, true, null)
+  presentingWindows.add(owner)
+  try {
+    controller.presentViewControllerAnimatedCompletion(picker, true, null)
+  } catch (error) {
+    presentingWindows.delete(owner)
+    delegate._context = undefined
+    throw error
+  }
   return () => {
+    presentingWindows.delete(owner)
     delegate._context = undefined
     if (picker.presentingViewController)
       picker.dismissViewControllerAnimatedCompletion(true, null)

@@ -114,7 +114,12 @@ export class View extends Observable {
 
   /** Lets the androidx stand-in find the dialog or activity a view lives in. */
   get nativeView() {
-    return this.native ?? { owner: this.dialog ?? Application.android.foregroundActivity }
+    return (
+      this.native ?? {
+        owner: this.dialog ?? Application.android.foregroundActivity,
+        getContext: () => this._context ?? Application.android.foregroundActivity,
+      }
+    )
   }
   get nativeViewProtected() {
     return this.nativeView
@@ -521,6 +526,46 @@ class CoreBackCallback extends OnBackPressedCallback {
   }
 }
 
+export class ActivityResultRegistry {
+  static nextCode = 0x10000
+  keys = new Map<string, number>()
+  callbacks = new Map<number, any>()
+  pending = new Map<number, any>()
+  constructor(readonly activity: Activity) {}
+  restore(previous: ActivityResultRegistry) {
+    this.keys = new Map(previous.keys)
+  }
+  register(key: string, _contract: unknown, callback: any) {
+    const code = this.keys.get(key) ?? ActivityResultRegistry.nextCode++
+    this.keys.set(key, code)
+    this.callbacks.set(code, callback)
+    if (this.pending.has(code)) {
+      callback.onActivityResult(this.pending.get(code))
+      this.pending.delete(code)
+    }
+    return {
+      launch: (intent: any) =>
+        Activity.launched.push({
+          intent,
+          requestCode: code,
+          activity: this.activity,
+          key,
+        }),
+      unregister: () => {
+        this.callbacks.delete(code)
+      },
+    }
+  }
+  dispatchResult(code: number, resultCode: number, intent: any) {
+    if (![...this.keys.values()].includes(code)) return false
+    const value = { getResultCode: () => resultCode, getData: () => intent }
+    const callback = this.callbacks.get(code)
+    if (callback) callback.onActivityResult(value)
+    else this.pending.set(code, value)
+    return true
+  }
+}
+
 export class Activity {
   finished = false
   private dispatcher = new BackDispatcher(() => (this.finished = true))
@@ -546,7 +591,16 @@ export class Activity {
   }
 
   /** What was launched for a result, by request code. */
-  static launched: { intent: any; requestCode: number }[] = []
+  static launched: {
+    intent: any
+    requestCode: number
+    activity?: Activity
+    key?: string
+  }[] = []
+  private registry = new ActivityResultRegistry(this)
+  getActivityResultRegistry() {
+    return this.registry
+  }
 
   startActivityForResult(intent: unknown, requestCode: number) {
     Activity.launched.push({ intent, requestCode })
@@ -1167,6 +1221,7 @@ export function installDocumentPicker(): () => void {
   const g = globalThis as any
   const previous = {
     android: g.android,
+    androidx: g.androidx,
     NSObject: g.NSObject,
     UIDocumentPickerDelegate: g.UIDocumentPickerDelegate,
     UIDocumentPickerViewController: g.UIDocumentPickerViewController,
@@ -1201,6 +1256,21 @@ export function installDocumentPicker(): () => void {
     content: { ...(g.android?.content ?? {}), Intent },
     app: { ...(g.android?.app ?? {}), Activity: { RESULT_OK: -1 } },
   }
+  class Callback {
+    constructor(methods: object) {
+      Object.assign(this, methods)
+    }
+  }
+  g.androidx = {
+    ...g.androidx,
+    activity: {
+      ...g.androidx?.activity,
+      result: {
+        ActivityResultCallback: Callback,
+        contract: { ActivityResultContracts: { StartActivityForResult: class {} } },
+      },
+    },
+  }
   g.NSObject = {
     extend(methods: object) {
       return class {
@@ -1211,7 +1281,10 @@ export function installDocumentPicker(): () => void {
     },
   }
   g.UIDocumentPickerDelegate = {}
-  g.UTType = { typeWithMIMEType: (mime: string) => `uttype:${mime}`, item: 'uttype:item' }
+  g.UTType = {
+    typeWithMIMEType: (mime: string) => `uttype:${mime}`,
+    typeWithIdentifier: (id: string) => `uttype:${id}`,
+  }
   g.NSArray = { arrayWithArray: (items: unknown[]) => items }
   g.UIDocumentPickerViewController = {
     alloc: () => ({
@@ -1256,13 +1329,20 @@ export const activityResults = {
                   }
                 : null,
           }
-    Application.android.notify({
-      eventName: 'activityResult',
-      object: Application.android,
-      requestCode,
-      resultCode: uris === null ? 0 : -1,
-      intent,
-    })
+    const activity = Application.android.foregroundActivity!
+    if (
+      !activity
+        .getActivityResultRegistry()
+        .dispatchResult(requestCode, uris === null ? 0 : -1, intent)
+    )
+      Application.android.notify({
+        eventName: 'activityResult',
+        object: Application.android,
+        activity,
+        requestCode,
+        resultCode: uris === null ? 0 : -1,
+        intent,
+      })
   },
 }
 

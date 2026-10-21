@@ -22,11 +22,19 @@ Run checks before launching, not after: `picker.run(input, { before: () => sessi
 
 ## The document picker
 
-`createDocumentPicker()` opens `ACTION_OPEN_DOCUMENT` on Android and `UIDocumentPickerViewController` on iOS 14 and later, presented from the page's own view controller. `types` are MIME types, `multiple` allows several. The result is scoped URIs: `content://` on Android, security-scoped `file://` URLs on iOS. Reading them, keeping persistent access and copying what the app needs is the app's job, with the platform's own APIs; the router never hands out filesystem paths it does not have.
+`createDocumentPicker()` opens `ACTION_OPEN_DOCUMENT` through the originating page's AndroidX Activity Result registry, or `UIDocumentPickerViewController` from that page's own controller on iOS 14 and later. A mounted page is required. `types` accepts MIME types, including `image/*`, `audio/*`, `video/*`, `text/*` and `*/*`; `multiple` allows several documents.
+
+Results contain URI strings: `content://` on Android and `file://` on iOS. A URI is not a filesystem path or a permanent access grant. Reading/copying data, Android persistable URI permissions, and iOS security-scoped URL access/bookmarks belong to the app. Use a custom adapter when you need the original native result objects to manage that access.
+
+Separate handles can run independently on Android. UIKit has one presentation slot per window: a simultaneous second document picker resolves as `failed`, instead of leaving a pending Promise. Wait for dismissal before presenting another controller. A newer invocation on the same handle replaces the previous attempt; asynchronous guards cannot launch an older invocation over a newer one.
 
 ## Writing a flow
 
-A flow is an object with a `kind`, an optional `supported()` and a `start(input, context)`. The context has the page, a reserved Android `requestCode` with `onActivityResult(handler)` wired to core's `activityResult` event, and `complete`, `cancel` and `fail`. Return a function from `start` to be told when the attempt is abandoned, to dismiss a controller for example. Request codes come from a range of their own, so they do not collide with other plugins', and concurrent attempts settle independently.
+A flow has a `kind`, optional `supported()` and `start(input, context)`. The context provides the originating `page`, correlation `id`, `complete`, `cancel` and `fail`. Return a cleanup function from `start`: it runs on **every terminal outcome**, including success, cancellation, failure and disposal. Release delegates/listeners and dismiss owned native UI there.
+
+On Android, call `context.launchActivity(intent, (resultCode, intent) => { ... })`. It registers with the originating Activity's AndroidX registry, launches once, and removes the registration when the flow settles. Parse the native result and call `complete`, `cancel` or `fail`. Parser exceptions become failed outcomes. Registration does not use a globally selected foreground Activity.
+
+`requestCode` and `onActivityResult(handler)` remain for legacy adapters. Their reserved numeric range is not a guarantee against unrelated plugins using the same codes; new adapters should use `launchActivity`.
 
 ```ts
 const share: NativeFlow<string, void> = {
@@ -46,4 +54,10 @@ const share: NativeFlow<string, void> = {
 
 ## Rotation and process death
 
-An Android activity recreated during the flow, for a rotation, still gets the result: the attempt is keyed by request code in the JavaScript process, which survives. Process death does not: there is no promise to resolve when the app comes back, and the result the system delivers to the new process is dropped. A page that must survive that keeps "a picker was open" in its [page state](./restore#page-state) and asks again, or reads what the system already granted.
+The AndroidX adapter stores the attempt's registration key in the Activity's saved instance state and rebinds that key after recreation **while the originating page and JavaScript attempt remain alive**. It does not launch the external Activity twice. Destruction of the owner without configuration change cancels with `disposed`.
+
+Page lifetime takes precedence. With NativeScript-Vue 3.1.2, explicit `Activity.recreate()` disposes the originating Vue page: its pending flow resolves with `cancelled/disposed`. A late system result cannot settle that attempt again or complete a new one. Ordinary rotation handled by the existing Activity can retain the attempt.
+
+No Promise survives process death. Persist an application-owned “picker was open” marker in [page state](./restore#page-state) or app storage, then decide whether to retry or recover previously granted access after restart. The router does not replay an old result into a fresh flow. Persisting a marker does not persist the document permission itself.
+
+`useNativeFlow` disposes attempts with their page. Lower-level `startNativeFlow` callers must call the returned `dispose()` when their owner closes. System UI does not create a router entry or trigger router page deactivation; normal platform background/foreground events still apply.

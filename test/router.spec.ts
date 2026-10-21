@@ -719,7 +719,11 @@ describe('Android back preview', () => {
   })
 
   const setup = async (
-    options: { backPreview?: boolean; refuseBack?: boolean; motion?: 'reduced' } = {},
+    options: {
+      backPreview?: boolean | 'core'
+      refuseBack?: boolean
+      motion?: 'reduced'
+    } = {},
   ) => {
     const { router, frame, app } = await mount(routes, {
       platform: 'android',
@@ -738,6 +742,57 @@ describe('Android back preview', () => {
     frame().currentPage!.native = list
     return { router, container, home, list, app }
   }
+
+  it.each([false, true])(
+    'uses opt-in Core through router guards (refused: %s)',
+    async (refuseBack) => {
+      const { router, app, container } = await setup({ backPreview: 'core', refuseBack })
+      let active = true
+      let notify = () => {}
+      const session = {
+        version: 1,
+        get active() {
+          return active
+        },
+        update: vi.fn(),
+        finish: vi.fn(async () => true),
+        cancel: vi.fn(() => {
+          active = false
+          notify()
+        }),
+        dispose: vi.fn(() => {
+          if (active) {
+            active = false
+            notify()
+          }
+        }),
+      }
+      ;(Frame.topmost() as any).beginBackPreview = ({ onDispose }: any) => {
+        notify = onDispose
+        return session
+      }
+      const swipe = swipeAndroidBack()
+      swipe.move(0.7)
+      expect(container.children).toEqual([])
+      expect(session.update).toHaveBeenCalledWith(0.7, 'left')
+      swipe.release()
+      await settle()
+      expect(paths(router.stack.value)).toEqual(refuseBack ? ['/', '/list'] : ['/'])
+      if (refuseBack) expect(session.cancel).toHaveBeenCalledOnce()
+      else expect(session.dispose).toHaveBeenCalled()
+      app.unmount()
+    },
+  )
+
+  it('keeps the legacy preview when experimental Core is unavailable', async () => {
+    const { router, app, container, home } = await setup({ backPreview: 'core' })
+    const swipe = swipeAndroidBack()
+    expect(container.children).toEqual([home])
+    swipe.release()
+    await settle()
+    expect(paths(router.stack.value)).toEqual(['/'])
+    app.unmount()
+  })
 
   it('puts the page below behind the one on top while the swipe moves', async () => {
     const { container, home, list } = await setup()

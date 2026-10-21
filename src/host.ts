@@ -120,6 +120,7 @@ export interface NativeHost<TNative extends object = object> {
     below: Page,
     commit: () => Promise<unknown>,
     onDispose: () => void,
+    options?: { preferCore?: boolean },
   ): BackPreview | undefined
   /** Whether the system back of the current window belongs to this host. */
   ownsSystemBack?(): boolean

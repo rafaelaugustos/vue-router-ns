@@ -69,6 +69,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('keyboard', 'keyboard'),
         page('accessibility', 'accessibility'),
         page('flows', 'native-flows'),
+        page('destinations', 'native-destinations'),
       ],
     },
     {
@@ -119,6 +120,7 @@ const en = {
   internals: 'How it works',
   diagnostics: 'Navigation diagnostics',
   hosts: 'Native hosts (experimental)',
+  destinations: 'Native destinations (experimental)',
 }
 
 const pt = {
@@ -156,6 +158,7 @@ const pt = {
   internals: 'Como funciona',
   diagnostics: 'Diagnóstico de navegação',
   hosts: 'Hosts nativos (experimental)',
+  destinations: 'Destinos nativos (experimental)',
 }
 
 export default defineConfig({
