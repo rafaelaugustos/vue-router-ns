@@ -34,7 +34,7 @@ The [English guide](../../docs/guide/file-routing.md) and [Portuguese guide](../
 
 ## Vite (experimental)
 
-Use Node 22. The example defaults to webpack; select Vite explicitly:
+Use Node 22. The example defaults to webpack; select Vite explicitly. When switching builders on an existing native build, add `--clean` (for example `npm run run:vite:android -- --clean`) so the CLI rebuilds the native entrypoint:
 
 ```sh
 npm run run:vite:android

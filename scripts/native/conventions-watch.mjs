@@ -63,6 +63,8 @@ process.on('SIGTERM', () => {
 const args = [
   'run',
   platform,
+  // Switching webpack/Vite can otherwise retain the previous APK's entrypoint.
+  '--clean',
   '--device',
   serial,
   '--env.conventionsTest',
@@ -125,6 +127,11 @@ async function waitFor(test, description, timeout = 180000) {
     if (processExited)
       throw new Error(
         `NativeScript stopped while ${description}: ${cliOutput.slice(-5000)}`,
+      )
+    const runningId = cliOutput.match(/CONVENTIONS_PHASE (\d+) ready/)?.[1]
+    if (runningId && runningId !== id)
+      throw new Error(
+        `NativeScript launched a stale app (${runningId}, expected ${id}); clean its platform build before retrying`,
       )
     // Some CLI versions stall discovering the launcher after syncing the APK.
     if (

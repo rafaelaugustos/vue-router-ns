@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0-beta.14 (2026-10-20)
+## 0.1.0-beta.14 (2026-10-21)
 
 - Optional `vue-router-ns/file-routing/vite` integrates the existing native router with NativeScript Vite. Generated routes/types, layouts and middleware work with either bundler; explicit routes keep their API.
 - Opt-in `metadataFiles: true` reads validated `.route.json` files beside selected pages. Native Vite HMR updates route tables and existing middleware without recreating the router or open entries. The shared native example and English/Portuguese guides cover both builders and error recovery.
