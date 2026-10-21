@@ -5,6 +5,9 @@ final class EntrypointUITests: XCTestCase {
     let app = XCUIApplication(bundleIdentifier: "org.nativescript.vuerouterns")
     let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
     override func setUp() { continueAfterFailure = false }
+    override func tearDown() {
+        if let run = testRun, run.failureCount > 0 { capture("failure-screen") }
+    }
     func capture(_ name: String) {
         let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         attachment.name = name

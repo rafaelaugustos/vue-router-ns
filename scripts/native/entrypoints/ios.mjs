@@ -55,6 +55,27 @@ try {
 } catch (error) {
   failure = error
   await writeFile(`${out}/xcodebuild.log`, String(error.stdout) + String(error.stderr))
+  const log = await run(
+    'xcrun',
+    [
+      'simctl',
+      'spawn',
+      sim,
+      'log',
+      'show',
+      '--last',
+      '10m',
+      '--style',
+      'compact',
+      '--predicate',
+      'process == "demo" OR process == "searchd"',
+    ],
+    { timeout: 30000 },
+  ).then(
+    (result) => result.stdout,
+    (error) => String(error),
+  )
+  await writeFile(`${out}/native-failure.log`, log)
 }
 const container = (
   await run('xcrun', ['simctl', 'get_app_container', sim, pkg, 'data'])

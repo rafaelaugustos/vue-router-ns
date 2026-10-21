@@ -277,6 +277,7 @@ const first = makeSession('a')
 first.app.start()
 
 async function command(name: string, session = first, scoped = session.router) {
+  session.status.value = `RUN ${name}`
   try {
     const router = session.router
     if (name === 'back') await scoped.back({ animated: false })
@@ -326,8 +327,10 @@ async function command(name: string, session = first, scoped = session.router) {
     else if (name === 'signout') {
       ApplicationSettings.remove('entrypoints:login')
       router.setShortcuts([])
+      const indexed = ApplicationSettings.getBoolean('entrypoints:search')
       ApplicationSettings.setBoolean('entrypoints:search', false)
-      await session.search.remove()
+      // Shortcut-only scenarios have never opted into Spotlight indexing.
+      if (indexed) await session.search.remove()
     } else if (name === 'search-index') {
       ApplicationSettings.setBoolean('entrypoints:search', true)
       check(
