@@ -1,12 +1,17 @@
 import type { Frame as NativeFrame } from '@nativescript/core'
 import { createApp, h } from 'nativescript-vue'
 import { describe, expect, it, vi } from 'vitest'
-import { createRouter, mountNativeHost, supportsUIKitSplitView } from '../src/index.js'
+import {
+  createRouter,
+  mountNativeHost,
+  supportsUIKitSplitView,
+  type SavedStacks,
+} from '../src/index.js'
 import { createUIKitSplitHost } from '../src/hosts/uikit-split.js'
 import { uikitSplitViewClass, type UIKitSplitView } from '../src/uikit-split.js'
 import { describeNativeHostContract } from './host-contract.js'
 import { page } from './helpers.js'
-import { Frame, resetNative, setPlatform } from './shims/core.js'
+import { Frame, NativeWindow, resetNative, setPlatform } from './shims/core.js'
 
 function fixture() {
   const list = new Frame()
@@ -30,6 +35,54 @@ function fixture() {
 describeNativeHostContract('UIKit split', fixture)
 
 describe('UIKit column integration', () => {
+  it('retains saved history when initial column layout precedes window restoration', async () => {
+    resetNative()
+    setPlatform('ios')
+    let saved: SavedStacks | null = {
+      version: 2,
+      savedAt: Date.now(),
+      windowKey: 'primary',
+      stacks: { default: ['/', '/detail'] },
+    }
+    let finishLoad!: () => void
+    const loading = new Promise<void>((resolve) => {
+      finishLoad = resolve
+    })
+    const router = createRouter({
+      routes: [
+        { path: '/', component: page('List') },
+        { path: '/detail', component: page('Detail') },
+      ],
+      restore: {
+        load: async () => {
+          await loading
+          return saved
+        },
+        save: (state) => {
+          saved = state
+        },
+      },
+    })
+    const app = createApp({ render: () => h('GridLayout') }).use(router)
+    app.start()
+    const { host, view, list } = fixture()
+    list.isLoaded = false
+    const unmount = mountNativeHost(router, 'default', host)
+    const window = Object.assign(new NativeWindow('split'), { isPrimary: true })
+    list.isLoaded = true
+    window.setContent(list)
+    view.columnsChanged!()
+    await Promise.resolve()
+    await Promise.resolve()
+    view.columnsChanged!()
+    finishLoad()
+    await router.isReady()
+    expect(router.stack.value.map((route) => route.path)).toEqual(['/', '/detail'])
+    expect(saved!.stacks.default).toEqual(['/', '/detail'])
+    unmount()
+    app.unmount()
+  })
+
   it('does not load a UIKit view on Android or Core without SplitView', () => {
     setPlatform('android')
     expect(supportsUIKitSplitView()).toBe(false)

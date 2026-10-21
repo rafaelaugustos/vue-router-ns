@@ -761,10 +761,13 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
   const restore = options.restore
   let loaded: Promise<SavedStacks | null | undefined> | undefined
+  let restoreLoaded = false
   let restoring = false
 
   function persist() {
-    if (stopped || !restore || restoring) return
+    // Native layout callbacks can fire before the window is bound or while an
+    // async restore is loading. Do not overwrite its snapshot with empty stacks.
+    if (stopped || !restore || !restoreLoaded || restoring) return
     const limit = restore.stateLimit ?? DEFAULT_STATE_LIMIT
     const stacks: Record<string, string[]> = {}
     const entries: Record<string, SavedEntry[]> = {}
@@ -804,6 +807,10 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       .catch((error) => {
         if (__DEV__) console.warn('[vue-router-ns] restore.load() failed:', error)
         return undefined
+      })
+      .then((state) => {
+        restoreLoaded = true
+        return state
       })
     const state = await loaded
     if (state?.windowKey !== undefined && state.windowKey !== restoreContext()?.key)

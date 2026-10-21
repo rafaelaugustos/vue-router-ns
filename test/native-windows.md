@@ -57,7 +57,9 @@ The [repeatable fixture and driver](../scripts/native/windows/README.md) run on 
 
 The control is an explicit fixture-only webpack transform of the disposal change from NativeScript-Vue #1178 at `e31806b7fed28cd4b4aa3af3f564492b43ecba91`. It is not part of the router package, is never enabled in the normal demo, and does not turn that unpublished dependency into supported functionality. CI runs both builds and requires the published variant to reproduce the exact known failure rather than accepting an arbitrary exception.
 
-Validation: 519 tests passed with 10 existing skips; package/demo typechecks, package build, docs build and formatting passed. The new `Native windows (experimental)` lane records per-command snapshots, original/replacement Activity identities, old/new PIDs and logcat, alongside the existing native contract lanes.
+Validation: 520 tests passed with 10 existing skips; package/demo typechecks, package build, docs build and formatting passed. The new `Native windows (experimental)` lane records per-command snapshots, original/replacement Activity identities, old/new PIDs and logcat, alongside the existing native contract lanes.
+
+Single-window regression acceptance also passed: the Android state fixture recovered duplicate drafts/scroll and five compatibility scenarios across six genuine process deaths. On an iPadOS 18.6 simulator, UIKit split navigation, guards, modals and restoration into a new process passed. The split run first exposed an integration regression: initial column-layout callbacks saved empty histories before the window-scoped restore could read the previous snapshot. Persistence now waits for the initial read to settle; a unit test covers callbacks both before and during an asynchronous load. This single-window iOS pass does not establish scene reconnect support.
 
 ### Still required for #46
 
