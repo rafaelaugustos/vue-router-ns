@@ -13,8 +13,8 @@ hero:
       text: Get started
       link: /guide/install
     - theme: alt
-      text: What it is
-      link: /guide/
+      text: Examples and videos
+      link: /guide/demo
     - theme: alt
       text: Differences from Vue Router
       link: /guide/vue-router

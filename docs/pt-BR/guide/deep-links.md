@@ -2,6 +2,8 @@
 
 Rotas são paths, então onde quer que seu app receba um link (um handler de URL, o payload de uma notificação), entregue o path ao router:
 
+<Clip name="ios-deep-link" caption="O sistema entrega vuerouterns://settings/account. Settings é selecionada e o guard abre o login. Simulador iOS 26." />
+
 ```ts
 router.push('/messages/42')
 ```
@@ -74,6 +76,10 @@ result.ignored // 'scheme', 'host', 'unmatched', 'malformed' ou 'repeat'
 O `resolveLink(url)` diz para onde uma URL iria sem ir, e o `onLink` ouve todo link que o router recebeu, aceito ou não. Para retomar um link depois de um login, faça como o demo: o guard redireciona para o login com `query.next`, e a página de login se substitui por ele. O `onLink` também serve: guarde `result.location` quando `failure` ou a rota atual disser que um login entrou na frente, e faça `push` dele depois de entrar.
 
 ## Atalhos da tela inicial
+
+<Clip name="ios-shortcuts" caption="Pressione o ícone do demo e escolha New message para abrir a rota pelo atalho nativo. Simulador iOS 26." />
+
+No vídeo, Inbox já está selecionada antes de sair do app. No demo iOS, abrir Compose pelo atalho enquanto troca de Settings para o split da Inbox pode ser recusado pelo apresentador nativo. Para entradas entre abas, prefira uma rota de página; este clipe demonstra o modal na mesma aba.
 
 Os mesmos destinos podem ser oferecidos antes de o app abrir: atalhos dinâmicos do Android e quick actions do iOS, com uma única chamada:
 

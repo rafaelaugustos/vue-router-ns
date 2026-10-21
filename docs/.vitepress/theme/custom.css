@@ -49,3 +49,18 @@
     max-width: 400px;
   }
 }
+
+/* Keep the full version visible without crowding the mobile search/menu buttons. */
+@media (max-width: 767px) {
+  .VPNavBarTitle .title {
+    position: relative;
+  }
+  .VPNavBarTitle .version-badge {
+    position: absolute;
+    bottom: 2px;
+    left: 32px;
+    margin-left: 0;
+    padding: 1px 4px;
+    font-size: 9px;
+  }
+}

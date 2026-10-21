@@ -83,6 +83,8 @@ Without it, `push` rejects with an error that says so instead of presenting a pl
 
 ## Getting a result back
 
+<Clip name="ios-modal-result" caption="Reply opens the modal; Send returns the text to the originating message through pushForResult. iOS 26 simulator." />
+
 A page can return a value to whoever opened it. This works with modals and with plain pages:
 
 ```ts

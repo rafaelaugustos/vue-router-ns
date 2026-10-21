@@ -42,6 +42,7 @@ export const router = createRouter({
       component: () => import('./pages/Account.vue'),
       meta: { requiresAuth: true },
     },
+    { path: '/transitions', component: () => import('./pages/Transitions.vue') },
     { path: '/login', name: 'login', component: () => import('./pages/Login.vue') },
     {
       path: '/:pathMatch(.*)*',
