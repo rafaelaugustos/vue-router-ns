@@ -46,6 +46,12 @@ const commands = useDemoCommands()
                 <Label col="1" class="chevron" text="›" />
               </GridLayout>
             </RouterLink>
+            <RouterLink to="/transitions">
+              <GridLayout class="cell" columns="*, auto">
+                <Label text="Zoom from a card" />
+                <Label col="1" class="chevron" text="›" />
+              </GridLayout>
+            </RouterLink>
             <RouterLink to="/does/not/exist">
               <GridLayout
                 class="cell"

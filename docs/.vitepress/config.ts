@@ -92,7 +92,7 @@ const en = {
   reference: 'Reference',
   introduction: 'What vue-router-ns is',
   install: 'Install',
-  demo: 'Watch the native demo',
+  demo: 'Examples and videos',
   playground: 'Try with StackBlitz',
   navigating: 'Navigating',
   routes: 'Every page keeps its route',
@@ -130,7 +130,7 @@ const pt = {
   reference: 'Referência',
   introduction: 'O que é o vue-router-ns',
   install: 'Instalação',
-  demo: 'Veja o demo nativo',
+  demo: 'Exemplos e vídeos',
   playground: 'Experimente com StackBlitz',
   navigating: 'Navegando',
   routes: 'Cada página guarda sua rota',
@@ -213,6 +213,7 @@ export default defineConfig({
       themeConfig: {
         nav: [
           { text: 'Guide', link: '/guide/' },
+          { text: 'Examples', link: '/guide/demo' },
           { text: 'API', link: '/guide/api' },
           { text: 'Releases', link: `${repo}/releases` },
         ],
@@ -237,6 +238,7 @@ export default defineConfig({
       themeConfig: {
         nav: [
           { text: 'Guia', link: '/pt-BR/guide/' },
+          { text: 'Exemplos', link: '/pt-BR/guide/demo' },
           { text: 'API', link: '/pt-BR/guide/api' },
           { text: 'Versões', link: `${repo}/releases` },
         ],

@@ -2,6 +2,8 @@
 
 Some destinations are not pages: the document picker, another app's activity, a share sheet. The system owns them, they can outlive a screen rotation, and nothing about them belongs in the back stack. A **native flow** gives them a typed input, a typed result and one of three outcomes, settled exactly once.
 
+<Clip name="ios-document-picker" caption="Attach opens the iOS document picker. Cancelling returns to the form with Picker cancelled, without adding a route." />
+
 ```ts
 import { createDocumentPicker, useNativeFlow } from 'vue-router-ns'
 

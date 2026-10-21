@@ -2,6 +2,8 @@
 
 Routes are paths, so wherever your app receives a link (a URL handler, a notification payload), hand the path to the router:
 
+<Clip name="ios-deep-link" caption="The system delivers vuerouterns://settings/account. Settings is selected and its guard opens login. iOS 26 simulator." />
+
 ```ts
 router.push('/messages/42')
 ```
@@ -74,6 +76,10 @@ result.ignored // 'scheme', 'host', 'unmatched', 'malformed' or 'repeat'
 `resolveLink(url)` tells where a URL would go without going there, and `onLink` hears every link the router was handed, taken or not. To resume a link after a login, do what the demo does: the guard redirects to the login with `query.next`, and the login page replaces itself with it. `onLink` works too: keep `result.location` when `failure` or the current route says a login got in the way, and `push` it after signing in.
 
 ## Home-screen shortcuts
+
+<Clip name="ios-shortcuts" caption="Long-press the demo icon and choose New message to open its route through a native quick action. iOS 26 simulator." />
+
+In the video, Inbox is already selected before leaving the app. In the iOS demo, opening Compose from its shortcut while switching from Settings to the inbox split can be refused by the native presenter. Prefer a page destination for cross-tab entry; this clip demonstrates the same-tab modal.
 
 The same destinations can be offered before the app opens: Android dynamic shortcuts and iOS quick actions, both from one call:
 

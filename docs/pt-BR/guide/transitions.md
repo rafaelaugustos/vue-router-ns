@@ -1,5 +1,59 @@
 # Zoom e elementos compartilhados
 
+Toque em um card e faça a página crescer a partir dele. Ao voltar, ela encolhe para o mesmo elemento. Esse é o zoom nativo do UIKit, disponível no iOS 18+ quando o runtime expõe `UIViewControllerTransition`. Android e runtimes sem essa API usam a transição normal ou o fallback explícito.
+
+<Clip name="ios-zoom" caption="O card abre a mensagem com o zoom do UIKit e recebe a transição de volta. Simulador iOS 26." />
+
+## Card com RouterLink
+
+Salve como `Inbox.vue`. O único filho de `RouterLink` é o elemento de origem; não é necessário obter um ref nem criar uma animação em JavaScript.
+
+<<< ../../snippets/ZoomCard.vue
+
+## Destino e configuração
+
+Salve o destino como `Message.vue`:
+
+<<< ../../snippets/ZoomMessage.vue
+
+Registre as duas páginas no router e instale-o no app, como no [guia de instalação](./install):
+
+```ts
+import { createRouter } from 'vue-router-ns'
+
+export const router = createRouter({
+  routes: [
+    { path: '/', component: () => import('./Inbox.vue') },
+    {
+      path: '/messages/:id',
+      name: 'message',
+      component: () => import('./Message.vue'),
+      props: true,
+    },
+  ],
+})
+```
+
+No componente raiz, use `<RouterView />`. Teste primeiro em uma única pilha: o primeiro detalhe de um split expandido aparece em outro painel, sem zoom a partir da lista.
+
+## Linha de lista com zoomFrom
+
+Substitua `Inbox.vue` por esta versão para usar a view entregue pelo `itemTap`. O destino acima também tem a tag necessária para a transição compartilhada usada como fallback.
+
+<<< ../../snippets/ZoomList.vue
+
+### O que observar
+
+- Toque em uma linha: a mensagem deve abrir na mesma pilha.
+- Com o zoom disponível, a página cresce a partir da linha. Voltar deve retornar à origem.
+- Com movimento reduzido ativado, o router pede uma transição sem animação.
+- No Android, as labels com a mesma `sharedTransitionTag` participam da transição compartilhada.
+- Uma animação lateral comum não comprova o zoom. Verifique a API disponível no runtime e evite `Frame.defaultTransition` nesse frame.
+
+O [Inbox do demo](https://github.com/rafaelaugustos/vue-router-ns/blob/main/demo/src/pages/Inbox.vue) usa `zoomFrom` com fallback. Para reproduzir o vídeo, abra Settings → Zoom from a card no demo. Essa página usa uma pilha simples; [veja seu código](https://github.com/rafaelaugustos/vue-router-ns/blob/main/demo/src/pages/Transitions.vue).
+
+## Referência das transições
+
 O `transition` aceita o `SharedTransition` do NativeScript, que transforma as views que têm o mesmo `sharedTransitionTag` de uma página na outra, nas duas plataformas:
 
 ```vue
