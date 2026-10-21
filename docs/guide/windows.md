@@ -89,7 +89,7 @@ const router = createRouter({
 })
 ```
 
-Import `ApplicationSettings` from `@nativescript/core`. The optional second argument to `save` and argument to `load` are `RestoreContext`: `{ windowId, key }`. They are provided for scoped routers and omitted in legacy mode. Existing callbacks remain valid; multi-window stores must use the context to keep snapshots separate. `key` defaults to the native ID; use an application document/session key when it needs to remain stable across process restarts.
+Import `ApplicationSettings` from `@nativescript/core`. The optional second argument to `save` and argument to `load` are `RestoreContext`: `{ windowId, key }`. They are provided for scoped routers and omitted in legacy mode. Existing callbacks remain valid; multi-window stores must use the context to keep snapshots separate. `key` defaults to `primary` for an automatically inferred primary window, preserving existing single-window stores across process death; explicitly supplied windows default to the native ID. The default is captured when ownership is bound and does not change if another window becomes primary. Supply an application document/session key for each explicit window to keep it stable across process restarts.
 
 Scoped snapshots include `windowKey`; a mismatched key is ignored on load. Legacy snapshots without it remain readable. Closing a window saves `null` only with that window's context. A process-level exit saves existing scoped histories rather than clearing every window; legacy mode retains its existing clear-on-exit behavior.
 

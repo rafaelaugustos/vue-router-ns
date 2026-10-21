@@ -89,7 +89,7 @@ const router = createRouter({
 })
 ```
 
-Importe `ApplicationSettings` de `@nativescript/core`. O segundo argumento opcional de `save` e o argumento de `load` são `RestoreContext`: `{ windowId, key }`. São fornecidos para routers ligados a janelas e omitidos no modo legado. Os callbacks existentes continuam válidos; stores de múltiplas janelas precisam usar o contexto para separar snapshots. `key` usa o ID nativo por padrão; use uma chave de documento/sessão do app quando precisar de estabilidade entre reinícios de processo.
+Importe `ApplicationSettings` de `@nativescript/core`. O segundo argumento opcional de `save` e o argumento de `load` são `RestoreContext`: `{ windowId, key }`. São fornecidos para routers ligados a janelas e omitidos no modo legado. Os callbacks existentes continuam válidos; stores de múltiplas janelas precisam usar o contexto para separar snapshots. `key` usa `primary` para a janela principal inferida automaticamente, preservando stores existentes de uma janela após a morte do processo; janelas fornecidas explicitamente usam o ID nativo por padrão. Esse valor é capturado ao vincular a janela e não muda quando outra janela se torna principal. Forneça uma chave de documento/sessão do app para cada janela explícita que precise ser restaurada entre processos.
 
 Snapshots de janela incluem `windowKey`; uma chave incompatível é ignorada na leitura. Snapshots legados sem ela continuam legíveis. Fechar uma janela salva `null` apenas com o contexto dela. Sair do processo salva os históricos das janelas em vez de apagar todos; o modo legado mantém o comportamento de limpar ao sair.
 

@@ -330,6 +330,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     throw new Error('Window-scoped routers require NativeScript core 9.1 or later')
   const owner = {}
   const nativeWindow = shallowRef<RouterWindow>()
+  let windowKey: string | undefined
   const attached = shallowRef(true)
   let stopped = false
   let stopPlatform: (() => void) | undefined
@@ -783,7 +784,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
   function restoreContext(): RestoreContext | undefined {
     const window = nativeWindow.value
-    return window ? { windowId: window.id, key: restore?.key ?? window.id } : undefined
+    return window ? { windowId: window.id, key: windowKey! } : undefined
   }
 
   interface SavedStack {
@@ -1401,6 +1402,11 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       throw new Error('A router cannot own views in more than one NativeWindow')
     const release = claimWindow(window, owner)
     nativeWindow.value = window
+    // Existing single-window stores must survive Android's new random window
+    // ID after process death. Explicit document windows supply their own key.
+    // Capture once: promoting a secondary window must not change its store.
+    windowKey =
+      restore?.key ?? (!options.window && window.isPrimary ? 'primary' : window.id)
     attached.value = window.state === 'attached'
     const detach = () => {
       try {

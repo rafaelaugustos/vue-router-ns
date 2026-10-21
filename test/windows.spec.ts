@@ -67,6 +67,33 @@ afterEach(() => {
 })
 
 describe('NativeWindow ownership', () => {
+  it('preserves existing single-window restores when the inferred primary ID changes', async () => {
+    let saved: SavedStacks | null = null
+    async function boot(id: string) {
+      const window = Object.assign(new NativeWindow(id), { isPrimary: true })
+      const router = createRouter({
+        routes,
+        restore: {
+          save: (state) => {
+            saved = state
+          },
+          load: () => saved,
+        },
+      })
+      const app = createApp({ render: () => h(RouterView) }).use(router)
+      apps.push(app)
+      window.setContent(app.start()!.$el.nativeView)
+      await router.isReady()
+      return { router, app }
+    }
+    const first = await boot('before-process-death')
+    await first.router.push('/items/1')
+    first.app.unmount()
+    const second = await boot('after-process-death')
+    expect(paths(second.router.stack.value)).toEqual(['/', '/items/1'])
+    expect(saved!.windowKey).toBe('primary')
+  })
+
   it('restores duplicate page identities and UI state separately for each window', async () => {
     const received = new Map<string, string[]>()
     const draftPage = page('Draft', () => {

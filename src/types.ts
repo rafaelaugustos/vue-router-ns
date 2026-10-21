@@ -255,7 +255,7 @@ export interface SavedStacks {
 }
 
 export interface RestoreOptions {
-  /** Stable application key for this window's snapshot; defaults to NativeWindow.id. */
+  /** Stable snapshot key. Defaults to `primary` for an inferred primary window, otherwise NativeWindow.id. */
   key?: string
   /** Saves after navigation. `null` clears a closed window, or a legacy app exiting on its own. */
   save(state: SavedStacks | null, context?: RestoreContext): void
@@ -272,7 +272,7 @@ export interface RestoreOptions {
 /** Present for a window-scoped router; omitted in legacy single-window mode. */
 export interface RestoreContext {
   windowId: string
-  /** restore.key, or the native window ID when no application key was supplied. */
+  /** restore.key, the inferred primary's stable key, or the explicit native window ID. */
   key: string
 }
 

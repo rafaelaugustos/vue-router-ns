@@ -41,7 +41,7 @@ No physical-device pass, OS-driven iOS scene reconnection, or full process-death
 
 The draft has been integrated with `main` through beta.14: native host adapters, tabs, reduced motion, version-2 entry/page state, diagnostics and incoming links. Native elements now explicitly allow registration by another router app; the process-wide NativeScript-Vue registry otherwise threw `RouterUIKitSplitHost already registered` while opening the second window. The test shim enforces the real duplicate-registration contract. Frame and split back ownership is window-scoped, and an unbound globally prioritized Frame falls back to this window's focused stack.
 
-Incoming Android intents and iOS scene URL/activity/shortcut events are filtered by their owner. UIKit's forwarded application delegate cannot repeat a scene event into other routers. Closing the window removes link listeners, disables retained delegate closures, settles results and cannot overwrite the snapshot it just cleared. Initial secondary-window URLs still need explicit handoff from the application-owned content resolver because Core emits the initial event before that resolver creates its router.
+Incoming Android intents and iOS scene URL/activity/shortcut events are filtered by their owner. UIKit's forwarded application delegate cannot repeat a scene event into other routers. Automatically inferred primary windows use a stable snapshot key instead of the changing native ID, preserving existing single-window stores across process death. The key is captured once so primary-window promotion does not switch stores. Closing the window removes link listeners, disables retained delegate closures, settles results and cannot overwrite the snapshot it just cleared. Initial secondary-window URLs still need explicit handoff from the application-owned content resolver because Core emits the initial event before that resolver creates its router.
 
 The [repeatable fixture and driver](../scripts/native/windows/README.md) run on an Android 14 / API 34 arm64 emulator with Core 9.1.3, Android runtime 9.1.1 and NativeScript-Vue 3.1.2. The installed Vue navigation, bootstrap and runtime helper files were compared byte-for-byte with the public npm 3.1.2 tarball. No installed package was patched.
 
@@ -57,7 +57,7 @@ The [repeatable fixture and driver](../scripts/native/windows/README.md) run on 
 
 The control is an explicit fixture-only webpack transform of the disposal change from NativeScript-Vue #1178 at `e31806b7fed28cd4b4aa3af3f564492b43ecba91`. It is not part of the router package, is never enabled in the normal demo, and does not turn that unpublished dependency into supported functionality. CI runs both builds and requires the published variant to reproduce the exact known failure rather than accepting an arbitrary exception.
 
-Validation: 518 tests passed with 10 existing skips; package/demo typechecks, package build, docs build and formatting passed. The new `Native windows (experimental)` lane records per-command snapshots, original/replacement Activity identities, old/new PIDs and logcat, alongside the existing native contract lanes.
+Validation: 519 tests passed with 10 existing skips; package/demo typechecks, package build, docs build and formatting passed. The new `Native windows (experimental)` lane records per-command snapshots, original/replacement Activity identities, old/new PIDs and logcat, alongside the existing native contract lanes.
 
 ### Still required for #46
 
