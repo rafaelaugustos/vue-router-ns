@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   supportsShortcuts,
+  supportsPinnedShortcuts,
   type LinkResult,
   type RouteRecordRaw,
   type RouteShortcut,
@@ -66,8 +67,8 @@ describe('home-screen shortcuts', () => {
     })
     expect(shortcuts.android[0]!.icon).toBe(42)
     expect(shortcuts.android[1]).toMatchObject({ longLabel: 'Account and more' })
-    expect(shortcuts.android[2]!.url).toBe(
-      'vue-router-ns://shortcut/item?to=%2Fitems%2F7%3Ftab%3Dinfo&v=1',
+    expect(router.resolveLink(shortcuts.android[2]!.url)?.fullPath).toBe(
+      '/items/7?tab=info',
     )
 
     androidLinks.newIntent(shortcuts.android[2]!.url)
@@ -111,7 +112,22 @@ describe('home-screen shortcuts', () => {
       userInfo: { objectForKey: () => null },
     })
     expect(foreign.returned).toBe(false)
-    expect(foreign.completed).toBe(false)
+    expect(foreign.completed).toBeUndefined()
+  })
+
+  it('takes a cold quick action without scenes and ignores its delegate replay', async () => {
+    const { router } = await mount(routes, { links: true })
+    const results: LinkResult[] = []
+    router.onLink((result) => results.push(result))
+    router.setShortcuts(items)
+    iosLinks.launch(undefined, undefined, shortcuts.ios[1])
+    await settle()
+    expect(router.currentRoute.value.path).toBe('/settings')
+    expect(results[0]!.link.source).toBe('launch')
+    iosLinks.performShortcut(shortcuts.ios[1])
+    await settle()
+    expect(results[1]!.ignored).toBe('repeat')
+    expect(paths(router.stack.value)).toEqual(['/', '/settings'])
   })
 
   it('remove every shortcut with an empty list, and respect the platform limit', async () => {
@@ -160,5 +176,55 @@ describe('home-screen shortcuts', () => {
         { id: 'x', title: 'Y', to: '/settings' },
       ]),
     ).toThrow(/Two shortcuts are named "x"/)
+  })
+  it('keeps named destinations valid after a path rename and rejects a removed name', async () => {
+    const { router } = await mount(routes)
+    const url = router.shortcutURL('stable-item', { name: 'item', params: { id: 7 } })
+    router.removeRoute('item')
+    router.addRoute({ path: '/products/:id', name: 'item', component: page('Renamed') })
+    expect((await router.openLink(url)).location?.path).toBe('/products/7')
+    router.removeRoute('item')
+    expect((await router.openLink(url)).ignored).toBe('unmatched')
+    for (const payload of [
+      { name: 'item', force: true },
+      { name: 'item', path: '/' },
+      { path: '/', query: { nested: {} } },
+    ]) {
+      expect(
+        (
+          await router.openLink(
+            `vue-router-ns://shortcut/id?to=${encodeURIComponent(JSON.stringify(payload))}&v=2`,
+          )
+        ).ignored,
+      ).toBe('malformed')
+    }
+  })
+
+  it('accounts for manifest shortcuts and reports refused native updates', async () => {
+    const { router } = await mount(routes, { platform: 'android' })
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    shortcuts.androidLimit = 3
+    shortcuts.androidStatic = ['static-compose']
+    expect(router.setShortcuts(items)).toEqual(['compose', 'settings'])
+    expect(() => router.setShortcuts([{ ...items[0]!, id: 'static-compose' }])).toThrow(
+      /manifest/,
+    )
+    shortcuts.androidAcceptUpdates = false
+    expect(() => router.setShortcuts(items)).toThrow(/refused/)
+    shortcuts.androidLimit = 4
+  })
+
+  it('requests pinning only when supported and disables removed pinned entries on signout', async () => {
+    const { router } = await mount(routes, { platform: 'android' })
+    expect(supportsPinnedShortcuts()).toBe(true)
+    expect(router.pinShortcut(items[2]!)).toBe(true)
+    expect(shortcuts.androidPinned[0]?.id).toBe('item')
+    router.setShortcuts([])
+    expect(shortcuts.androidDisabled).toContain('item')
+    router.setShortcuts(items)
+    expect(shortcuts.androidDisabled).not.toContain('item')
+    shortcuts.androidCanPin = false
+    expect(router.pinShortcut(items[0]!)).toBe(false)
+    expect(shortcuts.androidPinned).toHaveLength(1)
   })
 })

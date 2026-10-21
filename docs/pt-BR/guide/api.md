@@ -38,6 +38,8 @@ Instale uma vez com `createApp(App).use(router).start()`. Isso registra os compo
 | `resolveLink(url)`               | A `RouteLocation` para onde uma URL aponta sob `links`, ou `undefined`.                                                                                              |
 | `onLink(listener)`               | Ouve todo link que o router recebeu, aceito ou não. Devolve a função que cancela a inscrição.                                                                        |
 | `setShortcuts(shortcuts)`        | Substitui os atalhos da tela inicial (atalhos dinâmicos do Android, quick actions do iOS) por `RouteShortcut`s que abrem pelo `openLink`. Devolve os ids publicados. |
+| `shortcutURL(id, to)`            | Payload versionado para atalhos estáticos ou integrações nativas do app.                                                                                             |
+| `pinShortcut(shortcut)`          | Solicita fixação no launcher Android; `true` significa pedido recebido, não aprovação do usuário.                                                                    |
 | `claimSystemBack(claimant)`      | Deixa um contêiner nativo (`{ owns(), back() }`) receber o voltar e o swipe de voltar do Android primeiro, como um drawer aberto. Devolve a função que libera.       |
 
 Os métodos de navegação, exceto `pushForResult`, resolvem para `NavigationFailure | undefined`. Erros inesperados rejeitam a promise; veja [falhas](./navigating#falhas-e-erros). Os métodos de voltar seguem a [semântica do split view](./split-view#historico-e-voltar) quando chamados em uma pilha dividida.
@@ -152,7 +154,7 @@ Os tipos públicos são exportados pela raiz do pacote:
 - Localizações: `RouteLocation`, `RouteLocationRaw`, `RouteLocationPathRaw`, `RouteLocationNamedRaw`, `RouteLocationRelativeRaw`, `RouteParams`, `RouteParamsRaw`, `RouteParamValue`, `RouteParamValueRaw`, `LocationQuery`, `LocationQueryRaw`, `LocationQueryValue`, `LocationQueryValueRaw`.
 - Navegação: `NavigationOptions`, `BackOptions`, `SetStackOptions`, `NavigationType`, `NavigationInfo`, `NavigationGuard`, `NavigationGuardReturn`, `NavigationHookAfter`, `NavigationErrorHandler`, `NavigationFailure`, `LeaveGuardOptions`.
 - Fluxos nativos: `NativeFlow`, `NativeFlowContext`, `NativeFlowOutcome`, `NativeFlowHandle`, `NativeFlowRunOptions`, `DocumentPickerInput`, `DocumentPickerResult`; `startNativeFlow(flow, input, page)` roda um fora de uma página.
-- Links: `LinksOptions`, `LinkOptions`, `IncomingLink`, `LinkResult`, `LinkIgnoredReason`, `LinkSource`, `LinkListener`, `RouteShortcut`. `supportsShortcuts()` informa se a plataforma mostra atalhos da tela inicial.
+- Links: `LinksOptions`, `LinkOptions`, `LinkWindow`, `InitialLinkRequest`, `IncomingLink`, `LinkResult`, `LinkIgnoredReason`, `LinkSource`, `LinkListener`, `RouteShortcut`. `supportsShortcuts()` informa se a plataforma mostra atalhos da tela inicial.
 - Apresentação nativa: `ModalOptions`, `SheetOptions`, `SheetDetent`, `AndroidModalOptions`, `BottomSheetOptions`, `BottomSheetState`, `TransitionOption`, `ZoomSource`, `BackGesture`, `BackGestureEdge`. `supportsBottomSheets()` informa se o build Android inclui o Material.
 - Tipos inferidos: `Register`, `RegisteredRouter`, `RouteMapFrom`, `RouteMapGeneric`, `RouteNames`, `RouteLocationOf`, `RouteLocationRawOf`, `ParamsFromPath`.
 
@@ -181,3 +183,5 @@ Estenda `Register` e `RouteMeta` como mostrado em [rotas tipadas](./typed-routes
 `defineNativeDestination<Input, Output>({ id, input, ios?, android? })` devolve um componente de rota que contém um controller UIKit ou Fragment AndroidX existente. As fábricas devolvem `{ native, dispose? }`; o contexto fornece `input`, `route`, `page`, `complete(value)`, `cancel()`, `dismissed()` e `beforeLeave(guard)`. Tipos: `NativeDestinationOptions`, `NativeDestinationContext`, `NativeDestinationInstance`. Veja [destinos nativos](./native-destinations) para ciclo de vida, limites dos guards e restauração.
 
 `supportsUIKitSplitView()` verifica a disponibilidade do backend UIKit opcional.
+
+O módulo opcional `vue-router-ns/system-search` exporta `createSystemSearch`, `SystemSearch`, `SystemSearchOptions` e `SearchItem`. `supportsPinnedShortcuts()` é exportado pela raiz. Veja [deep links](./deep-links).

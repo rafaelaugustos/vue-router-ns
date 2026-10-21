@@ -1,24 +1,24 @@
-# Home-screen shortcut validation — #58
+# Native shortcuts and system-search acceptance — #58
 
-2026-10-16, NativeScript Android runtime 9.1.1, NativeScript-Vue 3.1.2, Medium Phone emulator, Android 16 / API 36. The demo publishes `compose` and `settings` shortcuts once the router is ready, and an `account` one while a session exists, from a `watchEffect` on its store.
+Validated on 2026-10-21 with published NativeScript Core 9.1.3, NativeScript-Vue 3.1.2, Android runtime 9.1.1 and iOS runtime 9.1.0. Local devices: Android API 34 emulator and iPad Pro M4 / iOS 18.6 simulator. Reproduce with [the entrypoint fixture](../scripts/native/entrypoints/README.md); the same fixture is included in the required native CI lanes.
 
-## Android
+## Android launcher
 
-| Check                | Result                                                                                                                                                                                 |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Publishing           | `dumpsys shortcut` lists `settings` and `compose` as dynamic shortcuts of `com.tns.NativeScriptActivity`, each with a `VIEW` intent carrying `vue-router-ns://shortcut/<id>?to=…&v=1`. |
-| Warm tap, `settings` | Sent as the shortcut's intent with `am start`: the settings tab was selected and shown.                                                                                                |
-| Warm tap, `compose`  | The compose modal was presented; back closed it.                                                                                                                                       |
-| Cold tap, `compose`  | After `force-stop`, the app launched with its restored stack and the compose modal on top.                                                                                             |
-| Destination gone     | A payload pointing at `/retired`: the demo's catch-all route took it (its "Not found" page), as the guide says a catch-all would; without one the link is ignored.                     |
-| Follows the session  | Signing in on the login page made `account` appear in `dumpsys shortcut`; signing out removed it, `settings` and `compose` staying.                                                    |
+The driver opens the actual launcher menu and taps its shortcuts. It does not substitute `am start` for shortcut acceptance.
 
-No JavaScript errors or warnings were logged. A real launcher tap sends the same intent the service dump shows.
+- Dynamic version-2 named-route shortcuts launch while the app is running and after force-stop. Changing the route's path preserves an existing shortcut; removing the named destination leaves the current page unchanged.
+- A static XML shortcut uses the explicit Java entry Activity example. Both cold and warm taps reach the login guard; a warm tap preserves the application's process and existing task.
+- Pinning opens the real launcher confirmation. After confirmation, tapping the pinned icon opens its route. Sign-out disables the pinned copy, verified through the native shortcut service, and removes dynamic entries.
+- Incoming destinations are also exercised in two native tasks with independent histories; TypeScript tests cover shortcut payload delivery to the receiving window.
 
-## iOS
+## iOS SpringBoard and Spotlight
 
-Quick actions are published through `UIApplication.sharedApplication.shortcutItems` and taken through `applicationPerformActionForShortcutItemCompletionHandler` and scene connection options, which core forwards to the application delegate. The simulator offers no way to long-press the icon from the command line, so the iOS path is covered by the automated suite only.
+XCTest long-presses the actual SpringBoard icon and taps quick actions on cold and warm starts. It verifies the renamed path, login redirect, deleted route, and removal of dynamic quick actions on sign-out.
 
-## Automated
+The separate optional system-search module indexes an explicitly selected public item with Core Spotlight. XCTest opens Spotlight, searches for the title, selects the app's actual result, and verifies that the resulting native user activity passes through the login guard to the account destination. The fixture then removes its index. Search placement outside this controlled test is determined by iOS, not guaranteed by this API.
 
-`test/shortcuts.spec.ts` covers Android publishing with labels, icons and payload URLs, taps through new intents, iOS publishing and taps while running and at scene connection, foreign quick actions, the platform limit with its warning, removal with an empty list, stale and foreign payloads, and refusing unknown routes and duplicate ids. 293 tests pass.
+## Contract coverage and boundaries
+
+TypeScript tests cover version-1 compatibility, malformed/unsupported payloads, stable named routes, native limits (including Android's shared static quota), rejected updates, pin capability/requests, disabled pinned copies, foreign quick actions, existing delegate callbacks, window ownership, selected-content indexing/removal and native error propagation. Search identifiers contain content IDs, not route params; the resolver handles renamed/deleted or unauthorized content.
+
+Platform resources and the Java Activity are explicit app integrations. No upstream Core/Vue patch is required for these entrypoints. Widget UI, Siri/App Intents, automatic route indexing and full window lifecycle restoration are outside these issues' scope.

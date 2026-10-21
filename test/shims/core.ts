@@ -1124,15 +1124,23 @@ type DelegateHandler = (...args: any[]) => unknown
 /** `Application.ios`: an Observable with core's `addDelegateHandler`, run the way UIKit would. */
 function createIOSApplication() {
   const handlers = new Map<string, DelegateHandler[]>()
+  const delegate = { prototype: {} as Record<string, DelegateHandler> }
   return Object.assign(new Observable(), {
+    delegate,
     addDelegateHandler(method: string, handler: DelegateHandler) {
-      handlers.set(method, [...(handlers.get(method) ?? []), handler])
+      if (!handlers.has(method)) {
+        const original = delegate.prototype[method]
+        handlers.set(method, original ? [original] : [])
+        delegate.prototype[method] = (...args) => {
+          let result: unknown
+          for (const callback of handlers.get(method)!) result = callback(...args)
+          return result
+        }
+      }
+      handlers.get(method)!.push(handler)
     },
-    /** Calls the delegate method, returning the last handler's result like core does. */
     call(method: string, ...args: unknown[]) {
-      let result: unknown
-      for (const handler of handlers.get(method) ?? []) result = handler(...args)
-      return result
+      return delegate.prototype[method]?.(...args)
     },
   })
 }
@@ -1148,12 +1156,13 @@ const browsing = (href: string) => ({
 
 /** What iOS does with a URL, a Universal Link or a scene connection. */
 export const iosLinks = {
-  launch(href?: string, activityHref?: string) {
+  launch(href?: string, activityHref?: string, shortcutItem?: unknown) {
     return Application.ios.call(
       'applicationDidFinishLaunchingWithOptions',
       {},
       {
         objectForKey(key: string) {
+          if (key === 'UIApplicationLaunchOptionsShortcutItemKey') return shortcutItem
           if (key === 'UIApplicationLaunchOptionsURLKey') return href ? nsurl(href) : null
           if (key === 'UIApplicationLaunchOptionsUserActivityDictionaryKey')
             return { objectForKey: () => (activityHref ? browsing(activityHref) : null) }
@@ -1214,6 +1223,11 @@ export const shortcuts = {
     url: string
   }[],
   androidLimit: 4,
+  androidStatic: [] as string[],
+  androidPinned: [] as { id: string; url: string }[],
+  androidDisabled: [] as string[],
+  androidAcceptUpdates: true,
+  androidCanPin: true,
 }
 
 /** The Android picker intent and result plumbing, and iOS's document picker, as stand-ins. */
@@ -1348,6 +1362,11 @@ export const activityResults = {
 
 /** The native shortcut APIs, recording what they are given. */
 export function installShortcuts(): () => void {
+  shortcuts.androidStatic = []
+  shortcuts.androidPinned = []
+  shortcuts.androidDisabled = []
+  shortcuts.androidAcceptUpdates = true
+  shortcuts.androidCanPin = true
   const g = globalThis as any
   const previous = {
     androidx: g.androidx,
@@ -1391,8 +1410,45 @@ export function installShortcuts(): () => void {
         pm: {
           ShortcutManagerCompat: {
             getMaxShortcutCountPerActivity: () => shortcuts.androidLimit,
+            getShortcuts(_context: unknown, flags: number) {
+              const items =
+                flags === 1
+                  ? shortcuts.androidStatic.map((id) => ({ id, url: '', manifest: true }))
+                  : [...shortcuts.android, ...shortcuts.androidPinned].map((item) => ({
+                      ...item,
+                      manifest: false,
+                    }))
+              return {
+                size: () => items.length,
+                get: (index: number) => ({
+                  getId: () => items[index]!.id,
+                  getIntent: () => ({
+                    getData: () => ({ toString: () => items[index]!.url }),
+                  }),
+                  isDeclaredInManifest: () => items[index]!.manifest,
+                }),
+              }
+            },
+            disableShortcuts(_context: unknown, ids: { items: string[] }) {
+              shortcuts.androidDisabled.push(...ids.items)
+            },
+            enableShortcuts(
+              _context: unknown,
+              shortcutsToEnable: { items: { id: string }[] },
+            ) {
+              shortcuts.androidDisabled = shortcuts.androidDisabled.filter(
+                (id) => !shortcutsToEnable.items.some((item) => item.id === id),
+              )
+            },
+            isRequestPinShortcutSupported: () => shortcuts.androidCanPin,
+            requestPinShortcut(_context: unknown, item: { id: string; url: string }) {
+              shortcuts.androidPinned.push(item)
+              return true
+            },
             setDynamicShortcuts(_context: unknown, list: { items: unknown[] }) {
+              if (!shortcuts.androidAcceptUpdates) return false
               shortcuts.android = list.items as typeof shortcuts.android
+              return true
             },
             removeAllDynamicShortcuts() {
               shortcuts.android = []

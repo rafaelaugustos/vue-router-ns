@@ -13,6 +13,7 @@ module.exports = (env) => {
     })
     // Separate opt-in acceptance fixtures; the normal demo keeps explicit routes.
     const fixtures = [
+      'entrypoints',
       'drawer',
       'middleware',
       'layouts',
@@ -78,6 +79,7 @@ module.exports = (env) => {
     config.resolve.alias
       // the router from this repository: run `npm run dev` at the root
       .set('vue-router-ns$', resolve(__dirname, '../dist/index.js'))
+      .set('vue-router-ns/system-search$', resolve(__dirname, '../dist/system-search.js'))
       .set(
         'vue-router-ns/file-routing$',
         resolve(__dirname, '../dist/file-routing/index.js'),
