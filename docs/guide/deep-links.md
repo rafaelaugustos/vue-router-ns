@@ -31,6 +31,97 @@ Parents already on top are skipped, only the last page animates, and guards run 
 
 ## Receiving operating-system URLs
 
-The router accepts app locations; it does not register URL schemes, Android App Links or iOS Universal Links. Configure that integration in your app and map incoming URLs to known paths before calling `push`. Validate the scheme/host and apply authentication guards to external links too.
+Opt in with `links`, and the router takes the URLs the platform hands the app, next to whatever handlers the app already has: Android launch and new intents, iOS `openURL`, Universal Link activities and scene connections.
 
-The `frame` option targets a stack but does not select its `TabView` tab. Select an unloaded tab before awaiting navigation into it. See [tabs](./tabs).
+```ts
+const router = createRouter({
+  routes,
+  links: {
+    schemes: ['https', 'myapp'], // others are ignored
+    hosts: ['example.com'], // for http and https links
+    map: (link) =>
+      link.path.startsWith('/m/')
+        ? { name: 'message', params: { id: link.path.slice(3) } }
+        : { path: link.path, query: link.query, hash: link.hash },
+    frame(location) {
+      const settings = location.path.startsWith('/settings')
+      // RouterTabs selects the tab that owns this stack.
+      return settings ? 'settings' : 'inbox'
+    },
+  },
+})
+```
+
+`links: true` takes every URL as a path. Each URL becomes an `IncomingLink`: a lower-case `scheme`, a `host` for `http` and `https` (for a custom scheme such as `myapp://messages/42`, everything after `://` is the path), the `path`, the parsed `query`, the `hash` and where it came from: `'launch'`, `'resume'` or `'app'`. The matcher decodes params the way it does for `push`. Without `map`, the link's path, query and hash are the location; a URL that matches no route is ignored, unless a catch-all route takes it. Return `null` from `map` to ignore a link yourself.
+
+A link lands the way `push(path, { withParents: true })` does, through the guards, so an authenticated route still sends it to the login. Set `options` to change that for every link, or per link with a function. On a cold start the link waits for the first page, and when `restore` rebuilt a stack it lands on top of it: saved history first, then the link. With `frame`, it waits for that `<RouterView>` to show its first page, up to ten seconds. [`RouterTabs`](./tabs) selects the target tab automatically. With a plain `TabView`, set its `selectedIndex` inside `frame` so an unloaded tab appears before the navigation.
+
+The platform can hand over the same URL twice for one tap, in the launch options and again on resume. A second system delivery of the same URL within 1.5 seconds is dropped; a later one, or any call from your own code, is taken. A page already on top turns the repeat into a `duplicated` failure, like `push` would.
+
+### Notifications, widgets and links of your own
+
+`openLink` is the same door for anything else that points at a destination:
+
+```ts
+const result = await router.openLink(notification.data.url)
+result.location // where it pointed, when it matched a route
+result.failure // what a guard said, when it stopped it
+result.ignored // 'scheme', 'host', 'unmatched', 'malformed' or 'repeat'
+```
+
+`resolveLink(url)` tells where a URL would go without going there, and `onLink` hears every link the router was handed, taken or not. To resume a link after a login, do what the demo does: the guard redirects to the login with `query.next`, and the login page replaces itself with it. `onLink` works too: keep `result.location` when `failure` or the current route says a login got in the way, and `push` it after signing in.
+
+## Home-screen shortcuts
+
+The same destinations can be offered before the app opens: Android dynamic shortcuts and iOS quick actions, both from one call:
+
+```ts
+router.setShortcuts([
+  {
+    id: 'compose',
+    title: 'New message',
+    to: '/compose',
+    icon: { android: 'ic_compose', ios: 'square.and.pencil' },
+  },
+  { id: 'account', title: 'Account', to: { name: 'account' } },
+])
+```
+
+Each shortcut carries its id and the route's resolved path, versioned, and a tap on it goes through `openLink` like any link: parents, guards, cold start and tab selection included, with `link.shortcut` set to the id in the `LinkResult`. Call `setShortcuts` again when the destinations change, with an empty list to remove them all, for example on sign-out. Android shows up to its `getMaxShortcutCountPerActivity` and iOS four; extra ones are left out with a warning in development. `id`s must be unique and `to` must resolve when set; a shortcut whose route no longer exists after an update is ignored when tapped, like any unmatched link. Icons are an Android drawable name and an SF Symbols name. `supportsShortcuts()` says whether the platform shows them. Static shortcuts, Spotlight indexing, widgets and App Intents stay outside the router.
+
+### Platform setup
+
+The router reads what the platform delivers; registering for it is the app's. The package cannot verify domain ownership or publish association files.
+
+Android, in `App_Resources/Android/src/main/AndroidManifest.xml`, inside the activity. The NativeScript template's `singleTask` launch mode makes a link to a running app arrive as a new intent, which the router takes without a second activity:
+
+```xml
+<intent-filter android:autoVerify="true">
+  <action android:name="android.intent.action.VIEW" />
+  <category android:name="android.intent.category.DEFAULT" />
+  <category android:name="android.intent.category.BROWSABLE" />
+  <data android:scheme="https" android:host="example.com" />
+</intent-filter>
+<intent-filter>
+  <action android:name="android.intent.action.VIEW" />
+  <category android:name="android.intent.category.DEFAULT" />
+  <category android:name="android.intent.category.BROWSABLE" />
+  <data android:scheme="myapp" />
+</intent-filter>
+```
+
+App Links need `https://example.com/.well-known/assetlinks.json` listing the app's package and signing certificate fingerprints; check it with `adb shell pm get-app-links <package>`.
+
+iOS, in `App_Resources/iOS/Info.plist` for a custom scheme, and an `applinks:example.com` entry under Associated Domains in `App_Resources/iOS/app.entitlements` for Universal Links, served by `https://example.com/.well-known/apple-app-site-association`:
+
+```xml
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+    <key>CFBundleURLSchemes</key>
+    <array><string>myapp</string></array>
+  </dict>
+</array>
+```
+
+Test a link with `adb shell am start -a android.intent.action.VIEW -d "myapp://messages/42"` and `xcrun simctl openurl booted "myapp://messages/42"`. Independent native windows are tracked separately; a link lands in the router that receives it.

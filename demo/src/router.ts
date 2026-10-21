@@ -1,9 +1,22 @@
+import { ApplicationSettings } from '@nativescript/core'
 import { createRouter } from 'vue-router-ns'
 import { session } from './store'
 
-// Pages load lazily. Besides keeping startup light, it lets TypeScript infer
-// route names and params here while the pages themselves use them.
 export const router = createRouter({
+  diagnostics: __DEV__,
+  restore: {
+    save: (state) => ApplicationSettings.setString('stacks', JSON.stringify(state)),
+    load: () => JSON.parse(ApplicationSettings.getString('stacks', 'null')),
+  },
+  links: {
+    schemes: ['https', 'vuerouterns'],
+    hosts: ['vue-router-ns.rafaelaugusto.dev'],
+    // the stack decides the tab: <RouterTabs> brings it forward before the page shows
+    frame(location) {
+      const settings = location.path.startsWith('/settings') || location.path === '/login'
+      return settings ? 'settings' : 'inbox'
+    },
+  },
   routes: [
     { path: '/', name: 'inbox', component: () => import('./pages/Inbox.vue') },
     {

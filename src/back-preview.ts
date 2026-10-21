@@ -1,4 +1,5 @@
 import { SharedTransition, type Frame, type Page } from '@nativescript/core'
+import { coreBackPreview } from './core-back-preview.js'
 import type { BackGestureEdge } from './android.js'
 
 interface Animator {
@@ -80,7 +81,12 @@ export function previewBack(
   below: Page,
   goBack: () => Promise<unknown>,
   onDispose: () => void = () => {},
+  preferCore = false,
 ): BackPreview | undefined {
+  if (preferCore) {
+    const session = coreBackPreview(frame, top, below, goBack, onDispose)
+    if (session) return session
+  }
   const container = frame.nativeView as Container | undefined
   const topView = top.nativeView as NativeView | undefined
   const belowView = below.nativeView as NativeView | undefined
@@ -93,6 +99,8 @@ export function previewBack(
   let phase: 'dragging' | 'settling' | 'disposed' = 'dragging'
   const params = belowView.getLayoutParams()
   const restoreTop = snapshot(topView)
+  const accessibilityHidden = below.accessibilityHidden
+  below.accessibilityHidden = true
 
   container.addView(belowView, 0, new org.nativescript.widgets.CommonLayoutParams())
   const unveil = reset(belowView)
@@ -120,6 +128,11 @@ export function previewBack(
       restoreShared()
     }
     restoreTop()
+    // A focus owner may already have made the returning page accessible.
+    below.accessibilityHidden =
+      frame.currentPage === below
+        ? accessibilityHidden && below.accessibilityHidden
+        : accessibilityHidden
     land()
     onDispose()
   }

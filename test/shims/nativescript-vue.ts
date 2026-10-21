@@ -9,9 +9,28 @@ import {
   type Component,
   type ComponentPublicInstance,
 } from '@vue/runtime-core'
-import { Frame, Page, TabView, TabViewItem, View, type NavigationEntry } from './core.js'
+import {
+  DrawerLayoutStub,
+  ActionBar,
+  Frame,
+  Page,
+  TabView,
+  TabViewItem,
+  View,
+  type NavigationEntry,
+} from './core.js'
 
 export * from '@vue/runtime-core'
+const elements = new Map<string, () => new () => View>()
+export function registerElement(
+  name: string,
+  resolver: () => unknown,
+  meta?: { overwriteExisting?: boolean; viewFlags?: number },
+) {
+  if (elements.has(name) && !meta?.overwriteExisting)
+    throw new Error(`Element for ${name} already registered`)
+  elements.set(name, resolver as () => new () => View)
+}
 
 export class TestNode {
   parentNode: TestNode | null = null
@@ -30,15 +49,21 @@ export const views = new Map<string, View[]>()
 
 function viewFor(tag: string) {
   const view =
-    tag === 'Frame'
-      ? new Frame()
-      : tag === 'Page'
-        ? new Page()
-        : tag === 'TabView'
-          ? new TabView()
-          : tag === 'TabViewItem'
-            ? new TabViewItem()
-            : new View()
+    tag === 'ActionBar' || tag === 'NSCActionBar'
+      ? new ActionBar()
+      : tag === 'Frame'
+        ? new Frame()
+        : tag === 'Page'
+          ? new Page()
+          : tag === 'TabView'
+            ? new TabView()
+            : tag === 'TabViewItem'
+              ? new TabViewItem()
+              : tag === 'RouterDrawerLayout'
+                ? new DrawerLayoutStub()
+                : elements.has(tag)
+                  ? new (elements.get(tag)!())()
+                  : new View()
   views.set(tag, [...(views.get(tag) ?? []), view])
   return view
 }
@@ -111,6 +136,24 @@ function mountNativeView(component: Component, props?: Record<string, unknown>) 
   Object.assign(app._context, context)
   const vm = app.mount(new TestNode('root', new View()))
   return { app, view: (vm.$el as TestNode).nativeView }
+}
+
+/** Mounts a component to a native view without a frame, like the real one. */
+export function createNativeView(component: Component, props?: Record<string, unknown>) {
+  let mounted: ReturnType<typeof mountNativeView> | undefined
+  return {
+    get nativeView() {
+      return mounted?.view as View | undefined
+    },
+    mount() {
+      mounted ??= mountNativeView(component, props)
+      return mounted.view as View
+    },
+    unmount() {
+      mounted?.app.unmount()
+      mounted = undefined
+    },
+  }
 }
 
 export function $navigateTo(

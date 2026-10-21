@@ -4,6 +4,27 @@ const site = 'https://vue-router-ns.rafaelaugusto.dev'
 const repo = 'https://github.com/rafaelaugustos/vue-router-ns'
 const cortex = '<a href="https://getcortexlabs.com/">Cortex Labs</a>'
 
+const trackingHead = `<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TWQ2MWQG');</script>
+<!-- End Google Tag Manager -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NXBR732XZY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NXBR732XZY');
+</script>`
+
+const trackingBody = `<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TWQ2MWQG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->`
+
 function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.SidebarItem[] {
   const page = (key: string, path: string) => ({
     text: t[key],
@@ -15,6 +36,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
       items: [
         page('introduction', ''),
         page('install', 'install'),
+        page('demo', 'demo'),
         page('playground', 'playground'),
         page('navigating', 'navigating'),
       ],
@@ -23,11 +45,16 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
       text: t.pages,
       items: [
         page('routes', 'pages'),
+        page('fileRouting', 'file-routing'),
+        page('layouts', 'layouts'),
         page('guards', 'guards'),
+        page('middleware', 'middleware'),
         page('modals', 'modals'),
         page('transitions', 'transitions'),
         page('tabs', 'tabs'),
         page('split', 'split-view'),
+        page('drawer', 'drawer'),
+        page('contextMenus', 'context-menus'),
         page('typed', 'typed-routes'),
       ],
     },
@@ -39,6 +66,11 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('restore', 'restore'),
         page('windows', 'windows'),
         page('androidBack', 'android-back'),
+        page('nativeBars', 'native-bars'),
+        page('keyboard', 'keyboard'),
+        page('accessibility', 'accessibility'),
+        page('flows', 'native-flows'),
+        page('destinations', 'native-destinations'),
       ],
     },
     {
@@ -47,6 +79,8 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('vueRouter', 'vue-router'),
         page('api', 'api'),
         page('internals', 'how-it-works'),
+        page('diagnostics', 'diagnostics'),
+        page('hosts', 'native-hosts'),
       ],
     },
   ]
@@ -59,23 +93,36 @@ const en = {
   reference: 'Reference',
   introduction: 'What vue-router-ns is',
   install: 'Install',
+  demo: 'Watch the native demo',
   playground: 'Try with StackBlitz',
   navigating: 'Navigating',
   routes: 'Every page keeps its route',
+  fileRouting: 'Optional routes from files',
+  layouts: 'Optional native layouts',
   guards: 'Guards',
+  middleware: 'Optional middleware and helpers',
   modals: 'Modals and results',
   transitions: 'Zoom and shared elements',
   tabs: 'Tabs',
   split: 'List and detail',
+  drawer: 'Android drawer',
+  contextMenus: 'Context menu previews',
   typed: 'Typed routes',
   deepLinks: 'Deep links',
   stack: 'Setting the whole stack',
   restore: 'Restoring after the app is killed',
   windows: 'Native windows',
   androidBack: 'Android predictive back',
+  nativeBars: 'Native bars and search',
+  keyboard: 'Keyboard commands',
+  accessibility: 'Accessibility and motion',
+  flows: 'System pickers and native flows',
   vueRouter: 'Differences from Vue Router',
   api: 'API',
   internals: 'How it works',
+  diagnostics: 'Navigation diagnostics',
+  hosts: 'Native hosts (experimental)',
+  destinations: 'Native destinations (experimental)',
 }
 
 const pt = {
@@ -85,23 +132,36 @@ const pt = {
   reference: 'Referência',
   introduction: 'O que é o vue-router-ns',
   install: 'Instalação',
+  demo: 'Veja o demo nativo',
   playground: 'Experimente com StackBlitz',
   navigating: 'Navegando',
   routes: 'Cada página guarda sua rota',
+  fileRouting: 'Rotas por arquivos opcionais',
+  layouts: 'Layouts nativos opcionais',
   guards: 'Guards',
+  middleware: 'Middleware e helpers opcionais',
   modals: 'Modais e resultados',
   transitions: 'Zoom e elementos compartilhados',
   tabs: 'Abas',
   split: 'Lista e detalhe',
+  drawer: 'Drawer no Android',
+  contextMenus: 'Prévia por menu de contexto',
   typed: 'Rotas tipadas',
   deepLinks: 'Deep links',
   stack: 'Definindo a pilha inteira',
   restore: 'Restaurando depois que o app é morto',
   windows: 'Janelas nativas',
   androidBack: 'Predictive back no Android',
+  nativeBars: 'Barras e busca nativas',
+  keyboard: 'Comandos de teclado',
+  accessibility: 'Acessibilidade e movimento',
+  flows: 'Pickers do sistema e fluxos nativos',
   vueRouter: 'Diferenças do Vue Router',
   api: 'API',
   internals: 'Como funciona',
+  diagnostics: 'Diagnóstico de navegação',
+  hosts: 'Hosts nativos (experimental)',
+  destinations: 'Destinos nativos (experimental)',
 }
 
 export default defineConfig({
@@ -111,6 +171,10 @@ export default defineConfig({
   cleanUrls: true,
   lastUpdated: true,
   sitemap: { hostname: site },
+  transformHtml: (html) =>
+    html
+      .replace('<head>', `<head>\n${trackingHead}`)
+      .replace('<body>', `<body>\n${trackingBody}`),
   head: [
     ['link', { rel: 'icon', type: 'image/png', href: '/icon.png' }],
     ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
@@ -158,7 +222,7 @@ export default defineConfig({
         sidebar: { '/guide/': sidebar('', en) },
         outline: { level: [2, 3], label: 'On this page' },
         editLink: {
-          pattern: `${repo}/edit/master/docs/:path`,
+          pattern: `${repo}/edit/main/docs/:path`,
           text: 'Edit this page on GitHub',
         },
         footer: {
@@ -182,7 +246,7 @@ export default defineConfig({
         sidebar: { '/pt-BR/guide/': sidebar('/pt-BR', pt) },
         outline: { level: [2, 3], label: 'Nesta página' },
         editLink: {
-          pattern: `${repo}/edit/master/docs/:path`,
+          pattern: `${repo}/edit/main/docs/:path`,
           text: 'Editar esta página no GitHub',
         },
         docFooter: { prev: 'Anterior', next: 'Próxima' },

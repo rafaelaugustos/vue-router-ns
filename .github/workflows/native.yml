@@ -1,0 +1,215 @@
+name: Native
+
+# Runs the demo on an Android emulator and drives it through adb: real links,
+# the Material sheet, shortcuts, process death, the drawer and the router's
+# timings against scripts/native/baselines.json. The unit suite cannot see
+# these; see scripts/native/smoke-android.sh.
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - run: npm ci
+      - run: npm run build
+      - run: npm install --no-audit --no-fund
+        working-directory: demo
+      - run: npm install -g nativescript
+      - name: Prepare the NativeScript CLI
+        # the CLI's doctor refuses to build without an emulator package installed, and must not prompt
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install emulator >/dev/null
+          ns usage-reporting disable
+          ns error-reporting disable
+      - name: Scaffold App_Resources
+        # the demo's App_Resources are generated and not tracked; a blank template provides them
+        run: |
+          if [ ! -d demo/App_Resources ]; then
+            ns create scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null
+            cp -R /tmp/scaffold/App_Resources demo/App_Resources
+          fi
+          python3 - <<'PY'
+          import pathlib
+          p = pathlib.Path('demo/App_Resources/Android/src/main/AndroidManifest.xml'); s = p.read_text()
+          if 'android:supportsRtl=' not in s:
+              s = s.replace('<application', '<application android:supportsRtl="true"', 1)
+          if 'android:enableOnBackInvokedCallback=' not in s:
+              s = s.replace('<application', '<application android:enableOnBackInvokedCallback="true"', 1)
+          if 'android:scheme="vuerouterns"' not in s:
+              i = s.index('</intent-filter>') + len('</intent-filter>')
+              s = s[:i] + '''
+              <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="vuerouterns" />
+              </intent-filter>''' + s[i:]
+          p.write_text(s)
+          PY
+      - name: Build the demo
+        run: |
+          ns build android --env.startupTrace
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-demo.apk
+          ns build android --env.drawerTest
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-drawer.apk
+          ns build android --env.middlewareTest
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-middleware.apk
+          ns build android --env.layoutsTest
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-layouts.apk
+          ns build android --env.filesTest
+          npx tsc --noEmit -p tsconfig.files.json
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-files.apk
+          ns build android --env.stateTest
+          npx tsc --noEmit
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-state.apk
+        working-directory: demo
+      - name: Prepare the convention-based example
+        working-directory: examples/file-routing
+        run: |
+          npm ci
+          npm run setup
+      - name: Smoke test on an emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          profile: pixel_7
+          disable-animations: false
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: |
+            APK=/tmp/router-demo.apk bash scripts/native/smoke-android.sh
+            adb install -r /tmp/router-drawer.apk
+            ANDROID_SERIAL=emulator-5554 node scripts/native/drawer-android.mjs
+            adb install -r /tmp/router-middleware.apk
+            bash scripts/native/middleware-android.sh
+            adb install -r /tmp/router-layouts.apk
+            bash scripts/native/layouts-android.sh
+            adb install -r /tmp/router-files.apk
+            bash scripts/native/files-android.sh
+            adb install -r /tmp/router-state.apk
+            ANDROID_SERIAL=emulator-5554 bash scripts/native/state-android.sh
+            ANDROID_SERIAL=emulator-5554 node scripts/native/conventions-watch.mjs android
+            ROUTER_BUNDLER=vite ANDROID_SERIAL=emulator-5554 node scripts/native/conventions-watch.mjs android
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-smoke-android
+          path: scripts/native/out
+
+  foldable:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - run: npm ci
+      - run: npm run build
+      - run: npm install --no-audit --no-fund
+        working-directory: demo
+      - run: npm install -g nativescript
+      - name: Prepare native fixture resources
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install emulator >/dev/null
+          ns usage-reporting disable
+          ns error-reporting disable
+          ns create fold-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null
+          cp -R /tmp/fold-scaffold/App_Resources demo/App_Resources
+          node scripts/native/prepare-folds.mjs
+      - name: Build the foldable fixture
+        working-directory: demo
+        run: ns build android --env.foldsTest
+      - name: Native fold/posture acceptance
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          target: google_apis
+          # Older runner SDK catalogs do not include pixel_fold.
+          profile: pixel_7
+          pre-emulator-launch-script: node scripts/native/prepare-fold-avd.mjs "$ANDROID_AVD_HOME/test.avd/config.ini"
+          disable-animations: false
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: |
+            adb install -r demo/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+            ANDROID_SERIAL=emulator-5554 FOLD_DISPLAY_FEATURES='fold-[1104,0,1104,1840]' node scripts/native/folds-android.mjs
+            ANDROID_SERIAL=emulator-5554 EXPECT_OCCLUDING=1 FOLD_DISPLAY_FEATURES='hinge-[1056,0,1152,1840]' OUT=scripts/native/out/hinges node scripts/native/folds-android.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-foldable-android
+          path: |
+            scripts/native/out/folds
+            scripts/native/out/hinges
+
+  ios-vite:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - run: gem install cocoapods xcodeproj --no-document
+      - run: npm ci && npm run build
+      - run: npm install -g nativescript
+      - name: Prepare the convention-based example
+        working-directory: examples/file-routing
+        run: |
+          ns usage-reporting disable
+          ns error-reporting disable
+          npm ci
+          npm run setup
+      - name: Create dedicated simulator
+        run: |
+          SIM=$(xcrun simctl create RouterVite com.apple.CoreSimulator.SimDeviceType.iPhone-16-Pro com.apple.CoreSimulator.SimRuntime.iOS-18-6)
+          echo "IOS_SIMULATOR=$SIM" >> "$GITHUB_ENV"
+          xcrun simctl boot "$SIM"
+          xcrun simctl bootstatus "$SIM" -b
+      - name: Native Vite navigation and live updates
+        env:
+          ROUTER_BUNDLER: vite
+        run: node scripts/native/conventions-watch.mjs ios
+      - name: Clean up dedicated simulator
+        if: always() && env.IOS_SIMULATOR != ''
+        run: |
+          xcrun simctl shutdown "$IOS_SIMULATOR"
+          xcrun simctl delete "$IOS_SIMULATOR"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-vite-ios
+          path: scripts/native/out

@@ -8,12 +8,13 @@ import { createRouter } from 'vue-router-ns'
 const router = createRouter({ routes, restore, backPreview: true })
 ```
 
-| Option        | Default  | Meaning                                                                                                                |
-| ------------- | -------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `window`      | Inferred | Owning native window (core 9.1+). See [native windows](./windows).                                                     |
-| `routes`      | Required | Readonly array of `RouteRecordRaw`.                                                                                    |
-| `restore`     | Disabled | `save(state)`, `load()` and optional `maxAge` in milliseconds (default: 30 minutes). See [restoration](./restore).     |
-| `backPreview` | `true`   | Reveal the previous page during Android 14+ back gestures. Requires the [platform opt-in](./android-back#enabling-it). |
+| Option        | Default  | Meaning                                                                                                                                                                                                             |
+| ------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `diagnostics` | `false`  | `true` or `{ maxEvents }` for a bounded timeline and native snapshots. See [diagnostics](./diagnostics).                                                                                                            |
+| `routes`      | Required | Readonly array of `RouteRecordRaw`.                                                                                                                                                                                 |
+| `restore`     | Disabled | `save(state)`, `load()`, optional `maxAge` in milliseconds (default: 30 minutes) and `stateLimit` in bytes per page (default: 8 KiB). See [restoration](./restore).                                                 |
+| `backPreview` | `true`   | Reveal the previous page during Android 14+ back gestures. `false` disables it; experimental `'core'` tries the proposed Core API with legacy fallback. Requires the [platform opt-in](./android-back#enabling-it). |
+| `links`       | Disabled | `true` or `{ schemes, hosts, map, frame, options, system }` to take operating-system URLs. See [deep links](./deep-links#receiving-operating-system-urls).                                                          |
 
 Install once with `createApp(App).use(router).start()`. This registers the components and provides `$router` and `$route` in templates. `router.install(app)` is the Vue plugin hook.
 
@@ -21,19 +22,23 @@ Install once with `createApp(App).use(router).start()`. This registers the compo
 
 `to` is a `RouteLocationRaw`: a path string, `{ path, query?, hash? }`, `{ name, params?, query?, hash? }`, or a location relative to the current route. Object locations also accept `replace` and `force`. Use `force: true` to push another instance of the current location. Params belong to named or relative locations, not a `path` object.
 
-| Method                           | Behavior                                                                                                                                             |
-| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `push(to, options?)`             | Add a page or present a modal.                                                                                                                       |
-| `replace(to, options?)`          | Replace the current page.                                                                                                                            |
-| `back(options?)`                 | Pop one page; close a modal at its root. At a non-modal root it does nothing. Android's system back can still leave the app.                         |
-| `go(delta)`                      | Go back by a negative number of pages. Zero and positive values do nothing. Takes no options argument.                                               |
-| `backTo(to, options?)`           | Return to the closest matching page below the top; rejects if absent.                                                                                |
-| `backToRoot(options?)`           | Return to the first page in the current stack.                                                                                                       |
-| `setStack(locations, options?)`  | Reconcile a nonempty list of locations with the stack. Preserves the common prefix; stops at the first failure without rolling back completed steps. |
-| `pushForResult<T>(to, options?)` | Open a page and wait for `back({ result })`. Resolves to `T \| undefined` when it closes or opening is prevented.                                    |
-| `openWindow(to, options?)`       | Request a window with a typed route; returns `void`. Experimental, core 9.1+. See [native windows](./windows).                                       |
-| `resolve(to)`                    | Resolve a location synchronously without navigating. Returns `RouteLocation`; throws for an unmatched route.                                         |
-| `isReady()`                      | Promise that settles after initial navigation; does not wait for every hidden tab to load.                                                           |
+| Method                           | Behavior                                                                                                                                                         |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `push(to, options?)`             | Add a page or present a modal.                                                                                                                                   |
+| `replace(to, options?)`          | Replace the current page.                                                                                                                                        |
+| `back(options?)`                 | Pop one page; close a modal at its root. At a non-modal root it does nothing. Android's system back can still leave the app.                                     |
+| `go(delta)`                      | Go back by a negative number of pages. Zero and positive values do nothing. Takes no options argument.                                                           |
+| `backTo(to, options?)`           | Return to the closest matching page below the top; rejects if absent.                                                                                            |
+| `backToRoot(options?)`           | Return to the first page in the current stack.                                                                                                                   |
+| `setStack(locations, options?)`  | Reconcile a nonempty list of locations with the stack. Preserves the common prefix; stops at the first failure without rolling back completed steps.             |
+| `pushForResult<T>(to, options?)` | Open a page and wait for `back({ result })`. Resolves to `T \| undefined` when it closes or opening is prevented.                                                |
+| `resolve(to)`                    | Resolve a location synchronously without navigating. Returns `RouteLocation`; throws for an unmatched route.                                                     |
+| `isReady()`                      | Promise that settles after initial navigation; does not wait for every hidden tab to load.                                                                       |
+| `openLink(url, options?)`        | Opens a full URL or a bare path the way the OS would: through `links`, with parents, after the first page and the target stack. Resolves to a `LinkResult`.      |
+| `resolveLink(url)`               | The `RouteLocation` a URL points at under `links`, or `undefined`.                                                                                               |
+| `onLink(listener)`               | Hears every link the router was handed, taken or not. Returns an unsubscribe function.                                                                           |
+| `setShortcuts(shortcuts)`        | Replaces the home-screen shortcuts (Android dynamic shortcuts, iOS quick actions) with `RouteShortcut`s that open through `openLink`. Returns the published ids. |
+| `claimSystemBack(claimant)`      | Lets a native container (`{ owns(), back() }`) take the Android back and back swipe first, like an open drawer. Returns the release function.                    |
 
 `push`, `replace`, `back`, `go`, `backTo`, `backToRoot` and `setStack` resolve to `NavigationFailure | undefined`. Unexpected errors reject; see [failures](./navigating#failures-and-errors). Back methods have the [split-view semantics](./split-view#history-and-back) when called in a split stack.
 
@@ -68,11 +73,17 @@ Install once with `createApp(App).use(router).start()`. This registers the compo
 
 A `NavigationGuard` receives `(to, from, { type })`, where `type` is `'push'`, `'replace'` or `'back'`. It can return a promise. Return `false` to abort, a location to redirect, or `undefined`/`true` to continue. Guards use return values, not `next()`. See [guards](./guards).
 
+### Optional middleware and helpers
+
+`router.addRouteMiddleware(name, guard, { global }?)` registers a named middleware and returns its disposer. Destination `meta.middleware` accepts names/functions or a readonly array. Middleware runs after `beforeEach`, globals first, then the destination list, before `beforeEnter`. `defineRouteMiddleware(guard)` types a function without registering it.
+
+`useNavigateTo()` captures a helper in page setup, bound to that page's stack. Outside setup use `navigateTo(router, to, options?)` with explicit context. Both delegate to push/replace and return `Promise<NavigationFailure | undefined>`. Options: `NavigationOptions` plus `replace`. Types: `RouteMiddleware`, `RouteMiddlewareReference`, `RouteMiddlewareOptions`, `NavigateTo`, `NavigateToOptions`. See [optional middleware and helpers](./middleware) for ordering, disposal, supported conventions and native gesture limits.
+
 ### State
 
 - `currentRoute`: readonly ref to the focused route, including the active modal.
 - `stack`: readonly ref to routes in bottom-to-top order. A page-bound router exposes that page's stack; the exported router follows the focused stack.
-- `window`: readonly ref to the owning window; `undefined` in legacy mode.
+- `diagnostics`: `RouterDiagnostics` when enabled; otherwise `undefined`. See [diagnostics](./diagnostics).
 - `options`: the router configuration.
 - `START_LOCATION`: empty location before initial navigation (`path: '/'`, no matched records).
 
@@ -86,27 +97,48 @@ Paths support named parameters, optional/repeated parameters and custom patterns
 
 `ModalOptions` forwards NativeScript `showModal` options except `context` and `closeCallback`, which the router owns. Its `ios` options also accept `detents`, `selectedDetent`, `largestUndimmedDetent`, `grabber` and `cornerRadius`. See [modals and sheets](./modals).
 
+## Optional file-routing APIs
+
+Node-only `vue-router-ns/file-routing/webpack` exports the CommonJS-compatible `NativeFileRoutesPlugin` for webpack 5. `vue-router-ns/file-routing/setup` exports `prepareFileRouting(options)`, `FileRoutingOptions` and `PreparedFileRouting`. These optional build entries generate platform modules and types; their generated `installFileRouting(router)` registers discovered middleware and handles route-table HMR. See [setup and support](./file-routing).
+
+Node-only `vue-router-ns/file-routing/vite` exports `nativeFileRoutes(options)` and `NativeFileRoutesOptions` for Vite 8. Native HMR uses optional adjacent JSON metadata (`metadataFiles: true`); `definePageMeta` requires bundled Vite builds while the upstream macro-transform limitation remains. Standalone setup accepts `bundler: 'vite'`; the default remains webpack.
+
+`vue-router-ns/file-routing` exports the typed compile-time `definePageMeta()` macro, `PageMeta`, `PageMetaValue`, `mergeFileRoutes(generated, explicit)` and `createFileRouteUpdater(router, routes)` (`FileRouteUpdater`). The updater changes future matching while retaining native entries.
+
+Node-only `vue-router-ns/file-routing/generator` exports `generateFileRoutes(options)`, `writeFileRoutes(options)`, `watchFileRoutes(options, callbacks)`, `transformPageMeta(source, filename)` and `FileRouteError`; types: `FileRoutesOptions`, `GeneratedFileRoutes`, `FilePage`. The compiler peer is optional and needed only by build tooling. See [file routing](./file-routing) for conventions, metadata restrictions, HMR ownership and integration status.
+
+## Optional native layouts
+
+`createRouter({ layouts, defaultLayout })` registers native layout components/factories per router. `defaultLayout` defaults to `false`; `meta.layout` selects a registered name or opts out with `false`. The layout owns the root Page and optional ActionBar; the destination supplies its body through the default slot. Layout selection is fixed per entry, with separate layout/content instances for every visit. Unknown names/import failures reject before mounting. See [native layouts](./layouts) for lifecycle, HMR, diagnostics and authoring examples.
+
 ## Composables
 
-| Function                               | Contract                                                                                                                        |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `useRouter()`                          | Router bound to the current page's stack; app router outside a page. Requires an app using the router.                          |
-| `useRoute(name?)`                      | This page's fixed route, or the focused route outside pages. The optional name narrows types; it does not select another route. |
-| `onBeforeRouteLeave(guard, { when }?)` | Page leave guard. `when` accepts a boolean, ref or getter. Removed on unmount.                                                  |
-| `onPageActivated(hook)`                | Called when the page becomes visible, including its first activation and returns.                                               |
-| `onPageDeactivated(hook)`              | Called when covered. For removal use Vue's `onUnmounted`.                                                                       |
-| `useBackGesture()`                     | Readonly shallow ref to `{ progress, edge }` or `null`; Android 14+. `edge` is `'left'`, `'right'` or `'none'`.                 |
+| Function                               | Contract                                                                                                                                                                                                                                                        |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `useRouter()`                          | Router bound to the current page's stack; app router outside a page. Requires an app using the router.                                                                                                                                                          |
+| `useRoute(name?)`                      | This page's fixed route, or the focused route outside pages. The optional name narrows types; it does not select another route.                                                                                                                                 |
+| `onBeforeRouteLeave(guard, { when }?)` | Page leave guard. `when` accepts a boolean, ref or getter. Removed on unmount.                                                                                                                                                                                  |
+| `onPageActivated(hook)`                | Called when the page becomes visible, including its first activation and returns.                                                                                                                                                                               |
+| `onPageDeactivated(hook)`              | Called when covered. For removal use Vue's `onUnmounted`.                                                                                                                                                                                                       |
+| `useBackGesture()`                     | Readonly shallow ref to `{ progress, edge }` or `null`; Android 14+. `edge` is `'left'`, `'right'` or `'none'`.                                                                                                                                                 |
+| `usePageState(key, options)`           | Keeps JSON-compatible page state across process death: `save`, `restore(value, { version, page })`, optional `version` and `migrate`. Needs `restore` on the router. See [page state](./restore#page-state).                                                    |
+| `useNativeFlow(flow)`                  | Binds a `NativeFlow` (a system picker, another app's activity) to the page: `run(input, { before })` resolves once with `completed`, `cancelled` or `failed`; `running` ref. `createDocumentPicker()` is the built-in flow. See [native flows](./native-flows). |
 
 Register page hooks in the routed component's setup. In an expanded split view, both list and top detail are active. See [page lifecycle and HMR](./pages).
 
 ## Components
 
-| Component         | Props and slots                                                                                                                                                                                          |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `RouterView`      | `name` (`'default'`), `initial` (`'/'`), `backToRootOnReselect` (`false`). Mounts one Frame.                                                                                                             |
-| `RouterSplitView` | Required `list`; `name` (`'default'`), `breakpoint` (840), `listWidth` (320), `backToRootOnReselect` (`false`). Slot: `empty`.                                                                           |
-| `RouterLink`      | Required `to`; `replace`, `clearHistory`, `withParents`, `zoom` (all `false`); `transition`, `frame`. One default-slot child; slot receives `{ navigate }`. Adds a tap handler without a native wrapper. |
-| `Deferred`        | No props. Slots: default content and `fallback`. Shows content after the page's first activation and keeps it mounted afterward. Outside a routed page, renders immediately.                             |
+| Component              | Props and slots                                                                                                                                                                                                                                                                                                              |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `RouterView`           | `name` (`'default'`), `initial` (`'/'`), `backToRootOnReselect` (`false`). Mounts one Frame.                                                                                                                                                                                                                                 |
+| `RouterSplitView`      | Required `list`; `name` (`'default'`), `breakpoint` (840), `listWidth` (320), `foldAware` (`true`, Android), `backToRootOnReselect` (`false`). Slot: `empty`.                                                                                                                                                                |
+| `RouterUIKitSplitView` | Required `list`; `name` (`'default'`), `primaryWidthFraction` (`0.32`). Window-root UIKit primary/secondary columns, iOS 18+ with Core SplitView. See [UIKit columns](./split-view#opt-in-uikit-columns).                                                                                                                    |
+| `RouterDrawer`         | `width` (300), `open` (`v-model:open`), `closeOnNavigate` (`true`). Slots: default content and `drawer`. Events `opened`, `closed`; ref `open()`, `close()`, `toggle()`, `isOpen`. Android only; iOS renders the content. See [Android drawer](./drawer).                                                                    |
+| `RouterTabs`           | `selected` (`v-model:selected`, a tab name), `canSelect(name)`, `sidebar` (iOS 18+), `minimize` (`'never'`, iOS 26 `'onScrollDown'`/`'onScrollUp'`), `rail` (600, Android). Events `select`, `reselect`. Children: `RouterTab` with `name`, `title`, `icon` (SF Symbol), `androidIcon`, `badge`, `role`. See [tabs](./tabs). |
+| `RouterLink`           | Required `to`; `replace`, `clearHistory`, `withParents`, `zoom` (all `false`); `transition`, `frame`; `menu` (`RouteMenuOptions`: a long press previews the route). One default-slot child; slot receives `{ navigate }`. Adds a tap handler without a native wrapper.                                                       |
+| `Deferred`             | No props. Slots: default content and `fallback`. Shows content after the page's first activation and keeps it mounted afterward. Outside a routed page, renders immediately.                                                                                                                                                 |
+
+`v-route-preview` (exported as `vRoutePreview`, registered by `install`) takes `RoutePreviewOptions` on any view: `to`, `preview`, `props`, `canPreview`, `size`, `actions`, `openTitle` and the navigation options. `attachRouteMenu(view, router, options)` and `detachRouteMenu(view)` do the same without Vue. See [context menu previews](./context-menus).
 
 Router view names must be unique, including split views. `name` and the initial route (`initial`/`list`) are read at mount; use a new Vue `key` to create a different stack. Split view dimensions are device-independent pixels; list width is capped at half the available width. See [split view](./split-view).
 
@@ -116,14 +148,41 @@ Router view names must be unique, including split views. `name` and the initial 
 
 Public types are exported from the package root:
 
-- Router configuration: `Router`, `RouterOptions`, `RestoreOptions`, `RestoreContext`, `SavedStacks`, `RouterWindow`, `OpenWindowOptions`.
+- Tabs: `RouterTabDescriptor`, `TabMinimize`, `TabRole`; `supportsNativeTabs()`.
+- Router configuration: `Router`, `RouterOptions`, `SystemBackClaimant`, `RouterDrawerHandle`, `RestoreOptions`, `SavedStacks`, `SavedEntry`, `SavedState`, `PageStateOptions`, `PageStateContext`.
 - Routes: `RouteRecordRaw`, `RouteRecord`, `RouteRecordName`, `RouteMeta`, `RouteProps`, `RouteComponent`, `RawRouteComponent`, `Lazy`.
 - Locations: `RouteLocation`, `RouteLocationRaw`, `RouteLocationPathRaw`, `RouteLocationNamedRaw`, `RouteLocationRelativeRaw`, `RouteParams`, `RouteParamsRaw`, `RouteParamValue`, `RouteParamValueRaw`, `LocationQuery`, `LocationQueryRaw`, `LocationQueryValue`, `LocationQueryValueRaw`.
 - Navigation: `NavigationOptions`, `BackOptions`, `SetStackOptions`, `NavigationType`, `NavigationInfo`, `NavigationGuard`, `NavigationGuardReturn`, `NavigationHookAfter`, `NavigationErrorHandler`, `NavigationFailure`, `LeaveGuardOptions`.
-- Native presentation: `ModalOptions`, `SheetOptions`, `SheetDetent`, `TransitionOption`, `ZoomSource`, `BackGesture`, `BackGestureEdge`.
+- Native flows: `NativeFlow`, `NativeFlowContext`, `NativeFlowOutcome`, `NativeFlowHandle`, `NativeFlowRunOptions`, `DocumentPickerInput`, `DocumentPickerResult`; `startNativeFlow(flow, input, page)` runs one outside a page.
+- Links: `LinksOptions`, `LinkOptions`, `IncomingLink`, `LinkResult`, `LinkIgnoredReason`, `LinkSource`, `LinkListener`, `RouteShortcut`. `supportsShortcuts()` reports whether the platform shows home-screen shortcuts.
+- Native presentation: `ModalOptions`, `SheetOptions`, `SheetDetent`, `AndroidModalOptions`, `BottomSheetOptions`, `BottomSheetState`, `TransitionOption`, `ZoomSource`, `BackGesture`, `BackGestureEdge`. `supportsBottomSheets()` reports whether the Android build includes Material.
 - Inferred route types: `Register`, `RegisteredRouter`, `RouteMapFrom`, `RouteMapGeneric`, `RouteNames`, `RouteLocationOf`, `RouteLocationRawOf`, `ParamsFromPath`.
 
 Augment `Register` and `RouteMeta` as shown in [typed routes](./typed-routes).
+
+## Diagnostics
+
+`RouterDiagnostics` exposes `routerId`, `stopped`, `events`, `droppedEvents`, `snapshot()`, `subscribe(listener)`, `toJSON()`, `export()`, `clear()` and `stop()`. Data is readonly, bounded and redacted; `stop()` releases live sources. Exported types: `DiagnosticsOptions`, `RouterDiagnostics`, `DiagnosticsExport`, `DiagnosticSnapshot`, `DiagnosticStack`, `DiagnosticHost`, `DiagnosticEntry`, `DiagnosticIssue`, `DiagnosticIssueCode`, `DiagnosticEvent`, `DiagnosticPhase` and `DiagnosticOutcome`. See [diagnostics](./diagnostics) for format, timing semantics and lifetime.
+
+## Native search
+
+`useNativeSearch(options)` registers page-owned native search. Exports: `NativeSearchOptions`, `NativeSearch`. See [native bars and search](./native-bars) for query ownership, activation and platform differences.
+
+## Keyboard commands
+
+`useNavigationCommands(source)` and `NavigationCommandScope` bind opt-in commands to a page/window. Types: `NavigationCommand`, `NavigationCommandState`, `NavigationCommands`, `NavigationShortcut`, `KeyModifier`. See [keyboard commands](./keyboard).
+
+## Accessibility and motion
+
+`useNavigationFocus(options)` supplies opt-in initial/return accessibility targets and modal initiator restoration. Types: `NavigationFocus`, `NavigationFocusOptions`, `NavigationFocusTarget`. `RouterOptions.motion` accepts `MotionPolicy` (`system`, `reduced`, `full`); default `system`. See [accessibility and motion](./accessibility).
+
+## Native hosts (experimental)
+
+`mountNativeHost(router, name, host, initial?)` drives a stack in a `NativeHost` and returns its unmount function. `useNativeHost<TNative>()` gives a page the `kind`, `capabilities` and `native` container of its host. `createFrameHost(frame, { modal? })` and `createSplitFrameHost(list, detail, { expanded, detailVisible })` are the built-in hosts; `NATIVE_HOST_VERSION` is the contract version the router accepts. Types: `NativeHost`, `NativeHostCapabilities`, `NativeHostDelegate`, `NativeHostPushOptions`, `NativeHostBackOptions`, `NativeHostPart`, `NativeHostRole`, `NativeHostHandle`, `NativeHostVersion`, `FrameHostOptions`, `SplitFrameHostOptions`, `SplitFrames`, `BackGestureSession`, `BackPreview`. See [native hosts](./native-hosts).
+
+`defineNativeDestination<Input, Output>({ id, input, ios?, android? })` returns a route component containing an existing UIKit controller or AndroidX Fragment. Factories return `{ native, dispose? }`; their context supplies `input`, `route`, `page`, `complete(value)`, `cancel()`, `dismissed()` and `beforeLeave(guard)`. Types: `NativeDestinationOptions`, `NativeDestinationContext`, `NativeDestinationInstance`. See [native destinations](./native-destinations) for containment, guard limits and restoration.
+
+`supportsUIKitSplitView()` checks whether the optional UIKit backend is available.
 
 ## Native windows (experimental, core 9.1+)
 

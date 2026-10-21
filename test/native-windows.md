@@ -36,3 +36,35 @@ Closing the original Android Activity exposed another core issue: subsequent `Ap
 The router suite checks owner-specific back/guards/gesture progress, independent modal result settlement, detach/attach callback cleanup, stable persistence keys, snapshot mismatches, typed route handoff, unique window ownership and fallback when NativeWindow APIs are absent. The NativeScript-Vue fix adds regression coverage for retained page reactivity, real disposal after pop, window closure and root replacement.
 
 No physical-device pass, OS-driven iOS scene reconnection, or full process-death multi-scene restoration was performed for this feature. Direct invocation of UIKit scene delegate callbacks was explored as a diagnostic and failed on return/back with a missing native transition owner (`_transition` on null). A root reported attached while its native Frame UI was unloaded. This diagnostic is not equivalent to an OS disconnect; iOS scene resumption remains unverified and must not be marked complete. OS-originated link receipt remains #48; per-entry UI-state serialization remains #49. The application must reuse an existing window root/router during reconnect, compose its content resolver with other integrations, and choose fresh-route versus saved-history precedence explicitly.
+
+## Current integration and repeatable Android acceptance — 2026-10-21
+
+The draft has been integrated with `main` through beta.14: native host adapters, tabs, reduced motion, version-2 entry/page state, diagnostics and incoming links. Native elements now explicitly allow registration by another router app; the process-wide NativeScript-Vue registry otherwise threw `RouterUIKitSplitHost already registered` while opening the second window. The test shim enforces the real duplicate-registration contract. Frame and split back ownership is window-scoped, and an unbound globally prioritized Frame falls back to this window's focused stack.
+
+Incoming Android intents and iOS scene URL/activity/shortcut events are filtered by their owner. UIKit's forwarded application delegate cannot repeat a scene event into other routers. Closing the window removes link listeners, disables retained delegate closures, settles results and cannot overwrite the snapshot it just cleared. Initial secondary-window URLs still need explicit handoff from the application-owned content resolver because Core emits the initial event before that resolver creates its router.
+
+The [repeatable fixture and driver](../scripts/native/windows/README.md) run on an Android 14 / API 34 arm64 emulator with Core 9.1.3, Android runtime 9.1.1 and NativeScript-Vue 3.1.2. The installed Vue navigation, bootstrap and runtime helper files were compared byte-for-byte with the public npm 3.1.2 tarball. No installed package was patched.
+
+| Scenario                                                                             | Published dependencies                                                                | Diagnostic PR #1178 control                                |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Two native windows, independent histories, guarded back                              | Pass                                                                                  | Pass                                                       |
+| Two simultaneous modal results; closing A leaves B open                              | Pass                                                                                  | Pass                                                       |
+| Genuine process death and application-owned reconstruction with stable document keys | Pass                                                                                  | Pass                                                       |
+| Duplicate-path drafts in A, independent draft in B, stable entry keys                | Pass                                                                                  | Pass                                                       |
+| Android-delivered `ACTION_VIEW` into B leaves A unchanged                            | Pass                                                                                  | Pass                                                       |
+| Activity replacement, back and retained Vue reactivity                               | **Fails**: B's logical stack becomes empty while its native Frame still has two pages | Pass; retained page updates and a subsequent push succeeds |
+| Permanent B closure clears only B's snapshot                                         | Not claimed after the failed recreation                                               | Pass                                                       |
+
+The control is an explicit fixture-only webpack transform of the disposal change from NativeScript-Vue #1178 at `e31806b7fed28cd4b4aa3af3f564492b43ecba91`. It is not part of the router package, is never enabled in the normal demo, and does not turn that unpublished dependency into supported functionality. CI runs both builds and requires the published variant to reproduce the exact known failure rather than accepting an arbitrary exception.
+
+Validation: 518 tests passed with 10 existing skips; package/demo typechecks, package build, docs build and formatting passed. The new `Native windows (experimental)` lane records per-command snapshots, original/replacement Activity identities, old/new PIDs and logcat, alongside the existing native contract lanes.
+
+### Still required for #46
+
+- The lifecycle correction must be available in a supported dependency and pass this suite without the diagnostic transform.
+- OS-driven iOS scene disconnect/reconnect is still unverified. No manual delegate invocation is counted as an OS reconnect.
+- The process-death test demonstrates **application-owned reconstruction into new native windows**. Automatic restoration of Android's existing task records and iOS scene sessions is not claimed.
+- Core's open-window behavior after the original Activity finishes still depends on NativeScript #11552 / issue #11526; this new fixture does not cover that launcher scenario.
+- Native iOS link delivery and cold secondary-window handoff remain broader #48 acceptance work. iOS event ownership has automated unit coverage here.
+
+The draft and issue remain open. These Android passes advance #49's multi-window validation but do not constitute a released, supported multi-window backend.

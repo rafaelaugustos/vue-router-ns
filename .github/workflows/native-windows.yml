@@ -1,0 +1,61 @@
+name: Native windows (experimental)
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - run: npm ci && npm run build
+      - run: npm install --no-audit --no-fund
+        working-directory: demo
+      - run: npm install -g nativescript
+      - name: Prepare isolated native resources
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install emulator >/dev/null
+          ns usage-reporting disable
+          ns error-reporting disable
+          ns create windows-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null
+          cp -R /tmp/windows-scaffold/App_Resources demo/App_Resources
+          node scripts/native/windows/prepare.mjs
+      - name: Build published dependency and diagnostic lifecycle control
+        working-directory: demo
+        run: |
+          ns build android --env.windowsTest --no-hmr
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/windows-published.apk
+          ns build android --env.windowsTest --env.windowLifecycleControl --no-hmr
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/windows-control.apk
+          npx tsc --noEmit
+      - name: Window lifecycle acceptance and upstream regression control
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          profile: pixel_7
+          disable-animations: false
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: |
+            ANDROID_SERIAL=emulator-5554 ANDROID_APP=/tmp/windows-published.apk OUT=scripts/native/out/windows-published EXPECT_RECREATION_FAILURE=1 node scripts/native/windows/android.mjs
+            ANDROID_SERIAL=emulator-5554 ANDROID_APP=/tmp/windows-control.apk OUT=scripts/native/out/windows-control node scripts/native/windows/android.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-windows-android
+          path: scripts/native/out

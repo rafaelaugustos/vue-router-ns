@@ -10,6 +10,8 @@ router.backTo({ name: 'inbox' }) // closest page below that matches
 router.backToRoot() // first page of the stack
 ```
 
+<Clip name="ios-navigation" caption="Opening two messages, then returning to the inbox in one navigation. iOS 26 simulator." />
+
 Everything returns a promise that settles once the page is on screen, with a `NavigationFailure` when a guard stopped it, like Vue Router.
 
 ## Options

@@ -696,6 +696,7 @@ describe('Android back preview', () => {
       },
       org: { nativescript: { widgets: { CommonLayoutParams: class {} } } },
       android: {
+        animation: { ValueAnimator: { areAnimatorsEnabled: () => true } },
         R: { attr: { colorBackground: 1 } },
         util: {
           TypedValue: class {
@@ -717,10 +718,17 @@ describe('Android back preview', () => {
     for (const name of ['java', 'org', 'android']) delete (globalThis as any)[name]
   })
 
-  const setup = async (options: { backPreview?: boolean; refuseBack?: boolean } = {}) => {
+  const setup = async (
+    options: {
+      backPreview?: boolean | 'core'
+      refuseBack?: boolean
+      motion?: 'reduced'
+    } = {},
+  ) => {
     const { router, frame, app } = await mount(routes, {
       platform: 'android',
       backPreview: options.backPreview,
+      motion: options.motion,
       before: (router) => {
         if (options.refuseBack) router.beforeEach((to, from, { type }) => type !== 'back')
       },
@@ -735,6 +743,57 @@ describe('Android back preview', () => {
     return { router, container, home, list, app }
   }
 
+  it.each([false, true])(
+    'uses opt-in Core through router guards (refused: %s)',
+    async (refuseBack) => {
+      const { router, app, container } = await setup({ backPreview: 'core', refuseBack })
+      let active = true
+      let notify = () => {}
+      const session = {
+        version: 1,
+        get active() {
+          return active
+        },
+        update: vi.fn(),
+        finish: vi.fn(async () => true),
+        cancel: vi.fn(() => {
+          active = false
+          notify()
+        }),
+        dispose: vi.fn(() => {
+          if (active) {
+            active = false
+            notify()
+          }
+        }),
+      }
+      ;(Frame.topmost() as any).beginBackPreview = ({ onDispose }: any) => {
+        notify = onDispose
+        return session
+      }
+      const swipe = swipeAndroidBack()
+      swipe.move(0.7)
+      expect(container.children).toEqual([])
+      expect(session.update).toHaveBeenCalledWith(0.7, 'left')
+      swipe.release()
+      await settle()
+      expect(paths(router.stack.value)).toEqual(refuseBack ? ['/', '/list'] : ['/'])
+      if (refuseBack) expect(session.cancel).toHaveBeenCalledOnce()
+      else expect(session.dispose).toHaveBeenCalled()
+      app.unmount()
+    },
+  )
+
+  it('keeps the legacy preview when experimental Core is unavailable', async () => {
+    const { router, app, container, home } = await setup({ backPreview: 'core' })
+    const swipe = swipeAndroidBack()
+    expect(container.children).toEqual([home])
+    swipe.release()
+    await settle()
+    expect(paths(router.stack.value)).toEqual(['/'])
+    app.unmount()
+  })
+
   it('puts the page below behind the one on top while the swipe moves', async () => {
     const { container, home, list } = await setup()
 
@@ -746,6 +805,47 @@ describe('Android back preview', () => {
     expect(list.state.elevation).toBeGreaterThan(0)
     expect(list.state.background).toBeDefined()
     expect(home.state.x).toBe(-30)
+  })
+
+  it('keeps preview views out of accessibility traversal and restores them on cancellation', async () => {
+    const { router, app } = await setup()
+    const below = Frame.topmost()!.backStack[0]!.resolvedPage
+    expect(below.accessibilityHidden).toBe(false)
+    const swipe = swipeAndroidBack()
+    expect(below.accessibilityHidden).toBe(true)
+    swipe.cancel()
+    await settle()
+    expect(below.accessibilityHidden).toBe(false)
+    expect(router.stack.value).toHaveLength(2)
+    app.unmount()
+  })
+
+  it('omits router-owned preview transforms with reduced motion but still goes back', async () => {
+    const { container, list, router, app } = await setup({ motion: 'reduced' })
+    const swipe = swipeAndroidBack()
+    swipe.move(0.6)
+    expect(container.children).toEqual([])
+    expect(list.state.scale).toBe(1)
+    swipe.release()
+    await settle()
+    expect(router.stack.value).toHaveLength(1)
+    expect(Frame.backs.at(-1)).toBe(false)
+    app.unmount()
+  })
+
+  it('preserves a focus owner making the preview page accessible on successful return', async () => {
+    const { app } = await setup()
+    const below = Frame.topmost()!.backStack[0]!.resolvedPage
+    below.accessibilityHidden = true
+    below.on('navigatedTo', () => {
+      below.accessibilityHidden = false
+    })
+    const swipe = swipeAndroidBack()
+    swipe.move(0.7)
+    swipe.release()
+    await settle()
+    expect(below.accessibilityHidden).toBe(false)
+    app.unmount()
   })
 
   it('settles back and takes the page below away when cancelled', async () => {
@@ -1375,6 +1475,27 @@ describe('modal dismiss attempts on iOS', () => {
 
     expect(View.presented).toHaveLength(1)
     expect(router.currentRoute.value.path).toBe('/draft')
+  })
+
+  it('ask again after the guard refused once', async () => {
+    const answers = [false, true]
+    const ask = vi.fn(async () => answers.shift()!)
+    const { router } = await mount([
+      ...routes,
+      { path: '/draft', component: guarded('Draft', ask), modal: true },
+    ])
+    await router.push('/draft')
+    await settle()
+
+    dismissAttempted(modalFrame())
+    await settle()
+    expect(View.presented).toHaveLength(1)
+    dismissAttempted(modalFrame())
+    await settle()
+
+    expect(ask).toHaveBeenCalledTimes(2)
+    expect(View.presented).toHaveLength(0)
+    expect(router.currentRoute.value.path).toBe('/')
   })
 
   it('ignore a second attempt while the guard is still asking', async () => {

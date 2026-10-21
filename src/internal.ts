@@ -1,17 +1,14 @@
-import type { Ref } from 'nativescript-vue'
-import type { Frame } from '@nativescript/core'
+import type { NativeHost } from './host.js'
 import type { RouteLocationRaw } from './types.js'
 
-/** What `<RouterView>` needs from the router, kept off the public API. */
+/** What `<RouterView>` and `mountNativeHost()` need from the router, kept off the public API. */
 export interface RouterInternals {
-  mount(name: string, frame: Frame, initial: RouteLocationRaw): Promise<void>
-  mountSplit(
+  mount(
     name: string,
-    listFrame: Frame,
-    detailFrame: Frame,
-    list: RouteLocationRaw,
-    expanded: Readonly<Ref<boolean>>,
-    detailVisible: Ref<boolean>,
+    host: NativeHost,
+    initial: RouteLocationRaw,
+    reveal?: () => void,
+    selected?: () => boolean,
   ): Promise<void>
   unmount(name: string): void
 }

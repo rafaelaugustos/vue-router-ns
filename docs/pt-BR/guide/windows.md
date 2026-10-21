@@ -93,4 +93,12 @@ Importe `ApplicationSettings` de `@nativescript/core`. O segundo argumento opcio
 
 Snapshots de janela incluem `windowKey`; uma chave incompatível é ignorada na leitura. Snapshots legados sem ela continuam legíveis. Fechar uma janela salva `null` apenas com o contexto dela. Sair do processo salva os históricos das janelas em vez de apagar todos; o modo legado mantém o comportamento de limpar ao sair.
 
-Escolha no resolver a prioridade entre rota recebida e histórico restaurado. Um novo pedido `openWindow` normalmente começa na rota solicitada e ignora um snapshot antigo; uma reconstrução pelo sistema normalmente restaura a janela salva. Use os dados de estado/sessão do pedido nativo e os metadados do app para distinguir esses casos. A API não serializa estado local do Vue nem Promises pendentes entre mortes de processo.
+Escolha no resolver a prioridade entre rota recebida e histórico restaurado. Um novo pedido `openWindow` normalmente começa na rota solicitada e ignora um snapshot antigo; uma reconstrução pelo sistema normalmente restaura a janela salva. Use os dados de estado/sessão do pedido nativo e os metadados do app para distinguir esses casos. Use `usePageState()` para estado de página opcional e versionado; Promises pendentes e objetos nativos não sobrevivem à morte do processo.
+
+## Links entregues a uma janela
+
+Com `links` habilitado, intents Android e URLs, atividades e atalhos de cenas iOS recebidos com o app aberto chegam somente ao router da Activity/cena correspondente. Fechar o router remove seus listeners e desativa os callbacks de delegate legado que o Core não permite remover.
+
+Para uma nova janela secundária, o Core chama o resolver de conteúdo **depois** de emitir o evento inicial. Encaminhe a URL do request explicitamente ao novo router com `router.openLink(url, { source: 'launch' })`; a chamada aguarda a restauração e o primeiro host nativo. Leia a URL de `request.android?.intent` ou `request.ios?.connectionOptions`. No Android, não repita o intent antigo quando existir `request.android?.savedInstanceState`. Defina a política de link novo versus histórico salvo antes desse encaminhamento. Por padrão, o link entra sobre o histórico restaurado; `clearHistory: true` inicia outra pilha.
+
+Uma notificação sem janela de origem depende da política do app: escolha o router/janela e chame seu `openLink()`.

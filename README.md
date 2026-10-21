@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/master/.github/assets/logo-dark.png">
-    <img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/master/.github/assets/logo.png" alt="vue-router-ns" width="360">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/main/.github/assets/logo-dark.png">
+    <img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/main/.github/assets/logo.png" alt="vue-router-ns" width="360">
   </picture>
 </p>
 
@@ -12,7 +12,7 @@
 <p align="center">
   <a href="https://www.npmjs.com/package/vue-router-ns"><img src="https://img.shields.io/npm/v/vue-router-ns/next?label=npm%40next" alt="npm"></a>
   <a href="https://github.com/rafaelaugustos/vue-router-ns/actions/workflows/ci.yml"><img src="https://github.com/rafaelaugustos/vue-router-ns/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://github.com/rafaelaugustos/vue-router-ns/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/vue-router-ns" alt="MIT license"></a>
+  <a href="https://github.com/rafaelaugustos/vue-router-ns/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/vue-router-ns" alt="MIT license"></a>
 </p>
 
 <p align="center">
@@ -35,6 +35,25 @@ const router = createRouter({
 router.push({ name: 'message', params: { id: 42 } })
 ```
 
+Prefer file conventions? The optional [file-routing setup](https://vue-router-ns.rafaelaugusto.dev/guide/file-routing) generates typed native routes, with opt-in layouts, middleware discovery and webpack or Vite integration. Native Vite HMR uses adjacent JSON metadata; see the guide for setup and compiler limitations. Choose explicit records, native page files, or combine them on the same router. See the separate [native example](examples/file-routing/README.md).
+
+Recorded in the NativeScript demo. Watch more clips, with the code for each feature, in the [visual guide](https://vue-router-ns.rafaelaugusto.dev/guide/demo).
+
+<table>
+  <tr>
+    <th><a href="https://vue-router-ns.rafaelaugusto.dev/guide/tabs">Native tabs · iOS</a></th>
+    <th><a href="https://vue-router-ns.rafaelaugusto.dev/guide/context-menus">Context menus · iOS</a></th>
+    <th><a href="https://vue-router-ns.rafaelaugusto.dev/guide/modals">Sheets · Android</a></th>
+    <th><a href="https://vue-router-ns.rafaelaugusto.dev/guide/drawer">Drawer · Android</a></th>
+  </tr>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/main/.github/assets/demo-ios-tabs.gif" width="200" alt="Switch tabs while preserving the message stack, then reselect Inbox to return to its root"></td>
+    <td><img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/main/.github/assets/demo-ios-context-menu.gif" width="200" alt="Long-press a message to preview it, then open its route"></td>
+    <td><img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/main/.github/assets/demo-android-sheet.gif" width="200" alt="Open a Material bottom sheet and dismiss it with system Back"></td>
+    <td><img src="https://raw.githubusercontent.com/rafaelaugustos/vue-router-ns/main/.github/assets/demo-android-drawer.gif" width="200" alt="Open Settings from the Android drawer and close the drawer with system Back"></td>
+  </tr>
+</table>
+
 Vue Router can't drive a mobile app: it models navigation as one URL that changes, with a `<RouterView>` that swaps components. A NativeScript app has a `Frame` with a stack of pages that stay alive underneath each other, a back button and an iOS swipe that pop pages without asking anyone, modals, and often one stack per tab.
 
 So this is not a wrapper around Vue Router. The frame's back stack is the source of truth, and the router mirrors it after every native navigation. What you get is the API you already know (`push`, guards, `useRoute`, named routes, params) with semantics that make sense on a phone.
@@ -43,13 +62,17 @@ So this is not a wrapper around Vue Router. The frame's back stack is the source
 
 - [A route per page](#every-page-keeps-its-route): `useRoute()` inside a page never changes, even with other pages pushed on top.
 - [Leave guards](#guards) that the Android back button goes through, and that turn the iOS swipe off while they'd block it.
-- [Modal routes](#modals) with their own stack, and [`pushForResult()`](#getting-a-result-back) to get a value back from a page.
+- [Modal routes](#modals) with their own stack, iOS sheet detents and [Android Material bottom sheets](#bottom-sheets-on-android), and [`pushForResult()`](#getting-a-result-back) to get a value back from a page.
 - [One stack per tab](#tabs-and-other-independent-stacks), with named `<RouterView>`s, and [`setStack()`](#setting-the-whole-stack) to set a stack as a list.
 - [Adaptive list and detail](#list-and-detail) with `<RouterSplitView>`, preserving push history across layout changes.
+- [A native Android drawer](https://vue-router-ns.rafaelaugusto.dev/guide/drawer) with `<RouterDrawer>`: AndroidX `DrawerLayout` around your stacks, closed by back before any page pops.
+- [Native tabs](https://vue-router-ns.rafaelaugusto.dev/guide/tabs) with `<RouterTabs>`: `UITabBarController` with `UITab`, badges and the iPad sidebar on iOS, Material bottom navigation or a rail on Android, and navigations that bring their tab forward.
+- [Context menu previews](https://vue-router-ns.rafaelaugusto.dev/guide/context-menus) with `v-route-preview` and `<RouterLink menu>`: a long press shows the route in UIKit's preview with actions and commits it through the guards; Android offers the actions in a popup menu.
 - [Typed routes](#typed-routes): names and params checked across the app, with no code generation.
 - [Zoom and shared elements](#zoom-and-shared-elements): iOS 18's zoom out of a view, and NativeScript's shared element transitions.
 - [Android predictive back](#android-predictive-back) for pages that want to follow the swipe.
-- [Restoring the stack](#restoring-the-stack-after-the-app-is-killed) after the app is killed in the background.
+- [Restoring the stack](#restoring-the-stack-after-the-app-is-killed) after the app is killed in the background, with each page's own draft or reading position through `usePageState()`.
+- [Native hosts](#native-hosts) (experimental): one contract between the router and the container it drives, so native drawers, sheets and controllers can be added as adapters.
 
 ## Install
 
@@ -247,7 +270,24 @@ iOS sheets can stop at medium height, at full height or at a fraction of the scr
 }
 ```
 
-The sheet is configured before it's presented, so it opens at the right height. `push` can pass the same options under `modal.ios`, merged with the record's. Android has no equivalent in `showModal` and ignores them.
+The sheet is configured before it's presented, so it opens at the right height. `push` can pass the same options under `modal.ios`, merged with the record's. Android ignores them and has bottom sheets of its own.
+
+### Bottom sheets on Android
+
+Material's bottom sheet rests collapsed at a peek height, half expanded, or expanded to its content. Set `sheet` in `android` of the modal options, with `true` for Material's defaults:
+
+```ts
+{
+  path: '/filters',
+  component: Filters,
+  modal: {
+    ios: { detents: ['medium', 'large'] },
+    android: { sheet: { peekHeight: 320, state: 'expanded', skipCollapsed: true } },
+  },
+}
+```
+
+Pages push inside the sheet, `pushForResult()` works, and dragging it away, tapping outside or pressing back closes it through the leave guards; a held sheet can't be dragged away. The NativeScript Android runtime ships Material only in debug builds: add `implementation "com.google.android.material:material:1.12.0"` to `App_Resources/Android/app.gradle` for release, or `push` rejects with an error that says so. See [modals](https://vue-router-ns.rafaelaugusto.dev/guide/modals#bottom-sheets-on-android).
 
 ## Getting a result back
 
@@ -366,6 +406,8 @@ router.push('/messages/42')
 
 That's safe on a cold start: a navigation requested before the first page is up waits for it and stacks on top, so back still lands on your home page.
 
+With `links`, the router takes the URLs the operating system hands the app itself: Android launch and new intents, iOS `openURL`, Universal Links and scene connections, next to the handlers you already have. Allow schemes and hosts, map URLs to typed locations, pick the stack and select its tab, and the link lands with its parents, through the guards, after the first page and on top of a restored stack. `router.openLink(url)` is the same door for notifications and widgets, and tells you what happened. `router.setShortcuts([...])` offers routes as home-screen shortcuts on both platforms; a tap comes back through the same pipeline. See [deep links](https://vue-router-ns.rafaelaugusto.dev/guide/deep-links#receiving-operating-system-urls) for the policy and the manifest, entitlements and association files each platform needs.
+
 A link into a nested page can bring its parents along, so back walks up the app's hierarchy instead of jumping home:
 
 ```ts
@@ -442,13 +484,13 @@ On iOS, the ActionBar's back button pops the page natively. While a leave guard 
 
 ## API
 
-**Router**: `createRouter({ routes, window, restore, backPreview })`, `push`, `replace`, `back`, `go`, `backTo`, `backToRoot`, `setStack`, `pushForResult`, `resolve`, `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`, `beforeEach`, `beforeResolve`, `afterEach`, `onError`, `isReady`, `currentRoute`, `stack`, `window`, `openWindow`.
+**Router**: `createRouter({ routes, restore, backPreview, diagnostics, motion })`, `push`, `replace`, `back`, `go`, `backTo`, `backToRoot`, `setStack`, `pushForResult`, `resolve`, `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`, `beforeEach`, `beforeResolve`, `afterEach`, `onError`, `isReady`, `currentRoute`, `stack`, `diagnostics`.
 
 **Route records**: `path`, `name`, `component` (or a function returning it, sync or async), `children`, `redirect`, `meta`, `props` (`true`, an object or a function of the route), `beforeEnter`, plus `modal` and `transition`.
 
-**Composables**: `useRouter`, `useRoute`, `onBeforeRouteLeave`, `onPageActivated`, `onPageDeactivated`, `useBackGesture`.
+**Composables**: `useRouter`, `useRoute`, `onBeforeRouteLeave`, `onPageActivated`, `onPageDeactivated`, `useBackGesture`, `useNativeSearch`, `useNavigationCommands`, `useNavigationFocus`.
 
-**Components**: `<RouterSplitView name list breakpoint listWidth backToRootOnReselect>` (with an `empty` slot), `<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents zoom transition frame>` and `<Deferred>`. `RouterLink` makes its only child navigate on tap, without adding a view:
+**Components**: `<RouterSplitView name list breakpoint listWidth backToRootOnReselect>` (with an `empty` slot), `<RouterDrawer width open closeOnNavigate>` (with a `drawer` slot, Android), `<RouterTabs selected canSelect sidebar minimize rail>` with `<RouterTab name title icon androidIcon badge role>` children, `<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents zoom transition frame menu>`, `<NavigationCommandScope :commands="commands">` and `<Deferred>`. `RouterLink` makes its only child navigate on tap, without adding a view:
 
 ```vue
 <RouterLink to="/settings">
@@ -468,15 +510,24 @@ Covered-page HMR reloads wait until the Frame returns to the page, then replace 
 
 The [full API reference](https://vue-router-ns.rafaelaugusto.dev/guide/api) documents signatures, defaults, errors, component slots and exported types. In particular, `go(delta)` takes no options; `back`, `backTo` and `backToRoot` accept `animated`, `frame` and `result`.
 
-## Native windows
+## Native controls and accessibility
 
-On NativeScript core 9.1+, create one router per `NativeWindow` with `createRouter({ routes, window })`. Stacks, modals, results and Android back handling stay within that window. `router.openWindow(to, { data })` sends a typed destination to the OS; the app's window content resolver reads it with `getWindowRoute(request.data)` and mounts a new root/router.
+- [Native bars and search](https://vue-router-ns.rafaelaugusto.dev/guide/native-bars): ActionBar titles/actions and page-owned UISearchController/SearchView with explicit query state.
+- [Keyboard commands](https://vue-router-ns.rafaelaugusto.dev/guide/keyboard): opt-in commands, iPad discovery and focused page/window ownership through `NavigationCommandScope`.
+- [Accessibility and motion](https://vue-router-ns.rafaelaugusto.dev/guide/accessibility): stable focus targets, modal initiator restoration and OS reduced-motion defaults.
+- [System pickers and native flows](https://vue-router-ns.rafaelaugusto.dev/guide/native-flows): `useNativeFlow()` gives the document picker and other system-owned UI a typed result that settles once, outside the back stack.
 
-This integration is experimental and requires native multi-window configuration. Native surface recreation also depends on [NativeScript-Vue #1178](https://github.com/nativescript-vue/nativescript-vue/pull/1178); OS-driven iOS scene reconnection remains unverified. Restoration callbacks receive a window context so app storage can separate snapshots. See [native windows](https://vue-router-ns.rafaelaugusto.dev/guide/windows) for setup, lifecycle and NativeScript-Vue context limitations.
+## Native hosts
+
+Every stack runs in a native **host**: the Frame of a `<RouterView>`, the frame inside a modal, or the two Frames of a `<RouterSplitView>`. They all go through one experimental contract, `NativeHost`, so the router keeps a single implementation of guards, results, history and reconciliation while the host owns presentation and gestures. Mount your own container with `mountNativeHost(router, name, host, initial)` and navigate there with `{ frame: name }`; inside a page, `useNativeHost<Frame>()` reaches the native container. Hosts declare capabilities such as `replace`, `clearHistory` and `close`, and the router rejects what a host can't do instead of faking it. A shared contract suite runs against the Frame hosts and an in-memory example. See [native hosts](https://vue-router-ns.rafaelaugusto.dev/guide/native-hosts) for the contract and its versioning policy.
+
+## Navigation diagnostics
+
+Opt in with `createRouter({ routes, diagnostics: __DEV__ })`. `router.diagnostics` provides a bounded navigation timeline, frozen logical/native snapshots, mismatch detection and JSON export. Guards, loading, mounting and transition completion have correlated timings; route values, props and results are omitted. The debug demo includes a native inspector with slow-guard, heavy-setup and unmanaged-Page scenarios. See [diagnostics](https://vue-router-ns.rafaelaugusto.dev/guide/diagnostics).
 
 ## Try it online
 
-[Open in StackBlitz](https://stackblitz.com/fork/github/rafaelaugustos/vue-router-ns/tree/master/examples/playground?file=src%2Frouter.ts) with [NativeScript Preview](https://preview.nativescript.org/). The example uses the published npm package and covers push/back history, modal results, leave guards and adaptive list/detail. Edit in the browser; scan the QR code to run natively on a device. See [setup and Preview limitations](https://vue-router-ns.rafaelaugusto.dev/guide/playground).
+[Open in StackBlitz](https://stackblitz.com/fork/github/rafaelaugustos/vue-router-ns/tree/main/examples/playground?file=src%2Frouter.ts) with [NativeScript Preview](https://preview.nativescript.org/). The example uses the published npm package and covers push/back history, modal results, leave guards and adaptive list/detail. Edit in the browser; scan the QR code to run natively on a device. See [setup and Preview limitations](https://vue-router-ns.rafaelaugusto.dev/guide/playground).
 
 ## Demo
 
@@ -495,6 +546,8 @@ ns run ios         # or: ns run android
 
 ## Development
 
+`npm run test:native:android` drives the built demo on a connected Android emulator or device through `adb`, covering what the unit suite cannot: links, process death, the Material sheet, shortcuts, the drawer and the router's timings against `scripts/native/baselines.json`. The `Native` GitHub workflow runs the same suite on an emulator.
+
 ```sh
 npm test           # unit tests, plus type tests for typed routes
 npm run typecheck
@@ -505,15 +558,21 @@ The tests run against a stand-in for NativeScript's `Frame` ([`test/shims/core.t
 
 ### Releasing
 
-Releases go out from `master` on their own. Bump the version and move the changes under it in `CHANGELOG.md`:
+Releases go out from `main` on their own. Bump the version and move the changes under it in `CHANGELOG.md`:
 
 ```sh
 npm version 0.2.0 --no-git-tag-version
 ```
 
-Once that lands on `master`, the [release workflow](./.github/workflows/release.yml) sees a version that isn't on npm yet. It runs the tests, publishes the package and creates the `v0.2.0` GitHub release from the changelog entry. Versions with a suffix, like `0.2.0-beta.1`, go out under `next` as pre-releases, and under `latest` too until a stable version is out. Pushes that don't change the version do nothing.
+Once that lands on `main`, the [release workflow](./.github/workflows/release.yml) sees a version that isn't on npm yet. It runs the tests, publishes the package and creates the `v0.2.0` GitHub release from the changelog entry. Versions with a suffix, like `0.2.0-beta.1`, go out under `next` as pre-releases, and under `latest` too until a stable version is out. Pushes that don't change the version do nothing.
 
 npm authenticates the workflow through [trusted publishing](https://docs.npmjs.com/trusted-publishers), so the repository holds no npm token. An `NPM_TOKEN` secret works too, if you'd rather use one.
+
+## Native windows
+
+On NativeScript core 9.1+, create one router per `NativeWindow` with `createRouter({ routes, window })`. Stacks, modals, results and Android back handling stay within that window. `router.openWindow(to, { data })` sends a typed destination to the OS; the app's window content resolver reads it with `getWindowRoute(request.data)` and mounts a new root/router.
+
+This integration is experimental and requires native multi-window configuration. Native surface recreation also depends on [NativeScript-Vue #1178](https://github.com/nativescript-vue/nativescript-vue/pull/1178); OS-driven iOS scene reconnection remains unverified. Restoration callbacks receive a window context so app storage can separate snapshots. See [native windows](https://vue-router-ns.rafaelaugusto.dev/guide/windows) for setup, lifecycle and NativeScript-Vue context limitations.
 
 ## License
 

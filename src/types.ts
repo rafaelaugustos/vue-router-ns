@@ -1,6 +1,7 @@
 import type { Component } from 'nativescript-vue'
 import type { NavigationTransition, ShowModalOptions, View } from '@nativescript/core'
 import type { NavigationFailure } from './errors.js'
+import type { RouteMiddlewareReference } from './middleware.js'
 
 export type RouteRecordName = string | symbol
 
@@ -15,7 +16,12 @@ export type RouteRecordName = string | symbol
  * }
  * ```
  */
-export interface RouteMeta extends Record<PropertyKey, unknown> {}
+export interface RouteMeta extends Record<PropertyKey, unknown> {
+  /** Named native layout, or false for a destination that owns its own Page. */
+  layout?: string | false
+  /** Optional middleware, after beforeEach. Child metadata overrides the parent's list. */
+  middleware?: RouteMiddlewareReference | readonly RouteMiddlewareReference[]
+}
 
 export type RouteParamValue = string
 export type RouteParams = Record<string, RouteParamValue | RouteParamValue[]>
@@ -59,11 +65,45 @@ export interface SheetOptions {
   cornerRadius?: number
 }
 
+/** The resting states of an Android Material bottom sheet. */
+export type BottomSheetState = 'collapsed' | 'halfExpanded' | 'expanded'
+
+/**
+ * How an Android bottom sheet behaves. These are Material's states, not
+ * UIKit's detents: the sheet rests collapsed at `peekHeight`, half expanded at
+ * a share of the screen, or expanded to its content.
+ */
+export interface BottomSheetOptions {
+  /** Height of the collapsed state, in device-independent pixels. Material picks one when unset. */
+  peekHeight?: number
+  /** The state to open at. Defaults to `'collapsed'`. */
+  state?: BottomSheetState
+  /** Height of the sheet's content, in device-independent pixels. By default, as tall as the content. */
+  height?: number
+  /** Tallest the sheet gets, in device-independent pixels. */
+  maxHeight?: number
+  /** Expanded stops at the content's height. Defaults to `true`; `false` enables the half-expanded state. */
+  fitToContents?: boolean
+  /** Height of the half-expanded state as a share of the parent, with `fitToContents: false`. */
+  halfExpandedRatio?: number
+  /** Hiding from expanded skips the collapsed state. */
+  skipCollapsed?: boolean
+  /** Whether the user can drag the sheet between states. Defaults to `true`. */
+  draggable?: boolean
+}
+
+/** Android options of a modal route. `sheet` presents it in a Material bottom sheet. */
+export interface AndroidModalOptions extends NonNullable<ShowModalOptions['android']> {
+  /** Present in a Material bottom sheet: `true` for Material's defaults, or `BottomSheetOptions`. */
+  sheet?: boolean | BottomSheetOptions
+}
+
 /** Options forwarded to `showModal` when a route is presented modally. */
 export interface ModalOptions extends Partial<
-  Omit<ShowModalOptions, 'context' | 'closeCallback' | 'ios'>
+  Omit<ShowModalOptions, 'context' | 'closeCallback' | 'ios' | 'android'>
 > {
   ios?: NonNullable<ShowModalOptions['ios']> & SheetOptions
+  android?: AndroidModalOptions
 }
 
 /**
@@ -186,12 +226,32 @@ export interface BackOptions {
   animated?: boolean
 }
 
-/** What `restore.save` receives and `restore.load` gives back: the paths of every named stack. */
+/** What one `usePageState()` hook saved. */
+export interface SavedState {
+  version: number
+  value: unknown
+}
+
+/** One page in a saved stack, next to its path. */
+export interface SavedEntry {
+  /** Stable across process death: two pages at the same path keep their own. */
+  key: string
+  state?: Record<string, SavedState>
+}
+
+/**
+ * What `restore.save` receives and `restore.load` gives back: the paths of
+ * every named stack, and since version 2 the identity and state of each page.
+ * A save without `version` is the path-only format, and still loads.
+ */
 export interface SavedStacks {
+  version?: 2
   savedAt: number
   /** Identifies a window snapshot; absent in the legacy path-only format. */
   windowKey?: string
   stacks: Record<string, string[]>
+  /** Aligned with `stacks`. */
+  entries?: Record<string, SavedEntry[]>
 }
 
 export interface RestoreOptions {
@@ -205,6 +265,8 @@ export interface RestoreOptions {
   ): SavedStacks | null | undefined | Promise<SavedStacks | null | undefined>
   /** Saves older than this, in milliseconds, are left alone. Defaults to 30 minutes. */
   maxAge?: number
+  /** Bytes of JSON one page's `usePageState()` hooks may take together. Defaults to 8 KiB. */
+  stateLimit?: number
 }
 
 /** Present for a window-scoped router; omitted in legacy single-window mode. */

@@ -8,6 +8,7 @@ import {
   type ShallowRef,
 } from 'nativescript-vue'
 import type { BackGesture } from './android.js'
+import type { NativeHostHandle } from './host.js'
 import { entryKey, routeKey, routerKey } from './injection.js'
 import type { LeaveGuard } from './stack.js'
 import type {
@@ -107,6 +108,31 @@ export function useBackGesture(): Readonly<ShallowRef<BackGesture | null>> {
     return shallowRef(null)
   }
   return entry.backGesture
+}
+
+/**
+ * The native host this page's stack lives in: its kind, what it can do, and
+ * its native container, typed by the caller. `native` is `null` once the page
+ * has left its stack. Read it when needed instead of keeping it.
+ *
+ * Experimental, like the host contract itself.
+ */
+export function useNativeHost<
+  TNative extends object = object,
+>(): NativeHostHandle<TNative> {
+  const entry = inject(entryKey, null)
+  if (!entry) throw new Error('useNativeHost() must be used inside a routed page')
+  const host = entry.stack.host
+  if (!host) throw new Error('useNativeHost() was called before the page had a host')
+  return {
+    kind: host.kind,
+    capabilities: host.capabilities,
+    get native() {
+      return entry.disposed || entry.stack.host !== host
+        ? null
+        : (host.native as TNative | null)
+    },
+  }
 }
 
 function watchActivity(callback: (active: boolean) => unknown, name: string) {

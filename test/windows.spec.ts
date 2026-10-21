@@ -7,6 +7,8 @@ import {
   onPageDeactivated,
   RouterView,
   useBackGesture,
+  usePageState,
+  useRouter,
   type BackGesture,
   type RestoreOptions,
   type SavedStacks,
@@ -22,6 +24,7 @@ import {
   resetNative,
   setPlatform,
   View,
+  iosLinks,
 } from './shims/core.js'
 
 const apps: ReturnType<typeof createApp>[] = []
@@ -31,11 +34,16 @@ const routes = [
   { path: '/compose', component: page('Compose'), modal: true },
 ] as const
 
-async function mountWindow(window: NativeWindow, restore?: RestoreOptions) {
+async function mountWindow(
+  window: NativeWindow,
+  restore?: RestoreOptions,
+  links = false,
+) {
   const router = createRouter({
     routes,
     window: window as unknown as RouterWindow,
     restore,
+    links,
   })
   const Root = defineComponent({ render: () => h(RouterView) })
   const app = createApp(Root)
@@ -59,6 +67,126 @@ afterEach(() => {
 })
 
 describe('NativeWindow ownership', () => {
+  it('restores duplicate page identities and UI state separately for each window', async () => {
+    const received = new Map<string, string[]>()
+    const draftPage = page('Draft', () => {
+      const key = useRouter().options.restore!.key!
+      usePageState('draft', {
+        save: () => '',
+        restore: (value: string) =>
+          received.set(key, [...(received.get(key) ?? []), value]),
+      })
+    })
+    for (const key of ['a', 'b']) {
+      const window = new NativeWindow(`new-${key}`)
+      const router = createRouter({
+        window,
+        routes: [{ path: '/', component: draftPage }],
+        restore: {
+          key,
+          save: () => {},
+          load: (scope) => ({
+            version: 2,
+            windowKey: scope!.key,
+            savedAt: Date.now(),
+            stacks: { default: ['/', '/'] },
+            entries: {
+              default: [1, 2].map((n) => ({
+                key: `${key}-${n}`,
+                state: { draft: { version: 1, value: `${key} draft ${n}` } },
+              })),
+            },
+          }),
+        },
+      })
+      const app = createApp({ render: () => h(RouterView) }).use(router)
+      apps.push(app)
+      window.setContent(app.start()!.$el.nativeView)
+      await router.isReady()
+      await router.back()
+    }
+    expect(received.get('a')).toEqual(['a draft 1', 'a draft 2'])
+    expect(received.get('b')).toEqual(['b draft 1', 'b draft 2'])
+  })
+  it('delivers Android intents only to their owning window and stops after close', async () => {
+    const a = new NativeWindow('a')
+    const b = new NativeWindow('b')
+    const first = await mountWindow(a, undefined, true)
+    const second = await mountWindow(b, undefined, true)
+    const deliver = (window: NativeWindow, path: string) =>
+      Application.android.notify({
+        eventName: 'activityNewIntent',
+        window,
+        activity: window.android!.activity,
+        intent: {
+          getData: () => ({ toString: () => `app://${path}` }),
+          getFlags: () => 0,
+        },
+      })
+    deliver(b, 'items/2')
+    await settle()
+    expect(paths(first.router.stack.value)).toEqual(['/'])
+    expect(paths(second.router.stack.value)).toEqual(['/', '/items/2'])
+    const heard = vi.fn()
+    second.router.onLink(heard)
+    b.close()
+    deliver(b, 'items/3')
+    await settle()
+    expect(heard).not.toHaveBeenCalled()
+    expect(paths(first.router.stack.value)).toEqual(['/'])
+  })
+
+  it('routes iOS scene URLs and activities once, ignoring the forwarded app delegate', async () => {
+    setPlatform('ios')
+    const a = new NativeWindow('a')
+    const b = new NativeWindow('b')
+    Object.assign(a, { ios: { scene: {} } })
+    Object.assign(b, { ios: { scene: {} } })
+    const first = await mountWindow(a, undefined, true)
+    const second = await mountWindow(b, undefined, true)
+    const heard = vi.fn()
+    second.router.onLink(heard)
+    Application.ios.notify({
+      eventName: 'sceneOpenURLContexts',
+      window: b,
+      urlContexts: {
+        allObjects: {
+          count: 1,
+          objectAtIndex: () => ({ URL: { absoluteString: 'app://items/2' } }),
+        },
+      },
+    })
+    iosLinks.openURL('app://items/2')
+    await settle()
+    expect(heard).toHaveBeenCalledOnce()
+    expect(paths(first.router.stack.value)).toEqual(['/'])
+    expect(paths(second.router.stack.value)).toEqual(['/', '/items/2'])
+    Application.ios.notify({
+      eventName: 'sceneContinueUserActivity',
+      window: a,
+      userActivity: {
+        activityType: 'NSUserActivityTypeBrowsingWeb',
+        webpageURL: { absoluteString: 'https://example.com/items/1' },
+      },
+    })
+    iosLinks.continueUserActivity('https://example.com/items/1')
+    await settle()
+    expect(paths(first.router.stack.value)).toEqual(['/', '/items/1'])
+    expect(paths(second.router.stack.value)).toEqual(['/', '/items/2'])
+    b.close()
+    expect(Application.ios.listenerCount('sceneOpenURLContexts')).toBe(1)
+  })
+
+  it('disables legacy UIKit delegate closures after the router app is unmounted', async () => {
+    setPlatform('ios')
+    const { router, app } = await mountWindow(new NativeWindow('a'), undefined, true)
+    const heard = vi.fn()
+    router.onLink(heard)
+    app.unmount()
+    iosLinks.openURL('app://items/1')
+    await settle()
+    expect(heard).not.toHaveBeenCalled()
+  })
   it('keeps identically named stacks, guards and system back independent of global focus', async () => {
     const a = new NativeWindow('a')
     const b = new NativeWindow('b')
@@ -171,6 +299,28 @@ describe('NativeWindow ownership', () => {
     await router.back({ result: 'done' })
     await pending
     expect(result).toBe('done')
+  })
+
+  it('clears only the closed window snapshot even when closing a pending modal', async () => {
+    const saved = new Map<string, SavedStacks | null>()
+    const storage = (key: string): RestoreOptions => ({
+      key,
+      save: (state, context) => {
+        saved.set(context!.key, state)
+      },
+      load: () => null,
+    })
+    const a = new NativeWindow('a')
+    const b = new NativeWindow('b')
+    const first = await mountWindow(a, storage('a'))
+    const second = await mountWindow(b, storage('b'))
+    await first.router.push('/items/1')
+    const result = second.router.pushForResult('/compose')
+    await settle()
+    b.close()
+    expect(await result).toBeUndefined()
+    expect(saved.get('b')).toBeNull()
+    expect(saved.get('a')!.stacks.default).toEqual(['/', '/items/1'])
   })
 
   it('runs modal leave guards only in the originating window', async () => {

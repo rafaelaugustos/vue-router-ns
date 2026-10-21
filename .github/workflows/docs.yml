@@ -1,10 +1,10 @@
 name: Docs
 
 # Builds the VitePress site in docs/ and publishes it to GitHub Pages
-# whenever it changes on master.
+# whenever it changes on main.
 on:
   push:
-    branches: [master]
+    branches: [main]
     paths: [docs/**, package.json, package-lock.json, .github/workflows/docs.yml]
   workflow_dispatch:
 

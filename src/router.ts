@@ -1,30 +1,27 @@
 import {
   Application,
-  Color,
-  Frame,
   isAndroid,
   isIOS,
   SharedTransition,
+  View,
   type AndroidActivityBackPressedEventData,
   type AndroidActivityEventData,
-  type EventData,
-  type NavigationEntry,
-  Page,
+  Frame,
+  type Page,
 } from '@nativescript/core'
 import {
-  $navigateTo,
   $showModal,
   computed,
   hasInjectionContext,
   inject,
   nextTick,
+  registerElement,
   shallowReactive,
   shallowRef,
   type App,
   type Ref,
 } from 'nativescript-vue'
 import {
-  backOwnerOf,
   hasBackGestures,
   watchBackGestures,
   type BackGestureSession,
@@ -39,8 +36,19 @@ import {
   type RouterWindow,
 } from './windows.js'
 import { Deferred } from './components/Deferred.js'
+import { DrawerLayoutView, RouterDrawer } from './drawer.js'
+import { vRoutePreview } from './context-menu.js'
+import {
+  MaterialNavigationBar,
+  RouterTab,
+  RouterTabs,
+  TabsHostView,
+} from './tabs-host.js'
+import { forgetPageRouter, registerPageRouter } from './page-router.js'
 import { RouterLink } from './components/RouterLink.js'
 import { RouterSplitView } from './components/RouterSplitView.js'
+import { RouterUIKitSplitView } from './components/RouterUIKitSplitView.js'
+import { uikitSplitViewClass } from './uikit-split.js'
 import { RouterView } from './components/RouterView.js'
 import {
   createNavigationFailure,
@@ -49,16 +57,73 @@ import {
 } from './errors.js'
 import { routeKey, routerKey } from './injection.js'
 import { INTERNAL, type RouterInternals } from './internal.js'
-import { previewBack, type BackPreview } from './back-preview.js'
-import { canZoom, configureSheet, viewOf, watchDismissAttempts } from './ios.js'
+import {
+  createDiagnostics,
+  type DiagnosticsOptions,
+  type NavigationTrace,
+  type RouterDiagnostics,
+} from './diagnostics.js'
+import type { BackPreview } from './back-preview.js'
+import {
+  assertHostVersion,
+  unsupportedOperation,
+  type NativeHost,
+  type NativeHostPart,
+} from './host.js'
+import {
+  assertBottomSheetsAvailable,
+  bottomSheetOptions,
+  createBottomSheetPresenter,
+} from './hosts/bottom-sheet.js'
+import { createFrameHost } from './hosts/frame.js'
+import { canZoom, configureSheet, viewOf } from './ios.js'
 import { createMatcher } from './matcher.js'
+import { createLayouts, type EntryLayout } from './layouts.js'
+import {
+  createMiddlewareRegistry,
+  type RouteMiddleware,
+  type RouteMiddlewareOptions,
+} from './middleware.js'
+import {
+  installSystemLinks,
+  parseLink,
+  REPEAT_WINDOW,
+  screen,
+  type IncomingLink,
+  type LinkIgnoredReason,
+  type LinkListener,
+  type LinkOptions,
+  type LinkResult,
+  type LinkSource,
+  type LinksOptions,
+} from './links.js'
 import { createPage, ModalHost } from './page.js'
+import {
+  assertNativeDestination,
+  disposeNativeDestination,
+  nativeDestinationReady,
+} from './native-destinations.js'
+import { collectPageState, DEFAULT_STATE_LIMIT } from './page-state.js'
+import {
+  publishShortcuts,
+  readShortcutURL,
+  SHORTCUT_SCHEME,
+  type RouteShortcut,
+} from './shortcuts.js'
+import { disconnectPageEffects } from './page-effects.js'
+import {
+  clearFocusOrigin,
+  modalFocusOrigin,
+  settleNavigationFocus,
+} from './accessibility.js'
+import { reduceMotion, type MotionPolicy } from './motion.js'
 import { parseURL } from './query.js'
 import {
   deferred,
   isBlocked,
   isGuardActive,
   topOf,
+  type Deferred as Pending,
   type Entry,
   type Stack,
 } from './stack.js'
@@ -69,6 +134,7 @@ import type {
   RouteMapLike,
 } from './typed.js'
 import type {
+  AndroidModalOptions,
   BackOptions,
   ModalOptions,
   NavigationErrorHandler,
@@ -85,8 +151,10 @@ import type {
   RouteRecordName,
   RouteRecordRaw,
   RestoreOptions,
+  SavedEntry,
   SavedStacks,
   RestoreContext,
+  SavedState,
   SetStackOptions,
   TransitionOption,
 } from './types.js'
@@ -97,22 +165,29 @@ export interface RouterOptions<
   routes: R
   /** One router per NativeWindow. Otherwise inferred from the first mounted view. */
   window?: RouterWindow
+  /** Optional native layouts. Each owns a Page and renders its destination through a slot. */
+  layouts?: Readonly<Record<string, RawRouteComponent>>
+  /** Applied when meta.layout is absent. No default layout is enabled unless explicitly set. */
+  defaultLayout?: string | false
   /** Save the stacks as the user navigates, and rebuild them after the app was killed. */
   restore?: RestoreOptions
-  /** Android 14 and later: show the page below while the back swipe moves. Defaults to `true`. */
-  backPreview?: boolean
-}
-
-interface SplitStack {
-  listFrame: Frame
-  placeholder: Page
-  list: RouteLocationRaw
-  expanded: Readonly<Ref<boolean>>
-  detailVisible: Ref<boolean>
-  resetting: boolean
+  /** Android 14+: preview the previous page. `core` opts into the experimental Core API with legacy fallback. Defaults to `true`. */
+  backPreview?: boolean | 'core'
+  /** Collect a bounded, redacted navigation timeline and native stack snapshots. */
+  diagnostics?: boolean | DiagnosticsOptions
+  /** Respect OS reduced motion by default; applications may explicitly override it. */
+  motion?: MotionPolicy
+  /**
+   * Take links from the operating system: Android intents, iOS URLs and
+   * Universal Links. `true` for the defaults, or a policy of schemes, hosts
+   * and mapping. `openLink()` works without it.
+   */
+  links?: boolean | LinksOptions
 }
 
 const DEFAULT_MAX_AGE = 30 * 60 * 1000
+/** How long a link waits for the `<RouterView>` it targets. */
+const MOUNT_TIMEOUT = 10_000
 
 export interface Router<M extends RouteMapLike = RouteMapGeneric> {
   /** Route of the page the user is looking at. */
@@ -123,6 +198,7 @@ export interface Router<M extends RouteMapLike = RouteMapGeneric> {
   /** Ask the OS to open a new window; its content resolver uses getWindowRoute(data). */
   openWindow(to: RouteLocationRawOf<M>, options?: OpenWindowOptions): void
   readonly options: RouterOptions
+  readonly diagnostics: RouterDiagnostics | undefined
 
   push(
     to: RouteLocationRawOf<M>,
@@ -166,12 +242,52 @@ export interface Router<M extends RouteMapLike = RouteMapGeneric> {
 
   beforeEach(guard: NavigationGuard): () => void
   beforeResolve(guard: NavigationGuard): () => void
+  /** Optional named/global middleware, after beforeEach and before beforeEnter. */
+  addRouteMiddleware(
+    name: string,
+    middleware: RouteMiddleware,
+    options?: RouteMiddlewareOptions,
+  ): () => void
   afterEach(hook: NavigationHookAfter): () => void
   onError(handler: NavigationErrorHandler): () => void
   /** Resolves once the first `<RouterView>` has shown its initial page. */
   isReady(): Promise<void>
 
+  /**
+   * Opens what an operating-system link, a notification or a widget points
+   * at: a full URL or a bare path. Waits for the first page and for the
+   * target stack, brings the parents along, and resolves with what happened.
+   */
+  openLink(
+    href: string,
+    options?: LinkOptions & { source?: LinkSource },
+  ): Promise<LinkResult>
+  /** The location a URL points at under `links`, or `undefined` when it isn't for this app. */
+  resolveLink(href: string): RouteLocation | undefined
+  /** Hears every link the router was handed, taken or not. */
+  onLink(listener: LinkListener): () => void
+  /**
+   * Lets a native container take the Android system back while it owns it, a
+   * drawer that is open for example, before any page pops. Returns what
+   * releases the claim.
+   */
+  claimSystemBack(claimant: SystemBackClaimant): () => void
+  /**
+   * Replaces the app's home-screen shortcuts (Android dynamic shortcuts, iOS
+   * quick actions) with these, within the platform's limit. Each opens its
+   * route through `openLink` when tapped. Returns the ids that were published.
+   */
+  setShortcuts(shortcuts: readonly RouteShortcut<RouteLocationRawOf<M>>[]): string[]
+
   install(app: App): void
+}
+
+/** Something other than a page that the system back should go to first. */
+export interface SystemBackClaimant {
+  /** Whether it wants the next back. Asked on every press and at the start of a swipe. */
+  owns(): boolean
+  /** Takes the press. */
+  back(): void
 }
 
 export const START_LOCATION: RouteLocation = {
@@ -187,6 +303,7 @@ export const START_LOCATION: RouteLocation = {
 }
 
 interface Request {
+  layout?: EntryLayout
   type: NavigationType
   stack: Stack
   /** Push and replace: where to go. */
@@ -197,6 +314,8 @@ interface Request {
   force?: boolean
   result?: unknown
   onEntry?: (entry: Entry) => void
+  /** Restoring: the identity and state the page had before, if it comes back at the same path. */
+  saved?: { path: string; key: string; state?: Record<string, SavedState> }
   redirects: number
 }
 
@@ -215,38 +334,61 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   let stopped = false
   let stopPlatform: (() => void) | undefined
   let stopWindow: (() => void) | undefined
+  let stopLinks: (() => void) | undefined
   let platformInstalled = false
   const matcher = createMatcher(options.routes)
+  const layouts = createLayouts(options.layouts, options.defaultLayout)
 
   const beforeGuards = callbacks<NavigationGuard>()
+  const middleware = createMiddlewareRegistry()
   const resolveGuards = callbacks<NavigationGuard>()
   const afterHooks = callbacks<NavigationHookAfter>()
   const errorHandlers = callbacks<NavigationErrorHandler>()
+  const backClaimants = callbacks<SystemBackClaimant>()
+  const claimedBack = () => backClaimants.list().find((claimant) => claimant.owns())
 
   const frames = shallowReactive(new Map<string, Stack>())
   const modals = shallowRef<readonly Stack[]>([])
   const lastFrame = shallowRef<Stack>()
-  const stacksByFrame = new WeakMap<Frame, Stack>()
   const entriesByPage = new WeakMap<Page, Entry>()
   const detachers = new WeakMap<Stack, () => void>()
   const initializing = new WeakMap<Stack, Promise<void>>()
   const windowWaiters = new Map<Stack, () => void>()
-  const splits = new Map<Stack, SplitStack>()
   const previews = new Map<Stack, BackPreview>()
+  const modalOrigins = new WeakMap<Stack, Entry>()
   const components = new WeakMap<RouteRecord, RouteComponent>()
+  const shouldReduceMotion = (stack?: Stack) =>
+    reduceMotion(options.motion, hostView(stack))
+  const diagnostics = options.diagnostics
+    ? createDiagnostics(
+        options.diagnostics === true ? {} : options.diagnostics,
+        () =>
+          [...frames.values(), ...modals.value].map((stack) => ({
+            stack,
+            hosts: hostParts(stack.host),
+          })),
+        (page) => entriesByPage.get(page),
+      )
+    : undefined
 
   const ready = deferred<void>()
   ready.promise.catch(() => {})
   let isReady = false
   let entryId = 0
+  const keySeed = `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`
   let modalId = 0
   /** Native transitions in flight. Navigations wait for them, so they always start from a settled screen. */
   let settled: Promise<unknown> = Promise.resolve()
 
-  const focusedFrame = (): Stack | undefined =>
-    (lastFrame.value?.closed ? undefined : lastFrame.value) ??
-    frames.get('default') ??
-    frames.values().next().value
+  const focusedFrame = (): Stack | undefined => {
+    const last = lastFrame.value
+    if (last && !last.closed && last.selected?.() !== false) return last
+    return (
+      [...frames.values()].find((stack) => stack.selected?.()) ??
+      frames.get('default') ??
+      frames.values().next().value
+    )
+  }
 
   // a modal still being presented has no page yet: the one below stays current
   const focused = (): Stack | undefined =>
@@ -264,12 +406,19 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
   // -- stacks -----------------------------------------------------------------
 
-  function createStack(name: string, modal: ModalOptions | false): Stack {
+  function createStack(
+    name: string,
+    modal: ModalOptions | false,
+    initial: RouteLocationRaw,
+  ): Stack {
     const stack = {
       name,
       modal,
+      initial,
       entries: shallowRef<readonly Entry[]>([]),
-      frame: null,
+      host: null,
+      reveal: undefined,
+      selected: undefined,
       attempt: undefined,
       pending: undefined,
       settled: Promise.resolve(),
@@ -279,95 +428,88 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     return Object.assign(stack, { router: navigation(stack) })
   }
 
-  function attach(stack: Stack, frame: Frame) {
+  function attach(stack: Stack, host: NativeHost) {
+    assertHostVersion(host)
+    const views = hostParts(host)
+      .map((part) => part.native)
+      .filter((view): view is View => view instanceof View)
     const discover = () => {
-      const window = windowOf(frame)
-      if (window) bindWindow(window)
+      for (const view of views) {
+        const window = windowOf(view)
+        if (window) bindWindow(window)
+      }
     }
     discover()
-    frame.on('loaded', discover)
-    const onNavigated = () => sync(stack)
-    const onBackPressed = (args: EventData) =>
-      onModalBackPressed(stack, args as AndroidActivityBackPressedEventData)
-
-    let stopGestures: (() => void) | undefined
-    const onShown = () => {
-      stopGestures?.()
-      const dialog = backOwnerOf(frame.nativeView)
-      stopGestures = dialog
-        ? watchBackGestures(dialog, () => gestureSession(stack))
-        : undefined
-    }
-
-    let stopDismiss: (() => void) | undefined
-    const onPresented = () => {
-      stopDismiss?.()
-      stopDismiss = watchDismissAttempts(frame, () => onDismissAttempt(stack))
-    }
-
-    stack.frame = frame
-    stacksByFrame.set(frame, stack)
-    frame.on(Frame.navigatedToEvent, onNavigated)
-    if (isAndroid && stack.modal) {
-      frame.on('activityBackPressed', onBackPressed)
-      if (hasBackGestures()) frame.on('shownModally', onShown)
-    }
-    if (isIOS && stack.modal) frame.on('shownModally', onPresented)
-
+    for (const view of views) view.on('loaded', discover)
     detachers.set(stack, () => {
-      frame.off('loaded', discover)
-      frame.off(Frame.navigatedToEvent, onNavigated)
-      frame.off('activityBackPressed', onBackPressed)
-      frame.off('shownModally', onShown)
-      frame.off('shownModally', onPresented)
-      stopGestures?.()
-      stopDismiss?.()
+      for (const view of views) view.off('loaded', discover)
+    })
+    stack.host = host
+    diagnostics?.event('host', stack, 'attach')
+    host.attach({
+      changed: () => sync(stack),
+      closed: () => onHostClosed(stack),
+      dismissAttempted: () => onDismissAttempt(stack),
+      backPressed: () => onHostBackPressed(stack),
+      backGesture: () => gestureSession(stack),
     })
   }
 
   function close(stack: Stack) {
+    diagnostics?.event('host', stack, 'dispose')
     previews.get(stack)?.dispose()
     stack.closed = true
     windowWaiters.get(stack)?.()
     detachers.get(stack)?.()
-    splits.delete(stack)
+    stack.host?.dispose()
+    stack.host = null
     for (const entry of stack.entries.value) dispose(entry)
     stack.entries.value = []
+    // A queued destination may own SDK resources before its Page joins the
+    // visible native history (for example an unloaded tab closed by its owner).
+    if (stack.pending?.entry) dispose(stack.pending.entry)
     stack.pending?.resolve()
     stack.pending = undefined
   }
 
-  /** Mirrors the frame into the stack after every native navigation. */
+  /** Mirrors the host into the stack after every native navigation. */
   function sync(stack: Stack) {
-    const frame = stack.frame
-    if (!frame || stack.closed) return
+    const host = stack.host
+    if (!host || stack.closed) return
 
-    const split = splits.get(stack)
-    if (split?.resetting) {
-      stack.pending?.resolve()
-      stack.pending = undefined
+    const pages = host.pages()
+    const mounting = stack.pending?.entry
+    // A native completion can precede Vue's mounted hooks. Keep the previous
+    // stack and pending navigation until the destination Page has been linked.
+    if (mounting && (!mounting.page || !pages.includes(mounting.page))) {
+      stack.pending!.nativeCompleted = true
       return
     }
+
     const before = stack.entries.value
-    const after = [
-      ...(split ? [split.listFrame.currentPage] : []),
-      ...frame.backStack.map((entry) => entry.resolvedPage),
-      frame.currentPage,
-    ]
-      .map((page) => page && entriesByPage.get(page))
+    const initiated = !!stack.pending
+    const after = pages
+      .map((page) => entriesByPage.get(page))
       .filter((entry): entry is Entry => !!entry)
 
     stack.entries.value = after
-    if (split) split.detailVisible.value = after.length > 1
     if (before.at(-1) !== after.at(-1)) previews.get(stack)?.dispose()
     for (const entry of before) {
       if (!after.includes(entry)) dispose(entry)
     }
+    if (before.at(-1) !== after.at(-1))
+      settleNavigationFocus(after.at(-1), after.length < before.length)
     if (!stack.modal) persist()
+    diagnostics?.event(
+      'native',
+      stack,
+      initiated ? 'completion' : after.length < before.length ? 'pop' : 'sync',
+    )
 
     if (stack.pending) {
       stack.pending.resolve()
       stack.pending = undefined
+      diagnostics?.audit()
       return
     }
 
@@ -378,6 +520,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       lastFrame.value = stack
       notifyAfter(to.route, from.route)
     }
+    diagnostics?.audit()
   }
 
   function onModalClosed(stack: Stack) {
@@ -387,6 +530,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     const initiated = !!stack.pending
     modals.value = modals.value.filter((modal) => modal !== stack)
     close(stack)
+    settleNavigationFocus(modalOrigins.get(stack), true)
 
     // swiped down, tapped outside or closed by the Android back button
     if (!initiated && from) notifyAfter(currentRoute.value, from)
@@ -395,6 +539,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   function dispose(entry: Entry) {
     if (entry.disposed) return
     entry.disposed = true
+    try {
+      disposeNativeDestination(entry)
+    } catch (error) {
+      reportError(error, entry.route, entry.route)
+    }
+    disconnectPageEffects(entry)
     entry.settle?.(entry.result)
     entry.settle = undefined
   }
@@ -404,22 +554,27 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     route: RouteLocation,
     props: Record<string, unknown>,
     zoomFrom?: Entry['zoomFrom'],
+    saved?: Request['saved'],
+    layout?: EntryLayout,
   ) {
     const entry: Entry = {
       id: ++entryId,
+      key: saved?.key ?? `${keySeed}-${entryId}`,
       route,
       stack,
       component: components.get(route.matched.at(-1)!)!,
+      layout,
       props,
       leaveGuards: shallowReactive(new Set()),
       backGesture: shallowRef(null),
       zoomFrom,
       isActive: () =>
         attached.value &&
-        (topOf(stack) === entry ||
-          (!!splits.get(stack)?.expanded.value && stack.entries.value[0] === entry)) &&
+        (topOf(stack) === entry || isVisible(entry)) &&
         (stack.modal ? modals.value.at(-1) === stack : !modals.value.length),
       page: null,
+      state: new Map(),
+      saved: saved?.state,
       result: undefined,
       settle: undefined,
       disposed: false,
@@ -427,14 +582,40 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     return entry
   }
 
+  /** On screen next to the page on top, in a host that shows more than one page. */
+  function isVisible(entry: Entry): boolean {
+    const host = entry.stack.host
+    if (!host?.visible || !entry.page) return false
+    return host.visible().includes(entry.page)
+  }
+
   const pageLink = {
     link(page: Page, entry: Entry) {
+      diagnostics?.event(
+        entry.page && entry.page !== page ? 'hmr' : 'page',
+        entry.stack,
+        entry.page && entry.page !== page ? 'relink' : 'link',
+        entry,
+      )
       entry.page = page
       entriesByPage.set(page, entry)
+      registerPageRouter(page, entry.stack.router)
+      const pending = entry.stack.pending
+      // Finish the mounted hook first: focus, state and other page effects must
+      // be connected before activation and navigation completion are delivered.
+      if (pending?.entry === entry && pending.nativeCompleted)
+        void nextTick(() => sync(entry.stack))
     },
     unlink(page: Page) {
+      const entry = diagnostics && entriesByPage.get(page)
+      if (entry) diagnostics?.event('page', entry.stack, 'unlink', entry)
       entriesByPage.delete(page)
+      forgetPageRouter(page)
     },
+    reload: diagnostics
+      ? (entry: Entry, state: string) =>
+          diagnostics.event('hmr', entry.stack, state, entry)
+      : undefined,
   }
 
   function stackFor(origin: Stack | undefined, frame?: string): Stack {
@@ -448,16 +629,23 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     return stack
   }
 
+  /** The stack whose host holds the window's system back right now. */
   function topmostStack(): Stack | undefined {
-    const window = nativeWindow.value
-    const frame = Frame.topmost(window as never)
-    // Core prioritizes a newly created, unbound Frame even for another window.
-    // Until it attaches, keep input with this router's visible owning stack.
-    if (window && (!frame || windowOf(frame) !== window)) {
-      const stack = focused()
-      return stack?.frame && windowOf(stack.frame) === window ? stack : undefined
+    for (const stack of [...modals.value, ...frames.values()]) {
+      if (stack.selected?.() === false) continue
+      if (!stack.closed && stack.selected?.()) return stack
+      if (!stack.closed && stack.host?.ownsSystemBack?.()) return stack
     }
-    return frame && stacksByFrame.get(frame)
+    // Core temporarily prioritizes a new, unbound Frame globally. Keep back
+    // with the last visible stack in this window until that Frame attaches.
+    const window = nativeWindow.value
+    if (window) {
+      const frame = Frame.topmost(window as never)
+      const stack = focused()
+      const view = hostView(stack)
+      if ((!frame || !windowOf(frame)) && view && windowOf(view) === window) return stack
+    }
+    return undefined
   }
 
   /** The page a back swipe in `stack` would simply close, if there is one. */
@@ -471,9 +659,14 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
     const below = stack.entries.value.at(-2)
     let preview: BackPreview | undefined
-    if (options.backPreview !== false && below?.page && top.page && stack.frame) {
-      preview = previewBack(
-        stack.frame,
+    if (
+      options.backPreview !== false &&
+      below?.page &&
+      top.page &&
+      stack.host?.previewBack &&
+      !shouldReduceMotion(stack)
+    ) {
+      preview = stack.host.previewBack(
         top.page,
         below.page,
         () =>
@@ -491,23 +684,28 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
           top.backGesture.value = null
           if (previews.get(stack) === preview) previews.delete(stack)
         },
+        { preferCore: options.backPreview === 'core' },
       )
       if (preview) previews.set(stack, preview)
     }
     return { gesture: top.backGesture, preview }
   }
 
-  /** Makes `stack` match `targets`: back to the last page both share, then push the rest. */
+  /**
+   * Makes `stack` match `targets`: back to the last page both share, then
+   * push the rest. `saved`, aligned with `targets`, gives restored pages back
+   * their identity and state.
+   */
   async function applyStack(
     stack: Stack,
     targets: readonly RouteLocation[],
     options: Pick<SetStackOptions, 'animated' | 'transition'>,
+    saved?: readonly SavedEntry[],
   ): Promise<NavigationFailure | undefined> {
-    const split = splits.get(stack)
-    if (split) {
-      const list =
-        stack.entries.value[0]?.route ?? resolveTarget(split.list, START_LOCATION)
-      if (targets[0]?.fullPath !== list.fullPath) targets = [list, ...targets]
+    if (stack.host?.capabilities.pinnedRoot) {
+      const root =
+        stack.entries.value[0]?.route ?? resolveTarget(stack.initial, START_LOCATION)
+      if (targets[0]?.fullPath !== root.fullPath) targets = [root, ...targets]
     }
     const entries = stack.entries.value
     let shared = 0
@@ -525,8 +723,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       to: RouteLocation | undefined,
       last: boolean,
       extra: NavigationOptions = {},
-    ) =>
-      run({
+    ) => {
+      const memory = to && saved?.[targets.indexOf(to)]
+      return run({
         type,
         stack,
         to,
@@ -538,8 +737,10 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
           transition: last ? options.transition : undefined,
         },
         force: true,
+        saved: memory && to ? { path: to.fullPath, ...memory } : undefined,
         redirects: 0,
       })
+    }
 
     let failure: NavigationFailure | undefined
     if (shared === 0) {
@@ -562,13 +763,19 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   let restoring = false
 
   function persist() {
-    if (!restore || restoring) return
+    if (stopped || !restore || restoring) return
+    const limit = restore.stateLimit ?? DEFAULT_STATE_LIMIT
     const stacks: Record<string, string[]> = {}
+    const entries: Record<string, SavedEntry[]> = {}
     for (const [name, stack] of frames) {
       stacks[name] = stack.entries.value.map((entry) => entry.route.fullPath)
+      entries[name] = stack.entries.value.map((entry) => {
+        const state = collectPageState(entry, limit)
+        return state ? { key: entry.key, state } : { key: entry.key }
+      })
     }
     const context = restoreContext()
-    const state: SavedStacks = { savedAt: Date.now(), stacks }
+    const state: SavedStacks = { version: 2, savedAt: Date.now(), stacks, entries }
     if (context) state.windowKey = context.key
     if (context) restore.save(state, context)
     else restore.save(state)
@@ -579,8 +786,14 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     return window ? { windowId: window.id, key: restore?.key ?? window.id } : undefined
   }
 
+  interface SavedStack {
+    targets: RouteLocation[]
+    /** Aligned with `targets`; absent for a path-only save. */
+    entries: SavedEntry[] | undefined
+  }
+
   /** The saved stack for a `<RouterView>`, if there is one worth restoring. */
-  async function savedStackFor(name: string): Promise<RouteLocation[] | undefined> {
+  async function savedStackFor(name: string): Promise<SavedStack | undefined> {
     if (!restore) return undefined
     loaded ??= Promise.resolve()
       .then(() => {
@@ -603,7 +816,11 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       const targets: RouteLocation[] = []
       for (const path of paths)
         targets.push(resolveTarget(path, targets.at(-1) ?? START_LOCATION))
-      return targets
+      const entries = state!.entries?.[name]
+      return {
+        targets,
+        entries: entries?.length === paths.length ? entries : undefined,
+      }
     } catch (error) {
       if (__DEV__) {
         console.warn(`[vue-router-ns] Not restoring <RouterView name="${name}">:`, error)
@@ -621,18 +838,50 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
   // -- navigation -------------------------------------------------------------
 
-  async function run(
+  function run(
     request: Request,
     keepPreview?: BackPreview,
+    parentNavigationId?: number,
+  ): Promise<NavigationFailure | undefined> {
+    const trace =
+      diagnostics && !diagnostics.api.stopped
+        ? diagnostics.begin(request.stack, request.type, request.to, parentNavigationId)
+        : undefined
+    const navigation = runNavigation(request, keepPreview, trace)
+    if (!trace) return navigation
+    return navigation.then(
+      (failure) => {
+        trace.end(
+          failure
+            ? failure.type === NavigationFailureType.aborted
+              ? 'aborted'
+              : failure.type === NavigationFailureType.cancelled
+                ? 'cancelled'
+                : 'duplicated'
+            : 'success',
+        )
+        return failure
+      },
+      (error) => {
+        trace.end('error')
+        throw error
+      },
+    )
+  }
+
+  async function runNavigation(
+    request: Request,
+    keepPreview?: BackPreview,
+    trace?: NavigationTrace,
   ): Promise<NavigationFailure | undefined> {
     for (const preview of previews.values()) {
       if (preview !== keepPreview) preview.dispose()
     }
     const stack = request.stack
-    const split = splits.get(stack)
+    const pinned = !!stack.host?.capabilities.pinnedRoot
     const root = stack.entries.value[0]
     if (
-      split &&
+      pinned &&
       root &&
       request.type !== 'back' &&
       request.to?.fullPath === root.route.fullPath
@@ -649,7 +898,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       stack.closed ||
       stack.attempt !== attempt ||
       (keepPreview !== undefined && !keepPreview.active)
+    const release = () => {
+      if (stack.attempt === attempt) stack.attempt = undefined
+    }
+    const queued = trace?.span('queue')
     await Promise.all([settled, stack.settled])
+    queued?.end()
 
     const entries = stack.entries.value
     const from = topOf(stack)?.route ?? START_LOCATION
@@ -658,11 +912,15 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     let target: Entry | null | undefined
     if (type === 'back') {
       target = request.pick!(entries)
-      if (target === undefined) return undefined
+      if (target === undefined) {
+        trace?.end('noop')
+        return undefined
+      }
       to = target?.route ?? routeBelow(stack)
     } else {
       to = request.to!
     }
+    trace?.route(to)
 
     const fail = (kind: keyof typeof NavigationFailureType) => {
       const failure = createNavigationFailure(NavigationFailureType[kind], to, from)
@@ -682,6 +940,18 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         return fail('duplicated')
       }
     }
+    if (type !== 'back' && !initial && !modal && stack.host) {
+      const { capabilities } = stack.host
+      if (request.options.clearHistory && !capabilities.clearHistory)
+        throw unsupportedOperation(stack.host, 'clearHistory')
+      if (
+        type === 'replace' &&
+        !capabilities.replace &&
+        !(pinned && entries.length === 1)
+      )
+        throw unsupportedOperation(stack.host, 'replace')
+    }
+    if (modal && isAndroid && modal.android?.sheet) assertBottomSheetsAvailable()
 
     // pages that get destroyed: a push keeps the current page alive underneath
     const leaving =
@@ -690,9 +960,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         : modal
           ? []
           : request.options.clearHistory
-            ? entries.slice(split ? 1 : 0)
+            ? entries.slice(pinned ? 1 : 0)
             : type === 'replace'
-              ? split && entries.length === 1
+              ? pinned && entries.length === 1
                 ? []
                 : entries.slice(-1)
               : []
@@ -700,29 +970,53 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     let outcome: GuardOutcome | undefined
     try {
       const info: NavigationInfo = { type }
-      const check = (guards: NavigationGuard[]) =>
-        runGuards(guards, to, from, info, isCancelled)
+      const check = (guards: NavigationGuard[], kind: string) =>
+        runGuards(guards, to, from, info, isCancelled, trace, kind)
 
       outcome = await check(
         leaving
           .reverse()
           .flatMap((entry) => [...entry.leaveGuards].filter(isGuardActive))
           .map(({ guard }) => guard),
+        'leave',
       )
-      outcome ??= await check(beforeGuards.list())
+      outcome ??= await check(beforeGuards.list(), 'beforeEach')
+      if (!outcome) {
+        const guards = middleware.guards(to)
+        if (guards.length) outcome = await check(guards, 'middleware')
+      }
       if (type !== 'back') {
         outcome ??= await check(
           to.matched
             .filter((record) => !from.matched.includes(record))
             .flatMap((record) => record.beforeEnter),
+          'beforeEnter',
         )
-        if (!outcome) await loadComponent(to.matched.at(-1)!)
+        if (!outcome) {
+          const loading = trace?.span(
+            'load',
+            components.has(to.matched.at(-1)!) ? 'cached' : 'component',
+          )
+          try {
+            await loadComponent(to.matched.at(-1)!)
+            const layout = layouts.select(to)
+            request.layout = layout === undefined ? undefined : await layouts.load(layout)
+            loading?.end()
+          } catch (error) {
+            loading?.end('error')
+            throw error
+          }
+        }
       }
-      outcome ??= await check(resolveGuards.list())
+      outcome ??= await check(resolveGuards.list(), 'beforeResolve')
     } catch (error) {
+      release()
       reportError(error, to, from)
       throw error
     }
+    // the guards are done either way: the next dismissal the platform asks about is a new request
+    const cancelled = isCancelled()
+    release()
 
     if (outcome && 'redirect' in outcome) {
       if (request.redirects >= MAX_REDIRECTS) {
@@ -730,34 +1024,41 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       }
       const raw = outcome.redirect
       const flags = typeof raw === 'object' ? raw : {}
-      return run({
-        ...request,
-        type: type === 'replace' || flags.replace ? 'replace' : 'push',
-        to: { ...resolveTarget(raw, from), redirectedFrom: to.redirectedFrom ?? to },
-        pick: undefined,
-        force: flags.force,
-        redirects: request.redirects + 1,
-      })
+      trace?.end('redirected')
+      return run(
+        {
+          ...request,
+          type: type === 'replace' || flags.replace ? 'replace' : 'push',
+          to: { ...resolveTarget(raw, from), redirectedFrom: to.redirectedFrom ?? to },
+          pick: undefined,
+          force: flags.force,
+          redirects: request.redirects + 1,
+        },
+        undefined,
+        trace?.id,
+      )
     }
     if (outcome) return fail(outcome.stop)
-    if (isCancelled()) return fail('cancelled')
-    stack.attempt = undefined
+    if (cancelled) return fail('cancelled')
 
+    const transition = trace?.span('transition')
     const commit =
       type === 'back'
         ? commitBack(stack, target ?? null, request.result, request.options.animated)
         : modal
-          ? commitModal(request, to, modal)
-          : commitPage(request, to, initial)
+          ? commitModal(request, to, modal, trace)
+          : commitPage(request, to, initial, trace)
 
     stack.settled = Promise.allSettled([stack.settled, commit])
     // a frame that isn't loaded, like a tab iOS hasn't shown yet, navigates once it shows up
-    if (modal || stack.frame?.isLoaded) {
+    if (modal || stack.host?.loaded) {
       settled = Promise.allSettled([settled, commit])
     }
     try {
       await commit
+      transition?.end()
     } catch (error) {
+      transition?.end('error')
       reportError(error, to, from)
       throw error
     }
@@ -765,6 +1066,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     if (stack.closed && !(type === 'back' && target === null)) return fail('cancelled')
     if (!stack.modal) lastFrame.value = stack
     notifyAfter(to, from)
+    diagnostics?.audit()
     return undefined
   }
 
@@ -774,9 +1076,27 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     from: RouteLocation,
     info: NavigationInfo,
     isCancelled: () => boolean,
+    trace?: NavigationTrace,
+    kind?: string,
   ): Promise<GuardOutcome | undefined> {
     for (const guard of guards) {
-      const result = await guard(to, from, info)
+      const checking = trace?.span('guard', kind)
+      let result: Awaited<ReturnType<NavigationGuard>>
+      try {
+        result = await guard(to, from, info)
+      } catch (error) {
+        checking?.end('error')
+        throw error
+      }
+      checking?.end(
+        isCancelled()
+          ? 'cancelled'
+          : result === false
+            ? 'aborted'
+            : typeof result === 'string' || (result && typeof result === 'object')
+              ? 'redirected'
+              : 'success',
+      )
       if (isCancelled()) return { stop: 'cancelled' }
       if (result === false) return { stop: 'aborted' }
       if (typeof result === 'string' || (result && typeof result === 'object')) {
@@ -786,106 +1106,139 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     return undefined
   }
 
-  async function commitPage(request: Request, to: RouteLocation, initial: boolean) {
+  async function commitPage(
+    request: Request,
+    to: RouteLocation,
+    initial: boolean,
+    trace?: NavigationTrace,
+  ) {
     const { stack, options } = request
-    const split = splits.get(stack)
-    const frame = split && initial ? split.listFrame : stack.frame!
-    const firstDetail =
-      !!split && !initial && (stack.entries.value.length === 1 || !!options.clearHistory)
-    if (split && !initial) {
-      split.detailVisible.value = true
-      await nextTick()
-      if (stack.closed) return
-      // iOS does not finish presenting a page in an invisible controller.
-      // Initialize the native detail root only when its pane first opens.
-      if (!frame.currentPage || (options.clearHistory && frame.canGoBack())) {
-        split.resetting = true
-        try {
-          const ready = expect(stack)
-          if (!frame.currentPage)
-            frame.navigate({ create: () => split.placeholder, animated: false })
-          else {
-            frame.currentEntry.animated = false
-            frame.goBack(frame.backStack[0])
-          }
-          await ready
-        } finally {
-          split.resetting = false
-        }
-      }
-    }
-    if (stack.closed) return
+    const host = stack.host!
+    clearFocusOrigin(stack)
     const record = to.matched.at(-1)!
+    const reduced = shouldReduceMotion(stack)
+    const clearHistory = !!options.clearHistory
+    // a pane that isn't on screen yet, like a split's first detail, can't carry a zoom or a shared element
+    const hidden = !initial && host.willAnimate?.({ clearHistory }) === false
     const zoom =
-      !initial && !firstDetail && options.animated !== false && canZoom()
+      !reduced && !initial && !hidden && options.animated !== false && canZoom()
         ? viewOf(options.zoomFrom)
         : undefined
-    const entry = createEntry(stack, to, pageProps(to, record, options.props), zoom)
+    const entry = createEntry(
+      stack,
+      to,
+      pageProps(to, record, options.props),
+      zoom,
+      request.saved?.path === to.fullPath ? request.saved : undefined,
+      request.layout,
+    )
     request.onEntry?.(entry)
 
-    // the frame drops the current page from its back stack once we navigate away
-    if (
-      request.type === 'replace' &&
-      frame.currentEntry &&
-      !firstDetail &&
-      !options.clearHistory
-    ) {
-      frame.currentEntry.backstackVisible = false
-    }
-
-    const navigation: NavigationEntry & { frame: Frame } = { frame }
     // a transition of the frame's own would take the animation away from UIKit's zoom
     const requested = toTransition(options.transition ?? record.transition)
     const transition =
-      zoom || (firstDetail && requested?.instance) ? undefined : requested
-    if (transition) navigation.transition = transition
+      reduced || zoom || (hidden && requested?.instance) ? undefined : requested
     // a shared transition left unused would keep its state in core forever
-    if ((zoom || firstDetail) && requested?.instance)
+    if ((reduced || zoom || hidden) && requested?.instance)
       SharedTransition.finishState(requested.instance.id)
-    if (initial) navigation.animated = false
-    else if (options.animated !== undefined) navigation.animated = options.animated
-    if (options.clearHistory && !split) navigation.clearHistory = true
 
-    const shown = expect(stack)
+    const shown = expect(stack, entry)
+    const mounting = trace?.span('mount', 'page')
     try {
-      $navigateTo(createPage(entry, pageLink), navigation)
+      await host.push(createPage(entry, pageLink), {
+        initial,
+        animated: initial || reduced ? false : options.animated,
+        transition,
+        replace: request.type === 'replace' && !clearHistory && !hidden,
+        clearHistory,
+      })
+      mounting?.end()
     } catch (error) {
+      mounting?.end('error')
+      entry.settle = undefined
+      dispose(entry)
       stack.pending = undefined
       throw error
     }
     await shown
+    await finishNativeDestination(entry)
   }
 
-  async function commitModal(request: Request, to: RouteLocation, modal: ModalOptions) {
-    const stack = createStack(`modal-${++modalId}`, modal)
+  async function commitModal(
+    request: Request,
+    to: RouteLocation,
+    modal: ModalOptions,
+    trace?: NavigationTrace,
+  ) {
+    const stack = createStack(`modal-${++modalId}`, modal, to.fullPath)
+    const origin = modalFocusOrigin(request.stack) ?? topOf(request.stack)
+    if (origin) modalOrigins.set(stack, origin)
     const entry = createEntry(
       stack,
       to,
       pageProps(to, to.matched.at(-1)!, request.options.props),
+      undefined,
+      undefined,
+      request.layout,
     )
     request.onEntry?.(entry)
 
     modals.value = [...modals.value, stack]
-    const shown = expect(stack)
+    const shown = expect(stack, entry)
 
-    $showModal(ModalHost, {
-      ...modal,
-      // NativeScript-Vue's default modal target is process-global.
-      target: request.stack.frame!.currentPage ?? request.stack.frame!,
-      props: {
-        onReady(frame: Frame) {
-          attach(stack, frame)
-          if (isIOS && modal.ios) configureSheet(frame, modal.ios)
-          try {
-            $navigateTo(createPage(entry, pageLink), { frame, animated: false })
-          } catch (error) {
-            stack.pending?.reject(error)
-            stack.pending = undefined
-            frame.closeModal()
-          }
-        },
+    const animated = !shouldReduceMotion(request.stack) && modal.animated !== false
+    const sheet =
+      isAndroid && modal.android?.sheet
+        ? createBottomSheetPresenter({
+            sheet: bottomSheetOptions(modal.android.sheet),
+            animated,
+            cancelable: modal.cancelable !== false,
+            windowSoftInputMode: modal.android.windowSoftInputMode,
+            onDismissAttempt: () => onDismissAttempt(stack),
+          })
+        : undefined
+    // A command originating in another native window must present there.
+    const target = topOf(request.stack)?.page ?? hostView(request.stack)
+    const props = {
+      onReady(frame: Frame) {
+        const host = createFrameHost(frame, {
+          modal: true,
+          kind: sheet ? 'bottom-sheet' : undefined,
+          holdDismissal: sheet?.hold,
+        })
+        attach(stack, host)
+        if (isIOS && modal.ios) configureSheet(frame, modal.ios)
+        const pageMount = trace?.span('mount', 'page')
+        try {
+          host.push(createPage(entry, pageLink), {
+            initial: true,
+            animated: false,
+            transition: undefined,
+            replace: false,
+            clearHistory: false,
+          })
+          pageMount?.end()
+        } catch (error) {
+          pageMount?.end('error')
+          entry.settle = undefined
+          dispose(entry)
+          stack.pending?.reject(error)
+          stack.pending = undefined
+          frame.closeModal()
+        }
       },
-    }).then(
+    }
+    const mounting = trace?.span('mount', 'modal-host')
+    const presented = sheet
+      ? sheet.present(ModalHost, props, target)
+      : $showModal(ModalHost, {
+          ...modal,
+          ...(animated ? {} : { animated: false }),
+          target,
+          props,
+        })
+    mounting?.end()
+    presented.then(
       () => onModalClosed(stack),
       (error) => {
         stack.pending?.reject(error)
@@ -895,6 +1248,29 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     )
 
     await shown
+    await finishNativeDestination(entry)
+  }
+
+  async function finishNativeDestination(entry: Entry) {
+    const ready = nativeDestinationReady(entry)
+    if (!ready) return
+    try {
+      await ready
+    } catch (error) {
+      // Let pushForResult reject with the mount error instead of settling as a
+      // successful user cancellation when rollback disposes the failed entry.
+      entry.settle = undefined
+      // A failing SDK attachment must not leave a dead Page above the caller.
+      // This is rollback of a failed mount, not a user navigation/leave guard.
+      const stack = entry.stack
+      if (!entry.disposed && topOf(stack) === entry) {
+        const previous = stack.entries.value.at(-2)
+        if (previous || stack.modal)
+          await commitBack(stack, previous ?? null, undefined, false)
+      }
+      dispose(entry)
+      throw error
+    }
   }
 
   async function commitBack(
@@ -906,40 +1282,37 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     const top = topOf(stack)
     if (top && result !== undefined) top.result = result
 
-    const frame = stack.frame!
-    if (!target) {
-      const closed = expect(stack)
-      frame.closeModal()
-      return closed
+    const host = stack.host!
+    if (shouldReduceMotion(stack)) {
+      animated = false
+      if (top?.zoomFrom && top.page?.ios) top.page.ios.preferredTransition = null
     }
-
-    const split = splits.get(stack)
-    const targetPage =
-      split && target === stack.entries.value[0] ? split.placeholder : target.page
-    const entry = frame.backStack.find(
-      (candidate) => candidate.resolvedPage === targetPage,
-    )
-    if (!entry) {
+    if (target && (!target.page || !host.pages().includes(target.page))) {
       throw new Error(`"${target.route.fullPath}" is no longer in the native stack`)
     }
-
-    // the frame animates a pop the way the page being popped came in
-    if (animated !== undefined && frame.currentEntry)
-      frame.currentEntry.animated = animated
+    if (!target && !host.capabilities.close) throw unsupportedOperation(host, 'closing')
 
     const done = expect(stack)
-    frame.goBack(entry)
+    try {
+      await host.back(target?.page ?? null, { animated })
+    } catch (error) {
+      stack.pending = undefined
+      throw error
+    }
     await done
   }
 
-  function expect(stack: Stack): Promise<void> {
-    stack.pending = deferred()
+  function expect(stack: Stack, entry?: Entry): Promise<void> {
+    stack.pending = { ...deferred<void>(), entry }
     return stack.pending.promise
   }
 
   async function loadComponent(record: RouteRecord): Promise<RouteComponent> {
     const cached = components.get(record)
-    if (cached) return cached
+    if (cached) {
+      assertNativeDestination(cached)
+      return cached
+    }
 
     const raw = record.component
     if (!raw) throw new Error(`Route "${record.path}" has no component`)
@@ -952,6 +1325,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
           ? loaded.default
           : loaded
     }
+    assertNativeDestination(component)
     components.set(record, component)
     return component
   }
@@ -1002,9 +1376,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
   // -- window ownership -------------------------------------------------------
 
-  async function waitForWindow(stack: Stack, frame: Frame) {
+  async function waitForWindow(stack: Stack, frame: View | undefined) {
     if (stopped) throw new Error('The router window is closed')
-    if (!nativeWindow.value && hasNativeWindows() && frame.isLoaded !== true) {
+    if (!nativeWindow.value && hasNativeWindows() && frame && frame.isLoaded !== true) {
       await new Promise<void>((resolve) => {
         const loaded = () => {
           frame.off('loaded', loaded)
@@ -1015,7 +1389,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         frame.on('loaded', loaded)
       })
     }
-    const window = windowOf(frame)
+    const window = frame && windowOf(frame)
     if (window) bindWindow(window)
     if (stopped || stack.closed) throw new Error('The router view is closed')
   }
@@ -1074,6 +1448,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         if (nativeWindow.value) persist()
         else restore.save(null)
       }
+      const onSuspend = () => persist()
+      Application.on('suspend', onSuspend)
+      stops.push(() => Application.off('suspend', onSuspend))
       Application.on('exit', onExit)
       stops.push(() => Application.off('exit', onExit))
     }
@@ -1085,7 +1462,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         if (!activities.has(activity))
           activities.set(
             activity,
-            watchBackGestures(activity, () => gestureSession(topmostStack())),
+            watchBackGestures(activity, () =>
+              claimedBack() ? undefined : gestureSession(topmostStack()),
+            ),
           )
       }
       const onCreated = ({ activity }: AndroidActivityEventData) =>
@@ -1122,8 +1501,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     attached.value = false
     stopPlatform?.()
     stopWindow?.()
+    stopLinks?.()
+    for (const waiter of mountWaiters.values())
+      waiter.reject(new Error('The router window is closed'))
+    mountWaiters.clear()
     for (const stack of [...modals.value].reverse()) {
-      stack.frame?.closeModal()
+      void stack.host?.back(null, { animated: false })
       close(stack)
     }
     modals.value = []
@@ -1145,6 +1528,15 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     )
       return
     const stack = topmostStack()
+    // Core also emits this global event from dialogs, before the modal
+    // Frame's event. Let that host handle its guards, result and dismissal.
+    if (stack?.modal) return
+    const owner = claimedBack()
+    if (owner) {
+      args.cancel = true
+      owner.back()
+      return
+    }
     if (!stack || stack.closed || stack.entries.value.length < 2) return
 
     // go back through the router, so leave guards get a say
@@ -1158,11 +1550,122 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     stack.router.go(-stack.entries.value.length).catch(() => {})
   }
 
-  function onModalBackPressed(stack: Stack, args: AndroidActivityBackPressedEventData) {
-    args.cancel = true
+  /** The system back a host claimed as its own: the Android back inside a modal dialog. */
+  function onHostBackPressed(stack: Stack) {
+    if (stack.closed) return
     const isRoot = stack.entries.value.length < 2
     if (isRoot && stack.modal && stack.modal.cancelable === false) return
     stack.router.back().catch(() => {})
+  }
+
+  /** A host that went away on its own, before the router closed it. */
+  function onHostClosed(stack: Stack) {
+    if (stack.closed) return
+    if (stack.modal) {
+      onModalClosed(stack)
+      return
+    }
+    frames.delete(stack.name)
+    close(stack)
+    if (lastFrame.value === stack) lastFrame.value = undefined
+  }
+
+  // -- links ------------------------------------------------------------------
+
+  const linkPolicy: LinksOptions = typeof options.links === 'object' ? options.links : {}
+  const linkListeners = callbacks<LinkListener>()
+  const mountWaiters = new Map<string, Pending<void>>()
+  let lastSystemLink: { href: string; at: number } | undefined
+
+  interface EvaluatedLink {
+    link: IncomingLink
+    location?: RouteLocation
+    ignored?: LinkIgnoredReason
+  }
+
+  /** Resolves once `<RouterView name>` is mounted, or rejects after a while. */
+  function stackMounted(name: string): Promise<void> {
+    if (frames.has(name)) return Promise.resolve()
+    let waiter = mountWaiters.get(name)
+    if (!waiter) {
+      const pending = deferred<void>()
+      waiter = pending
+      mountWaiters.set(name, pending)
+      setTimeout(() => {
+        if (mountWaiters.get(name) !== pending) return
+        mountWaiters.delete(name)
+        pending.reject(
+          new Error(`No <RouterView name="${name}"> mounted within ${MOUNT_TIMEOUT}ms`),
+        )
+      }, MOUNT_TIMEOUT)
+    }
+    return waiter.promise
+  }
+
+  function evaluateLink(href: string, source: LinkSource): EvaluatedLink {
+    let link = parseLink(href, source)
+    if (!link) {
+      return {
+        link: { href, scheme: '', host: '', path: '', query: {}, hash: '', source },
+        ignored: 'malformed',
+      }
+    }
+    const shortcut = readShortcutURL(link)
+    if (!shortcut && link.scheme === SHORTCUT_SCHEME)
+      return { link, ignored: 'malformed' }
+    const screened = shortcut ? undefined : screen(linkPolicy, link)
+    if (screened) return { link, ignored: screened }
+    const raw = shortcut
+      ? shortcut.to
+      : linkPolicy.map
+        ? linkPolicy.map(link)
+        : { path: link.path, query: link.query, hash: link.hash }
+    if (shortcut) link = { ...link, shortcut: shortcut.id }
+    if (raw === null || raw === undefined) return { link, ignored: 'unmatched' }
+    try {
+      return { link, location: resolveTarget(raw, START_LOCATION) }
+    } catch {
+      return { link, ignored: 'unmatched' }
+    }
+  }
+
+  async function takeLink(
+    evaluated: EvaluatedLink,
+    options: LinkOptions & { source?: LinkSource },
+  ): Promise<LinkResult> {
+    const { link, location } = evaluated
+    const done = (result: LinkResult) => {
+      for (const listener of linkListeners.list()) listener(result)
+      return result
+    }
+    if (!location) return done({ link, ignored: evaluated.ignored })
+    if (link.source !== 'app') {
+      const now = Date.now()
+      const repeat =
+        !!lastSystemLink &&
+        lastSystemLink.href === link.href &&
+        now - lastSystemLink.at < REPEAT_WINDOW
+      lastSystemLink = { href: link.href, at: now }
+      if (repeat) return done({ link, location, ignored: 'repeat' })
+    }
+    const policy =
+      typeof linkPolicy.options === 'function'
+        ? linkPolicy.options(location, link)
+        : linkPolicy.options
+    const frame = options.frame ?? linkPolicy.frame?.(location, link) ?? policy?.frame
+    const settings = { withParents: true, ...policy, ...options, frame }
+    if (!isReady) await ready.promise
+    if (frame !== undefined) await stackMounted(frame)
+    const target = { path: location.path, query: location.query, hash: location.hash }
+    const navigation: NavigationOptions = {
+      withParents: settings.withParents,
+      clearHistory: settings.clearHistory,
+      frame,
+    }
+    const failure = settings.replace
+      ? await router.replace(target, navigation)
+      : await router.push(target, navigation)
+    return done({ link, location, failure })
   }
 
   // -- public API -------------------------------------------------------------
@@ -1181,9 +1684,13 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       if (!isReady) await ready.promise
 
       const stack = stackFor(origin, options.frame)
-      await initializing.get(stack)
       const flags = typeof raw === 'object' ? raw : {}
       const to = resolveTarget(raw, topOf(stack)?.route ?? START_LOCATION)
+      // An unopened iOS tab must load before its pending initial navigation can
+      // settle. Reveal at the public boundary, including duplicates and modals;
+      // restoring a stack internally must not change the selected tab.
+      stack.reveal?.()
+      await initializing.get(stack)
       const request: Request = {
         type: type === 'replace' || flags.replace ? 'replace' : 'push',
         stack,
@@ -1226,6 +1733,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
     function goBack(pick: NonNullable<Request['pick']>, options: BackOptions = {}) {
       const stack = stackFor(origin, options.frame)
+      stack.reveal?.()
       return run({
         type: 'back',
         stack,
@@ -1250,6 +1758,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         const from = targets.at(-1) ?? topOf(stack)?.route ?? START_LOCATION
         targets.push(resolveTarget(location, from))
       }
+      stack.reveal?.()
       return applyStack(stack, targets, options)
     }
 
@@ -1271,7 +1780,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       pushForResult<T>(to: RouteLocationRaw, options?: NavigationOptions) {
         return new Promise<T | undefined>((resolve, reject) => {
           const settle = (entry: Entry) => {
-            entry.settle = resolve as (result: unknown) => void
+            entry.settle = diagnostics
+              ? (result) => {
+                  diagnostics.result(entry)
+                  resolve(result as T | undefined)
+                }
+              : (resolve as (result: unknown) => void)
           }
           navigate('push', to, options, settle).then(
             (failure) => failure && resolve(undefined),
@@ -1326,17 +1840,19 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   }
 
   const internals: RouterInternals = {
-    mount(name, frame, initial) {
-      if (frames.has(name)) throw new Error(`Two <RouterView>s are named "${name}"`)
+    mount(name, host, initial, reveal, selected) {
+      if (frames.has(name)) throw new Error(`Two router views are named "${name}"`)
 
-      const stack = createStack(name, false)
+      const stack = createStack(name, false, initial)
+      stack.reveal = reveal
+      stack.selected = selected
+      attach(stack, host)
       frames.set(name, stack)
-      attach(stack, frame)
 
       const show = async () => {
-        await waitForWindow(stack, frame)
+        await waitForWindow(stack, hostView(stack))
         const saved = await savedStackFor(name)
-        if (!saved) {
+        if (!saved && !host.capabilities.pinnedRoot) {
           return run({
             type: 'push',
             stack,
@@ -1346,9 +1862,14 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
           })
         }
         // the saved pages go in without animating, and without saving every step
-        restoring = true
+        restoring = !!saved
         try {
-          return await applyStack(stack, saved, { animated: false })
+          return await applyStack(
+            stack,
+            saved?.targets ?? [resolveTarget(initial, START_LOCATION)],
+            { animated: false },
+            saved?.entries,
+          )
         } finally {
           restoring = false
           persist()
@@ -1363,57 +1884,16 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
             )
           }
           markReady()
+          // links waiting for this stack go in on top of its first page
+          mountWaiters.get(name)?.resolve()
+          mountWaiters.delete(name)
         },
-        (error) => ready.reject(error),
-      )
-      initializing.set(stack, mounted)
-      void mounted.then(() => initializing.delete(stack))
-      return mounted
-    },
-
-    mountSplit(name, listFrame, detailFrame, list, expanded, detailVisible) {
-      if (frames.has(name)) throw new Error(`Two router views are named "${name}"`)
-      const stack = createStack(name, false)
-      const placeholder = new Page()
-      placeholder.actionBarHidden = true
-      placeholder.backgroundColor = new Color('transparent')
-      const split: SplitStack = {
-        listFrame,
-        placeholder,
-        list,
-        expanded,
-        detailVisible,
-        resetting: false,
-      }
-      splits.set(stack, split)
-      frames.set(name, stack)
-      attach(stack, detailFrame)
-      stacksByFrame.set(listFrame, stack)
-      const syncList = () => sync(stack)
-      listFrame.on(Frame.navigatedToEvent, syncList)
-      const detach = detachers.get(stack)!
-      detachers.set(stack, () => {
-        detach()
-        listFrame.off(Frame.navigatedToEvent, syncList)
-      })
-      const mounted = (async () => {
-        try {
-          await waitForWindow(stack, listFrame)
-          const saved = await savedStackFor(name)
-          restoring = !!saved
-          try {
-            await applyStack(stack, saved ?? [resolveTarget(list, START_LOCATION)], {
-              animated: false,
-            })
-          } finally {
-            restoring = false
-            persist()
-          }
-          markReady()
-        } catch (error) {
+        (error) => {
           ready.reject(error)
-        }
-      })()
+          mountWaiters.get(name)?.reject(error)
+          mountWaiters.delete(name)
+        },
+      )
       initializing.set(stack, mounted)
       void mounted.then(() => initializing.delete(stack))
       return mounted
@@ -1431,6 +1911,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   const router: Router = Object.assign(navigation(), {
     currentRoute,
     window: nativeWindow,
+    diagnostics: diagnostics?.api,
     options: options as RouterOptions,
 
     addRoute(parentOrRoute: RouteRecordName | RouteRecordRaw, route?: RouteRecordRaw) {
@@ -1444,9 +1925,26 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
     beforeEach: beforeGuards.add,
     beforeResolve: resolveGuards.add,
+    addRouteMiddleware: middleware.add,
     afterEach: afterHooks.add,
     onError: errorHandlers.add,
     isReady: () => ready.promise,
+
+    openLink: (href: string, options: LinkOptions & { source?: LinkSource } = {}) =>
+      takeLink(evaluateLink(href, options.source ?? 'app'), options),
+    resolveLink: (href: string) => evaluateLink(href, 'app').location,
+    onLink: linkListeners.add,
+    claimSystemBack: backClaimants.add,
+    setShortcuts(shortcuts: readonly RouteShortcut[]) {
+      const seen = new Set<string>()
+      const published = shortcuts.map((shortcut) => {
+        if (seen.has(shortcut.id))
+          throw new Error(`Two shortcuts are named "${shortcut.id}"`)
+        seen.add(shortcut.id)
+        return { ...shortcut, location: resolveTarget(shortcut.to, START_LOCATION) }
+      })
+      return publishShortcuts(published)
+    },
 
     install(app: App) {
       const route = shallowReactive(reactiveRoute)
@@ -1461,10 +1959,49 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       })
       app.component('RouterView', RouterView)
       app.component('RouterSplitView', RouterSplitView)
+      app.component('RouterUIKitSplitView', RouterUIKitSplitView)
       app.component('RouterLink', RouterLink)
       app.component('Deferred', Deferred)
+      app.component('RouterDrawer', RouterDrawer)
+      app.component('RouterTabs', RouterTabs)
+      app.component('RouterTab', RouterTab)
+      app.directive('route-preview', vRoutePreview)
+      // NativeScript-Vue's element registry is process-wide, unlike Vue apps.
+      registerElement('RouterUIKitSplitHost', uikitSplitViewClass, {
+        viewFlags: 4,
+        overwriteExisting: true,
+      })
+      registerElement('RouterTabsHost', () => TabsHostView, {
+        viewFlags: 4,
+        overwriteExisting: true,
+      })
+      if (isAndroid)
+        registerElement('RouterNavigationBar', () => MaterialNavigationBar, {
+          overwriteExisting: true,
+        })
+      if (isAndroid) {
+        registerElement('RouterDrawerLayout', () => DrawerLayoutView, {
+          viewFlags: 4,
+          overwriteExisting: true,
+        })
+      }
+      if (diagnostics) app.onUnmount(() => diagnostics.api.stop())
 
       if (options.window) bindWindow(options.window)
+      if (options.links && linkPolicy.system !== false) {
+        stopLinks = installSystemLinks({
+          window: () => nativeWindow.value,
+          deliver(href, source) {
+            const evaluated = evaluateLink(href, source)
+            takeLink(evaluated, { source }).catch((error) => {
+              if (__DEV__)
+                console.warn(`[vue-router-ns] Opening "${href}" failed:`, error)
+            })
+            return !!evaluated.location
+          },
+        })
+      }
+
       platformInstalled = true
       installPlatform()
       app.onUnmount(shutdown)
@@ -1474,6 +2011,19 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   Object.defineProperty(router, INTERNAL, { value: internals })
 
   return router as unknown as Router<RouteMapFrom<R>>
+}
+
+/** The containers a host reports, or one empty part while a modal host is still presenting. */
+function hostParts(host: NativeHost | null): NativeHostPart[] {
+  if (!host) return [{ role: 'main', native: null, loaded: false, pages: [] }]
+  if (host.parts) return [...host.parts()]
+  return [{ role: 'main', native: host.native, loaded: host.loaded, pages: host.pages() }]
+}
+
+/** A view inside the stack's host, for platform lookups that need a window or context. */
+function hostView(stack: Stack | undefined): View | undefined {
+  const native = stack?.host?.parts?.()[0]?.native ?? stack?.host?.native
+  return native instanceof View ? native : undefined
 }
 
 function modalOptionsFor(
@@ -1487,7 +2037,23 @@ function modalOptionsFor(
   const merged: ModalOptions = { ...(fromRecord || {}), ...extra }
   if (fromRecord && fromRecord.ios && extra.ios)
     merged.ios = { ...fromRecord.ios, ...extra.ios }
+  if (fromRecord && fromRecord.android && extra.android) {
+    merged.android = {
+      ...fromRecord.android,
+      ...extra.android,
+      sheet: mergeSheet(fromRecord.android.sheet, extra.android.sheet),
+    }
+  }
   return merged
+}
+
+function mergeSheet(
+  base: AndroidModalOptions['sheet'],
+  extra: AndroidModalOptions['sheet'],
+): AndroidModalOptions['sheet'] {
+  if (extra === undefined) return base
+  if (!extra || !base) return extra
+  return { ...(base === true ? {} : base), ...(extra === true ? {} : extra) }
 }
 
 function pageProps(

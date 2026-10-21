@@ -1,0 +1,6 @@
+{
+  "middleware": "auth",
+  "meta": {
+    "title": "Your account"
+  }
+}

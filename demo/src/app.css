@@ -1,62 +1,258 @@
-ActionBar {
-  background-color: #1f2937;
-  color: #ffffff;
-}
-
 Page {
-  background-color: #f9fafb;
+  background-color: #f2f2f7;
   color: #111827;
 }
 
-.section {
+ActionBar {
+  color: #111827;
+}
+
+.ns-android ActionBar {
+  background-color: #ffffff;
+}
+
+TabView {
+  selected-tab-text-color: #4f46e5;
+  tab-text-color: #6b7280;
+}
+
+.ns-android TabView {
+  tab-background-color: #ffffff;
+}
+
+.content {
   padding: 16;
 }
 
+.center {
+  padding-top: 48;
+  horizontal-align: center;
+}
+
 .title {
-  font-size: 22;
-  font-weight: bold;
+  font-size: 28;
+  font-weight: 700;
+  letter-spacing: -0.02;
+}
+
+.headline {
+  font-size: 17;
+  font-weight: 600;
+}
+
+.body {
+  font-size: 16;
+  line-height: 6;
+}
+
+.caption {
+  font-size: 13;
+  color: #6b7280;
 }
 
 .muted {
   color: #6b7280;
 }
 
-.message {
-  padding: 14 16;
+.section-title {
+  font-size: 13;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.06;
+  margin: 8 4 8 4;
 }
 
-.message .from {
+.card {
+  background-color: #ffffff;
+  border-radius: 18;
+  padding: 16;
+  margin-bottom: 12;
+  box-shadow: 0 1 2 rgba(17, 24, 39, 0.06);
+}
+
+.card.quote {
+  background-color: #eef2ff;
+  box-shadow: none;
+}
+
+.group {
+  padding: 0;
+}
+
+.cell {
+  padding: 15 16;
   font-size: 16;
+  border-bottom-width: 1;
+  border-bottom-color: #eceef3;
 }
 
-.message.unread .from {
-  font-weight: bold;
+.cell.last {
+  border-bottom-width: 0;
+}
+
+.cell .chevron {
+  color: #c4c7cf;
+  font-size: 22;
+  margin-top: -3;
+}
+
+.avatar {
+  width: 44;
+  height: 44;
+  border-radius: 22;
+}
+
+.avatar Label {
+  color: #ffffff;
+  font-size: 16;
+  font-weight: 700;
+}
+
+.avatar.large {
+  width: 64;
+  height: 64;
+  border-radius: 32;
+}
+
+.avatar.large Label {
+  font-size: 24;
+}
+
+.list {
+  background-color: #ffffff;
+  separator-color: transparent;
+}
+
+.row {
+  padding: 12 16 0 16;
+  background-color: #ffffff;
+}
+
+.row .text {
+  margin-left: 12;
+  padding-bottom: 12;
+  border-bottom-width: 1;
+  border-bottom-color: #eceef3;
+}
+
+.row .from {
+  font-size: 16;
+  font-weight: 500;
+}
+
+.row.unread .from {
+  font-weight: 700;
+}
+
+.row .subject {
+  font-size: 15;
+  margin-top: 1;
+}
+
+.row.unread .subject {
+  font-weight: 600;
+}
+
+.row .preview {
+  font-size: 13;
+  color: #6b7280;
+  margin-top: 2;
+}
+
+.row .time {
+  font-size: 12;
+  color: #9ca3af;
+}
+
+.row .dot {
+  width: 10;
+  height: 10;
+  border-radius: 5;
+  background-color: #4f46e5;
+  margin: 2 0 0 10;
 }
 
 .button {
+  height: 48;
   margin-top: 12;
-  padding: 10 16;
-  border-radius: 8;
-  background-color: #2563eb;
+  padding: 0 16;
+  border-radius: 14;
+  background-color: #4f46e5;
   color: #ffffff;
+  font-size: 16;
+  font-weight: 600;
+  text-transform: none;
+  android-elevation: 0;
 }
 
 .button.secondary {
-  background-color: #e5e7eb;
+  background-color: #e8e9ee;
   color: #111827;
+}
+
+.button.danger {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.field {
+  background-color: #ffffff;
+  border-width: 0;
+  border-radius: 14;
+  padding: 14;
+  margin-bottom: 12;
+  font-size: 16;
+  placeholder-color: #9ca3af;
+}
+
+.chip {
+  horizontal-align: left;
+  padding: 6 12;
+  border-radius: 999;
+  background-color: #eef2ff;
+  color: #4f46e5;
+  font-size: 13;
+  font-weight: 600;
+}
+
+.message-preview {
+  padding: 16;
+  background-color: #ffffff;
+}
+
+.emoji {
+  font-size: 56;
+  margin-bottom: 8;
+  text-align: center;
 }
 
 .trail {
   padding: 8 16;
   font-size: 12;
   color: #6b7280;
-  background-color: #f3f4f6;
+  background-color: #f2f2f7;
 }
 
-TextField,
-TextView {
-  padding: 12;
-  border-width: 1;
-  border-color: #d1d5db;
-  border-radius: 8;
+.drawer-header {
+  padding: 56 20 16 20;
+}
+
+.drawer-item {
+  height: 52;
+  margin: 0;
+  padding: 14 20;
+  font-size: 16;
+  text-align: left;
+  text-transform: none;
+  background-color: transparent;
+  border-width: 0;
+  border-radius: 0;
+  android-elevation: 0;
+}
+
+.drawer-item.selected {
+  background-color: #eef2ff;
+  color: #4f46e5;
+  font-weight: 600;
 }

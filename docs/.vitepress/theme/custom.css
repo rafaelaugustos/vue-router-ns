@@ -24,6 +24,26 @@
   max-width: 320px;
 }
 
+.clips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 24px;
+  margin: 24px 0;
+}
+
+.clips .clip {
+  margin: 0;
+}
+
+.home-demos {
+  max-width: 1152px;
+  margin: 64px auto;
+  padding: 0 24px;
+  text-align: center;
+}
+
 @media (min-width: 960px) {
   .VPHero .image-src {
     max-width: 400px;

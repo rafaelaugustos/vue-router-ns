@@ -1,8 +1,10 @@
 # Como funciona
 
-Cada `<RouterView>` renderiza um `Frame` do NativeScript. As páginas são montadas com `$navigateTo`, dentro de um pequeno wrapper que fornece a rota delas e um router ligado à pilha delas. O NativeScript-Vue monta cada página como um app próprio, então nada fornecido pelo `<RouterView>` chegaria a elas de outro jeito.
+Cada `<RouterView>` renderiza um `Frame` do NativeScript e o entrega ao router como um [host nativo](./native-hosts). As páginas são montadas com `$navigateTo`, dentro de um pequeno wrapper que fornece a rota delas e um router ligado à pilha delas. O NativeScript-Vue monta cada página como um app próprio, então nada fornecido pelo `<RouterView>` chegaria a elas de outro jeito.
 
-Em um `RouterView`, a pilha nativa é a fonte do histórico. Depois de cada `navigatedTo`, ele lê `frame.backStack` e a página atual e os espelha. Pops que ele não iniciou, como um swipe no iOS, são captados do mesmo jeito que os dele. O `replace` marca a entrada atual com `backstackVisible: false` antes de navegar, que é como o frame descarta uma página nativamente.
+Em um `RouterView`, a pilha nativa é a fonte do histórico. Depois de cada `navigatedTo`, o host de Frame reporta uma mudança, e o router lê as páginas do host e as espelha. Pops que ele não iniciou, como um swipe no iOS, são captados do mesmo jeito que os dele. O `replace` marca a entrada atual com `backstackVisible: false` antes de navegar, que é como o frame descarta uma página nativamente.
+
+O router fala com todo contêiner pelo mesmo contrato de host: o Frame de um `<RouterView>`, o frame dentro de um modal e os dois Frames de um `<RouterSplitView>`. Matching, guards, resultados e reconciliação ficam no router, uma vez só; apresentação, gestos e handles nativos ficam no host. O contrato é experimental e está documentado em [hosts nativos](./native-hosts).
 
 ## Onde ele fala com a plataforma
 
@@ -14,7 +16,9 @@ Em um `RouterView`, a pilha nativa é a fonte do histórico. Depois de cada `nav
 
 ## Testes
 
-Os testes rodam contra um substituto do `Frame` do NativeScript ([`test/shims/core.ts`](https://github.com/rafaelaugustos/vue-router-ns/blob/master/test/shims/core.ts)). Ele segue a ordem do real: as navegações terminam num tick posterior, e as páginas descartadas são liberadas antes do `navigatedTo` disparar. As partes acima que tocam a plataforma são exercitadas por pequenas costuras que o shim consegue chamar, e conferidas em aparelhos uma a uma.
+Os testes rodam contra um substituto do `Frame` do NativeScript ([`test/shims/core.ts`](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/shims/core.ts)). Ele segue a ordem do real: as navegações terminam num tick posterior, e as páginas descartadas são liberadas antes do `navigatedTo` disparar. As partes acima que tocam a plataforma são exercitadas por pequenas costuras que o shim consegue chamar, e conferidas em aparelhos uma a uma.
+
+O que o shim não enxerga roda num emulador Android de verdade: [`scripts/native/smoke-android.sh`](https://github.com/rafaelaugustos/vue-router-ns/blob/main/scripts/native/smoke-android.sh) instala o demo e o conduz pelo `adb`, conferindo links do sistema num cold start e com o app aberto, estado de página depois de matar o processo de verdade, o bottom sheet do Material, atalhos da tela inicial, o drawer e o voltar, e os tempos do próprio router, vindos do diagnóstico, contra [`scripts/native/baselines.json`](https://github.com/rafaelaugustos/vue-router-ns/blob/main/scripts/native/baselines.json). `npm run test:native:android` roda a suíte num aparelho conectado depois de `ns build android`; o workflow `Native` a roda num emulador toda semana, sob demanda e quando a própria suíte muda. Os [relatórios de validação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-validation.md) registram as passagens manuais que restam.
 
 ## Lista e detalhe
 
@@ -24,4 +28,4 @@ Os testes rodam contra um substituto do `Frame` do NativeScript ([`test/shims/co
 
 O wrapper encaminha reloads do componente roteado ao NativeScript-Vue para substituir a Page nativa. Uma página coberta espera o `navigatedTo` do Frame e o próximo tick do Vue antes de recarregar. Veja [HMR](./pages#hmr-durante-o-desenvolvimento).
 
-As verificações nativas e seus ambientes estão registradas no [relatório de validação](https://github.com/rafaelaugustos/vue-router-ns/blob/master/test/native-validation.md); ele complementa os testes do shim.
+As verificações nativas e seus ambientes estão registradas no [relatório de validação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-validation.md); ele complementa os testes do shim.

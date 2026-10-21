@@ -6,7 +6,21 @@ coverage/
 
 demo/platforms/
 demo/hooks/
+demo/App_Resources/
 demo/node_modules/
 demo/package-lock.json
 docs/.vitepress/cache
 docs/.vitepress/dist
+scripts/native/out/
+demo/nsconfig.json
+demo/src/testing/file-generated/
+examples/file-routing/platforms/
+examples/file-routing/hooks/
+examples/file-routing/App_Resources/
+examples/file-routing/src/generated/
+examples/file-routing/src/pages/live-added.vue
+examples/file-routing/src/pages/live-renamed.vue
+examples/file-routing/nsconfig.json
+examples/file-routing/.ns-vite-build/
+
+.native-core/

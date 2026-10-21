@@ -22,11 +22,14 @@ it.each(['return', 'discard'] as const)(
       }
     ).__VUE_HMR_RUNTIME__
     hmr.createRecord(component.__hmrId, component)
-    const { router, frame } = await mount([
-      { path: '/', component },
-      { path: '/above', component: page('Above') },
-      { path: '/fresh', component: page('Fresh') },
-    ])
+    const { router, frame, app } = await mount(
+      [
+        { path: '/', component },
+        { path: '/above', component: page('Above') },
+        { path: '/fresh', component: page('Fresh') },
+      ],
+      { diagnostics: true },
+    )
     await router.push('/above')
     const covered = frame().backStack[0]!.resolvedPage
     const top = frame().currentPage
@@ -42,11 +45,22 @@ it.each(['return', 'discard'] as const)(
     expect(setup).toHaveBeenCalledOnce()
     expect(frame().currentPage).toBe(top)
     expect(frame().backStack[0]!.resolvedPage).toBe(covered)
+    expect(
+      router
+        .diagnostics!.events.filter((event) => event.phase === 'hmr')
+        .map((event) => event.detail),
+    ).toEqual(['requested', 'deferred', 'requested'])
     expect(paths(router.stack.value)).toEqual(['/', '/above'])
     if (action === 'return') await router.back()
     else await router.push('/fresh', { clearHistory: true })
     await settle()
     expect(reload).toHaveBeenCalledTimes(action === 'return' ? 1 : 0)
     expect(paths(router.stack.value)).toEqual([action === 'return' ? '/' : '/fresh'])
+    expect(
+      router.diagnostics!.events.filter(
+        (event) => event.phase === 'hmr' && event.detail === 'applied',
+      ),
+    ).toHaveLength(action === 'return' ? 1 : 0)
+    app.unmount()
   },
 )

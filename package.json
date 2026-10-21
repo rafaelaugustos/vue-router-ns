@@ -1,6 +1,6 @@
 {
   "name": "vue-router-ns",
-  "version": "0.1.0-beta.6",
+  "version": "0.1.0-beta.14",
   "description": "Vue Router's API for NativeScript-Vue, built on top of the native navigation stack.",
   "keywords": [
     "nativescript",
@@ -27,7 +27,27 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./file-routing": {
+      "types": "./dist/file-routing/index.d.ts",
+      "default": "./dist/file-routing/index.js"
+    },
+    "./file-routing/generator": {
+      "types": "./dist/file-routing/generator.d.ts",
+      "default": "./dist/file-routing/generator.js"
+    },
+    "./file-routing/setup": {
+      "types": "./dist/file-routing/setup.d.ts",
+      "default": "./dist/file-routing/setup.js"
+    },
+    "./file-routing/webpack": {
+      "types": "./dist/file-routing/webpack.d.cts",
+      "default": "./dist/file-routing/webpack.cjs"
+    },
+    "./file-routing/vite": {
+      "types": "./dist/file-routing/vite.d.ts",
+      "default": "./dist/file-routing/vite.js"
+    }
   },
   "files": [
     "dist",
@@ -40,6 +60,12 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:native:android": "bash scripts/native/smoke-android.sh",
+    "test:native:drawer": "node scripts/native/drawer-android.mjs",
+    "test:native:middleware": "bash scripts/native/middleware-android.sh",
+    "test:native:layouts": "bash scripts/native/layouts-android.sh",
+    "test:native:state": "bash scripts/native/state-android.sh",
+    "test:native:files": "bash scripts/native/files-android.sh",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "docs:dev": "vitepress dev docs",
@@ -49,16 +75,35 @@
   },
   "peerDependencies": {
     "@nativescript/core": ">=8.9.0",
-    "nativescript-vue": "^3.0.0"
+    "@vue/compiler-sfc": "^3.5.0",
+    "nativescript-vue": "^3.0.0",
+    "vite": "^8.0.0",
+    "webpack": "^5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@vue/compiler-sfc": {
+      "optional": true
+    },
+    "webpack": {
+      "optional": true
+    },
+    "vite": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@nativescript/core": "^9.1.3",
+    "@types/node": "^22.20.5",
+    "@vue/compiler-sfc": "^3.5.44",
     "@vue/runtime-core": "^3.5.44",
+    "esbuild": "^0.28.2",
     "nativescript-vue": "^3.1.2",
     "prettier": "^3.9.10",
     "typescript": "^7.0.2",
+    "vite": "^8.3.4",
     "vitepress": "^1.6.4",
-    "vitest": "^5.0.4"
+    "vitest": "^5.0.4",
+    "webpack": "^5.112.0"
   },
   "engines": {
     "node": ">=20"

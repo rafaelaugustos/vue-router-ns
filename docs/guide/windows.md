@@ -93,4 +93,12 @@ Import `ApplicationSettings` from `@nativescript/core`. The optional second argu
 
 Scoped snapshots include `windowKey`; a mismatched key is ignored on load. Legacy snapshots without it remain readable. Closing a window saves `null` only with that window's context. A process-level exit saves existing scoped histories rather than clearing every window; legacy mode retains its existing clear-on-exit behavior.
 
-Choose the incoming-route-versus-restored-history policy in your content resolver. A fresh `openWindow` request typically starts at its requested route and skips an older snapshot; an OS reconstruction normally restores the saved window. Use the native request's saved-state/session information and your application metadata to distinguish those cases. This API does not serialize local Vue state or pending Promises across process death.
+Choose the incoming-route-versus-restored-history policy in your content resolver. A fresh `openWindow` request typically starts at its requested route and skips an older snapshot; an OS reconstruction normally restores the saved window. Use the native request's saved-state/session information and your application metadata to distinguish those cases. Use `usePageState()` for opt-in, versioned page state; pending Promises and native objects cannot survive process death.
+
+## Links delivered to a window
+
+With `links` enabled, warm Android intents and iOS scene URLs, user activities and quick actions go only to the router owning the event's Activity/scene. Closing a router removes its listeners and disables the legacy delegate callbacks that Core cannot unregister.
+
+For a new secondary window, Core invokes the content resolver **after** emitting its initial intent/scene event. Forward that request explicitly to the new router with `router.openLink(url, { source: 'launch' })`; the call waits for restoration and the first native host. Read the URL from `request.android?.intent` or `request.ios?.connectionOptions`. On Android, do not replay the old intent when `request.android?.savedInstanceState` exists. Apply your chosen fresh-link versus saved-history policy before this handoff. A fresh incoming link normally lands above the restored history; `clearHistory: true` starts a new stack.
+
+The router does not guess which document window an ownerless notification should target. The application chooses the router/window and calls its `openLink()`.

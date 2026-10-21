@@ -100,7 +100,7 @@ const router = useRouter()
 
 ## The demo app
 
-The repository ships a small mail app with two tabs in [`demo/`](https://github.com/rafaelaugustos/vue-router-ns/tree/master/demo). It covers typed params, a compose modal that returns its text, a leave guard that only asks while there's a draft, a login guard, a lazy page, `clearHistory`, a message page that follows the Android back swipe, and tabs that go back to their first page when tapped again.
+The repository ships a small mail app with two tabs in [`demo/`](https://github.com/rafaelaugustos/vue-router-ns/tree/main/demo). It covers typed params, a compose modal that returns its text, a leave guard that only asks while there's a draft, a login guard, a lazy page, `clearHistory`, a message page that follows the Android back swipe, and tabs that go back to their first page when tapped again.
 
 With the [NativeScript CLI](https://docs.nativescript.org/setup/) installed:
 

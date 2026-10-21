@@ -1,0 +1,259 @@
+name: Native contracts
+on:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 5 * * 1'
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      native: ${{ steps.paths.outputs.native }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dorny/paths-filter@v3
+        id: paths
+        with:
+          filters: |
+            native:
+              - 'src/**'
+              - 'demo/**'
+              - 'examples/**'
+              - 'scripts/**'
+              - 'test/**/*.ts'
+              - '.github/workflows/**'
+              - '*package*.json'
+              - '.npmrc'
+              - '*config*'
+  android:
+    needs: changes
+    if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        api: [34, 36]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - run: npm ci && npm run build
+      - run: npm install --no-audit --no-fund
+        working-directory: demo
+      - run: npm install -g nativescript
+      - name: Prepare native resources
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install emulator >/dev/null
+          ns usage-reporting disable
+          ns error-reporting disable
+          ns create contract-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null
+          cp -R /tmp/contract-scaffold/App_Resources demo/App_Resources
+          node scripts/native/contracts/prepare.mjs
+      - name: Install emulator image
+        run: |
+          for attempt in 1 2 3; do
+            if "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install 'system-images;android-${{ matrix.api }};google_apis;x86_64' && test -s "$ANDROID_HOME/system-images/android-${{ matrix.api }}/google_apis/x86_64/system.img"; then
+              exit 0
+            fi
+            sleep 5
+          done
+          exit 1
+      - name: Build fixed and former HMR fixtures
+        working-directory: demo
+        run: |
+          ns build android --env.contractsTest
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/contracts-fixed.apk
+          ns build android --env.contractsTest --env.contractFault
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/contracts-former.apk
+          ns build android --env.destinationsTest
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/native-destinations.apk
+      - name: Build continuous native input driver
+        run: node scripts/native/contracts/build-touch.mjs
+      - name: Native contracts and negative control
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api }}
+          arch: x86_64
+          target: google_apis
+          profile: pixel_7
+          disable-animations: false
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: |
+            adb install -r /tmp/contracts-fixed.apk
+            ANDROID_SERIAL=emulator-5554 OUT=scripts/native/out/contracts-fixed node scripts/native/contracts/android.mjs
+            adb install -r /tmp/contracts-former.apk
+            ANDROID_SERIAL=emulator-5554 OUT=scripts/native/out/contracts-former EXPECT_HMR_FAILURE=1 node scripts/native/contracts/android.mjs
+            ANDROID_SERIAL=emulator-5554 ANDROID_APP=/tmp/native-destinations.apk node scripts/native/destinations.mjs android
+      - name: Enforce timing and retention budgets
+        run: |
+          node scripts/native/contracts/validate.mjs scripts/native/out/contracts-fixed/results.json android-ci-${{ matrix.api }} scripts/native/out/contracts-fixed/verdict.json
+          EXPECT_HMR_FAILURE=1 node scripts/native/contracts/validate.mjs scripts/native/out/contracts-former/results.json negative
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: contracts-android-${{ matrix.api }}
+          path: scripts/native/out
+  ios:
+    needs: changes
+    if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - run: gem install cocoapods xcodeproj --no-document
+      - run: npm ci && npm run build
+      - run: npm install --no-audit --no-fund
+        working-directory: demo
+      - run: npm install -g nativescript
+      - name: Prepare native resources
+        run: |
+          ns usage-reporting disable
+          ns error-reporting disable
+          ns create contract-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null
+          cp -R /tmp/contract-scaffold/App_Resources demo/App_Resources
+      - name: Build fixed fixture
+        working-directory: demo
+        run: ns build ios --for-device false --env.contractsTest
+      - name: Create dedicated simulator
+        run: |
+          SIM=$(xcrun simctl create RouterContracts com.apple.CoreSimulator.SimDeviceType.iPhone-16-Pro com.apple.CoreSimulator.SimRuntime.iOS-18-6)
+          echo "IOS_SIMULATOR=$SIM" >> "$GITHUB_ENV"
+          xcrun simctl boot "$SIM"
+          xcrun simctl bootstatus "$SIM" -b
+      - name: Fixed native contracts
+        env:
+          OUT: scripts/native/out/contracts-fixed
+        run: node scripts/native/contracts/ios.mjs
+      - name: Build former HMR fixture
+        working-directory: demo
+        run: ns build ios --for-device false --env.contractsTest --env.contractFault
+      - name: Negative control
+        env:
+          OUT: scripts/native/out/contracts-former
+          EXPECT_HMR_FAILURE: '1'
+        run: node scripts/native/contracts/ios.mjs
+      - name: Enforce timing and retention budgets
+        run: |
+          node scripts/native/contracts/validate.mjs scripts/native/out/contracts-fixed/results.json ios-ci-18 scripts/native/out/contracts-fixed/verdict.json
+          EXPECT_HMR_FAILURE=1 node scripts/native/contracts/validate.mjs scripts/native/out/contracts-former/results.json negative
+      - name: Build native controller destination fixture
+        working-directory: demo
+        run: ns build ios --for-device false --env.destinationsTest
+      - name: Native controller results, disposal and restoration
+        run: node scripts/native/destinations.mjs ios
+      - name: Clean up dedicated simulator
+        if: always() && env.IOS_SIMULATOR != ''
+        run: |
+          xcrun simctl shutdown "$IOS_SIMULATOR"
+          xcrun simctl delete "$IOS_SIMULATOR"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: contracts-ios-18
+          path: scripts/native/out
+  uikit-split:
+    needs: changes
+    if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
+    runs-on: macos-15
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        device: [iPhone-16-Pro, iPad-Pro-13-inch-M4-8GB]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - run: gem install cocoapods xcodeproj --no-document
+      - run: npm ci && npm run build
+      - run: npm install --no-audit --no-fund
+        working-directory: demo
+      - run: npm install -g nativescript
+      - name: Prepare a resizable native app
+        run: |
+          ns usage-reporting disable
+          ns error-reporting disable
+          ns create split-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null
+          cp -R /tmp/split-scaffold/App_Resources demo/App_Resources
+          node scripts/native/uikit-split/prepare.mjs
+      - run: ns build ios --for-device false --env.uikitsplitTest
+        working-directory: demo
+      - name: Create dedicated simulator
+        run: |
+          SIM=$(xcrun simctl create RouterUIKitSplit com.apple.CoreSimulator.SimDeviceType.${{ matrix.device }} com.apple.CoreSimulator.SimRuntime.iOS-18-6)
+          echo "IOS_SIMULATOR=$SIM" >> "$GITHUB_ENV"
+          xcrun simctl boot "$SIM"
+          xcrun simctl bootstatus "$SIM" -b
+      - run: node scripts/native/uikit-split/ios.mjs
+      - name: Clean up dedicated simulator
+        if: always() && env.IOS_SIMULATOR != ''
+        run: |
+          xcrun simctl shutdown "$IOS_SIMULATOR"
+          xcrun simctl delete "$IOS_SIMULATOR"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: uikit-split-${{ matrix.device }}
+          path: scripts/native/out
+  integration:
+    needs: changes
+    if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
+    uses: ./.github/workflows/native.yml
+  flows:
+    needs: changes
+    if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
+    uses: ./.github/workflows/native-flows.yml
+  predictive:
+    needs: changes
+    if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
+    uses: ./.github/workflows/native-predictive.yml
+  windows:
+    needs: changes
+    if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
+    uses: ./.github/workflows/native-windows.yml
+  native-contracts:
+    if: always()
+    needs: [changes, android, ios, uikit-split, integration, flows, predictive, windows]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every applicable native lane
+        env:
+          CHANGE_RESULT: ${{ needs.changes.result }}
+          RELEVANT: ${{ github.event_name != 'pull_request' || needs.changes.outputs.native == 'true' }}
+          RESULTS: ${{ toJSON(needs) }}
+        run: |
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict'
+          assert.equal(process.env.CHANGE_RESULT, 'success', 'Change detection failed')
+          const needs = JSON.parse(process.env.RESULTS)
+          for (const name of ['android', 'ios', 'uikit-split', 'integration', 'flows', 'predictive', 'windows'])
+            assert.equal(needs[name].result, process.env.RELEVANT === 'true' ? 'success' : 'skipped', `${name} must pass`)
+          JS

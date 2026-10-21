@@ -4,6 +4,8 @@ import { Application, type View } from '@nativescript/core'
 export interface RouterWindow {
   readonly id: string
   readonly state: string
+  readonly isPrimary?: boolean
+  readonly ios?: { readonly scene?: unknown }
   readonly android?: { readonly activity: unknown }
   on(event: string, callback: (args: any) => void): void
   off(event: string, callback: (args: any) => void): void

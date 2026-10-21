@@ -5,6 +5,7 @@ export interface Message {
   from: string
   subject: string
   body: string
+  at: string
   read: boolean
 }
 
@@ -15,6 +16,7 @@ const messages: Message[] = [
     from: 'Ana',
     subject: 'Lunch on Friday?',
     body: 'There is a new ramen place next to the office. 12:30?',
+    at: '09:12',
     read: false,
   },
   {
@@ -22,6 +24,7 @@ const messages: Message[] = [
     from: 'Build bot',
     subject: 'Release 2.4.0 is out',
     body: 'All checks passed. The changelog is attached.',
+    at: '08:40',
     read: false,
   },
   {
@@ -29,9 +32,15 @@ const messages: Message[] = [
     from: 'Marcos',
     subject: 'Slides for the meetup',
     body: 'Sent you the deck. Feedback before Tuesday would be great.',
+    at: 'Yesterday',
     read: true,
   },
 ]
+
+/** What the tab bar badge watches. */
+export const counts = reactive({
+  unread: messages.filter((message) => !message.read).length,
+})
 
 export const inbox = {
   list: () => messages.map((message) => ({ ...message })),
@@ -39,8 +48,9 @@ export const inbox = {
   markRead(id: number) {
     const message = messages.find((candidate) => candidate.id === id)
     if (message) message.read = true
+    counts.unread = messages.filter((candidate) => !candidate.read).length
   },
-  unread: () => messages.filter((message) => !message.read).length,
+  unread: () => counts.unread,
 }
 
 export const session = reactive({ user: '' })
