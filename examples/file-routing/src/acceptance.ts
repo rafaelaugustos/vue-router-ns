@@ -33,6 +33,7 @@ export async function run(router: RegisteredRouter, watch: boolean) {
     console.log(`CONVENTIONS_PHASE ${__FILE_ROUTING_RUN__} ${name}`)
   try {
     await router.isReady()
+    await until(() => !!captures.get('/')?.at(-1)?.host.native?.currentPage)
     const home = last('/'),
       frame = home.host.native!,
       homePage = frame.currentPage
@@ -112,6 +113,24 @@ export async function run(router: RegisteredRouter, watch: boolean) {
     )
 
     if (watch) {
+      const editor = productPage.getViewById('product-draft') as unknown as { text: string }
+      console.log(`MACRO_FREE_BEFORE ${__FILE_ROUTING_RUN__} ${JSON.stringify({ visibleDraft: editor.text, model: product.draft.value })}`)
+      editor.text = 'Retained product draft'
+      await pause()
+      const probeTimer = setInterval(() => {
+        const label = frame.currentPage?.getViewById('page-heading') as { text?: string } | undefined
+        if (label?.text !== 'Macro-free live edit') return
+        console.log(`MACRO_FREE_TEMPLATE ${__FILE_ROUTING_RUN__} ${JSON.stringify({
+          samePage: frame.currentPage === productPage,
+          sameSetup: last('/products/7') === product,
+          retainedDraft: last('/products/7').draft.value === 'Retained product draft',
+          visibleDraft: (frame.currentPage?.getViewById('product-draft') as { text?: string } | undefined)?.text,
+          route: router.currentRoute.value.fullPath,
+          backStack: frame.backStack.length,
+          otherStack: savedFrame.currentPage === savedPage,
+        })}`)
+        clearInterval(probeTimer)
+      }, 100)
       phase('ready')
       await until(
         () =>

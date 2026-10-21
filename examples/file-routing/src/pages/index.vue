@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router-ns'
 import { useDraft, signedIn } from '../state'
-definePageMeta({ meta: { title: 'Discover' } })
+
 const router = useRouter()
 const draft = useDraft('Weekend favorites')
 </script>

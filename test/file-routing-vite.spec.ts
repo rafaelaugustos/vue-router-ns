@@ -85,15 +85,18 @@ it('builds ESM integration with Vite, selected platform and no webpack runtime',
   expect(registry).not.toContain('require(')
 })
 
-it('updates only installed routers and middleware closures through Vite dependency callbacks', async () => {
-  const { options, output } = await fixture()
+it('updates installed routers on module reevaluation even when dependency callbacks are not dispatched', async () => {
+  const { options, output, put } = await fixture()
   await prepareFileRouting(options)
   const callbacks = new Map<string, (module: any) => void>()
   const hot = {
+    data: {} as Record<string, any>,
+    dispose: vi.fn<(callback: () => void) => void>(),
     accept: (path: string, callback: (module: any) => void) =>
       callbacks.set(path, callback),
   }
-  const routes = [{ name: 'home' }]
+  const table = evaluate(await readFile(join(output, 'routes.android.ts'), 'utf8'), {})
+  const routes = table.routes
   const changes: unknown[][] = []
   const stop = vi.fn()
   function evaluate(source: string, dependencies: Record<string, unknown>) {
@@ -125,7 +128,7 @@ it('updates only installed routers and middleware closures through Vite dependen
   callbacks.get('../../middleware/auth')!(undefined)
   expect(registry.middleware[0].guard()).toBe('/login')
   const entry = evaluate(await readFile(join(output, 'index.android.ts'), 'utf8'), {
-    './routes.android': { routes },
+    './routes.android': table,
     './registrations.android': registry,
     'vue-router-ns/file-routing': {
       createFileRouteUpdater: (router: unknown) => ({
@@ -138,8 +141,13 @@ it('updates only installed routers and middleware closures through Vite dependen
   const dispose = entry.installFileRouting(a)
   entry.installFileRouting(b)
   expect(() => entry.installFileRouting(a)).toThrow('already installed')
-  const next = [{ name: 'next' }]
-  callbacks.get('./routes.android')!({ routes: next })
+  await put('src/pages/next.vue', sfc('next'))
+  await prepareFileRouting(options)
+  const nextTable = evaluate(
+    await readFile(join(output, 'routes.android.ts'), 'utf8'),
+    {},
+  )
+  const next = nextTable.routes
   expect(entry.routes).toBe(next)
   expect(changes).toEqual([
     [a, next],
@@ -147,10 +155,15 @@ it('updates only installed routers and middleware closures through Vite dependen
   ])
   dispose()
   changes.length = 0
-  callbacks.get('./routes.android')!(undefined)
+  await rm(join(options.rootDir, 'src/pages/next.vue'))
+  await prepareFileRouting(options)
+  const reverted = evaluate(await readFile(join(output, 'routes.android.ts'), 'utf8'), {})
+  expect(changes).toEqual([[b, reverted.routes]])
+  const stopUpdates = hot.dispose.mock.calls[0]![0]
+  stopUpdates()
+  changes.length = 0
+  evaluate(await readFile(join(output, 'routes.android.ts'), 'utf8'), {})
   expect(changes).toEqual([])
-  callbacks.get('./routes.android')!({ routes })
-  expect(changes).toEqual([[b, routes]])
   expect(stop).toHaveBeenCalledTimes(1)
 })
 
@@ -178,7 +191,7 @@ it('regenerates with the real Vite watcher and recovers after invalid metadata',
       return (send as any)(...args)
     })
     const index = await server.transformRequest('/src/generated/router/index.android.ts')
-    expect(index!.code).toContain('hot.accept(')
+    expect(index!.code).toContain('subscribeFileRoutes(')
     await server.transformRequest('/src/generated/router/routes.android.ts')
     await server.transformRequest('/src/generated/router/registrations.android.ts')
     await server.transformRequest('/src/pages/index.vue')

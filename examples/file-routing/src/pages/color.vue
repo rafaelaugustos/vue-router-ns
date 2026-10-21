@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router-ns'
 import { useDraft } from '../state'
-definePageMeta({ modal: true, meta: { title: 'Choose a color' } })
+
 const router = useRouter()
 useDraft()
 </script>

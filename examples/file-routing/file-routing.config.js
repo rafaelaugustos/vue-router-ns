@@ -6,5 +6,6 @@ module.exports = (platform) => ({
   outDir: 'src/generated/router',
   layoutsDir: 'src/layouts',
   middlewareDir: 'src/middleware',
-  autoImports: true,
+  autoImports: false,
+  metadataFiles: true,
 })

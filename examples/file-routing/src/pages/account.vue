@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router-ns'
 import { signedIn, useDraft } from '../state'
-definePageMeta({ middleware: 'auth', meta: { title: 'Your account' } })
+
 const router = useRouter()
 useDraft()
 function signOut() {

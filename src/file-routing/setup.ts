@@ -12,6 +12,8 @@ import { randomUUID } from 'node:crypto'
 import { FileRouteError, generateFileRoutes } from './generator.js'
 
 export interface FileRoutingOptions {
+  /** Investigation only; not a released API. */
+  metadataFiles?: boolean
   platform: 'ios' | 'android'
   /** Generated HMR dialect. Defaults to webpack for existing integrations. */
   bundler?: 'webpack' | 'vite'
@@ -109,7 +111,7 @@ if (module.hot) {
   const entry = `// Generated native integration. Create the router once, then installFileRouting(router).
 import type { Router } from 'vue-router-ns'
 import { createFileRouteUpdater } from 'vue-router-ns/file-routing'
-import { routes${vite ? ' as initialRoutes' : ''} } from './routes.${platform}'
+import { routes${vite ? ' as initialRoutes, subscribeFileRoutes' : ''} } from './routes.${platform}'
 import { middleware } from './registrations.${platform}'
 ${vite ? 'export let routes = initialRoutes' : `export { routes } from './routes.${platform}'`}
 export type { FileRouteMap, FileRouteName, FileRouteParams } from './routes.${platform}'
@@ -130,11 +132,11 @@ export function installFileRouting(router: Router<any>): () => void {
 }
 ${
   vite
-    ? `if (import.meta.hot) import.meta.hot.accept('./routes.${platform}', (next) => {
-  if (!next) return
-  routes = next.routes
+    ? `const stopRouteUpdates = subscribeFileRoutes((next) => {
+  routes = next
   for (const updater of updates) updater.update(routes)
-})`
+})
+if (import.meta.hot) import.meta.hot.dispose(stopRouteUpdates)`
     : `declare const module: { hot?: { accept(dependency: string, callback: () => void): void } }
 if (module.hot) module.hot.accept('./routes.${platform}', () => {
   for (const updater of updates) updater.update(routes)
@@ -145,7 +147,24 @@ if (module.hot) module.hot.accept('./routes.${platform}', () => {
     [
       routeFile,
       generated.code +
-        `\n// ${vite ? 'import.meta.hot' : 'module.hot'}: the generated index accepts route-table updates.\n`,
+        (vite
+          ? `
+// Some native HMR hosts reevaluate modules without dispatching accept callbacks.
+// Preserve subscribers in Vite's hot data and publish once per evaluation.
+type RouteListener = (next: typeof routes) => void
+const listeners: Set<RouteListener> = import.meta.hot
+  ? (import.meta.hot.data.nativeFileRouteListeners ??= new Set<RouteListener>())
+  : new Set<RouteListener>()
+export function subscribeFileRoutes(listener: RouteListener): () => void {
+  listeners.add(listener)
+  return () => { listeners.delete(listener) }
+}
+if (import.meta.hot) {
+  import.meta.hot.accept()
+  for (const listener of listeners) listener(routes)
+}
+`
+          : '\n// module.hot: the generated index accepts route-table updates.\n'),
     ],
     [resolve(outDir, `registrations.${platform}.ts`), registrations],
     [resolve(outDir, `index.${platform}.ts`), entry],
@@ -167,6 +186,7 @@ if (module.hot) module.hot.accept('./routes.${platform}', () => {
     pageFiles: generated.files,
     dependencies: [
       ...generated.files,
+      ...generated.metadataFiles,
       ...layouts.map((l) => l.file),
       ...middleware.map((m) => m.file),
     ],

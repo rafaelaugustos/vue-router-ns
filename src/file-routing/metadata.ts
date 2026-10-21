@@ -367,3 +367,31 @@ function validateMeta(
     )
   return value as PageMeta
 }
+
+/** Investigation helper: validate data without putting a macro in the page script. */
+export function parsePageMetadataJson(source: string, filename: string): PageMeta {
+  const fail = (message: string): never => {
+    throw new FileRouteError(filename, message)
+  }
+  let value: unknown
+  try {
+    value = JSON.parse(source)
+  } catch {
+    return fail('Invalid page metadata JSON')
+  }
+  const validate = (v: unknown): void => {
+    if (typeof v === 'number' && !Number.isFinite(v))
+      fail('Metadata numbers must be finite')
+    if (v && typeof v === 'object') {
+      for (const [key, child] of Object.entries(v)) {
+        if (['__proto__', 'constructor', 'prototype'].includes(key))
+          fail('Unsupported metadata property')
+        validate(child)
+      }
+    }
+  }
+  validate(value)
+  if (!value || Array.isArray(value) || typeof value !== 'object')
+    return fail('Page metadata must be an object')
+  return validateMeta(value as Record<string, PageMetaValue>, fail)
+}
