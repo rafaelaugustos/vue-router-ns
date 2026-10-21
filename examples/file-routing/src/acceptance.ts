@@ -113,25 +113,51 @@ export async function run(router: RegisteredRouter, watch: boolean) {
     )
 
     if (watch) {
-      const editor = productPage.getViewById('product-draft') as unknown as { text: string }
-      console.log(`MACRO_FREE_BEFORE ${__FILE_ROUTING_RUN__} ${JSON.stringify({ visibleDraft: editor.text, model: product.draft.value })}`)
-      editor.text = 'Retained product draft'
-      await pause()
-      const probeTimer = setInterval(() => {
-        const label = frame.currentPage?.getViewById('page-heading') as { text?: string } | undefined
-        if (label?.text !== 'Macro-free live edit') return
-        console.log(`MACRO_FREE_TEMPLATE ${__FILE_ROUTING_RUN__} ${JSON.stringify({
-          samePage: frame.currentPage === productPage,
-          sameSetup: last('/products/7') === product,
-          retainedDraft: last('/products/7').draft.value === 'Retained product draft',
-          visibleDraft: (frame.currentPage?.getViewById('product-draft') as { text?: string } | undefined)?.text,
-          route: router.currentRoute.value.fullPath,
-          backStack: frame.backStack.length,
-          otherStack: savedFrame.currentPage === savedPage,
-        })}`)
-        clearInterval(probeTimer)
-      }, 100)
       phase('ready')
+      if (__FILE_ROUTING_VITE__) {
+        const editor = productPage.getViewById('product-draft') as unknown as {
+          text: string
+        }
+        // Seed the native property too: this fixture asserts retention, not keyboard input.
+        editor.text = 'Retained product draft'
+        await until(
+          () =>
+            (
+              frame.currentPage?.getViewById('page-heading') as
+                { text?: string } | undefined
+            )?.text === 'Live template edit',
+          180000,
+        )
+        console.log(
+          `CONVENTIONS_TEMPLATE ${__FILE_ROUTING_RUN__} ${JSON.stringify({
+            samePage: frame.currentPage === productPage,
+            sameSetup: last('/products/7') === product,
+            retainedDraft: last('/products/7').draft.value === 'Retained product draft',
+            visibleDraft: (
+              frame.currentPage?.getViewById('product-draft') as
+                { text?: string } | undefined
+            )?.text,
+            route: router.currentRoute.value.fullPath,
+            backStack: frame.backStack.length,
+            otherStack: savedFrame.currentPage === savedPage,
+          })}`,
+        )
+      }
+      let updatedMiddleware = false
+      const end = Date.now() + 60000
+      while (!updatedMiddleware && Date.now() < end) {
+        const before = globalVisits.value
+        await router.push('/about')
+        updatedMiddleware = globalVisits.value - before === 10
+        await router.back()
+        if (!updatedMiddleware) await pause()
+      }
+      check('watch-middleware-updates-registered-guard', updatedMiddleware)
+      check(
+        'watch-middleware-keeps-pages-and-other-stack',
+        frame.currentPage === productPage && savedFrame.currentPage === savedPage,
+      )
+      phase('middleware')
       await until(
         () =>
           router.hasRoute('live-added' as never) &&

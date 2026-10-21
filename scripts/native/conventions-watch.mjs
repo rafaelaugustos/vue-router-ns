@@ -29,10 +29,15 @@ const out = resolve(
 )
 await mkdir(out, { recursive: true })
 const id = String(Date.now())
-const product = resolve(pages, 'products/[id].vue')
+const product = resolve(pages, 'products/[id].route.json')
+const productView = resolve(pages, 'products/[id].vue')
+const originalView = await readFile(productView, 'utf8')
+const audit = resolve(project, 'src/middleware/01-audit.global.ts')
+const originalAudit = await readFile(audit, 'utf8')
+const addedMetadata = resolve(pages, 'live-added.route.json')
 const added = resolve(pages, 'live-added.vue'),
   renamed = resolve(pages, 'live-renamed.vue')
-for (const path of [added, renamed]) {
+for (const path of [added, renamed, addedMetadata]) {
   let exists = true
   try {
     await access(path)
@@ -42,9 +47,9 @@ for (const path of [added, renamed]) {
   assert(!exists, `Remove or rename your existing ${path} before this fixture runs`)
 }
 const original = await readFile(product, 'utf8')
-assert(/revision\s*:\s*1/.test(original), 'The fixture starts with metadata revision 1')
+assert(/"revision"\s*:\s*1/.test(original), 'The fixture starts with metadata revision 1')
 const live = (meta = '') =>
-  `<script setup lang="ts">${meta}</script><template><StackLayout padding="24"><Label id="page-heading" text="Added while the app is running" /></StackLayout></template>\n`
+  `<script setup lang="ts">const label = "Added while the app is running"; ${meta}</script><template><StackLayout padding="24"><Label id="page-heading"  :text="label" /></StackLayout></template>\n`
 const logFile = createWriteStream(resolve(out, 'cli.log'))
 let cliOutput = '',
   processExited = false
@@ -158,7 +163,7 @@ async function waitFor(test, description, timeout = 180000) {
   }
   throw new Error(`Timed out ${description}. See ${out}`)
 }
-const phase = (name, timeout) =>
+const phase = (name, timeout = 60000) =>
   waitFor(
     () => runtime.includes(`CONVENTIONS_PHASE ${id} ${name}`),
     `waiting for ${name}`,
@@ -168,10 +173,46 @@ try {
   if (watch) {
     // A clean checkout can still be downloading/building its native runtime.
     await phase('ready', 600000)
-    console.log(`${platform}: native baseline passed; applying real filesystem edits`)
+    if (bundler === 'vite') {
+      console.log(`${platform}: native baseline passed; applying template edit`)
+      await writeFile(
+        productView,
+        originalView.replace('The everyday notebook', 'Live template edit'),
+      )
+      await waitFor(
+        () => runtime.includes(`CONVENTIONS_TEMPLATE ${id} `),
+        'waiting for template HMR',
+        45000,
+      )
+      const probe = runtime
+        .split('\n')
+        .find((line) => line.includes(`CONVENTIONS_TEMPLATE ${id} `))
+      console.log(probe)
+      const state = JSON.parse(
+        probe.slice(
+          probe.indexOf(`CONVENTIONS_TEMPLATE ${id} `) +
+            `CONVENTIONS_TEMPLATE ${id} `.length,
+        ),
+      )
+      assert.equal(state.samePage, true)
+      assert.equal(state.sameSetup, true)
+      assert.equal(state.retainedDraft, true)
+      assert.equal(state.visibleDraft, 'Retained product draft')
+      assert.equal(state.route, '/products/7')
+      assert.equal(state.backStack, 1)
+      assert.equal(state.otherStack, true)
+      await writeFile(resolve(out, 'template-probe.log'), probe + '\n')
+    }
+    console.log(`${platform}: applying middleware edit`)
+    await writeFile(
+      audit,
+      originalAudit.replace('globalVisits.value++', 'globalVisits.value += 10'),
+    )
+    await phase('middleware')
+    console.log(`${platform}: applying route table edits`)
     await writeFile(
       product,
-      original.replace(/(revision\s*:\s*)1/, (match, prefix) => `${prefix}2`),
+      original.replace(/("revision"\s*:\s*)1/, (match, prefix) => `${prefix}2`),
     )
     await writeFile(added, live())
     await phase('added')
@@ -179,12 +220,13 @@ try {
     await phase('renamed')
     await rm(renamed)
     await phase('removed')
-    await writeFile(added, live("definePageMeta({name:'products-id'})"))
+    await writeFile(addedMetadata, JSON.stringify({ name: 'products-id' }))
+    await writeFile(added, live())
     await waitFor(
       () => cliOutput.includes('Duplicate route name'),
       'waiting for a compilation diagnostic',
     )
-    await writeFile(added, live("definePageMeta({name:'recovered'})"))
+    await writeFile(addedMetadata, JSON.stringify({ name: 'recovered' }))
     await phase('recovered')
   }
   await waitFor(
@@ -197,8 +239,8 @@ try {
     .find((l) => l.includes(`CONVENTIONS_RESULT {"id":"${id}"`))
   const result = JSON.parse(line.slice(line.indexOf('CONVENTIONS_RESULT ') + 19))
   assert.equal(result.ok, true, result.error)
-  assert.equal(result.checks.length, watch ? 22 : 15)
-  assert.equal(new Set(result.checks).size, watch ? 22 : 15)
+  assert.equal(result.checks.length, watch ? 24 : 15)
+  assert.equal(new Set(result.checks).size, watch ? 24 : 15)
   await writeFile(resolve(out, 'results.json'), JSON.stringify(result, null, 2) + '\n')
   console.log(`Passed ${result.checks.length} native setup/watch checks on ${platform}`)
 } finally {
@@ -214,6 +256,9 @@ try {
   }
   logFile.end()
   await writeFile(product, original)
+  await writeFile(productView, originalView)
+  await writeFile(audit, originalAudit)
+  await rm(addedMetadata, { force: true })
   await rm(added, { force: true })
   await rm(renamed, { force: true })
   await prepareFileRouting(options(platform))

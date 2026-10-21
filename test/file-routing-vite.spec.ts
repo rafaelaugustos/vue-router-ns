@@ -7,6 +7,8 @@ import { build, createServer, type Plugin } from 'vite'
 import { afterEach, expect, it, vi } from 'vitest'
 import { nativeFileRoutes } from '../src/file-routing/vite.js'
 import { prepareFileRouting } from '../src/file-routing/setup.js'
+import { transformPageMeta } from '../src/file-routing/metadata.js'
+import { transformMiddleware } from '../src/file-routing/vite-middleware.js'
 
 const directories: string[] = []
 afterEach(async () => {
@@ -16,12 +18,20 @@ afterEach(async () => {
 })
 const sfc = (name: string) =>
   `<script setup>definePageMeta({ name: '${name}' })</script><template><Page/></template>`
-async function fixture() {
+async function fixture(sidecars = false) {
   const rootDir = await mkdtemp(join(tmpdir(), 'router-vite-'))
   directories.push(rootDir)
   const put = async (file: string, source: string) => {
     const path = join(rootDir, file)
     await mkdir(join(path, '..'), { recursive: true })
+    if (sidecars && file.endsWith('.vue')) {
+      const result = transformPageMeta(source, file, { autoImports: true })
+      await writeFile(
+        path.replace(/\.vue$/, '.route.json'),
+        JSON.stringify(result.metadata),
+      )
+      source = result.code
+    }
     await writeFile(path, source)
   }
   await put('src/pages/index.vue', sfc('home'))
@@ -33,6 +43,7 @@ async function fixture() {
     rootDir,
     platform: 'android' as const,
     autoImports: true,
+    metadataFiles: sidecars,
     middlewareDir: 'src/middleware',
     bundler: 'vite' as const,
   }
@@ -81,7 +92,6 @@ it('builds ESM integration with Vite, selected platform and no webpack runtime',
     /definePageMeta|module\.hot|\brequire\(|node:fs|@vue\/compiler-sfc/,
   )
   const registry = await readFile(join(output, 'registrations.android.ts'), 'utf8')
-  expect(registry).toContain('import.meta.hot.accept(')
   expect(registry).not.toContain('require(')
 })
 
@@ -123,10 +133,6 @@ it('updates installed routers on module reevaluation even when dependency callba
     },
   )
   expect(registry.middleware[0].guard()).toBe(false)
-  callbacks.get('../../middleware/auth')!({ default: () => '/login' })
-  expect(registry.middleware[0].guard()).toBe('/login')
-  callbacks.get('../../middleware/auth')!(undefined)
-  expect(registry.middleware[0].guard()).toBe('/login')
   const entry = evaluate(await readFile(join(output, 'index.android.ts'), 'utf8'), {
     './routes.android': table,
     './registrations.android': registry,
@@ -168,7 +174,7 @@ it('updates installed routers on module reevaluation even when dependency callba
 })
 
 it('regenerates with the real Vite watcher and recovers after invalid metadata', async () => {
-  const { rootDir, put, options, output } = await fixture()
+  const { rootDir, put, options, output } = await fixture(true)
   const server = await createServer({
     configFile: false,
     root: rootDir,
@@ -194,6 +200,9 @@ it('regenerates with the real Vite watcher and recovers after invalid metadata',
     expect(index!.code).toContain('subscribeFileRoutes(')
     await server.transformRequest('/src/generated/router/routes.android.ts')
     await server.transformRequest('/src/generated/router/registrations.android.ts')
+    const guard = await server.transformRequest('/src/middleware/auth.ts')
+    expect(guard!.code).toContain('nativeFileMiddleware')
+    expect(guard!.code).toContain('import.meta.hot.accept()')
     await server.transformRequest('/src/pages/index.vue')
     const table = () => readFile(join(output, 'routes.android.ts'), 'utf8')
     async function until(test: () => boolean | Promise<boolean>) {
@@ -217,6 +226,10 @@ it('regenerates with the real Vite watcher and recovers after invalid metadata',
     await server.transformRequest('/src/pages/added.vue')
     await put('src/pages/added.vue', sfc('edited'))
     await until(async () => (await table()).includes('"edited"'))
+    await rename(
+      join(rootDir, 'src/pages/added.route.json'),
+      join(rootDir, 'src/pages/renamed.route.json'),
+    )
     await rename(
       join(rootDir, 'src/pages/added.vue'),
       join(rootDir, 'src/pages/renamed.vue'),
@@ -245,3 +258,54 @@ it('regenerates with the real Vite watcher and recovers after invalid metadata',
     await server.close()
   }
 }, 20000)
+
+it.each([
+  'export default () => false',
+  'export default function guard() { return false }',
+  'const guard = () => false; export { guard as default }',
+  'export { default } from "./other"',
+])(
+  'keeps a registered middleware wrapper current on native module reevaluation: %s',
+  (source) => {
+    const hot = { data: {}, accept: vi.fn() }
+    const evaluate = (input: string) => {
+      const transformed = transformMiddleware(input, 'auth.ts')
+      const code = transformSync(
+        transformed.code.replaceAll('import.meta.hot', 'globalThis.hot'),
+        {
+          loader: 'ts',
+          format: 'cjs',
+          target: 'es2022',
+        },
+      ).code
+      const module = { exports: {} as { default: () => unknown } }
+      runInNewContext(code, {
+        module,
+        globalThis: { hot },
+        require: () => ({ __esModule: true, default: () => false }),
+      })
+      return module.exports.default
+    }
+    const installed = evaluate(source)
+    expect(installed()).toBe(false)
+    evaluate('export default () => "/login"')
+    expect(installed()).toBe('/login')
+    expect(() =>
+      evaluate('export default () => true; throw new Error("failed evaluation")'),
+    ).toThrow('failed evaluation')
+    expect(installed()).toBe('/login')
+    expect(hot.accept).toHaveBeenCalledTimes(2)
+  },
+)
+
+it('reports the native macro limitation before starting the development app', async () => {
+  const { rootDir, options } = await fixture()
+  await expect(
+    createServer({
+      configFile: false,
+      root: rootDir,
+      logLevel: 'silent',
+      plugins: [nativeFileRoutes(options)],
+    }),
+  ).rejects.toThrow('metadataFiles: true')
+})

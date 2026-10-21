@@ -10,7 +10,7 @@ export { FileRouteError, transformPageMeta, parsePageMetadataJson } from './meta
 export type { PageMetaTransform } from './metadata.js'
 
 export interface FileRoutesOptions {
-  /** Investigation only: read optional .route.json files beside pages. */
+  /** Read optional .route.json files beside selected pages. Defaults to false. */
   metadataFiles?: boolean
   pagesDir: string
   outFile: string
@@ -107,7 +107,8 @@ export async function generateFileRoutes(
   for (const [id, variants] of groups) {
     const file = variants.get(options.platform ?? 'default') ?? variants.get('default')
     if (!file) continue // A platform-only destination is absent from the other build.
-    let metadata = transformPageMeta(await readFile(file, 'utf8'), file, options).metadata
+    const extracted = transformPageMeta(await readFile(file, 'utf8'), file, options)
+    let metadata = extracted.metadata
     if (options.metadataFiles) {
       const metadataFile = file.replace(/\.vue$/, '.route.json')
       try {
@@ -115,10 +116,10 @@ export async function generateFileRoutes(
           await readFile(metadataFile, 'utf8'),
           metadataFile,
         )
-        if (Object.keys(metadata).length)
+        if (extracted.hasMacro)
           throw new FileRouteError(
             metadataFile,
-            'Use either the macro or external metadata for this experiment',
+            'Use either definePageMeta or a .route.json file for a page, not both',
           )
         metadata = external
         metadataFiles.push(metadataFile)

@@ -16,6 +16,7 @@ export default defineConfig(({ mode }) => {
   return mergeConfig(vueConfig({ mode }, { typeCheck: 'error' }), {
     plugins: [nativeFileRoutes(options(flags.android ? 'android' : 'ios'))],
     define: {
+      __FILE_ROUTING_VITE__: true,
       __FILE_ROUTING_TEST__: !!flags.conventionsTest,
       __FILE_ROUTING_WATCH__: !!flags.conventionsWatch,
       __FILE_ROUTING_RUN__: JSON.stringify(String(flags.conventionsRun ?? 'manual')),

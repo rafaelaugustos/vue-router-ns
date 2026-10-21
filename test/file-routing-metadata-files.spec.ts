@@ -52,3 +52,32 @@ it.each([
 ])('rejects invalid external metadata: %s', (source) => {
   expect(() => parsePageMetadataJson(source, 'page.route.json')).toThrow()
 })
+
+it('selects metadata beside the selected platform page and leaves the default opt-in off', async () => {
+  const root = await realpath(await mkdtemp(join(tmpdir(), 'router-sidecars-')))
+  roots.push(root)
+  const pages = join(root, 'src/pages')
+  await mkdir(pages, { recursive: true })
+  for (const name of ['index', 'index.android']) {
+    await writeFile(join(pages, `${name}.vue`), '<template><Page /></template>')
+    await writeFile(
+      join(pages, `${name}.route.json`),
+      JSON.stringify({ name: name.replace('.', '-') }),
+    )
+  }
+  const config = { rootDir: root, metadataFiles: true, platform: 'android' as const }
+  const android = await prepareFileRouting(config)
+  expect(android.dependencies).toContain(join(pages, 'index.android.route.json'))
+  expect(android.dependencies).not.toContain(join(pages, 'index.route.json'))
+  const ios = await prepareFileRouting({ ...config, platform: 'ios' })
+  expect(ios.dependencies).toContain(join(pages, 'index.route.json'))
+  const disabled = await prepareFileRouting({ ...config, metadataFiles: false })
+  expect(disabled.dependencies.some((file) => file.endsWith('.route.json'))).toBe(false)
+  await writeFile(
+    join(pages, 'index.android.vue'),
+    '<script setup>definePageMeta({})</script><template><Page /></template>',
+  )
+  await expect(prepareFileRouting({ ...config, autoImports: true })).rejects.toThrow(
+    'not both',
+  )
+})

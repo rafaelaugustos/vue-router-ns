@@ -12,8 +12,8 @@
     "build:ios": "webpack --env ios",
     "build:vite:android": "ROUTER_BUNDLER=vite vite build --config vite.config.mts --mode development -- --env.android",
     "build:vite:ios": "ROUTER_BUNDLER=vite vite build --config vite.config.mts --mode development -- --env.ios",
-    "run:vite:android": "ROUTER_BUNDLER=vite ns run android --no-hmr",
-    "run:vite:ios": "ROUTER_BUNDLER=vite ns run ios --emulator --no-hmr"
+    "run:vite:android": "ROUTER_BUNDLER=vite ns run android",
+    "run:vite:ios": "ROUTER_BUNDLER=vite ns run ios --emulator"
   },
   "dependencies": {
     "@nativescript/core": "~9.1.3",

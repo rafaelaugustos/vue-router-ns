@@ -28,7 +28,7 @@ ns run ios --emulator
 
 Try the collection, edit a product draft, choose a color in the native modal, open Account to sign in, and switch to Saved. Back retains the original draft. `auth.ts` is a demonstration session guard, not a production authentication service.
 
-While `ns run` is watching, add/rename/remove a page or edit its literal metadata. Existing native entries keep their snapshots; future navigation uses the changed table. Script/template HMR can remount components. Adding/removing layout or middleware registrations requires a restart. Auto-imports cover only the compile-time `definePageMeta` macro; all runtime helpers have explicit imports.
+While `ns run` is watching, add/rename/remove a page or edit its adjacent `.route.json` metadata. Existing native entries keep their snapshots; future navigation uses the changed table. Script/template HMR can remount components. Adding/removing layout or middleware registrations requires a restart. This example uses `metadataFiles: true` with no page macros, on both builders. All runtime helpers have explicit imports.
 
 The [English guide](../../docs/guide/file-routing.md) and [Portuguese guide](../../docs/pt-BR/guide/file-routing.md) describe conventions, overrides, removal and verified versions.
 
@@ -41,7 +41,9 @@ npm run run:vite:android
 npm run run:vite:ios
 ```
 
-These commands use `--no-hmr`. NativeScript Vite 8.0.19's native SFC assembler bypasses plugin transforms, leaving `definePageMeta` in runtime code. Native HMR is blocked; see [#100](https://github.com/rafaelaugustos/vue-router-ns/issues/100). The plugin's generation, bundled output and Vite watcher are tested separately. No dependency patches are installed by this example.
+These commands keep native HMR enabled. Metadata lives in adjacent `.route.json` files, so page scripts need no compile-time macro. Existing middleware edits and route-table changes update the installed router. No dependency patches are installed.
+
+`definePageMeta` remains supported by webpack and bundled Vite builds (`--no-hmr`). Native Vite 8.0.19 bypasses macro transforms ([upstream issue](https://github.com/NativeScript/NativeScript/issues/11556)); use the JSON format for native Vite HMR. The tested native assembler also needs a nonempty script block in SFCs, as used by this example.
 
 `npm run build:vite:android` and `npm run build:vite:ios` bundle without launching devices. Keep the same `ROUTER_BUNDLER=vite` setting when invoking standalone routes/type preparation. Vite-only users do not need the webpack plugin; this example includes both for compatibility checks.
 
@@ -56,11 +58,11 @@ IOS_SIMULATOR=<booted-uuid> node scripts/native/conventions-watch.mjs ios
 
 Run platforms sequentially: this fixture deliberately edits the same source files, restores them in `finally`, and stops its own app/watch process. Results and CLI/runtime logs go to `scripts/native/out/conventions-<bundler>-<platform>`. It tests real device HMR, native Page identities, retained drafts/stacks, guards, modal results and accessibility visibility/focus targets. It does not automate screen-reader speech.
 
-For Vite navigation acceptance without HMR:
+For Vite navigation and HMR acceptance:
 
 ```sh
-ROUTER_BUNDLER=vite NATIVE_HMR=0 ANDROID_SERIAL=emulator-5554 node scripts/native/conventions-watch.mjs android
-ROUTER_BUNDLER=vite NATIVE_HMR=0 IOS_SIMULATOR=<booted-uuid> node scripts/native/conventions-watch.mjs ios
+ROUTER_BUNDLER=vite ANDROID_SERIAL=emulator-5554 node scripts/native/conventions-watch.mjs android
+ROUTER_BUNDLER=vite IOS_SIMULATOR=<booted-uuid> node scripts/native/conventions-watch.mjs ios
 ```
 
-This mode checks the 15 native navigation assertions; it does not run the seven live-edit assertions. Android launch uses an explicit `adb` Activity intent if the CLI stalls after syncing.
+The fixture checks 24 navigation/watch assertions plus seven template-retention invariants in the Vite run. Webpack template edits retain their existing remount behavior; its compatibility run checks route and middleware updates. It seeds the native TextField property directly; keyboard input and two-way binding are not covered. Set `NATIVE_HMR=0` to run only the 15 navigation assertions against a bundled build. Android launch uses an explicit `adb` Activity intent if the CLI stalls after syncing.

@@ -11,13 +11,14 @@ module.exports = (env) => {
       .use(NativeFileRoutesPlugin, [options(env.android ? 'android' : 'ios')])
     config.plugin('DefinePlugin').tap((args) => {
       Object.assign(args[0], {
+        __FILE_ROUTING_VITE__: false,
         __FILE_ROUTING_TEST__: !!env.conventionsTest,
         __FILE_ROUTING_WATCH__: !!env.conventionsWatch,
         __FILE_ROUTING_RUN__: JSON.stringify(String(env.conventionsRun ?? 'manual')),
       })
       return args
     })
-    // The repository dependency is a symlink. Use this application's native peers.
+    // Keep the packed local router on this application's native peers.
     config.resolve.alias
       .set('nativescript-vue', resolve(__dirname, 'node_modules/nativescript-vue'))
       .set('@nativescript/core', resolve(__dirname, 'node_modules/@nativescript/core'))

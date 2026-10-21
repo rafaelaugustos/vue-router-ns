@@ -12,7 +12,7 @@ import { randomUUID } from 'node:crypto'
 import { FileRouteError, generateFileRoutes } from './generator.js'
 
 export interface FileRoutingOptions {
-  /** Investigation only; not a released API. */
+  /** Read optional .route.json files beside selected pages. Defaults to false. */
   metadataFiles?: boolean
   platform: 'ios' | 'android'
   /** Generated HMR dialect. Defaults to webpack for existing integrations. */
@@ -33,6 +33,7 @@ export interface PreparedFileRouting {
   files: string[]
   changed: string[]
   pageFiles: string[]
+  middlewareFiles: string[]
   dependencies: string[]
   directories: string[]
   pagesDir: string
@@ -80,16 +81,13 @@ export async function prepareFileRouting(
   const registrations = vite
     ? `// Generated native registrations. Adding/removing registrations requires an app restart.
 import type { RouteComponent, RouteMiddleware } from 'vue-router-ns'
-${middleware.map((m, i) => `import middleware${i} from ${specifier(m.file)}\nlet guard${i}: RouteMiddleware = middleware${i}`).join('\n')}
+${middleware.map((m, i) => `import middleware${i} from ${specifier(m.file)}\nconst guard${i}: RouteMiddleware = middleware${i}`).join('\n')}
 export const layouts = {
 ${layouts.map((l) => `${JSON.stringify(l.name)}: (): Promise<RouteComponent> => import(${specifier(l.file)}).then(m => m.default)`).join(',\n')}
 }
 export const middleware: readonly { name: string; guard: RouteMiddleware; global: boolean }[] = [
 ${middleware.map((m, i) => `{name: ${JSON.stringify(m.name)}, global: ${m.global}, guard: (...args) => guard${i}(...args)}`).join(',\n')}
 ]
-if (import.meta.hot) {
-${middleware.map((m, i) => `  import.meta.hot.accept(${specifier(m.file)}, (next) => { if (next) guard${i} = next.default })`).join('\n')}
-}
 `
     : `// Generated native registrations. Adding/removing registrations requires an app restart.
 import type { RouteComponent, RouteMiddleware } from 'vue-router-ns'
@@ -184,6 +182,7 @@ if (import.meta.hot) {
     files: [...outputs.keys()],
     changed,
     pageFiles: generated.files,
+    middlewareFiles: middleware.map((m) => m.file),
     dependencies: [
       ...generated.files,
       ...generated.metadataFiles,

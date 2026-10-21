@@ -17,6 +17,7 @@ type Node = {
 const sourceModule = 'vue-router-ns/file-routing'
 
 export interface PageMetaTransform {
+  hasMacro: boolean
   metadata: PageMeta
   code: string
   map: {
@@ -247,6 +248,7 @@ export function transformPageMeta(
       })
   }
   return {
+    hasMacro: found,
     metadata,
     code: output.toString(),
     map: JSON.parse(
@@ -363,12 +365,12 @@ function validateMeta(
   const meta = (value.meta ?? {}) as Record<string, PageMetaValue>
   if ('layout' in meta || 'middleware' in meta)
     fail(
-      'Declare layout and middleware at the top level of definePageMeta, not inside meta',
+      'Declare layout and middleware at the top level of page metadata, not inside meta',
     )
   return value as PageMeta
 }
 
-/** Investigation helper: validate data without putting a macro in the page script. */
+/** Validate build-time JSON metadata without executing page scripts. */
 export function parsePageMetadataJson(source: string, filename: string): PageMeta {
   const fail = (message: string): never => {
     throw new FileRouteError(filename, message)

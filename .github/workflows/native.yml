@@ -107,7 +107,7 @@ jobs:
             adb install -r /tmp/router-state.apk
             ANDROID_SERIAL=emulator-5554 bash scripts/native/state-android.sh
             ANDROID_SERIAL=emulator-5554 node scripts/native/conventions-watch.mjs android
-            ROUTER_BUNDLER=vite NATIVE_HMR=0 ANDROID_SERIAL=emulator-5554 node scripts/native/conventions-watch.mjs android
+            ROUTER_BUNDLER=vite ANDROID_SERIAL=emulator-5554 node scripts/native/conventions-watch.mjs android
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -170,3 +170,46 @@ jobs:
           path: |
             scripts/native/out/folds
             scripts/native/out/hinges
+
+  ios-vite:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - run: gem install cocoapods xcodeproj --no-document
+      - run: npm ci && npm run build
+      - run: npm install -g nativescript
+      - name: Prepare the convention-based example
+        working-directory: examples/file-routing
+        run: |
+          ns usage-reporting disable
+          ns error-reporting disable
+          npm ci
+          npm run setup
+      - name: Create dedicated simulator
+        run: |
+          SIM=$(xcrun simctl create RouterVite com.apple.CoreSimulator.SimDeviceType.iPhone-16-Pro com.apple.CoreSimulator.SimRuntime.iOS-18-6)
+          echo "IOS_SIMULATOR=$SIM" >> "$GITHUB_ENV"
+          xcrun simctl boot "$SIM"
+          xcrun simctl bootstatus "$SIM" -b
+      - name: Native Vite navigation and live updates
+        env:
+          ROUTER_BUNDLER: vite
+        run: node scripts/native/conventions-watch.mjs ios
+      - name: Clean up dedicated simulator
+        if: always() && env.IOS_SIMULATOR != ''
+        run: |
+          xcrun simctl shutdown "$IOS_SIMULATOR"
+          xcrun simctl delete "$IOS_SIMULATOR"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-vite-ios
+          path: scripts/native/out

@@ -1,6 +1,8 @@
 import { resolve, sep } from 'node:path'
+import { readFile } from 'node:fs/promises'
 import type { Plugin, ViteDevServer } from 'vite'
-import { transformPageMeta } from './metadata.js'
+import { transformMiddleware } from './vite-middleware.js'
+import { FileRouteError, transformPageMeta } from './metadata.js'
 import {
   prepareFileRouting,
   type FileRoutingOptions,
@@ -17,8 +19,18 @@ export function nativeFileRoutes(options: NativeFileRoutesOptions): Plugin {
   let failure: Error | undefined
   let pending = Promise.resolve()
   let directories: string[] = []
+  let development = false
   const inside = (file: string) =>
     directories.some((dir) => file === dir || file.startsWith(dir + sep))
+  const pageSource = (source: string, file: string) => {
+    const result = transformPageMeta(source, file, options)
+    if (development && result.hasMacro)
+      throw new FileRouteError(
+        file,
+        'Native Vite HMR cannot compile definePageMeta yet (NativeScript#11556). Move metadata to an adjacent .route.json file with metadataFiles: true, or run ns with --no-hmr.',
+      )
+    return result
+  }
   // Serialize watcher callbacks: atomic renames can arrive while another build
   // is still reading pages. A failed generation leaves the last good files intact.
   const generate = () => {
@@ -47,6 +59,7 @@ export function nativeFileRoutes(options: NativeFileRoutesOptions): Plugin {
       }
     },
     async configResolved(resolved) {
+      development = resolved.command === 'serve'
       config = {
         ...options,
         bundler: 'vite',
@@ -69,7 +82,9 @@ export function nativeFileRoutes(options: NativeFileRoutesOptions): Plugin {
     async watchChange(file) {
       if (!server && inside(file)) await generate()
     },
-    configureServer(devServer) {
+    async configureServer(devServer) {
+      for (const file of prepared!.pageFiles)
+        pageSource(await readFile(file, 'utf8'), file)
       server = devServer
       server.watcher.add(directories)
       const structural = (file: string) => {
@@ -89,6 +104,8 @@ export function nativeFileRoutes(options: NativeFileRoutesOptions): Plugin {
     },
     async handleHotUpdate(context) {
       if (!inside(context.file)) return
+      if (prepared!.pageFiles.includes(context.file))
+        pageSource(await context.read(), context.file)
       await generate()
       // Vue's HMR parser reads the SFC independently of transform(). Supply the
       // same macro-free source so metadata-only changes do not reload the Page.
@@ -101,9 +118,11 @@ export function nativeFileRoutes(options: NativeFileRoutesOptions): Plugin {
     async transform(source, id) {
       const file = id.split('?')[0]!
       if (failure && prepared?.files.includes(file)) throw failure
+      if (development && !id.includes('?') && prepared?.middlewareFiles.includes(file))
+        return transformMiddleware(source, file)
       // Vue script/template subrequests are already compiled by plugin-vue.
       if (id.includes('?') || !prepared?.pageFiles.includes(file)) return
-      const result = transformPageMeta(source, file, options)
+      const result = pageSource(source, file)
       return { code: result.code, map: result.map }
     },
   }
