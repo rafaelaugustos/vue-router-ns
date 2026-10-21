@@ -65,3 +65,10 @@ jobs:
           npm run typecheck
           npm run build:ios -- --env sourceMap
           node scripts/check-bundle.mjs ios
+      - name: Build both native platforms with Vite (without HMR)
+        working-directory: examples/file-routing
+        run: |
+          npm run build:vite:android
+          ROUTER_BUNDLER=vite node scripts/check-bundle.mjs android
+          npm run build:vite:ios
+          ROUTER_BUNDLER=vite node scripts/check-bundle.mjs ios

@@ -1,8 +1,11 @@
+<script setup lang="ts">
+const title = 'Two ways. One native router.'
+</script>
 <template>
   <StackLayout class="content">
     <Label
       id="page-heading"
-      text="Two ways. One native router."
+      :text="title"
       class="heading"
       accessible="true"
       textWrap="true"

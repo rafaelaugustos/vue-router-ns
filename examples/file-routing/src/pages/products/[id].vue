@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router-ns'
 import { useDraft, selectedColor } from '../../state'
-definePageMeta({ meta: { title: 'Field notes', revision: 1 } })
-const route = useRoute(),
+
+const route = useRoute('products-id'),
   router = useRouter()
 const draft = useDraft('')
 async function color() {
@@ -28,7 +28,7 @@ async function color() {
         :text="`Edition ${route.params.id} · 120 pages · Made to keep`"
         class="subtitle"
       />
-      <TextField v-model="draft" hint="Add a personal note" />
+      <TextField id="product-draft" v-model="draft" hint="Add a personal note" />
       <Button text="Choose a color" class="primary" @tap="color" />
       <Button text="Back to collection" @tap="router.back()" /> </StackLayout
   ></ScrollView>

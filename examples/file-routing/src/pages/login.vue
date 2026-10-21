@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router-ns'
 import { useDraft, signedIn } from '../state'
-definePageMeta({ meta: { title: 'Welcome back' } })
+
 const router = useRouter(),
   route = useRoute(),
   draft = useDraft('')

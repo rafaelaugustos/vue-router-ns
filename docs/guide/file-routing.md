@@ -2,7 +2,7 @@
 
 File routing generates an ordinary typed route array for the existing native router. Applications can keep declaring routes in JavaScript/TypeScript, generate them from native Vue pages, or combine independent tables. Pages still render through NativeScript Pages/Frames, with the same guards, results and history.
 
-The optional webpack plugin handles generation, metadata compilation and native HMR. Explicit-route applications need no build changes. This uses NativeScript components throughout; it does not run Nuxt, the web Vue Router, a DOM renderer or WebView navigation, and does not convert web templates.
+The optional webpack and Vite plugins handle generation, metadata compilation and native HMR. Explicit-route applications need no build changes. This uses NativeScript components throughout; it does not run Nuxt, the web Vue Router, a DOM renderer or WebView navigation, and does not convert web templates.
 
 ## NativeScript webpack setup
 
@@ -60,6 +60,68 @@ await prepareFileRouting({
 
 Share these options between the script and webpack config. The generated `index.d.ts` describes the **most recently prepared platform**; prepare and typecheck each platform in sequence. Do not generate both platforms concurrently into the same output directory. NativeScript selects `index.android.ts`/`index.ios.ts` at runtime. The Node setup/plugin/compiler modules never belong in application imports.
 
+## NativeScript Vite setup
+
+The optional `vue-router-ns/file-routing/vite` entry generates the same native routes and removes `definePageMeta` before Vue compilation. It requires Vite 8 and `@vue/compiler-sfc@^3.5` as development dependencies. Start with the [NativeScript Vite Vue configuration](https://docs.nativescript.org/configuration/vite), then add the plugin:
+
+```ts
+// vite.config.mts
+import { defineConfig, mergeConfig } from 'vite'
+import { getCliFlags } from '@nativescript/vite'
+import { vueConfig } from '@nativescript/vite/vue'
+import { nativeFileRoutes } from 'vue-router-ns/file-routing/vite'
+
+export default defineConfig(({ mode }) => {
+  const flags = {
+    ...getCliFlags(),
+    ...JSON.parse(process.env.NATIVESCRIPT_BUNDLER_ENV ?? '{}'),
+  }
+  if (!flags.android && !flags.ios) throw new Error('Select an Android or iOS build')
+  return mergeConfig(vueConfig({ mode }), {
+    plugins: [
+      nativeFileRoutes({
+        platform: flags.android ? 'android' : 'ios',
+        pagesDir: 'src/pages',
+        outDir: 'src/generated/router',
+        layoutsDir: 'src/layouts',
+        middlewareDir: 'src/middleware',
+        metadataFiles: true, // adjacent .route.json files; native HMR needs no macro
+      }),
+    ],
+  })
+})
+```
+
+Set `bundler: 'vite'` and `bundlerConfigPath: 'vite.config.mts'` in `nativescript.config.ts`. Include `vite/client` in your TypeScript types for generated `import.meta.hot` code. Use `bundler: 'vite'` in standalone `prepareFileRouting()` calls too. `installFileRouting`, native layouts, middleware and explicit-route composition use the same application API shown above.
+
+Run `ns run android` or `ns run ios --emulator` with HMR enabled. Use adjacent JSON metadata as shown below. Generated route tables and edits to existing middleware update the installed native router without reconstructing its open pages.
+
+::: warning definePageMeta and native Vite HMR
+On `@nativescript/vite` 8.0.19, native SFC assembly bypasses pre-compiler transforms ([NativeScript#11556](https://github.com/NativeScript/NativeScript/issues/11556)). `definePageMeta` works in bundled Vite builds (`--no-hmr`) and webpack. For native Vite HMR, remove the call and use `metadataFiles: true`; the plugin reports an actionable error if a macro remains. No dependency patch is required for the JSON workflow.
+:::
+
+Validated with stock `@nativescript/vite` 8.0.19, Vite 8.3.4, Node 22.23.3, Android API 36 and iOS 26. The native fixture covers template edits, existing middleware replacement, metadata edits, add/rename/remove and invalid-metadata recovery. Bundle inspection excludes compiler/generator code and the web router.
+
+The tested native Vite assembler also requires a nonempty script block in SFCs; template-only SFC assembly remains a platform limitation. The example's pages include scripts. Install local router dependencies as packed files (`install-links=true`) rather than raw workspace links; the native linked-import rewriting fix is tracked in [NativeScript#11555](https://github.com/NativeScript/NativeScript/pull/11555).
+
+## Metadata beside the page
+
+Enable `metadataFiles: true` in the plugin and standalone `prepareFileRouting` options. Both webpack and Vite support this optional format; it defaults to `false` for compatibility. For `src/pages/products/[id].vue`, create `src/pages/products/[id].route.json`:
+
+```json
+{
+  "name": "product",
+  "layout": "default",
+  "middleware": ["auth"],
+  "props": true,
+  "meta": { "requiresAuth": true }
+}
+```
+
+The fields match `definePageMeta`; the generator validates JSON data and generates typed route records without importing JSON or build tools into the app. Use one metadata source per page: a macro and a sidecar together are an error, including an empty macro. Missing sidecars use file conventions. Invalid metadata keeps the last generated table until corrected; deleting a sidecar restores the file defaults.
+
+A sidecar belongs to the **exact selected SFC**: `product.android.vue` reads `product.android.route.json`; `product.vue` reads `product.route.json`. There is no fallback or merge between sidecars. Keep shared metadata duplicated in platform variants when needed. Editing JSON updates future matching while open entries retain their route snapshots and native state.
+
 ## Optional discovery and imports
 
 `layouts/default.vue` registers `default`; a nested `layouts/account/settings.vue` registers `account-settings`. Discovery does not select a default layout: set `defaultLayout` or page metadata explicitly. A layout owns the single native `Page`; routed content inside it must not introduce another `Page`. See [layouts](./layouts).
@@ -79,19 +141,19 @@ The [file-routing example](https://github.com/rafaelaugustos/vue-router-ns/tree/
   <Clip name="android-file-routing" caption="Android: the same conventions on native Pages and Frames." aspect="9 / 20" />
 </div>
 
-| Layer                     | Verified configuration                                                    |
-| ------------------------- | ------------------------------------------------------------------------- |
-| Router integration        | Experimental optional subpaths; explicit route API remains available      |
-| NativeScript-Vue / Core   | 3.1.2 / 9.1.3; one instance of each in the inspected bundle               |
-| Builder / compiler        | `@nativescript/webpack` 5.0.39, webpack 5.112, `@vue/compiler-sfc` 3.5.44 |
-| Node / example types      | Node 20.19.4 locally and Node 22 in CI; TypeScript 6.0.3                  |
-| Android                   | Runtime 9.1.1; API 36 locally, API 34 in the native CI lane               |
-| iOS                       | Runtime 9.1.0; iOS 26 simulator, local native acceptance                  |
-| Other builders/frameworks | Vite and Nuxt runtime integration are not provided or verified            |
+| Layer                     | Verified configuration                                                          |
+| ------------------------- | ------------------------------------------------------------------------------- |
+| Router integration        | Experimental optional subpaths; explicit route API remains available            |
+| NativeScript-Vue / Core   | 3.1.2 / 9.1.3; one instance of each in the inspected bundle                     |
+| Builder / compiler        | `@nativescript/webpack` 5.0.39, webpack 5.112, `@vue/compiler-sfc` 3.5.44       |
+| Node / example types      | Node 20.19.4 locally and Node 22 in CI; TypeScript 6.0.3                        |
+| Android                   | Runtime 9.1.1; API 36 locally, API 34 in the native CI lane                     |
+| iOS                       | Runtime 9.1.0; iOS 26 simulator, local native acceptance                        |
+| Other builders/frameworks | webpack and Vite supported; native Vite HMR uses JSON metadata. No Nuxt runtime |
 
 `scripts/native/conventions-watch.mjs android|ios` drives the example through the actual NativeScript CLI and edits its source files while the app is running. It checks native Page identity, drafts, Back, cancellation, auth redirects, modal results, accessibility visibility/focus targets, and watch recovery. It restores its temporary edits on exit. Screen-reader speech is not asserted by this fixture; the router's separate accessibility coverage still applies.
 
-The plugin uses webpack's watcher. Adding, renaming or removing a page, and editing only its metadata, updates future matching without recreating open entries or other stacks. An invalid generation reports a build error and keeps the last valid output; correcting the source resumes compilation. Changing Vue script/template content uses Vue's existing HMR behavior and may remount the component/reset local state. Adding, removing or renaming layout/middleware registrations requires restarting the app; editing existing modules follows NativeScript/Vue HMR.
+Each plugin uses its bundler’s watcher. Adding, renaming or removing a page, and editing only its metadata, updates future matching without recreating open entries or other stacks. An invalid generation reports a build error and keeps the last valid output; correcting the source resumes compilation. Changing Vue script/template content uses Vue's existing HMR behavior and may remount the component/reset local state. Adding, removing or renaming layout/middleware registrations requires restarting the app; editing existing middleware updates future guards without rebuilding the router. Vue script edits can remount components; compatible template edits preserve the tested page state.
 
 To return to explicit routes, replace generated imports with your own route/layout tables, register middleware explicitly, and remove `installFileRouting`, the plugin, its preparation script and generated declarations. Replace `definePageMeta` with the corresponding route fields and remove its calls. The native router and its navigation API stay the same.
 
@@ -171,7 +233,7 @@ Register the named [layout](./layouts) and [middleware](./middleware) on the rou
 
 Values must be literal strings, finite numbers, booleans, null, arrays or plain objects. TypeScript `as`/`satisfies` wrappers are supported. Imported constants, setup variables, calls, functions, object spreads, getters and computed properties are rejected without execution. Register functional guards/layouts on the router and refer to their names. Use explicit routes for callback props, redirects or native transition objects requiring runtime construction.
 
-Call the macro once as a top-level `<script setup>` statement. Explicit imports may be aliased. The webpack plugin transforms it automatically. For a custom builder, run `transformPageMeta(source, filename, { autoImports: false })` **before the Vue SFC compiler**, using its returned `code` and source `map`. The transform removes the call and its macro import, preserving other content. Running an untransformed macro throws a setup error. Discovery belongs to the optional setup API, not the low-level generator.
+Call the macro once as a top-level `<script setup>` statement. Explicit imports may be aliased. The webpack and Vite build plugins transform it automatically; the Vite native HMR limitation above still applies. For a custom builder, run `transformPageMeta(source, filename, { autoImports: false })` **before the Vue SFC compiler**, using its returned `code` and source `map`. The transform removes the call and its macro import, preserving other content. Running an untransformed macro throws a setup error. Discovery belongs to the optional setup API, not the low-level generator.
 
 ## Combine explicit and generated records
 

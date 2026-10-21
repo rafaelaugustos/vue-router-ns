@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useDraft } from '../state'
-definePageMeta({ meta: { title: 'Saved for later' } })
+
 const draft = useDraft('A gift for Ana')
 </script>
 <template>

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { readdir, readFile } from 'node:fs/promises'
-import { resolve } from 'node:path'
+import { dirname, resolve } from 'node:path'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 
@@ -8,23 +8,34 @@ const platform = process.argv[2]
 assert(['android', 'ios'].includes(platform), 'Pass android or ios')
 process.chdir(fileURLToPath(new URL('..', import.meta.url)))
 const require = createRequire(import.meta.url)
-const config = require('../webpack.config.js')({ [platform]: true, sourceMap: true })
+const bundler = process.env.ROUTER_BUNDLER ?? 'webpack'
+const output =
+  bundler === 'vite'
+    ? resolve('.ns-vite-build')
+    : require('../webpack.config.js')({ [platform]: true, sourceMap: true }).output.path
 const sources = new Set()
 async function visit(directory) {
   for (const entry of await readdir(directory, { withFileTypes: true })) {
     const path = resolve(directory, entry.name)
-    if (entry.isDirectory()) await visit(path)
-    else if (/\.m?js\.map$/.test(entry.name) && !entry.name.includes('.hot-update.')) {
+    if (entry.isDirectory()) {
+      if (bundler !== 'vite' || !['android', 'ios'].includes(entry.name))
+        await visit(path)
+    } else if (/\.m?js\.map$/.test(entry.name) && !entry.name.includes('.hot-update.')) {
       const map = JSON.parse(await readFile(path, 'utf8'))
-      for (const source of map.sources) sources.add(source)
+      for (const source of map.sources)
+        sources.add(
+          bundler === 'vite'
+            ? resolve(dirname(path), map.sourceRoot ?? '', source)
+            : source,
+        )
     }
   }
 }
-await visit(config.output.path)
+await visit(output)
 assert(sources.size > 0, 'Build with --env sourceMap before inspecting the bundle')
 const forbidden = [...sources].filter(
   (source) =>
-    /file-routing\/(setup|generator|metadata|webpack|page-loader)\./.test(source) ||
+    /file-routing\/(setup|generator|metadata|webpack|vite|page-loader)\./.test(source) ||
     /node_modules\/(vue-router\/|nuxt\/|@nuxt\/|vue\/|@vue\/(compiler|runtime-dom))/.test(
       source,
     ) ||

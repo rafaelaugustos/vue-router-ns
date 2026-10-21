@@ -17,6 +17,7 @@ type Node = {
 const sourceModule = 'vue-router-ns/file-routing'
 
 export interface PageMetaTransform {
+  hasMacro: boolean
   metadata: PageMeta
   code: string
   map: {
@@ -247,6 +248,7 @@ export function transformPageMeta(
       })
   }
   return {
+    hasMacro: found,
     metadata,
     code: output.toString(),
     map: JSON.parse(
@@ -363,7 +365,35 @@ function validateMeta(
   const meta = (value.meta ?? {}) as Record<string, PageMetaValue>
   if ('layout' in meta || 'middleware' in meta)
     fail(
-      'Declare layout and middleware at the top level of definePageMeta, not inside meta',
+      'Declare layout and middleware at the top level of page metadata, not inside meta',
     )
   return value as PageMeta
+}
+
+/** Validate build-time JSON metadata without executing page scripts. */
+export function parsePageMetadataJson(source: string, filename: string): PageMeta {
+  const fail = (message: string): never => {
+    throw new FileRouteError(filename, message)
+  }
+  let value: unknown
+  try {
+    value = JSON.parse(source)
+  } catch {
+    return fail('Invalid page metadata JSON')
+  }
+  const validate = (v: unknown): void => {
+    if (typeof v === 'number' && !Number.isFinite(v))
+      fail('Metadata numbers must be finite')
+    if (v && typeof v === 'object') {
+      for (const [key, child] of Object.entries(v)) {
+        if (['__proto__', 'constructor', 'prototype'].includes(key))
+          fail('Unsupported metadata property')
+        validate(child)
+      }
+    }
+  }
+  validate(value)
+  if (!value || Array.isArray(value) || typeof value !== 'object')
+    return fail('Page metadata must be an object')
+  return validateMeta(value as Record<string, PageMetaValue>, fail)
 }

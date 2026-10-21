@@ -12,8 +12,12 @@ import { randomUUID } from 'node:crypto'
 import { FileRouteError, generateFileRoutes } from './generator.js'
 
 export interface FileRoutingOptions {
+  /** Read optional .route.json files beside selected pages. Defaults to false. */
+  metadataFiles?: boolean
   platform: 'ios' | 'android'
-  /** Paths are relative to rootDir (the webpack context or current directory). */
+  /** Generated HMR dialect. Defaults to webpack for existing integrations. */
+  bundler?: 'webpack' | 'vite'
+  /** Paths are relative to rootDir (the bundler root or current directory). */
   rootDir?: string
   pagesDir?: string
   outDir?: string
@@ -29,18 +33,22 @@ export interface PreparedFileRouting {
   files: string[]
   changed: string[]
   pageFiles: string[]
+  middlewareFiles: string[]
   dependencies: string[]
   directories: string[]
   pagesDir: string
   outDir: string
 }
 
-/** Prepare types without launching a native build; the webpack plugin uses the same function. */
+/** Prepare types without launching a native build; both plugins use this function. */
 export async function prepareFileRouting(
   options: FileRoutingOptions,
 ): Promise<PreparedFileRouting> {
   if (!['ios', 'android'].includes(options.platform))
     throw new Error('File routing requires platform: ios or android')
+  if (options.bundler && !['webpack', 'vite'].includes(options.bundler))
+    throw new Error('File routing requires bundler: webpack or vite')
+  const vite = options.bundler === 'vite'
   const root = await realpath(resolve(options.rootDir ?? '.')),
     pagesDir = resolve(root, options.pagesDir ?? 'src/pages'),
     outDir = resolve(root, options.outDir ?? 'src/generated/router'),
@@ -59,6 +67,8 @@ export async function prepareFileRouting(
   }
   const routeFile = resolve(outDir, `routes.${platform}.ts`)
   const generated = await generateFileRoutes({ ...options, pagesDir, outFile: routeFile })
+  const selectedFiles = (pages: typeof generated.pages): string[] =>
+    pages.flatMap((page) => [page.file, ...selectedFiles(page.children)])
   const layouts = options.layoutsDir
     ? await discover(resolve(root, options.layoutsDir), 'vue', platform)
     : []
@@ -70,7 +80,18 @@ export async function prepareFileRouting(
     if (!path.startsWith('.')) path = './' + path
     return JSON.stringify(path.replace(/\.ts$/, ''))
   }
-  const registrations = `// Generated native registrations. Adding/removing registrations requires an app restart.
+  const registrations = vite
+    ? `// Generated native registrations. Adding/removing registrations requires an app restart.
+import type { RouteComponent, RouteMiddleware } from 'vue-router-ns'
+${middleware.map((m, i) => `import middleware${i} from ${specifier(m.file)}\nconst guard${i}: RouteMiddleware = middleware${i}`).join('\n')}
+export const layouts = {
+${layouts.map((l) => `${JSON.stringify(l.name)}: (): Promise<RouteComponent> => import(${specifier(l.file)}).then(m => m.default)`).join(',\n')}
+}
+export const middleware: readonly { name: string; guard: RouteMiddleware; global: boolean }[] = [
+${middleware.map((m, i) => `{name: ${JSON.stringify(m.name)}, global: ${m.global}, guard: (...args) => guard${i}(...args)}`).join(',\n')}
+]
+`
+    : `// Generated native registrations. Adding/removing registrations requires an app restart.
 import type { RouteComponent, RouteMiddleware } from 'vue-router-ns'
 ${middleware.map((m, i) => `import type middleware${i} from ${specifier(m.file)}`).join('\n')}
 export const layouts = {
@@ -90,9 +111,9 @@ if (module.hot) {
   const entry = `// Generated native integration. Create the router once, then installFileRouting(router).
 import type { Router } from 'vue-router-ns'
 import { createFileRouteUpdater } from 'vue-router-ns/file-routing'
-import { routes } from './routes.${platform}'
+import { routes${vite ? ' as initialRoutes, subscribeFileRoutes' : ''} } from './routes.${platform}'
 import { middleware } from './registrations.${platform}'
-export { routes } from './routes.${platform}'
+${vite ? 'export let routes = initialRoutes' : `export { routes } from './routes.${platform}'`}
 export type { FileRouteMap, FileRouteName, FileRouteParams } from './routes.${platform}'
 export { layouts } from './registrations.${platform}'
 const updates = new Set<ReturnType<typeof createFileRouteUpdater>>()
@@ -109,16 +130,41 @@ export function installFileRouting(router: Router<any>): () => void {
   updates.add(updater)
   return () => { updates.delete(updater); installed.delete(router); stops.splice(0).reverse().forEach(stop => stop()) }
 }
-declare const module: { hot?: { accept(dependency: string, callback: () => void): void } }
-if (module.hot) module.hot.accept('./routes.${platform}', () => {
+${
+  vite
+    ? `const stopRouteUpdates = subscribeFileRoutes((next) => {
+  routes = next
   for (const updater of updates) updater.update(routes)
 })
+if (import.meta.hot) import.meta.hot.dispose(stopRouteUpdates)`
+    : `declare const module: { hot?: { accept(dependency: string, callback: () => void): void } }
+if (module.hot) module.hot.accept('./routes.${platform}', () => {
+  for (const updater of updates) updater.update(routes)
+})`
+}
 `
   const outputs = new Map([
     [
       routeFile,
       generated.code +
-        '\n// module.hot: the generated index accepts route-table updates.\n',
+        (vite
+          ? `
+// Some native HMR hosts reevaluate modules without dispatching accept callbacks.
+// Preserve subscribers in Vite's hot data and publish once per evaluation.
+type RouteListener = (next: typeof routes) => void
+const listeners: Set<RouteListener> = import.meta.hot
+  ? (import.meta.hot.data.nativeFileRouteListeners ??= new Set<RouteListener>())
+  : new Set<RouteListener>()
+export function subscribeFileRoutes(listener: RouteListener): () => void {
+  listeners.add(listener)
+  return () => { listeners.delete(listener) }
+}
+if (import.meta.hot) {
+  import.meta.hot.accept()
+  for (const listener of listeners) listener(routes)
+}
+`
+          : '\n// module.hot: the generated index accepts route-table updates.\n'),
     ],
     [resolve(outDir, `registrations.${platform}.ts`), registrations],
     [resolve(outDir, `index.${platform}.ts`), entry],
@@ -137,9 +183,11 @@ if (module.hot) module.hot.accept('./routes.${platform}', () => {
   return {
     files: [...outputs.keys()],
     changed,
-    pageFiles: generated.files,
+    pageFiles: selectedFiles(generated.pages),
+    middlewareFiles: middleware.map((m) => m.file),
     dependencies: [
       ...generated.files,
+      ...generated.metadataFiles,
       ...layouts.map((l) => l.file),
       ...middleware.map((m) => m.file),
     ],
