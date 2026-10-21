@@ -60,7 +60,7 @@ await prepareFileRouting({
 
 Compartilhe as opções entre o script e o webpack. O `index.d.ts` gerado descreve a **última plataforma preparada**: prepare e verifique os tipos de cada plataforma em sequência. Não gere ambas simultaneamente no mesmo diretório de saída. O NativeScript seleciona `index.android.ts`/`index.ios.ts` em runtime. Os módulos Node de setup/plugin/compilador nunca devem ser importados pelo app.
 
-## Configuração com NativeScript Vite (experimental, ainda não publicada)
+## Configuração com NativeScript Vite
 
 A entrada opcional `vue-router-ns/file-routing/vite` gera as mesmas rotas nativas e remove `definePageMeta` antes da compilação Vue. Requer Vite 8 e `@vue/compiler-sfc@^3.5` como dependências de desenvolvimento. Comece pela [configuração Vue do NativeScript Vite](https://docs.nativescript.org/configuration/vite) e adicione o plugin:
 

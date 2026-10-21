@@ -67,6 +67,8 @@ export async function prepareFileRouting(
   }
   const routeFile = resolve(outDir, `routes.${platform}.ts`)
   const generated = await generateFileRoutes({ ...options, pagesDir, outFile: routeFile })
+  const selectedFiles = (pages: typeof generated.pages): string[] =>
+    pages.flatMap((page) => [page.file, ...selectedFiles(page.children)])
   const layouts = options.layoutsDir
     ? await discover(resolve(root, options.layoutsDir), 'vue', platform)
     : []
@@ -181,7 +183,7 @@ if (import.meta.hot) {
   return {
     files: [...outputs.keys()],
     changed,
-    pageFiles: generated.files,
+    pageFiles: selectedFiles(generated.pages),
     middlewareFiles: middleware.map((m) => m.file),
     dependencies: [
       ...generated.files,

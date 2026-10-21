@@ -8,7 +8,7 @@
 
 - Experimental `backPreview: 'core'` opts Frame hosts into the proposed version-1 Core snapshot preview API, with the existing preview as fallback. The default remains unchanged. Android 14/15/16 acceptance compares real gestures, guards, modal stacks, native bitmap collection and Activity recreation against a pinned Core prototype; see [NativeScript #11558](https://github.com/NativeScript/NativeScript/pull/11558). The Core API is not part of the currently released dependency.
 
-Validation: 496 tests passed (10 existing skips), typechecks, package/docs builds, and webpack/Vite Android/iOS bundle checks. Stock NativeScript Vite passed 24 native navigation/watch assertions plus seven template-retention invariants on Android API 36 and iOS 26; webpack passed the 24 route/middleware checks on Android. See [native Vite acceptance](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vite.md) for scope and limitations.
+Validation: 497 tests passed (10 existing skips), typechecks, package/docs builds, and webpack/Vite Android/iOS bundle checks. Stock NativeScript Vite passed 24 native navigation/watch assertions plus seven template-retention invariants on Android API 36 and iOS 26; webpack passed the 24 route/middleware checks on Android. See [native Vite acceptance](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vite.md) for scope and limitations.
 
 ## 0.1.0-beta.13 (2026-10-20)
 

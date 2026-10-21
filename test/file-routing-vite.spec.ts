@@ -309,3 +309,15 @@ it('reports the native macro limitation before starting the development app', as
     }),
   ).rejects.toThrow('metadataFiles: true')
 })
+
+it('does not reject macros in an unselected platform page during native development', async () => {
+  const { rootDir, options } = await fixture(true)
+  await writeFile(join(rootDir, 'src/pages/platform.ios.vue'), sfc('ios'))
+  const server = await createServer({
+    configFile: false,
+    root: rootDir,
+    logLevel: 'silent',
+    plugins: [nativeFileRoutes(options)],
+  })
+  await server.close()
+})
