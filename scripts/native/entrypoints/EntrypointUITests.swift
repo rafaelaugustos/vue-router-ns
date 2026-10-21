@@ -91,8 +91,10 @@ final class EntrypointUITests: XCTestCase {
         command("capture")
     }
     func testSystemSearch() {
+        app.terminate()
         open("")
         route("/")
+        command("signout")
         command("search-index")
         capture("core-spotlight-indexed-content")
         XCUIDevice.shared.press(.home)
