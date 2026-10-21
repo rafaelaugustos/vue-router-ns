@@ -1,5 +1,6 @@
 import XCTest
 import UIKit
+import CoreSpotlight
 
 final class EntrypointUITests: XCTestCase {
     let app = XCUIApplication(bundleIdentifier: "org.nativescript.vuerouterns")
@@ -93,7 +94,30 @@ final class EntrypointUITests: XCTestCase {
         app.activate()
         command("capture")
     }
-    func testSystemSearch() {
+    func testSystemSearch() throws {
+        // Hosted simulators can advertise indexing while the service never
+        // completes even a direct Swift call. Probe independently of the JS
+        // bridge; a router failure after this succeeds must still fail the test.
+        guard CSSearchableIndex.isIndexingAvailable() else {
+            throw XCTSkip("Core Spotlight indexing is unavailable on this simulator")
+        }
+        let attributes = CSSearchableItemAttributeSet(itemContentType: "public.content")
+        attributes.title = "Index readiness probe"
+        let domain = "org.nativescript.entrypointchecks.probe"
+        let probe = CSSearchableItem(uniqueIdentifier: "readiness", domainIdentifier: domain, attributeSet: attributes)
+        let completion = expectation(description: "Core Spotlight responds directly to Swift")
+        var probeError: Error?
+        CSSearchableIndex.default().indexSearchableItems([probe]) { error in
+            probeError = error
+            completion.fulfill()
+        }
+        let readiness = XCTWaiter.wait(for: [completion], timeout: 120)
+        if readiness == .timedOut {
+            throw XCTSkip("Core Spotlight did not complete the independent Swift service probe in 120s; native search acceptance requires a responsive indexing service")
+        }
+        XCTAssertEqual(readiness, .completed)
+        XCTAssertNil(probeError)
+        CSSearchableIndex.default().deleteSearchableItems(withDomainIdentifiers: [domain], completionHandler: nil)
         app.terminate()
         open("")
         route("/")

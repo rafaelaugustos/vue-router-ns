@@ -77,6 +77,15 @@ try {
   )
   await writeFile(`${out}/native-failure.log`, log)
 }
+const testLog = await readFile(`${out}/xcodebuild.log`, 'utf8')
+const systemSearch =
+  testLog.match(
+    /Test Case[^\n]*testSystemSearch[^\n]*\b(passed|skipped|failed)\b/,
+  )?.[1] ?? 'not-run'
+await writeFile(
+  `${out}/native-capabilities.json`,
+  JSON.stringify({ systemSearch }, null, 2) + '\n',
+)
 const container = (
   await run('xcrun', ['simctl', 'get_app_container', sim, pkg, 'data'])
 ).stdout.trim()
@@ -89,4 +98,6 @@ for (const name of await readdir(`${container}/Documents`)) {
 assert(reports.length, 'Native fixture produced reports')
 for (const report of reports) assert.equal(report.ok, true, report.error)
 if (failure) throw failure
-console.log(`Native iOS entrypoints: ${reports.length} passing reports`)
+console.log(
+  `Native iOS entrypoints: ${reports.length} passing reports; Core Spotlight: ${systemSearch}`,
+)
