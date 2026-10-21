@@ -17,12 +17,12 @@ final class EntrypointUITests: XCTestCase {
     func route(_ path: String, window: String = "a") {
         XCTAssertTrue(app.staticTexts["entry:\(window):\(path)"].firstMatch.waitForExistence(timeout: 25), app.debugDescription)
     }
-    func command(_ name: String, window: String = "a") {
+    func command(_ name: String, window: String = "a", timeout: TimeInterval = 25) {
         let buttons = app.buttons.matching(identifier: "entry:\(window):\(name)")
         XCTAssertTrue(buttons.firstMatch.waitForExistence(timeout: 10), app.debugDescription)
         let button = buttons.allElementsBoundByIndex.last(where: { $0.isHittable }) ?? buttons.allElementsBoundByIndex.last!
         button.tap()
-        XCTAssertTrue(app.staticTexts["PASS \(name)"].firstMatch.waitForExistence(timeout: 25), app.debugDescription)
+        XCTAssertTrue(app.staticTexts["PASS \(name)"].firstMatch.waitForExistence(timeout: timeout), app.debugDescription)
     }
     func open(_ path: String) { app.open(URL(string: "routerentries://\(path)")!) }
     func shortcut(_ title: String) {
@@ -98,7 +98,9 @@ final class EntrypointUITests: XCTestCase {
         open("")
         route("/")
         command("signout")
-        command("search-index")
+        // Core Spotlight starts its indexing service asynchronously on a fresh
+        // simulator. Its completion is not bounded by a page-transition timeout.
+        command("search-index", timeout: 120)
         capture("core-spotlight-indexed-content")
         XCUIDevice.shared.press(.home)
         springboard.swipeDown()
@@ -110,14 +112,14 @@ final class EntrypointUITests: XCTestCase {
         if field.buttons["Clear text"].exists { field.buttons["Clear text"].tap() }
         field.typeText("Router Entry Guide")
         let result = spotlight.cells.matching(NSPredicate(format: "identifier CONTAINS %@ AND label BEGINSWITH %@", "ResultCell", "Router Entry Guide")).firstMatch
-        XCTAssertTrue(result.waitForExistence(timeout: 30), spotlight.debugDescription)
+        XCTAssertTrue(result.waitForExistence(timeout: 60), spotlight.debugDescription)
         capture("spotlight-system-result")
         result.tap()
         route("/login")
         command("login")
         route("/settings/account")
         capture("native-search-activity-through-login")
-        command("search-clear")
+        command("search-clear", timeout: 120)
     }
     func testWindows() throws {
         guard UIDevice.current.userInterfaceIdiom == .pad else { throw XCTSkip("Two UIWindowScenes require iPad") }
