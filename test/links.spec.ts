@@ -11,6 +11,7 @@ import {
 import { mount, page, paths, settle } from './helpers.js'
 import {
   androidLinks,
+  Application,
   FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY,
   iosLinks,
   View,
@@ -216,6 +217,18 @@ describe('links', () => {
     expect(heard.map((result) => result.link.source)).toEqual(['launch', 'resume'])
   })
 
+  it('coexists with a plain native shortcut entry Activity', async () => {
+    const { app } = await mount(routes, { platform: 'android', links: policy })
+    expect(() =>
+      Application.android.notify({
+        eventName: 'activityCreated',
+        object: Application.android,
+        activity: {},
+      }),
+    ).not.toThrow()
+    app.unmount()
+  })
+
   it('does not replay the old Android intent after process death', async () => {
     const heard = vi.fn()
     const { router } = await mount(routes, {
@@ -275,7 +288,7 @@ describe('links', () => {
       before: (router) => router.onLink((result) => heard.push(result)),
     })
 
-    iosLinks.openURL('app://items/1')
+    iosLinks.launch('app://items/1')
     now += 200
     iosLinks.openURL('app://items/1')
     await settle()
@@ -294,6 +307,83 @@ describe('links', () => {
     await router.openLink('app://items/1')
     expect(paths(router.stack.value)).toEqual(['/', '/items/1'])
     expect(heard.filter((result) => result.ignored === 'repeat')).toHaveLength(1)
+  })
+
+  it('accepts intentional quick repeats and deduplicates provider event ids', async () => {
+    const { router } = await mount(routes, { links: policy })
+    iosLinks.openURL('app://items/1')
+    await settle()
+    await router.back()
+    iosLinks.openURL('app://items/1')
+    await settle()
+    expect(router.currentRoute.value.path).toBe('/items/1')
+    await router.openLink('app://items/2', { deliveryId: 'tap-a' })
+    await router.openLink('app://items/3', { deliveryId: 'tap-b' })
+    expect(
+      (await router.openLink('app://items/2', { deliveryId: 'tap-a' })).ignored,
+    ).toBe('repeat')
+    expect(router.currentRoute.value.path).toBe('/items/3')
+    expect(
+      (await router.openLink('app://items/2', { deliveryId: 'tap-c' })).ignored,
+    ).toBeUndefined()
+  })
+
+  it('honors delivery IDs from the shared link policy and explicit overrides', async () => {
+    const { router } = await mount(routes, {
+      links: { ...policy, options: () => ({ deliveryId: 'provider-event' }) },
+    })
+    await router.openLink('app://items/1')
+    expect((await router.openLink('app://items/2')).ignored).toBe('repeat')
+    expect(router.currentRoute.value.path).toBe('/items/1')
+    expect(
+      (await router.openLink('app://items/2', { deliveryId: 'another-event' })).ignored,
+    ).toBeUndefined()
+    expect(router.currentRoute.value.path).toBe('/items/2')
+  })
+
+  it('rejects malformed URLs and lets the app validate query data without throwing in the native callback', async () => {
+    const { router } = await mount(routes, {
+      links: {
+        ...policy,
+        map(link) {
+          if (link.query.page && !/^\d+$/.test(String(link.query.page)))
+            throw new Error('Invalid page')
+          return { path: link.path, query: link.query }
+        },
+      },
+    })
+    for (const url of [
+      'app://items/%ZZ',
+      'app://items/%E0%A4',
+      'app://items/1?x=%',
+      'https:///items/1',
+      'https://a@example.com/items/1',
+      '//example.com/items/1',
+      'app://items/one two',
+    ]) {
+      expect((await router.openLink(url)).ignored, url).toBe('malformed')
+    }
+    expect((await router.openLink('app://items/1?page=no')).ignored).toBe('unmatched')
+    expect(iosLinks.openURL('app://items/1?page=no')).toBe(false)
+    expect(router.resolveLink('app://items/a%252Fb')?.params.id).toBe('a%2Fb')
+    expect(router.resolveLink('app://items/1?tag=a&tag=b&empty&plus=a+b')?.query).toEqual(
+      { tag: ['a', 'b'], empty: null, plus: 'a b' },
+    )
+  })
+
+  it('consumes a secondary-window creation request only after the initial stack is ready', async () => {
+    const intent = {
+      getData: () => ({ toString: () => 'app://settings/account' }),
+      getFlags: () => 0,
+    }
+    const { router } = await mount(routes, {
+      links: {
+        ...policy,
+        initial: { window: { id: 'second', isPrimary: false }, android: { intent } },
+      },
+    })
+    await settle()
+    expect(paths(router.stack.value)).toEqual(['/', '/settings', '/settings/account'])
   })
 
   it('present a modal route, and follow the link options', async () => {

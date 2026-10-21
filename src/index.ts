@@ -43,7 +43,7 @@ export type {
   NativeDestinationInstance,
   NativeDestinationOptions,
 } from './native-destinations.js'
-export { supportsShortcuts } from './shortcuts.js'
+export { supportsShortcuts, supportsPinnedShortcuts } from './shortcuts.js'
 export { useNativeFlow, startNativeFlow } from './native-flows.js'
 export type {
   NativeFlow,
@@ -60,6 +60,8 @@ export type {
 export type { RouteShortcut } from './shortcuts.js'
 export type {
   IncomingLink,
+  InitialLinkRequest,
+  LinkWindow,
   LinkIgnoredReason,
   LinkListener,
   LinkOptions,

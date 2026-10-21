@@ -38,6 +38,8 @@ Install once with `createApp(App).use(router).start()`. This registers the compo
 | `resolveLink(url)`               | The `RouteLocation` a URL points at under `links`, or `undefined`.                                                                                               |
 | `onLink(listener)`               | Hears every link the router was handed, taken or not. Returns an unsubscribe function.                                                                           |
 | `setShortcuts(shortcuts)`        | Replaces the home-screen shortcuts (Android dynamic shortcuts, iOS quick actions) with `RouteShortcut`s that open through `openLink`. Returns the published ids. |
+| `shortcutURL(id, to)`            | Versioned payload for static shortcut resources or app-owned native integration.                                                                                 |
+| `pinShortcut(shortcut)`          | Requests Android launcher pinning; `true` means requested, not user-confirmed.                                                                                   |
 | `claimSystemBack(claimant)`      | Lets a native container (`{ owns(), back() }`) take the Android back and back swipe first, like an open drawer. Returns the release function.                    |
 
 Navigation methods other than `pushForResult` resolve to `NavigationFailure | undefined`. Unexpected errors reject; see [failures](./navigating#failures-and-errors). Back methods have the [split-view semantics](./split-view#history-and-back) when called in a split stack.
@@ -154,7 +156,7 @@ Public types are exported from the package root:
 - Locations: `RouteLocation`, `RouteLocationRaw`, `RouteLocationPathRaw`, `RouteLocationNamedRaw`, `RouteLocationRelativeRaw`, `RouteParams`, `RouteParamsRaw`, `RouteParamValue`, `RouteParamValueRaw`, `LocationQuery`, `LocationQueryRaw`, `LocationQueryValue`, `LocationQueryValueRaw`.
 - Navigation: `NavigationOptions`, `BackOptions`, `SetStackOptions`, `NavigationType`, `NavigationInfo`, `NavigationGuard`, `NavigationGuardReturn`, `NavigationHookAfter`, `NavigationErrorHandler`, `NavigationFailure`, `LeaveGuardOptions`.
 - Native flows: `NativeFlow`, `NativeFlowContext`, `NativeFlowOutcome`, `NativeFlowHandle`, `NativeFlowRunOptions`, `DocumentPickerInput`, `DocumentPickerResult`; `startNativeFlow(flow, input, page)` runs one outside a page.
-- Links: `LinksOptions`, `LinkOptions`, `IncomingLink`, `LinkResult`, `LinkIgnoredReason`, `LinkSource`, `LinkListener`, `RouteShortcut`. `supportsShortcuts()` reports whether the platform shows home-screen shortcuts.
+- Links: `LinksOptions`, `LinkOptions`, `LinkWindow`, `InitialLinkRequest`, `IncomingLink`, `LinkResult`, `LinkIgnoredReason`, `LinkSource`, `LinkListener`, `RouteShortcut`. `supportsShortcuts()` reports whether the platform shows home-screen shortcuts.
 - Native presentation: `ModalOptions`, `SheetOptions`, `SheetDetent`, `AndroidModalOptions`, `BottomSheetOptions`, `BottomSheetState`, `TransitionOption`, `ZoomSource`, `BackGesture`, `BackGestureEdge`. `supportsBottomSheets()` reports whether the Android build includes Material.
 - Inferred route types: `Register`, `RegisteredRouter`, `RouteMapFrom`, `RouteMapGeneric`, `RouteNames`, `RouteLocationOf`, `RouteLocationRawOf`, `ParamsFromPath`.
 
@@ -183,3 +185,5 @@ Augment `Register` and `RouteMeta` as shown in [typed routes](./typed-routes).
 `defineNativeDestination<Input, Output>({ id, input, ios?, android? })` returns a route component containing an existing UIKit controller or AndroidX Fragment. Factories return `{ native, dispose? }`; their context supplies `input`, `route`, `page`, `complete(value)`, `cancel()`, `dismissed()` and `beforeLeave(guard)`. Types: `NativeDestinationOptions`, `NativeDestinationContext`, `NativeDestinationInstance`. See [native destinations](./native-destinations) for containment, guard limits and restoration.
 
 `supportsUIKitSplitView()` checks whether the optional UIKit backend is available.
+
+The optional `vue-router-ns/system-search` entry point exports `createSystemSearch`, `SystemSearch`, `SystemSearchOptions` and `SearchItem`. `supportsPinnedShortcuts()` is exported from the package root. See [deep links](./deep-links).

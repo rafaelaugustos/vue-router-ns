@@ -47,6 +47,10 @@
     "./file-routing/vite": {
       "types": "./dist/file-routing/vite.d.ts",
       "default": "./dist/file-routing/vite.js"
+    },
+    "./system-search": {
+      "types": "./dist/system-search.d.ts",
+      "default": "./dist/system-search.js"
     }
   },
   "files": [

@@ -137,3 +137,7 @@ Use a dedicated, booted English iPhone simulator. The seed helper locates the sy
 ## Core-owned predictive-back prototype
 
 `predictive/android.mjs` compares the existing preview and the opt-in Core candidate with actual system gestures on Android 14/15/16. `predictive/recreation.mjs` verifies native Frame recovery after Activity recreation, with a published-Core negative control. See [the evidence and reproduction guide](../../test/native-predictive-back.md) for the pinned upstream revision, build options and limitations. The candidate is compiled separately; installed packages are never patched.
+
+## Incoming links, launcher shortcuts and system search
+
+See [the entrypoint fixture](./entrypoints/README.md) for cold/warm/background URLs, real launcher/quick-action activation, static and pinned shortcuts, sign-out cleanup and secondary windows. The Android 34/36 and iPad native-contract lanes run it with published dependencies.
