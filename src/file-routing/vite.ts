@@ -117,7 +117,12 @@ export function nativeFileRoutes(options: NativeFileRoutesOptions): Plugin {
     },
     async transform(source, id) {
       const file = id.split('?')[0]!
-      if (failure && prepared?.files.includes(file)) throw failure
+      if (prepared?.files.includes(file)) {
+        // Atomic output writes can notify Vite before generation finishes and
+        // clears the preceding diagnostic. Never serve that stale error.
+        await pending
+        if (failure) throw failure
+      }
       if (development && !id.includes('?') && prepared?.middlewareFiles.includes(file))
         return transformMiddleware(source, file)
       // Vue script/template subrequests are already compiled by plugin-vue.

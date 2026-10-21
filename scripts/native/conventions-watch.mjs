@@ -110,8 +110,23 @@ async function readRuntime() {
           '--predicate',
           'eventMessage CONTAINS "CONVENTIONS_"',
         ]
-  const result = await exec(command, args, { maxBuffer: 8 * 1024 * 1024, timeout: 20000 })
-  runtime = result.stdout
+  if (platform === 'ios' && cliOutput.includes(`CONVENTIONS_PHASE ${id} `)) {
+    // NativeScript forwards native console output. Avoid repeatedly querying
+    // the simulator's log database while Xcode is consuming the hosted CPU.
+    runtime = cliOutput
+  } else {
+    try {
+      const result = await exec(command, args, {
+        maxBuffer: 8 * 1024 * 1024,
+        timeout: 20000,
+      })
+      runtime = result.stdout
+    } catch (error) {
+      if (platform !== 'ios' || !error.killed) throw error
+      console.log('Simulator log query timed out; using native CLI output for this poll')
+      runtime = cliOutput
+    }
+  }
   await writeFile(resolve(out, 'runtime.log'), runtime)
   for (const line of runtime
     .split('\n')

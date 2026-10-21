@@ -10,6 +10,21 @@ import { prepareFileRouting } from '../src/file-routing/setup.js'
 import { transformPageMeta } from '../src/file-routing/metadata.js'
 import { transformMiddleware } from '../src/file-routing/vite-middleware.js'
 
+const preparation = vi.hoisted(() => ({
+  pause: undefined as undefined | (() => Promise<void>),
+}))
+vi.mock('../src/file-routing/setup.js', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../src/file-routing/setup.js')>()
+  return {
+    ...actual,
+    prepareFileRouting: async (...args: Parameters<typeof actual.prepareFileRouting>) => {
+      const result = await actual.prepareFileRouting(...args)
+      await preparation.pause?.()
+      return result
+    },
+  }
+})
+
 const directories: string[] = []
 afterEach(async () => {
   await Promise.all(
@@ -321,3 +336,62 @@ it('does not reject macros in an unselected platform page during native developm
   })
   await server.close()
 })
+
+it('waits for recovery to finish before serving a generated module', async () => {
+  const { rootDir, put, options } = await fixture(true)
+  const server = await createServer({
+    configFile: false,
+    root: rootDir,
+    logLevel: 'silent',
+    plugins: [nativeFileRoutes(options), components],
+    resolve: { alias: { 'vue-router-ns/file-routing': join(rootDir, 'runtime.ts') } },
+    server: { host: '127.0.0.1', port: 0 },
+    optimizeDeps: { noDiscovery: true },
+  })
+  let resume = () => {}
+  try {
+    await server.listen()
+    let rejected = false
+    const send = server.ws.send.bind(server.ws)
+    vi.spyOn(server.ws, 'send').mockImplementation((...args: any[]) => {
+      if (args[0]?.type === 'error') rejected = true
+      return (send as any)(...args)
+    })
+    await server.transformRequest('/src/generated/router/routes.android.ts')
+    await put('src/pages/invalid.vue', sfc('home'))
+    await vi.waitFor(() => expect(rejected).toBe(true))
+    let published = () => {}
+    const ready = new Promise<void>((resolve) => {
+      published = resolve
+    })
+    const gate = new Promise<void>((resolve) => {
+      resume = resolve
+    })
+    preparation.pause = async () => {
+      preparation.pause = undefined
+      published()
+      await gate
+    }
+    await writeFile(join(rootDir, 'src/pages/invalid.route.json'), '{"name":"recovered"}')
+    await ready
+    const module = (await server.moduleGraph.getModuleByUrl(
+      '/src/generated/router/routes.android.ts',
+    ))!
+    server.moduleGraph.invalidateModule(module)
+    let settled = false
+    const request = server
+      .transformRequest('/src/generated/router/routes.android.ts')
+      .finally(() => {
+        settled = true
+      })
+    // The old implementation rejects immediately using the preceding diagnostic.
+    await new Promise((resolve) => setTimeout(resolve, 20))
+    expect(settled).toBe(false)
+    resume()
+    expect((await request)!.code).toContain('"recovered"')
+  } finally {
+    resume()
+    preparation.pause = undefined
+    await server.close()
+  }
+}, 10000)
