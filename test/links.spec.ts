@@ -328,6 +328,19 @@ describe('links', () => {
     ).toBeUndefined()
   })
 
+  it('honors delivery IDs from the shared link policy and explicit overrides', async () => {
+    const { router } = await mount(routes, {
+      links: { ...policy, options: () => ({ deliveryId: 'provider-event' }) },
+    })
+    await router.openLink('app://items/1')
+    expect((await router.openLink('app://items/2')).ignored).toBe('repeat')
+    expect(router.currentRoute.value.path).toBe('/items/1')
+    expect(
+      (await router.openLink('app://items/2', { deliveryId: 'another-event' })).ignored,
+    ).toBeUndefined()
+    expect(router.currentRoute.value.path).toBe('/items/2')
+  })
+
   it('rejects malformed URLs and lets the app validate query data without throwing in the native callback', async () => {
     const { router } = await mount(routes, {
       links: {

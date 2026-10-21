@@ -1429,10 +1429,14 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       return result
     }
     if (!location) return done({ link, ignored: evaluated.ignored })
-    if (options.deliveryId !== undefined) {
-      if (deliveries.has(options.deliveryId))
-        return done({ link, location, ignored: 'repeat' })
-      deliveries.add(options.deliveryId)
+    const policy =
+      typeof linkPolicy.options === 'function'
+        ? linkPolicy.options(location, link)
+        : linkPolicy.options
+    const deliveryId = options.deliveryId ?? policy?.deliveryId
+    if (deliveryId !== undefined) {
+      if (deliveries.has(deliveryId)) return done({ link, location, ignored: 'repeat' })
+      deliveries.add(deliveryId)
       // Bound memory for long-lived apps. Providers should use an id per user tap.
       if (deliveries.size > 256) deliveries.delete(deliveries.values().next().value!)
     }
@@ -1448,10 +1452,6 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       lastLaunchLink = undefined
       if (repeat) return done({ link, location, ignored: 'repeat' })
     }
-    const policy =
-      typeof linkPolicy.options === 'function'
-        ? linkPolicy.options(location, link)
-        : linkPolicy.options
     const frame = options.frame ?? linkPolicy.frame?.(location, link) ?? policy?.frame
     const settings = { withParents: true, ...policy, ...options, frame }
     if (!isReady) await ready.promise
