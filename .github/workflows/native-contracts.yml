@@ -38,7 +38,7 @@ jobs:
           xcrun simctl bootstatus "$SIM" -b
       - name: Native Spotlight on a fresh fixture
         env:
-          ENTRYPOINT_TEST: testSystemSearch
+          ENTRYPOINT_TEST: testIndexService
         run: node scripts/native/entrypoints/ios.mjs
       - name: Clean up dedicated simulator
         if: always() && env.IOS_SIMULATOR != ''

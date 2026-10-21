@@ -1,5 +1,6 @@
 import XCTest
 import UIKit
+import CoreSpotlight
 
 final class EntrypointUITests: XCTestCase {
     let app = XCUIApplication(bundleIdentifier: "org.nativescript.vuerouterns")
@@ -60,6 +61,19 @@ final class EntrypointUITests: XCTestCase {
         open("settings/items/background")
         route("/settings/items/background")
         command("capture")
+    }
+    func testIndexService() {
+        app.launch()
+        route("/")
+        let attributes = CSSearchableItemAttributeSet(itemContentType: "public.content")
+        attributes.title = "Native Swift Spotlight probe"
+        let item = CSSearchableItem(uniqueIdentifier: "probe", domainIdentifier: "router.probe", attributeSet: attributes)
+        let completion = expectation(description: "Core Spotlight responds directly to Swift")
+        CSSearchableIndex.default().indexSearchableItems([item]) { error in
+            XCTAssertNil(error)
+            completion.fulfill()
+        }
+        wait(for: [completion], timeout: 120)
     }
     func testShortcuts() {
         open("")
