@@ -1,8 +1,14 @@
 # Changelog
 
-## Unreleased
+## 0.1.0-beta.14 (2026-10-20)
+
+- Optional `vue-router-ns/file-routing/vite` integrates the existing native router with NativeScript Vite. Generated routes/types, layouts and middleware work with either bundler; explicit routes keep their API.
+- Opt-in `metadataFiles: true` reads validated `.route.json` files beside selected pages. Native Vite HMR updates route tables and existing middleware without recreating the router or open entries. The shared native example and English/Portuguese guides cover both builders and error recovery.
+- Native Vite HMR uses external metadata while NativeScript's SFC macro-transform issue remains open. `definePageMeta` continues to work with webpack and bundled Vite (`--no-hmr`); using it in native Vite HMR produces a setup diagnostic. Template-only SFC and raw linked-package limitations are documented. No dependency patch is needed for the tested JSON workflow.
 
 - Experimental `backPreview: 'core'` opts Frame hosts into the proposed version-1 Core snapshot preview API, with the existing preview as fallback. The default remains unchanged. Android 14/15/16 acceptance compares real gestures, guards, modal stacks, native bitmap collection and Activity recreation against a pinned Core prototype; see [NativeScript #11558](https://github.com/NativeScript/NativeScript/pull/11558). The Core API is not part of the currently released dependency.
+
+Validation: 496 tests passed (10 existing skips), typechecks, package/docs builds, and webpack/Vite Android/iOS bundle checks. Stock NativeScript Vite passed 24 native navigation/watch assertions plus seven template-retention invariants on Android API 36 and iOS 26; webpack passed the 24 route/middleware checks on Android. See [native Vite acceptance](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vite.md) for scope and limitations.
 
 ## 0.1.0-beta.13 (2026-10-20)
 
