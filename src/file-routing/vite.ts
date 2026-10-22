@@ -52,6 +52,10 @@ export function nativeFileRoutes(options: NativeFileRoutesOptions): Plugin {
     name: 'native-file-routes',
     enforce: 'pre',
     config() {
+      if (this?.meta?.viteVersion?.split('.')[0] !== '8')
+        throw new Error(
+          'nativeFileRoutes requires Vite 8. Install vite@^8 as a dev dependency in your app.',
+        )
       // Keep NativeScript's dependency transformer on the package's native ESM
       // exports; browser prebundles can hide its native peer dependencies.
       return {

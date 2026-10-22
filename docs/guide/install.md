@@ -6,6 +6,17 @@ npm install vue-router-ns@next
 
 It's in beta for now, published under the `next` tag. Requires `nativescript-vue` 3 and `@nativescript/core` 8.9 or later.
 
+Use beta.15 or newer with npm 10. Beta.14's optional Vite peer triggered npm's
+`Cannot read properties of null (reading 'edgesOut')` resolver crash, even in apps
+using explicit routes. The router no longer declares Vite or webpack peers; the
+normal install command above works without `--legacy-peer-deps`.
+
+If you opt into [file routing](./file-routing), install the chosen bundler as an
+app development dependency. Keep a working NativeScript Vite lockfile when using
+npm 10: creating that builder's dependency tree from scratch can hit a separate
+optional-peer resolver failure even without this router. npm 11 handles the
+lockfile-free Vite setup in the installation checks.
+
 ## Try it online
 
 Use the [StackBlitz playground](./playground) with NativeScript Preview to edit examples and run them on a device before setting up local native SDKs.

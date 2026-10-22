@@ -76,6 +76,21 @@ const components: Plugin = {
   },
 }
 
+it.each([undefined, '7.3.1', '9.0.0'])(
+  'reports unsupported Vite %s at plugin configuration without a bundler peer',
+  (viteVersion) => {
+    const plugin = nativeFileRoutes({ platform: 'android' })
+    const config = plugin.config
+    if (typeof config !== 'function') throw new Error('Missing config hook')
+    expect(() =>
+      Reflect.apply(config, { meta: { viteVersion } }, [
+        {},
+        { command: 'build', mode: 'test' },
+      ]),
+    ).toThrow('nativeFileRoutes requires Vite 8')
+  },
+)
+
 it('builds ESM integration with Vite, selected platform and no webpack runtime', async () => {
   const { rootDir, options, output } = await fixture()
   const built = await build({
