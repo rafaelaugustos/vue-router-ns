@@ -50,7 +50,7 @@ const container = (
   await run('xcrun', ['simctl', 'get_app_container', sim, pkg, 'data'])
 ).stdout.trim()
 const reports = []
-for (const command of ['prepare', 'resume', 'close']) {
+for (const command of ['prepare', 'resume', 'hmr', 'close']) {
   const source = await readFile(
     `${container}/Documents/windows-${command}.json`,
     'utf8',
@@ -63,7 +63,7 @@ await run('xcrun', ['simctl', 'io', sim, 'screenshot', `${out}/final.png`]).catc
   () => {},
 )
 assert(!failure, `XCTest failed: ${out}/xcodebuild.log`)
-assert.equal(reports.length, 3)
+assert.equal(reports.length, 4)
 for (const report of reports) assert(report.ok, report.error)
 // Foreground/background alone does not prove OS-driven scene reconnection.
 const resume = reports.find((report) => report.command === 'resume')

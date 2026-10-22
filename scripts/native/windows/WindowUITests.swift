@@ -18,6 +18,7 @@ final class WindowUITests: XCTestCase {
         sleep(3)
         app.activate()
         command("resume")
+        command("hmr")
         command("close")
     }
 }

@@ -8,6 +8,15 @@ const serial = process.env.ANDROID_SERIAL
 assert(serial, 'Set ANDROID_SERIAL to a test emulator')
 const out = resolve(process.env.OUT ?? 'scripts/native/out/windows')
 const pkg = 'org.nativescript.vuerouterns'
+const restoreTasks = process.env.RESTORE_TASKS === '1'
+async function restoreTask(id) {
+  try {
+    await adb('shell', 'am', 'task', 'lock', String(id))
+    await pause(1500)
+  } finally {
+    await adb('shell', 'am', 'task', 'lock', 'stop')
+  }
+}
 const adb = async (...args) =>
   (
     await exec('adb', ['-s', serial, ...args], {
@@ -83,34 +92,44 @@ try {
     '',
     'The old app process actually died',
   )
-  await adb(
-    'shell',
-    'am',
-    'start',
-    '-W',
-    '-f',
-    '0x18000000',
-    '-n',
-    `${pkg}/com.tns.NativeScriptActivity`,
-  )
+  if (restoreTasks)
+    await restoreTask(prepared.sessions.find((session) => session.key === 'a').task)
+  else {
+    await adb(
+      'shell',
+      'am',
+      'start',
+      '-W',
+      '-f',
+      '0x18000000',
+      '-n',
+      `${pkg}/com.tns.NativeScriptActivity`,
+    )
+  }
   const after = (await adb('shell', 'pidof', pkg)).trim()
   assert.notEqual(after, before)
   assert(after)
   await writeFile(
     resolve(out, 'process.json'),
-    JSON.stringify({ before, after }, null, 2),
+    JSON.stringify({ before, after, restoreTasks }, null, 2),
   )
   pass(await result('ready', after))
-  const restored = await command('restore', after)
+  if (restoreTasks)
+    await restoreTask(prepared.sessions.find((session) => session.key === 'b').task)
+  const restored = await command(restoreTasks ? 'restore-existing' : 'restore', after)
   pass(restored)
   for (const session of restored.sessions) {
     const original = prepared.sessions.find((item) => item.key === session.key)
     assert(original)
-    assert.notEqual(
-      session.window,
-      original.window,
-      'App reconstructs into a new native window',
-    )
+    if (restoreTasks)
+      assert.equal(session.task, original.task, 'OS restores the original task record')
+    else {
+      assert.notEqual(
+        session.window,
+        original.window,
+        'App reconstructs into a new native window',
+      )
+    }
     assert.deepEqual(
       session.entryKeys,
       original.entryKeys.slice(0, 2),
@@ -120,6 +139,7 @@ try {
   pass(await command('link', after))
   const recreated = await command('recreate', after)
   pass(recreated)
+  pass(await command('hmr', after))
   pass(await command('close', after))
   pass(await command('launcher', after))
   console.log('Window isolation, process-death restoration and OS link checks passed')

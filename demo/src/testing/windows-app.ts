@@ -46,6 +46,7 @@ if (isIOS)
       sceneEvents.push({ event, window: args.window?.id }),
     )
   }
+let revision = 0
 let stage = 'boot'
 let busy = false
 let recreation: { before: number; after?: number } | undefined
@@ -121,42 +122,49 @@ function report(command: string, error?: unknown) {
     session.status.value = `${error ? 'FAIL' : 'PASS'} ${command}`
   console.log(`WINDOWS_RESULT ${JSON.stringify(result)}`)
 }
-const Page = defineComponent({
-  setup() {
-    const router = useRouter()
-    const session = sessions.get(router.options.restore!.key!)!
-    const draft = ref('')
-    session.drafts.push(draft)
-    onUnmounted(() => session.unmounted++)
-    usePageState('draft', {
-      save: () => draft.value,
-      restore: (value: string) => {
-        draft.value = value
-      },
-    })
-    return () =>
-      h('Page', {}, [
-        h(ActionBar, { title: `Window ${session.key}` }),
-        h('StackLayout', { padding: 20 }, [
-          h('Label', { text: session.status.value, textWrap: true }),
-          h('Label', { text: router.currentRoute.value.fullPath }),
-          h('TextField', {
-            text: draft.value,
-            onTextChange: (event: any) => {
-              draft.value = event.value
-            },
-          }),
-          ...['prepare', 'resume', 'close'].map((name) =>
-            h('Button', {
-              text: name,
-              accessibilityIdentifier: `windows:${name}`,
-              onTap: () => void command(name),
+const Page = Object.assign(
+  defineComponent({
+    setup() {
+      const generation = revision
+      const router = useRouter()
+      const session = sessions.get(router.options.restore!.key!)!
+      const draft = ref('')
+      session.drafts.push(draft)
+      onUnmounted(() => session.unmounted++)
+      usePageState('draft', {
+        save: () => draft.value,
+        restore: (value: string) => {
+          draft.value = value
+        },
+      })
+      return () =>
+        h('Page', {}, [
+          h(ActionBar, { title: `Window ${session.key}` }),
+          h('StackLayout', { padding: 20 }, [
+            h('Label', { text: session.status.value, textWrap: true }),
+            h('Label', { id: 'window-generation', text: String(generation) }),
+            h('Label', { text: router.currentRoute.value.fullPath }),
+            h('TextField', {
+              text: draft.value,
+              onTextChange: (event: any) => {
+                draft.value = event.value
+              },
             }),
-          ),
-        ]),
-      ])
-  },
-})
+            ...['prepare', 'resume', 'hmr', 'close'].map((name) =>
+              h('Button', {
+                text: name,
+                accessibilityIdentifier: `windows:${name}`,
+                onTap: () => void command(name),
+              }),
+            ),
+          ]),
+        ])
+    },
+  }),
+  { __hmrId: 'windows-page-46' },
+)
+const hmr = (globalThis as any).__VUE_HMR_RUNTIME__
+hmr?.createRecord(Page.__hmrId, Page)
 const routes = [
   { path: '/', component: Page },
   { path: '/edit', component: Page },
@@ -259,7 +267,7 @@ async function focus(session: Session) {
   await pause(200)
 }
 async function openSecond() {
-  first.router.openWindow('/', { data: { documentId: 'b' } })
+  if (!sessions.has('b')) first.router.openWindow('/', { data: { documentId: 'b' } })
   await until(() => sessions.has('b'), 'second window created')
   const second = sessions.get('b')!
   await Promise.race([
@@ -384,6 +392,42 @@ async function recreate() {
   await second.router.push('/items/10', { animated: false })
   check(paths(first).join(',') === '/,/edit', 'other window survives recreation')
 }
+async function reloadWindows() {
+  const second = sessions.get('b')!
+  await focus(second)
+  const beforeA = first.frame!.currentPage
+  const beforeB = second.frame!.currentPage
+  const pathsA = paths(first).join(',')
+  const pathsB = paths(second).join(',')
+  check(!!hmr, 'Vue HMR runtime available')
+  revision++
+  hmr.reload(Page.__hmrId, { ...Page })
+  await until(
+    () => second.frame!.currentPage !== beforeB && second.frame!.navigationQueueIsEmpty(),
+    'B script HMR',
+  )
+  check(paths(second).join(',') === pathsB, 'B script HMR preserves history')
+  check(
+    (second.frame!.currentPage!.getViewById('window-generation') as any)?.text ===
+      String(revision),
+    'B script HMR applies new setup',
+  )
+  await focus(first)
+  await until(
+    () => first.frame!.currentPage !== beforeA && first.frame!.navigationQueueIsEmpty(),
+    'A script HMR',
+  )
+  check(paths(first).join(',') === pathsA, 'A script HMR preserves history')
+  check(
+    (first.frame!.currentPage!.getViewById('window-generation') as any)?.text ===
+      String(revision),
+    'A script HMR applies new setup',
+  )
+  await focus(second)
+  await second.router.push('/items/after-hmr', { animated: false })
+  await second.router.back({ animated: false })
+  check(paths(second).join(',') === pathsB, 'navigation after multi-window HMR')
+}
 async function command(name: string) {
   if (busy) return
   busy = true
@@ -392,7 +436,11 @@ async function command(name: string) {
     await first.router.isReady()
     if (name === 'prepare') await prepare()
     else if (name === 'restore') await restored()
-    else if (name === 'recreate') await recreate()
+    else if (name === 'restore-existing') {
+      check(sessions.has('b'), 'OS restored B through its content resolver')
+      await restored()
+    } else if (name === 'recreate') await recreate()
+    else if (name === 'hmr') await reloadWindows()
     else if (name === 'resume') {
       const second = sessions.get('b')!
       await focus(second)
