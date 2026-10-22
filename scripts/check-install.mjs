@@ -91,6 +91,13 @@ for (const bundler of ['none', 'webpack', 'vite']) {
     const installed = JSON.parse(
       await readFile(join(project, 'node_modules/vue-router-ns/package.json'), 'utf8'),
     )
+    // Check the published layout, including optional tooling entrypoints and types.
+    const targets = (value) =>
+      typeof value === 'string' ? [value] : Object.values(value).flatMap(targets)
+    for (const target of targets(installed.exports)) {
+      assert(target.startsWith('./'), `Invalid package export ${target}`)
+      await readFile(join(project, 'node_modules/vue-router-ns', target))
+    }
     assert(!installed.peerDependencies?.vite, 'Router must not impose a Vite peer')
     assert(!installed.peerDependencies?.webpack, 'Router must not impose a webpack peer')
     if (bundler === 'none') {

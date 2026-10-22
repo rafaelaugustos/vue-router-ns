@@ -92,6 +92,7 @@ child.on('exit', () => {
 const pause = () => new Promise((resolve) => setTimeout(resolve, 1000))
 let runtime = ''
 let launchedAndroid = false
+let checkedIosLaunch = false
 async function readRuntime() {
   const command = platform === 'android' ? 'adb' : 'xcrun'
   const args =
@@ -182,6 +183,40 @@ async function waitFor(test, description, timeout = 180000) {
         console.log('Launched the synced Android fixture through adb')
       }
     }
+    // The CLI can also stop at "Restarting application" after an iOS sync.
+    // Inspect the simulator before launching once; never restart a running app
+    // or retry a navigation/HMR assertion.
+    if (
+      platform === 'ios' &&
+      !checkedIosLaunch &&
+      cliOutput.includes('Restarting application')
+    ) {
+      checkedIosLaunch = true
+      const state = await exec(
+        'xcrun',
+        ['simctl', 'spawn', serial, 'launchctl', 'list'],
+        {
+          timeout: 20000,
+          maxBuffer: 4 * 1024 * 1024,
+        },
+      )
+      await writeFile(resolve(out, 'launch-state.txt'), state.stdout)
+      const running = state.stdout
+        .split('\n')
+        .some(
+          (line) =>
+            /^\s*\d+\s/.test(line) && line.includes('org.nativescript.routerfiles'),
+        )
+      if (!running) {
+        const launched = await exec(
+          'xcrun',
+          ['simctl', 'launch', serial, 'org.nativescript.routerfiles'],
+          { timeout: 30000 },
+        )
+        await writeFile(resolve(out, 'launch.txt'), launched.stdout + launched.stderr)
+        console.log('Launched the synced iOS fixture through simctl')
+      }
+    }
     await readRuntime()
     if (test()) return
     await pause()
@@ -269,6 +304,37 @@ try {
   await writeFile(resolve(out, 'results.json'), JSON.stringify(result, null, 2) + '\n')
   console.log(`Passed ${result.checks.length} native setup/watch checks on ${platform}`)
 } finally {
+  if (platform === 'ios') {
+    // Preserve bootstrap diagnostics even when no CONVENTIONS marker appeared.
+    const captured = await Promise.allSettled([
+      exec(
+        'xcrun',
+        [
+          'simctl',
+          'spawn',
+          serial,
+          'log',
+          'show',
+          '--last',
+          '10m',
+          '--style',
+          'compact',
+          '--predicate',
+          'process == "filerouting" OR eventMessage CONTAINS "CONVENTIONS_"',
+        ],
+        { timeout: 20000, maxBuffer: 16 * 1024 * 1024 },
+      ),
+      exec('xcrun', ['simctl', 'io', serial, 'screenshot', resolve(out, 'final.png')], {
+        timeout: 20000,
+      }),
+    ])
+    await writeFile(
+      resolve(out, 'bootstrap.log'),
+      captured[0].status === 'fulfilled'
+        ? captured[0].value.stdout + captured[0].value.stderr
+        : String(captured[0].reason),
+    )
+  }
   if (!processExited) {
     try {
       process.kill(-child.pid, 'SIGINT')

@@ -43,4 +43,4 @@ Então isto não é um wrapper do Vue Router. A back stack do frame é a fonte d
 2. Leia [Navegando](./navigating) e [Cada página guarda sua rota](./pages): é onde ele mais difere da web.
 3. Vindo do Vue Router, passe pelas [diferenças](./vue-router).
 
-Está em beta, publicado sob a tag `next`. O router é coberto por testes contra um `Frame` substituto, e as partes que tocam a plataforma estão sendo conferidas em aparelhos uma a uma.
+A candidata à versão estável é publicada sob a tag `next`. Testes unitários e suítes nativas em simuladores/emuladores cobrem o [escopo da RC](./compatibility); essa página registra as versões suportadas e os limites restantes.

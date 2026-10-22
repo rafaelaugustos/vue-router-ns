@@ -112,3 +112,18 @@ ROUTER_BUNDLER=vite IOS_SIMULATOR=<booted-uuid> node scripts/native/conventions-
 Omit `ROUTER_BUNDLER=vite` for the webpack compatibility run. `NATIVE_HMR=0`
 selects bundled native acceptance (15 navigation assertions). SDK/JDK or
 Xcode/Ruby/CocoaPods must be configured for the selected platform.
+
+## RC runner bootstrap — 2026-10-22
+
+The first RC hosted iOS run installed/synced the app, then its CLI output stopped
+at `Restarting application` without a native readiness marker. It timed out and
+is not a passing HMR result ([run 39841472234](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/39841472234),
+artifact `native-vite-ios`). There was insufficient bootstrap logging to decide
+whether the app had launched.
+
+The runner now records simulator process state at that CLI handoff. Only when
+the bundle has no running process does it request one launch with `simctl`; it
+never terminates/restarts an existing process or retries navigation assertions.
+Bootstrap logs and a screenshot are retained even if the app never reports a
+CONVENTIONS marker. The hosted simulator also uses the supported loopback Vite
+host override. All 24 checks and the template-retention assertions remain required.
