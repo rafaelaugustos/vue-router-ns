@@ -48,21 +48,36 @@ async function test(method, label) {
 try {
   if (restoreScenes) {
     await test('testPrepareOnly', 'prepare')
-    // Only a dedicated simulator: restart SpringBoard to discard the app
-    // process while preserving UIKit's real scene-session records.
-    await run('xcrun', [
-      'simctl',
-      'spawn',
-      sim,
-      'launchctl',
-      'stop',
-      'com.apple.SpringBoard',
-    ])
+    const data = (
+      await run('xcrun', ['simctl', 'get_app_container', sim, pkg, 'data'])
+    ).stdout.trim()
+    const prepared = JSON.parse(
+      await readFile(`${data}/Documents/windows-prepare.json`, 'utf8'),
+    )
+    // A simulator app is a host process. Verify the PID against this specific
+    // simulator's launch service before killing only our fixture. Unlike a
+    // graceful termination, SIGKILL preserves OS scene-session records.
+    const jobs = (
+      await run('xcrun', ['simctl', 'spawn', sim, 'launchctl', 'list'])
+    ).stdout.split('\n')
+    assert(
+      jobs.some((line) => {
+        const [pid, , label] = line.trim().split(/\s+/)
+        return (
+          pid === String(prepared.pid) && label?.startsWith(`UIKitApplication:${pkg}[`)
+        )
+      }),
+      'Prepared PID belongs to the fixture in the dedicated simulator',
+    )
+    process.kill(prepared.pid, 'SIGKILL')
     await test('testResumeOnly', 'restore')
   } else await test('testWindows', 'Windows')
 } catch (error) {
   failure = error
-  await writeFile(`${out}/xcodebuild.log`, String(error.stdout) + String(error.stderr))
+  await writeFile(
+    `${out}/xcodebuild.log`,
+    `${String(error)}\n${error.stdout ?? ''}${error.stderr ?? ''}`,
+  )
 }
 const container = (
   await run('xcrun', ['simctl', 'get_app_container', sim, pkg, 'data'])
@@ -85,7 +100,7 @@ for (const command of [
 await run('xcrun', ['simctl', 'io', sim, 'screenshot', `${out}/final.png`]).catch(
   () => {},
 )
-assert(!failure, `XCTest failed: ${out}/xcodebuild.log`)
+assert(!failure, `Native window scenario failed: ${out}/xcodebuild.log`)
 assert.equal(reports.length, 4)
 for (const report of reports) assert(report.ok, report.error)
 // Foreground/background alone does not prove OS-driven scene reconnection.

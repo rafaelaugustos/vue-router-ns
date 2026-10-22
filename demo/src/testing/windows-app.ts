@@ -234,7 +234,9 @@ Application.setWindowContentResolver((request: WindowContentRequest) => {
   if (request.isPrimary && key === 'a') return undefined
   // UIKit may reconnect B before A after process death. The application maps
   // persistent session IDs to document keys rather than assigning by arrival.
-  if (key === 'a') return first.app.mount().$el.nativeView
+  // app.start() already mounted A's Vue tree, even when B connects first.
+  // Reuse its public RouterView ref instead of mounting that app a second time.
+  if (key === 'a') return first.frame
   const session = makeSession(key, request.window, getWindowRoute(request.data) ?? '/')
   // A resolver runs after Core emits the initial URL event. Explicit handoff
   // applies the incoming URL after restoration and native host readiness.
@@ -357,6 +359,43 @@ async function restored() {
   check(first.drafts[1]!.value === 'draft A first', 'A previous duplicate draft restored')
   check(second.drafts[1]!.value === 'draft B', 'B state remains independent')
 }
+async function restoreSceneSessions() {
+  const existing = UIApplication.sharedApplication.openSessions.allObjects
+  // Launching the app can reconnect only its last foreground scene. Activate
+  // each original OS session, as selecting that window in the app switcher does.
+  // Passing null here would create a replacement and hide restoration failures.
+  for (const key of ['a', 'b']) {
+    let saved: UISceneSession | undefined
+    for (let index = 0; index < existing.count; index++) {
+      const candidate = existing.objectAtIndex(index)
+      if (
+        ApplicationSettings.getString(
+          `windows-46:scene:${candidate.persistentIdentifier}`,
+        ) === key
+      )
+        saved = candidate
+    }
+    check(!!saved, `UIKit retained original ${key} session`)
+    if (sessions.get(key)?.router.window.value?.id === saved!.persistentIdentifier)
+      continue
+    UIApplication.sharedApplication.requestSceneSessionActivationUserActivityOptionsErrorHandler(
+      saved!,
+      null,
+      null,
+      (error) => console.error(error),
+    )
+    await until(
+      () =>
+        sessions.get(key)?.router.window.value?.id === saved!.persistentIdentifier &&
+        !!sessions.get(key)?.frame?.isLoaded &&
+        (sessions.get(key)?.router.window.value?.ios?.scene as UIWindowScene)
+          ?.activationState === UISceneActivationState.ForegroundActive,
+      `original ${key} scene connected`,
+    )
+    await pause(250)
+  }
+  await focus(sessions.get('b')!)
+}
 async function recreate() {
   const second = sessions.get('b')!
   await focus(second)
@@ -448,6 +487,10 @@ async function command(name: string) {
   busy = true
   stage = name
   try {
+    if (name === 'restore-scenes') {
+      check(isIOS, 'UIKit scene restoration requires iOS')
+      await restoreSceneSessions()
+    }
     await first.router.isReady()
     if (name === 'prepare') await prepare()
     else if (name === 'restore') await restored()
@@ -528,7 +571,16 @@ async function command(name: string) {
     } else if (name === 'close') {
       const second = sessions.get('b')!
       const owner = second.router.window.value as NativeWindow
-      owner.close()
+      if (isIOS && owner.isPrimary) {
+        // UIKit may restore B first. Core.close() refuses the primary window,
+        // but the user can still discard its scene while A remains open.
+        await focus(first)
+        UIApplication.sharedApplication.requestSceneSessionDestructionOptionsErrorHandler(
+          (owner.ios!.scene as UIWindowScene).session,
+          null,
+          (error) => console.error(error),
+        )
+      } else owner.close()
       await until(() => owner.state === 'closed', 'window close')
       await nextTick()
       check(
