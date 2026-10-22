@@ -98,6 +98,8 @@ jobs:
         run: node scripts/native/windows/ios.mjs
       - name: Restore original UIKit scene sessions in a new process
         run: RESTORE_SCENES=1 OUT=scripts/native/out/windows-ios-restored node scripts/native/windows/ios.mjs
+      - name: Reconnect a UIKit scene within the same live process
+        run: RECONNECT_SCENES=1 OUT=scripts/native/out/windows-ios-reconnected node scripts/native/windows/ios.mjs
       - name: Clean up dedicated simulator
         if: always() && env.IOS_SIMULATOR != ''
         run: |

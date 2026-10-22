@@ -35,7 +35,7 @@ cd ..
 IOS_SIMULATOR=<dedicated-iPad-UUID> node scripts/native/windows/ios.mjs
 ```
 
-This checks native window isolation, independent modal results, background/foreground reactivity, multi-window script HMR and closure. `scene-coverage.json` records whether UIKit actually disconnected a scene before resume. A background/foreground pass **does not** establish OS-driven disconnect/reconnect. Restoration into a new process is checked separately below; same-process OS-driven scene detach/reconnect remains unverified.
+This checks native window isolation, independent modal results, background/foreground reactivity, multi-window script HMR and closure. `scene-coverage.json` records whether UIKit actually disconnected a scene before resume. A background/foreground pass **does not** establish OS-driven disconnect/reconnect. Restoration into a new process and same-process scene disconnection are checked separately below.
 
 Artifacts contain command reports with logical/native histories, native identities, entry keys, cleanup counts, PIDs and diagnostics. The broadcast receiver and command UI are fixture-only. Actual webpack/Vite HMR also runs in the native contract/conventions suites.
 
@@ -57,3 +57,16 @@ This mode sends `SIGKILL` to the fixture app in a **dedicated simulator**. It fi
 UIKit may initially reconnect only the last foreground window. The fixture looks up both original `UISceneSession` objects in `UIApplication.openSessions` and requests their activation, equivalent to selecting each saved window. Missing sessions fail the check; it never requests a new session to make restoration pass.
 
 This proves cold reconstruction, not a same-process disconnect/reconnect. `scene-coverage.json` records the distinction. No manual invocation of scene delegates is counted as OS lifecycle evidence.
+
+## UIKit scene reconnect in the same process
+
+```sh
+IOS_SIMULATOR=<dedicated-iPad-UUID> RECONNECT_SCENES=1 \
+  OUT=scripts/native/out/windows-ios-reconnected node scripts/native/windows/ios.mjs
+```
+
+Pinned runtime: iPadOS 18.6. The driver builds `SceneDriver.m` into a temporary copy of the simulator fixture. This test-only bundle uses a private scene action to request that SpringBoard disconnect B while it is in the background, without discarding its `UISceneSession`. UIKit then delivers the real disconnect and connection callbacks. There are no manual scene-delegate invocations, entitlement changes or patched dependencies. The helper refuses device compilation and is absent from the router package and normal demo.
+
+The driver waits for a recorded `detached` state before activating the app. It requires the same PID, the original window/session IDs, a real `sceneDidDisconnect`, another `sceneWillConnect` and a new scene object. Assertions compare the actual UIKit controller stack with the retained Pages, verify unchanged Vue apps, preserve a pending page result through a blocked back attempt, update the recreated native text field, navigate again, apply script HMR and close B without disturbing A.
+
+This is deterministic native lifecycle fault injection, not a claim that natural memory pressure or a physical iPad was exercised. Before the compatibility fix, the same scenario reproduced two logical Pages with zero UIKit controllers (`windows-ios-reconnect-probe11`). The final local fixture passes with retained page/result coverage (`windows-ios-reconnect-complete13`).

@@ -97,6 +97,9 @@ function snapshot() {
     nativePages: session.frame
       ? session.frame.backStack.length + (session.frame.currentPage ? 1 : 0)
       : 0,
+    controllers: isIOS
+      ? session.frame?.ios?.controller?.viewControllers.count
+      : undefined,
     diagnostics: session.router.diagnostics?.export(),
   }))
 }
@@ -145,17 +148,19 @@ const Page = Object.assign(
             h('Label', { id: 'window-generation', text: String(generation) }),
             h('Label', { text: router.currentRoute.value.fullPath }),
             h('TextField', {
+              id: 'window-draft',
               text: draft.value,
               onTextChange: (event: any) => {
                 draft.value = event.value
               },
             }),
-            ...['prepare', 'resume', 'restore-scenes', 'hmr', 'close'].map((name) =>
-              h('Button', {
-                text: name,
-                accessibilityIdentifier: `windows:${name}`,
-                onTap: () => void command(name),
-              }),
+            ...['prepare', 'resume', 'restore-scenes', 'reconnect', 'hmr', 'close'].map(
+              (name) =>
+                h('Button', {
+                  text: name,
+                  accessibilityIdentifier: `windows:${name}`,
+                  onTap: () => void command(name),
+                }),
             ),
           ]),
         ])
@@ -494,7 +499,131 @@ async function command(name: string) {
     await first.router.isReady()
     if (name === 'prepare') await prepare()
     else if (name === 'restore') await restored()
-    else if (name === 'restore-existing') {
+    else if (name === 'reconnect') {
+      check(isIOS, 'UIKit reconnect requires iOS')
+      check(
+        !!NSProcessInfo.processInfo.environment.objectForKey('SIMULATOR_UDID'),
+        'Scene disconnection driver runs only in a simulator',
+      )
+      const second = sessions.get('b')!
+      await focus(second)
+      let settled = 0
+      const pendingResult = second.router.pushForResult('/items/reconnect', {
+        animated: false,
+      })
+      void pendingResult.then(() => settled++)
+      await until(
+        () =>
+          paths(second).at(-1) === '/items/reconnect' &&
+          second.frame!.navigationQueueIsEmpty(),
+        'pending result page before disconnect',
+      )
+      const retainedPages = [
+        ...second.frame!.backStack.map((entry) => entry.resolvedPage),
+        second.frame!.currentPage,
+      ]
+      const unmounted = second.unmounted
+      const owner = second.router.window.value as NativeWindow
+      const scene = owner.ios!.scene as UIWindowScene
+      const session = scene.session
+      await focus(first)
+      let background: number | undefined
+      const endBackground = () => {
+        if (background !== undefined) {
+          UIApplication.sharedApplication.endBackgroundTask(background)
+          background = undefined
+        }
+      }
+      background =
+        UIApplication.sharedApplication.beginBackgroundTaskWithExpirationHandler(
+          endBackground,
+        )
+      try {
+        await until(
+          () => scene.activationState === UISceneActivationState.Background,
+          'Scene is in background before disconnect',
+        )
+        check(
+          NSBundle.bundleWithPath(
+            `${NSBundle.mainBundle.bundlePath}/RouterSceneProbe.bundle`,
+          ).load(),
+          'Loaded simulator-only scene driver',
+        )
+        const result = NSExpression.expressionWithFormatArgumentArray(
+          "FUNCTION(CAST('RouterSceneProbe', 'Class'), 'disconnect:', %@)",
+          [scene],
+        ).expressionValueWithObjectContext(null, null) as NSDictionary<string, string>
+        try {
+          await until(() => owner.state === 'detached', 'UIKit disconnected scene B')
+        } finally {
+          checks.push(`Native disconnection request: ${result}`)
+        }
+        check(owner.state !== 'closed', 'Session remains open during disconnect')
+        report('detached')
+        await until(
+          () =>
+            UIApplication.sharedApplication.applicationState ===
+            UIApplicationState.Active,
+          'App resumes in the same process',
+        )
+        if (owner.state === 'detached')
+          UIApplication.sharedApplication.requestSceneSessionActivationUserActivityOptionsErrorHandler(
+            session,
+            null,
+            null,
+            (error) => console.error(error),
+          )
+        await until(
+          () => owner.state === 'attached' && owner.ios!.scene !== scene,
+          'UIKit reconnects original session with a new scene',
+        )
+        await focus(second)
+      } finally {
+        endBackground()
+      }
+      check(
+        paths(second).join(',') === '/,/edit,/items/reconnect',
+        'B history after scene reconnect',
+      )
+      check(second.drafts[1]?.value === 'draft B', 'B draft after scene reconnect')
+      check(
+        second.frame?.ios.controller.viewControllers.count === paths(second).length,
+        'UIKit controller stack matches retained routes',
+      )
+      check(
+        [
+          ...second.frame!.backStack.map((entry) => entry.resolvedPage),
+          second.frame!.currentPage,
+        ].every((page, index) => page === retainedPages[index]),
+        'Scene reconnect retains Page identities',
+      )
+      check(second.unmounted === unmounted, 'Scene reconnect retains Vue page apps')
+      check(settled === 0, 'Scene disconnect does not settle a pending result')
+      const stopGuard = second.router.beforeEach(() => false)
+      await second.router.back({ animated: false })
+      check(
+        paths(second).at(-1) === '/items/reconnect' && settled === 0,
+        'Guard still blocks back after reconnect',
+      )
+      stopGuard()
+      await second.router.back({ result: 'reconnected', animated: false })
+      check(
+        (await pendingResult) === 'reconnected' && Number(settled) === 1,
+        'Retained page result completes once after reconnect',
+      )
+      second.drafts[1]!.value = 'reactive after reconnect'
+      await nextTick()
+      check(
+        (second.frame!.currentPage!.getViewById('window-draft') as any)
+          ?.nativeViewProtected.text === 'reactive after reconnect',
+        'Retained Vue state updates the recreated native text field',
+      )
+      await second.router.push('/items/9', { animated: false })
+      await second.router.back({ animated: false })
+      await focus(first)
+      await first.router.back({ animated: false })
+      await focus(second)
+    } else if (name === 'restore-existing') {
       check(sessions.has('b'), 'OS restored B through its content resolver')
       await restored()
     } else if (name === 'restore-scenes') {

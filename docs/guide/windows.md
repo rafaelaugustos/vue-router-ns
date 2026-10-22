@@ -2,7 +2,7 @@
 
 This feature is experimental and requires the supported Core 9.1.3+ / NativeScript-Vue 3.1.2+ dependencies plus the platform's multi-window configuration.
 
-The router owns the Vue apps behind Frame pages, retaining them while their routes remain in native history. Android Activity recreation is validated with published Core 9.1.3 and NativeScript-Vue 3.1.2; no dependency patch is required. Page and layout HMR still use native Page replacement. Restoration of original Android tasks and UIKit scene sessions after process death is validated. OS-driven iOS scene disconnect/reconnect within the same running process remains unverified; a background resume or a new-process restoration is not evidence for that separate lifecycle.
+The router owns the Vue apps behind Frame pages, retaining them while their routes remain in native history. Android Activity recreation is validated with published Core 9.1.3 and NativeScript-Vue 3.1.2; no dependency patch is required. Page and layout HMR still use native Page replacement. Restoration of original Android tasks and UIKit scene sessions after process death is validated. iPad scene disconnect/reconnect within the same running process is also validated: the original Pages, Vue state, guards and pending navigation results survive. The native suite requests a real UIKit scene disconnection using a simulator-only driver; this is separate from background resume and cold restoration.
 
 ## One router per window
 
@@ -71,6 +71,8 @@ The bound Android router uses its surviving Activity class when opening another 
 Back and predictive gestures are handled by their originating Activity/window. Modal presentation targets a page in that window rather than NativeScript-Vue's global modal target. An inactive window cannot consume the active window's back.
 
 A temporary `detached` event keeps logical stacks and result promises, releases Activity gesture callbacks and saves the current snapshot. `attached` binds callbacks to the replacement Activity. A permanent `close` tears down the owning stacks/listeners and settles outstanding results with `undefined`; it cannot wait for asynchronous leave guards. Keep the same router when reconnecting an existing window; create a new router when reconstructing a window after a new JS process starts.
+
+On iOS, the router also reconstructs a retained Frame's native controller stack when its scene returns. Core 9.1.3 otherwise recreates an empty controller while keeping the JavaScript history. This scoped compatibility layer uses Core's Frame/Page lifecycle metadata and public UIKit stack APIs; it does not patch dependencies or use private Apple APIs. Its temporary hooks are removed after reconstruction or router disposal.
 
 ## Persistence by window
 

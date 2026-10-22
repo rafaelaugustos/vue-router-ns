@@ -2,7 +2,7 @@
 
 Este recurso é experimental e exige as dependências suportadas Core 9.1.3+ / NativeScript-Vue 3.1.2+, além da configuração nativa de múltiplas janelas.
 
-O router controla os apps Vue das páginas em Frames e os mantém enquanto suas rotas permanecem no histórico nativo. A recriação de Activity Android foi validada com Core 9.1.3 e NativeScript-Vue 3.1.2 publicados, sem patch de dependência. O HMR de páginas e layouts continua usando substituição de Page nativa. A restauração das tarefas Android e sessões UIKit originais após morte do processo foi validada. A desconexão/reconexão de cenas iOS pelo sistema dentro do mesmo processo continua sem validação; voltar do background ou restaurar em outro processo não comprova esse ciclo separado.
+O router controla os apps Vue das páginas em Frames e os mantém enquanto suas rotas permanecem no histórico nativo. A recriação de Activity Android foi validada com Core 9.1.3 e NativeScript-Vue 3.1.2 publicados, sem patch de dependência. O HMR de páginas e layouts continua usando substituição de Page nativa. A restauração das tarefas Android e sessões UIKit originais após morte do processo foi validada. A desconexão/reconexão de cenas no iPad dentro do mesmo processo também foi validada: as Pages originais, o estado Vue, os guards e os resultados de navegação pendentes são preservados. A suíte solicita uma desconexão real pelo UIKit usando um driver exclusivo do simulador; esse teste é separado da volta do background e da restauração após morte do processo.
 
 ## Um router por janela
 
@@ -71,6 +71,8 @@ O router Android vinculado usa a classe da Activity sobrevivente para abrir outr
 Back e gestos preditivos são tratados pela Activity/janela de origem. A apresentação de modais usa uma página dessa janela em vez do alvo global de modais do NativeScript-Vue. Uma janela inativa não consome o back da janela ativa.
 
 Um evento temporário `detached` mantém as pilhas lógicas e promises de resultados, solta os callbacks de gesto da Activity e salva o snapshot atual. `attached` liga os callbacks à Activity substituta. Um `close` permanente encerra pilhas/listeners daquela janela e resolve resultados pendentes com `undefined`; não pode esperar leave guards assíncronos. Mantenha o mesmo router ao reconectar uma janela existente; crie outro ao reconstruir a janela em um novo processo JS.
+
+No iOS, o router também reconstrói a pilha de controllers nativos do Frame retido quando sua cena retorna. O Core 9.1.3 recria um controller vazio apesar de manter o histórico JavaScript. Essa compatibilidade usa metadados de ciclo de vida de Frame/Page do Core e APIs públicas de pilha do UIKit, sem alterar dependências nem usar APIs privadas da Apple. Os hooks temporários são removidos após a reconstrução ou o descarte do router.
 
 ## Persistência por janela
 
