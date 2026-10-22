@@ -43,6 +43,8 @@ Artifacts contain command reports with logical/native histories, native identiti
 
 `RESTORE_TASKS=1` resumes the original Android task records after killing the process. It uses `am task lock <id>` followed by `am task lock stop` to bring each existing task forward, requires the secondary content resolver to run, and checks that task IDs did not change. It never counts reopening document B in a new task as a restoration pass.
 
+Before killing the process, the driver requires the OS to report `state=STOPPED` and `mHaveState=true` for both original Activities. A fixed delay can kill a busy emulator before its stop/save transaction finishes, causing Android to discard a task as `app died, no saved state`. The recorded `before-kill-activities.txt` proves this precondition. The fixture then awaits the original B content resolver without opening a replacement window. Run `node --test scripts/native/windows/activity-state.test.mjs` to check the OS-state parser.
+
 This strict path now passes on published Core 9.1.3 with the router's scoped Android 29+ pre-create compatibility observer. CI requires both application-owned reconstruction and original-task restoration on API 34/36. The first Activity may receive a fresh Core window ID; stable document keys and original task IDs are required, and B retains its original native window ID. The observer discards stale Fragment/root references only in a marked bundle from a previous process and preserves same-process Activity recreation.
 
 ## UIKit session reconstruction after process death

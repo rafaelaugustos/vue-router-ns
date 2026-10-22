@@ -3,6 +3,7 @@ import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { activityStates } from './activity-state.mjs'
 const exec = promisify(execFile)
 const serial = process.env.ANDROID_SERIAL
 assert(serial, 'Set ANDROID_SERIAL to a test emulator')
@@ -91,7 +92,25 @@ try {
   const prepared = await command('prepare', before)
   pass(prepared)
   await adb('shell', 'input', 'keyevent', 'KEYCODE_HOME')
-  await pause(1500)
+  // A busy emulator can still be stopping B after a fixed sleep. Killing then
+  // makes ActivityTaskManager discard it as "app died, no saved state".
+  // Wait for the OS to own both saved bundles before testing reconstruction.
+  const savedDeadline = Date.now() + 45000
+  while (true) {
+    const dump = await adb('shell', 'dumpsys', 'activity', 'activities')
+    const states = activityStates(
+      dump,
+      pkg,
+      prepared.sessions.map((session) => session.task),
+    )
+    const ready = states.every((state) => state.present && state.stopped && state.saved)
+    if (ready || Date.now() >= savedDeadline) {
+      await writeFile(resolve(out, 'before-kill-activities.txt'), dump)
+      assert(ready, `OS saved both stopped Activities: ${JSON.stringify(states)}`)
+      break
+    }
+    await pause(250)
+  }
   await adb('shell', 'am', 'kill', pkg)
   await pause(1500)
   if ((await adb('shell', 'pidof', pkg).catch(() => '')).trim() === before) {

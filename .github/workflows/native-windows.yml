@@ -17,6 +17,8 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - name: Check the Android saved-state checkpoint parser
+        run: node --test scripts/native/windows/activity-state.test.mjs
       - uses: actions/setup-java@v4
         with:
           distribution: temurin

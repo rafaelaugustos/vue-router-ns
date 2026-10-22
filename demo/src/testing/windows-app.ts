@@ -624,7 +624,7 @@ async function command(name: string) {
       await first.router.back({ animated: false })
       await focus(second)
     } else if (name === 'restore-existing') {
-      check(sessions.has('b'), 'OS restored B through its content resolver')
+      await until(() => sessions.has('b'), 'OS restored B through its content resolver')
       await restored()
     } else if (name === 'restore-scenes') {
       check(isIOS && sessions.has('b'), 'UIKit restored both scene sessions')
