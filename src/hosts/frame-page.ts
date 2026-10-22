@@ -16,7 +16,8 @@ export function mountFramePage(
   let disposed = false
   let reloading = false
   let stopReload: (() => void) | undefined
-  const view = createNativeView<Page>(component, undefined, { reload })
+  let view: ReturnType<typeof createNativeView<Page>> | undefined =
+    createNativeView<Page>(component, undefined, { reload })
   let page: Page | undefined
 
   function dispose() {
@@ -25,11 +26,16 @@ export function mountFramePage(
     stopReload?.()
     stopReload = undefined
     if (page) mounted.delete(page)
-    view.unmount()
+    // Core can retain a completed NavigationEntry/create closure until the next
+    // transition. Do not let that closure keep the Vue app or native Page alive.
+    const previous = view
+    view = undefined
+    page = undefined
+    previous?.unmount()
   }
 
   function reload() {
-    if (disposed || reloading) return
+    if (disposed || reloading || !view) return
     if (frame.currentPage !== page) {
       if (stopReload) return
       const returned = () => {

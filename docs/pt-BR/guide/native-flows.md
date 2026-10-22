@@ -58,7 +58,7 @@ const share: NativeFlow<string, void> = {
 
 O adaptador AndroidX salva a chave de registro da tentativa no estado da Activity e registra novamente essa chave após a recriação **enquanto a página de origem e a tentativa JavaScript continuarem vivas**. Ele não lança a Activity externa duas vezes. A destruição da Activity de origem sem mudança de configuração cancela com `disposed`.
 
-A vida da página tem precedência. No NativeScript-Vue 3.1.2, `Activity.recreate()` descarta a página Vue de origem: o fluxo pendente resolve com `cancelled/disposed`. Um resultado tardio não resolve essa tentativa novamente nem completa uma nova. Uma rotação tratada pela Activity existente pode manter a tentativa.
+A vida da página tem precedência. O router mantém os apps das páginas em Frames durante `Activity.recreate()`, permitindo que o fluxo pendente se registre na Activity substituta e receba seu resultado uma vez. Remover a rota ou fechar permanentemente sua janela ainda cancela com `cancelled/disposed`; um resultado tardio não resolve aquela tentativa novamente nem completa outra.
 
 Nenhuma Promise sobrevive à morte do processo. Persista um marcador “seletor estava aberto” no [estado de página](./restore#estado-da-pagina) ou no armazenamento do app; após reiniciar, decida se deve tentar novamente ou recuperar um acesso já concedido. O router não entrega um resultado antigo a um fluxo novo. Persistir o marcador não persiste a permissão do documento.
 

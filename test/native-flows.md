@@ -61,10 +61,15 @@ contract and can also be dispatched manually.
 - Ordinary rotation can be handled by the existing Activity. It is not proof of
   Activity recreation; the runner separately calls `Activity.recreate()` and
   compares actual owner identities.
-- On NativeScript-Vue 3.1.2, explicit recreation disposes the originating Vue page.
-  The correct outcome is `cancelled/disposed`, once. A late result is ignored.
-  AndroidX registration rebinding for a retained owner/attempt is separately
-  covered by contract tests; this does not promise Vue page retention.
+- Router-owned Frame mounting retains the originating Vue page through Activity
+  recreation, including on NativeScript-Vue 3.1.2. The native runner requires a
+  different Activity identity while the picker remains open, then a single
+  `completed` result on that retained attempt. Actual page disposal and Activity
+  closure still cancel once and ignore late callbacks.
+- This retained-owner path passed locally on Android 14 / API 34 on 2026-10-22
+  with published Core 9.1.3 and NativeScript-Vue 3.1.2: all 12 native outcomes,
+  including recreation, process-death recovery and permanent owner closure.
+  Evidence: `scripts/native/out/windows-flow-retained-retry`.
 - Android process-death acceptance kills only the debug app's process while the
   external picker remains open, retains its task, and verifies a different PID on
   return. iOS XCTest terminates/relaunches the app with the picker open. Neither
