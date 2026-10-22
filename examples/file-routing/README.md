@@ -41,9 +41,9 @@ npm run run:vite:android
 npm run run:vite:ios
 ```
 
-These commands keep native HMR enabled. Metadata lives in adjacent `.route.json` files, so page scripts need no compile-time macro. Existing middleware edits and route-table changes update the installed router. No dependency patches are installed.
+These commands keep native HMR enabled. Metadata lives in adjacent `.route.json` files, so page scripts need no compile-time macro. Existing middleware edits and route-table changes update the installed router. No dependency patches are installed. The example now uses `@nativescript/vite` 8.0.20, which includes the Vue package/import rewriting fix from [NativeScript#11555](https://github.com/NativeScript/NativeScript/pull/11555). Keep the updated lockfile when installing.
 
-`definePageMeta` remains supported by webpack and bundled Vite builds (`--no-hmr`). Native Vite 8.0.19 bypasses macro transforms ([upstream issue](https://github.com/NativeScript/NativeScript/issues/11556)); use the JSON format for native Vite HMR. The tested native assembler also needs a nonempty script block in SFCs, as used by this example.
+`definePageMeta` remains supported by webpack and bundled Vite builds (`--no-hmr`). The separate native SFC macro-transform issue remains open with Native Vite 8.0.20 ([upstream issue](https://github.com/NativeScript/NativeScript/issues/11556)); use the JSON format for native Vite HMR. The tested native assembler also needs a nonempty script block in SFCs, as used by this example.
 
 `npm run build:vite:android` and `npm run build:vite:ios` bundle without launching devices. Keep the same `ROUTER_BUNDLER=vite` setting when invoking standalone routes/type preparation. Vite-only users do not need the webpack plugin; this example includes both for compatibility checks.
 
