@@ -150,7 +150,7 @@ const Page = Object.assign(
                 draft.value = event.value
               },
             }),
-            ...['prepare', 'resume', 'hmr', 'close'].map((name) =>
+            ...['prepare', 'resume', 'restore-scenes', 'hmr', 'close'].map((name) =>
               h('Button', {
                 text: name,
                 accessibilityIdentifier: `windows:${name}`,
@@ -210,6 +210,13 @@ function makeSession(key: string, window?: NativeWindow, initial = '/') {
   }
   sessions.set(key, session)
   app.use(router)
+  if (isIOS)
+    void router.isReady().then(() => {
+      const owner = router.window.value!
+      const id = owner.id
+      ApplicationSettings.setString(`windows-46:scene:${id}`, key)
+      owner.on('close', () => ApplicationSettings.remove(`windows-46:scene:${id}`))
+    })
   window?.on('close', () => {
     app.unmount()
     sessions.delete(key)
@@ -218,8 +225,16 @@ function makeSession(key: string, window?: NativeWindow, initial = '/') {
 }
 Application.setWindowContentResolver((request: WindowContentRequest) => {
   if (request.window.rootView) return request.window.rootView
-  if (request.isPrimary && !request.data?.documentId) return undefined
-  const key = String(request.data?.documentId ?? 'b')
+  const retainedKey = isIOS
+    ? ApplicationSettings.getString(`windows-46:scene:${request.window.id}`)
+    : undefined
+  const key = String(
+    request.data?.documentId ?? retainedKey ?? (request.isPrimary ? 'a' : 'b'),
+  )
+  if (request.isPrimary && key === 'a') return undefined
+  // UIKit may reconnect B before A after process death. The application maps
+  // persistent session IDs to document keys rather than assigning by arrival.
+  if (key === 'a') return first.app.mount().$el.nativeView
   const session = makeSession(key, request.window, getWindowRoute(request.data) ?? '/')
   // A resolver runs after Core emits the initial URL event. Explicit handoff
   // applies the incoming URL after restoration and native host readiness.
@@ -438,6 +453,9 @@ async function command(name: string) {
     else if (name === 'restore') await restored()
     else if (name === 'restore-existing') {
       check(sessions.has('b'), 'OS restored B through its content resolver')
+      await restored()
+    } else if (name === 'restore-scenes') {
+      check(isIOS && sessions.has('b'), 'UIKit restored both scene sessions')
       await restored()
     } else if (name === 'recreate') await recreate()
     else if (name === 'hmr') await reloadWindows()

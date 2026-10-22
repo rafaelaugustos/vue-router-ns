@@ -1,8 +1,8 @@
 # Navigation in multiple native windows
 
-This feature is experimental and requires NativeScript core 9.1+ plus the platform's multi-window configuration. The existing router still works on older supported core versions in single-window mode.
+This feature is experimental and requires the supported Core 9.1.3+ / NativeScript-Vue 3.1.2+ dependencies plus the platform's multi-window configuration.
 
-The router owns the Vue apps behind Frame pages, retaining them while their routes remain in native history. Android Activity recreation is validated with published Core 9.1.3 and NativeScript-Vue 3.1.2; no dependency patch is required. Page and layout HMR still use native Page replacement. OS-driven iOS scene disconnect/reconnect and automatic reconstruction of OS-owned sessions remain pending native validation.
+The router owns the Vue apps behind Frame pages, retaining them while their routes remain in native history. Android Activity recreation is validated with published Core 9.1.3 and NativeScript-Vue 3.1.2; no dependency patch is required. Page and layout HMR still use native Page replacement. Restoration of original Android tasks and UIKit scene sessions after process death is validated. OS-driven iOS scene disconnect/reconnect within the same running process remains unverified; a background resume or a new-process restoration is not evidence for that separate lifecycle.
 
 ## One router per window
 
@@ -94,6 +94,14 @@ Import `ApplicationSettings` from `@nativescript/core`. The optional second argu
 Scoped snapshots include `windowKey`; a mismatched key is ignored on load. Legacy snapshots without it remain readable. Closing a window saves `null` only with that window's context. A process-level exit saves existing scoped histories rather than clearing every window; legacy mode retains its existing clear-on-exit behavior.
 
 Choose the incoming-route-versus-restored-history policy in your content resolver. A fresh `openWindow` request typically starts at its requested route and skips an older snapshot; an OS reconstruction normally restores the saved window. Use the native request's saved-state/session information and your application metadata to distinguish those cases. Use `usePageState()` for opt-in, versioned page state; pending Promises and native objects cannot survive process death.
+
+### Original tasks and scene sessions
+
+On Android 10 / API 29 and later, the router registers an Activity lifecycle observer while it owns native windows. It marks saved bundles from its own Activities with a process token. When a later process resumes one of those tasks, a pre-create callback drops the obsolete Core Frame/root identifiers and AndroidX FragmentManager state before native restoration runs. Activity recreation within the same process is untouched. The observer leaves window metadata, ActivityResult state, application data and other saved-state providers intact, and unregisters when the last router owner is released. This is a compatibility adapter for the Core 9.1.3 restoration path, using known Core/AndroidX bundle keys; it does not patch installed dependencies.
+
+The primary native window ID can change across an Android process restart even when the task ID is preserved. Persist document keys rather than treating generated window IDs as application identity. On Android below API 29, this adapter is unavailable: use application-owned reconstruction into new windows, or keep a single-window flow. Automatic reconstruction of the original multiple tasks is not supported there.
+
+UIKit may reconnect saved sessions in a different order. Persist a mapping from each scene's persistent window ID to your application document key when first opening it, and consult that mapping in the content resolver **before** deciding that the first arriving scene is your default document. A cold connection may have no original `openWindow()` payload. Assigning documents by `request.isPrimary` or arrival order alone can swap their histories. Remove the mapping when its session is permanently discarded. The native fixture in `demo/src/testing/windows-app.ts` demonstrates this application-owned mapping and validates restored documents against their original scene IDs.
 
 ## Links delivered to a window
 

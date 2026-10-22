@@ -1,5 +1,6 @@
 import { Application, isAndroid, Device, Utils, type View } from '@nativescript/core'
 import type { LinkWindow } from './links.js'
+import { watchWindowActivityState } from './window-state.android.js'
 
 /** Structural subset of NativeWindow, so older core declarations remain usable. */
 export interface RouterWindow extends LinkWindow {
@@ -31,7 +32,9 @@ export function claimWindow(window: RouterWindow, owner: object): () => void {
   if (existing && existing !== owner)
     throw new Error(`NativeWindow "${window.id}" already has a router`)
   owners.set(window, owner)
+  const stopState = watchWindowActivityState(window)
   return () => {
+    stopState()
     if (owners.get(window) === owner) owners.delete(window)
   }
 }

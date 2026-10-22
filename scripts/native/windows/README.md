@@ -35,12 +35,23 @@ cd ..
 IOS_SIMULATOR=<dedicated-iPad-UUID> node scripts/native/windows/ios.mjs
 ```
 
-This checks native window isolation, independent modal results, background/foreground reactivity, multi-window script HMR and closure. `scene-coverage.json` records whether UIKit actually disconnected a scene before resume. A background/foreground pass **does not** establish OS-driven disconnect/reconnect. Automatic reconstruction of OS-owned Android task records or UIKit sessions also remains separate acceptance work.
+This checks native window isolation, independent modal results, background/foreground reactivity, multi-window script HMR and closure. `scene-coverage.json` records whether UIKit actually disconnected a scene before resume. A background/foreground pass **does not** establish OS-driven disconnect/reconnect. Restoration into a new process is checked separately below; same-process OS-driven scene detach/reconnect remains unverified.
 
 Artifacts contain command reports with logical/native histories, native identities, entry keys, cleanup counts, PIDs and diagnostics. The broadcast receiver and command UI are fixture-only. Actual webpack/Vite HMR also runs in the native contract/conventions suites.
 
-## Pending OS-task reconstruction diagnostic
+## OS-task reconstruction acceptance
 
 `RESTORE_TASKS=1` resumes the original Android task records after killing the process. It uses `am task lock <id>` followed by `am task lock stop` to bring each existing task forward, requires the secondary content resolver to run, and checks that task IDs did not change. It never counts reopening document B in a new task as a restoration pass.
 
-This strict diagnostic currently fails on Core 9.1.3: when the second old task resumes, Core attempts to restore Fragments with missing JavaScript Frame entries (`Cannot find Frame for NO ENTRY`, then `resolvedPage`). The process-wide `moduleLoaded` check in `ActivityCallbacksImplementation.onCreate` treats the second restored Activity as an in-process recreation after the first Activity has initialized the new JS runtime. This path needs separate lifecycle work; it is not included in the passing CI acceptance or silently patched.
+This strict path now passes on published Core 9.1.3 with the router's scoped Android 29+ pre-create compatibility observer. CI requires both application-owned reconstruction and original-task restoration on API 34/36. The first Activity may receive a fresh Core window ID; stable document keys and original task IDs are required, and B retains its original native window ID. The observer discards stale Fragment/root references only in a marked bundle from a previous process and preserves same-process Activity recreation.
+
+## UIKit session reconstruction after process death
+
+```sh
+IOS_SIMULATOR=<dedicated-iPad-UUID> RESTORE_SCENES=1 \
+  OUT=scripts/native/out/windows-ios-restored node scripts/native/windows/ios.mjs
+```
+
+This mode restarts **SpringBoard on the dedicated simulator**, ending the app process while retaining UIKit session records. Do not run it on a simulator used for other work. Two separate XCTest invocations prepare the windows and reactivate the app; the driver requires a different PID, each document's original scene ID and stable entry keys, followed by multi-window HMR, navigation and cleanup. An application-owned mapping preserves document identity even when UIKit reconnects B before A. A passing test cannot silently substitute new scene sessions or swap the documents.
+
+This proves cold reconstruction, not a same-process disconnect/reconnect. `scene-coverage.json` records the distinction. No manual invocation of scene delegates is counted as OS lifecycle evidence.

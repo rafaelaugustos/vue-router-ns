@@ -1,5 +1,23 @@
 # NativeWindow routing validation — 2026-10-15
 
+## Latest acceptance — 2026-10-22, after RC integration
+
+The branch incorporates `main` at `9696e6a` (RC.1); workflow and changelog merge conflicts are resolved. Published dependencies remain Core 9.1.3 / NativeScript-Vue 3.1.2.
+
+**Android original-task restoration now passes.** On Android 14/API 34, `RESTORE_TASKS=1` killed PID 6009 and restored into PID 6150. Both original task IDs, document keys and per-entry identities survived. B retained its native window ID; Core can assign a new native ID to the first Activity, so the application persists document keys instead. Separate drafts, duplicate-path history, OS link ownership, real Activity recreation, multi-window script HMR, disposal and the surviving-Activity launcher all passed (`windows-os-restored-clean`).
+
+The router registers public Android 29+ Activity lifecycle callbacks for owned windows. A saved-bundle marker distinguishes previous-process restoration from same-process recreation. Before AndroidX reconstructs obsolete Fragments, the compatibility observer removes known FragmentManager/Core root identifiers from marked previous-process bundles. It preserves application/window metadata, ActivityResult state and unrelated saved-state providers. Unmarked/foreign Activities and same-process recreation remain untouched. Six regression tests cover the scope, state preservation and observer cleanup. No dependency files are patched. Android below API 29 retains application-owned reconstruction; automatic multiple-task reconstruction is unsupported there.
+
+A fresh run after `pm clear` initially hit an ActivityTaskManager cleanup race: Android killed the newly launched process with `remove task` before JS started. The driver now waits for the previous fixture Activities to disappear before launching. That failed launch is not counted as a router pass.
+
+**UIKit cold session reconstruction now passes.** The `RESTORE_SCENES=1` iPadOS 18.6 driver restarts SpringBoard on a dedicated simulator, preserving the real scene-session records while ending the app process. PID 91932 became 92028. Both documents retained their original UIKit scene IDs and stable entry keys; their distinct drafts, back navigation, multi-window HMR and permanent closure passed (`windows-ios-restored`). A preliminary run exposed swapped documents when UIKit reconnected B first. The fixture now persists each scene ID's application document key and resolves that mapping before using the primary flag. The final driver explicitly rejects swapped documents or replacement sessions.
+
+CI requires the two Android reconstruction modes on API 34/36, plus both iPad background-resume and cold-session reconstruction. The cold iPad driver uses two separate XCTest invocations around SpringBoard restart. Test artifacts distinguish these cases.
+
+**Still pending:** OS-driven iPad scene disconnect/reconnect **within the same live process**. The cold-restoration report has `processRestoration: true` and no same-process disconnect events; it is not relabeled as a retained-scene reconnect pass. PR #65 remains draft until that separate acceptance is established or its scope is explicitly reconsidered. These simulator/emulator results do not claim physical-device validation.
+
+Local automated validation after the Android correction: 552 tests passed, 10 existing skips; typecheck passed. The later CI run must validate the final committed revision; prior green runs belong to earlier revisions.
+
 Follow-up for [#46](https://github.com/rafaelaugustos/vue-router-ns/issues/46). The implementation chooses **one router per NativeWindow**, preserving the existing per-router matching, guards, result handling and navigation queue. A global router with window-qualified names was considered but would have required every operation and callback to carry a window discriminator.
 
 ## Public contract

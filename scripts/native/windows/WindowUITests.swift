@@ -21,4 +21,15 @@ final class WindowUITests: XCTestCase {
         command("hmr")
         command("close")
     }
+    func testPrepareOnly() {
+        app.launch()
+        command("prepare")
+        XCUIDevice.shared.press(.home)
+    }
+    func testResumeOnly() {
+        app.activate()
+        command("restore-scenes")
+        command("hmr")
+        command("close")
+    }
 }

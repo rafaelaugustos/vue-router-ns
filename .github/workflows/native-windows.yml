@@ -52,7 +52,9 @@ jobs:
           profile: pixel_7
           disable-animations: false
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          script: ANDROID_SERIAL=emulator-5554 ANDROID_APP=demo/platforms/android/app/build/outputs/apk/debug/app-debug.apk OUT=scripts/native/out/windows node scripts/native/windows/android.mjs
+          script: |
+            ANDROID_SERIAL=emulator-5554 ANDROID_APP=demo/platforms/android/app/build/outputs/apk/debug/app-debug.apk OUT=scripts/native/out/windows node scripts/native/windows/android.mjs
+            ANDROID_SERIAL=emulator-5554 RESTORE_TASKS=1 OUT=scripts/native/out/windows-os-tasks node scripts/native/windows/android.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -94,6 +96,8 @@ jobs:
           xcrun simctl bootstatus "$SIM" -b
       - name: Window isolation, modal results, background resume and closure
         run: node scripts/native/windows/ios.mjs
+      - name: Restore original UIKit scene sessions in a new process
+        run: RESTORE_SCENES=1 OUT=scripts/native/out/windows-ios-restored node scripts/native/windows/ios.mjs
       - name: Clean up dedicated simulator
         if: always() && env.IOS_SIMULATOR != ''
         run: |

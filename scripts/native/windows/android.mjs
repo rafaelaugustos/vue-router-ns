@@ -64,6 +64,17 @@ try {
     await adb('install', '-r', resolve(process.env.ANDROID_APP))
   await adb('shell', 'am', 'force-stop', pkg)
   await adb('shell', 'pm', 'clear', pkg)
+  // pm clear can return before ActivityTaskManager removes the old tasks.
+  // Starting during that cleanup can kill the fresh process as "remove task".
+  const cleanupDeadline = Date.now() + 15000
+  while (
+    (await adb('shell', 'dumpsys', 'activity', 'activities'))
+      .split('\n')
+      .some((line) => line.includes('Hist  #') && line.includes(pkg))
+  ) {
+    assert(Date.now() < cleanupDeadline, 'Previous fixture Activities were removed')
+    await pause(200)
+  }
   await adb('logcat', '-c')
   await adb(
     'shell',
@@ -121,9 +132,13 @@ try {
   for (const session of restored.sessions) {
     const original = prepared.sessions.find((item) => item.key === session.key)
     assert(original)
-    if (restoreTasks)
+    if (restoreTasks) {
       assert.equal(session.task, original.task, 'OS restores the original task record')
-    else {
+      // Core boots the first Activity with no native saved state after process
+      // death, so its generated window ID may change. Application keys and
+      // original task IDs are the persistence identity; B retains its native ID.
+      if (session.key === 'b') assert.equal(session.window, original.window)
+    } else {
       assert.notEqual(
         session.window,
         original.window,

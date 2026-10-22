@@ -2,8 +2,9 @@
 
 ## Unreleased
 
-- Experimental NativeScript core 9.1+ window ownership: one router per NativeWindow, window-scoped Android back/gesture callbacks and modal targets, typed `openWindow()` handoff, and per-window restore context/key. Older core versions retain the single-window behavior.
+- Experimental window ownership on supported Core 9.1.3+ / NativeScript-Vue 3.1.2+: one router per NativeWindow, window-scoped Android back/gesture callbacks and modal targets, typed `openWindow()` handoff, and per-window restore context/key.
 - Retain Vue page apps across native Activity recreation by owning their mount/unmount lifecycle in the router. Preserve native Page HMR and dispose apps on completed removal/window closure. A bound Android router opens new windows through its live Activity, including after the original Activity finishes. Both paths run on published Core 9.1.3 / NativeScript-Vue 3.1.2; OS-driven iOS scene reconnection remains unverified.
+- Restore original Android tasks after process death with a scoped Android 29+ compatibility observer, preserving same-process Activity recreation and unrelated saved-state providers. Validate original UIKit scene-session restoration in a new process with stable application document identity; same-process iPad scene detach/reconnect remains pending.
 
 ## 0.1.0-rc.1 (2026-10-22)
 
