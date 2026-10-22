@@ -13,8 +13,8 @@ hero:
       text: Começar
       link: /pt-BR/guide/install
     - theme: alt
-      text: O que é
-      link: /pt-BR/guide/
+      text: Exemplos e vídeos
+      link: /pt-BR/guide/demo
     - theme: alt
       text: Diferenças do Vue Router
       link: /pt-BR/guide/vue-router

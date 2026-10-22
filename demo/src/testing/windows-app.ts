@@ -6,6 +6,7 @@ import {
   Frame,
   knownFolders,
   isAndroid,
+  isIOS,
   type NativeWindow,
   type WindowContentRequest,
 } from '@nativescript/core'
@@ -15,6 +16,7 @@ import {
   defineComponent,
   h,
   nextTick,
+  onUnmounted,
   ref,
   type Ref,
 } from 'nativescript-vue'
@@ -28,12 +30,22 @@ import {
   type SavedStacks,
 } from 'vue-router-ns'
 
-declare const __WINDOW_LIFECYCLE_CONTROL__: boolean
-
 const sessions = new Map<string, Session>()
 const reportFile = File.fromPath(`${knownFolders.documents().path}/windows-result.json`)
 const pause = (ms = 50) => new Promise<void>((resolve) => setTimeout(resolve, ms))
 const checks: string[] = []
+const sceneEvents: { event: string; window?: string }[] = []
+if (isIOS)
+  for (const event of [
+    'sceneDidDisconnect',
+    'sceneWillConnect',
+    'sceneDidEnterBackground',
+    'sceneDidActivate',
+  ]) {
+    Application.ios.on(event, (args: any) =>
+      sceneEvents.push({ event, window: args.window?.id }),
+    )
+  }
 let stage = 'boot'
 let busy = false
 let recreation: { before: number; after?: number } | undefined
@@ -44,6 +56,7 @@ interface Session {
   frame?: Frame
   drafts: Ref<string>[]
   status: Ref<string>
+  unmounted: number
 }
 function check(condition: unknown, name: string): asserts condition {
   if (!condition) throw new Error(name)
@@ -65,6 +78,7 @@ function snapshot() {
     key: session.key,
     paths: paths(session),
     drafts: session.drafts.map((draft) => draft.value),
+    unmounted: session.unmounted,
     entryKeys: (
       JSON.parse(
         ApplicationSettings.getString(`windows-46:${session.key}`, 'null'),
@@ -88,16 +102,23 @@ function snapshot() {
 function report(command: string, error?: unknown) {
   const result = {
     command,
-    lifecycleControl: __WINDOW_LIFECYCLE_CONTROL__,
     stage,
     ok: !error,
     error: error ? String(error) : undefined,
-    pid: isAndroid ? android.os.Process.myPid() : 0,
+    pid: isAndroid
+      ? android.os.Process.myPid()
+      : NSProcessInfo.processInfo.processIdentifier,
+    sceneEvents,
     checks,
     recreation,
     sessions: snapshot(),
   }
   reportFile.writeTextSync(JSON.stringify(result))
+  File.fromPath(`${knownFolders.documents().path}/windows-${command}.json`).writeTextSync(
+    JSON.stringify(result),
+  )
+  for (const session of sessions.values())
+    session.status.value = `${error ? 'FAIL' : 'PASS'} ${command}`
   console.log(`WINDOWS_RESULT ${JSON.stringify(result)}`)
 }
 const Page = defineComponent({
@@ -106,6 +127,7 @@ const Page = defineComponent({
     const session = sessions.get(router.options.restore!.key!)!
     const draft = ref('')
     session.drafts.push(draft)
+    onUnmounted(() => session.unmounted++)
     usePageState('draft', {
       save: () => draft.value,
       restore: (value: string) => {
@@ -124,10 +146,13 @@ const Page = defineComponent({
               draft.value = event.value
             },
           }),
-          h('Button', {
-            text: 'Prepare windows',
-            onTap: () => void command('prepare'),
-          }),
+          ...['prepare', 'resume', 'close'].map((name) =>
+            h('Button', {
+              text: name,
+              accessibilityIdentifier: `windows:${name}`,
+              onTap: () => void command(name),
+            }),
+          ),
         ]),
       ])
   },
@@ -167,7 +192,14 @@ function makeSession(key: string, window?: NativeWindow, initial = '/') {
         },
       }),
   })
-  const session: Session = { key, router, app, drafts: [], status: ref('Ready') }
+  const session: Session = {
+    key,
+    router,
+    app,
+    drafts: [],
+    status: ref('Ready'),
+    unmounted: 0,
+  }
   sessions.set(key, session)
   app.use(router)
   window?.on('close', () => {
@@ -192,6 +224,24 @@ const first = makeSession('a')
 first.app.start()
 
 async function focus(session: Session) {
+  if (isIOS) {
+    const scene = session.router.window.value?.ios?.scene as UIWindowScene
+    if (scene.activationState !== UISceneActivationState.ForegroundActive)
+      UIApplication.sharedApplication.requestSceneSessionActivationUserActivityOptionsErrorHandler(
+        scene.session,
+        null,
+        null,
+        (error) => console.error(error),
+      )
+    await until(
+      () =>
+        scene.activationState === UISceneActivationState.ForegroundActive &&
+        session.frame?.isLoaded,
+      `focus ${session.key}`,
+    )
+    await pause(250)
+    return
+  }
   const activity = session.router.window.value?.android?.activity as android.app.Activity
   const tasks = (
     activity.getSystemService(
@@ -219,6 +269,15 @@ async function openSecond() {
     }),
   ])
   await until(() => second.frame?.isLoaded, 'second window loaded')
+  if (isIOS) {
+    await until(
+      () =>
+        (second.router.window.value?.ios?.scene as UIWindowScene)?.activationState ===
+        UISceneActivationState.ForegroundActive,
+      'second scene foreground',
+    )
+    await pause(500)
+  }
   return second
 }
 async function prepare() {
@@ -282,6 +341,7 @@ async function recreate() {
   const old = second.router.window.value!.android!.activity as android.app.Activity
   recreation = { before: old.hashCode() }
   stage = 'activity-recreate'
+  const unmounted = second.unmounted
   old.recreate()
   await until(
     () =>
@@ -298,6 +358,7 @@ async function recreate() {
     recreation.before !== recreation.after,
     'Activity was replaced in the same JS process',
   )
+  check(second.unmounted === unmounted, 'Activity recreation retains all Vue pages')
   stage = 'back-after-recreate'
   await Promise.race([
     second.router.back({ animated: false }),
@@ -332,7 +393,30 @@ async function command(name: string) {
     if (name === 'prepare') await prepare()
     else if (name === 'restore') await restored()
     else if (name === 'recreate') await recreate()
-    else if (name === 'link') {
+    else if (name === 'resume') {
+      const second = sessions.get('b')!
+      await focus(second)
+      check(paths(first).join(',') === '/,/edit,/edit', 'A history after scene resume')
+      check(paths(second).join(',') === '/,/edit', 'B history after scene resume')
+      check(second.drafts[1]?.value === 'draft B', 'B draft after scene resume')
+      await second.router.push('/items/9', { animated: false })
+      await second.router.back({ animated: false })
+      second.drafts[1]!.value = 'reactive after scene resume'
+      await nextTick()
+      let found = false
+      const walk = (view: any) => {
+        if (view.text === 'reactive after scene resume') found = true
+        view.eachChild?.((child: any) => {
+          walk(child)
+          return true
+        })
+      }
+      walk(second.frame!.currentPage)
+      check(found, 'B reactivity after scene resume')
+      await focus(first)
+      await first.router.back({ animated: false })
+      await focus(second)
+    } else if (name === 'link') {
       const second = sessions.get('b')!
       await focus(second)
       const activity = second.router.window.value!.android!
@@ -348,11 +432,43 @@ async function command(name: string) {
       )
       check(paths(first).join(',') === '/,/edit', 'OS link leaves A unchanged')
       await second.router.back({ animated: false })
+    } else if (name === 'launcher') {
+      first.router.openWindow('/items/11', { data: { documentId: 'b' } })
+      await until(
+        () => sessions.get('b')?.router.currentRoute.value.path === '/items/11',
+        'B reopened',
+      )
+      const second = sessions.get('b')!
+      await focus(second)
+      const original = first.router.window.value as NativeWindow
+      ;(original.android!.activity as android.app.Activity).finish()
+      await until(() => original.state === 'closed', 'original window closed')
+      second.router.openWindow('/items/12', {
+        data: { documentId: 'c', nested: { value: 42 } },
+      })
+      await until(
+        () => sessions.get('c')?.router.currentRoute.value.path === '/items/12',
+        'C opened by surviving Activity',
+      )
+      check(paths(second).join(',') === '/items/11', 'surviving window history unchanged')
+      check(
+        sessions.get('c')!.router.window.value!.id !== second.router.window.value!.id,
+        'new native window after original Activity closes',
+      )
+      check(
+        paths(sessions.get('c')!).join(',') === '/items/12',
+        'typed handoff after original Activity closes',
+      )
     } else if (name === 'close') {
       const second = sessions.get('b')!
       const owner = second.router.window.value as NativeWindow
       owner.close()
       await until(() => owner.state === 'closed', 'window close')
+      await nextTick()
+      check(
+        second.unmounted === second.drafts.length,
+        'closed window releases all Vue page apps',
+      )
       check(
         ApplicationSettings.getString('windows-46:b') === 'null',
         'closed B snapshot cleared',

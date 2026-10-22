@@ -44,3 +44,19 @@ npm run docs:preview
 ```
 
 The encoder preserves playback speed, removes audio, uses H.264 at 30 fps and writes a poster from 0.5 seconds. Phone videos are 560 pixels wide, iPad videos 720; the README GIFs are 220 pixels wide at 10 fps. Inspect the entire clip after encoding, including the ending, and make sure its caption describes what it actually shows. Update both English and Portuguese guides when the demonstrated behavior changes.
+
+## beta.14 examples (2026-10-21)
+
+Five additional clips were recorded from the real demo on a dedicated iPhone 17 / iOS 26.0 simulator, using Core 9.1.3, NativeScript-Vue 3.1.2 and the iOS 9.1.0 runtime. No UI or transition is composited. `ios-zoom` uses the new Settings → Zoom from a card page in a plain RouterView: the first detail of the inbox's split host does not demonstrate that animation.
+
+| Recording             | Actions and observed result                                                                                                                                                                                                      |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ios-zoom`            | Settings → Zoom from a card → tap the blue card → Back. UIKit grows the destination from the card and shrinks it back.                                                                                                           |
+| `ios-modal-result`    | Inbox → first message → Reply → type “See you at 12:30!” → Send. The originating page displays the returned text.                                                                                                                |
+| `ios-document-picker` | Inbox → Compose → Attach → close the native document picker. The form displays “Picker cancelled”; no route was added. This clip demonstrates cancellation, not a successful file selection.                                     |
+| `ios-deep-link`       | With Inbox selected, deliver `vuerouterns://settings/account` through `simctl openurl`. Settings becomes selected and the authentication guard opens Sign in. This is custom-scheme delivery, not domain-association validation. |
+| `ios-shortcuts`       | With Inbox selected, press Home → long-press the demo icon → New message. The native quick action opens Compose.                                                                                                                 |
+
+Re-record with `IOS_SIMULATOR=<udid> IDB=/path/to/idb node scripts/media/record-ios.mjs <recording>`. The script expects the portrait 402 × 874 point iPhone 17 layout, an already running demo, no open modal, and a signed-out session for the guarded link. It leaves the ending screenshot and accessibility tree beside the raw video. Close the modal before starting another recording. Use `encode.mjs` above, review the ending as well as the transition, and commit only the MP4/poster pair.
+
+During capture, the Compose quick action was refused by the native presenter when it also switched from Settings to the inbox split. Repeating from the already selected Inbox succeeded. The shortcut clip is scoped to that successful same-tab case; it is not evidence that a cross-tab modal entry is fixed. The deep-link clip separately demonstrates cross-tab entry into a normal page.

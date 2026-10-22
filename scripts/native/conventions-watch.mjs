@@ -110,9 +110,12 @@ async function readRuntime() {
           '--predicate',
           'eventMessage CONTAINS "CONVENTIONS_"',
         ]
-  if (platform === 'ios' && cliOutput.includes(`CONVENTIONS_PHASE ${id} `)) {
-    // NativeScript forwards native console output. Avoid repeatedly querying
-    // the simulator's log database while Xcode is consuming the hosted CPU.
+  if (
+    cliOutput.includes(`CONVENTIONS_PHASE ${id} `) ||
+    cliOutput.includes(`CONVENTIONS_RESULT {"id":"${id}"`)
+  ) {
+    // NativeScript forwards native console output on both platforms. Use it
+    // once this run is identified, including failures before the ready phase.
     runtime = cliOutput
   } else {
     try {

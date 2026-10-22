@@ -130,23 +130,32 @@ export function createApp(component: Component, props?: Record<string, unknown>)
   return app
 }
 
-function mountNativeView(component: Component, props?: Record<string, unknown>) {
+function mountNativeView(
+  component: Component,
+  props?: Record<string, unknown>,
+  overrides?: { reload?(): void },
+) {
   const app = renderer.createApp(component, props)
   const { app: _, ...context } = rootApp!._context
-  Object.assign(app._context, context)
+  Object.assign(app._context, context, overrides)
   const vm = app.mount(new TestNode('root', new View()))
+  if (overrides?.reload) app._context.reload = overrides.reload
   return { app, view: (vm.$el as TestNode).nativeView }
 }
 
 /** Mounts a component to a native view without a frame, like the real one. */
-export function createNativeView(component: Component, props?: Record<string, unknown>) {
+export function createNativeView(
+  component: Component,
+  props?: Record<string, unknown>,
+  overrides?: { reload?(): void },
+) {
   let mounted: ReturnType<typeof mountNativeView> | undefined
   return {
     get nativeView() {
       return mounted?.view as View | undefined
     },
     mount() {
-      mounted ??= mountNativeView(component, props)
+      mounted ??= mountNativeView(component, props, overrides)
       return mounted.view as View
     },
     unmount() {
@@ -161,20 +170,9 @@ export function $navigateTo(
   options: NavigationEntry & { frame: Frame; props?: Record<string, unknown> },
 ) {
   const { app, view } = mountNativeView(component, options.props)
-  view.on('disposeNativeView', () => {
-    const window = options.frame.getNativeWindow()
-    if (!window) {
-      app.unmount()
-      return
-    }
-    // NativeScript-Vue's window retention fix defers disposal until core settles.
-    void Promise.resolve().then(() => {
-      const retained =
-        options.frame.currentPage === view ||
-        options.frame.backStack.some((entry) => entry.resolvedPage === view)
-      if (!retained || window.state === 'closed') app.unmount()
-    })
-  })
+  // Published NativeScript-Vue 3.1.2 disposes immediately. Router-owned pages
+  // deliberately bypass this helper and must not rely on an upstream fix here.
+  view.on('disposeNativeView', () => app.unmount())
   options.frame.navigate({ ...options, create: () => view })
   return view as Page
 }

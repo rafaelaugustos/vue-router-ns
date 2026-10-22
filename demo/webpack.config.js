@@ -9,12 +9,12 @@ module.exports = (env) => {
       args[0].__ROUTER_STARTUP_TRACE__ = JSON.stringify(!!env.startupTrace)
       args[0].__PREDICTIVE_CORE__ = JSON.stringify(!!env.predictiveCore)
       args[0].__CONTRACT_FAULT__ = JSON.stringify(!!env.contractFault)
-      args[0].__WINDOW_LIFECYCLE_CONTROL__ = JSON.stringify(!!env.windowLifecycleControl)
       return args
     })
     // Separate opt-in acceptance fixtures; the normal demo keeps explicit routes.
     const fixtures = [
       'windows',
+      'entrypoints',
       'drawer',
       'middleware',
       'layouts',
@@ -29,17 +29,6 @@ module.exports = (env) => {
       'predictiveplain',
     ].filter((name) => env[`${name}Test`])
     if (fixtures.length > 1) throw new Error('Select only one native acceptance fixture')
-    if (env.windowLifecycleControl) {
-      if (!env.windowsTest) throw new Error('windowLifecycleControl requires windowsTest')
-      config.module
-        .rule('window-lifecycle-control')
-        .include.add(
-          resolve(__dirname, 'node_modules/nativescript-vue/dist/plugins/navigation.js'),
-        )
-        .end()
-        .use('window-lifecycle-control')
-        .loader(resolve(__dirname, '../scripts/native/windows/lifecycle-control.cjs'))
-    }
     if (fixtures.length) {
       const entry = config.entry('bundle')
       const paths = entry.values()
@@ -91,6 +80,7 @@ module.exports = (env) => {
     config.resolve.alias
       // the router from this repository: run `npm run dev` at the root
       .set('vue-router-ns$', resolve(__dirname, '../dist/index.js'))
+      .set('vue-router-ns/system-search$', resolve(__dirname, '../dist/system-search.js'))
       .set(
         'vue-router-ns/file-routing$',
         resolve(__dirname, '../dist/file-routing/index.js'),

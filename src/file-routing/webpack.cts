@@ -5,7 +5,7 @@ class NativeFileRoutesPlugin {
   constructor(readonly options: FileRoutingOptions) {}
 
   apply(compiler: Compiler) {
-    if (compiler.webpack.version.split('.')[0] !== '5')
+    if (compiler.webpack?.version?.split('.')[0] !== '5')
       throw new Error('NativeFileRoutesPlugin requires webpack 5')
     const { resolve } = require('node:path') as typeof import('node:path')
     const { existsSync, realpathSync } = require('node:fs') as typeof import('node:fs')

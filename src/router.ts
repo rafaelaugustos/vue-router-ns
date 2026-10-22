@@ -76,6 +76,7 @@ import {
   createBottomSheetPresenter,
 } from './hosts/bottom-sheet.js'
 import { createFrameHost } from './hosts/frame.js'
+import { disposeFramePage } from './hosts/frame-page.js'
 import { canZoom, configureSheet, viewOf } from './ios.js'
 import { createMatcher } from './matcher.js'
 import { createLayouts, type EntryLayout } from './layouts.js'
@@ -106,6 +107,8 @@ import {
 import { collectPageState, DEFAULT_STATE_LIMIT } from './page-state.js'
 import {
   publishShortcuts,
+  pinShortcut,
+  shortcutURL,
   readShortcutURL,
   SHORTCUT_SCHEME,
   type RouteShortcut,
@@ -278,6 +281,10 @@ export interface Router<M extends RouteMapLike = RouteMapGeneric> {
    * route through `openLink` when tapped. Returns the ids that were published.
    */
   setShortcuts(shortcuts: readonly RouteShortcut<RouteLocationRawOf<M>>[]): string[]
+  /** Versioned payload for static resources or an app-owned native launcher integration. */
+  shortcutURL(id: string, to: RouteLocationRawOf<M>): string
+  /** Requests Android pinning; true means requested, not user-confirmed. */
+  pinShortcut(shortcut: RouteShortcut<RouteLocationRawOf<M>>): boolean
 
   install(app: App): void
 }
@@ -545,6 +552,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     } catch (error) {
       reportError(error, entry.route, entry.route)
     }
+    disposeFramePage(entry.page)
     disconnectPageEffects(entry)
     entry.settle?.(entry.result)
     entry.settle = undefined
@@ -1472,6 +1480,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       const events = window ?? android
       const activities = new Map<OnBackPressedDispatcherOwner, () => void>()
       const watchActivity = (activity: OnBackPressedDispatcherOwner) => {
+        if (typeof activity.getOnBackPressedDispatcher !== 'function') return
         if (!activities.has(activity))
           activities.set(
             activity,
@@ -1588,7 +1597,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   const linkPolicy: LinksOptions = typeof options.links === 'object' ? options.links : {}
   const linkListeners = callbacks<LinkListener>()
   const mountWaiters = new Map<string, Pending<void>>()
-  let lastSystemLink: { href: string; at: number } | undefined
+  let lastLaunchLink: { href: string; at: number } | undefined
+  const deliveries = new Set<string>()
 
   interface EvaluatedLink {
     link: IncomingLink
@@ -1628,14 +1638,14 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       return { link, ignored: 'malformed' }
     const screened = shortcut ? undefined : screen(linkPolicy, link)
     if (screened) return { link, ignored: screened }
-    const raw = shortcut
-      ? shortcut.to
-      : linkPolicy.map
-        ? linkPolicy.map(link)
-        : { path: link.path, query: link.query, hash: link.hash }
-    if (shortcut) link = { ...link, shortcut: shortcut.id }
-    if (raw === null || raw === undefined) return { link, ignored: 'unmatched' }
     try {
+      const raw = shortcut
+        ? shortcut.to
+        : linkPolicy.map
+          ? linkPolicy.map(link)
+          : { path: link.path, query: link.query, hash: link.hash }
+      if (shortcut) link = { ...link, shortcut: shortcut.id }
+      if (raw === null || raw === undefined) return { link, ignored: 'unmatched' }
       return { link, location: resolveTarget(raw, START_LOCATION) }
     } catch {
       return { link, ignored: 'unmatched' }
@@ -1652,19 +1662,29 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       return result
     }
     if (!location) return done({ link, ignored: evaluated.ignored })
-    if (link.source !== 'app') {
-      const now = Date.now()
-      const repeat =
-        !!lastSystemLink &&
-        lastSystemLink.href === link.href &&
-        now - lastSystemLink.at < REPEAT_WINDOW
-      lastSystemLink = { href: link.href, at: now }
-      if (repeat) return done({ link, location, ignored: 'repeat' })
-    }
     const policy =
       typeof linkPolicy.options === 'function'
         ? linkPolicy.options(location, link)
         : linkPolicy.options
+    const deliveryId = options.deliveryId ?? policy?.deliveryId
+    if (deliveryId !== undefined) {
+      if (deliveries.has(deliveryId)) return done({ link, location, ignored: 'repeat' })
+      deliveries.add(deliveryId)
+      // Bound memory for long-lived apps. Providers should use an id per user tap.
+      if (deliveries.size > 256) deliveries.delete(deliveries.values().next().value!)
+    }
+    if (link.source === 'launch') {
+      if (
+        lastLaunchLink?.href === link.href &&
+        Date.now() - lastLaunchLink.at < REPEAT_WINDOW
+      )
+        return done({ link, location, ignored: 'repeat' })
+      lastLaunchLink = { href: link.href, at: Date.now() }
+    } else if (link.source === 'resume' && lastLaunchLink?.href === link.href) {
+      const repeat = Date.now() - lastLaunchLink.at < REPEAT_WINDOW
+      lastLaunchLink = undefined
+      if (repeat) return done({ link, location, ignored: 'repeat' })
+    }
     const frame = options.frame ?? linkPolicy.frame?.(location, link) ?? policy?.frame
     const settings = { withParents: true, ...policy, ...options, frame }
     if (!isReady) await ready.promise
@@ -1780,7 +1800,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         if (stopped) throw new Error('The router window is closed')
         const from =
           topOf(origin && !origin.closed ? origin : focused())?.route ?? START_LOCATION
-        openRouteWindow(resolveTarget(raw, from).fullPath, options)
+        openRouteWindow(resolveTarget(raw, from).fullPath, options, nativeWindow.value)
       },
       stack: computed(() => {
         const stack = origin && !origin.closed ? origin : focused()
@@ -1948,6 +1968,14 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     resolveLink: (href: string) => evaluateLink(href, 'app').location,
     onLink: linkListeners.add,
     claimSystemBack: backClaimants.add,
+    shortcutURL: (id: string, to: RouteLocationRaw) =>
+      shortcutURL(id, resolveTarget(to, START_LOCATION)),
+    pinShortcut(shortcut: RouteShortcut) {
+      return pinShortcut({
+        ...shortcut,
+        location: resolveTarget(shortcut.to, START_LOCATION),
+      })
+    },
     setShortcuts(shortcuts: readonly RouteShortcut[]) {
       const seen = new Set<string>()
       const published = shortcuts.map((shortcut) => {
@@ -2001,8 +2029,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       if (diagnostics) app.onUnmount(() => diagnostics.api.stop())
 
       if (options.window) bindWindow(options.window)
-      if (options.links && linkPolicy.system !== false) {
+      if (options.links && (linkPolicy.system !== false || linkPolicy.initial)) {
         stopLinks = installSystemLinks({
+          policy: linkPolicy,
           window: () => nativeWindow.value,
           deliver(href, source) {
             const evaluated = evaluateLink(href, source)

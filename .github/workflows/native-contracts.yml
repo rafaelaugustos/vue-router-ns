@@ -83,6 +83,13 @@ jobs:
           cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/contracts-former.apk
           ns build android --env.destinationsTest
           cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/native-destinations.apk
+      - name: Prepare native incoming links and launcher resources
+        run: python3 scripts/native/entrypoints/prepare.py
+      - name: Build incoming destination fixture
+        working-directory: demo
+        run: |
+          ns build android --env.entrypointsTest
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/native-entrypoints.apk
       - name: Build continuous native input driver
         run: node scripts/native/contracts/build-touch.mjs
       - name: Native contracts and negative control
@@ -100,6 +107,7 @@ jobs:
             adb install -r /tmp/contracts-former.apk
             ANDROID_SERIAL=emulator-5554 OUT=scripts/native/out/contracts-former EXPECT_HMR_FAILURE=1 node scripts/native/contracts/android.mjs
             ANDROID_SERIAL=emulator-5554 ANDROID_APP=/tmp/native-destinations.apk node scripts/native/destinations.mjs android
+            ANDROID_SERIAL=emulator-5554 ANDROID_APP=/tmp/native-entrypoints.apk ENTRYPOINT_LAUNCHER=1 node scripts/native/entrypoints/android.mjs
       - name: Enforce timing and retention budgets
         run: |
           node scripts/native/contracts/validate.mjs scripts/native/out/contracts-fixed/results.json android-ci-${{ matrix.api }} scripts/native/out/contracts-fixed/verdict.json
@@ -213,6 +221,16 @@ jobs:
           xcrun simctl boot "$SIM"
           xcrun simctl bootstatus "$SIM" -b
       - run: node scripts/native/uikit-split/ios.mjs
+      - name: Prepare incoming destination fixture
+        if: startsWith(matrix.device, 'iPad')
+        run: python3 scripts/native/entrypoints/prepare.py
+      - name: Build incoming destination fixture
+        if: startsWith(matrix.device, 'iPad')
+        working-directory: demo
+        run: ns build ios --for-device false --env.entrypointsTest
+      - name: Native scene links, quick actions and Spotlight
+        if: startsWith(matrix.device, 'iPad')
+        run: node scripts/native/entrypoints/ios.mjs
       - name: Clean up dedicated simulator
         if: always() && env.IOS_SIMULATOR != ''
         run: |

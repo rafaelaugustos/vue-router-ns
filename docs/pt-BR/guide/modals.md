@@ -83,6 +83,8 @@ Sem ele, o `push` rejeita com um erro que diz isso, em vez de apresentar um diá
 
 ## Recebendo um resultado de volta
 
+<Clip name="ios-modal-result" caption="Reply abre o modal; Send devolve o texto à mensagem de origem com pushForResult. Simulador iOS 26." />
+
 Uma página pode devolver um valor para quem a abriu. Funciona com modais e com páginas comuns:
 
 ```ts

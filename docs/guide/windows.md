@@ -2,7 +2,7 @@
 
 This feature is experimental and requires NativeScript core 9.1+ plus the platform's multi-window configuration. The existing router still works on older supported core versions in single-window mode.
 
-Activity/scene reconnection currently requires the NativeScript-Vue fix in [PR #1178](https://github.com/nativescript-vue/nativescript-vue/pull/1178). The published 3.1.2 release can unmount retained page apps during native UI disposal. Two-window navigation works without that patch, but resumption after native surface recreation is not supported by this integration until the fix is available. OS-driven iOS scene reconnection remains pending native validation.
+The router owns the Vue apps behind Frame pages, retaining them while their routes remain in native history. Android Activity recreation is validated with published Core 9.1.3 and NativeScript-Vue 3.1.2; no dependency patch is required. Page and layout HMR still use native Page replacement. OS-driven iOS scene disconnect/reconnect and automatic reconstruction of OS-owned sessions remain pending native validation.
 
 ## One router per window
 
@@ -23,7 +23,7 @@ router.openWindow(
 )
 ```
 
-The location is resolved with the caller's route types and passed to `Application.openWindow()`. The source stack stays in place and its leave guards do not run. The new window's initial navigation runs its own guards. This is an OS request, not a Promise that confirms a new scene appeared; native configuration or the OS may deny it. Missing NativeWindow APIs throw an error.
+The location is resolved with the caller's route types. On Android, a bound router launches an explicit Intent through its live owning Activity, using Core's window flags and serialized metadata. Other cases use `Application.openWindow()`. The source stack stays in place and its leave guards do not run. The new window's initial navigation runs its own guards. This is an OS request, not a Promise that confirms a new scene appeared; native configuration or the OS may deny it. Missing NativeWindow APIs throw an error.
 
 The application supplies the new content through `Application.setWindowContentResolver`. `getWindowRoute(request.data)` reads the resolved path supplied by `openWindow`; the `__vueRouterNS` data key is reserved. Other data must be serializable by the platform.
 
@@ -64,7 +64,7 @@ On Android, the launch Activity must support multiple instances: the usual templ
 
 Use the [NativeScript multi-window guide](https://docs.nativescript.org/guide/multi-window) for complete native setup. `openWindow` forwards the request; it cannot change the installed manifest, entitlements or device capabilities. Offer an ordinary `push()` action when multi-window UI is unavailable in your app.
 
-A core launcher limitation after the original Android Activity finishes is tracked in [NativeScript #11526](https://github.com/NativeScript/NativeScript/issues/11526). On affected runtimes a further window request can throw even though another window remains open.
+The bound Android router uses its surviving Activity class when opening another window, including after the original Activity finishes. This avoids the Core launcher limitation in [NativeScript #11526](https://github.com/NativeScript/NativeScript/issues/11526) for `router.openWindow()`; direct calls to `Application.openWindow()` retain Core’s behavior.
 
 ## Detach, reconnect and close
 
@@ -99,6 +99,6 @@ Choose the incoming-route-versus-restored-history policy in your content resolve
 
 With `links` enabled, warm Android intents and iOS scene URLs, user activities and quick actions go only to the router owning the event's Activity/scene. Closing a router removes its listeners and disables the legacy delegate callbacks that Core cannot unregister.
 
-For a new secondary window, Core invokes the content resolver **after** emitting its initial intent/scene event. Forward that request explicitly to the new router with `router.openLink(url, { source: 'launch' })`; the call waits for restoration and the first native host. Read the URL from `request.android?.intent` or `request.ios?.connectionOptions`. On Android, do not replay the old intent when `request.android?.savedInstanceState` exists. Apply your chosen fresh-link versus saved-history policy before this handoff. A fresh incoming link normally lands above the restored history; `clearHistory: true` starts a new stack.
+For a new secondary window, Core invokes the content resolver **after** emitting its initial intent/scene event. Pass it as `links: { initial: request }` when creating the router, or forward the URL with `router.openLink(url, { source: 'launch' })`; the call waits for restoration and the first native host. Read the URL from `request.android?.intent` or `request.ios?.connectionOptions`. On Android, do not replay the old intent when `request.android?.savedInstanceState` exists. Apply your chosen fresh-link versus saved-history policy before this handoff. A fresh incoming link normally lands above the restored history; `clearHistory: true` starts a new stack.
 
 The router does not guess which document window an ownerless notification should target. The application chooses the router/window and calls its `openLink()`.

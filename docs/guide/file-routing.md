@@ -6,7 +6,7 @@ The optional webpack and Vite plugins handle generation, metadata compilation an
 
 ## NativeScript webpack setup
 
-Install `@vue/compiler-sfc@^3.5` and `webpack@^5` as development dependencies alongside the application's `@nativescript/webpack`. Both are optional peers of the router. Add the plugin to the existing `webpack.config.js`:
+Install `@vue/compiler-sfc@^3.5` and `webpack@^5` as development dependencies alongside the application's `@nativescript/webpack`. The compiler remains an optional peer; the bundler belongs to the app and the plugin checks for webpack 5 when applied. Add the plugin to the existing `webpack.config.js`:
 
 ```js
 const webpack = require('@nativescript/webpack')
@@ -62,7 +62,7 @@ Share these options between the script and webpack config. The generated `index.
 
 ## NativeScript Vite setup
 
-The optional `vue-router-ns/file-routing/vite` entry generates the same native routes and removes `definePageMeta` before Vue compilation. It requires Vite 8 and `@vue/compiler-sfc@^3.5` as development dependencies. Start with the [NativeScript Vite Vue configuration](https://docs.nativescript.org/configuration/vite), then add the plugin:
+The optional `vue-router-ns/file-routing/vite` entry generates the same native routes and removes `definePageMeta` before Vue compilation. It requires Vite 8 and `@vue/compiler-sfc@^3.5` as development dependencies. The plugin checks the active Vite version during configuration; installing the router alone does not resolve a Vite peer. Start with the [NativeScript Vite Vue configuration](https://docs.nativescript.org/configuration/vite), then add the plugin:
 
 ```ts
 // vite.config.mts
@@ -97,12 +97,12 @@ Set `bundler: 'vite'` and `bundlerConfigPath: 'vite.config.mts'` in `nativescrip
 Run `ns run android` or `ns run ios --emulator` with HMR enabled. Use adjacent JSON metadata as shown below. Generated route tables and edits to existing middleware update the installed native router without reconstructing its open pages.
 
 ::: warning definePageMeta and native Vite HMR
-On `@nativescript/vite` 8.0.19, native SFC assembly bypasses pre-compiler transforms ([NativeScript#11556](https://github.com/NativeScript/NativeScript/issues/11556)). `definePageMeta` works in bundled Vite builds (`--no-hmr`) and webpack. For native Vite HMR, remove the call and use `metadataFiles: true`; the plugin reports an actionable error if a macro remains. No dependency patch is required for the JSON workflow.
+Native Vite HMR still requires JSON metadata with `@nativescript/vite` 8.0.20: the separate issue where native SFC assembly bypasses pre-compiler transforms remains open ([NativeScript#11556](https://github.com/NativeScript/NativeScript/issues/11556)). `definePageMeta` works in bundled Vite builds (`--no-hmr`) and webpack. For native Vite HMR, remove the call and use `metadataFiles: true`; the plugin reports an actionable error if a macro remains. No dependency patch is required for the JSON workflow.
 :::
 
-Validated with stock `@nativescript/vite` 8.0.19, Vite 8.3.4, Node 22.23.3, Android API 36 and iOS 26. The native fixture covers template edits, existing middleware replacement, metadata edits, add/rename/remove and invalid-metadata recovery. Bundle inspection excludes compiler/generator code and the web router.
+Validated with stock `@nativescript/vite` 8.0.20, Vite 8.3.4, Node 22.23.3, Android API 36 and iOS 26. The native fixture covers template edits, existing middleware replacement, metadata edits, add/rename/remove and invalid-metadata recovery. Bundle inspection excludes compiler/generator code and the web router.
 
-The tested native Vite assembler also requires a nonempty script block in SFCs; template-only SFC assembly remains a platform limitation. The example's pages include scripts. Install local router dependencies as packed files (`install-links=true`) rather than raw workspace links; the native linked-import rewriting fix is tracked in [NativeScript#11555](https://github.com/NativeScript/NativeScript/pull/11555).
+The tested native Vite assembler also requires a nonempty script block in SFCs; template-only SFC assembly remains a platform limitation. The example's pages include scripts. `@nativescript/vite` 8.0.20 includes [NativeScript#11555](https://github.com/NativeScript/NativeScript/pull/11555), which fixes Vue package-name matching and navigation-helper imports in HMR. Update the application’s dependency and lockfile to receive it. The example keeps `install-links=true` to test the local router as a packed package, matching its published layout; this acceptance does not validate raw workspace links.
 
 ## Metadata beside the page
 

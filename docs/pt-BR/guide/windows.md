@@ -2,7 +2,7 @@
 
 Este recurso é experimental e exige NativeScript core 9.1+ e a configuração nativa de múltiplas janelas. O router existente continua funcionando em versões anteriores suportadas do core no modo de uma janela.
 
-A reconexão de Activity/cena exige atualmente a correção do NativeScript-Vue no [PR #1178](https://github.com/nativescript-vue/nativescript-vue/pull/1178). A versão publicada 3.1.2 pode desmontar apps de páginas retidas durante o descarte da UI nativa. Navegação em duas janelas funciona sem o patch, mas a retomada após recriação da superfície nativa não é suportada por esta integração até a correção estar disponível. A reconexão de cena iOS conduzida pelo sistema ainda está pendente de validação nativa.
+O router controla os apps Vue das páginas em Frames e os mantém enquanto suas rotas permanecem no histórico nativo. A recriação de Activity Android foi validada com Core 9.1.3 e NativeScript-Vue 3.1.2 publicados, sem patch de dependência. O HMR de páginas e layouts continua usando substituição de Page nativa. Desconexão/reconexão de cenas iOS pelo sistema e reconstrução automática das sessões do sistema ainda precisam de validação nativa.
 
 ## Um router por janela
 
@@ -64,7 +64,7 @@ No Android, a Activity de entrada precisa permitir várias instâncias: `singleT
 
 Consulte o [guia de múltiplas janelas do NativeScript](https://docs.nativescript.org/guide/multi-window) para a configuração completa. `openWindow` encaminha o pedido; não altera o manifesto, entitlements ou capacidades do aparelho instalado. Ofereça uma ação normal com `push()` quando seu app não tiver suporte a múltiplas janelas.
 
-Uma limitação do launcher do core após o fechamento da Activity Android original está registrada em [NativeScript #11526](https://github.com/NativeScript/NativeScript/issues/11526). Em runtimes afetados, pedir outra janela pode lançar erro mesmo com uma janela restante aberta.
+O router Android vinculado usa a classe da Activity sobrevivente para abrir outra janela, inclusive depois que a Activity original termina. Isso evita a limitação de [NativeScript #11526](https://github.com/NativeScript/NativeScript/issues/11526) em `router.openWindow()`; chamadas diretas a `Application.openWindow()` mantêm o comportamento do Core.
 
 ## Desconexão, reconexão e fechamento
 

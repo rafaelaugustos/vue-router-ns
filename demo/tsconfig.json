@@ -15,7 +15,8 @@
       "vue-router-ns": ["../dist/index.d.ts"],
       "vue-router-ns/file-routing": ["../dist/file-routing/index.d.ts"],
       "nativescript-vue": ["./node_modules/nativescript-vue"],
-      "@nativescript/core": ["./node_modules/@nativescript/core"]
+      "@nativescript/core": ["./node_modules/@nativescript/core"],
+      "vue-router-ns/system-search": ["../dist/system-search.d.ts"]
     },
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,

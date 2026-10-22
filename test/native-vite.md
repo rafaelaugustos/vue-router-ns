@@ -8,7 +8,7 @@ No NativeScript dependency patches are required. Explicit routes are unchanged.
 
 The shared `scripts/native/conventions-watch.mjs` runner invokes the real
 NativeScript CLI, edits source files while the app is running, and restores them
-on exit. With Vite HMR enabled it passed 24 native assertions on each platform:
+on exit. With Vite HMR enabled, the original 8.0.19 acceptance passed 24 native assertions on each platform:
 
 - Android API 36 emulator: run `1792550646308`.
 - iPhone 17 / iOS 26 simulator: run `1792550577384`.
@@ -35,6 +35,42 @@ The webpack compatibility run passed the same 24 route/middleware assertions on
 Android API 36 (`1792550864760`). Its existing template-HMR behavior remounts the
 page; the seven preservation invariants apply specifically to the Vite run.
 
+## Vite 8.0.20 revalidation (2026-10-21)
+
+The example dependency and lockfile now select stock `@nativescript/vite` 8.0.20.
+This published version includes [NativeScript#11555](https://github.com/NativeScript/NativeScript/pull/11555):
+Vue runtime package boundaries no longer swallow unrelated `vue-*` imports, and
+Vue navigation helpers use the canonical `/ns/rt` bridge.
+
+The existing native acceptance runner passed again with HMR enabled:
+
+| Platform                                                      | Run             | Navigation/watch checks | Template-retention invariants |
+| ------------------------------------------------------------- | --------------- | ----------------------- | ----------------------------- |
+| iPhone 17 / iOS 26.0 simulator                                | `1792612835988` | 24 passed               | 7 passed                      |
+| Pixel 7 / Android API 36 emulator (`RouterPredictive62API36`) | `1792612902433` | 24 passed               | 7 passed                      |
+
+Vite 8.3.4, NativeScript-Vue 3.1.2, Core 9.1.3, runtimes Android 9.1.1 /
+iOS 9.1.0 and Node 22.23.3 were unchanged. No installed package was patched.
+Logs, JSON results and template probes are in
+`scripts/native/out/vite-8.0.20-ios` and
+`scripts/native/out/vite-8.0.20-android-retry`.
+
+The ten Vite plugin tests, root/example type checks, both bundled Vite builds,
+bundle inspections and the documentation build also passed. Bundle inspection
+found one native renderer/Core instance and no build tooling or web router.
+
+The first Android attempt (`1792612420554`, `emulator-5554`) failed while waiting
+for the modal, then its logcat query timed out. That emulator also reported system
+ANRs. Its logs remain in `scripts/native/out/vite-8.0.20-android`; it is not counted
+as a pass. The successful run used a separately cold-booted emulator. The runner
+now accepts run-identified CLI output on Android as well as iOS, including a
+failure reported before the ready phase; navigation assertions are unchanged.
+
+This revalidation uses the example's packed local dependency (`install-links=true`)
+and JSON metadata. It does not establish raw workspace-link compatibility or
+support for `definePageMeta` during native Vite HMR. The independent upstream
+macro-transform issue #11556 remains open.
+
 ## Automated coverage
 
 Real Vite build/dev-server tests cover generation, platform selection, macro
@@ -56,8 +92,9 @@ through real navigation, rather than asserting only generated source.
   suffixes. There is no implicit fallback or merge between sidecars.
 - Stock native SFC assembly needs a nonempty script block; template-only SFCs
   exposed a separate compiler failure. The example includes scripts.
-- Local dependencies are installed as packed files (`install-links=true`). Raw
-  linked-import rewriting is tracked by NativeScript/NativeScript#11555.
+- Local dependencies are installed as packed files (`install-links=true`), matching
+  the published layout. NativeScript/NativeScript#11555 shipped in Vite 8.0.20;
+  raw workspace links were not part of this native acceptance.
 - Adding/removing/renaming layout or middleware registrations requires restarting
   the app. Existing middleware edits update guards in place. Vue script edits can
   remount components; the tested compatible template edit retains native state.

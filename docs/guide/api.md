@@ -38,6 +38,8 @@ Install once with `createApp(App).use(router).start()`. This registers the compo
 | `resolveLink(url)`               | The `RouteLocation` a URL points at under `links`, or `undefined`.                                                                                               |
 | `onLink(listener)`               | Hears every link the router was handed, taken or not. Returns an unsubscribe function.                                                                           |
 | `setShortcuts(shortcuts)`        | Replaces the home-screen shortcuts (Android dynamic shortcuts, iOS quick actions) with `RouteShortcut`s that open through `openLink`. Returns the published ids. |
+| `shortcutURL(id, to)`            | Versioned payload for static shortcut resources or app-owned native integration.                                                                                 |
+| `pinShortcut(shortcut)`          | Requests Android launcher pinning; `true` means requested, not user-confirmed.                                                                                   |
 | `claimSystemBack(claimant)`      | Lets a native container (`{ owns(), back() }`) take the Android back and back swipe first, like an open drawer. Returns the release function.                    |
 
 `push`, `replace`, `back`, `go`, `backTo`, `backToRoot` and `setStack` resolve to `NavigationFailure | undefined`. Unexpected errors reject; see [failures](./navigating#failures-and-errors). Back methods have the [split-view semantics](./split-view#history-and-back) when called in a split stack.
@@ -154,7 +156,7 @@ Public types are exported from the package root:
 - Locations: `RouteLocation`, `RouteLocationRaw`, `RouteLocationPathRaw`, `RouteLocationNamedRaw`, `RouteLocationRelativeRaw`, `RouteParams`, `RouteParamsRaw`, `RouteParamValue`, `RouteParamValueRaw`, `LocationQuery`, `LocationQueryRaw`, `LocationQueryValue`, `LocationQueryValueRaw`.
 - Navigation: `NavigationOptions`, `BackOptions`, `SetStackOptions`, `NavigationType`, `NavigationInfo`, `NavigationGuard`, `NavigationGuardReturn`, `NavigationHookAfter`, `NavigationErrorHandler`, `NavigationFailure`, `LeaveGuardOptions`.
 - Native flows: `NativeFlow`, `NativeFlowContext`, `NativeFlowOutcome`, `NativeFlowHandle`, `NativeFlowRunOptions`, `DocumentPickerInput`, `DocumentPickerResult`; `startNativeFlow(flow, input, page)` runs one outside a page.
-- Links: `LinksOptions`, `LinkOptions`, `IncomingLink`, `LinkResult`, `LinkIgnoredReason`, `LinkSource`, `LinkListener`, `RouteShortcut`. `supportsShortcuts()` reports whether the platform shows home-screen shortcuts.
+- Links: `LinksOptions`, `LinkOptions`, `LinkWindow`, `InitialLinkRequest`, `IncomingLink`, `LinkResult`, `LinkIgnoredReason`, `LinkSource`, `LinkListener`, `RouteShortcut`. `supportsShortcuts()` reports whether the platform shows home-screen shortcuts.
 - Native presentation: `ModalOptions`, `SheetOptions`, `SheetDetent`, `AndroidModalOptions`, `BottomSheetOptions`, `BottomSheetState`, `TransitionOption`, `ZoomSource`, `BackGesture`, `BackGestureEdge`. `supportsBottomSheets()` reports whether the Android build includes Material.
 - Inferred route types: `Register`, `RegisteredRouter`, `RouteMapFrom`, `RouteMapGeneric`, `RouteNames`, `RouteLocationOf`, `RouteLocationRawOf`, `ParamsFromPath`.
 
@@ -189,3 +191,5 @@ Augment `Register` and `RouteMeta` as shown in [typed routes](./typed-routes).
 `RouterOptions.window?: RouterWindow` binds one router to a native window; otherwise the first mounted view supplies its owner. `router.window` is a readonly ref to that owner. `router.openWindow(to, options?: OpenWindowOptions): void` resolves a typed location and requests an OS window. `OpenWindowOptions.data` carries serializable app metadata. `getWindowRoute(data)` reads its path in a window content resolver.
 
 `RestoreOptions.key` supplies a stable application snapshot key. Scoped callbacks receive optional `RestoreContext` (`windowId`, `key`) in `save(state, context)` and `load(context)`. Scoped `SavedStacks` includes `windowKey`; a mismatch is ignored. `RouterWindow` is a structural subset of NativeWindow so the package declarations remain usable with older supported core versions. See [native windows](./windows) for bootstrapping, lifecycle, configuration and limits.
+
+The optional `vue-router-ns/system-search` entry point exports `createSystemSearch`, `SystemSearch`, `SystemSearchOptions` and `SearchItem`. `supportsPinnedShortcuts()` is exported from the package root. See [deep links](./deep-links).

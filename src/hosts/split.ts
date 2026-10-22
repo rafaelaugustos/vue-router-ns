@@ -1,5 +1,6 @@
 import { Color, Frame, Page } from '@nativescript/core'
 import { nextTick, type Ref } from 'nativescript-vue'
+import { disposeFramePage } from './frame-page.js'
 import { previewBack } from '../back-preview.js'
 import {
   NATIVE_HOST_VERSION,
@@ -142,6 +143,7 @@ export function createSplitFrameHost(
       resetting?.()
       resetting = undefined
       delegate = undefined
+      for (const page of pages()) disposeFramePage(page)
     },
   }
 }

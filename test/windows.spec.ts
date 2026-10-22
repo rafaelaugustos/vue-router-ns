@@ -506,6 +506,7 @@ describe('NativeWindow ownership', () => {
   })
 
   it('opens a resolved typed route with serializable metadata without navigating the source window', async () => {
+    setPlatform('ios')
     const open = vi.spyOn(Application, 'openWindow')
     const { router } = await mountWindow(new NativeWindow('a'))
     router.openWindow(

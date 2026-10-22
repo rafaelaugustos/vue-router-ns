@@ -38,6 +38,8 @@ Instale uma vez com `createApp(App).use(router).start()`. Isso registra os compo
 | `resolveLink(url)`               | A `RouteLocation` para onde uma URL aponta sob `links`, ou `undefined`.                                                                                              |
 | `onLink(listener)`               | Ouve todo link que o router recebeu, aceito ou não. Devolve a função que cancela a inscrição.                                                                        |
 | `setShortcuts(shortcuts)`        | Substitui os atalhos da tela inicial (atalhos dinâmicos do Android, quick actions do iOS) por `RouteShortcut`s que abrem pelo `openLink`. Devolve os ids publicados. |
+| `shortcutURL(id, to)`            | Payload versionado para atalhos estáticos ou integrações nativas do app.                                                                                             |
+| `pinShortcut(shortcut)`          | Solicita fixação no launcher Android; `true` significa pedido recebido, não aprovação do usuário.                                                                    |
 | `claimSystemBack(claimant)`      | Deixa um contêiner nativo (`{ owns(), back() }`) receber o voltar e o swipe de voltar do Android primeiro, como um drawer aberto. Devolve a função que libera.       |
 
 `push`, `replace`, `back`, `go`, `backTo`, `backToRoot` e `setStack` resolvem para `NavigationFailure | undefined`. Erros inesperados rejeitam a promise; veja [falhas](./navigating#falhas-e-erros). Os métodos de voltar seguem a [semântica do split view](./split-view#historico-e-voltar) quando chamados em uma pilha dividida.
@@ -152,7 +154,7 @@ Os tipos públicos são exportados pela raiz do pacote:
 - Localizações: `RouteLocation`, `RouteLocationRaw`, `RouteLocationPathRaw`, `RouteLocationNamedRaw`, `RouteLocationRelativeRaw`, `RouteParams`, `RouteParamsRaw`, `RouteParamValue`, `RouteParamValueRaw`, `LocationQuery`, `LocationQueryRaw`, `LocationQueryValue`, `LocationQueryValueRaw`.
 - Navegação: `NavigationOptions`, `BackOptions`, `SetStackOptions`, `NavigationType`, `NavigationInfo`, `NavigationGuard`, `NavigationGuardReturn`, `NavigationHookAfter`, `NavigationErrorHandler`, `NavigationFailure`, `LeaveGuardOptions`.
 - Fluxos nativos: `NativeFlow`, `NativeFlowContext`, `NativeFlowOutcome`, `NativeFlowHandle`, `NativeFlowRunOptions`, `DocumentPickerInput`, `DocumentPickerResult`; `startNativeFlow(flow, input, page)` roda um fora de uma página.
-- Links: `LinksOptions`, `LinkOptions`, `IncomingLink`, `LinkResult`, `LinkIgnoredReason`, `LinkSource`, `LinkListener`, `RouteShortcut`. `supportsShortcuts()` informa se a plataforma mostra atalhos da tela inicial.
+- Links: `LinksOptions`, `LinkOptions`, `LinkWindow`, `InitialLinkRequest`, `IncomingLink`, `LinkResult`, `LinkIgnoredReason`, `LinkSource`, `LinkListener`, `RouteShortcut`. `supportsShortcuts()` informa se a plataforma mostra atalhos da tela inicial.
 - Apresentação nativa: `ModalOptions`, `SheetOptions`, `SheetDetent`, `AndroidModalOptions`, `BottomSheetOptions`, `BottomSheetState`, `TransitionOption`, `ZoomSource`, `BackGesture`, `BackGestureEdge`. `supportsBottomSheets()` informa se o build Android inclui o Material.
 - Tipos inferidos: `Register`, `RegisteredRouter`, `RouteMapFrom`, `RouteMapGeneric`, `RouteNames`, `RouteLocationOf`, `RouteLocationRawOf`, `ParamsFromPath`.
 
@@ -187,3 +189,5 @@ Estenda `Register` e `RouteMeta` como mostrado em [rotas tipadas](./typed-routes
 `RouterOptions.window?: RouterWindow` liga um router a uma janela; sem ele, a primeira view montada fornece a propriedade. `router.window` é uma ref readonly dessa janela. `router.openWindow(to, options?: OpenWindowOptions): void` resolve uma localização tipada e pede uma janela ao sistema. `OpenWindowOptions.data` carrega metadados serializáveis do app. `getWindowRoute(data)` lê o path no resolver de conteúdo da janela.
 
 `RestoreOptions.key` fornece uma chave estável de snapshot do app. Callbacks de janela recebem `RestoreContext` opcional (`windowId`, `key`) em `save(state, context)` e `load(context)`. `SavedStacks` de janela inclui `windowKey`; uma chave incompatível é ignorada. `RouterWindow` é um subconjunto estrutural de NativeWindow para manter as declarações do pacote utilizáveis com versões anteriores suportadas do core. Veja [janelas nativas](./windows) para inicialização, ciclo de vida, configuração e limites.
+
+O módulo opcional `vue-router-ns/system-search` exporta `createSystemSearch`, `SystemSearch`, `SystemSearchOptions` e `SearchItem`. `supportsPinnedShortcuts()` é exportado pela raiz. Veja [deep links](./deep-links).

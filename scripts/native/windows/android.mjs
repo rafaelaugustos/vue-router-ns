@@ -119,27 +119,9 @@ try {
   }
   pass(await command('link', after))
   const recreated = await command('recreate', after)
-  if (process.env.EXPECT_RECREATION_FAILURE === '1') {
-    assert.equal(
-      recreated.ok,
-      false,
-      'Published dependency must reproduce the lifecycle failure',
-    )
-    assert.equal(recreated.stage, 'back-after-recreate')
-    assert.equal(recreated.error, 'Error: logical history after recreation')
-    assert.notEqual(recreated.recreation.before, recreated.recreation.after)
-    const broken = recreated.sessions.find((session) => session.key === 'b')
-    assert.deepEqual(broken.paths, [])
-    assert.equal(
-      broken.nativePages,
-      2,
-      'Native history still exists when Vue apps are disposed',
-    )
-    console.log(`Reproduced upstream recreation failure: ${recreated.error}`)
-  } else {
-    pass(recreated)
-    pass(await command('close', after))
-  }
+  pass(recreated)
+  pass(await command('close', after))
+  pass(await command('launcher', after))
   console.log('Window isolation, process-death restoration and OS link checks passed')
 } finally {
   await writeFile(

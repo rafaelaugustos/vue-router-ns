@@ -3,7 +3,17 @@
 ## Unreleased
 
 - Experimental NativeScript core 9.1+ window ownership: one router per NativeWindow, window-scoped Android back/gesture callbacks and modal targets, typed `openWindow()` handoff, and per-window restore context/key. Older core versions retain the single-window behavior.
-- Window ownership now composes with native hosts, version-2 page state and window-targeted system links. Android acceptance compares published NativeScript-Vue with the isolated upstream lifecycle correction; Activity recreation remains unsupported on 3.1.2 and iOS scene reconnection remains unverified.
+- Retain Vue page apps across native Activity recreation by owning their mount/unmount lifecycle in the router. Preserve native Page HMR and dispose apps on completed removal/window closure. A bound Android router opens new windows through its live Activity, including after the original Activity finishes. Both paths run on published Core 9.1.3 / NativeScript-Vue 3.1.2; OS-driven iOS scene reconnection remains unverified.
+
+## 0.1.0-beta.15 (2026-10-21)
+
+- Fix npm 10's `Cannot read properties of null (reading 'edgesOut')` crash when installing the router. Vite and webpack are no longer optional peers of the runtime package. File-routing users install their chosen bundler as an app development dependency; the plugins check the active Vite 8 / webpack 5 host when configured.
+- Add installation checks for npm 10.8.2 on Node 20/22 and npm 11 on Node 22, covering basic NativeScript apps and both bundler integrations. The npm 10 Vite case retains the example lockfile because NativeScript Vite's own optional-peer tree can independently crash a lockfile-free install without this router. No legacy-peer or force flags are used.
+- Complete incoming-link delivery across cold/warm launches, notifications and native scenes, with validated destinations, delivery-id deduplication, guarded dispatch and per-window handling. Launcher shortcuts retain named routes across path changes, support static/pinned entry points and remove stale destinations when access changes.
+- Add optional `vue-router-ns/system-search` integration for explicitly selected iOS Spotlight content, including removal and guarded destination resolution. Native availability does not guarantee Spotlight indexing or result ranking; see the deep-link guide for validation boundaries.
+- Update the example to NativeScript Vite 8.0.20 and verify native HMR on iOS and Android. Documentation now shows the package version, more feature examples and native recordings, and a splash overlay recipe in English and Portuguese.
+
+See [installation acceptance](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/npm-install.md) and [native Vite acceptance](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vite.md) for the checked environments and remaining upstream limitations.
 
 ## 0.1.0-beta.14 (2026-10-21)
 

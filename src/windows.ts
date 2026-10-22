@@ -1,12 +1,10 @@
-import { Application, type View } from '@nativescript/core'
+import { Application, isAndroid, Device, Utils, type View } from '@nativescript/core'
+import type { LinkWindow } from './links.js'
 
 /** Structural subset of NativeWindow, so older core declarations remain usable. */
-export interface RouterWindow {
+export interface RouterWindow extends LinkWindow {
   readonly id: string
   readonly state: string
-  readonly isPrimary?: boolean
-  readonly ios?: { readonly scene?: unknown }
-  readonly android?: { readonly activity: unknown }
   on(event: string, callback: (args: any) => void): void
   off(event: string, callback: (args: any) => void): void
 }
@@ -52,13 +50,49 @@ export function getWindowRoute(
     : undefined
 }
 
-export function openRouteWindow(fullPath: string, options?: OpenWindowOptions): void {
+declare const android: any
+
+export function openRouteWindow(
+  fullPath: string,
+  options?: OpenWindowOptions,
+  owner?: RouterWindow,
+): void {
   const app = Application as typeof Application & {
     openWindow?: (options: OpenWindowOptions) => void
   }
   if (!hasNativeWindows() || typeof app.openWindow !== 'function')
     throw new Error('Opening route windows requires NativeScript core 9.1 or later')
-  app.openWindow({
-    data: { ...options?.data, [ROUTE_DATA]: { version: 1, fullPath } },
-  })
+  const data: Record<string, unknown> = {
+    ...options?.data,
+    [ROUTE_DATA]: { version: 1, fullPath },
+  }
+  if (isAndroid && owner?.android?.activity) {
+    const activity = owner.android.activity as {
+      getClass?(): unknown
+      isFinishing(): boolean
+      isDestroyed(): boolean
+      isInMultiWindowMode(): boolean
+      startActivity(intent: unknown): void
+    }
+    if (typeof activity.getClass === 'function') {
+      if (activity.isFinishing() || activity.isDestroyed())
+        throw new Error('Cannot open a route window from an inactive Activity')
+      // Core 9.1 uses the original Activity class, even after that Activity closes.
+      // Use this router's live owner and the same public Intent payload contract.
+      const Intent = android.content.Intent
+      const intent = new Intent(activity, activity.getClass())
+      let flags =
+        Intent.FLAG_ACTIVITY_NEW_TASK |
+        Intent.FLAG_ACTIVITY_MULTIPLE_TASK |
+        Intent.FLAG_ACTIVITY_NEW_DOCUMENT
+      if (Number(Device.sdkVersion) >= 24 && activity.isInMultiWindowMode())
+        flags |= Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT
+      intent.setFlags(flags)
+      for (const key of Object.keys(data))
+        intent.putExtra(key, Utils.dataSerialize(data[key], true))
+      activity.startActivity(intent)
+      return
+    }
+  }
+  app.openWindow({ data })
 }

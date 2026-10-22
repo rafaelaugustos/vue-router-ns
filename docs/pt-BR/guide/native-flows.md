@@ -2,6 +2,8 @@
 
 Alguns destinos não são páginas: o seletor de documentos, a activity de outro app, uma folha de compartilhamento. O sistema é dono deles, eles podem sobreviver a uma rotação de tela, e nada sobre eles pertence à pilha de voltar. Um **fluxo nativo** dá a eles uma entrada tipada, um resultado tipado e um de três desfechos, resolvido exatamente uma vez.
 
+<Clip name="ios-document-picker" caption="Attach abre o seletor de documentos do iOS. Cancelar retorna ao formulário com Picker cancelled, sem adicionar uma rota." />
+
 ```ts
 import { createDocumentPicker, useNativeFlow } from 'vue-router-ns'
 
