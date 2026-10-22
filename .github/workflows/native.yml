@@ -202,7 +202,7 @@ jobs:
       - name: Native Vite navigation and live updates
         env:
           ROUTER_BUNDLER: vite
-          # The simulator shares this runner; its LAN interface may be isolated.
+          # This simulator shares the runner; avoid its isolated LAN interface.
           NS_HMR_HOST: 127.0.0.1
         run: node scripts/native/conventions-watch.mjs ios
       - name: Clean up dedicated simulator

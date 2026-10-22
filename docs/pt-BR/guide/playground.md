@@ -11,7 +11,7 @@ Edite um app NativeScript-Vue no navegador e execute sua interface nativa em um 
 3. Espere o QR code do Preview e escaneie com o aparelho. Mantenha a sessão aberta enquanto edita.
 4. Abra `src/router.ts` para mudar rotas, ou uma página em `src/pages/` para mudar a interface.
 
-O [código do exemplo](https://github.com/rafaelaugustos/vue-router-ns/tree/main/examples/playground) é independente e fixa `vue-router-ns@0.1.0-beta.6`. Não exige compilar este repositório nem resolver um alias para `../dist`.
+O [código do exemplo](https://github.com/rafaelaugustos/vue-router-ns/tree/main/examples/playground) é independente e fixa `vue-router-ns@0.1.0-beta.15`. Não exige compilar este repositório nem resolver um alias para `../dist`.
 
 ## O que experimentar
 

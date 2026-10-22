@@ -80,7 +80,7 @@ So this is not a wrapper around Vue Router. The frame's back stack is the source
 npm install vue-router-ns@next
 ```
 
-It's in beta for now, published under the `next` tag. Requires `nativescript-vue` 3 and `@nativescript/core` 8.9 or later.
+The release candidate is published under `next`. Requires `nativescript-vue` 3.1.2+ (3.x), `@nativescript/core` 9.1.3+ (9.x), and Node 20.19.4+. See the [RC scope and compatibility](https://vue-router-ns.rafaelaugusto.dev/guide/compatibility) for tested versions and experimental features.
 
 ## Getting started
 
@@ -564,7 +564,7 @@ Releases go out from `main` on their own. Bump the version and move the changes 
 npm version 0.2.0 --no-git-tag-version
 ```
 
-Once that lands on `main`, the [release workflow](./.github/workflows/release.yml) sees a version that isn't on npm yet. It runs the tests, publishes the package and creates the `v0.2.0` GitHub release from the changelog entry. Versions with a suffix, like `0.2.0-beta.1`, go out under `next` as pre-releases, and under `latest` too until a stable version is out. Pushes that don't change the version do nothing.
+Once that lands on `main`, the [release workflow](./.github/workflows/release.yml) sees a version that isn't on npm yet. It requires the full CI and native contract suites on that same commit, verifies the final npm tarball in fresh apps, publishes that tarball and creates the `v0.2.0` GitHub release from the changelog entry. Versions with a suffix, like `0.2.0-beta.1`, go out under `next` as pre-releases, and under `latest` too until a stable version is out. Pushes that don't change the version do nothing.
 
 npm authenticates the workflow through [trusted publishing](https://docs.npmjs.com/trusted-publishers), so the repository holds no npm token. An `NPM_TOKEN` secret works too, if you'd rather use one.
 

@@ -1,6 +1,6 @@
 # vue-router-ns playground
 
-A self-contained NativeScript-Vue 3 example using `vue-router-ns@0.1.0-beta.6` from npm. The StackBlitz startup configuration follows the [official NativeScript-Vue template](https://github.com/nativescript-vue/nativescript-vue/tree/main/packages/stackblitz-template).
+A self-contained NativeScript-Vue 3 example using `vue-router-ns@0.1.0-beta.15` from npm. The StackBlitz startup configuration follows the [official NativeScript-Vue template](https://github.com/nativescript-vue/nativescript-vue/tree/main/packages/stackblitz-template).
 
 [Open in StackBlitz](https://stackblitz.com/fork/github/rafaelaugustos/vue-router-ns/tree/main/examples/playground?file=src%2Frouter.ts)
 
