@@ -36,6 +36,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
       items: [
         page('introduction', ''),
         page('install', 'install'),
+        page('splash', 'splash'),
         page('demo', 'demo'),
         page('playground', 'playground'),
         page('navigating', 'navigating'),
@@ -92,6 +93,7 @@ const en = {
   reference: 'Reference',
   introduction: 'What vue-router-ns is',
   install: 'Install',
+  splash: 'Startup splash',
   demo: 'Examples and videos',
   playground: 'Try with StackBlitz',
   navigating: 'Navigating',
@@ -130,6 +132,7 @@ const pt = {
   reference: 'Referência',
   introduction: 'O que é o vue-router-ns',
   install: 'Instalação',
+  splash: 'Splash de abertura',
   demo: 'Exemplos e vídeos',
   playground: 'Experimente com StackBlitz',
   navigating: 'Navegando',

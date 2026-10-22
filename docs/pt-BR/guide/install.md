@@ -98,6 +98,8 @@ const router = useRouter()
 </template>
 ```
 
+Para uma abertura com a identidade visual do app, mantenha a primeira página montada por baixo de um [splash sobreposto](./splash).
+
 ## O app de demonstração
 
 O repositório traz um pequeno app de e-mail com duas abas em [`demo/`](https://github.com/rafaelaugustos/vue-router-ns/tree/main/demo). Ele cobre params tipados, um modal de composição que devolve o texto, um leave guard que só pergunta enquanto há rascunho, um guard de login, uma página lazy, `clearHistory`, uma página de mensagem que acompanha o swipe de voltar do Android, e abas que voltam para a primeira página quando tocadas de novo.
