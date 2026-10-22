@@ -6,6 +6,39 @@ on:
   pull_request:
 
 jobs:
+  install:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - node: '20.19.4'
+            npm: '10.8.2'
+          - node: '22.23.3'
+            npm: '10.8.2'
+          - node: '22.23.3'
+            npm: '11.21.1'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm install --global npm@${{ matrix.npm }}
+      - run: npm ci
+      - name: Install the packed package into fresh NativeScript apps
+        env:
+          INSTALL_REPORTS: /tmp/router-install-reports
+        run: |
+          npm pack --pack-destination /tmp --json > /tmp/router-pack.json
+          package_file=$(node -p "'/tmp/' + require('/tmp/router-pack.json')[0].filename")
+          node scripts/check-install.mjs "$package_file"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: install-node-${{ matrix.node }}-npm-${{ matrix.npm }}
+          path: /tmp/router-install-reports
+
   test:
     runs-on: ubuntu-latest
     steps:

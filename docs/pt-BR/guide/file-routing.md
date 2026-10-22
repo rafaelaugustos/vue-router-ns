@@ -6,7 +6,7 @@ Os plugins opcionais de webpack e Vite cuidam da geração, compilação de meta
 
 ## Configuração com NativeScript webpack
 
-Instale `@vue/compiler-sfc@^3.5` e `webpack@^5` como dependências de desenvolvimento, junto ao `@nativescript/webpack` do aplicativo. São peers opcionais do router. Adicione ao `webpack.config.js` existente:
+Instale `@vue/compiler-sfc@^3.5` e `webpack@^5` como dependências de desenvolvimento, junto ao `@nativescript/webpack` do aplicativo. O compilador continua sendo um peer opcional; o bundler pertence ao app e o plugin verifica o webpack 5 quando é aplicado. Adicione ao `webpack.config.js` existente:
 
 ```js
 const webpack = require('@nativescript/webpack')
@@ -62,7 +62,7 @@ Compartilhe as opções entre o script e o webpack. O `index.d.ts` gerado descre
 
 ## Configuração com NativeScript Vite
 
-A entrada opcional `vue-router-ns/file-routing/vite` gera as mesmas rotas nativas e remove `definePageMeta` antes da compilação Vue. Requer Vite 8 e `@vue/compiler-sfc@^3.5` como dependências de desenvolvimento. Comece pela [configuração Vue do NativeScript Vite](https://docs.nativescript.org/configuration/vite) e adicione o plugin:
+A entrada opcional `vue-router-ns/file-routing/vite` gera as mesmas rotas nativas e remove `definePageMeta` antes da compilação Vue. Requer Vite 8 e `@vue/compiler-sfc@^3.5` como dependências de desenvolvimento. O plugin verifica a versão ativa do Vite durante a configuração; instalar só o router não resolve um peer de Vite. Comece pela [configuração Vue do NativeScript Vite](https://docs.nativescript.org/configuration/vite) e adicione o plugin:
 
 ```ts
 // vite.config.mts

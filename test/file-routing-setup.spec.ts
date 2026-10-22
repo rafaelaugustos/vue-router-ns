@@ -38,6 +38,17 @@ async function fixture() {
   return { rootDir, put }
 }
 
+it.each([undefined, { version: '4.47.0' }, { version: '6.0.0' }])(
+  'reports an unsupported webpack host before registering hooks',
+  (host) => {
+    const { NativeFileRoutesPlugin } = require('../dist/file-routing/webpack.cjs')
+    const plugin = new NativeFileRoutesPlugin({ platform: 'android' })
+    expect(() => plugin.apply({ webpack: host })).toThrow(
+      'NativeFileRoutesPlugin requires webpack 5',
+    )
+  },
+)
+
 it('prepares deterministic platform modules, opt-in discovery, declarations and explicit registration', async () => {
   const { rootDir, put } = await fixture()
   await put('src/layouts/default.vue', '<template><Page><slot/></Page></template>')
