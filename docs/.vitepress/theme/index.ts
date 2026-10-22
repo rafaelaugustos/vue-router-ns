@@ -1,3 +1,5 @@
+import OrbitSignature from './OrbitSignature.vue'
+import './orbit-signature.css'
 import { h } from 'vue'
 import VersionBadge from './VersionBadge.vue'
 import DefaultTheme from 'vitepress/theme'
@@ -9,6 +11,7 @@ export default {
   extends: DefaultTheme,
   Layout: () =>
     h(DefaultTheme.Layout, null, {
+      'layout-bottom': () => h(OrbitSignature),
       'nav-bar-title-after': () => h(VersionBadge),
     }),
   enhanceApp({ app }) {

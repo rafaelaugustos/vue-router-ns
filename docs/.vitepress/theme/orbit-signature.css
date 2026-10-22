@@ -1,0 +1,84 @@
+.orbit-signature {
+  display: flex;
+  justify-content: center;
+  padding: 0 24px 24px;
+}
+
+.orbit-signature-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 999px;
+  color: var(--vp-c-text-2);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    border-color 180ms,
+    background-color 180ms,
+    color 180ms;
+}
+
+.orbit-signature-link strong {
+  color: var(--vp-c-text-1);
+  font-weight: 600;
+}
+
+.orbit-signature-symbol {
+  flex: none;
+  color: var(--vp-c-text-2);
+  transition: color 180ms;
+}
+
+.orbit-signature-arrow {
+  margin-left: 1px;
+}
+
+.orbit-signature-link:hover,
+.orbit-signature-link:focus-visible {
+  border-color: #fa633b;
+  background-color: rgba(250, 99, 59, 0.06);
+  color: var(--vp-c-text-1);
+}
+
+.orbit-signature-link:hover .orbit-signature-symbol,
+.orbit-signature-link:focus-visible .orbit-signature-symbol {
+  color: #fa633b;
+}
+
+.orbit-signature-link:focus-visible {
+  outline: 2px solid #fa633b;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-signature-link,
+  .orbit-signature-symbol {
+    transition: none;
+  }
+}
+
+.VPFooter:not(.has-sidebar) {
+  padding-bottom: 16px;
+}
+
+.VPContent.has-sidebar ~ .orbit-signature {
+  padding-top: 24px;
+}
+
+@media (min-width: 960px) {
+  .VPContent.has-sidebar ~ .orbit-signature {
+    margin-left: var(--vp-sidebar-width);
+  }
+}
+
+@media (min-width: 1440px) {
+  .VPContent.has-sidebar ~ .orbit-signature {
+    margin-right: calc((100vw - var(--vp-layout-max-width)) / 2);
+    margin-left: calc((100vw - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+  }
+}
