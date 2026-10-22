@@ -111,3 +111,5 @@ The first native CI found a popped Page retained by the completed navigation cal
 Android system-picker acceptance now requires the pending result to survive a genuine Activity replacement with the retained page, complete exactly once, and still cancel on actual page/owner disposal. All 12 native outcomes passed on API 34 (`windows-flow-retained-retry`). The driver explicitly delivers commands to the existing top Activity, including when the window fixture previously selected standard launch mode.
 
 The iPad fixture preparation writes a multiple-scene manifest and disables full-screen-only operation through a plist parser, including for newly scaffolded resources. It no longer depends on replacing an existing XML element with one exact spelling.
+
+The initial hosted Vite/iOS run failed fetching the first module from the runner's LAN address before any navigation checks. The simulator-only CI lane now sets the supported `NS_HMR_HOST=127.0.0.1` override; physical-device/default host selection is unchanged. A green rerun is required before counting hosted HMR validation.
