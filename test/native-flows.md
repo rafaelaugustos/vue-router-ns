@@ -74,3 +74,19 @@ contract and can also be dispatched manually.
 - URI strings identify selected documents. Persistable Android permissions,
   security-scoped iOS URL access/bookmarks, and reading/copying data remain the
   application or custom adapter's responsibility.
+
+## RC cold-provider readiness — 2026-10-22
+
+The first RC native run passed five of six iOS cases; the first picker did not
+expose its Cancel control within 30 seconds. The preserved `flows-ios` artifact
+from run [39841472234](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/39841472234)
+shows `com.apple.DocumentManagerUICore.Service` spawning at 19:53:17.200 and
+becoming ready at 19:53:56.491, after the test's readiness deadline. The app
+remained pending until XCTest terminated it; no completion is attributed to that
+failed attempt.
+
+Picker-control readiness now has a bounded 60-second wait for a fresh system
+service. Tests still launch each operation once and require the same actual
+selection, cancellation, guard, disposal and process-restart outcomes. Navigation
+performance/retention budgets and result-settlement waits are unchanged. This
+fixture correction must pass the complete native suite before RC publication.
