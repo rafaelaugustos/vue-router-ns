@@ -4,7 +4,7 @@
 npm install vue-router-ns@next
 ```
 
-It's in beta for now, published under the `next` tag. Requires `nativescript-vue` 3 and `@nativescript/core` 8.9 or later.
+The release candidate is published under `next`. Requires `nativescript-vue` 3.1.2+ (3.x), `@nativescript/core` 9.1.3+ (9.x), and Node 20.19.4+. See the [RC scope and compatibility](https://vue-router-ns.rafaelaugusto.dev/guide/compatibility) for tested versions and experimental features.
 
 Use beta.15 or newer with npm 10. Beta.14's optional Vite peer triggered npm's
 `Cannot read properties of null (reading 'edgesOut')` resolver crash, even in apps

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.0-rc.1 (2026-10-22)
+
+- Freeze the documented non-experimental API for the 0.1.0 stable target. Explicit routes remain the default; file-routing conventions, custom native host/destination contracts and the upstream Core preview mode remain opt-in experiments. Multi-window ownership from #46 / PR #65 is excluded.
+- Align supported peers with native acceptance: Core `^9.1.3`, NativeScript-Vue `^3.1.2`, Node `>=20.19.4`. This narrows beta compatibility declarations; upgrade those dependencies before adopting the RC.
+- Require the full CI and native suites on the release commit before npm publication. Install the final tarball into fresh apps, retain it and its logs, and publish that exact artifact. Failed or cancelled required checks block publication.
+- Document the RC scope, tested environments, migration and known HMR/restoration limits in English and Portuguese. Use loopback for Vite HMR in hosted iOS simulator acceptance.
+
 ## 0.1.0-beta.15 (2026-10-21)
 
 - Fix npm 10's `Cannot read properties of null (reading 'edgesOut')` crash when installing the router. Vite and webpack are no longer optional peers of the runtime package. File-routing users install their chosen bundler as an app development dependency; the plugins check the active Vite 8 / webpack 5 host when configured.

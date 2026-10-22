@@ -1,10 +1,6 @@
 name: Release
 
-# On every push to main, checks whether the version in package.json is out.
-# When it isn't, runs the tests, publishes it to npm and creates the GitHub
-# release from its CHANGELOG entry. Versions like 1.0.0-beta.1 go out under
-# the `next` tag, as pre-releases, and under `latest` too until a stable
-# version is out.
+# Publish only after the complete CI/native suites pass on this main commit.
 on:
   push:
     branches: [main]
@@ -13,15 +9,23 @@ on:
 concurrency: release
 
 permissions:
-  contents: write
-  id-token: write
+  contents: read
+  pull-requests: read
 
 jobs:
-  release:
+  check:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.check.outputs.version }}
+      dist-tag: ${{ steps.check.outputs.dist-tag }}
+      published: ${{ steps.check.outputs.published }}
+      released: ${{ steps.check.outputs.released }}
     steps:
       - uses: actions/checkout@v7
-
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
       - name: Check what is already out
         id: check
         env:
@@ -38,33 +42,68 @@ jobs:
           if gh release view "v$version" > /dev/null 2>&1; then
             echo "released=true" >> "$GITHUB_OUTPUT"
           fi
-
+  ci:
+    needs: check
+    if: needs.check.outputs.published != 'true'
+    uses: ./.github/workflows/ci.yml
+  native:
+    needs: check
+    if: needs.check.outputs.published != 'true'
+    uses: ./.github/workflows/native-contracts.yml
+  release:
+    needs: [check, ci, native]
+    if: >-
+      always() && needs.check.result == 'success' &&
+      (needs.check.outputs.published == 'true' ||
+      (needs.ci.result == 'success' && needs.native.result == 'success'))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
           registry-url: https://registry.npmjs.org
       # trusted publishing needs npm 11.5+
-      - if: steps.check.outputs.published != 'true'
+      - if: needs.check.outputs.published != 'true'
         run: npm install --global npm@11
-      - if: steps.check.outputs.published != 'true'
+      - if: needs.check.outputs.published != 'true'
         run: npm ci
-      - if: steps.check.outputs.published != 'true'
+      - if: needs.check.outputs.published != 'true'
         run: npm run typecheck
-      - if: steps.check.outputs.published != 'true'
+      - if: needs.check.outputs.published != 'true'
         run: npm test
 
+      - name: Pack the validated commit
+        if: needs.check.outputs.published != 'true'
+        run: |
+          mkdir -p /tmp/router-release
+          npm pack --pack-destination /tmp/router-release --json > /tmp/router-release/pack.json
+          node -e "const fs=require('fs'); const p=JSON.parse(fs.readFileSync('/tmp/router-release/pack.json')); fs.appendFileSync(process.env.GITHUB_ENV, 'ROUTER_TARBALL=/tmp/router-release/'+p[0].filename+'\n')"
+      - name: Verify the publication artifact in fresh apps
+        if: needs.check.outputs.published != 'true'
+        env:
+          INSTALL_REPORTS: /tmp/router-release/install
+        run: node scripts/check-install.mjs "$ROUTER_TARBALL"
+      - uses: actions/upload-artifact@v4
+        if: always() && needs.check.outputs.published != 'true'
+        with:
+          name: release-package
+          path: /tmp/router-release
       - name: Publish to npm
-        if: steps.check.outputs.published != 'true'
+        if: needs.check.outputs.published != 'true'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --provenance --access public --tag "${{ steps.check.outputs.dist-tag }}"
+        run: npm publish "$ROUTER_TARBALL" --provenance --access public --tag "${{ needs.check.outputs.dist-tag }}"
 
       - name: Point latest at the newest pre-release
-        if: steps.check.outputs.dist-tag == 'next'
+        if: needs.check.outputs.dist-tag == 'next'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          VERSION: ${{ steps.check.outputs.version }}
+          VERSION: ${{ needs.check.outputs.version }}
         run: |
           name=$(node -p "require('./package.json').name")
           latest=$(npm view "$name" dist-tags.latest)
@@ -73,10 +112,10 @@ jobs:
           fi
 
       - name: Create the GitHub release
-        if: steps.check.outputs.released != 'true'
+        if: needs.check.outputs.released != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ steps.check.outputs.version }}
+          VERSION: ${{ needs.check.outputs.version }}
         run: |
           awk -v version="$VERSION" '
             /^## / { if (found) exit; found = index($0, "## " version " ") == 1 || $0 == "## " version; next }

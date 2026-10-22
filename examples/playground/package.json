@@ -12,7 +12,7 @@
   "dependencies": {
     "@nativescript/core": "~9.1.1",
     "nativescript-vue": "3.1.2",
-    "vue-router-ns": "0.1.0-beta.6"
+    "vue-router-ns": "0.1.0-beta.15"
   },
   "devDependencies": {
     "@nativescript/preview-cli": "1.0.15",

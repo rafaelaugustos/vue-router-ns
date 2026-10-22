@@ -43,4 +43,4 @@ So this is not a wrapper around Vue Router. The frame's back stack is the source
 2. Read [Navigating](./navigating) and [Every page keeps its route](./pages): that's where it differs most from the web.
 3. Coming from Vue Router, skim [the differences](./vue-router).
 
-It's in beta, published under the `next` tag. The router is covered by tests against a stand-in `Frame`, and the pieces that touch the platform are being checked on devices one by one.
+The release candidate is published under `next`. Unit tests and native simulator/emulator suites cover the [RC scope](./compatibility); that page records the supported versions and remaining limits.
