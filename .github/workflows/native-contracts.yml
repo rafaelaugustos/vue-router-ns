@@ -122,7 +122,9 @@ jobs:
     needs: changes
     if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
     runs-on: macos-15
-    timeout-minutes: 30
+    # Includes real HTTP loaders and Suspense/XCTest acceptance before the final
+    # controller fixture. Per-scenario timing and retention budgets remain enforced.
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -192,6 +194,12 @@ jobs:
           (cd demo && ns build ios --for-device false --env.loadersTest)
           xcrun simctl install "$IOS_SIMULATOR" demo/platforms/ios/build/Debug-iphonesimulator/demo.app
           node scripts/native/loaders/run.mjs
+      - name: Validate native Suspense composition and gestures
+        run: |
+          (cd demo && ns build ios --for-device false --env.suspenseTest)
+          xcrun simctl install "$IOS_SIMULATOR" demo/platforms/ios/build/Debug-iphonesimulator/demo.app
+          ruby scripts/native/suspense/project.rb /tmp/router-suspense-tests
+          GESTURES=1 node scripts/native/suspense/run.mjs
       - name: Build former HMR fixture
         working-directory: demo
         run: ns build ios --for-device false --env.contractsTest --env.contractFault

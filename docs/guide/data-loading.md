@@ -157,7 +157,7 @@ Names resolve in that router's registry, captured at creation. The page still im
 
 An async [guard](./guards) remains the existing option for work that must finish before navigation. For example, an authorization guard can return `false` or redirect; a later `beforeResolve` can await your app cache. That delays navigation and uses navigation error handling if it throws. Keep authorization before protected requests. Do not start another navigation from a loader to implement authorization.
 
-This API supplies explicit reactive UI state. It does not add an automatic Suspense boundary or require async page setup; keep the root Page synchronous. Suspense integration is tracked separately in [#119](https://github.com/rafaelaugustos/vue-router-ns/issues/119).
+This API supplies explicit reactive UI state. It does not add an automatic Suspense boundary or require async page setup; keep the root Page synchronous. See the opt-in [native Suspense composition](./suspense) for renderer compatibility, async content and explicit loader consumption.
 
 ## Native example and recordings
 

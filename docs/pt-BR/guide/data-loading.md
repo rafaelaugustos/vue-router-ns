@@ -157,7 +157,7 @@ Os nomes são resolvidos no registro daquele router, capturado na criação. A p
 
 Um [guard](./guards) assíncrono continua sendo a alternativa para trabalho que precisa terminar antes de navegar. Por exemplo, um guard de autorização pode retornar `false` ou redirecionar; um `beforeResolve` posterior pode aguardar o cache do app. Isso atrasa a navegação e usa o tratamento de erros de navegação se lançar uma exceção. Mantenha a autorização antes de buscar dados protegidos. Não inicie outra navegação dentro de um loader para implementar autorização.
 
-Esta API oferece estado reativo explícito para a interface. Não adiciona uma boundary automática de Suspense nem exige setup assíncrono; mantenha a Page raiz síncrona. A integração com Suspense está separada na [#119](https://github.com/rafaelaugustos/vue-router-ns/issues/119).
+Esta API oferece estado reativo explícito para a interface. Não adiciona uma boundary automática de Suspense nem exige setup assíncrono; mantenha a Page raiz síncrona. Veja a [composição nativa com Suspense](./suspense) para compatibilidade do renderer, conteúdo assíncrono e consumo explícito do loader.
 
 ## Exemplo nativo e gravações
 

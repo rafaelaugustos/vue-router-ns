@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Document experimental native Suspense composition inside stable Pages, including the explicit staging-container registration required by NativeScript-Vue 3.1.2. Add real HTTP examples, async setup/SFC/lazy/nested/Deferred coverage, native gesture and disposal checks, and English/Portuguese guides with recordings. The router adds no automatic boundary or new public component.
+
 - Add experimental typed route data loaders for explicit and file-generated routes. Start after authorization without blocking native presentation; isolate reactive pending/success/error state per entry, support explicit retry and ignore stale results after cancellation. Include an app-owned cache example, iOS/Android HTTP acceptance in CI, and English/Portuguese guides with native recordings.
 
 - Complete the page-state restoration acceptance record with Android 14/16 independent-window and iPadOS 18.6 cold-session evidence. Document application-owned route-path migration, snapshot alignment and tab/window/account ownership; cover duplicate renamed-route drafts and stable entry keys with a regression test.

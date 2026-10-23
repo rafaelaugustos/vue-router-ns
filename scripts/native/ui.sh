@@ -46,13 +46,18 @@ prepare_home() {
   while [ "$SECONDS" -lt "$deadline" ]; do
     xml=$(dump) || { stable=0; continue; }
     if [[ "$xml" == *"Pixel Launcher isn't responding"* ]]; then
-      [ "$recovered" = "0" ] || return 1
-      printf '%s\n' "$xml" > "$OUT/launcher-preflight-anr.xml"
-      screenshot launcher-preflight-anr
-      tap_text "Close app" || return 1
-      recovered=1
+      if [ "$recovered" = "0" ]; then
+        printf '%s\n' "$xml" > "$OUT/launcher-preflight-anr.xml"
+        screenshot launcher-preflight-anr
+        # The system dialog can disappear between the two hierarchy reads.
+        # Only count an actual dismissal; then wait for the launcher to settle
+        # within the existing deadline, including its dialog's exit animation.
+        if tap_text "Close app"; then
+          recovered=1
+          key_home
+        fi
+      fi
       stable=0
-      key_home
       continue
     fi
     focused=$($ADB shell dumpsys window | grep 'mCurrentFocus=')
