@@ -28,6 +28,80 @@ Use up to five destinations so they fit the Android bottom bar as well as the ra
 
 The router saves stack histories with `restore`. Persist `v-model:selected` separately if the app should return to the same tab after process death; restoring the stacks does not change that selection.
 
+## Colors and labels
+
+Use NativeScript's existing tab color names on `RouterTabs`. These update the current native bar without remounting pages or resetting histories:
+
+```vue
+<script setup lang="ts">
+import { ref } from 'nativescript-vue'
+import { RouterTabs, RouterTab, RouterView } from 'vue-router-ns'
+const dark = ref(false)
+</script>
+
+<template>
+  <RouterTabs
+    :tabBackgroundColor="dark ? '#172033' : '#f1f5f9'"
+    :tabTextColor="dark ? '#cbd5e1' : '#475569'"
+    :selectedTabTextColor="dark ? '#38bdf8' : '#2563eb'"
+    labelVisibility="labeled"
+  >
+    <RouterTab
+      name="inbox"
+      title="Inbox"
+      icon="tray.fill"
+      androidIcon="sys://ic_dialog_email"
+      :badge="2"
+    >
+      <RouterView name="inbox" initial="/inbox" />
+    </RouterTab>
+    <RouterTab
+      name="saved"
+      title="Saved"
+      icon="bookmark.fill"
+      androidIcon="sys://ic_menu_save"
+    >
+      <RouterView name="saved" initial="/saved" />
+    </RouterTab>
+  </RouterTabs>
+</template>
+```
+
+| Prop                   | CSS                       | Meaning                                                                                          |
+| ---------------------- | ------------------------- | ------------------------------------------------------------------------------------------------ |
+| `tabBackgroundColor`   | `tab-background-color`    | Native bar background/tint.                                                                      |
+| `tabTextColor`         | `tab-text-color`          | Unselected titles; also template icons on UIKit and Material.                                    |
+| `selectedTabTextColor` | `selected-tab-text-color` | Selected titles; also template icons on UIKit and Material.                                      |
+| `labelVisibility`      | —                         | Material: `auto`, `selected`, `labeled` or `unlabeled`. Omit to use the widget's themed default. |
+
+Color props accept a string or NativeScript `Color`. You can instead use a class on `RouterTabs`:
+
+```css
+.app-tabs {
+  tab-background-color: #f1f5f9;
+  tab-text-color: #475569;
+  selected-tab-text-color: #2563eb;
+}
+.ns-dark .app-tabs {
+  tab-background-color: #172033;
+  tab-text-color: #cbd5e1;
+  selected-tab-text-color: #38bdf8;
+}
+```
+
+The class is applied to the native root (`TabView` on iOS/core fallback, `RouterTabsHost` on Material). Use a class selector for both platforms. These tab colors do not inherit from a parent and do not change page colors. Explicit props and inline style are local NativeScript values and take precedence over stylesheet rules; avoid setting the same color through both. Omitted colors retain the platform/theme defaults. Fixed colors do not automatically invert in dark mode: bind a palette or use NativeScript's light/dark CSS classes. Changing a palette or class updates the existing widget, including a rail created after resizing.
+
+Material supports all four label modes on both bottom navigation and rail. Hiding a label preserves its title and accessibility description. UIKit and core `TabView` ignore `labelVisibility` and keep their native title layout. Core Android fallback supports the three existing color properties for background/text; icon tint remains Core's behavior. Material remains optional.
+
+On iOS, these colors style the **tab bar** using Core's appearance APIs and UIKit template-icon tint. They do not theme the iPad sidebar. UIKit controls sidebar rows, placement, title visibility and iOS 26 Liquid Glass compositing; the rendered background may be translucent rather than a flat exact color. In the iOS 26 acceptance recording, UIKit also retains the system color for the unselected SF Symbol despite accepting the configured icon tint; titles and the selected icon do change. Do not depend on exact unselected-icon coloring on that version. Existing `TabView` CSS (including title fonts) keeps working on that host; extra Core-only properties are not a cross-platform Material contract.
+
+<div class="clips">
+<Clip name="ios-tabs-style" caption="Changing tab colors with detail pages open. iOS 26 simulator." />
+<Clip name="android-tabs-style" aspect="9 / 20" caption="Colors, labels and Material rail change while both stacks remain mounted. Android 14 emulator." />
+</div>
+
+Run the [shared example](https://github.com/rafaelaugustos/vue-router-ns/blob/main/demo/src/testing/tabsstyle-app.ts) with `cd demo && ns run ios --env.tabsstyleTest` (or `ns run android --env.tabsstyleTest`). It includes palette, label and rail controls and a draft field. See [native acceptance](https://github.com/rafaelaugustos/vue-router-ns/blob/main/scripts/native/tabs-style/README.md) for the automated checks.
+
 ## Sidebar on iPad
 
 <Clip name="ipad-tabs" :width="480" aspect="3 / 4" caption="UIKit’s sidebar selects Inbox and Settings, each with its own stack. iPadOS 26 simulator." />

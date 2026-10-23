@@ -1,9 +1,11 @@
 import {
+  Color,
   GridLayout,
   isAndroid,
   isIOS,
   TabView,
   Utils,
+  unsetValue,
   View,
   type EventData,
 } from '@nativescript/core'
@@ -25,6 +27,15 @@ import {
 } from 'nativescript-vue'
 import { tabKey } from './injection.js'
 import { onTabReselect, setSelectVeto, type TabLike } from './tabs.js'
+
+export type TabLabelVisibility = 'auto' | 'selected' | 'labeled' | 'unlabeled'
+
+type TabColors = {
+  tabBackgroundColor?: Color
+  tabTextColor?: Color
+  selectedTabTextColor?: Color
+}
+const colorNames = ['tabBackgroundColor', 'tabTextColor', 'selectedTabTextColor'] as const
 
 export type TabRole = 'search' | 'prominent'
 export type TabMinimize = 'never' | 'onScrollDown' | 'onScrollUp'
@@ -95,6 +106,12 @@ export const RouterTabs = defineComponent({
   props: {
     /** `v-model:selected`, the name of the selected tab. Defaults to the first one. */
     selected: String,
+    /** NativeScript tab colors; also template-icon tint where supported by UIKit/Material. */
+    tabBackgroundColor: [String, Object] as PropType<string | Color>,
+    tabTextColor: [String, Object] as PropType<string | Color>,
+    selectedTabTextColor: [String, Object] as PropType<string | Color>,
+    /** Material only. UIKit and core TabView keep their native title layout. */
+    labelVisibility: String as PropType<TabLabelVisibility>,
     /** Decides a tap on another tab. Switching runs no route guard. */
     canSelect: Function as PropType<(name: string) => boolean>,
     /** iOS 18 and later: UIKit's sidebar on iPad, a tab bar elsewhere. */
@@ -115,6 +132,7 @@ export const RouterTabs = defineComponent({
     const width = shallowRef(0)
     const tabView = shallowRef<{ nativeView: TabView }>()
     const host = shallowRef<{ nativeView: TabsHostView }>()
+    const bar = shallowRef<{ nativeView: MaterialNavigationBar }>()
     const material = isAndroid && supportsNativeTabs()
     const stops: (() => void)[] = []
 
@@ -154,6 +172,81 @@ export const RouterTabs = defineComponent({
         if (bar) bar.selectedIndex = selectedIndex.value
       }
     }
+
+    // Read resolved NativeScript styles, so CSS classes and inline/prop values
+    // share the same cascade on both hosts. Styling never touches the tab menu.
+    let stopAppearance: (() => void) | undefined
+    let observed: View | undefined
+    let originalUnselectedTint: unknown
+    let tinted = false
+    let originalIcons: unknown[] = []
+    const applyAppearance = () => {
+      const view = tabView.value?.nativeView ?? host.value?.nativeView
+      if (!view) return
+      if (view !== observed) {
+        stopAppearance?.()
+        observed = view
+        for (const name of colorNames) view.style.on(`${name}Change`, applyAppearance)
+        stopAppearance = () => {
+          for (const name of colorNames) view.style.off(`${name}Change`, applyAppearance)
+        }
+      }
+      if (material) {
+        if (bar.value)
+          bar.value.nativeView.appearance = {
+            tabBackgroundColor: view.style.tabBackgroundColor,
+            tabTextColor: view.style.tabTextColor,
+            selectedTabTextColor: view.style.selectedTabTextColor,
+          }
+      } else if (isIOS && view.isLoaded && (view as TabView).ios?.tabBar) {
+        const native = (view as TabView).ios.tabBar
+        const color = view.style.tabTextColor
+        const layouts = [
+          'stackedLayoutAppearance',
+          'inlineLayoutAppearance',
+          'compactInlineLayoutAppearance',
+        ]
+        const appearance = native.standardAppearance?.copy()
+        if (color && !tinted) {
+          originalUnselectedTint = native.unselectedItemTintColor
+          originalIcons = layouts.map((layout) => appearance?.[layout].normal.iconColor)
+        }
+        if (color || tinted) {
+          native.unselectedItemTintColor = color?.ios ?? originalUnselectedTint
+          if (appearance) {
+            layouts.forEach(
+              (layout, index) =>
+                (appearance[layout].normal.iconColor =
+                  color?.ios ?? originalIcons[index]),
+            )
+            native.standardAppearance = appearance
+            native.scrollEdgeAppearance = appearance
+          }
+        }
+        tinted = !!color
+      }
+    }
+    let colorProps = new Set<string>()
+    const refreshAppearance = () => {
+      const view = tabView.value?.nativeView ?? host.value?.nativeView
+      if (!view) return
+      let reset = false
+      for (const name of colorNames) {
+        if (colorProps.has(name) && props[name] == null) {
+          // NativeScript-Vue restores the attribute's original value, which
+          // may belong to an old CSS class. Remove that local override and
+          // re-evaluate the current cascade instead.
+          view.style[name] = unsetValue
+          reset = true
+        }
+      }
+      colorProps = new Set(colorNames.filter((name) => props[name] != null))
+      if (reset) view._onCssStateChange()
+      applyAppearance()
+    }
+    onMounted(refreshAppearance)
+    onUpdated(refreshAppearance)
+    onBeforeUnmount(() => stopAppearance?.())
 
     // iOS: badges and the sidebar live on the controller, which exists once loaded
     const applyIOS = () => {
@@ -266,11 +359,17 @@ export const RouterTabs = defineComponent({
       }
       if (!next.some((tab) => tab.name === current.value)) current.value = next[0]?.name
       const index = selectedIndex.value
+      const colors = Object.fromEntries(
+        colorNames
+          .filter((name) => props[name] != null)
+          .map((name) => [name, props[name]]),
+      )
 
       if (!material) {
         return h(
           'TabView',
           {
+            ...colors,
             ref: tabView,
             selectedIndex: index,
             androidTabsPosition: 'bottom',
@@ -279,6 +378,7 @@ export const RouterTabs = defineComponent({
               onNativeSelect((args.object as TabView).selectedIndex, isIOS),
             onLoaded: () => {
               applyIOS()
+              applyAppearance()
               watchReselects()
             },
           },
@@ -307,7 +407,9 @@ export const RouterTabs = defineComponent({
       return h(
         'RouterTabsHost',
         {
+          ...colors,
           ref: host,
+          onLoaded: applyAppearance,
           selectedIndex: index,
           rows: rail ? '*' : '*, auto',
           columns: rail ? 'auto, *' : '*',
@@ -329,6 +431,9 @@ export const RouterTabs = defineComponent({
             ),
           ),
           h('RouterNavigationBar', {
+            ref: bar,
+            onLoaded: applyAppearance,
+            labelVisibility: props.labelVisibility,
             key: rail ? 'rail' : 'bar',
             row: rail ? 0 : 1,
             col: 0,
@@ -365,6 +470,25 @@ export class TabsHostView extends GridLayout {
   readonly routerTabsHost = true
   private index = 0
 
+  get tabBackgroundColor() {
+    return this.style.tabBackgroundColor
+  }
+  set tabBackgroundColor(value: Color) {
+    this.style.tabBackgroundColor = value
+  }
+  get tabTextColor() {
+    return this.style.tabTextColor
+  }
+  set tabTextColor(value: Color) {
+    this.style.tabTextColor = value
+  }
+  get selectedTabTextColor() {
+    return this.style.selectedTabTextColor
+  }
+  set selectedTabTextColor(value: Color) {
+    this.style.selectedTabTextColor = value
+  }
+
   get selectedIndex() {
     return this.index
   }
@@ -399,6 +523,83 @@ export class MaterialNavigationBar extends View {
   private index = 0
   private updating = false
   private layoutListener: any
+  private colors: TabColors = {}
+  private labels: TabLabelVisibility | undefined
+  private defaults: { icons: any; text: any; background: any; labels: number } | undefined
+
+  get appearance() {
+    return this.colors
+  }
+  set appearance(value: TabColors) {
+    if (
+      colorNames.every((name) => {
+        const a = this.colors[name],
+          b = value[name]
+        return a === b || (!!a && !!b && Color.equals(a, b))
+      })
+    )
+      return
+    this.colors = value
+    this.applyAppearance()
+  }
+  get labelVisibility() {
+    return this.labels
+  }
+  set labelVisibility(value: TabLabelVisibility | undefined) {
+    this.labels = value
+    this.applyAppearance()
+  }
+  private applyAppearance() {
+    const native = this.nativeViewProtected
+    const defaults = this.defaults
+    if (!defaults) return
+    const {
+      tabTextColor: normal,
+      selectedTabTextColor: selected,
+      tabBackgroundColor: background,
+    } = this.colors
+    const states = android.R.attr
+    const tint = (original: any) => {
+      if (!normal && !selected) return original
+      const fallback = original?.getDefaultColor() ?? 0
+      // NativeScript cannot marshal a nested JS array to Java int[][].
+      const arrays = Array as unknown as { create(type: string, length: number): any }
+      const stateList = arrays.create('[I', 3)
+      for (const [index, values] of [
+        [-states.state_enabled],
+        [states.state_checked],
+        [],
+      ].entries()) {
+        const nativeState = arrays.create('int', values.length)
+        values.forEach((value, position) => (nativeState[position] = value))
+        stateList[index] = nativeState
+      }
+      const nativeColors = arrays.create('int', 3)
+      ;[
+        original?.getColorForState([-states.state_enabled], fallback) ?? fallback,
+        selected?.android ??
+          original?.getColorForState(
+            [states.state_enabled, states.state_checked],
+            fallback,
+          ) ??
+          fallback,
+        normal?.android ?? fallback,
+      ].forEach((value, index) => (nativeColors[index] = value))
+      return new android.content.res.ColorStateList(stateList, nativeColors)
+    }
+    native.setItemIconTintList(tint(defaults.icons))
+    native.setItemTextColor(tint(defaults.text))
+    native.setBackgroundTintList(
+      background
+        ? android.content.res.ColorStateList.valueOf(background.android)
+        : defaults.background,
+    )
+    const modes = { auto: -1, selected: 0, labeled: 1, unlabeled: 2 }
+    native.setLabelVisibilityMode(
+      this.labels ? (modes[this.labels] ?? defaults.labels) : defaults.labels,
+    )
+    this.updateSize()
+  }
 
   get items() {
     return this.tabItems
@@ -436,7 +637,13 @@ export class MaterialNavigationBar extends View {
 
   override initNativeView() {
     super.initNativeView()
-    this.updateSize()
+    this.defaults = {
+      icons: this.nativeViewProtected.getItemIconTintList(),
+      text: this.nativeViewProtected.getItemTextColor(),
+      background: this.nativeViewProtected.getBackgroundTintList(),
+      labels: this.nativeViewProtected.getLabelVisibilityMode(),
+    }
+    this.applyAppearance()
     const owner = new WeakRef(this)
     this.layoutListener = new android.view.View.OnLayoutChangeListener({
       onLayoutChange() {
@@ -481,6 +688,7 @@ export class MaterialNavigationBar extends View {
 
   override disposeNativeView() {
     this.appliedItems = []
+    this.defaults = undefined
     this.nativeViewProtected?.removeOnLayoutChangeListener(this.layoutListener)
     this.layoutListener = undefined
     this.nativeViewProtected?.setOnItemSelectedListener(null)
