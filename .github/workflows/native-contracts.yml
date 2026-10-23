@@ -122,7 +122,9 @@ jobs:
     needs: changes
     if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
     runs-on: macos-15
-    timeout-minutes: 30
+    # Includes real HTTP loaders and Suspense/XCTest acceptance before the final
+    # controller fixture. Per-scenario timing and retention budgets remain enforced.
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
