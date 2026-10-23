@@ -28,6 +28,56 @@ Use up to five destinations so they fit the Android bottom bar as well as the ra
 
 The router saves stack histories with `restore`. Persist `v-model:selected` separately if the app should return to the same tab after process death; restoring the stacks does not change that selection.
 
+## Hide navigation on a detail page
+
+Set `meta.tabBarVisibility` on a route. The selected tab's committed top page controls its owning `RouterTabs`:
+
+```ts
+const router = createRouter({
+  routes: [
+    { path: '/inbox', component: Inbox },
+    {
+      path: '/inbox/detail',
+      component: Message,
+      meta: { tabBarVisibility: 'hidden' },
+    },
+    { path: '/saved', component: Saved },
+  ],
+})
+
+// From Inbox: the existing Frame pushes Message and the bar disappears.
+await router.push('/inbox/detail', { frame: 'inbox' })
+// Native Back or router.back() restores Inbox and its bar.
+```
+
+Use this route table with the two `RouterTab` / `RouterView` stacks above. Keep a native Back button or another way back on hidden pages.
+
+| Value                | Meaning                                                                           |
+| -------------------- | --------------------------------------------------------------------------------- |
+| `hidden`             | Hide the supported bottom bar or Material rail and release its layout space.      |
+| `visible`            | Show navigation, including inside a parent route marked `hidden`.                 |
+| `inherit` or omitted | Use the nearest matched parent with an explicit value; otherwise show navigation. |
+
+Inheritance follows matched route records, not the previous page in history. Explicit routes and file routes (`definePageMeta({ meta: { tabBarVisibility: 'hidden' } })`) use the same policy.
+
+The policy changes **after native navigation commits**, without adding an animation. Push, replace, native Back, root resets, restoration and incoming links all use the committed route. A pending/rejected guard, failed page load or cancelled interactive Back keeps the current presentation. During an interactive gesture, the current page's bar state stays in place until completion; reduced motion does not gain an extra bar animation.
+
+Each tab remembers its own policy. Selecting another tab uses that tab's current page; it preserves both histories and page instances. A modal leaves its presenting tabs unchanged. A nested `RouterTabs` owns its own policy, and separate containers/windows do not share it. Use one `RouterView` or `RouterSplitView` per tab; for split navigation, the logical top route supplies the policy. Disposal restores the original UIKit state.
+
+| Host                                                  | Support                                                                                                                                      |
+| ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| iOS 18+ bottom tab bar                                | Public UIKit `setTabBarHidden:animated:`; UIKit recalculates the safe area.                                                                  |
+| `sidebar` on iOS                                      | Keeps native navigation visible, including compact presentations. Disable `sidebar` to use per-page hiding.                                  |
+| Android Material bottom bar / rail                    | Collapses the native view and its auto-sized layout row/column; hidden navigation is excluded from accessibility.                            |
+| Older UIKit / Android Core fallback / plain `TabView` | No per-page hiding. The existing navigation remains visible. `supportsNativeTabs()` alone does not check the iOS version/sidebar limitation. |
+
+<div class="clips">
+<Clip name="ios-tabs-visibility" caption="Detail pages hide the bar; committed navigation restores it. iOS 26 simulator." />
+<Clip name="android-tabs-visibility" aspect="9 / 20" caption="Material bottom bar and rail release their space without replacing the page. Android 14 emulator." />
+</div>
+
+Runnable example: [`demo/src/testing/tabsvisibility-app.ts`](https://github.com/rafaelaugustos/vue-router-ns/blob/main/demo/src/testing/tabsvisibility-app.ts). Build the package, then run `ns run ios --env.tabsvisibilityTest` or `ns run android --env.tabsvisibilityTest` in `demo`. [Native acceptance instructions](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/tabs-visibility) cover real gestures, guards, layout, restoration and cold links.
+
 ## Colors and labels
 
 Use NativeScript's existing tab color names on `RouterTabs`. These update the current native bar without remounting pages or resetting histories:

@@ -150,7 +150,7 @@ Router view names must be unique, including split views. `name` and the initial 
 
 Public types are exported from the package root:
 
-- Tabs: `RouterTabDescriptor`, `TabMinimize`, `TabRole`, `TabLabelVisibility`; `supportsNativeTabs()`.
+- Tabs: `RouterTabDescriptor`, `TabMinimize`, `TabRole`, `TabLabelVisibility`, `TabBarVisibility`; `supportsNativeTabs()`.
 - Router configuration: `Router`, `RouterOptions`, `SystemBackClaimant`, `RouterDrawerHandle`, `RestoreOptions`, `SavedStacks`, `SavedEntry`, `SavedState`, `PageStateOptions`, `PageStateContext`.
 - Routes: `RouteRecordRaw`, `RouteRecord`, `RouteRecordName`, `RouteMeta`, `RouteProps`, `RouteComponent`, `RawRouteComponent`, `Lazy`.
 - Locations: `RouteLocation`, `RouteLocationRaw`, `RouteLocationPathRaw`, `RouteLocationNamedRaw`, `RouteLocationRelativeRaw`, `RouteParams`, `RouteParamsRaw`, `RouteParamValue`, `RouteParamValueRaw`, `LocationQuery`, `LocationQueryRaw`, `LocationQueryValue`, `LocationQueryValueRaw`.

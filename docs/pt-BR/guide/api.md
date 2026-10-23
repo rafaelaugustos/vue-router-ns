@@ -148,7 +148,7 @@ Nomes de router views devem ser únicos, incluindo split views. `name` e a rota 
 
 Os tipos públicos são exportados pela raiz do pacote:
 
-- Abas: `RouterTabDescriptor`, `TabMinimize`, `TabRole`, `TabLabelVisibility`; `supportsNativeTabs()`.
+- Abas: `RouterTabDescriptor`, `TabMinimize`, `TabRole`, `TabLabelVisibility`, `TabBarVisibility`; `supportsNativeTabs()`.
 - Configuração: `Router`, `RouterOptions`, `SystemBackClaimant`, `RouterDrawerHandle`, `RestoreOptions`, `SavedStacks`, `SavedEntry`, `SavedState`, `PageStateOptions`, `PageStateContext`.
 - Rotas: `RouteRecordRaw`, `RouteRecord`, `RouteRecordName`, `RouteMeta`, `RouteProps`, `RouteComponent`, `RawRouteComponent`, `Lazy`.
 - Localizações: `RouteLocation`, `RouteLocationRaw`, `RouteLocationPathRaw`, `RouteLocationNamedRaw`, `RouteLocationRelativeRaw`, `RouteParams`, `RouteParamsRaw`, `RouteParamValue`, `RouteParamValueRaw`, `LocationQuery`, `LocationQueryRaw`, `LocationQueryValue`, `LocationQueryValueRaw`.

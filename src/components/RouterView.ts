@@ -46,6 +46,7 @@ export const RouterView = defineComponent({
         props.initial,
         tab?.reveal,
         tab?.selected,
+        tab?.present,
       )
 
       if (props.backToRootOnReselect) {

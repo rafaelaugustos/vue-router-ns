@@ -1,5 +1,5 @@
 import type { NativeHost } from './host.js'
-import type { RouteLocationRaw } from './types.js'
+import type { RouteLocation, RouteLocationRaw } from './types.js'
 
 /** What `<RouterView>` and `mountNativeHost()` need from the router, kept off the public API. */
 export interface RouterInternals {
@@ -9,6 +9,7 @@ export interface RouterInternals {
     initial: RouteLocationRaw,
     reveal?: () => void,
     selected?: () => boolean,
+    present?: (route: RouteLocation | undefined) => void,
   ): Promise<void>
   unmount(name: string): void
 }

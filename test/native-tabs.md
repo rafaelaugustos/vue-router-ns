@@ -68,3 +68,16 @@ Local artifacts: `scripts/native/out/tabs-style-ios18`, `tabs-style-ios-acceptan
 Package validation: 570 tests passed, 10 existing skips; package/demo typechecks, package/docs builds, formatting and workflow lint passed. Unit coverage checks in-place changes/default restoration, menu/Page identity, CSS observation cleanup, rail propagation and Core fallback. Native checks are necessary for Java array marshalling and the NativeScript-Vue attribute-reset/cascade behavior; neither is proven by the unit shims.
 
 No physical-device or screen-reader speech validation is claimed. UIKit sidebar colors and non-native title hiding are outside this appearance contract. See the guide for the platform support boundary.
+
+## Per-page visibility (#123)
+
+Public API: `meta.tabBarVisibility: 'hidden' | 'visible' | 'inherit'`. The callback belongs to the routed stack's nearest RouterTabs and follows native commits; inherited values come from matched route ancestors. UIKit uses its public iOS 18+ hiding API without extra animation, Material collapses its existing bar/rail, and sidebar/Core fallback behavior is explicitly limited in the guide.
+
+Local acceptance (2026-10-22):
+
+- iPhone 17 simulator, iOS 26.0: 20 native bridge assertions covering layout, modal isolation, guards, replace/root, selection, links and process-restart restoration. XCTest separately passed actual reversing and completed edge gestures, rejected Back and a cold OS link to another tab's hidden detail.
+- Android API 34 emulator with Material: 29 native checks, including real system touch cancellation/commit with unchanged process identity, bottom/rail layout reclamation, guarded Back, modal/page retention, restoration and cold OS links.
+- Android API 34 signed release without Material: 21 native checks confirmed the Core fallback stays visible while preserving normal navigation and restoration.
+- Ten new regression tests cover matched-parent policies, initial/restored routes, nested and independent containers, modal isolation, split adaptation, HMR and disposal. Full suite: 580 passed, 10 existing platform skips. Package/demo typechecks, package build, documentation build and formatting passed.
+
+Reproduce with `scripts/native/tabs-visibility/README.md`. The workflows retain JSON reports/screenshots and XCTest results; docs include real iOS/Android clips. Native screen-reader speech, physical devices and a separate multi-window visibility session were not rerun for this change. Per-container/window ownership is covered by component isolation and the existing window contract suite. Hosted checks remain required before merging.

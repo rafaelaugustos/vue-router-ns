@@ -28,6 +28,56 @@ Use até cinco destinos para caberem tanto na barra inferior do Android quanto n
 
 O router salva os históricos das pilhas com `restore`. Persista `v-model:selected` separadamente se o app deve voltar à mesma aba após a morte do processo; restaurar as pilhas não altera essa seleção.
 
+## Esconder a navegação na página de detalhes
+
+Defina `meta.tabBarVisibility` na rota. A página no topo da aba selecionada controla o `RouterTabs` que contém sua pilha:
+
+```ts
+const router = createRouter({
+  routes: [
+    { path: '/inbox', component: Inbox },
+    {
+      path: '/inbox/detail',
+      component: Message,
+      meta: { tabBarVisibility: 'hidden' },
+    },
+    { path: '/saved', component: Saved },
+  ],
+})
+
+// O Frame existente abre Message e a barra desaparece.
+await router.push('/inbox/detail', { frame: 'inbox' })
+// O voltar nativo ou router.back() restaura Inbox e sua barra.
+```
+
+Use essas rotas com as duas pilhas `RouterTab` / `RouterView` do exemplo acima. Mantenha um botão nativo de voltar ou outra saída nas páginas sem barra.
+
+| Valor                | Significado                                                                                                        |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `hidden`             | Esconde a barra inferior compatível ou o rail Material e libera seu espaço.                                        |
+| `visible`            | Mostra a navegação, mesmo dentro de uma rota pai com `hidden`.                                                     |
+| `inherit` ou omitido | Usa o valor explícito do ancestral mais próximo entre as rotas correspondentes; sem ancestral, mostra a navegação. |
+
+A herança segue os registros de rota, não a página anterior no histórico. Rotas explícitas e rotas por arquivos (`definePageMeta({ meta: { tabBarVisibility: 'hidden' } })`) usam a mesma política.
+
+A mudança acontece **após a navegação nativa ser concluída**, sem animação adicional. Push, replace, voltar nativo, retorno à raiz, restauração e links recebidos usam a rota efetiva. Um guard pendente/recusado, falha ao carregar a página ou gesto de voltar cancelado mantém a apresentação atual. Durante o gesto, o estado da barra só muda quando ele termina; a opção de movimento reduzido não recebe animação extra da barra.
+
+Cada aba guarda sua política. Trocar de aba aplica a página atual dela, preservando históricos e instâncias. Um modal mantém a apresentação das abas que o abriram. Um `RouterTabs` aninhado controla suas próprias abas; containers e janelas independentes não compartilham a política. Use um `RouterView` ou `RouterSplitView` por aba; no split, a rota lógica do topo decide. Ao desmontar, o estado original do UIKit é restaurado.
+
+| Host                                                   | Suporte                                                                                                                                   |
+| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Barra inferior no iOS 18+                              | API pública UIKit `setTabBarHidden:animated:`; o UIKit recalcula a área segura.                                                           |
+| `sidebar` no iOS                                       | Mantém a navegação nativa visível, inclusive no modo compacto. Desative `sidebar` para esconder por página.                               |
+| Barra inferior / rail Material no Android              | Colapsa a view nativa e sua linha/coluna automática; a navegação escondida sai da acessibilidade.                                         |
+| UIKit antigo / fallback Core Android / `TabView` comum | Sem ocultação por página; mantém a navegação existente. `supportsNativeTabs()` sozinho não verifica a limitação de versão/sidebar do iOS. |
+
+<div class="clips">
+<Clip name="ios-tabs-visibility" caption="Detalhes escondem a barra; a navegação concluída a restaura. Simulador iOS 26." />
+<Clip name="android-tabs-visibility" aspect="9 / 20" caption="Barra e rail Material liberam espaço sem substituir a página. Emulador Android 14." />
+</div>
+
+Exemplo executável: [`demo/src/testing/tabsvisibility-app.ts`](https://github.com/rafaelaugustos/vue-router-ns/blob/main/demo/src/testing/tabsvisibility-app.ts). Compile o pacote e rode `ns run ios --env.tabsvisibilityTest` ou `ns run android --env.tabsvisibilityTest` em `demo`. As [instruções de aceitação nativa](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/tabs-visibility) cobrem gestos reais, guards, layout, restauração e links com o app fechado.
+
 ## Cores e títulos
 
 `RouterTabs` aceita os nomes de cores já existentes no NativeScript. As mudanças atualizam a barra nativa sem remontar páginas nem reiniciar os históricos:
