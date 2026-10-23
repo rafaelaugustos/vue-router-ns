@@ -3,6 +3,8 @@ import type { NavigationTransition, ShowModalOptions, View } from '@nativescript
 import type { NavigationFailure } from './errors.js'
 import type { RouteMiddlewareReference } from './middleware.js'
 
+export type TabBarVisibility = 'visible' | 'hidden' | 'inherit'
+
 export type RouteRecordName = string | symbol
 
 /**
@@ -17,6 +19,8 @@ export type RouteRecordName = string | symbol
  * ```
  */
 export interface RouteMeta extends Record<PropertyKey, unknown> {
+  /** Owning RouterTabs bar after native navigation settles. Inherit uses the nearest matched ancestor, then visible. */
+  tabBarVisibility?: TabBarVisibility
   /** Named native layout, or false for a destination that owns its own Page. */
   layout?: string | false
   /** Optional middleware, after beforeEach. Child metadata overrides the parent's list. */

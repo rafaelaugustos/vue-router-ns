@@ -167,6 +167,25 @@ jobs:
             -destination "platform=iOS Simulator,id=$IOS_SIMULATOR" \
             -derivedDataPath /tmp/router-tab-tests/build -collect-test-diagnostics never \
             -resultBundlePath scripts/native/out/tabs-ios/checks.xcresult
+      - name: Validate public tab appearance
+        run: |
+          (cd demo && ns build ios --for-device false --env.tabsstyleTest)
+          xcrun simctl install "$IOS_SIMULATOR" demo/platforms/ios/build/Debug-iphonesimulator/demo.app
+          EXPECTED_HOST=uikit node scripts/native/tabs-style/run.mjs
+      - name: Validate per-page tab visibility and cancelled gestures
+        run: |
+          python3 scripts/native/tabs-visibility/prepare.py
+          (cd demo && ns build ios --for-device false --env.tabsvisibilityTest)
+          EXPECTED_HOST=uikit node scripts/native/tabs-visibility/run.mjs
+          xcrun simctl uninstall "$IOS_SIMULATOR" org.nativescript.vuerouterns
+          xcrun simctl install "$IOS_SIMULATOR" demo/platforms/ios/build/Debug-iphonesimulator/demo.app
+          ruby scripts/native/tabs-visibility/project.rb /tmp/router-tab-visibility-tests
+          mkdir -p scripts/native/out/tabs-visibility-ios
+          node scripts/native/command-timeout.mjs 600000 xcodebuild test \
+            -project /tmp/router-tab-visibility-tests/VisibilityChecks.xcodeproj -scheme VisibilityChecks \
+            -destination "platform=iOS Simulator,id=$IOS_SIMULATOR" \
+            -derivedDataPath /tmp/router-tab-visibility-tests/build -collect-test-diagnostics never \
+            -resultBundlePath scripts/native/out/tabs-visibility-ios/checks.xcresult
       - name: Build former HMR fixture
         working-directory: demo
         run: ns build ios --for-device false --env.contractsTest --env.contractFault

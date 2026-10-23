@@ -28,6 +28,111 @@ Use até cinco destinos para caberem tanto na barra inferior do Android quanto n
 
 O router salva os históricos das pilhas com `restore`. Persista `v-model:selected` separadamente se o app deve voltar à mesma aba após a morte do processo; restaurar as pilhas não altera essa seleção.
 
+## Esconder a navegação na página de detalhes
+
+Defina `meta.tabBarVisibility` na rota. A página no topo da aba selecionada controla o `RouterTabs` que contém sua pilha:
+
+```ts
+const router = createRouter({
+  routes: [
+    { path: '/inbox', component: Inbox },
+    {
+      path: '/inbox/detail',
+      component: Message,
+      meta: { tabBarVisibility: 'hidden' },
+    },
+    { path: '/saved', component: Saved },
+  ],
+})
+
+// O Frame existente abre Message e a barra desaparece.
+await router.push('/inbox/detail', { frame: 'inbox' })
+// O voltar nativo ou router.back() restaura Inbox e sua barra.
+```
+
+Use essas rotas com as duas pilhas `RouterTab` / `RouterView` do exemplo acima. Mantenha um botão nativo de voltar ou outra saída nas páginas sem barra.
+
+| Valor                | Significado                                                                                                        |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `hidden`             | Esconde a barra inferior compatível ou o rail Material e libera seu espaço.                                        |
+| `visible`            | Mostra a navegação, mesmo dentro de uma rota pai com `hidden`.                                                     |
+| `inherit` ou omitido | Usa o valor explícito do ancestral mais próximo entre as rotas correspondentes; sem ancestral, mostra a navegação. |
+
+A herança segue os registros de rota, não a página anterior no histórico. Rotas explícitas e rotas por arquivos (`definePageMeta({ meta: { tabBarVisibility: 'hidden' } })`) usam a mesma política.
+
+A mudança acontece **após a navegação nativa ser concluída**, sem animação adicional. Push, replace, voltar nativo, retorno à raiz, restauração e links recebidos usam a rota efetiva. Um guard pendente/recusado, falha ao carregar a página ou gesto de voltar cancelado mantém a apresentação atual. Durante o gesto, o estado da barra só muda quando ele termina; a opção de movimento reduzido não recebe animação extra da barra.
+
+Cada aba guarda sua política. Trocar de aba aplica a página atual dela, preservando históricos e instâncias. Um modal mantém a apresentação das abas que o abriram. Um `RouterTabs` aninhado controla suas próprias abas; containers e janelas independentes não compartilham a política. Use um `RouterView` ou `RouterSplitView` por aba; no split, a rota lógica do topo decide. Ao desmontar, o estado original do UIKit é restaurado.
+
+| Host                                                   | Suporte                                                                                                                                   |
+| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Barra inferior no iOS 18+                              | API pública UIKit `setTabBarHidden:animated:`; o UIKit recalcula a área segura.                                                           |
+| `sidebar` no iOS                                       | Mantém a navegação nativa visível, inclusive no modo compacto. Desative `sidebar` para esconder por página.                               |
+| Barra inferior / rail Material no Android              | Colapsa a view nativa e sua linha/coluna automática; a navegação escondida sai da acessibilidade.                                         |
+| UIKit antigo / fallback Core Android / `TabView` comum | Sem ocultação por página; mantém a navegação existente. `supportsNativeTabs()` sozinho não verifica a limitação de versão/sidebar do iOS. |
+
+<div class="clips">
+<Clip name="ios-tabs-visibility" caption="Detalhes escondem a barra; a navegação concluída a restaura. Simulador iOS 26." />
+<Clip name="android-tabs-visibility" aspect="9 / 20" caption="Barra e rail Material liberam espaço sem substituir a página. Emulador Android 14." />
+</div>
+
+Exemplo executável: [`demo/src/testing/tabsvisibility-app.ts`](https://github.com/rafaelaugustos/vue-router-ns/blob/main/demo/src/testing/tabsvisibility-app.ts). Compile o pacote e rode `ns run ios --env.tabsvisibilityTest` ou `ns run android --env.tabsvisibilityTest` em `demo`. As [instruções de aceitação nativa](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/tabs-visibility) cobrem gestos reais, guards, layout, restauração e links com o app fechado.
+
+## Cores e títulos
+
+`RouterTabs` aceita os nomes de cores já existentes no NativeScript. As mudanças atualizam a barra nativa sem remontar páginas nem reiniciar os históricos:
+
+```vue
+<RouterTabs
+  :tabBackgroundColor="dark ? '#172033' : '#f1f5f9'"
+  :tabTextColor="dark ? '#cbd5e1' : '#475569'"
+  :selectedTabTextColor="dark ? '#38bdf8' : '#2563eb'"
+  labelVisibility="labeled"
+>
+  <RouterTab name="inbox" title="Inbox" icon="tray.fill" androidIcon="sys://ic_dialog_email" :badge="2">
+    <RouterView name="inbox" initial="/inbox" />
+  </RouterTab>
+  <RouterTab name="saved" title="Salvos" icon="bookmark.fill" androidIcon="sys://ic_menu_save">
+    <RouterView name="saved" initial="/saved" />
+  </RouterTab>
+</RouterTabs>
+```
+
+| Prop                   | CSS                       | Efeito                                                                                           |
+| ---------------------- | ------------------------- | ------------------------------------------------------------------------------------------------ |
+| `tabBackgroundColor`   | `tab-background-color`    | Fundo/tinta da barra nativa.                                                                     |
+| `tabTextColor`         | `tab-text-color`          | Títulos não selecionados; também ícones template no UIKit e Material.                            |
+| `selectedTabTextColor` | `selected-tab-text-color` | Títulos selecionados; também ícones template no UIKit e Material.                                |
+| `labelVisibility`      | —                         | Material: `auto`, `selected`, `labeled` ou `unlabeled`. Omitida, usa o padrão do tema do widget. |
+
+As cores aceitam string ou `Color` do NativeScript. Também é possível aplicar uma classe em `RouterTabs`:
+
+```css
+.app-tabs {
+  tab-background-color: #f1f5f9;
+  tab-text-color: #475569;
+  selected-tab-text-color: #2563eb;
+}
+.ns-dark .app-tabs {
+  tab-background-color: #172033;
+  tab-text-color: #cbd5e1;
+  selected-tab-text-color: #38bdf8;
+}
+```
+
+A classe chega à raiz nativa (`TabView` no iOS/fallback; `RouterTabsHost` no Material). Use um seletor de classe para ambas as plataformas. As cores das abas não são herdadas do pai e não mudam as cores das páginas. Props explícitas e estilo inline são valores locais do NativeScript e têm precedência sobre regras CSS; evite definir a mesma cor pelos dois meios. Cores omitidas preservam os padrões nativos/do tema. Cores fixas não se invertem automaticamente no modo escuro: vincule uma paleta ou use as classes claro/escuro do NativeScript. A troca de paleta/classe atualiza o widget existente, inclusive a rail criada após redimensionar.
+
+O Material aceita os quatro modos de título na barra inferior e na rail. Ocultar o texto preserva o título e sua descrição de acessibilidade. UIKit e `TabView` do Core ignoram `labelVisibility`, mantendo o layout nativo dos títulos. O fallback Android aceita as três cores existentes para fundo/texto; a cor dos ícones segue o comportamento do Core. Material continua opcional.
+
+No iOS, as cores personalizam a **tab bar** pelas APIs de aparência do Core e tint de ícones template do UIKit. Elas não personalizam a sidebar do iPad. O UIKit controla linhas da sidebar, posição, visibilidade dos títulos e a composição Liquid Glass do iOS 26; o fundo renderizado pode ser translúcido. Na gravação de validação do iOS 26, o UIKit também mantém a cor de sistema do SF Symbol não selecionado, apesar de aceitar o tint configurado; títulos e o ícone selecionado mudam. Não dependa de uma cor exata para o ícone não selecionado nessa versão. CSS existente de `TabView` (incluindo fonte dos títulos) continua funcionando nesse host; propriedades exclusivas do Core não formam um contrato de estilo para Material.
+
+<div class="clips">
+<Clip name="ios-tabs-style" caption="Troca de cores com páginas de detalhes abertas. Simulador iOS 26." />
+<Clip name="android-tabs-style" aspect="9 / 20" caption="Cores, títulos e rail Material mudam mantendo as duas pilhas montadas. Emulador Android 14." />
+</div>
+
+Execute o [exemplo compartilhado](https://github.com/rafaelaugustos/vue-router-ns/blob/main/demo/src/testing/tabsstyle-app.ts) com `cd demo && ns run ios --env.tabsstyleTest` (ou `ns run android --env.tabsstyleTest`). Ele inclui controles de paleta, títulos e rail, além de um campo de rascunho. Veja a [validação nativa](https://github.com/rafaelaugustos/vue-router-ns/blob/main/scripts/native/tabs-style/README.md).
+
 ## Sidebar no iPad
 
 <Clip name="ipad-tabs" :width="480" aspect="3 / 4" caption="A sidebar do UIKit seleciona Inbox e Settings, cada uma com sua própria pilha. Simulador iPadOS 26." />

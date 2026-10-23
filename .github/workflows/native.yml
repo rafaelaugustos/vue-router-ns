@@ -69,6 +69,15 @@ jobs:
           cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-demo.apk
           ns build android --env.tabsTest
           cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-tabs.apk
+          ns build android --env.tabsstyleTest
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-tabs-style.apk
+          ns build android --env.tabsvisibilityTest
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-tabs-visibility.apk
+          keytool -genkeypair -keystore /tmp/router-tabs-test.keystore -storepass android -keypass android -alias tabs-test -dname "CN=Router test" -keyalg RSA -validity 2
+          ns build android --release --env.tabsstyleTest --key-store-path /tmp/router-tabs-test.keystore --key-store-password android --key-store-alias tabs-test --key-store-alias-password android
+          cp platforms/android/app/build/outputs/apk/release/app-release.apk /tmp/router-tabs-core.apk
+          ns build android --release --env.tabsvisibilityTest --key-store-path /tmp/router-tabs-test.keystore --key-store-password android --key-store-alias tabs-test --key-store-alias-password android
+          cp platforms/android/app/build/outputs/apk/release/app-release.apk /tmp/router-tabs-visibility-core.apk
           ns build android --env.drawerTest
           cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-drawer.apk
           ns build android --env.middlewareTest
@@ -82,6 +91,8 @@ jobs:
           npx tsc --noEmit
           cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-state.apk
         working-directory: demo
+      - name: Build native gesture input driver
+        run: node scripts/native/contracts/build-touch.mjs
       - name: Prepare the convention-based example
         working-directory: examples/file-routing
         run: |
@@ -100,6 +111,16 @@ jobs:
             APK=/tmp/router-demo.apk bash scripts/native/smoke-android.sh
             adb install -r /tmp/router-tabs.apk
             ANDROID_SERIAL=emulator-5554 node scripts/native/tabs/android.mjs
+            adb install -r /tmp/router-tabs-style.apk
+            ANDROID_SERIAL=emulator-5554 EXPECTED_HOST=bottom node scripts/native/tabs-style/run.mjs
+            adb install -r /tmp/router-tabs-visibility.apk
+            ANDROID_SERIAL=emulator-5554 EXPECTED_HOST=bottom TOUCH_APK=/tmp/router-contract-touch/touch.apk node scripts/native/tabs-visibility/run.mjs
+            adb uninstall org.nativescript.vuerouterns
+            adb install /tmp/router-tabs-core.apk
+            ANDROID_SERIAL=emulator-5554 ANDROID_ROOT=1 EXPECTED_HOST=core OUT=scripts/native/out/tabs-style-core node scripts/native/tabs-style/run.mjs
+            adb install -r /tmp/router-tabs-visibility-core.apk
+            ANDROID_SERIAL=emulator-5554 ANDROID_ROOT=1 EXPECTED_HOST=core OUT=scripts/native/out/tabs-visibility-core node scripts/native/tabs-visibility/run.mjs
+            adb uninstall org.nativescript.vuerouterns
             adb install -r /tmp/router-drawer.apk
             ANDROID_SERIAL=emulator-5554 node scripts/native/drawer-android.mjs
             adb install -r /tmp/router-middleware.apk

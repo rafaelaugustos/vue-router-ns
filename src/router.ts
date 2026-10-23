@@ -360,6 +360,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   const lastFrame = shallowRef<Stack>()
   const entriesByPage = new WeakMap<Page, Entry>()
   const detachers = new WeakMap<Stack, () => void>()
+  const presentations = new WeakMap<Stack, (route: RouteLocation | undefined) => void>()
   const initializing = new WeakMap<Stack, Promise<void>>()
   const windowWaiters = new Map<Stack, () => void>()
   const previews = new Map<Stack, BackPreview>()
@@ -467,6 +468,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     diagnostics?.event('host', stack, 'dispose')
     previews.get(stack)?.dispose()
     stack.closed = true
+    presentations.get(stack)?.(undefined)
+    presentations.delete(stack)
     windowWaiters.get(stack)?.()
     detachers.get(stack)?.()
     stack.host?.dispose()
@@ -501,6 +504,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       .filter((entry): entry is Entry => !!entry)
 
     stack.entries.value = after
+    presentations.get(stack)?.(after.at(-1)?.route)
     if (before.at(-1) !== after.at(-1)) previews.get(stack)?.dispose()
     for (const entry of before) {
       if (!after.includes(entry)) dispose(entry)
@@ -1873,12 +1877,13 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   }
 
   const internals: RouterInternals = {
-    mount(name, host, initial, reveal, selected) {
+    mount(name, host, initial, reveal, selected, present) {
       if (frames.has(name)) throw new Error(`Two router views are named "${name}"`)
 
       const stack = createStack(name, false, initial)
       stack.reveal = reveal
       stack.selected = selected
+      if (present) presentations.set(stack, present)
       attach(stack, host)
       frames.set(name, stack)
 

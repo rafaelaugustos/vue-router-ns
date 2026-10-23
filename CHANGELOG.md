@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add typed `meta.tabBarVisibility` for the owning `RouterTabs`: inherit matched route metadata, apply the committed page after navigation, preserve cancelled gestures/guards and isolate tabs, modals and windows. Support UIKit 18+ bottom bars and Material bottom navigation/rail, with documented sidebar/Core fallback limits and runnable native examples.
+
+- Add public `RouterTabs` color props using NativeScript's existing CSS names, plus Material `labelVisibility`. Apply runtime styles to bottom navigation and rail without recreating pages or menus; restore the current CSS when a prop override is removed. Document UIKit/sidebar and Core fallback differences with a runnable example and native recordings.
+
 - Fix iOS tab switching incorrectly triggering `backToRootOnReselect` and resetting the destination stack. Coalesce duplicate UIKit selection callbacks within the same native event turn, preserving genuine reselection, selection vetoes and leave guards. Cancel queued delegate installation when its observer is removed.
 - Experimental window ownership on supported Core 9.1.3+ / NativeScript-Vue 3.1.2+: one router per NativeWindow, window-scoped Android back/gesture callbacks and modal targets, typed `openWindow()` handoff, and per-window restore context/key.
 - Retain Vue page apps across native Activity recreation by owning their mount/unmount lifecycle in the router. Preserve native Page HMR and dispose apps on completed removal/window closure. A bound Android router opens new windows through its live Activity, including after the original Activity finishes. Both paths run on published Core 9.1.3 / NativeScript-Vue 3.1.2.

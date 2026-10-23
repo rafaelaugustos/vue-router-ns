@@ -11,6 +11,7 @@ import {
 import { reselected } from '../src/tabs.js'
 import { mount, page, paths, settle } from './helpers.js'
 import {
+  Color,
   Frame,
   installMaterial,
   NavigationBarStub,
@@ -403,5 +404,126 @@ describe('native tab host', () => {
     } finally {
       uninstall()
     }
+  })
+})
+
+describe('tab appearance', () => {
+  it('updates and clears UIKit icon tint without touching the controller or stack', async () => {
+    const { app, router } = await mount(routes, {
+      render: tree({ tabTextColor: '#334455' }),
+    })
+    const view = views.get('TabView')!.at(-1) as TabView
+    const native = { unselectedItemTintColor: 'system' }
+    view.ios.tabBar = native
+    view.notify({ eventName: 'loaded', object: view })
+    await router.push('/detail', { frame: 'a' })
+    const frame = views.get('Frame')!.at(-2) as Frame
+    const page = frame.currentPage
+    expect(native.unselectedItemTintColor).toBe('#334455')
+    view.style.tabTextColor = new Color('#eeeeee')
+    expect(native.unselectedItemTintColor).toBe('#eeeeee')
+    view.style.tabTextColor = undefined
+    expect(native.unselectedItemTintColor).toBe('system')
+    expect(frame.currentPage).toBe(page)
+    app.unmount()
+    expect(view.style.listenerCount('tabTextColorChange')).toBe(0)
+  })
+
+  it('changes Material colors/labels in place, preserves disabled colors, and restores defaults', async () => {
+    const uninstall = installMaterial()
+    try {
+      const normal = ref<string | undefined>('#334455')
+      const labels = ref('labeled')
+      const { app, router } = await mount(routes, {
+        platform: 'android',
+        render: () =>
+          tree({
+            tabTextColor: normal.value,
+            selectedTabTextColor: '#0055cc',
+            labelVisibility: labels.value,
+          })(),
+      })
+      const host = views.get('RouterTabsHost')!.at(-1) as View
+      const bar = views.get('RouterNavigationBar')!.at(-1) as any
+      bar._context = { getTheme: () => ({ resolveAttribute: () => false }) }
+      bar.native = bar.createNativeView()
+      const native = bar.native as NavigationBarStub
+      const originals = {
+        icons: native.icons,
+        text: native.textColor,
+        background: native.background,
+      }
+      bar.initNativeView()
+      await router.push('/detail', { frame: 'a' })
+      const frame = views.get('Frame')!.at(-2) as Frame
+      const current = frame.currentPage
+      const menu = [...native.items]
+      expect(native.icons.colors).toEqual(['theme-icon', '#0055cc', '#334455'])
+      expect(native.textColor.colors).toEqual(['theme-text', '#0055cc', '#334455'])
+      expect(native.labels).toBe(1)
+      normal.value = '#ffffff'
+      labels.value = 'unlabeled'
+      await settle()
+      expect(native.icons.colors.at(-1)).toBe('#ffffff')
+      expect(native.labels).toBe(2)
+      // Resolved CSS changes reach the native widget without a Vue render.
+      host.style.tabBackgroundColor = new Color('#112233')
+      expect(native.background.colors).toEqual(['#112233'])
+      host.style.tabTextColor = undefined
+      host.style.selectedTabTextColor = undefined
+      host.style.tabBackgroundColor = undefined
+      expect(native.icons).toBe(originals.icons)
+      expect(native.textColor).toBe(originals.text)
+      expect(native.background).toBe(originals.background)
+      expect(native.items[0]).toBe(menu[0])
+      expect(native.items[1]).toBe(menu[1])
+      expect(native.badges.get(0)?.number).toBe(2)
+      expect(frame.currentPage).toBe(current)
+      expect(frame.backStack).toHaveLength(1)
+      app.unmount()
+      expect(host.style.listenerCount('tabTextColorChange')).toBe(0)
+    } finally {
+      uninstall()
+    }
+  })
+
+  it('carries resolved colors to a new rail without remounting frames', async () => {
+    const uninstall = installMaterial()
+    try {
+      const { app, router } = await mount(routes, {
+        platform: 'android',
+        render: tree({ tabTextColor: '#123456' }),
+      })
+      const host = views.get('RouterTabsHost')!.at(-1) as View
+      await router.push('/detail', { frame: 'a' })
+      const frames = views.get('Frame')!.slice(-2)
+      host.width = 800
+      host.notify({ eventName: 'layoutChanged', object: host })
+      await settle()
+      const rail = views.get('RouterNavigationBar')!.at(-1) as any
+      expect(rail.rail).toBe(true)
+      expect(rail.appearance.tabTextColor.value).toBe('#123456')
+      expect(views.get('Frame')!.slice(-2)).toEqual(frames)
+      app.unmount()
+    } finally {
+      uninstall()
+    }
+  })
+
+  it('passes colors to core TabView without Material and keeps native label layout', async () => {
+    const { app } = await mount(routes, {
+      platform: 'android',
+      render: tree({
+        tabTextColor: '#123456',
+        tabBackgroundColor: '#ffffff',
+        selectedTabTextColor: '#abcdef',
+        labelVisibility: 'unlabeled',
+      }),
+    })
+    const native = views.get('TabView')!.at(-1) as TabView
+    expect(native.style.tabTextColor.value).toBe('#123456')
+    expect(native.style.tabBackgroundColor.value).toBe('#ffffff')
+    expect((native as any).labelVisibility).toBeUndefined()
+    app.unmount()
   })
 })

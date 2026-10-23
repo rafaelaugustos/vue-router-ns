@@ -39,11 +39,41 @@ export class Observable {
   }
 }
 
+export const unsetValue = undefined
+
 export class Color {
   constructor(public value: string) {}
+  static equals(a: Color | undefined, b: Color | undefined) {
+    return a?.value === b?.value
+  }
+  get android() {
+    return this.value
+  }
+  get ios() {
+    return this.value
+  }
+}
+
+class TabStyle extends Observable {
+  [key: string]: any
+  constructor() {
+    super()
+    for (const name of ['tabTextColor', 'selectedTabTextColor', 'tabBackgroundColor']) {
+      let value: Color | undefined
+      Object.defineProperty(this, name, {
+        get: () => value,
+        set: (next: Color | string | undefined) => {
+          value = typeof next === 'string' ? new Color(next) : next
+          this.notify({ eventName: `${name}Change`, object: this })
+        },
+      })
+    }
+  }
 }
 
 export class View extends Observable {
+  style = new TabStyle()
+  _onCssStateChange() {}
   window: NativeWindow | undefined
   getNativeWindow(): NativeWindow | undefined {
     return this.window ?? this.parent?.getNativeWindow()
@@ -235,6 +265,24 @@ export class DrawerLayoutStub extends LayoutBase {
 export class ListView extends View {}
 
 export class TabView extends View {
+  get tabBackgroundColor() {
+    return this.style.tabBackgroundColor
+  }
+  set tabBackgroundColor(value: any) {
+    this.style.tabBackgroundColor = value
+  }
+  get tabTextColor() {
+    return this.style.tabTextColor
+  }
+  set tabTextColor(value: any) {
+    this.style.tabTextColor = value
+  }
+  get selectedTabTextColor() {
+    return this.style.selectedTabTextColor
+  }
+  set selectedTabTextColor(value: any) {
+    this.style.selectedTabTextColor = value
+  }
   private index = 0
   get selectedIndex() {
     return this.index
@@ -941,8 +989,52 @@ export class SheetFragment {
 }
 
 /** Material's bottom navigation and rail, as far as menu items, selection and badges go. */
+class ColorStateListStub {
+  constructor(
+    public states: number[][],
+    public colors: unknown[],
+  ) {}
+  getDefaultColor() {
+    return this.colors.at(-1)
+  }
+  getColorForState(state: number[]) {
+    const index = this.states.findIndex((item) => String(item) === String(state))
+    return index < 0 ? this.getDefaultColor() : this.colors[index]
+  }
+  static valueOf(color: unknown) {
+    return new ColorStateListStub([[]], [color])
+  }
+}
 export class NavigationBarStub {
   static created: NavigationBarStub[] = []
+  icons = new ColorStateListStub([], ['theme-icon'])
+  textColor = new ColorStateListStub([], ['theme-text'])
+  background = new ColorStateListStub([], ['theme-background'])
+  labels = -1
+  getItemIconTintList() {
+    return this.icons
+  }
+  getItemTextColor() {
+    return this.textColor
+  }
+  getBackgroundTintList() {
+    return this.background
+  }
+  getLabelVisibilityMode() {
+    return this.labels
+  }
+  setItemIconTintList(value: any) {
+    this.icons = value
+  }
+  setItemTextColor(value: any) {
+    this.textColor = value
+  }
+  setBackgroundTintList(value: any) {
+    this.background = value
+  }
+  setLabelVisibilityMode(value: number) {
+    this.labels = value
+  }
   items: { id: number; title: string; icon: number }[] = []
   badges = new Map<number, { number?: number; text?: string; visible: boolean }>()
   selected = -1
@@ -1034,7 +1126,8 @@ export class NavigationBarStub {
 /** Puts Material's classes in the build, the way an app's Gradle dependency does. */
 export function installMaterial(): () => void {
   const g = globalThis as any
-  const previous = { com: g.com, android: g.android }
+  const previous = { com: g.com, android: g.android, arrayCreate: g.Array.create }
+  g.Array.create = (_type: string, length: number) => new Array(length)
   g.com = {
     google: {
       android: {
@@ -1079,6 +1172,8 @@ export function installMaterial(): () => void {
     },
   }
   g.android = {
+    R: { attr: { state_enabled: 1, state_checked: 2 } },
+    content: { res: { ColorStateList: ColorStateListStub } },
     animation: { ValueAnimator: { areAnimatorsEnabled: () => true } },
     ...(g.android ?? {}),
     os: { ...(g.android?.os ?? {}), Bundle },
@@ -1113,6 +1208,8 @@ export function installMaterial(): () => void {
     },
   }
   return () => {
+    if (previous.arrayCreate === undefined) delete g.Array.create
+    else g.Array.create = previous.arrayCreate
     if (previous.com === undefined) delete g.com
     else g.com = previous.com
     if (previous.android === undefined) delete g.android
