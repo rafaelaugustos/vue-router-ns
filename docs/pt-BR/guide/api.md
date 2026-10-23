@@ -113,6 +113,14 @@ Paths aceitam parâmetros nomeados, opcionais/repetidos e padrões personalizado
 
 `createRouter({ layouts, defaultLayout })` registra componentes/factories de layouts por router. `defaultLayout` é `false` por padrão; `meta.layout` seleciona um nome ou desativa o layout com `false`. O layout monta a Page raiz e a ActionBar opcional; o destino fornece o corpo pelo slot padrão. A seleção fica fixa por entrada, com instâncias separadas do layout/conteúdo por visita. Nomes desconhecidos/imports com erro rejeitam antes da montagem. Veja [layouts nativos](./layouts) para ciclo de vida, HMR, diagnósticos e exemplos.
 
+## Dados da rota (experimental)
+
+`defineRouteLoader(load)` infere o resultado de `(context) => value | PromiseLike<value>`. Declare em `meta.loaders`; `createRouter({ loaders })` registra nomes opcionais para metadados explícitos/gerados por arquivos. Declarações de pais e filhos se somam e removem repetições da mesma definição.
+
+`useRouteData(loader)` retorna refs somente leitura por entrada (`data`, `error`, `status`), a Promise `ready` da tentativa atual e `reload()`. Ambas as Promises resolvem em sucesso, falha ou cancelamento; erros de dados ficam no estado. Loaders começam após autorização e não bloqueiam a apresentação nativa. Veja [carregamento de dados](./data-loading) para cancelamento, ciclo de vida, cache e exemplos nativos.
+
+Tipos exportados: `RouteLoader<T>`, `RouteLoaderContext`, `RouteLoaderReference`, `RouteData<T>`, `RouteDataStatus`.
+
 ## Composables
 
 | Função                                 | Contrato                                                                                                                                                                                                                                                             |

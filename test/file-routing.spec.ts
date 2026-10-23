@@ -193,6 +193,13 @@ const invalid: FileRouteParams<'settings-tab'> = { tab: [] }
     })
     expect(result.stdout).toBe('')
   })
+  it('preserves named route loaders in generated metadata', async () => {
+    const f = await fixture({ 'index.vue': sfc('{ meta: { loaders: ["product"] } }') })
+    const generated = await generateFileRoutes(f)
+    expect(generated.pages[0]!.metadata.meta!.loaders).toEqual(['product'])
+    expect(generated.code).toContain('"loaders"')
+    expect(generated.code).toContain('"product"')
+  })
   it('selects one platform variant, falls back to common pages, and skips opposite-only pages', async () => {
     const f = await fixture({
       'index.vue': sfc(),

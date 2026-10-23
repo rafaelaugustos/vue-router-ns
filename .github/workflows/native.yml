@@ -91,6 +91,11 @@ jobs:
           npx tsc --noEmit
           cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-state.apk
         working-directory: demo
+      - name: Build route data HTTP fixture
+        run: |
+          python3 scripts/native/loaders/prepare.py
+          (cd demo && ns build android --env.loadersTest)
+          cp demo/platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-loaders.apk
       - name: Build native gesture input driver
         run: node scripts/native/contracts/build-touch.mjs
       - name: Prepare the convention-based example
@@ -131,6 +136,8 @@ jobs:
             bash scripts/native/files-android.sh
             adb install -r /tmp/router-state.apk
             ANDROID_SERIAL=emulator-5554 bash scripts/native/state-android.sh
+            adb install -r /tmp/router-loaders.apk
+            ANDROID_SERIAL=emulator-5554 node scripts/native/loaders/run.mjs
             ANDROID_SERIAL=emulator-5554 node scripts/native/conventions-watch.mjs android
             ROUTER_BUNDLER=vite ANDROID_SERIAL=emulator-5554 node scripts/native/conventions-watch.mjs android
       - uses: actions/upload-artifact@v4

@@ -1,3 +1,4 @@
+import { createRouteData, disposeRouteData, type RouteLoader } from './route-data.js'
 import {
   Application,
   isAndroid,
@@ -166,6 +167,8 @@ export interface RouterOptions<
   R extends readonly RouteRecordRaw[] = readonly RouteRecordRaw[],
 > {
   routes: R
+  /** Experimental named data loaders, referenced by meta.loaders (including file routes). */
+  loaders?: Readonly<Record<string, RouteLoader>>
   /** One router per NativeWindow. Otherwise inferred from the first mounted view. */
   window?: RouterWindow
   /** Optional native layouts. Each owns a Page and renders its destination through a slot. */
@@ -351,6 +354,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   const middleware = createMiddlewareRegistry()
   const resolveGuards = callbacks<NavigationGuard>()
   const afterHooks = callbacks<NavigationHookAfter>()
+  const startRouteData = createRouteData(options.loaders)
   const errorHandlers = callbacks<NavigationErrorHandler>()
   const backClaimants = callbacks<SystemBackClaimant>()
   const claimedBack = () => backClaimants.list().find((claimant) => claimant.owns())
@@ -551,6 +555,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   function dispose(entry: Entry) {
     if (entry.disposed) return
     entry.disposed = true
+    disposeRouteData(entry)
     try {
       disposeNativeDestination(entry)
     } catch (error) {
@@ -569,6 +574,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     zoomFrom?: Entry['zoomFrom'],
     saved?: Request['saved'],
     layout?: EntryLayout,
+    from: RouteLocation = topOf(stack)?.route ?? START_LOCATION,
   ) {
     const entry: Entry = {
       id: ++entryId,
@@ -592,6 +598,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       settle: undefined,
       disposed: false,
     }
+    startRouteData(entry, from)
     return entry
   }
 
@@ -1200,6 +1207,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       undefined,
       undefined,
       request.layout,
+      topOf(request.stack)?.route ?? START_LOCATION,
     )
     request.onEntry?.(entry)
 

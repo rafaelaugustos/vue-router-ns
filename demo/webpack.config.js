@@ -16,6 +16,7 @@ module.exports = (env) => {
       'tabs',
       'tabsstyle',
       'tabsvisibility',
+      'loaders',
       'windows',
       'entrypoints',
       'drawer',

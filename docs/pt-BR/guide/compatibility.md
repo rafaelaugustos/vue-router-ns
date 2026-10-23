@@ -23,6 +23,7 @@ A RC congela rotas explícitas e destinos tipados; push/replace/back e resultado
 
 Continuam **experimentais e opcionais**:
 
+- [Carregamento de dados da rota](./data-loading): estado e cancelamento por entrada, sem bloquear a apresentação nativa.
 - [Rotas por arquivos](./file-routing), incluindo o contrato de geração e integração com bundlers. Rotas explícitas não dependem disso.
 - [Hosts nativos personalizados](./native-hosts) e [destinos com controllers/Fragments](./native-destinations). Mudanças incompatíveis exigem uma nova versão do contrato de hosts.
 - `backPreview: 'core'`, que depende do protótipo upstream fixado no [relatório de predictive back](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-predictive-back.md). O Core publicado usa o fallback existente.

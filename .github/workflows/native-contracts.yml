@@ -186,6 +186,12 @@ jobs:
             -destination "platform=iOS Simulator,id=$IOS_SIMULATOR" \
             -derivedDataPath /tmp/router-tab-visibility-tests/build -collect-test-diagnostics never \
             -resultBundlePath scripts/native/out/tabs-visibility-ios/checks.xcresult
+      - name: Validate route data with real HTTP
+        run: |
+          python3 scripts/native/loaders/prepare.py
+          (cd demo && ns build ios --for-device false --env.loadersTest)
+          xcrun simctl install "$IOS_SIMULATOR" demo/platforms/ios/build/Debug-iphonesimulator/demo.app
+          node scripts/native/loaders/run.mjs
       - name: Build former HMR fixture
         working-directory: demo
         run: ns build ios --for-device false --env.contractsTest --env.contractFault

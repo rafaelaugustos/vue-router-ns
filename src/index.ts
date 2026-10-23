@@ -1,3 +1,11 @@
+export { defineRouteLoader, useRouteData } from './route-data.js'
+export type {
+  RouteLoader,
+  RouteLoaderContext,
+  RouteLoaderReference,
+  RouteData,
+  RouteDataStatus,
+} from './route-data.js'
 import type { RegisteredRouter } from './typed.js'
 import type { RouteLocation } from './types.js'
 

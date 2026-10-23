@@ -8,6 +8,10 @@ Escolha uma funcionalidade, veja o resultado e copie o trecho correspondente. Os
 
 [Instalação](./install) · [Transição a partir de um elemento](./transitions#card-com-routerlink) · [Demo completo](https://github.com/rafaelaugustos/vue-router-ns/tree/main/demo)
 
+## Dados do produto, erro e retry
+
+Declare um loader tipado na rota e mostre espera/erro/sucesso dentro da mesma Page nativa. Voltar e tentar novamente preservam a navegação; o cache do app pode compartilhar requisições entre entradas. [Exemplo completo e vídeos](./data-loading).
+
 ## Abrir uma página a partir de um card
 
 <Clip name="ios-zoom" caption="O card abre a mensagem com o zoom do UIKit e recebe a transição de volta. Simulador iOS 26." />
