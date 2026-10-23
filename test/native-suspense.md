@@ -89,6 +89,9 @@ holding the original fetch response turned the pending fallback into a network
 error after about 60 seconds. With the explicit fixture timeout, the same request
 remained pending beyond 80 seconds and rendered its content when released. The
 full iOS 18.6 suite then passed all three gestures using a fresh XCTest build.
+The startup-readiness check was also validated with a disposable iOS test build
+that delays JavaScript startup by 6.5 seconds: its first command response arrived
+after 8 seconds, and the complete Suspense and gesture suite passed.
 
 Focus evaluation is limited to a stable accessible heading outside Suspense and
 the existing `useNavigationFocus` lifecycle. This is not a manual VoiceOver or
@@ -156,6 +159,9 @@ while CI starts XCTest. This is only a test transport setting; the runner still
 controls response release and asserts the pending state before both gestures.
 Failed XCTest output, a final loader snapshot, and a failure screenshot are
 retained so network errors are visible alongside the failed native assertion.
+Startup waits up to 30 seconds for the fixture's command bridge file instead of
+assuming the app has initialized after a fixed sleep. Command IDs are unique to
+each run so a retained result from a previous launch cannot satisfy a new command.
 
 `RECORD=1` records the pending/success/error/retry segment, then continues the
 remaining assertions without recording. Reports, screenshots and gesture logs are

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { execFile, spawn } from 'node:child_process'
 import { promisify } from 'node:util'
-import { mkdir, writeFile, readFile } from 'node:fs/promises'
+import { access, mkdir, writeFile, readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { startServer } from '../loaders/server.mjs'
 const exec = promisify(execFile)
@@ -43,8 +43,24 @@ if (sim && process.env.GESTURES === '1') await xcode('build-for-testing', 'build
 const server = await startServer({ controlled: true })
 let container, recording
 const results = []
+const commandBase = Date.now()
+async function waitForBridge() {
+  const deadline = Date.now() + 30000
+  while (Date.now() < deadline) {
+    try {
+      // The fixture creates this file when its native command bridge starts.
+      if (sim) await access(`${container}/Documents/suspense/result.json`)
+      else await adb('shell', 'run-as', pkg, 'test', '-f', `${appFiles}/result.json`)
+      return
+    } catch {
+      await pause(200)
+    }
+  }
+  assert.fail('Native Suspense command bridge did not become ready within 30s')
+}
 async function command(action = 'snapshot', value, frame) {
-  const id = results.length + 1
+  // A previous launch can leave result.json behind; only accept this run's IDs.
+  const id = commandBase + results.length + 1
   const body = JSON.stringify({ id, action, value, frame })
   if (sim) await writeFile(`${container}/Documents/suspense/command.json`, body)
   else {
@@ -193,7 +209,7 @@ try {
     await adb('shell', 'pm', 'clear', pkg)
     await adb('shell', 'am', 'start', '-W', '-n', `${pkg}/com.tns.NativeScriptActivity`)
   }
-  await pause(2500)
+  await waitForBridge()
   if (process.env.RECORD === '1')
     recording = sim
       ? spawn(
@@ -385,8 +401,8 @@ try {
   // rather than leaving the artifact at the last successful pending snapshot.
   if (results.length) {
     await command().catch(() => {})
-    await screenshot('failure').catch(() => {})
   }
+  await screenshot('failure').catch(() => {})
   throw error
 } finally {
   await stopRecording()
