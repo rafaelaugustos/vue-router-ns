@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Complete the page-state restoration acceptance record with Android 14/16 independent-window and iPadOS 18.6 cold-session evidence. Document application-owned route-path migration, snapshot alignment and tab/window/account ownership; cover duplicate renamed-route drafts and stable entry keys with a regression test.
+
 - Add typed `meta.tabBarVisibility` for the owning `RouterTabs`: inherit matched route metadata, apply the committed page after navigation, preserve cancelled gestures/guards and isolate tabs, modals and windows. Support UIKit 18+ bottom bars and Material bottom navigation/rail, with documented sidebar/Core fallback limits and runnable native examples.
 
 - Add public `RouterTabs` color props using NativeScript's existing CSS names, plus Material `labelVisibility`. Apply runtime styles to bottom navigation and rail without recreating pages or menus; restore the current CSS when a prop override is removed. Document UIKit/sidebar and Core fallback differences with a runnable example and native recordings.
