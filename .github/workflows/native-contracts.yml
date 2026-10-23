@@ -1,6 +1,5 @@
 name: Native contracts
 on:
-  pull_request:
   workflow_call:
   workflow_dispatch:
   schedule:
