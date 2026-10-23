@@ -1,5 +1,6 @@
 import { Color, Frame, Page } from '@nativescript/core'
 import { nextTick, type Ref } from 'nativescript-vue'
+import { disposeFramePage } from './frame-page.js'
 import { previewBack } from '../back-preview.js'
 import {
   NATIVE_HOST_VERSION,
@@ -7,7 +8,7 @@ import {
   type NativeHostDelegate,
   type NativeHostPart,
 } from '../host.js'
-import { framePages, navigateFrame, popFrame } from './frame.js'
+import { framePages, navigateFrame, popFrame, ownsFrameBack } from './frame.js'
 
 export interface SplitFrameHostOptions {
   /** Both panes are on screen. */
@@ -131,8 +132,7 @@ export function createSplitFrameHost(
     previewBack: (top, below, commit, onDispose, options) =>
       previewBack(detail, top, below, commit, onDispose, options?.preferCore),
     ownsSystemBack: () => {
-      const topmost = Frame.topmost()
-      return topmost === detail || topmost === list
+      return ownsFrameBack(detail) || ownsFrameBack(list)
     },
     parts,
     dispose() {
@@ -143,6 +143,7 @@ export function createSplitFrameHost(
       resetting?.()
       resetting = undefined
       delegate = undefined
+      for (const page of pages()) disposeFramePage(page)
     },
   }
 }

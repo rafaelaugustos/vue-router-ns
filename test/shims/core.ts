@@ -44,6 +44,10 @@ export class Color {
 }
 
 export class View extends Observable {
+  window: NativeWindow | undefined
+  getNativeWindow(): NativeWindow | undefined {
+    return this.window ?? this.parent?.getNativeWindow()
+  }
   accessibilityHidden = false
   visibility = 'visible'
   backgroundColor: unknown
@@ -116,7 +120,10 @@ export class View extends Observable {
   get nativeView() {
     return (
       this.native ?? {
-        owner: this.dialog ?? Application.android.foregroundActivity,
+        owner:
+          this.dialog ??
+          this.getNativeWindow()?.android?.activity ??
+          Application.android.foregroundActivity,
         getContext: () => this._context ?? Application.android.foregroundActivity,
       }
     )
@@ -127,6 +134,7 @@ export class View extends Observable {
 
   showModal(view: View, options: any) {
     view.closeCallback = options.closeCallback
+    view.window = this.getNativeWindow()
     view._modalParent = this
     view._modalOptions = options
     // a presenter of its own, like core's Android view lets a subclass have
@@ -301,8 +309,10 @@ export class Frame extends View {
   /** Whether each back navigation animated, read like core does: from the entry being popped. */
   static backs: (boolean | undefined)[] = []
 
-  static topmost(): Frame | undefined {
-    return Frame.stack.at(-1)
+  static topmost(window?: NativeWindow): Frame | undefined {
+    return window
+      ? Frame.stack.findLast((frame) => frame.getNativeWindow() === window)
+      : Frame.stack.at(-1)
   }
 
   private back: BackstackEntry[] = []
@@ -328,6 +338,7 @@ export class Frame extends View {
 
   load() {
     this.isLoaded = true
+    this.notify({ eventName: 'loaded', object: this })
     this.process()
   }
 
@@ -340,8 +351,14 @@ export class Frame extends View {
     this.toTop()
     const resolvedPage = entry.create!()
     resolvedPage.frame = this
+    resolvedPage.parent = this
     this.queue.push({ type: 'forward', entry: { entry, resolvedPage } })
     this.process()
+  }
+
+  replacePage(entry: NavigationEntry) {
+    if (this.currentEntry) this.currentEntry.backstackVisible = false
+    this.navigate(entry)
   }
 
   goBack(to?: BackstackEntry) {
@@ -428,6 +445,8 @@ export class SearchBar extends View {
 }
 
 export interface AndroidActivityBackPressedEventData extends EventData {
+  activity?: Activity
+  window?: NativeWindow
   cancel: boolean
 }
 
@@ -567,6 +586,7 @@ export class ActivityResultRegistry {
 }
 
 export class Activity {
+  window: NativeWindow | undefined
   finished = false
   private dispatcher = new BackDispatcher(() => (this.finished = true))
 
@@ -615,12 +635,18 @@ export class Activity {
   }
 
   private press() {
-    const args = { eventName: 'activityBackPressed', cancel: false }
+    const args = {
+      eventName: 'activityBackPressed',
+      activity: this,
+      window: this.window,
+      cancel: false,
+    }
     lastBackPress = args
+    this.window?.notify({ ...args, object: this.window })
     Application.android.notify(args)
     if (args.cancel) return
 
-    const frame = Frame.topmost()
+    const frame = Frame.topmost(this.window)
     if (frame?.canGoBack()) frame.goBack()
     else this.finished = true
   }
@@ -1111,7 +1137,54 @@ export const SharedTransition = {
   },
 }
 
+export class NativeWindow extends Observable {
+  isPrimary = windows.length === 0
+  state = 'attached'
+  rootView: View | undefined
+  android: { activity: Activity } | undefined
+
+  constructor(readonly id: string) {
+    super()
+    windows.push(this)
+    if (isAndroid) this.setActivity(new Activity())
+  }
+
+  setActivity(activity: Activity) {
+    this.android = { activity }
+    activity.window = this
+  }
+
+  setContent(view: View) {
+    this.rootView = view
+    view.window = this
+    view.notify({ eventName: 'loaded', object: view })
+  }
+
+  detach() {
+    this.state = 'detached'
+    this.notify({ eventName: 'detached', window: this })
+    this.android = undefined
+  }
+
+  attach(activity?: Activity) {
+    this.state = 'attached'
+    if (activity) this.setActivity(activity)
+    this.notify({ eventName: 'attached', window: this })
+  }
+
+  close() {
+    this.state = 'closed'
+    this.notify({ eventName: 'close', window: this })
+    windows = windows.filter((window) => window !== this)
+    this.clear()
+  }
+}
+
+let windows: NativeWindow[] = []
+
 export const Application = Object.assign(new Observable(), {
+  getWindows: () => windows.slice(),
+  openWindow: (_options?: { data?: Record<string, unknown> }) => {},
   launchEvent: 'launch',
   android: createAndroidApplication(),
   ios: createIOSApplication(),
@@ -1648,6 +1721,7 @@ export function swipeAndroidBack(edge: 'left' | 'right' = 'left') {
 }
 
 export function resetNative() {
+  windows = []
   screenReaderEnabled = false
   Frame.stack = []
   Frame.navigations = []

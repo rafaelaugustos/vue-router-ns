@@ -70,3 +70,7 @@ A save from another version goes through `migrate`; without one, or when it retu
 - A page restored somewhere else, because a guard redirected it, leaves its saved state behind: the state follows the path.
 - A `pushForResult()` promise does not survive process death. The page that was waiting comes back without it; a flow that needs the answer later should keep it in its own store, or in the asking page's state.
 - Modals, the selected tab and window identity are not saved. Reselect the tab from your own state, and see the native windows work for per-window saves.
+
+## Native windows
+
+On core 9.1+, a router bound to a `NativeWindow` receives window context in `save(state, context)` and `load(context)`. Use `restore.key` and `context.key` to separate snapshots. In this mode, process exit preserves history; closing a window saves `null` only for that window. The clear-on-exit behavior above applies to legacy mode without an owning window. See [native windows](./windows#persistence-by-window) for bootstrapping and limits.

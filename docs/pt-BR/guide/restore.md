@@ -70,3 +70,7 @@ Um save de outra versão passa pelo `migrate`; sem ele, ou quando devolve `undef
 - Uma página restaurada em outro lugar, porque um guard a redirecionou, deixa o estado salvo para trás: o estado segue o caminho.
 - Uma promise de `pushForResult()` não sobrevive à morte do processo. A página que esperava volta sem ela; um fluxo que precisa da resposta depois deve guardá-la na própria store, ou no estado da página que perguntou.
 - Modais, a aba selecionada e a identidade da janela não são salvos. Reselecione a aba a partir do seu próprio estado, e veja o trabalho de janelas nativas para saves por janela.
+
+## Janelas nativas
+
+No core 9.1+, um router ligado a uma `NativeWindow` recebe contexto de janela em `save(state, context)` e `load(context)`. Use `restore.key` e `context.key` para separar os snapshots. Nesse modo, sair do processo preserva a pilha; fechar uma janela grava `null` somente no snapshot dela. O comportamento de limpar ao sair descrito acima se aplica ao modo legado, sem uma janela proprietária. Veja [janelas nativas](./windows#persistência-por-janela) para inicialização e limites.

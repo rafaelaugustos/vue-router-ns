@@ -24,18 +24,13 @@ const finished = (diagnostics: RouterDiagnostics, phase: DiagnosticEvent['phase'
   diagnostics.events.filter((event) => event.phase === phase && event.status === 'end')
 
 describe('opt-in router diagnostics', () => {
-  it('does not call a clock, inspect native windows or add native listeners when disabled', async () => {
+  it('does not call a clock, collect snapshots or add diagnostic listeners when disabled', async () => {
     const performance = (globalThis as { performance?: { now(): number } }).performance!
     const clock = vi.spyOn(performance, 'now')
     const { router, frame, app } = await mount(routes)
-    const getNativeWindow = vi.fn(() => {
-      throw new Error('must not inspect')
-    })
-    Object.assign(frame(), { getNativeWindow })
     await router.push('/items/1')
     await router.back()
     expect(router.diagnostics).toBeUndefined()
-    expect(getNativeWindow).not.toHaveBeenCalled()
     expect(clock).not.toHaveBeenCalled()
     expect(frame().listenerCount(Frame.navigatedToEvent)).toBe(1)
     app.unmount()

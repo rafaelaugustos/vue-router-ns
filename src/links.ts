@@ -143,6 +143,8 @@ function lower(values: readonly string[]) {
 }
 
 export interface SystemLinkHandlers {
+  /** Owning router window, discovered when its native host mounts. */
+  window?(): LinkWindow | undefined
   /** The OS handed the app a URL. Returns whether the router takes it. */
   deliver(href: string, source: LinkSource): boolean
   policy?: LinksOptions
@@ -199,11 +201,13 @@ function connectionLinks(
 export function installSystemLinks({
   deliver,
   policy = {},
+  window: routerWindow,
 }: SystemLinkHandlers): () => void {
   const explicit = policy.window !== undefined || policy.initial?.window !== undefined
   const window = () =>
     (typeof policy.window === 'function' ? policy.window() : policy.window) ??
     policy.initial?.window ??
+    routerWindow?.() ??
     (explicit
       ? undefined
       : (Application as unknown as { primaryWindow?: LinkWindow }).primaryWindow)

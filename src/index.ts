@@ -25,6 +25,8 @@ export type {
   DiagnosticPhase,
   DiagnosticOutcome,
 } from './diagnostics.js'
+export { getWindowRoute } from './windows.js'
+export type { RouterWindow, OpenWindowOptions } from './windows.js'
 
 export {
   useRouter,
