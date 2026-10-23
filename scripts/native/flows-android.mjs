@@ -85,7 +85,8 @@ async function selectDocument() {
   await picker()
   if (!(await tap('router-flow-sample.txt'))) {
     assert(await tap('Show roots'), 'Open picker locations')
-    assert(await tap('Downloads'), 'Downloads location')
+    // DocumentsUI can populate its roots after the drawer starts opening.
+    await until(() => tap('Downloads'), 'Downloads location')
     await until(() => tap('router-flow-sample.txt'), 'fixture document')
   }
 }
