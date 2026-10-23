@@ -1,5 +1,7 @@
 # Android drawer validation — #43
 
+This report records the original Android acceptance. The subsequent iOS implementation and its validation are documented in [native-drawer-ios.md](./native-drawer-ios.md).
+
 2026-10-18. NativeScript Android runtime 9.1.1, core 9.1.3 and NativeScript-Vue 3.1.2. The tested APK includes AndroidX DrawerLayout 1.1.1, Activity 1.8.1 and Material 1.8.0.
 
 ## Native host and navigation policy

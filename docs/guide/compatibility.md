@@ -30,7 +30,7 @@ These remain **experimental and opt-in**:
 - [Custom native hosts](./native-hosts) and [native controller/Fragment destinations](./native-destinations). The host version must change for incompatible contract changes.
 - `backPreview: 'core'`, which requires the pinned upstream prototype documented in the [predictive-back report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-predictive-back.md). Released Core uses the existing fallback.
 
-Multiple-window ownership and restoration are included as experimental features, with their acceptance evidence and platform limits documented in the [window guide](./windows) and [page-state report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-page-state.md). The roadmap is not a release commitment. `RouterDrawer` remains Android-only; its planned iOS implementation (#117) is outside this release's scope.
+Multiple-window ownership and restoration are included as experimental features, with their acceptance evidence and platform limits documented in the [window guide](./windows) and [page-state report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-page-state.md). The roadmap is not a release commitment. `RouterDrawer` in published rc.2 is Android-only. The upcoming rc.3 adds its [iOS implementation](./drawer) (#117) without changing the component API.
 
 ## Known limits
 

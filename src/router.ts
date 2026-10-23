@@ -38,6 +38,7 @@ import {
 } from './windows.js'
 import { Deferred } from './components/Deferred.js'
 import { DrawerLayoutView, RouterDrawer } from './drawer.js'
+import { IOSDrawerLayoutView } from './drawer-ios.js'
 import { vRoutePreview } from './context-menu.js'
 import {
   MaterialNavigationBar,
@@ -2033,12 +2034,14 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         registerElement('RouterNavigationBar', () => MaterialNavigationBar, {
           overwriteExisting: true,
         })
-      if (isAndroid) {
-        registerElement('RouterDrawerLayout', () => DrawerLayoutView, {
+      registerElement(
+        'RouterDrawerLayout',
+        () => (isAndroid ? DrawerLayoutView : IOSDrawerLayoutView),
+        {
           viewFlags: 4,
           overwriteExisting: true,
-        })
-      }
+        },
+      )
       if (diagnostics) app.onUnmount(() => diagnostics.api.stop())
 
       if (options.window) bindWindow(options.window)

@@ -1,6 +1,12 @@
-# Drawer no Android
+# Drawer nativo
 
-No Android, um drawer que desliza a partir da borda inicial é um contêiner nativo: o `DrawerLayout` do AndroidX cuida do arrasto, do assentamento, do scrim e da acessibilidade do painel. O `<RouterDrawer>` coloca as suas pilhas dentro de um sem mover página nenhuma:
+O `<RouterDrawer>` coloca um menu na borda inicial ao redor das pilhas nativas existentes. No Android, usa o `DrawerLayout` do AndroidX; no iOS, views, gestos e animações do UIKit. Ambos mantêm os slots montados sem criar rotas.
+
+::: info Próxima rc.3
+A implementação iOS faz parte da próxima `0.1.0-rc.3`. A versão publicada `0.1.0-rc.2` suporta o drawer apenas no Android.
+:::
+
+O mesmo template funciona nas duas plataformas:
 
 ```vue
 <RouterDrawer ref="drawer" :width="280">
@@ -42,11 +48,31 @@ O painel é um `GridLayout` com a classe `router-drawer` e fundo branco; dê à 
 
 O pequeno host nativo fica neste pacote e usa as dependências AndroidX já fornecidas pelo runtime do NativeScript. Não exige um plugin de drawer separado nem alterações no core. O [relatório de validação nativa](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer.md) lista as versões de Android e das dependências testadas.
 
-No iOS, o `<RouterDrawer>` renderiza só o conteúdo e o slot `drawer` é ignorado. Para navegar entre abas pela sidebar nativa no iPad, use [`<RouterTabs sidebar>`](./tabs).
+No iOS, o painel se sobrepõe ao conteúdo no iPhone e no iPad. A largura deixa pelo menos 44 pontos disponíveis para fechar pelo scrim em janelas estreitas. É um drawer sobreposto. Para a navegação por abas com sidebar controlada pelo UIKit no iPad, use [`<RouterTabs sidebar>`](./tabs). O painel permanente adaptativo é tratado separadamente na #134.
+
+O `RouterUIKitSplitView` precisa ser a raiz da janela: não o coloque dentro de um drawer. O `RouterSplitView`, que compõe pilhas de Frames, pode ser conteúdo do drawer. Veja [navegação dividida](./split-view).
+
+### Gestos e acessibilidade no iOS
+
+- Na raiz da pilha, arraste para dentro a partir dos primeiros 24 pontos da borda inicial. Arraste o painel aberto ou toque no scrim para fechar. Um arrasto revertido ou interrompido termina em um estado consistente.
+- Em uma página empilhada, a borda pertence ao Voltar interativo do UIKit. Um guard de saída ativo pode desabilitar esse gesto, como explicado em [guards](./guards). O drawer não substitui o delegate da navegação nem ignora o guard. Mantenha um botão Menu na ActionBar.
+- Ao abrir, o drawer dispensa o teclado, isola o conteúdo coberto da navegação do VoiceOver e solicita foco no painel. Ao fechar, restaura o alvo anterior se ele ainda estiver montado. O gesto Escape de acessibilidade fecha o painel. Reduzir Movimento evita a animação de deslizar.
+- Uma modal nativa permanece acima do drawer. Com `closeOnNavigate=false`, o drawer continua aberto ao retornar da modal.
+- `opened`/`closed` e `v-model:open` representam o estado final, não o progresso intermediário do gesto. O redimensionamento preserva o conteúdo e suas pilhas nativas.
+
+O [relatório de validação iOS](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-ios.md) distingue verificações automatizadas do estado de acessibilidade de testes manuais com VoiceOver.
+
+### Exemplo executável
+
+[`demo/src/testing/drawer-app.ts`](https://github.com/rafaelaugustos/vue-router-ns/blob/main/demo/src/testing/drawer-app.ts) inclui configuração do router, três abas independentes, botões Menu, rascunho editável, guards condicionais e resultado de modal. Siga a [configuração do demo](https://github.com/rafaelaugustos/vue-router-ns/blob/main/demo/README.md), compile o pacote e execute `ns run ios --env.drawerTest` ou `ns run android --env.drawerTest` em `demo`.
+
+<Clip name="ios-drawer" aspect="393 / 852" caption="Drawer nativo no iOS: gestos, pilhas preservadas, guards e resultado de modal. Simulador de iPhone." />
 
 ## Direção, interação e acessibilidade
 
-O painel usa a borda `START` do Android: esquerda em LTR, direita em RTL. Para acompanhar o idioma do sistema, habilite [`android:supportsRtl="true"`](https://developer.android.com/guide/topics/manifest/application-element#rtl) no `<application>` de `App_Resources/Android/src/main/AndroidManifest.xml`. Também é possível definir `direction="rtl"` no drawer. A rotação mantém o mesmo contêiner nativo e as páginas montadas.
+O painel abre na borda inicial: esquerda em LTR, direita em RTL. No iOS acompanha a direção efetiva do UIKit; no Android usa `START`. Para acompanhar o idioma do sistema, habilite [`android:supportsRtl="true"`](https://developer.android.com/guide/topics/manifest/application-element#rtl) no `<application>` de `App_Resources/Android/src/main/AndroidManifest.xml`. Também é possível definir `direction="rtl"` no drawer. A rotação mantém o mesmo contêiner nativo e as páginas montadas.
+
+`direction` aceita `ltr` ou `rtl`; sem a prop, acompanha a plataforma. No iOS, ela configura a direção semântica do contêiner e deixa o UIKit herdá-la, preservando a configuração de gestos das views nativas de navegação.
 
 Mantenha um botão na ActionBar para abrir o drawer. Com navegação por gestos, o Android pode consumir o arrasto da borda como Back; o botão continua disponível. Ao concluir o gesto de Back, o painel fecha sem pré-visualizar ou remover uma página por trás.
 
