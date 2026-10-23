@@ -25,3 +25,7 @@ The webpack config points `vue-router-ns` at `../dist`, and pins `nativescript-v
 ## Route data example
 
 `--env.loadersTest` selects the standalone product/details example in `src/testing/loaders-app.ts`: real HTTP, per-page pending/error/retry, shared app cache and cancellation after Back. See [setup and native acceptance](../test/native-route-data.md) for the local API and simulator/emulator commands.
+
+## Native Suspense example
+
+`--env.suspenseTest` selects an experimental stable-Page composition with route loaders, Vue async content and explicit native container registration. Stock NativeScript-Vue 3.1.2 does not support this boundary without that registration. See [compatibility and reproduction](../test/native-suspense.md) before copying the recipe into an app.

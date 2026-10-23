@@ -192,6 +192,12 @@ jobs:
           (cd demo && ns build ios --for-device false --env.loadersTest)
           xcrun simctl install "$IOS_SIMULATOR" demo/platforms/ios/build/Debug-iphonesimulator/demo.app
           node scripts/native/loaders/run.mjs
+      - name: Validate native Suspense composition and gestures
+        run: |
+          (cd demo && ns build ios --for-device false --env.suspenseTest)
+          xcrun simctl install "$IOS_SIMULATOR" demo/platforms/ios/build/Debug-iphonesimulator/demo.app
+          ruby scripts/native/suspense/project.rb /tmp/router-suspense-tests
+          GESTURES=1 node scripts/native/suspense/run.mjs
       - name: Build former HMR fixture
         working-directory: demo
         run: ns build ios --for-device false --env.contractsTest --env.contractFault

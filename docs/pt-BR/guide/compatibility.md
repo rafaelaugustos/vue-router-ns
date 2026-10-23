@@ -23,6 +23,7 @@ A RC congela rotas explícitas e destinos tipados; push/replace/back e resultado
 
 Continuam **experimentais e opcionais**:
 
+- [Composição nativa com Suspense](./suspense): registro explícito de compatibilidade do renderer e conteúdo assíncrono dentro de uma Page estável.
 - [Carregamento de dados da rota](./data-loading): estado e cancelamento por entrada, sem bloquear a apresentação nativa.
 - [Rotas por arquivos](./file-routing), incluindo o contrato de geração e integração com bundlers. Rotas explícitas não dependem disso.
 - [Hosts nativos personalizados](./native-hosts) e [destinos com controllers/Fragments](./native-destinations). Mudanças incompatíveis exigem uma nova versão do contrato de hosts.
