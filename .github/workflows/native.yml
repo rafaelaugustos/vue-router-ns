@@ -144,6 +144,7 @@ jobs:
             ANDROID_SERIAL=emulator-5554 node scripts/native/loaders/run.mjs
             adb install -r /tmp/router-suspense.apk
             adb install -r /tmp/router-contract-touch/touch.apk
+            adb shell cmd overlay enable-exclusive --category com.android.internal.systemui.navbar.gestural
             GESTURES=1 ANDROID_SERIAL=emulator-5554 node scripts/native/suspense/run.mjs
             ANDROID_SERIAL=emulator-5554 node scripts/native/conventions-watch.mjs android
             ROUTER_BUNDLER=vite ANDROID_SERIAL=emulator-5554 node scripts/native/conventions-watch.mjs android

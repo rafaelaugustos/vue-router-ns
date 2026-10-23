@@ -123,6 +123,7 @@ export ANDROID_SERIAL='dedicated-emulator-serial'
 adb -s "$ANDROID_SERIAL" install -r demo/platforms/android/app/build/outputs/apk/debug/app-debug.apk
 node scripts/native/contracts/build-touch.mjs
 adb -s "$ANDROID_SERIAL" install -r /tmp/router-contract-touch/touch.apk
+adb -s "$ANDROID_SERIAL" shell cmd overlay enable-exclusive --category com.android.internal.systemui.navbar.gestural
 GESTURES=1 node scripts/native/suspense/run.mjs
 ```
 
