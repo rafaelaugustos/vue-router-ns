@@ -84,6 +84,12 @@ The existing regression suite passed with 597 tests and 10 skips, without type
 errors. Root/demo typechecks, native builds, formatting and the documentation build
 also passed. The router's public API and runtime implementation are unchanged.
 
+The CI timing failure was also reproduced on an iPhone 16 / iOS 18.6 simulator:
+holding the original fetch response turned the pending fallback into a network
+error after about 60 seconds. With the explicit fixture timeout, the same request
+remained pending beyond 80 seconds and rendered its content when released. The
+full iOS 18.6 suite then passed all three gestures using a fresh XCTest build.
+
 Focus evaluation is limited to a stable accessible heading outside Suspense and
 the existing `useNavigationFocus` lifecycle. This is not a manual VoiceOver or
 TalkBack audit. The recipe adds no animations and leaves native motion policy to
@@ -140,6 +146,16 @@ adds the native input cases; omitting it runs content and imperative navigation
 coverage only. `SUSPENSE_UI_PROJECT` changes the generated XCTest project directory.
 `OUT` changes the evidence directory; use a fresh directory when repeating XCTest,
 because Xcode does not overwrite an existing result bundle.
+
+The iOS runner builds XCTest before starting the HTTP server, then uses
+`test-without-building` for each gesture. The fixture uses NativeScript `Http`
+with an explicit 420-second request timeout: a response held across the cancel
+and commit cases must outlive both 180-second XCTest process limits. The native
+default request timeout can otherwise replace the fallback with a network error
+while CI starts XCTest. This is only a test transport setting; the runner still
+controls response release and asserts the pending state before both gestures.
+Failed XCTest output, a final loader snapshot, and a failure screenshot are
+retained so network errors are visible alongside the failed native assertion.
 
 `RECORD=1` records the pending/success/error/retry segment, then continues the
 remaining assertions without recording. Reports, screenshots and gesture logs are

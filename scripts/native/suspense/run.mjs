@@ -37,6 +37,9 @@ const adb = (...args) => run('adb', ['-s', serial, ...args])
 const ios = (...args) => run('xcrun', ['simctl', ...args])
 const appFiles = `/data/data/${pkg}/files/suspense`
 const pause = (ms) => new Promise((done) => setTimeout(done, ms))
+// Compile before opening any deliberately pending HTTP requests. Gesture cases
+// then reuse this build instead of spending the request's lifetime compiling.
+if (sim && process.env.GESTURES === '1') await xcode('build-for-testing', 'build')
 const server = await startServer({ controlled: true })
 let container, recording
 const results = []
@@ -69,7 +72,13 @@ async function command(action = 'snapshot', value, frame) {
     await pause(200)
   }
   assert.equal(report?.id, id, `Command timed out: ${action}`)
-  results.push({ action, value, ...report, requests: Object.fromEntries(server.counts) })
+  results.push({
+    action,
+    value,
+    observedAt: new Date().toISOString(),
+    ...report,
+    requests: Object.fromEntries(server.counts),
+  })
   await writeFile(`${out}/results.json`, JSON.stringify(results, null, 2))
   assert(!report.error, JSON.stringify(report))
   assert.deepEqual(report.unhandled, [], 'Unhandled native rendering errors')
@@ -107,18 +116,14 @@ async function stopRecording() {
   if (serial) await adb('pull', '/sdcard/suspense.mp4', `${out}/demo.mp4`)
   recording = undefined
 }
-async function gesture(mode) {
-  if (sim) {
-    const project = process.env.SUSPENSE_UI_PROJECT ?? '/tmp/router-suspense-tests'
-    const method = {
-      cancel: 'testCancelBack',
-      commit: 'testCommitBack',
-      modal: 'testDismissModal',
-    }[mode]
-    const output = await exec(
+async function xcode(action, name, args = []) {
+  const project = process.env.SUSPENSE_UI_PROJECT ?? '/tmp/router-suspense-tests'
+  let output
+  try {
+    output = await exec(
       'xcodebuild',
       [
-        'test',
+        action,
         '-project',
         `${project}/SuspenseChecks.xcodeproj`,
         '-scheme',
@@ -127,15 +132,31 @@ async function gesture(mode) {
         `platform=iOS Simulator,id=${sim}`,
         '-derivedDataPath',
         `${project}/build`,
-        `-only-testing:SuspenseChecks/SuspenseUITests/${method}`,
-        '-collect-test-diagnostics',
-        'never',
-        '-resultBundlePath',
-        `${out}/gesture-${mode}.xcresult`,
+        ...args,
       ],
       { timeout: 180000, maxBuffer: 32 * 1024 * 1024 },
     )
-    await writeFile(`${out}/gesture-${mode}.log`, output.stdout + output.stderr)
+  } catch (error) {
+    output = error
+    throw error
+  } finally {
+    await writeFile(`${out}/${name}.log`, (output?.stdout ?? '') + (output?.stderr ?? ''))
+  }
+}
+async function gesture(mode) {
+  if (sim) {
+    const method = {
+      cancel: 'testCancelBack',
+      commit: 'testCommitBack',
+      modal: 'testDismissModal',
+    }[mode]
+    await xcode('test-without-building', `gesture-${mode}`, [
+      `-only-testing:SuspenseChecks/SuspenseUITests/${method}`,
+      '-collect-test-diagnostics',
+      'never',
+      '-resultBundlePath',
+      `${out}/gesture-${mode}.xcresult`,
+    ])
   } else if (mode === 'modal') {
     await adb('shell', 'input', 'keyevent', '4')
   } else {
@@ -359,6 +380,14 @@ try {
   console.log(
     'PASS native Suspense: stock failure, SFC/async setup/lazy/nested/Deferred, errors/retry, timeout, cache, disposal, tabs and modal',
   )
+} catch (error) {
+  // Preserve the loader error and native view that caused a failed gesture,
+  // rather than leaving the artifact at the last successful pending snapshot.
+  if (results.length) {
+    await command().catch(() => {})
+    await screenshot('failure').catch(() => {})
+  }
+  throw error
 } finally {
   await stopRecording()
   if (serial) await adb('reverse', '--remove', 'tcp:18818').catch(() => {})

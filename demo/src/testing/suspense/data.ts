@@ -1,3 +1,4 @@
+import { Http } from '@nativescript/core'
 import { onScopeDispose } from 'nativescript-vue'
 import { defineRouteLoader, useRouteData } from 'vue-router-ns'
 
@@ -9,12 +10,17 @@ export const productData = defineRouteLoader(({ to }) => {
   const id = String(to.params.id)
   let request = requests.get(id)
   if (!request) {
-    request = fetch(`http://127.0.0.1:18818/products/${encodeURIComponent(id)}`).then(
-      (response) => {
-        if (!response.ok) throw new Error('Could not load product')
-        return response.json() as Promise<Product>
-      },
-    )
+    request = Http.request({
+      url: `http://127.0.0.1:18818/products/${encodeURIComponent(id)}`,
+      method: 'GET',
+      // The test server holds responses across two XCTest launches (up to 180s
+      // each). Keep real HTTP pending for that bounded interval, even on slow CI.
+      timeout: 420_000,
+    }).then((response) => {
+      if (response.statusCode < 200 || response.statusCode >= 300)
+        throw new Error('Could not load product')
+      return response.content!.toJSON() as Product
+    })
     requests.set(id, request)
     const own = request
     void own.catch(() => {
