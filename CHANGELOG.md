@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Fix iOS tab switching incorrectly triggering `backToRootOnReselect` and resetting the destination stack. Coalesce duplicate UIKit selection callbacks within the same native event turn, preserving genuine reselection, selection vetoes and leave guards. Cancel queued delegate installation when its observer is removed.
+
 ## 0.1.0-rc.1 (2026-10-22)
 
 - Freeze the documented non-experimental API for the 0.1.0 stable target. Explicit routes remain the default; file-routing conventions, custom native host/destination contracts and the upstream Core preview mode remain opt-in experiments. Multi-window ownership from #46 / PR #65 is excluded.

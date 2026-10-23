@@ -156,6 +156,17 @@ jobs:
         env:
           OUT: scripts/native/out/contracts-fixed
         run: node scripts/native/contracts/ios.mjs
+      - name: Build and validate real tab taps
+        run: |
+          (cd demo && ns build ios --for-device false --env.tabsTest)
+          xcrun simctl install "$IOS_SIMULATOR" demo/platforms/ios/build/Debug-iphonesimulator/demo.app
+          ruby scripts/native/tabs/project.rb /tmp/router-tab-tests
+          mkdir -p scripts/native/out/tabs-ios
+          node scripts/native/command-timeout.mjs 600000 xcodebuild test \
+            -project /tmp/router-tab-tests/TabChecks.xcodeproj -scheme TabChecks \
+            -destination "platform=iOS Simulator,id=$IOS_SIMULATOR" \
+            -derivedDataPath /tmp/router-tab-tests/build -collect-test-diagnostics never \
+            -resultBundlePath scripts/native/out/tabs-ios/checks.xcresult
       - name: Build former HMR fixture
         working-directory: demo
         run: ns build ios --for-device false --env.contractsTest --env.contractFault

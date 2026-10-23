@@ -67,6 +67,8 @@ jobs:
         run: |
           ns build android --env.startupTrace
           cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-demo.apk
+          ns build android --env.tabsTest
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-tabs.apk
           ns build android --env.drawerTest
           cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/router-drawer.apk
           ns build android --env.middlewareTest
@@ -96,6 +98,8 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           script: |
             APK=/tmp/router-demo.apk bash scripts/native/smoke-android.sh
+            adb install -r /tmp/router-tabs.apk
+            ANDROID_SERIAL=emulator-5554 node scripts/native/tabs/android.mjs
             adb install -r /tmp/router-drawer.apk
             ANDROID_SERIAL=emulator-5554 node scripts/native/drawer-android.mjs
             adb install -r /tmp/router-middleware.apk

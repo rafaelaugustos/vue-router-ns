@@ -63,6 +63,8 @@ As páginas navegam na própria aba. De qualquer outro lugar, mire uma delas com
 
 ## Tocando na aba ativa
 
+`backToRootOnReselect` vale apenas para um novo toque na aba que já está selecionada. Trocar de aba preserva os dois históricos. Atualizar `v-model:selected` ou navegar/abrir um deep link em outra aba não conta como reseleção. Uma recusa de `canSelect` mantém a seleção e os históricos; um guard de saída pode impedir o retorno à raiz por reseleção.
+
 As barras de abas nativas voltam para a primeira página quando você toca na aba em que já está. O `backToRootOnReselect` faz isso para um `<RouterView>` dentro de um `<TabViewItem>`, passando pelos leave guards como qualquer back. O `router.backToRoot()` faz o mesmo sob demanda.
 
 No iOS, o router escuta na frente do delegate da barra de abas, que de outro modo responde "não" ao toque repetido e não avisa ninguém. No Android, ele observa os toques na faixa de abas, já que o click listener dela só troca de aba.

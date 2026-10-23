@@ -1,4 +1,28 @@
-# Native tabs validation — #51
+# Native tabs validation
+
+## Reselection regression — #121, 2026-10-22
+
+Tested with published, unmodified NativeScript Core 9.1.3, NativeScript-Vue 3.1.2 and iOS runtime 9.1.0 on a dedicated iPhone 17 / iOS 26.0 simulator.
+
+The previous implementation reproduced the reported failure: open detail in A, switch to B and open detail there, then switch to A. A incorrectly returned to its root. A temporary forwarding observer recorded `shouldSelect(B) → didSelect(B) → shouldSelect(B)` for one physical tap, followed by the same sequence for A. Native call stacks showed UIKit dispatching through a gesture recognizer and then `UIControl.touchesEnded` within the same native event. The second callback arrived after the target became selected, producing a false `reselect`. It was not nested inside the first delegate call.
+
+The fix coalesces requests for the same destination until the next native event turn; it does not use a fixed-duration tap debounce. It also cancels queued delegate installation and pending selection cleanup when the last observer detaches.
+
+The final XCTest runs **without the diagnostic observer** and drives actual tab buttons:
+
+- A and B keep their detail pages through repeated tab changes, programmatic `selected` changes and duplicate deep-link navigation into B.
+- Switching produces zero `reselect` events. A refused `canSelect` leaves B's detail visible.
+- Reselecting B while its leave guard refuses keeps the detail. After allowing, one reselect returns B to root; A's detail survives until A itself is reselected.
+- C has `backToRootOnReselect=false`; repeated taps and leaving/returning keep its detail.
+- Exactly four intentional reselects are emitted across the guard/allowed/disabled scenarios. The original failing test passes after the fix, and the final suite completes with no failures.
+
+The same native-tap scenario passed on an Android 14 / API 34 emulator with Material navigation and Android runtime 9.1.1: 17 visible-page checks, zero incidental reselections and four intentional reselections. All 527 unit tests passed (10 existing skips), along with package/demo typechecks, library/docs builds, formatting and workflow lint.
+
+Unit coverage exercises duplicate callbacks through both UIKit delegate families, next-turn reselection, selection vetoes, observer disposal/remount and queued installation cancellation. Android core TabView fallback touch checks cover changing tabs, an active-tab release, out-of-bounds releases and listener disposal. Material navigation is also covered by the existing host tests.
+
+See [the native fixture and reproduction commands](../scripts/native/tabs/README.md). CI runs the real-tap fixture on iOS 18.6 and Android API 34, alongside the existing native suites. Local iOS 26 acceptance establishes the reported regression; this does not claim physical-device or VoiceOver validation.
+
+## Original native host acceptance — #51
 
 2026-10-18, for `0.1.0-beta.9`. NativeScript core 9.1.x, NativeScript-Vue 3.1.2, Android runtime 9.1.1 and iOS runtime 9.1.0. The demo uses `RouterTabs` with an Inbox `RouterSplitView` and a Settings `RouterView`.
 
