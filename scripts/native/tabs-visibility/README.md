@@ -6,6 +6,8 @@ Build the package (`npm run build`), prepare the demo's native resources, add th
 
 Use dedicated test devices: the driver **reinstalls the iOS fixture and clears Android app data**. It only operates on the explicit device identifier.
 
+The driver waits up to 30 seconds for the fixture's command bridge before sending its first command, allowing fresh installations to start on busy simulators and emulators. Missing readiness fails the run with an explicit startup error.
+
 ```sh
 IOS_SIMULATOR=<uuid> EXPECTED_HOST=uikit node scripts/native/tabs-visibility/run.mjs
 # Install the Android debug APK first, then:
