@@ -1,6 +1,6 @@
 # Escopo da RC e compatibilidade
 
-A candidata à versão `0.1.0` congela a API documentada não experimental enquanto validamos a versão estável. A tabela explícita de rotas em JavaScript/TypeScript continua sendo o padrão. Convenções de arquivos são opcionais; ambas usam navegação nativa, sem runtime de Vue Router ou Nuxt.
+A candidata `0.1.0-rc.2` congela a API documentada não experimental enquanto validamos a versão estável. A tabela explícita de rotas em JavaScript/TypeScript continua sendo o padrão. Convenções de arquivos são opcionais; ambas usam navegação nativa, sem runtime de Vue Router ou Nuxt.
 
 ## Base suportada
 
@@ -23,19 +23,20 @@ A RC congela rotas explícitas e destinos tipados; push/replace/back e resultado
 
 Continuam **experimentais e opcionais**:
 
+- [Múltiplas janelas nativas](./windows): um router por janela, restauração independente de tasks/cenas e reconexão no mesmo processo na base documentada.
 - [Composição nativa com Suspense](./suspense): registro explícito de compatibilidade do renderer e conteúdo assíncrono dentro de uma Page estável.
 - [Carregamento de dados da rota](./data-loading): estado e cancelamento por entrada, sem bloquear a apresentação nativa.
 - [Rotas por arquivos](./file-routing), incluindo o contrato de geração e integração com bundlers. Rotas explícitas não dependem disso.
 - [Hosts nativos personalizados](./native-hosts) e [destinos com controllers/Fragments](./native-destinations). Mudanças incompatíveis exigem uma nova versão do contrato de hosts.
 - `backPreview: 'core'`, que depende do protótipo upstream fixado no [relatório de predictive back](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-predictive-back.md). O Core publicado usa o fallback existente.
 
-O controle de múltiplas janelas da #46 / PR #65 está **fora desta RC**. A versão estável pretendida inclui restauração de estado em uma janela; não promete reconstruir tasks/cenas independentes do sistema. A validação de múltiplas janelas restante na #49 e o roadmap #64 não bloqueiam este escopo.
+O controle e a restauração de múltiplas janelas estão incluídos como recursos experimentais, com evidências de validação e limites de plataforma no [guia de janelas](./windows) e no [relatório de estado das páginas](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-page-state.md). O roadmap não é um compromisso de release. `RouterDrawer` continua disponível apenas no Android; a implementação planejada para iOS (#117) fica fora do escopo desta versão.
 
 ## Limites conhecidos
 
 - HMR nativo com Vite usa metadados `.route.json`. `definePageMeta` funciona com webpack e Vite empacotado, mas não durante HMR nativo do Vite. Adicionar/remover registros de layouts ou middleware exige reiniciar o app; editar scripts pode remontar páginas. Veja [rotas por arquivos](./file-routing).
 - Com npm 10, preserve um lockfile funcional do NativeScript Vite: a árvore de peers opcionais dele pode falhar em instalações sem lockfile. O crash de instalação do router com npm 10 foi corrigido na beta.15. Veja [instalação](./install).
-- A morte do processo nunca preserva Promises JavaScript. Persista pequenos estados do app e inicie uma nova operação após recuperar. No NativeScript-Vue publicado, recriar explicitamente a Activity Android pode descartar a página e cancelar seu fluxo nativo pendente; esta RC não inclui a retenção de páginas do PR #65. Veja [fluxos nativos](./native-flows) e [restauração](./restore).
+- A morte do processo nunca preserva Promises JavaScript. Persista pequenos estados do app e inicie uma nova operação após recuperar. O router mantém os apps das páginas em Frames durante a recriação da Activity Android nas dependências publicadas suportadas, permitindo registrar novamente um fluxo nativo pendente. Remover a rota ou fechar permanentemente sua janela ainda cancela esse fluxo. Veja [fluxos nativos](./native-flows) e [restauração](./restore).
 - Abas/sheets Material exigem a dependência nativa no app distribuído, inclusive em builds de release. Os helpers de disponibilidade consultam o que está presente; não instalam dependências. Indexação/ranking do Spotlight e comportamento de SDKs externos continuam sob responsabilidade do sistema/provedor.
 
 ## Validação do release
