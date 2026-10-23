@@ -6,6 +6,7 @@ import {
   onMounted,
   shallowRef,
   watch,
+  type PropType,
 } from 'nativescript-vue'
 import { useRouter } from './composables.js'
 import { NavigationFailureType } from './errors.js'
@@ -109,15 +110,16 @@ export interface RouterDrawerHandle {
 }
 
 /**
- * A native Android drawer around the app's stacks. The default slot is the
+ * A native drawer around the app's stacks. The default slot is the
  * content, usually a `<TabView>` or a `<RouterView>`; the `drawer` slot is the
  * pane that slides in from the start edge. Back closes an open drawer before
- * popping a page, and a navigation closes it. On iOS it renders the content
- * alone: a sidebar there is UIKit's split view.
+ * popping a page on Android, and a successful navigation closes it.
  */
 export const RouterDrawer = defineComponent({
   name: 'RouterDrawer',
   props: {
+    /** Start-edge direction; defaults to the platform's effective direction. */
+    direction: String as PropType<'ltr' | 'rtl'>,
     /** Width of the pane, in device-independent pixels. */
     width: { type: Number, default: 300 },
     /** `v-model:open`. */
@@ -136,7 +138,7 @@ export const RouterDrawer = defineComponent({
     const isOpen = shallowRef(false)
     const open = () => layout.value?.nativeView.openDrawer()
     const close = () => layout.value?.nativeView.closeDrawer()
-    const toggle = () => (isOpen.value ? close() : open())
+    const toggle = () => (layout.value?.nativeView.isDrawerOpen ? close() : open())
     let stop: (() => void) | undefined
 
     expose({
@@ -149,12 +151,18 @@ export const RouterDrawer = defineComponent({
     } satisfies RouterDrawerHandle)
 
     onMounted(() => {
-      if (!isAndroid) return
-      const release = router.claimSystemBack({ owns: () => isOpen.value, back: close })
+      const release = isAndroid
+        ? router.claimSystemBack({ owns: () => isOpen.value, back: close })
+        : () => {}
       // a stack showing its first page is not the user going somewhere
       const after = router.afterEach((_to, from, failure) => {
         const selected = !failure || failure.type === NavigationFailureType.duplicated
-        if (selected && props.closeOnNavigate && isOpen.value && from.matched.length)
+        if (
+          selected &&
+          props.closeOnNavigate &&
+          layout.value?.nativeView.isDrawerOpen &&
+          from.matched.length
+        )
           close()
       })
       stop = () => {
@@ -182,12 +190,13 @@ export const RouterDrawer = defineComponent({
 
     return () => {
       const content = h('GridLayout', slots.default?.())
-      if (!isAndroid) return content
       return h(
         'RouterDrawerLayout',
         {
           ref: layout,
           drawerWidth: props.width,
+          direction: isAndroid ? props.direction : undefined,
+          drawerDirection: isAndroid ? undefined : props.direction,
           onDrawerOpened: onOpened,
           onDrawerClosed: onClosed,
         },

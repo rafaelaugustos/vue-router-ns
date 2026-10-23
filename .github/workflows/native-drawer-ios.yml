@@ -1,0 +1,69 @@
+name: Native iOS drawer
+on:
+  workflow_call:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  drawer:
+    runs-on: macos-15
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        device: [iPhone-16, iPad-Pro-11-inch-M4-8GB]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - run: gem install cocoapods xcodeproj --no-document
+      - run: npm ci && npm run build
+      - run: npm install --no-audit --no-fund
+        working-directory: demo
+      - run: npm install -g nativescript
+      - name: Prepare native resources
+        run: |
+          ns usage-reporting disable
+          ns error-reporting disable
+          ns create drawer-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null
+          cp -R /tmp/drawer-scaffold/App_Resources demo/App_Resources
+      - run: ns build ios --for-device false --env.drawerTest
+        working-directory: demo
+      - name: Create dedicated simulator
+        run: |
+          SIM=$(xcrun simctl create RouterDrawer com.apple.CoreSimulator.SimDeviceType.${{ matrix.device }} com.apple.CoreSimulator.SimRuntime.iOS-18-6)
+          echo "IOS_SIMULATOR=$SIM" >> "$GITHUB_ENV"
+          xcrun simctl boot "$SIM"
+          xcrun simctl bootstatus "$SIM" -b
+      - name: Binding, accessibility state and lifecycle contracts
+        run: node scripts/native/drawer-ios/run.mjs
+      - name: Reduce Motion contracts
+        run: |
+          xcrun simctl spawn "$IOS_SIMULATOR" defaults write com.apple.Accessibility ReduceMotionEnabled -bool YES
+          EXPECT_REDUCED_MOTION=1 OUT=scripts/native/out/drawer-reduced-motion node scripts/native/drawer-ios/run.mjs
+          xcrun simctl spawn "$IOS_SIMULATOR" defaults delete com.apple.Accessibility ReduceMotionEnabled
+      - name: Real native input, navigation and rotation
+        run: |
+          xcrun simctl uninstall "$IOS_SIMULATOR" org.nativescript.vuerouterns
+          xcrun simctl install "$IOS_SIMULATOR" demo/platforms/ios/build/Debug-iphonesimulator/demo.app
+          ruby scripts/native/drawer-ios/project.rb /tmp/router-drawer-tests
+          node scripts/native/command-timeout.mjs 600000 xcodebuild test \
+            -project /tmp/router-drawer-tests/DrawerChecks.xcodeproj -scheme DrawerChecks \
+            -destination "platform=iOS Simulator,id=$IOS_SIMULATOR" \
+            -derivedDataPath /tmp/router-drawer-tests/build -collect-test-diagnostics never \
+            -resultBundlePath scripts/native/out/drawer-ios/checks.xcresult
+      - name: Clean up dedicated simulator
+        if: always() && env.IOS_SIMULATOR != ''
+        run: |
+          xcrun simctl shutdown "$IOS_SIMULATOR"
+          xcrun simctl delete "$IOS_SIMULATOR"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: drawer-${{ matrix.device }}
+          path: scripts/native/out

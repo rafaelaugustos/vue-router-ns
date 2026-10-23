@@ -290,6 +290,10 @@ jobs:
     needs: changes
     if: github.event_name != 'pull_request'
     uses: ./.github/workflows/native.yml
+  drawer-ios:
+    needs: changes
+    if: github.event_name != 'pull_request'
+    uses: ./.github/workflows/native-drawer-ios.yml
   flows:
     needs: changes
     if: github.event_name != 'pull_request'
@@ -305,7 +309,18 @@ jobs:
   native-contracts:
     # Keep the required branch-rule check green on PRs without booting devices.
     if: always()
-    needs: [changes, android, ios, uikit-split, integration, flows, predictive, windows]
+    needs:
+      [
+        changes,
+        android,
+        ios,
+        uikit-split,
+        drawer-ios,
+        integration,
+        flows,
+        predictive,
+        windows,
+      ]
     runs-on: ubuntu-latest
     steps:
       - name: Require every applicable native lane
@@ -318,6 +333,6 @@ jobs:
           import assert from 'node:assert/strict'
           assert.equal(process.env.CHANGE_RESULT, 'success', 'Change detection failed')
           const needs = JSON.parse(process.env.RESULTS)
-          for (const name of ['android', 'ios', 'uikit-split', 'integration', 'flows', 'predictive', 'windows'])
+          for (const name of ['android', 'ios', 'uikit-split', 'drawer-ios', 'integration', 'flows', 'predictive', 'windows'])
             assert.equal(needs[name].result, process.env.RELEVANT === 'true' ? 'success' : 'skipped', `${name} must pass`)
           JS

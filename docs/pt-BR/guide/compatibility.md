@@ -30,7 +30,7 @@ Continuam **experimentais e opcionais**:
 - [Hosts nativos personalizados](./native-hosts) e [destinos com controllers/Fragments](./native-destinations). Mudanças incompatíveis exigem uma nova versão do contrato de hosts.
 - `backPreview: 'core'`, que depende do protótipo upstream fixado no [relatório de predictive back](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-predictive-back.md). O Core publicado usa o fallback existente.
 
-O controle e a restauração de múltiplas janelas estão incluídos como recursos experimentais, com evidências de validação e limites de plataforma no [guia de janelas](./windows) e no [relatório de estado das páginas](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-page-state.md). O roadmap não é um compromisso de release. `RouterDrawer` continua disponível apenas no Android; a implementação planejada para iOS (#117) fica fora do escopo desta versão.
+O controle e a restauração de múltiplas janelas estão incluídos como recursos experimentais, com evidências de validação e limites de plataforma no [guia de janelas](./windows) e no [relatório de estado das páginas](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-page-state.md). O roadmap não é um compromisso de release. Na rc.2 publicada, `RouterDrawer` está disponível apenas no Android. A próxima rc.3 adiciona a [implementação iOS](./drawer) (#117) sem alterar a API do componente.
 
 ## Limites conhecidos
 

@@ -65,15 +65,31 @@ describe('RouterDrawer', () => {
     expect(paths(router.stack.value)).toEqual(['/'])
   })
 
-  it('renders the content alone on iOS', async () => {
-    const layouts = views.get('RouterDrawerLayout')?.length ?? 0
-    const buttons = views.get('Button')?.length ?? 0
-    const { mounted } = drawerApp({ platform: 'ios' })
+  it('mounts the same slots and navigation policy on iOS', async () => {
+    const opened = vi.fn()
+    const closed = vi.fn()
+    const { mounted, handle, layout } = drawerApp({
+      platform: 'ios',
+      open: true,
+      on: { onOpened: opened, onClosed: closed },
+    })
     const { router } = await mounted
-
-    expect(views.get('RouterDrawerLayout')?.length ?? 0).toBe(layouts)
-    expect(views.get('Button')?.length ?? 0).toBe(buttons)
-    expect(paths(router.stack.value)).toEqual(['/'])
+    expect(layout().children).toHaveLength(2)
+    expect(layout().drawerWidth).toBe(280)
+    expect(handle.value!.isOpen).toBe(true)
+    handle.value!.open()
+    expect(opened).toHaveBeenCalledTimes(1)
+    const stop = router.beforeEach(() => false)
+    await router.push('/list')
+    expect(handle.value!.isOpen).toBe(true)
+    stop()
+    await router.push('/list')
+    expect(handle.value!.isOpen).toBe(false)
+    expect(closed).toHaveBeenCalledTimes(1)
+    handle.value!.toggle()
+    await router.push('/list')
+    expect(handle.value!.isOpen).toBe(false)
+    expect(paths(router.stack.value)).toEqual(['/', '/list'])
   })
 
   it('opens and closes through the handle, the prop and the native drag', async () => {
@@ -106,6 +122,21 @@ describe('RouterDrawer', () => {
     const { mounted, layout } = drawerApp({ open: true })
     await mounted
     expect(layout().isDrawerOpen).toBe(true)
+  })
+
+  it('keeps the iOS drawer and stack when loading a destination fails', async () => {
+    const { mounted, handle, layout } = drawerApp({ platform: 'ios' })
+    const { router } = await mounted
+    router.addRoute({
+      path: '/broken',
+      component: () => Promise.reject(new Error('offline')),
+    })
+    const stop = router.onError(() => {})
+    handle.value!.open()
+    await expect(router.push('/broken')).rejects.toThrow('offline')
+    expect(layout().isDrawerOpen).toBe(true)
+    expect(paths(router.stack.value)).toEqual(['/'])
+    stop()
   })
 
   it('takes the Android back while open, before any page pops', async () => {

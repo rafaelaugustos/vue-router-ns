@@ -1,6 +1,12 @@
-# Android drawer
+# Native drawer
 
-On Android, a drawer that slides in from the start edge is a native container: AndroidX's `DrawerLayout` owns the drag, the settle, the scrim and the accessibility of the pane. `<RouterDrawer>` puts your stacks inside one without moving any page around:
+`<RouterDrawer>` puts a start-edge menu around existing native stacks. Android uses AndroidX `DrawerLayout`; iOS uses UIKit views, pan gestures and animations. Both keep the content and drawer slots mounted without adding routes.
+
+::: info Upcoming rc.3
+The iOS implementation is part of the upcoming `0.1.0-rc.3`. Published `0.1.0-rc.2` supports the drawer on Android only.
+:::
+
+The same template works on both platforms:
 
 ```vue
 <RouterDrawer ref="drawer" :width="280">
@@ -42,11 +48,31 @@ The pane is a `GridLayout` with the class `router-drawer` and a white background
 
 The small native host lives in this package and uses the AndroidX dependencies already shipped with the NativeScript runtime. It does not require a separate drawer plugin or a core patch. See the [native validation report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer.md) for the tested Android and dependency versions.
 
-On iOS, `<RouterDrawer>` renders the content alone and the `drawer` slot is ignored. To navigate between tabs through the native iPad sidebar, use [`<RouterTabs sidebar>`](./tabs).
+On iOS, the pane overlays the content on iPhone and iPad. Its width is capped to leave a 44-point strip for scrim dismissal when the window is narrow. This is an overlay drawer, not UIKit's native tab sidebar. Use [`<RouterTabs sidebar>`](./tabs) for UIKit-owned iPad tab navigation. Adaptive permanent panes are tracked separately in #134.
+
+`RouterUIKitSplitView` must own the window root: do not place it inside a drawer. `RouterSplitView`, which composes Frame stacks, can be drawer content. See [split navigation](./split-view).
+
+### iOS gestures and accessibility
+
+- At a stack root, drag inward from the first 24 points of the start edge to open. Drag the open pane or tap the scrim to close. A reversed or interrupted drag settles to a consistent open/closed state.
+- On a pushed page, the edge belongs to UIKit's interactive Back. An active leave guard may disable that gesture, as described in [guards](./guards). The drawer does not replace the navigation controller's delegate or bypass the guard. Keep an ActionBar Menu button available.
+- Opening dismisses the keyboard, isolates the covered content from VoiceOver traversal and requests focus in the pane. Closing restores the previous focus target if it is still attached. Accessibility Escape closes the pane. Reduce Motion skips the sliding animation.
+- A presented native modal remains above the drawer. `closeOnNavigate=false` leaves the drawer in place when returning from that modal.
+- `opened`/`closed` and `v-model:open` reflect settled states, not intermediate drag progress. Resizing retains the content and its native stacks.
+
+The [iOS validation report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-ios.md) separates automated accessibility-state checks from manual VoiceOver checks.
+
+### Runnable acceptance example
+
+[`demo/src/testing/drawer-app.ts`](https://github.com/rafaelaugustos/vue-router-ns/blob/main/demo/src/testing/drawer-app.ts) includes the router setup, three independent tabs, Menu buttons, an editable draft, conditional guards and modal results. Follow the [demo setup](https://github.com/rafaelaugustos/vue-router-ns/blob/main/demo/README.md), build the package, then run `ns run ios --env.drawerTest` or `ns run android --env.drawerTest` from `demo`.
+
+<Clip name="ios-drawer" aspect="393 / 852" caption="Native iOS drawer: gestures, retained stacks, guards and a modal result. iPhone simulator." />
 
 ## Direction, input and accessibility
 
-The pane uses Android's `START` edge: left in LTR, right in RTL. For automatic direction from the system language, enable [`android:supportsRtl="true"`](https://developer.android.com/guide/topics/manifest/application-element#rtl) on your app's `<application>` in `App_Resources/Android/src/main/AndroidManifest.xml`. You can also set `direction="rtl"` on the drawer explicitly. Rotation keeps the same native container and mounted pages.
+The pane opens from the start edge: left in LTR, right in RTL. iOS follows UIKit's effective layout direction; Android uses `START`. For automatic direction from the system language, enable [`android:supportsRtl="true"`](https://developer.android.com/guide/topics/manifest/application-element#rtl) on your app's `<application>` in `App_Resources/Android/src/main/AndroidManifest.xml`. You can also set `direction="rtl"` on the drawer explicitly. Rotation keeps the same native container and mounted pages.
+
+`direction` accepts `ltr` or `rtl`; omitting it follows the platform. On iOS the prop sets the container's semantic direction and lets UIKit inherit it, keeping the native navigation views' own gesture configuration intact.
 
 Keep an ActionBar button to open the drawer. With Android gesture navigation, the system can consume the edge swipe as Back; the button remains available. Back closes the pane when the gesture is committed; it does not preview or pop a page behind the drawer.
 
