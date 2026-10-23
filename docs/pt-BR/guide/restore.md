@@ -64,13 +64,55 @@ usePageState('draft', {
 
 Um save de outra versão passa pelo `migrate`; sem ele, ou quando devolve `undefined`, a página começa do zero. Um `restore` ou `migrate` que lança erro é reportado em desenvolvimento e a página também começa do zero.
 
+### Rotas renomeadas e removidas
+
+O `migrate` de estado da página altera o formato dos dados de um hook. Ele não renomeia rotas. O histórico salvo contém paths, então mudar apenas o nome da rota não altera a localização salva. Quando um path mudar, traduza-o em `restore.load` antes de retornar o snapshot:
+
+```ts
+import type { SavedStacks } from 'vue-router-ns'
+
+function migratePaths(saved: SavedStacks | null): SavedStacks | null {
+  if (!saved) return null
+  return {
+    ...saved,
+    stacks: Object.fromEntries(
+      Object.entries(saved.stacks).map(([name, paths]) => [
+        name,
+        paths.map((path) => (path === '/legacy-edit' ? '/edit' : path)),
+      ]),
+    ),
+  }
+}
+
+// Dentro de restore:
+// load: () => migratePaths(JSON.parse(ApplicationSettings.getString('stacks', 'null')))
+```
+
+O exemplo mapeia somente esse path exato. Trate params e query strings explicitamente para as URLs antigas do seu app. Mantenha a ordem e o alinhamento com `entries`: duas entradas `/legacy-edit` continuam com chaves e rascunhos próprios. Ao remover ou reordenar paths, transforme também as entradas dos mesmos índices. Preserve `savedAt` para não reativar dados expirados e `windowKey` para impedir que outra janela consuma o snapshot.
+
+Sem migração explícita, um path indisponível reinicia aquela pilha em `initial`. Os guards continuam executando durante a restauração. Se um guard redirecionar uma página salva para outro path, o rascunho não será transferido à página de destino. No logout, limpe os snapshots e dados sensíveis armazenados pelo app, além de aplicar os guards de autorização; guards não apagam o armazenamento.
+
 ### O que continua por conta do app
 
 - Estado que não sobrevive ao `JSON.stringify` é descartado com um aviso em desenvolvimento, assim como uma página cujo estado passa de `restore.stateLimit` (8 KiB por padrão).
 - Uma página restaurada em outro lugar, porque um guard a redirecionou, deixa o estado salvo para trás: o estado segue o caminho.
 - Uma promise de `pushForResult()` não sobrevive à morte do processo. A página que esperava volta sem ela; um fluxo que precisa da resposta depois deve guardá-la na própria store, ou no estado da página que perguntou.
-- Modais, a aba selecionada e a identidade da janela não são salvos. Reselecione a aba a partir do seu próprio estado, e veja o trabalho de janelas nativas para saves por janela.
+- Modais não são restaurados. Persista e reselecione a aba ativa por conta própria. Snapshots por janela contêm `windowKey`, mas o app precisa fornecer uma chave estável de documento e associá-la à janela nativa correta; veja [janelas nativas](#janelas-nativas).
 
 ## Janelas nativas
 
-No core 9.1+, um router ligado a uma `NativeWindow` recebe contexto de janela em `save(state, context)` e `load(context)`. Use `restore.key` e `context.key` para separar os snapshots. Nesse modo, sair do processo preserva a pilha; fechar uma janela grava `null` somente no snapshot dela. O comportamento de limpar ao sair descrito acima se aplica ao modo legado, sem uma janela proprietária. Veja [janelas nativas](./windows#persistência-por-janela) para inicialização e limites.
+No Core 9.1.3+, um router ligado a uma `NativeWindow` recebe contexto de janela em `save(state, context)` e `load(context)`. Use `restore.key` e `context.key` para separar os snapshots. Nesse modo, sair do processo preserva a pilha; fechar uma janela grava `null` somente no snapshot dela. O comportamento de limpar ao sair descrito acima se aplica ao modo legado, sem uma janela proprietária. Veja [janelas nativas](./windows#persistência-por-janela) para inicialização e limites.
+
+### Responsabilidades e comportamento validado
+
+| Dados                                                        | Responsável                                                                       |
+| ------------------------------------------------------------ | --------------------------------------------------------------------------------- |
+| Paths por pilha, chaves estáveis e estado de página opt-in   | Snapshot do router, persistido pelo seu callback `save`.                          |
+| Migração do formato do estado de página                      | `version` e `migrate` de cada hook `usePageState`.                                |
+| Migração de paths, troca de conta e limpeza do armazenamento | Política de `load`/armazenamento do app.                                          |
+| Aba selecionada e identidade da janela/documento             | O app; use chaves de snapshot independentes por documento.                        |
+| Promises pendentes de modais/resultados e objetos nativos    | Não são persistidos. Reconstrua operações recuperáveis a partir dos dados do app. |
+
+Exemplos nativos executáveis: [`state-app.ts`](https://github.com/rafaelaugustos/vue-router-ns/blob/main/demo/src/testing/state-app.ts) (`--env.stateTest`) cobre rascunhos e rolagens de paths duplicados, migração de formato, expiração, rotas removidas e logout; [`windows-app.ts`](https://github.com/rafaelaugustos/vue-router-ns/blob/main/demo/src/testing/windows-app.ts) (`--env.windowsTest`) restaura rascunhos duplicados e chaves de entradas em janelas independentes. Siga a configuração do demo e a [preparação dos recursos de janelas](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/windows) antes de compilá-los.
+
+O CI obrigatório valida encerramento real do processo Android e restauração das tarefas originais nas APIs 34/36, além da reconstrução das cenas UIKit originais em um novo processo no iPadOS 18.6. O [relatório de aceitação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-page-state.md) distingue isso do retorno de segundo plano e da reconexão no mesmo processo. Os resultados são de emulador/simulador; navegação por janela continua experimental e seus [limites de plataforma](./windows) continuam valendo.

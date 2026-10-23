@@ -104,6 +104,59 @@ describe('usePageState', () => {
     expect(store.state!.entries!.default!.map((entry) => entry.key)).toEqual(keys)
   })
 
+  it('preserves duplicate entry state when load migrates a renamed route', async () => {
+    reset()
+    const snapshot: SavedStacks = {
+      version: 2,
+      savedAt: Date.now(),
+      stacks: { default: ['/', '/legacy-edit', '/legacy-edit'] },
+      entries: {
+        default: [
+          { key: 'home' },
+          {
+            key: 'first',
+            state: { draft: { version: 1, value: { text: 'first draft' } } },
+          },
+          {
+            key: 'second',
+            state: { draft: { version: 1, value: { text: 'second draft' } } },
+          },
+        ],
+      },
+    }
+    const store = storage(snapshot)
+    const { app, router } = await mount(routes, {
+      restore: {
+        save: store.save,
+        load: () => ({
+          ...snapshot,
+          stacks: Object.fromEntries(
+            Object.entries(snapshot.stacks).map(([name, paths]) => [
+              name,
+              paths.map((path) => (path === '/legacy-edit' ? '/edit' : path)),
+            ]),
+          ),
+        }),
+      },
+    })
+    await settle()
+    expect(paths(router.stack.value)).toEqual(['/', '/edit', '/edit'])
+    expect(editors.map((draft) => draft.value)).toEqual(['first draft', 'second draft'])
+    expect(store.state!.entries!.default!.map((entry) => entry.key)).toEqual([
+      'home',
+      'first',
+      'second',
+    ])
+    await router.back()
+    await settle()
+    expect(paths(router.stack.value)).toEqual(['/', '/edit'])
+    expect(store.state!.entries!.default!.at(-1)).toEqual({
+      key: 'first',
+      state: { draft: { version: 1, value: { text: 'first draft' } } },
+    })
+    app.unmount()
+  })
+
   it('saves when the app goes to the background, and forgets on exit', async () => {
     reset()
     const store = storage()

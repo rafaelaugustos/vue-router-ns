@@ -1,5 +1,7 @@
 # NativeWindow routing validation — 2026-10-15
 
+Current #49 completion evidence, including hosted process IDs, original task/session checks and independent drafts, is consolidated in [page state acceptance](./native-page-state.md#completed-multi-window-acceptance--2026-10-23). Historical limitations below describe their stated revisions; they are superseded by the completed restoration results.
+
 ## Latest acceptance — 2026-10-22, after RC integration
 
 The branch incorporates `main` at `9696e6a` (RC.1); workflow and changelog merge conflicts are resolved. Published dependencies remain Core 9.1.3 / NativeScript-Vue 3.1.2.
