@@ -1,6 +1,6 @@
 # Documentation recordings
 
-`docs/public/media` contains actual recordings of the repository's NativeScript-Vue demo, with one JPEG poster per MP4. Four smaller GIFs in `.github/assets` work in the GitHub README. The documentation's `Clip` component uses the videos, provides playback controls and does not autoplay when the browser requests reduced motion.
+`docs/public/media` contains actual recordings of the repository's NativeScript-Vue demos, with one JPEG poster per MP4. Smaller GIFs in `.github/assets` work in the GitHub README. The documentation's `Clip` component uses the videos, provides playback controls and does not autoplay when the browser requests reduced motion.
 
 The initial set was captured for beta.9 on 2026-10-18: iPhone 17 / iOS 26.0, iPad Pro 13-inch (M5) / iPadOS 26.0 and an Android 16 / API 36 emulator. These are simulator/emulator recordings, not physical-device footage. All names and messages are the demo's local sample data.
 
@@ -60,3 +60,17 @@ Five additional clips were recorded from the real demo on a dedicated iPhone 17 
 Re-record with `IOS_SIMULATOR=<udid> IDB=/path/to/idb node scripts/media/record-ios.mjs <recording>`. The script expects the portrait 402 × 874 point iPhone 17 layout, an already running demo, no open modal, and a signed-out session for the guarded link. It leaves the ending screenshot and accessibility tree beside the raw video. Close the modal before starting another recording. Use `encode.mjs` above, review the ending as well as the transition, and commit only the MP4/poster pair.
 
 During capture, the Compose quick action was refused by the native presenter when it also switched from Settings to the inbox split. Repeating from the already selected Inbox succeeded. The shortcut clip is scoped to that successful same-tab case; it is not evidence that a cross-tab modal entry is fixed. The deep-link clip separately demonstrates cross-tab entry into a normal page.
+
+## Airbnb NS / rc.2 (2026-10-23)
+
+`ios-airbnb.mp4` is edited from the user's 39.21-second `Screen Recording AirbnbHomeReview 23-10-2026 at 17.41.53.mp4`, captured on the dedicated iPhone 17 / iOS 26.0 simulator. The app uses Core 9.1.3, NativeScript-Vue 3.1.2 and the local router at 0.1.0-rc.2. The original stays outside the repository.
+
+Reproduce the edit with:
+
+```sh
+node scripts/media/encode-airbnb.mjs /path/to/original-recording.mp4
+```
+
+The encoder keeps source intervals 8.2–11.4, 14.5–25.8 and 27.0–39.0 seconds, producing a 26.5-second H.264 MP4 at 560 pixels wide / 30 fps, with a JPEG poster. Cuts remove the initial SpringBoard wait, placeholder tabs and a repeated pause. The native animation speed is unchanged; no UI is composited. A separate 7.3-second excerpt (14.5–21.8) becomes `.github/assets/demo-ios-airbnb.gif` at 280 pixels wide / 12 fps for the README.
+
+The walkthrough shows tab selection and favorites, a card-to-detail zoom and native dismissal, context-menu previews and favorite actions, and carousel/feed scrolling. Search, process-death restoration, loader error/retry, accessibility announcements and Android behavior are not shown. The README and both visual guides describe that scope.

@@ -34,6 +34,16 @@ module.exports = (env) => {
       'predictiveplain',
     ].filter((name) => env[`${name}Test`])
     if (fixtures.length > 1) throw new Error('Select only one native acceptance fixture')
+    if (env.airbnb && fixtures.length)
+      throw new Error('Airbnb cannot run with acceptance fixtures')
+    if (env.airbnb) {
+      const entry = config.entry('bundle')
+      entry.values().forEach((path) => {
+        if (path === resolve(__dirname, 'src/app.ts')) {
+          entry.delete(path).add(resolve(__dirname, 'src/airbnb/app.ts'))
+        }
+      })
+    }
     if (fixtures.length) {
       const entry = config.entry('bundle')
       const paths = entry.values()

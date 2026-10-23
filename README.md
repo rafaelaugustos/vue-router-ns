@@ -37,7 +37,21 @@ router.push({ name: 'message', params: { id: 42 } })
 
 Prefer file conventions? The optional [file-routing setup](https://vue-router-ns.rafaelaugusto.dev/guide/file-routing) generates typed native routes, with opt-in layouts, middleware discovery and webpack or Vite integration. Native Vite HMR uses adjacent JSON metadata; see the guide for setup and compiler limitations. Choose explicit records, native page files, or combine them on the same router. See the separate [native example](examples/file-routing/README.md).
 
-Recorded in the NativeScript demo. Watch more clips, with the code for each feature, in the [visual guide](https://vue-router-ns.rafaelaugusto.dev/guide/demo).
+## Airbnb NS example
+
+A runnable Airbnb-inspired app built with NativeScript-Vue and `vue-router-ns`: accommodation carousels, favorites, native tabs, a search sheet and detail pages with UIKit zoom. The UI and catalog are local; stays and reservations are fictional.
+
+<p align="center">
+  <a href="docs/public/media/ios-airbnb.mp4">
+    <img src=".github/assets/demo-ios-airbnb.gif" width="280" alt="Airbnb NS on iOS: a stay opens from its card with UIKit zoom, hides the tab bar, and returns to the feed with a native dismissal gesture">
+  </a>
+</p>
+
+[Watch the 27-second walkthrough](docs/public/media/ios-airbnb.mp4) · [Source](demo/src/airbnb) · [Run the example](demo/README.md#airbnb-inspired-navigation-demo)
+
+The recording shows native tabs, zoom and gesture dismissal, context-menu previews and favorite actions on an iPhone 17 / iOS 26 simulator. The example also uses `pushForResult()` for search, per-route tab visibility, an experimental offline route loader, `<Deferred>`, and `usePageState()` with persisted navigation. Android uses Material tabs, popup actions and a shared-element transition.
+
+More focused clips, with the code for each feature, are in the [visual guide](https://vue-router-ns.rafaelaugusto.dev/guide/demo).
 
 <table>
   <tr>
@@ -66,12 +80,13 @@ So this is not a wrapper around Vue Router. The frame's back stack is the source
 - [One stack per tab](#tabs-and-other-independent-stacks), with named `<RouterView>`s, and [`setStack()`](#setting-the-whole-stack) to set a stack as a list.
 - [Adaptive list and detail](#list-and-detail) with `<RouterSplitView>`, preserving push history across layout changes.
 - [A native Android drawer](https://vue-router-ns.rafaelaugusto.dev/guide/drawer) with `<RouterDrawer>`: AndroidX `DrawerLayout` around your stacks, closed by back before any page pops.
-- [Native tabs](https://vue-router-ns.rafaelaugusto.dev/guide/tabs) with `<RouterTabs>`: `UITabBarController` with `UITab`, badges and the iPad sidebar on iOS, Material bottom navigation or a rail on Android, and navigations that bring their tab forward.
+- [Native tabs](https://vue-router-ns.rafaelaugusto.dev/guide/tabs) with `<RouterTabs>`: UIKit tabs and the iPad sidebar, Material bottom navigation or a rail, badges, public color props and per-route `meta.tabBarVisibility` on supported hosts.
 - [Context menu previews](https://vue-router-ns.rafaelaugusto.dev/guide/context-menus) with `v-route-preview` and `<RouterLink menu>`: a long press shows the route in UIKit's preview with actions and commits it through the guards; Android offers the actions in a popup menu.
 - [Typed routes](#typed-routes): names and params checked across the app, with no code generation.
 - [Zoom and shared elements](#zoom-and-shared-elements): iOS 18's zoom out of a view, and NativeScript's shared element transitions.
 - [Android predictive back](#android-predictive-back) for pages that want to follow the swipe.
 - [Restoring the stack](#restoring-the-stack-after-the-app-is-killed) after the app is killed in the background, with each page's own draft or reading position through `usePageState()`.
+- [Route data loaders](https://vue-router-ns.rafaelaugusto.dev/guide/data-loading) (experimental): typed per-page data, pending/error/retry state and cancellation without blocking native presentation. Optional [Suspense composition](https://vue-router-ns.rafaelaugusto.dev/guide/suspense) keeps asynchronous content inside a stable native Page.
 - [Native hosts](#native-hosts) (experimental): one contract between the router and the container it drives, so native drawers, sheets and controllers can be added as adapters.
 
 ## Install
@@ -308,28 +323,30 @@ If the page closes any other way (a swipe, the back button) or a guard stops it 
 
 ## Tabs and other independent stacks
 
-Use one `<RouterView>` per stack and name it:
+Use `<RouterTabs>` with one named `<RouterView>` per tab:
 
 ```vue
-<TabView>
-  <TabViewItem title="Inbox">
-    <RouterView name="inbox" initial="/" />
-  </TabViewItem>
-  <TabViewItem title="Settings">
-    <RouterView name="settings" initial="/settings" />
-  </TabViewItem>
-</TabView>
+<RouterTabs selectedTabTextColor="#ff385c" labelVisibility="labeled">
+  <RouterTab name="inbox" title="Inbox" icon="tray" androidIcon="sys://ic_dialog_email">
+    <RouterView name="inbox" initial="/" backToRootOnReselect />
+  </RouterTab>
+  <RouterTab name="settings" title="Settings" icon="gearshape" androidIcon="sys://ic_menu_preferences">
+    <RouterView name="settings" initial="/settings" backToRootOnReselect />
+  </RouterTab>
+</RouterTabs>
 ```
 
 Pages navigate in their own tab. From anywhere else, target one with `{ frame: 'settings' }`.
 
-Native tab bars go back to the first page when you tap the tab you're already on. `backToRootOnReselect` does that for a `<RouterView>` inside a `<TabViewItem>`, through the leave guards like any back:
+Native tab bars go back to the first page when you tap the tab you're already on. `backToRootOnReselect` does that for a `<RouterView>` inside a tab, through the leave guards like any back:
 
 ```vue
 <RouterView name="inbox" initial="/" backToRootOnReselect />
 ```
 
-`router.backToRoot()` does the same on demand.
+`router.backToRoot()` does the same on demand. Switching tabs preserves both histories; only a new tap on the already selected tab counts as reselection.
+
+Set `meta: { tabBarVisibility: 'hidden' }` on a detail route to hide its owning bar after navigation commits. Back restores the previous page's policy; a cancelled gesture leaves it unchanged. Supported on iOS 18+ bottom bars and Android Material bars/rails; UIKit sidebar mode and the Core fallback keep navigation visible. See [tab visibility, colors and labels](https://vue-router-ns.rafaelaugusto.dev/guide/tabs).
 
 ## List and detail
 
@@ -484,13 +501,13 @@ On iOS, the ActionBar's back button pops the page natively. While a leave guard 
 
 ## API
 
-**Router**: `createRouter({ routes, restore, backPreview, diagnostics, motion })`, `push`, `replace`, `back`, `go`, `backTo`, `backToRoot`, `setStack`, `pushForResult`, `resolve`, `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`, `beforeEach`, `beforeResolve`, `afterEach`, `onError`, `isReady`, `currentRoute`, `stack`, `diagnostics`.
+**Router**: `createRouter({ routes, restore, links, loaders, window, backPreview, diagnostics, motion })`, `push`, `replace`, `back`, `go`, `backTo`, `backToRoot`, `setStack`, `pushForResult`, `openLink`, `openWindow`, `resolve`, `addRoute`, `removeRoute`, `hasRoute`, `getRoutes`, `beforeEach`, `beforeResolve`, `afterEach`, `onError`, `isReady`, `currentRoute`, `stack`, `diagnostics`.
 
-**Route records**: `path`, `name`, `component` (or a function returning it, sync or async), `children`, `redirect`, `meta`, `props` (`true`, an object or a function of the route), `beforeEnter`, plus `modal` and `transition`.
+**Route records**: `path`, `name`, `component` (or a function returning it, sync or async), `children`, `redirect`, `meta` (including `tabBarVisibility` and experimental `loaders`), `props` (`true`, an object or a function of the route), `beforeEnter`, plus `modal` and `transition`.
 
-**Composables**: `useRouter`, `useRoute`, `onBeforeRouteLeave`, `onPageActivated`, `onPageDeactivated`, `useBackGesture`, `useNativeSearch`, `useNavigationCommands`, `useNavigationFocus`.
+**Composables**: `useRouter`, `useRoute`, `onBeforeRouteLeave`, `onPageActivated`, `onPageDeactivated`, `usePageState`, `useRouteData` (experimental), `useBackGesture`, `useNativeSearch`, `useNavigationCommands`, `useNavigationFocus`.
 
-**Components**: `<RouterSplitView name list breakpoint listWidth backToRootOnReselect>` (with an `empty` slot), `<RouterDrawer width open closeOnNavigate>` (with a `drawer` slot, Android), `<RouterTabs selected canSelect sidebar minimize rail>` with `<RouterTab name title icon androidIcon badge role>` children, `<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents zoom transition frame menu>`, `<NavigationCommandScope :commands="commands">` and `<Deferred>`. `RouterLink` makes its only child navigate on tap, without adding a view:
+**Components**: `<RouterSplitView name list breakpoint listWidth backToRootOnReselect>` (with an `empty` slot), `<RouterDrawer width open closeOnNavigate>` (with a `drawer` slot, Android), `<RouterTabs selected canSelect sidebar minimize rail tabBackgroundColor tabTextColor selectedTabTextColor labelVisibility>` with `<RouterTab name title icon androidIcon badge role>` children, `<RouterView name initial backToRootOnReselect>`, `<RouterLink to replace clearHistory withParents zoom transition frame menu>`, `<NavigationCommandScope :commands="commands">` and `<Deferred>`. `RouterLink` makes its only child navigate on tap, without adding a view:
 
 ```vue
 <RouterLink to="/settings">
@@ -498,11 +515,11 @@ On iOS, the ActionBar's back button pops the page natively. While a leave guard 
 </RouterLink>
 ```
 
-**Helpers**: `isNavigationFailure`, `NavigationFailureType`, `START_LOCATION`, `getWindowRoute`, plus `$router` and `$route` in templates.
+**Helpers**: `isNavigationFailure`, `NavigationFailureType`, `START_LOCATION`, `getWindowRoute`, `defineRouteLoader` (experimental), plus `$router` and `$route` in templates.
 
 ## How it works
 
-Each `<RouterView>` renders a NativeScript `Frame`. Pages are mounted with `$navigateTo`, inside a small wrapper that provides their route and a router bound to their stack. NativeScript-Vue mounts every page as its own app, so nothing provided by `<RouterView>` would reach them otherwise.
+Each `<RouterView>` renders a NativeScript `Frame`. The router creates a NativeScript-Vue app for each page and owns its mount/unmount lifecycle, retaining it while its entry stays in history. A wrapper provides the page's route and a router bound to its stack; native `Frame` navigation presents it. This ownership also preserves Vue state across Android Activity recreation.
 
 In a `RouterView`, the native stack is the source of navigation history. After every `navigatedTo`, it reads `frame.backStack` and the current page and mirrors them. Pops it didn't start, like an iOS swipe, are picked up the same way as its own. `replace` marks the current entry `backstackVisible: false` before navigating, which is how the frame drops a page natively.
 
@@ -530,6 +547,8 @@ Opt in with `createRouter({ routes, diagnostics: __DEV__ })`. `router.diagnostic
 [Open in StackBlitz](https://stackblitz.com/fork/github/rafaelaugustos/vue-router-ns/tree/main/examples/playground?file=src%2Frouter.ts) with [NativeScript Preview](https://preview.nativescript.org/). The example uses the published npm package and covers push/back history, modal results, leave guards and adaptive list/detail. Edit in the browser; scan the QR code to run natively on a device. See [setup and Preview limitations](https://vue-router-ns.rafaelaugusto.dev/guide/playground).
 
 ## Demo
+
+[`demo/src/airbnb/`](./demo/src/airbnb) contains **Airbnb NS**, the accommodation app shown above. After the shared setup below, run `npm run airbnb:ios` or `npm run airbnb:android`. See the [demo README](demo/README.md#airbnb-inspired-navigation-demo) for first-run native resources, platform limits and the route-to-feature map.
 
 [`demo/`](./demo) is a small mail app with two tabs. It covers typed params, a compose modal that returns its text, a leave guard that only asks while there's a draft, a login guard, a lazy page, `clearHistory`, a message page that follows the Android back swipe, and messages that zoom out of their row on iOS 18.
 
@@ -570,9 +589,9 @@ npm authenticates the workflow through [trusted publishing](https://docs.npmjs.c
 
 ## Native windows
 
-On NativeScript core 9.1+, create one router per `NativeWindow` with `createRouter({ routes, window })`. Stacks, modals, results and Android back handling stay within that window. `router.openWindow(to, { data })` sends a typed destination to the OS; the app's window content resolver reads it with `getWindowRoute(request.data)` and mounts a new root/router.
+On NativeScript Core 9.1.3+ and NativeScript-Vue 3.1.2+, create one router per `NativeWindow` with `createRouter({ routes, window })`. Stacks, modals, results and Android back handling stay within that window. `router.openWindow(to, { data })` sends a typed destination to the OS; the app's window content resolver reads it with `getWindowRoute(request.data)` and mounts a new root/router.
 
-This integration is experimental and requires native multi-window configuration. Native surface recreation also depends on [NativeScript-Vue #1178](https://github.com/nativescript-vue/nativescript-vue/pull/1178); OS-driven iOS scene reconnection remains unverified. Restoration callbacks receive a window context so app storage can separate snapshots. See [native windows](https://vue-router-ns.rafaelaugusto.dev/guide/windows) for setup, lifecycle and NativeScript-Vue context limitations.
+This integration is experimental and requires native multi-window configuration. Android Activity recreation, restoration of original Android tasks and UIKit scene sessions after process death, and retained iPad scene reconnection are validated on the published dependencies. No dependency patch is required. Restoration callbacks receive a window context so app storage can separate snapshots; the app owns stable document identity. See [native windows](https://vue-router-ns.rafaelaugusto.dev/guide/windows) for platform limits and simulator/emulator evidence.
 
 ## License
 

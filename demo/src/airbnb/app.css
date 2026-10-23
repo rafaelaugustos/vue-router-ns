@@ -1,0 +1,88 @@
+Page {
+  background-color: #ffffff;
+  color: #222222;
+  font-size: 15;
+}
+TabView {
+  selected-tab-text-color: #ff385c;
+  tab-text-color: #717171;
+  tab-background-color: #ffffff;
+  tab-text-font-size: 10;
+}
+Button {
+  text-transform: none;
+  border-width: 0;
+  android-elevation: 0;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+}
+.icon {
+  font-family: 'Material Icons Outlined', 'MaterialIconsOutlined-Regular';
+  font-weight: normal;
+}
+.muted {
+  color: #717171;
+}
+.feed {
+  padding: 23 24 28;
+}
+
+.section-heading {
+  font-size: 21;
+  font-weight: 700;
+  letter-spacing: -0.025;
+  margin-top: 7;
+}
+.primary {
+  height: 50;
+  border-radius: 10;
+  color: #ffffff;
+  background: linear-gradient(to right, #e61e4d, #d70466);
+  font-size: 16;
+  font-weight: 600;
+  margin-top: 25;
+}
+.page-title {
+  font-size: 30;
+  font-weight: 700;
+  letter-spacing: -0.03;
+  margin-top: 16;
+  margin-bottom: 18;
+}
+.empty-state {
+  padding: 32 0;
+}
+.empty-icon {
+  font-size: 58;
+  color: #ff385c;
+  margin-bottom: 27;
+  horizontal-align: left;
+}
+.empty-title {
+  font-size: 25;
+  font-weight: 600;
+  margin-bottom: 16;
+}
+.empty-state .muted {
+  font-size: 16;
+  line-height: 6;
+}
+.prototype-note {
+  font-size: 12;
+  color: #717171;
+  margin-top: 22;
+}
+.close-button {
+  width: 36;
+  height: 36;
+  border-radius: 18;
+  font-size: 23;
+  background-color: #f4f4f4;
+}
+.text-button {
+  background-color: transparent;
+  text-decoration: underline;
+  font-weight: 600;
+  height: 50;
+}
