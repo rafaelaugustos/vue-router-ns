@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { execFile, spawn } from 'node:child_process'
 import { promisify } from 'node:util'
-import { mkdir, writeFile, readFile } from 'node:fs/promises'
+import { access, mkdir, writeFile, readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 const exec = promisify(execFile)
 const sim = process.env.IOS_SIMULATOR
@@ -43,7 +43,22 @@ if (sim) {
   await adb('shell', 'pm', 'clear', pkg)
   await adb('shell', 'am', 'start', '-W', '-n', `${pkg}/com.tns.NativeScriptActivity`)
 }
-await pause(2500)
+// A fresh installation can take longer to start on a busy simulator. The
+// fixture creates result.json only after setting up its native command bridge.
+const bridgeDeadline = Date.now() + 30000
+while (true) {
+  try {
+    if (sim) await access(`${container}/Documents/tabs-visibility/result.json`)
+    else await appShell('test', '-f', `${appFiles}/result.json`)
+    break
+  } catch {
+    assert(
+      Date.now() < bridgeDeadline,
+      'Native tab visibility command bridge did not become ready within 30s',
+    )
+    await pause(200)
+  }
+}
 let recording
 if (process.env.RECORD === '1') {
   recording = sim

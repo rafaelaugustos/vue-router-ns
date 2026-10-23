@@ -1,6 +1,6 @@
 # RC scope and compatibility
 
-The `0.1.0` release candidate freezes the documented, non-experimental API while we validate it for the stable release. Explicit JavaScript/TypeScript route tables remain the default. File conventions are optional; both use native navigation, without a Vue Router or Nuxt runtime.
+The `0.1.0-rc.2` release candidate freezes the documented, non-experimental API while we validate it for the stable release. Explicit JavaScript/TypeScript route tables remain the default. File conventions are optional; both use native navigation, without a Vue Router or Nuxt runtime.
 
 ## Supported baseline
 
@@ -23,19 +23,20 @@ The RC freezes explicit routes and typed locations; push/replace/back and result
 
 These remain **experimental and opt-in**:
 
+- [Multiple native windows](./windows): one router per window, independent task/scene restoration and same-process reconnection on the documented platform baseline.
 - [Native Suspense composition](./suspense): explicit renderer compatibility registration and async content inside a stable Page.
 - [Route data loading](./data-loading): per-entry state and cancellation without blocking native presentation.
 - [File routing](./file-routing), including its generation/build-tool contract. Existing explicit routes do not depend on it.
 - [Custom native hosts](./native-hosts) and [native controller/Fragment destinations](./native-destinations). The host version must change for incompatible contract changes.
 - `backPreview: 'core'`, which requires the pinned upstream prototype documented in the [predictive-back report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-predictive-back.md). Released Core uses the existing fallback.
 
-Multiple-window router ownership from #46 / PR #65 is **outside this RC**. The stable target includes single-window page-state restoration; independent OS task/scene reconstruction is not promised. The remaining #49 multi-window acceptance and the #64 roadmap do not block this scoped release.
+Multiple-window ownership and restoration are included as experimental features, with their acceptance evidence and platform limits documented in the [window guide](./windows) and [page-state report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-page-state.md). The roadmap is not a release commitment. `RouterDrawer` remains Android-only; its planned iOS implementation (#117) is outside this release's scope.
 
 ## Known limits
 
 - Native Vite HMR uses `.route.json` metadata. `definePageMeta` works with webpack and bundled Vite, but is not supported during native Vite HMR. Adding/removing layout or middleware registrations requires an app restart; script edits can remount pages. See [file routing](./file-routing).
 - With npm 10, keep a working NativeScript Vite lockfile: its own optional-peer dependency tree can fail on a lockfile-free install. The router's npm 10 install crash was fixed in beta.15. See [installation](./install).
-- Process death never preserves JavaScript Promises. Persist small application-owned state and start a new operation after recovery. On published NativeScript-Vue, explicit Android Activity recreation can dispose the page and cancel its pending native flow; this RC does not include PR #65's retained-page lifecycle. See [native flows](./native-flows) and [restoration](./restore).
+- Process death never preserves JavaScript Promises. Persist small application-owned state and start a new operation after recovery. The router retains Frame page apps during Android Activity recreation on the supported published dependencies, allowing a pending native flow to rebind. Removing the route or permanently closing its owner still cancels that flow. See [native flows](./native-flows) and [restoration](./restore).
 - Material tabs/sheets require their native dependency in the shipped application, including release builds. Availability helpers report what is present; they do not install it. Spotlight indexing/ranking and external SDK behavior remain system/provider responsibilities.
 
 ## Release validation

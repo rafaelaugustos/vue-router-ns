@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.1.0-rc.2 (2026-10-23)
+
 - Document experimental native Suspense composition inside stable Pages, including the explicit staging-container registration required by NativeScript-Vue 3.1.2. Add real HTTP examples, async setup/SFC/lazy/nested/Deferred coverage, native gesture and disposal checks, and English/Portuguese guides with recordings. The router adds no automatic boundary or new public component.
 
 - Add experimental typed route data loaders for explicit and file-generated routes. Start after authorization without blocking native presentation; isolate reactive pending/success/error state per entry, support explicit retry and ignore stale results after cancellation. Include an app-owned cache example, iOS/Android HTTP acceptance in CI, and English/Portuguese guides with native recordings.
@@ -18,6 +20,9 @@
 - Restore original Android tasks after process death with a scoped Android 29+ compatibility observer, preserving same-process Activity recreation and unrelated saved-state providers. Validate original UIKit scene-session restoration in a new process with stable application document identity.
 
 - Rebuild retained iOS Frame controller stacks after a same-process scene reconnect. Preserve Page/Vue identities, guards and pending results, with native reactivity, HMR and cleanup acceptance on iPadOS 18.6. The simulator-only driver triggers actual UIKit lifecycle callbacks without shipping Apple private APIs.
+
+- Update the English and Portuguese compatibility scope to include experimental multi-window ownership and the retained-page lifecycle on published dependencies. The planned iOS drawer remains outside this release; `RouterDrawer` continues to support Android.
+- Harden native acceptance against slow startup, pending HTTP request timeouts, Android data-clear races and delayed system UI readiness. Allow the expanded iOS acceptance job to finish within 40 minutes while retaining its per-scenario timing and memory budgets.
 
 ## 0.1.0-rc.1 (2026-10-22)
 
