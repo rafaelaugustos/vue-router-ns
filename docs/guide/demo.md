@@ -1,12 +1,39 @@
 # Examples and videos by feature
 
-These clips come from the NativeScript-Vue mail app in [`demo/`](https://github.com/rafaelaugustos/vue-router-ns/tree/main/demo), running on iOS 26 and iPadOS 26 simulators and an Android 16 emulator. Each feature's guide includes its recording beside the code. The app uses local sample messages; it does not connect to an email service.
+These clips come from the NativeScript-Vue examples in [`demo/`](https://github.com/rafaelaugustos/vue-router-ns/tree/main/demo), running on simulators and emulators. Airbnb NS combines navigation features in an accommodation app; the mail app and focused fixtures demonstrate individual APIs. Both apps use local sample data.
 
 Clips are silent, loop while visible, and have playback controls. With Reduce Motion enabled, they wait for you to press play.
 
 Pick a feature, watch the result, and copy the corresponding snippet. Examples use NativeScript components and the demo route table. In routed pages, obtain `router` with `useRouter()` inside `<script setup>`; in app configuration, use the instance returned by `createRouter()`. Import router components from `vue-router-ns`. Template snippets belong in the indicated component and do not replace the initial app setup.
 
 [Installation](./install) · [Transition from an element](./transitions#card-with-routerlink) · [Complete demo](https://github.com/rafaelaugustos/vue-router-ns/tree/main/demo)
+
+## Airbnb NS: an accommodation app
+
+<Clip name="ios-airbnb" :width="320" caption="Airbnb NS: native tabs, card zoom and gesture dismissal, context-menu previews and favorites. Edited from an iPhone 17 / iOS 26 simulator recording; animations play at their original speed." />
+
+The 27-second recording shows the app using `vue-router-ns` 0.1.0-rc.2. It has a Portuguese discovery feed with horizontal carousels, persistent favorites, native tabs and detail pages that hide the bottom bar.
+
+| In the app                                      | Router feature                                                                                                                                     |
+| ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tap a stay photo and return by gesture          | `RouterLink zoom`, with a `SharedTransition` fallback                                                                                              |
+| Long-press a card                               | `RouterLink menu`: UIKit preview and favorite action; Android popup menu                                                                           |
+| Explore and Favorites                           | Named `RouterView` stacks, native `RouterTabs`, badges and public color props                                                                      |
+| Open a stay                                     | `meta.tabBarVisibility: 'hidden'` on supported native hosts                                                                                        |
+| Apply search filters                            | A sheet returning its value through `pushForResult()`                                                                                              |
+| Load details and keep the transition responsive | An experimental offline route loader and `<Deferred>`                                                                                              |
+| Reopen a browsing session                       | `restore` and `usePageState()` for histories, vertical reading position, category and gallery photo; the app persists the selected tab and filters |
+
+The recording covers the first four rows; search and cold-session restoration are separate flows. The catalog and photos are bundled, and the reservation button shows a fictional summary. Trips, messages and profile are placeholders.
+
+After the [demo setup](https://github.com/rafaelaugustos/vue-router-ns/blob/main/demo/README.md#airbnb-inspired-navigation-demo), run from `demo/`:
+
+```sh
+npm run airbnb:ios
+# or: npm run airbnb:android
+```
+
+[Route table](https://github.com/rafaelaugustos/vue-router-ns/blob/main/demo/src/airbnb/router.ts) · [Native tabs](https://github.com/rafaelaugustos/vue-router-ns/blob/main/demo/src/airbnb/App.vue) · [Stay page](https://github.com/rafaelaugustos/vue-router-ns/blob/main/demo/src/airbnb/pages/Stay.vue) · [Full source and platform limits](https://github.com/rafaelaugustos/vue-router-ns/blob/main/demo/README.md#airbnb-inspired-navigation-demo)
 
 ## Product data, error and retry
 
