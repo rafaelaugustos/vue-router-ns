@@ -7,12 +7,18 @@ on:
   schedule:
     - cron: '0 5 * * 1'
   workflow_call:
+    inputs:
+      full:
+        description: Run the compatibility builds alongside fast checks
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   install:
     # Pull requests get the fast unit/type/build check. Validate packed installs
     # on the weekly run and again in the release gate before publishing.
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_call'
+    if: github.event_name == 'schedule' || inputs.full
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -62,7 +68,7 @@ jobs:
       - run: npm run docs:build
 
   playground:
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_call'
+    if: github.event_name == 'schedule' || inputs.full
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -88,7 +94,7 @@ jobs:
       - run: npm run build:ios
 
   file-routing:
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_call'
+    if: github.event_name == 'schedule' || inputs.full
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7

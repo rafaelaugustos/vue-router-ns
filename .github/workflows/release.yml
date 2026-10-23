@@ -46,6 +46,8 @@ jobs:
     needs: check
     if: needs.check.outputs.published != 'true'
     uses: ./.github/workflows/ci.yml
+    with:
+      full: true
   native:
     needs: check
     if: needs.check.outputs.published != 'true'
