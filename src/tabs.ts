@@ -112,6 +112,7 @@ interface TabBarDelegate {
 interface Wrapper extends TabBarDelegate {
   _inner: TabBarDelegate | null
   _tabView: WeakRef<TabView>
+  _selection?: { index: number; clear: ReturnType<typeof setTimeout> }
 }
 
 declare const NSObject: { extend(methods: object, options: object): { new (): Wrapper } }
@@ -133,6 +134,7 @@ function watchIOS(tabView: TabView): () => void {
         vc: any,
       ) {
         const index = controller.viewControllers.indexOfObject(vc)
+        if (!beginSelection(this, index)) return false
         if (controller.selectedViewController === vc) notify(this, index)
         else if (!allowed(this, index)) return false
         return (
@@ -145,6 +147,7 @@ function watchIOS(tabView: TabView): () => void {
       tabBarControllerShouldSelectTab(this: Wrapper, controller: any, tab: any) {
         if (!controller.viewControllers) {
           const index = controller.tabs.indexOfObject(tab)
+          if (!beginSelection(this, index)) return false
           if (controller.selectedTab === tab) notify(this, index)
           else if (!allowed(this, index)) return false
         }
@@ -162,6 +165,23 @@ function watchIOS(tabView: TabView): () => void {
     { protocols: [UITabBarControllerDelegate] },
   )
 
+  // iOS 26 can deliver the same control action twice in one native event:
+  // first through its gesture recognizer, then through touchesEnded. By the
+  // second shouldSelect, UIKit already reports the target as selected. Coalesce
+  // that event turn, not a time-based debounce that would swallow the next tap.
+  const beginSelection = (wrapper: Wrapper, index: number) => {
+    if (index < 0) return true
+    if (wrapper._selection?.index === index) return false
+    if (wrapper._selection) clearTimeout(wrapper._selection.clear)
+    wrapper._selection = {
+      index,
+      clear: setTimeout(() => {
+        wrapper._selection = undefined
+      }, 0),
+    }
+    return true
+  }
+
   const notify = (wrapper: Wrapper, index: number) => {
     const owner = wrapper._tabView.deref()
     if (owner && index >= 0) reselected(owner, index)
@@ -173,7 +193,9 @@ function watchIOS(tabView: TabView): () => void {
   }
 
   let wrapper: Wrapper | undefined
+  let detached = false
   const wrap = () => {
+    if (detached) return
     const controller = tabView.ios
     if (!controller || controller.delegate === wrapper) return
     wrapper ??= Object.assign(new TabBarDelegateWrapper!(), {
@@ -188,7 +210,12 @@ function watchIOS(tabView: TabView): () => void {
   if (tabView.isLoaded) onLoaded()
 
   return () => {
+    detached = true
     tabView.off('loaded', onLoaded)
+    if (wrapper?._selection) {
+      clearTimeout(wrapper._selection.clear)
+      wrapper._selection = undefined
+    }
     const controller = tabView.ios
     if (wrapper && controller?.delegate === wrapper) controller.delegate = wrapper._inner
   }

@@ -63,6 +63,8 @@ Pages navigate in their own tab. From anywhere else, target one with `{ frame: '
 
 ## Tapping the active tab
 
+`backToRootOnReselect` applies only to a new tap on the tab that is already selected. Switching to another tab preserves both histories. Updating `v-model:selected` or navigating/deep-linking into another tab does not count as a reselect. A refused `canSelect` leaves selection and histories unchanged; a leave guard can refuse a reselect-to-root.
+
 Native tab bars go back to the first page when you tap the tab you're already on. `backToRootOnReselect` does that for a `<RouterView>` inside a `<TabViewItem>`, through the leave guards like any back. `router.backToRoot()` does the same on demand.
 
 On iOS, the router listens in front of the tab bar's delegate, which otherwise answers "no" to the repeated tap and tells no one. On Android, it watches the tab strip's touches, since its own click listener only switches tabs.

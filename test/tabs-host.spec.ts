@@ -135,6 +135,7 @@ describe('native tab host', () => {
     expect(selected).not.toHaveBeenCalled()
     expect(canSelect).toHaveBeenCalledTimes(1)
     allowed.value = true
+    await settle() // a new native event turn for the next tap
     tap()
     await settle()
     expect(tabView.selectedIndex).toBe(1)

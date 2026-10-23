@@ -13,6 +13,7 @@ module.exports = (env) => {
     })
     // Separate opt-in acceptance fixtures; the normal demo keeps explicit routes.
     const fixtures = [
+      'tabs',
       'windows',
       'entrypoints',
       'drawer',
