@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add experimental typed route data loaders for explicit and file-generated routes. Start after authorization without blocking native presentation; isolate reactive pending/success/error state per entry, support explicit retry and ignore stale results after cancellation. Include an app-owned cache example, iOS/Android HTTP acceptance in CI, and English/Portuguese guides with native recordings.
+
 - Complete the page-state restoration acceptance record with Android 14/16 independent-window and iPadOS 18.6 cold-session evidence. Document application-owned route-path migration, snapshot alignment and tab/window/account ownership; cover duplicate renamed-route drafts and stable entry keys with a regression test.
 
 - Add typed `meta.tabBarVisibility` for the owning `RouterTabs`: inherit matched route metadata, apply the committed page after navigation, preserve cancelled gestures/guards and isolate tabs, modals and windows. Support UIKit 18+ bottom bars and Material bottom navigation/rail, with documented sidebar/Core fallback limits and runnable native examples.

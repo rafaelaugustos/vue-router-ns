@@ -8,6 +8,10 @@ Pick a feature, watch the result, and copy the corresponding snippet. Examples u
 
 [Installation](./install) · [Transition from an element](./transitions#card-with-routerlink) · [Complete demo](https://github.com/rafaelaugustos/vue-router-ns/tree/main/demo)
 
+## Product data, error and retry
+
+Declare a typed route loader and render pending/error/success inside one native Page. Back and retry preserve native navigation; an app cache can share requests across entries. [Complete example and videos](./data-loading).
+
 ## Open a page from a card
 
 <Clip name="ios-zoom" caption="The card opens the message with UIKit zoom and receives the return transition. iOS 26 simulator." />

@@ -23,6 +23,7 @@ The RC freezes explicit routes and typed locations; push/replace/back and result
 
 These remain **experimental and opt-in**:
 
+- [Route data loading](./data-loading): per-entry state and cancellation without blocking native presentation.
 - [File routing](./file-routing), including its generation/build-tool contract. Existing explicit routes do not depend on it.
 - [Custom native hosts](./native-hosts) and [native controller/Fragment destinations](./native-destinations). The host version must change for incompatible contract changes.
 - `backPreview: 'core'`, which requires the pinned upstream prototype documented in the [predictive-back report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-predictive-back.md). Released Core uses the existing fallback.

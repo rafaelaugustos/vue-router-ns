@@ -113,6 +113,14 @@ Node-only `vue-router-ns/file-routing/generator` exports `generateFileRoutes(opt
 
 `createRouter({ layouts, defaultLayout })` registers native layout components/factories per router. `defaultLayout` defaults to `false`; `meta.layout` selects a registered name or opts out with `false`. The layout owns the root Page and optional ActionBar; the destination supplies its body through the default slot. Layout selection is fixed per entry, with separate layout/content instances for every visit. Unknown names/import failures reject before mounting. See [native layouts](./layouts) for lifecycle, HMR, diagnostics and authoring examples.
 
+## Route data (experimental)
+
+`defineRouteLoader(load)` infers a data result from `(context) => value | PromiseLike<value>`. Declare it in `meta.loaders`; `createRouter({ loaders })` optionally registers names for explicit/file-generated metadata. Matched parent and child declarations are additive and deduplicate by definition.
+
+`useRouteData(loader)` returns per-entry readonly refs `data`, `error`, `status`, a current-attempt `ready` Promise and `reload()`. Both promises resolve on success, failure or cancellation; data errors stay in state. Loads start after authorization and do not block native presentation. See [data loading](./data-loading) for cancellation, lifecycle, cache ownership and native examples.
+
+Exported types: `RouteLoader<T>`, `RouteLoaderContext`, `RouteLoaderReference`, `RouteData<T>`, `RouteDataStatus`.
+
 ## Composables
 
 | Function                               | Contract                                                                                                                                                                                                                                                        |
