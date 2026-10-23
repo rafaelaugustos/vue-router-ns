@@ -34,7 +34,10 @@ trap 'kill "$logcat_pid" 2>/dev/null || true; wait "$logcat_pid" 2>/dev/null || 
 prepare_home || { echo 'FAIL: launcher did not become ready before app startup'; exit 1; }
 step "cold starts"
 for attempt in 1 2 3; do
-  if [ "$attempt" != "1" ]; then $ADB shell pm clear "$PKG" >/dev/null || exit 2; fi
+  # Data was cleared before launcher preflight. Subsequent cold starts only need
+  # a new process: pm clear can enqueue a late clearApplicationUserData force-stop
+  # that kills the next launch even after the command has returned Success.
+  if [ "$attempt" != "1" ]; then $ADB shell am force-stop "$PKG" || exit 2; fi
   launch
   wait_text "Inbox (2)" 10
   status=$?
