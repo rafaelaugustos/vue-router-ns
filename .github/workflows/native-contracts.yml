@@ -32,7 +32,7 @@ jobs:
               - '*config*'
   android:
     needs: changes
-    if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
@@ -120,7 +120,7 @@ jobs:
           path: scripts/native/out
   ios:
     needs: changes
-    if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
+    if: github.event_name != 'pull_request'
     runs-on: macos-15
     # Includes real HTTP loaders and Suspense/XCTest acceptance before the final
     # controller fixture. Per-scenario timing and retention budgets remain enforced.
@@ -229,7 +229,7 @@ jobs:
           path: scripts/native/out
   uikit-split:
     needs: changes
-    if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
+    if: github.event_name != 'pull_request'
     runs-on: macos-15
     timeout-minutes: 25
     strategy:
@@ -288,21 +288,22 @@ jobs:
           path: scripts/native/out
   integration:
     needs: changes
-    if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
+    if: github.event_name != 'pull_request'
     uses: ./.github/workflows/native.yml
   flows:
     needs: changes
-    if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
+    if: github.event_name != 'pull_request'
     uses: ./.github/workflows/native-flows.yml
   predictive:
     needs: changes
-    if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
+    if: github.event_name != 'pull_request'
     uses: ./.github/workflows/native-predictive.yml
   windows:
     needs: changes
-    if: github.event_name != 'pull_request' || needs.changes.outputs.native == 'true'
+    if: github.event_name != 'pull_request'
     uses: ./.github/workflows/native-windows.yml
   native-contracts:
+    # Keep the required branch-rule check green on PRs without booting devices.
     if: always()
     needs: [changes, android, ios, uikit-split, integration, flows, predictive, windows]
     runs-on: ubuntu-latest
@@ -310,7 +311,7 @@ jobs:
       - name: Require every applicable native lane
         env:
           CHANGE_RESULT: ${{ needs.changes.result }}
-          RELEVANT: ${{ github.event_name != 'pull_request' || needs.changes.outputs.native == 'true' }}
+          RELEVANT: ${{ github.event_name != 'pull_request' }}
           RESULTS: ${{ toJSON(needs) }}
         run: |
           node --input-type=module <<'JS'

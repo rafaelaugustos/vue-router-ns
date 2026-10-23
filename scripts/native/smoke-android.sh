@@ -156,7 +156,10 @@ if [ -n "$summary" ]; then
 else
   check "router timings within baselines" 1 "no summary in logcat"
 fi
-$ADB logcat -d 2>/dev/null | grep -E "JS.*(ERROR|Error:)|System.err.*vue-router|TNS.Native.*(Error:|Exception:)|AndroidRuntime.*FATAL EXCEPTION" | tail -5 > "$OUT/errors.log"
+# UiAutomation is the emulator's accessibility driver, not the app process. It
+# can die with a Binder error during device startup even when every app check
+# passes; do not report that infrastructure exception as a JavaScript failure.
+$ADB logcat -d 2>/dev/null | grep -E "JS.*(ERROR|Error:)|System.err.*vue-router|TNS.Native.*(Error:|Exception:)|AndroidRuntime.*FATAL EXCEPTION" | grep -Ev 'AndroidRuntime.*FATAL EXCEPTION: UiAutomation' | tail -5 > "$OUT/errors.log"
 [ ! -s "$OUT/errors.log" ]; check "no JavaScript errors logged" $?
 
 echo
