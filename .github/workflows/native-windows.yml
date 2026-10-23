@@ -1,0 +1,114 @@
+name: Native windows (experimental)
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        api: [34, 36]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - name: Check the Android saved-state checkpoint parser
+        run: node --test scripts/native/windows/activity-state.test.mjs
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - run: npm ci && npm run build
+      - run: npm install --no-audit --no-fund
+        working-directory: demo
+      - run: npm install -g nativescript
+      - name: Prepare isolated native resources
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install emulator >/dev/null
+          ns usage-reporting disable
+          ns error-reporting disable
+          ns create windows-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null
+          cp -R /tmp/windows-scaffold/App_Resources demo/App_Resources
+          node scripts/native/windows/prepare.mjs
+      - name: Build with published dependencies
+        working-directory: demo
+        run: |
+          ns build android --env.windowsTest --no-hmr
+          npx tsc --noEmit
+      - name: Window lifecycle and surviving-Activity launcher acceptance
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api }}
+          arch: x86_64
+          target: google_apis
+          profile: pixel_7
+          disable-animations: false
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: |
+            ANDROID_SERIAL=emulator-5554 ANDROID_APP=demo/platforms/android/app/build/outputs/apk/debug/app-debug.apk OUT=scripts/native/out/windows node scripts/native/windows/android.mjs
+            ANDROID_SERIAL=emulator-5554 RESTORE_TASKS=1 OUT=scripts/native/out/windows-os-tasks node scripts/native/windows/android.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-windows-android-${{ matrix.api }}
+          path: scripts/native/out
+  ios:
+    name: iPad window isolation and resume
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - run: gem install cocoapods xcodeproj --no-document
+      - run: npm ci && npm run build
+      - run: npm install --no-audit --no-fund
+        working-directory: demo
+      - run: npm install -g nativescript
+      - name: Prepare isolated native resources
+        run: |
+          ns usage-reporting disable
+          ns error-reporting disable
+          ns create windows-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null
+          cp -R /tmp/windows-scaffold/App_Resources demo/App_Resources
+          node scripts/native/windows/prepare.mjs
+      - name: Build window fixture
+        working-directory: demo
+        run: ns build ios --for-device false --env.windowsTest --no-hmr
+      - name: Create dedicated iPad
+        run: |
+          SIM=$(xcrun simctl create RouterWindows com.apple.CoreSimulator.SimDeviceType.iPad-Pro-13-inch-M4-8GB com.apple.CoreSimulator.SimRuntime.iOS-18-6)
+          echo "IOS_SIMULATOR=$SIM" >> "$GITHUB_ENV"
+          xcrun simctl boot "$SIM"
+          xcrun simctl bootstatus "$SIM" -b
+      - name: Window isolation, modal results, background resume and closure
+        run: node scripts/native/windows/ios.mjs
+      - name: Restore original UIKit scene sessions in a new process
+        run: RESTORE_SCENES=1 OUT=scripts/native/out/windows-ios-restored node scripts/native/windows/ios.mjs
+      - name: Reconnect a UIKit scene within the same live process
+        run: RECONNECT_SCENES=1 OUT=scripts/native/out/windows-ios-reconnected node scripts/native/windows/ios.mjs
+      - name: Clean up dedicated simulator
+        if: always() && env.IOS_SIMULATOR != ''
+        run: |
+          xcrun simctl shutdown "$IOS_SIMULATOR"
+          xcrun simctl delete "$IOS_SIMULATOR"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-windows-ipad
+          path: scripts/native/out

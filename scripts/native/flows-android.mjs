@@ -95,7 +95,17 @@ async function command(name) {
     const xml = await ui()
     return xml.includes(`package="${pkg}"`) && !xml.includes('documentsui')
   }, `origin visible before ${name}`)
-  await adb('shell', 'am', 'start', '-n', activity, '--es', 'flowCommand', name)
+  await adb(
+    'shell',
+    'am',
+    'start',
+    '--activity-single-top',
+    '-n',
+    activity,
+    '--es',
+    'flowCommand',
+    name,
+  )
 }
 const back = () => adb('shell', 'input', 'keyevent', '4')
 async function start() {
@@ -178,7 +188,26 @@ try {
   await start()
   await command('recreate')
   await picker()
-  await outcome('recreate:disposed')
+  // The router retains the originating page during Activity recreation, so
+  // the pending system result must rebind and complete rather than be disposed.
+  await until(async () => {
+    await logs()
+    const created = runtime
+      .split('\n')
+      .filter((line) => line.includes('FLOW_OWNER_CREATED '))
+      .at(-1)
+      ?.split('FLOW_OWNER_CREATED ')[1]
+    const original = runtime
+      .split('\n')
+      .findLast((line) => line.includes('FLOW_OWNER '))
+      ?.split('FLOW_OWNER ')[1]
+    return created && original && created !== original
+  }, 'replacement Activity while picker remains open')
+  assert.equal(
+    await count('recreate:disposed'),
+    0,
+    'Retained page keeps its pending flow',
+  )
   await logs()
   const owners = runtime
     .split('\n')
@@ -190,8 +219,18 @@ try {
     .split('FLOW_OWNER ')[1]
   assert.notEqual(owners.at(-1), original, 'Activity must actually be recreated')
   await selectDocument()
+  await outcome('recreate:completed')
   await pause(700)
-  assert.equal(await count('recreate:disposed'), 1, 'Late result cannot settle twice')
+  assert.equal(
+    await count('recreate:completed'),
+    1,
+    'Rebound result settles exactly once',
+  )
+  assert.equal(
+    await count('recreate:disposed'),
+    0,
+    'Recreation does not dispose retained pages',
+  )
   const before = await start()
   await command('pick')
   await picker()

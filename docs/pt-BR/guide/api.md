@@ -42,7 +42,7 @@ Instale uma vez com `createApp(App).use(router).start()`. Isso registra os compo
 | `pinShortcut(shortcut)`          | Solicita fixação no launcher Android; `true` significa pedido recebido, não aprovação do usuário.                                                                    |
 | `claimSystemBack(claimant)`      | Deixa um contêiner nativo (`{ owns(), back() }`) receber o voltar e o swipe de voltar do Android primeiro, como um drawer aberto. Devolve a função que libera.       |
 
-Os métodos de navegação, exceto `pushForResult`, resolvem para `NavigationFailure | undefined`. Erros inesperados rejeitam a promise; veja [falhas](./navigating#falhas-e-erros). Os métodos de voltar seguem a [semântica do split view](./split-view#historico-e-voltar) quando chamados em uma pilha dividida.
+`push`, `replace`, `back`, `go`, `backTo`, `backToRoot` e `setStack` resolvem para `NavigationFailure | undefined`. Erros inesperados rejeitam a promise; veja [falhas](./navigating#falhas-e-erros). Os métodos de voltar seguem a [semântica do split view](./split-view#historico-e-voltar) quando chamados em uma pilha dividida.
 
 ### Opções de navegação
 
@@ -183,5 +183,11 @@ Estenda `Register` e `RouteMeta` como mostrado em [rotas tipadas](./typed-routes
 `defineNativeDestination<Input, Output>({ id, input, ios?, android? })` devolve um componente de rota que contém um controller UIKit ou Fragment AndroidX existente. As fábricas devolvem `{ native, dispose? }`; o contexto fornece `input`, `route`, `page`, `complete(value)`, `cancel()`, `dismissed()` e `beforeLeave(guard)`. Tipos: `NativeDestinationOptions`, `NativeDestinationContext`, `NativeDestinationInstance`. Veja [destinos nativos](./native-destinations) para ciclo de vida, limites dos guards e restauração.
 
 `supportsUIKitSplitView()` verifica a disponibilidade do backend UIKit opcional.
+
+## Janelas nativas (experimental, core 9.1+)
+
+`RouterOptions.window?: RouterWindow` liga um router a uma janela; sem ele, a primeira view montada fornece a propriedade. `router.window` é uma ref readonly dessa janela. `router.openWindow(to, options?: OpenWindowOptions): void` resolve uma localização tipada e pede uma janela ao sistema. `OpenWindowOptions.data` carrega metadados serializáveis do app. `getWindowRoute(data)` lê o path no resolver de conteúdo da janela.
+
+`RestoreOptions.key` fornece uma chave estável de snapshot do app. Callbacks de janela recebem `RestoreContext` opcional (`windowId`, `key`) em `save(state, context)` e `load(context)`. `SavedStacks` de janela inclui `windowKey`; uma chave incompatível é ignorada. `RouterWindow` é um subconjunto estrutural de NativeWindow para manter as declarações do pacote utilizáveis com versões anteriores suportadas do core. Veja [janelas nativas](./windows) para inicialização, ciclo de vida, configuração e limites.
 
 O módulo opcional `vue-router-ns/system-search` exporta `createSystemSearch`, `SystemSearch`, `SystemSearchOptions` e `SearchItem`. `supportsPinnedShortcuts()` é exportado pela raiz. Veja [deep links](./deep-links).

@@ -145,5 +145,13 @@ function watchActivity(callback: (active: boolean) => unknown, name: string) {
   }
 
   // sync: a covered page must hear about it before the next page renders
-  watch(computed(entry.isActive), callback, { flush: 'sync' })
+  watch(
+    computed(entry.isActive),
+    (active) => {
+      // Native UI disposal may defer Vue unmount until after the Frame syncs.
+      // Removing a page is cleanup, not a covered-page deactivation.
+      if (entry.stack.entries.value.includes(entry)) callback(active)
+    },
+    { flush: 'sync' },
+  )
 }

@@ -7,7 +7,9 @@ import {
   type NavigationEntry,
   type Page,
 } from '@nativescript/core'
-import { $navigateTo, type Component } from 'nativescript-vue'
+import { type Component } from 'nativescript-vue'
+import { mountFramePage, disposeFramePage } from './frame-page.js'
+import { windowOf } from '../windows.js'
 import { backOwnerOf, hasBackGestures, watchBackGestures } from '../android.js'
 import { previewBack } from '../back-preview.js'
 import {
@@ -39,6 +41,10 @@ export function framePages(frame: Frame): Page[] {
   ].filter((page): page is Page => !!page)
 }
 
+export function ownsFrameBack(frame: Frame): boolean {
+  return Frame.topmost(windowOf(frame) as never) === frame
+}
+
 /** Mounts `component` in `frame` the way `<RouterView>` does. */
 export function navigateFrame(
   frame: Frame,
@@ -51,7 +57,7 @@ export function navigateFrame(
   if (options.initial) navigation.animated = false
   else if (options.animated !== undefined) navigation.animated = options.animated
   if (options.clearHistory) navigation.clearHistory = true
-  $navigateTo(component, navigation)
+  mountFramePage(frame, component, navigation)
 }
 
 /** Pops `frame` back to `target`, which must be in its back stack. */
@@ -152,7 +158,7 @@ export function createFrameHost(
     },
     previewBack: (top, below, commit, onDispose, options) =>
       previewBack(frame, top, below, commit, onDispose, options?.preferCore),
-    ownsSystemBack: () => Frame.topmost() === frame,
+    ownsSystemBack: () => ownsFrameBack(frame),
     parts: () => [
       { role: 'main', native: frame, loaded: !!frame.isLoaded, pages: framePages(frame) },
     ],
@@ -162,6 +168,7 @@ export function createFrameHost(
       detach?.()
       detach = undefined
       delegate = undefined
+      for (const page of framePages(frame)) disposeFramePage(page)
     },
   }
 }

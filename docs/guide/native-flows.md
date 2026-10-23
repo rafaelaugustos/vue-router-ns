@@ -58,7 +58,7 @@ const share: NativeFlow<string, void> = {
 
 The AndroidX adapter stores the attempt's registration key in the Activity's saved instance state and rebinds that key after recreation **while the originating page and JavaScript attempt remain alive**. It does not launch the external Activity twice. Destruction of the owner without configuration change cancels with `disposed`.
 
-Page lifetime takes precedence. With NativeScript-Vue 3.1.2, explicit `Activity.recreate()` disposes the originating Vue page: its pending flow resolves with `cancelled/disposed`. A late system result cannot settle that attempt again or complete a new one. Ordinary rotation handled by the existing Activity can retain the attempt.
+Page lifetime takes precedence. The router retains Frame page apps during `Activity.recreate()`, allowing the pending flow to rebind to the replacement Activity and receive its result once. Removing the route or permanently closing its owner still cancels with `cancelled/disposed`; a late result cannot settle that attempt again or complete a new one.
 
 No Promise survives process death. Persist an application-owned “picker was open” marker in [page state](./restore#page-state) or app storage, then decide whether to retry or recover previously granted access after restart. The router does not replay an old result into a fresh flow. Persisting a marker does not persist the document permission itself.
 

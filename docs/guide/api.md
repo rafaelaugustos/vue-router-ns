@@ -42,7 +42,7 @@ Install once with `createApp(App).use(router).start()`. This registers the compo
 | `pinShortcut(shortcut)`          | Requests Android launcher pinning; `true` means requested, not user-confirmed.                                                                                   |
 | `claimSystemBack(claimant)`      | Lets a native container (`{ owns(), back() }`) take the Android back and back swipe first, like an open drawer. Returns the release function.                    |
 
-Navigation methods other than `pushForResult` resolve to `NavigationFailure | undefined`. Unexpected errors reject; see [failures](./navigating#failures-and-errors). Back methods have the [split-view semantics](./split-view#history-and-back) when called in a split stack.
+`push`, `replace`, `back`, `go`, `backTo`, `backToRoot` and `setStack` resolve to `NavigationFailure | undefined`. Unexpected errors reject; see [failures](./navigating#failures-and-errors). Back methods have the [split-view semantics](./split-view#history-and-back) when called in a split stack.
 
 ### Navigation options
 
@@ -185,5 +185,11 @@ Augment `Register` and `RouteMeta` as shown in [typed routes](./typed-routes).
 `defineNativeDestination<Input, Output>({ id, input, ios?, android? })` returns a route component containing an existing UIKit controller or AndroidX Fragment. Factories return `{ native, dispose? }`; their context supplies `input`, `route`, `page`, `complete(value)`, `cancel()`, `dismissed()` and `beforeLeave(guard)`. Types: `NativeDestinationOptions`, `NativeDestinationContext`, `NativeDestinationInstance`. See [native destinations](./native-destinations) for containment, guard limits and restoration.
 
 `supportsUIKitSplitView()` checks whether the optional UIKit backend is available.
+
+## Native windows (experimental, core 9.1+)
+
+`RouterOptions.window?: RouterWindow` binds one router to a native window; otherwise the first mounted view supplies its owner. `router.window` is a readonly ref to that owner. `router.openWindow(to, options?: OpenWindowOptions): void` resolves a typed location and requests an OS window. `OpenWindowOptions.data` carries serializable app metadata. `getWindowRoute(data)` reads its path in a window content resolver.
+
+`RestoreOptions.key` supplies a stable application snapshot key. Scoped callbacks receive optional `RestoreContext` (`windowId`, `key`) in `save(state, context)` and `load(context)`. Scoped `SavedStacks` includes `windowKey`; a mismatch is ignored. `RouterWindow` is a structural subset of NativeWindow so the package declarations remain usable with older supported core versions. See [native windows](./windows) for bootstrapping, lifecycle, configuration and limits.
 
 The optional `vue-router-ns/system-search` entry point exports `createSystemSearch`, `SystemSearch`, `SystemSearchOptions` and `SearchItem`. `supportsPinnedShortcuts()` is exported from the package root. See [deep links](./deep-links).

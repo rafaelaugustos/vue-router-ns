@@ -22,7 +22,13 @@ import {
 
 export * from '@vue/runtime-core'
 const elements = new Map<string, () => new () => View>()
-export function registerElement(name: string, resolver: () => unknown) {
+export function registerElement(
+  name: string,
+  resolver: () => unknown,
+  meta?: { overwriteExisting?: boolean; viewFlags?: number },
+) {
+  if (elements.has(name) && !meta?.overwriteExisting)
+    throw new Error(`Element for ${name} already registered`)
   elements.set(name, resolver as () => new () => View)
 }
 
@@ -124,23 +130,32 @@ export function createApp(component: Component, props?: Record<string, unknown>)
   return app
 }
 
-function mountNativeView(component: Component, props?: Record<string, unknown>) {
+function mountNativeView(
+  component: Component,
+  props?: Record<string, unknown>,
+  overrides?: { reload?(): void },
+) {
   const app = renderer.createApp(component, props)
   const { app: _, ...context } = rootApp!._context
-  Object.assign(app._context, context)
+  Object.assign(app._context, context, overrides)
   const vm = app.mount(new TestNode('root', new View()))
+  if (overrides?.reload) app._context.reload = overrides.reload
   return { app, view: (vm.$el as TestNode).nativeView }
 }
 
 /** Mounts a component to a native view without a frame, like the real one. */
-export function createNativeView(component: Component, props?: Record<string, unknown>) {
+export function createNativeView(
+  component: Component,
+  props?: Record<string, unknown>,
+  overrides?: { reload?(): void },
+) {
   let mounted: ReturnType<typeof mountNativeView> | undefined
   return {
     get nativeView() {
       return mounted?.view as View | undefined
     },
     mount() {
-      mounted ??= mountNativeView(component, props)
+      mounted ??= mountNativeView(component, props, overrides)
       return mounted.view as View
     },
     unmount() {
@@ -155,6 +170,8 @@ export function $navigateTo(
   options: NavigationEntry & { frame: Frame; props?: Record<string, unknown> },
 ) {
   const { app, view } = mountNativeView(component, options.props)
+  // Published NativeScript-Vue 3.1.2 disposes immediately. Router-owned pages
+  // deliberately bypass this helper and must not rely on an upstream fix here.
   view.on('disposeNativeView', () => app.unmount())
   options.frame.navigate({ ...options, create: () => view })
   return view as Page
@@ -163,7 +180,8 @@ export function $navigateTo(
 export function $showModal(component: Component, options: Record<string, any> = {}) {
   return new Promise((resolve) => {
     const { app, view } = mountNativeView(component, options.props)
-    new View().showModal(view, {
+    const target = options.target instanceof View ? options.target : new View()
+    target.showModal(view, {
       ...options,
       closeCallback(data: unknown) {
         app.unmount()
