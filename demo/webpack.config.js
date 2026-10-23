@@ -15,6 +15,7 @@ module.exports = (env) => {
     const fixtures = [
       'tabs',
       'tabsstyle',
+      'tabsvisibility',
       'windows',
       'entrypoints',
       'drawer',

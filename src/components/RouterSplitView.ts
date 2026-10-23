@@ -94,6 +94,7 @@ export const RouterSplitView = defineComponent({
         props.list,
         tab?.reveal,
         tab?.selected,
+        tab?.present,
       )
       if (props.backToRootOnReselect) {
         const tab = tabOf(list.value!.nativeView)

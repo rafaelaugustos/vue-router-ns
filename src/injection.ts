@@ -11,5 +11,6 @@ export const entryKey: InjectionKey<Entry> = Symbol(__DEV__ ? 'route entry' : ''
 export interface TabContext {
   reveal(): void
   selected(): boolean
+  present(route: RouteLocation | undefined): void
 }
 export const tabKey: InjectionKey<TabContext> = Symbol(__DEV__ ? 'router tab' : '')

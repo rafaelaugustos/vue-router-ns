@@ -25,6 +25,8 @@ import {
   type PropType,
   type VNode,
 } from 'nativescript-vue'
+import type { RouteLocation } from './types.js'
+import { tabBarHidden } from './tab-visibility.js'
 import { tabKey } from './injection.js'
 import { onTabReselect, setSelectVeto, type TabLike } from './tabs.js'
 
@@ -55,6 +57,7 @@ export interface RouterTabDescriptor {
 interface TabsContext {
   select(name: string, source: 'app' | 'native' | 'reveal'): boolean
   selected(name: string): boolean
+  present(name: string, route: RouteLocation | undefined): void
 }
 const tabsKey: InjectionKey<TabsContext> = Symbol(__DEV__ ? 'router tabs' : '')
 
@@ -75,6 +78,7 @@ export const RouterTab = defineComponent({
     provide(tabKey, {
       reveal: () => void tabs?.select(props.name, 'reveal'),
       selected: () => tabs?.selected(props.name) ?? true,
+      present: (route) => tabs?.present(props.name, route),
     })
     return () => slots.default?.()
   },
@@ -129,6 +133,9 @@ export const RouterTabs = defineComponent({
   setup(props, { slots, emit }) {
     const tabs = shallowRef<RouterTabDescriptor[]>([])
     const current = shallowRef<string | undefined>(props.selected)
+    const policies = shallowRef(new Map<string, boolean>())
+    const hidden = computed(() => policies.value.get(current.value ?? '') ?? false)
+    let disposed = false
     const width = shallowRef(0)
     const tabView = shallowRef<{ nativeView: TabView }>()
     const host = shallowRef<{ nativeView: TabsHostView }>()
@@ -155,7 +162,56 @@ export const RouterTabs = defineComponent({
       emit('select', name)
       return true
     }
-    provide(tabsKey, { select, selected: (name) => current.value === name })
+    provide(tabsKey, {
+      select,
+      selected: (name) => current.value === name,
+      present: (name, route) => {
+        if (disposed) return
+        if (!route) {
+          const next = new Map(policies.value)
+          next.delete(name)
+          policies.value = next
+        } else {
+          const hide = tabBarHidden(route)
+          if (policies.value.get(name) !== hide)
+            policies.value = new Map(policies.value).set(name, hide)
+        }
+      },
+    })
+    // UIKit owns safe-area recalculation. Commit-only, without an extra
+    // animation: a cancelled interactive pop never changes presentation.
+    let visibilityController: any
+    let originalVisibility = false
+    const applyVisibility = () => {
+      const view = tabView.value?.nativeView
+      const controller = view?.ios
+      if (
+        !isIOS ||
+        !view?.isLoaded ||
+        typeof controller?.setTabBarHiddenAnimated !== 'function'
+      )
+        return
+      if (visibilityController !== controller) {
+        visibilityController = controller
+        originalVisibility = !!controller.tabBarHidden
+      }
+      const hide = props.sidebar ? originalVisibility : hidden.value
+      if (controller.tabBarHidden !== hide) {
+        controller.setTabBarHiddenAnimated(hide, false)
+        view.requestLayout()
+      }
+    }
+    onMounted(applyVisibility)
+    onUpdated(applyVisibility)
+    watch(hidden, applyVisibility, { flush: 'post' })
+    onBeforeUnmount(() => {
+      disposed = true
+      if (
+        visibilityController &&
+        visibilityController.tabBarHidden !== originalVisibility
+      )
+        visibilityController.setTabBarHiddenAnimated(originalVisibility, false)
+    })
     watch(
       () => props.selected,
       (name) => name && select(name, 'app'),
@@ -306,7 +362,10 @@ export const RouterTabs = defineComponent({
     onUpdated(refresh)
     watch(
       () => props.sidebar,
-      () => applyIOS(),
+      () => {
+        applyIOS()
+        applyVisibility()
+      },
     )
     onBeforeUnmount(() => stops.splice(0).forEach((stop) => stop()))
 
@@ -378,6 +437,7 @@ export const RouterTabs = defineComponent({
               onNativeSelect((args.object as TabView).selectedIndex, isIOS),
             onLoaded: () => {
               applyIOS()
+              applyVisibility()
               applyAppearance()
               watchReselects()
             },
@@ -434,6 +494,8 @@ export const RouterTabs = defineComponent({
             ref: bar,
             onLoaded: applyAppearance,
             labelVisibility: props.labelVisibility,
+            visibility: hidden.value ? 'collapse' : 'visible',
+            accessibilityHidden: hidden.value,
             key: rail ? 'rail' : 'bar',
             row: rail ? 0 : 1,
             col: 0,
