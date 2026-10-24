@@ -1,6 +1,6 @@
 {
   "name": "vue-router-ns",
-  "version": "0.1.0-rc.2",
+  "version": "0.1.0-rc.3",
   "description": "Vue Router's API for NativeScript-Vue, built on top of the native navigation stack.",
   "keywords": [
     "nativescript",

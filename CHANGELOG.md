@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+## 0.1.0-rc.3 (2026-10-24)
+
+Native Navigation Experience: compose native containers, page actions and retained navigation state on the published Core 9.1.3 / NativeScript-Vue 3.1.2 baseline.
+
+- Add the native iOS `RouterDrawer` using UIKit views, gestures and animations, preserving the existing Android API and native navigation ownership. Cover close-on-navigation, guards, modal layering, RTL, rotation, keyboard input, accessibility state and Reduce Motion. (#117, #140)
+- Add opt-in `overlay`, `permanent` and `auto` drawer presentation, using the container's available width and existing fold geometry. Mode changes retain native Frames/Pages, Vue instances, histories, drafts and pending modal results. Document open-state and presentation-change semantics. (#134, #141)
+- Add typed page-owned `usePageActions` and `PageActionItem`, sharing reactive availability, busy state and callbacks across native headers, menus and optional keyboard commands. Guard stale sources and disposed owners, serialize dispatch and expose async errors without replacing native header or navigation ownership. (#133, #142)
+- Add a standalone browser viewer for exported navigation diagnostics: inspect routes, native/logical stacks, events, timing and consistency issues. Reports stay local to the browser; the viewer is not a live inspector or a replacement for native profiling. (#135, #144)
+- Document interactive-transition ownership and real gesture completion/cancellation evidence on published dependencies. Distinguish existing native behavior from the optional host-observation work in #145 and the unmerged Core preview prototype; no universal interactive-transition API or Jolt dependency is introduced. (#136, #146)
+- Add an EN/pt-BR capability map covering platform differences, native owners, container composition and rc.2 versus rc.3 features, with source-linked examples. (#137, #147, #148)
+- Add the runnable Fieldnotes showcase combining drawer navigation, native headers/search, shared header/context actions, guarded edits and modal results. Include native iOS/Android acceptance, Android zero-animation coverage, retained-query/root-entry evidence and an actual native recording. (#138, #148)
+- Fix iOS search dismissal leaving Core's cached search presentation behind: returning from detail could display the list while Core still considered detail current. Clear only the completed search controller owned by that page; preserve active presentations and unrelated modals. (#148)
+- Include the Airbnb-style NativeScript-Vue demo and walkthrough; make documentation builds work without Git history and remove GitHub Pages deployment. (#132, #143, #144)
+
+Known limits: inherited NativeScript CSS `direction` around generic native navigation can trigger an iOS 18.6 gesture-graph crash; the drawer uses its own bounded direction handling, while the generic composition remains under investigation in #139. Spoken VoiceOver/TalkBack traversal and physical-device accessibility remain manual acceptance boundaries documented in the native reports. Experimental APIs retain the [RC scope and compatibility](https://vue-router-ns.rafaelaugusto.dev/guide/compatibility) limits.
+
+Publication remains gated by the complete CI/native suites on the version commit and installation of the final tarball into fresh apps. The 641-test suite and feature-specific native evidence support this candidate; they do not replace that release gate.
+
 ## 0.1.0-rc.2 (2026-10-23)
 
 - Document experimental native Suspense composition inside stable Pages, including the explicit staging-container registration required by NativeScript-Vue 3.1.2. Add real HTTP examples, async setup/SFC/lazy/nested/Deferred coverage, native gesture and disposal checks, and English/Portuguese guides with recordings. The router adds no automatic boundary or new public component.

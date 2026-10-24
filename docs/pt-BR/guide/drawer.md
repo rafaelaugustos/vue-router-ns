@@ -4,8 +4,8 @@ Veja [capacidades nativas e escolha de containers](./capabilities) para responsa
 
 O `<RouterDrawer>` coloca um menu na borda inicial ao redor das pilhas nativas existentes. No Android, usa o `DrawerLayout` do AndroidX; no iOS, views, gestos e animações do UIKit. Ambos mantêm os slots montados sem criar rotas.
 
-::: info Próxima rc.3
-A implementação iOS e a apresentação adaptativa fazem parte da próxima `0.1.0-rc.3`. A versão publicada `0.1.0-rc.2` suporta o drawer sobreposto apenas no Android.
+::: info Adicionado na rc.3
+A implementação iOS e a apresentação adaptativa fazem parte da `0.1.0-rc.3`. A versão anterior `0.1.0-rc.2` suporta o drawer sobreposto apenas no Android.
 :::
 
 O mesmo template funciona nas duas plataformas:

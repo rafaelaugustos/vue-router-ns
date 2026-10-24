@@ -1,6 +1,6 @@
 # RC scope and compatibility
 
-The `0.1.0-rc.2` release candidate freezes the documented, non-experimental API while we validate it for the stable release. Explicit JavaScript/TypeScript route tables remain the default. File conventions are optional; both use native navigation, without a Vue Router or Nuxt runtime.
+The `0.1.0-rc.3` release candidate freezes the documented, non-experimental API while we validate it for the stable release. Explicit JavaScript/TypeScript route tables remain the default. File conventions are optional; both use native navigation, without a Vue Router or Nuxt runtime.
 
 ## Supported baseline
 
@@ -30,9 +30,12 @@ These remain **experimental and opt-in**:
 - [Custom native hosts](./native-hosts) and [native controller/Fragment destinations](./native-destinations). The host version must change for incompatible contract changes.
 - `backPreview: 'core'`, which requires the pinned upstream prototype documented in the [predictive-back report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-predictive-back.md). Released Core uses the existing fallback.
 
-Multiple-window ownership and restoration are included as experimental features, with their acceptance evidence and platform limits documented in the [window guide](./windows) and [page-state report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-page-state.md). The roadmap is not a release commitment. `RouterDrawer` in published rc.2 is Android-only. The upcoming rc.3 adds its [iOS implementation](./drawer) (#117) without changing the component API.
+Multiple-window ownership and restoration are included as experimental features, with their acceptance evidence and platform limits documented in the [window guide](./windows) and [page-state report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-page-state.md). The roadmap is not a release commitment. The rc.3 adds the [iOS drawer and adaptive presentation](./drawer), [shared page actions](./page-actions), [diagnostics report viewer](./diagnostics-viewer) and [integrated showcase](./native-showcase). Existing Android overlay behavior remains available; adaptive presentation and shared actions are opt-in. See the [capability map](./capabilities) for native owners and supported compositions.
 
 ## Known limits
+
+- Inherited NativeScript CSS `direction` around generic native navigation can trigger a gesture-graph crash on iOS 18.6. `RouterDrawer` uses its own `direction` prop and bounded UIKit handling; generic layouts remain under [investigation (#139)](https://github.com/rafaelaugustos/vue-router-ns/issues/139).
+- Automated native accessibility flags, labels and focus declarations do not certify spoken VoiceOver/TalkBack traversal. The [showcase acceptance](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-showcase.md) and individual feature reports identify remaining manual checks.
 
 - Native Vite HMR uses `.route.json` metadata. `definePageMeta` works with webpack and bundled Vite, but is not supported during native Vite HMR. Adding/removing layout or middleware registrations requires an app restart; script edits can remount pages. See [file routing](./file-routing).
 - With npm 10, keep a working NativeScript Vite lockfile: its own optional-peer dependency tree can fail on a lockfile-free install. The router's npm 10 install crash was fixed in beta.15. See [installation](./install).

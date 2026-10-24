@@ -37,7 +37,7 @@ router.push({ name: 'message', params: { id: 42 } })
 
 Prefer file conventions? The optional [file-routing setup](https://vue-router-ns.rafaelaugusto.dev/guide/file-routing) generates typed native routes, with opt-in layouts, middleware discovery and webpack or Vite integration. Native Vite HMR uses adjacent JSON metadata; see the guide for setup and compiler limitations. Choose explicit records, native page files, or combine them on the same router. See the separate [native example](examples/file-routing/README.md).
 
-[Native capabilities and container choices](https://vue-router-ns.rafaelaugusto.dev/guide/capabilities) · [Capacidades e composição (pt-BR)](https://vue-router-ns.rafaelaugusto.dev/pt-BR/guide/capabilities) — ownership, platform limits, runnable examples and rc.2 versus upcoming rc.3.
+[Native capabilities and container choices](https://vue-router-ns.rafaelaugusto.dev/guide/capabilities) · [Capacidades e composição (pt-BR)](https://vue-router-ns.rafaelaugusto.dev/pt-BR/guide/capabilities) — ownership, platform limits, runnable examples and rc.2 versus rc.3.
 
 ## Airbnb NS example
 
@@ -81,7 +81,7 @@ So this is not a wrapper around Vue Router. The frame's back stack is the source
 - [Modal routes](#modals) with their own stack, iOS sheet detents and [Android Material bottom sheets](#bottom-sheets-on-android), and [`pushForResult()`](#getting-a-result-back) to get a value back from a page.
 - [One stack per tab](#tabs-and-other-independent-stacks), with named `<RouterView>`s, and [`setStack()`](#setting-the-whole-stack) to set a stack as a list.
 - [Adaptive list and detail](#list-and-detail) with `<RouterSplitView>`, preserving push history across layout changes.
-- [A native drawer](https://vue-router-ns.rafaelaugusto.dev/guide/drawer) with `<RouterDrawer>`: AndroidX `DrawerLayout` around your stacks; the upcoming rc.3 adds an iOS UIKit overlay with the same API.
+- [A native drawer](https://vue-router-ns.rafaelaugusto.dev/guide/drawer) with `<RouterDrawer>`: AndroidX `DrawerLayout` around your stacks; rc.3 adds an iOS UIKit overlay with the same API.
 - [Native tabs](https://vue-router-ns.rafaelaugusto.dev/guide/tabs) with `<RouterTabs>`: UIKit tabs and the iPad sidebar, Material bottom navigation or a rail, badges, public color props and per-route `meta.tabBarVisibility` on supported hosts.
 - [Context menu previews](https://vue-router-ns.rafaelaugusto.dev/guide/context-menus) with `v-route-preview` and `<RouterLink menu>`: a long press shows the route in UIKit's preview with actions and commits it through the guards; Android offers the actions in a popup menu.
 - [Typed routes](#typed-routes): names and params checked across the app, with no code generation.
