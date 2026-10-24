@@ -1,0 +1,53 @@
+{
+  "recordedOn": "2026-10-24",
+  "baseline": {
+    "core": "9.1.3",
+    "vue": "3.1.2",
+    "iosRuntime": "9.1.0",
+    "androidRuntime": "9.1.1",
+    "ios": "26.0 simulator",
+    "android": "16 / API 36 emulator"
+  },
+  "unitTests": {
+    "passed": 641,
+    "skipped": 10
+  },
+  "native": {
+    "ios": {
+      "snapshots": 184,
+      "finalRoute": "/",
+      "initialRoot": "router-1:entry-1",
+      "finalRoot": "router-1:entry-1",
+      "finalIssues": [],
+      "rootRetained": true,
+      "xctestSeconds": 57.041
+    },
+    "android": {
+      "snapshots": 140,
+      "finalRoute": "/",
+      "initialRoot": "router-1:entry-1",
+      "finalRoot": "router-1:entry-1",
+      "finalIssues": [],
+      "rootRetained": true
+    },
+    "androidReducedMotion": {
+      "snapshots": 136,
+      "finalRoute": "/",
+      "initialRoot": "router-1:entry-1",
+      "finalRoot": "router-1:entry-1",
+      "finalIssues": [],
+      "rootRetained": true,
+      "animatorDurationScale": "0"
+    }
+  },
+  "manualBoundaries": [
+    "Spoken VoiceOver/TalkBack focus traversal",
+    "iOS system Reduce Motion toggle",
+    "Physical devices, orientation, large text and iPad layouts"
+  ],
+  "recording": {
+    "path": "docs/public/media/native-showcase.mp4",
+    "platform": "iOS 26.0 simulator",
+    "sha256": "222a36b67458069982aa2c48d320b56ec19fb5e37490e98f3a86e492c1938689"
+  }
+}

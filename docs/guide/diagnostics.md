@@ -1,5 +1,7 @@
 # Navigation diagnostics
 
+See [native capabilities and container choices](./capabilities) for ownership, platform boundaries and the rc.2/rc.3 distinction.
+
 [Open the visual report viewer](./diagnostics-viewer) to import exported JSON, compare stacks and inspect correlated timelines without connecting to an app.
 
 Enable a bounded timeline and a read-only comparison of the router's logical history with its native Frames:
@@ -44,7 +46,7 @@ Timing uses a monotonic clock (`performance.now`, with Android/iOS uptime fallba
 
 `snapshot()` returns frozen, detached data. Every stack has a stable ID, its developer-supplied `name`, modal/busy state, logical entries and native hosts. Entries include their route pattern, lifecycle `active` state and `awaitingResult`. `active` means uncovered within that stack; it does not prove that its tab/window is currently focused.
 
-Each host reports its role (`main`, `list`, `detail`), loaded state, optional window ID and native entry IDs. Unknown native pages have `null` IDs. Split-view placeholders are omitted. A window ID is available once the Frame belongs to a NativeWindow; older cores can omit it. IDs are process-local diagnostic identities, not restoration keys, native handles or a multi-window navigation API. Separate router collectors remain independent; window ownership/routing is tracked in #46.
+Each host reports its role (`main`, `list`, `detail`), loaded state, optional window ID and native entry IDs. Unknown native pages have `null` IDs. Split-view placeholders are omitted. A window ID is available once the Frame belongs to a NativeWindow; older cores can omit it. IDs are process-local diagnostic identities, not restoration keys, native handles or a multi-window navigation API. Separate router collectors remain independent; see [window ownership and reconstruction](./windows) for the implemented routing model.
 
 The snapshot's `issues` detects ordered stack mismatches, unknown native pages, disposed entries still present natively, and missing/closed hosts. Comparisons wait while its latest request or native operation is in flight. The timeline records new issues seen during synchronization; an explicit snapshot can also detect a change before a native event arrives. The collector observes these conditions and does not repair history. `duplicate-result` detects repeated result-settlement signals. Inspection failures report a code without copying the underlying error.
 

@@ -1,5 +1,9 @@
 # Exemplos e vídeos por funcionalidade
 
+Experimente o [Fieldnotes, exemplo nativo integrado](./native-showcase), para percorrer drawer, busca, ações compartilhadas, guards e resultado de modal em um único app.
+
+Veja [capacidades nativas e escolha de containers](./capabilities) para responsabilidades, limites por plataforma e diferenças entre rc.2 e rc.3.
+
 Estes clipes foram gravados nos exemplos NativeScript-Vue de [`demo/`](https://github.com/rafaelaugustos/vue-router-ns/tree/main/demo), em simuladores e emuladores. O Airbnb NS reúne recursos de navegação em um app de acomodações; o app de e-mail e os exemplos específicos demonstram APIs individuais. Os dois apps usam dados locais de exemplo.
 
 Os clipes não têm áudio, repetem enquanto estão visíveis e têm controles de reprodução. Com Reduzir Movimento ativado, esperam você dar play.

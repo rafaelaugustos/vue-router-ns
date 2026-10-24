@@ -1,5 +1,7 @@
 # List and detail
 
+See [native capabilities and container choices](./capabilities) for ownership, platform boundaries and the rc.2/rc.3 distinction.
+
 `RouterSplitView` shows a list and its detail side by side when there is enough room. In a narrow window, the detail covers the list. It uses the same routes and navigation methods in both layouts:
 
 ```vue

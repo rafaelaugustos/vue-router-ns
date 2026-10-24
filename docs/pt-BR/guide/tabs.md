@@ -1,5 +1,7 @@
 # Abas e outras pilhas independentes
 
+Veja [capacidades nativas e escolha de containers](./capabilities) para responsabilidades, limites por plataforma e diferenças entre rc.2 e rc.3.
+
 `<RouterTabs>` coloca pilhas nomeadas atrás de uma tab bar nativa e mantém as duas sincronizadas:
 
 ```vue

@@ -1,5 +1,7 @@
 # Diagnóstico de navegação
 
+Veja [capacidades nativas e escolha de containers](./capabilities) para responsabilidades, limites por plataforma e diferenças entre rc.2 e rc.3.
+
 [Abra o visualizador de relatórios](./diagnostics-viewer) para importar o JSON exportado, comparar pilhas e inspecionar a linha do tempo sem conectar ao app.
 
 Ative uma timeline limitada e uma comparação somente de leitura entre o histórico lógico do router e seus Frames nativos:
@@ -44,7 +46,7 @@ O tempo usa relógio monotônico (`performance.now`, com fallbacks de uptime And
 
 `snapshot()` retorna dados congelados e independentes dos objetos vivos. Cada pilha tem ID estável, `name` definido pelo app, estado de modal/ocupação, entradas lógicas e hosts nativos. Entradas incluem padrão de rota, estado de ciclo de vida `active` e `awaitingResult`. `active` significa visível dentro daquela pilha; não prova que a aba/janela esteja em foco.
 
-Cada host informa papel (`main`, `list`, `detail`), estado de carregamento, ID opcional de janela e IDs das entradas nativas. Páginas nativas desconhecidas têm ID `null`. Placeholders do split são omitidos. O ID de janela fica disponível quando o Frame pertence a uma NativeWindow; cores anteriores podem omiti-lo. IDs são identidades de diagnóstico do processo, não chaves de restauração, handles nativos ou API de navegação em múltiplas janelas. Coletores de routers separados permanecem independentes; propriedade/roteamento de janelas está na #46.
+Cada host informa papel (`main`, `list`, `detail`), estado de carregamento, ID opcional de janela e IDs das entradas nativas. Páginas nativas desconhecidas têm ID `null`. Placeholders do split são omitidos. O ID de janela fica disponível quando o Frame pertence a uma NativeWindow; cores anteriores podem omiti-lo. IDs são identidades de diagnóstico do processo, não chaves de restauração, handles nativos ou API de navegação em múltiplas janelas. Coletores de routers separados permanecem independentes; veja [propriedade e reconstrução de janelas](./windows) para o modelo de roteamento implementado.
 
 As `issues` do snapshot detectam divergência na ordem das pilhas, páginas nativas desconhecidas, entradas descartadas ainda presentes nativamente e hosts ausentes/fechados. Comparações esperam enquanto o pedido atual ou uma operação nativa da pilha está em andamento. A timeline registra novas issues vistas na sincronização; um snapshot explícito também pode detectar mudanças antes de um evento nativo. O coletor observa essas condições e não repara o histórico. `duplicate-result` detecta sinais repetidos de resolução de resultado. Falhas de inspeção informam um código sem copiar o erro original.
 

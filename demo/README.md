@@ -22,6 +22,12 @@ ns run ios         # or: ns run android
 
 The webpack config points `vue-router-ns` at `../dist`, and pins `nativescript-vue` and `@nativescript/core` to the demo's own copies, so the app and the router share one Vue.
 
+## Integrated native navigation example (rc.3)
+
+Fieldnotes combines the cross-platform drawer, native headers/search, item context menus, shared page actions, a guarded editor and a native modal result. Run `npm run showcase:ios` or `npm run showcase:android` from `demo` after building the package and preparing native resources as documented below. Notes are fictional and in-memory.
+
+Follow the complete [English walkthrough](../docs/guide/native-showcase.md) or [guia em português](../docs/pt-BR/guide/native-showcase.md). Source lives in `src/showcase`; native acceptance in `scripts/native/showcase`. Published rc.2 alone does not include the iOS drawer or shared page actions used here.
+
 ## Route data example
 
 `--env.loadersTest` selects the standalone product/details example in `src/testing/loaders-app.ts`: real HTTP, per-page pending/error/retry, shared app cache and cancellation after Back. See [setup and native acceptance](../test/native-route-data.md) for the local API and simulator/emulator commands.

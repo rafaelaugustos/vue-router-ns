@@ -37,6 +37,8 @@ router.push({ name: 'message', params: { id: 42 } })
 
 Prefer file conventions? The optional [file-routing setup](https://vue-router-ns.rafaelaugusto.dev/guide/file-routing) generates typed native routes, with opt-in layouts, middleware discovery and webpack or Vite integration. Native Vite HMR uses adjacent JSON metadata; see the guide for setup and compiler limitations. Choose explicit records, native page files, or combine them on the same router. See the separate [native example](examples/file-routing/README.md).
 
+[Native capabilities and container choices](https://vue-router-ns.rafaelaugusto.dev/guide/capabilities) · [Capacidades e composição (pt-BR)](https://vue-router-ns.rafaelaugusto.dev/pt-BR/guide/capabilities) — ownership, platform limits, runnable examples and rc.2 versus upcoming rc.3.
+
 ## Airbnb NS example
 
 A runnable Airbnb-inspired app built with NativeScript-Vue and `vue-router-ns`: accommodation carousels, favorites, native tabs, a search sheet and detail pages with UIKit zoom. The UI and catalog are local; stays and reservations are fictional.
