@@ -4,7 +4,7 @@
 
 Fieldnotes is a small, runnable list/detail app. A drawer opens destinations; native page headers and search lead into a note; header and context-menu actions share state; an editor protects unsaved changes; a native modal returns a result to the same detail page.
 
-It uses the public router APIs and the repository's upcoming **0.1.0-rc.3**. Published rc.2 already provides native headers, iOS large titles, search, context menus, guards, modal results and navigation focus. The iOS drawer and shared page actions used here are rc.3 additions. Build this checkout to run the complete example; installing rc.2 alone does not supply those additions.
+It uses the public router APIs and **0.1.0-rc.3**. The previous rc.2 already provides native headers, iOS large titles, search, context menus, guards, modal results and navigation focus. The iOS drawer and shared page actions used here are rc.3 additions. Build this checkout to run the complete example; installing rc.2 alone does not supply those additions.
 
 ## Run from a checkout
 

@@ -4,7 +4,7 @@ Try [Fieldnotes, the integrated native example](./native-showcase), to follow dr
 
 Start with what your application needs to show, then choose the native owner. NativeScript supplies page headers and controls; the router supplies route identity, guards, results and coordination between native stacks. The application supplies content, business actions and persistence policy.
 
-This page describes the repository's upcoming **0.1.0-rc.3**. The currently published baseline is **0.1.0-rc.2**. “Existing” below means already available in rc.2; “rc.3” identifies additions that require the new candidate or a local repository build. The package is still a release candidate, not a 1.0 stability promise. Detailed guides remain the API reference.
+This page describes **0.1.0-rc.3**, compared with the previous **0.1.0-rc.2** baseline. “Existing” below means already available in rc.2; “rc.3” identifies additions that require the new candidate or a local repository build. The package is still a release candidate, not a 1.0 stability promise. Detailed guides remain the API reference.
 
 ## Find a capability
 

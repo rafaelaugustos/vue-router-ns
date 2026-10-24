@@ -4,8 +4,8 @@ See [native capabilities and container choices](./capabilities) for ownership, p
 
 `<RouterDrawer>` puts a start-edge menu around existing native stacks. Android uses AndroidX `DrawerLayout`; iOS uses UIKit views, pan gestures and animations. Both keep the content and drawer slots mounted without adding routes.
 
-::: info Upcoming rc.3
-The iOS implementation and adaptive presentation are part of the upcoming `0.1.0-rc.3`. Published `0.1.0-rc.2` supports the overlay drawer on Android only.
+::: info Added in rc.3
+The iOS implementation and adaptive presentation are part of `0.1.0-rc.3`. The previous `0.1.0-rc.2` supports the overlay drawer on Android only.
 :::
 
 The same template works on both platforms:

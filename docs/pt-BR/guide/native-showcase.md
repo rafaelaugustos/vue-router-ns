@@ -4,7 +4,7 @@
 
 Fieldnotes é um pequeno app executável de lista/detalhe. O drawer abre destinos; headers e busca nativos levam à nota; ações do header e menu compartilham estado; o editor protege alterações não salvas; um modal nativo devolve resultado à mesma página de detalhe.
 
-Ele usa APIs públicas e a próxima **0.1.0-rc.3** do repositório. A rc.2 publicada já oferece headers, large titles iOS, busca, menus contextuais, guards, resultados de modal e foco de navegação. O drawer iOS e as ações compartilhadas deste exemplo são novidades da rc.3. Compile este checkout para executar o exemplo completo; instalar apenas rc.2 não fornece essas adições.
+Ele usa APIs públicas e a **0.1.0-rc.3**. A rc.2 anterior já oferece headers, large titles iOS, busca, menus contextuais, guards, resultados de modal e foco de navegação. O drawer iOS e as ações compartilhadas deste exemplo são novidades da rc.3. Compile este checkout para executar o exemplo completo; instalar apenas rc.2 não fornece essas adições.
 
 ## Execute a partir do checkout
 
