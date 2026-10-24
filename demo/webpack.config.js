@@ -24,6 +24,7 @@ module.exports = (env) => {
       'adaptivedrawer',
       'actions',
       'transitions',
+      'showcase',
       'middleware',
       'layouts',
       'files',
@@ -37,6 +38,15 @@ module.exports = (env) => {
       'predictiveplain',
     ].filter((name) => env[`${name}Test`])
     if (fixtures.length > 1) throw new Error('Select only one native acceptance fixture')
+    if (env.showcase && (env.airbnb || fixtures.length))
+      throw new Error('Select showcase without another app or acceptance fixture')
+    if (env.showcase) {
+      const entry = config.entry('bundle')
+      entry.values().forEach((path) => {
+        if (path === resolve(__dirname, 'src/app.ts'))
+          entry.delete(path).add(resolve(__dirname, 'src/showcase/app.ts'))
+      })
+    }
     if (env.airbnb && fixtures.length)
       throw new Error('Airbnb cannot run with acceptance fixtures')
     if (env.airbnb) {

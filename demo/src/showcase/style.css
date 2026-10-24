@@ -1,0 +1,71 @@
+Page {
+  background-color: #f6f5ef;
+  color: #183d32;
+}
+ActionBar {
+  background-color: #f6f5ef;
+  color: #183d32;
+}
+.content {
+  padding: 24;
+}
+.heading {
+  font-size: 30;
+  font-weight: bold;
+  margin-top: 10;
+  margin-bottom: 18;
+}
+.eyebrow {
+  font-size: 11;
+  font-weight: bold;
+  letter-spacing: 0.08;
+  color: #537668;
+}
+.muted {
+  font-size: 16;
+  color: #62746a;
+}
+.card {
+  padding: 22;
+  margin-top: 14;
+  margin-bottom: 6;
+  background-color: #e4ece3;
+  border-radius: 18;
+}
+.card-title {
+  font-size: 23;
+  font-weight: bold;
+  text-align: left;
+  padding: 0;
+  margin: 8 0;
+  background-color: transparent;
+  border-width: 0;
+  android-elevation: 0;
+}
+.card-footer {
+  font-size: 12;
+  color: #386950;
+  margin-top: 18;
+}
+Button {
+  color: #235c43;
+  font-size: 16;
+  min-height: 48;
+}
+.menu {
+  background-color: #e4ece3;
+  padding: 60 22 24;
+}
+.menu-title {
+  font-size: 28;
+  font-weight: bold;
+  margin: 16 0 32;
+}
+.editor {
+  background-color: white;
+  border-radius: 12;
+  padding: 16;
+  margin-bottom: 18;
+  font-size: 18;
+  color: #183d32;
+}

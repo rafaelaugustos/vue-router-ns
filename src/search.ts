@@ -205,6 +205,7 @@ function bindIOS(
       },
       didDismissSearchController(this: any) {
         this.dismiss?.()
+        this.dismissed?.()
       },
       searchBarSearchButtonClicked(this: any, bar: any) {
         bar.resignFirstResponder()
@@ -233,6 +234,20 @@ function bindIOS(
     },
     dismiss: () => {
       active.value = false
+    },
+    dismissed: () => {
+      // Core 9.1.3 captures the presented controller in Page.viewWillDisappear.
+      // When search is dismissed under a pushed Page, that cached search can
+      // survive until Back and make Core skip setCurrent/unload for one return.
+      // Release only our completed presentation; never clear a real modal or
+      // another owner's controller, and never replace a navigation delegate.
+      const owner = page as unknown as { _presentedViewController?: unknown }
+      if (
+        !native.active &&
+        controller.presentedViewController !== native &&
+        owner._presentedViewController === native
+      )
+        owner._presentedViewController = null
     },
     submit: () => options.onSubmit?.(options.query.value),
   })
@@ -284,7 +299,12 @@ function bindIOS(
       native.delegate = null
       native.searchResultsUpdater = null
       native.searchBar.delegate = null
-      delegate.change = delegate.present = delegate.dismiss = delegate.submit = null
+      delegate.change =
+        delegate.present =
+        delegate.dismiss =
+        delegate.dismissed =
+        delegate.submit =
+          null
       if (item.searchController === native) {
         item.searchController = null
         item.hidesSearchBarWhenScrolling = previous.hides

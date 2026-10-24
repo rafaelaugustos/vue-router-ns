@@ -1,5 +1,7 @@
 # Capacidades nativas e escolha de containers
 
+Experimente o [Fieldnotes, exemplo nativo integrado](./native-showcase), para percorrer drawer, busca, ações compartilhadas, guards e resultado de modal em um único app.
+
 Comece pelo que o aplicativo precisa mostrar e escolha quem controla essa apresentação. O NativeScript fornece headers e controles; o router fornece identidade das rotas, guards, resultados e coordenação de pilhas nativas. Conteúdo, ações de negócio e política de persistência pertencem ao aplicativo.
 
 Esta página descreve a próxima **0.1.0-rc.3** no repositório. A base publicada atual é **0.1.0-rc.2**. “Existente” significa disponível na rc.2; “rc.3” identifica adições que exigem a nova candidata ou um build local. O pacote ainda é uma release candidate, sem promessa de estabilidade 1.0. Os guias detalhados continuam sendo a referência das APIs.

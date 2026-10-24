@@ -10,7 +10,9 @@
     "preairbnb:android": "npm run airbnb:prepare",
     "airbnb:android": "ns run android --env.airbnb",
     "airbnb:bundle:ios": "webpack --env ios --env airbnb",
-    "airbnb:bundle:android": "webpack --env android --env airbnb"
+    "airbnb:bundle:android": "webpack --env android --env airbnb",
+    "showcase:ios": "ns run ios --env.showcase",
+    "showcase:android": "ns run android --env.showcase"
   },
   "dependencies": {
     "@nativescript/core": "9.1.3",

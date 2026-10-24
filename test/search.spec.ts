@@ -220,6 +220,36 @@ describe('page-owned native search', () => {
     expect(controller.definesPresentationContext).toBeUndefined()
   })
 
+  it('releases only the completed search presentation cached by Core during push', async () => {
+    const native = stubUIKitSearch()
+    let search!: NativeSearch
+    const { app, frame } = await mount([
+      {
+        path: '/',
+        component: page('List', () => {
+          search = useNativeSearch({ query: ref('retained') })
+        }),
+      },
+    ])
+    const owner = frame().currentPage! as any
+    search.activate()
+    owner._presentedViewController = native
+    owner.ios.presentedViewController = native
+    native.delegate.didDismissSearchController(native)
+    expect(owner._presentedViewController).toBe(native)
+    native.active = false
+    native.delegate.didDismissSearchController(native)
+    expect(owner._presentedViewController).toBe(native)
+    owner.ios.presentedViewController = null
+    native.delegate.didDismissSearchController(native)
+    expect(owner._presentedViewController).toBeNull()
+    const modal = {}
+    owner._presentedViewController = modal
+    native.delegate.didDismissSearchController(native)
+    expect(owner._presentedViewController).toBe(modal)
+    app.unmount()
+  })
+
   it('stacks the iOS search bar under the title inside a TabView, and only there', async () => {
     stubUIKitSearch()
     const List = (placement?: SearchBarPlacement) =>
