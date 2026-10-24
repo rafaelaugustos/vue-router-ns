@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs'
 import { defineConfig, type DefaultTheme } from 'vitepress'
 
 const site = 'https://vue-router-ns.rafaelaugusto.dev'
@@ -187,7 +188,7 @@ export default defineConfig({
   description:
     "Vue Router's API for NativeScript-Vue 3, on top of the native navigation stack.",
   cleanUrls: true,
-  lastUpdated: true,
+  lastUpdated: existsSync('.git'),
   sitemap: { hostname: site },
   transformHtml: (html) =>
     html
