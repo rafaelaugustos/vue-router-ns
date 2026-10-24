@@ -1,5 +1,7 @@
 # Diagnóstico de navegação
 
+[Abra o visualizador de relatórios](./diagnostics-viewer) para importar o JSON exportado, comparar pilhas e inspecionar a linha do tempo sem conectar ao app.
+
 Ative uma timeline limitada e uma comparação somente de leitura entre o histórico lógico do router e seus Frames nativos:
 
 ```ts
@@ -59,7 +61,7 @@ const data = inspector?.toJSON()
 stopListening?.()
 ```
 
-O pacote fornece um formato JSON independente e o inspector do demo nativo, sem depender de uma extensão privada de devtools do NativeScript-Vue. Você pode inspecionar o coletor por uma referência pertencente ao app no Chrome DevTools ou criar um viewer a partir dos dados públicos. Nenhum inspector global ou transporte de rede é instalado automaticamente.
+O pacote fornece um formato JSON independente e o inspector do demo nativo. O [visualizador de relatórios](./diagnostics-viewer) opcional lê essas exportações sem depender de uma extensão privada de devtools do NativeScript-Vue. Você também pode inspecionar o coletor por uma referência pertencente ao app no Chrome DevTools. Nenhum inspector global ou transporte de rede é instalado automaticamente.
 
 `toJSON()` retorna `{ version: 1, routerId, clock: 'monotonic', startedAt, droppedEvents, events, snapshot }`. Eventos antigos são descartados ao atingir a capacidade; o final retido de um span pode ter perdido seu início. `clear()` limpa o buffer e o contador de descartes, preservando IDs e origem do relógio.
 

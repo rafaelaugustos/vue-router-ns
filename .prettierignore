@@ -19,3 +19,6 @@ examples/file-routing/App_Resources
 examples/file-routing/src/generated
 
 .native-core/
+
+docs/public/diagnostics-viewer/
+scripts/diagnostics-viewer/out/
