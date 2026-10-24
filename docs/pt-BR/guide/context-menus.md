@@ -1,5 +1,7 @@
 # Pré-visualização por menu de contexto
 
+Para compartilhar estado, execução assíncrona e tratamento de erros entre header, menu e teclado, veja [ações da página](./page-actions).
+
 Pressione uma linha, veja aonde ela leva e decida. No iOS, `UIContextMenuInteraction` mostra uma prévia do destino com um menu de ações, e tocar na prévia confirma a navegação. O Android não tem prévia ao vivo, então as mesmas opções viram um popup: a rota primeiro, depois as ações.
 
 ```vue

@@ -7,7 +7,14 @@ import {
   ref,
   withDirectives,
 } from 'nativescript-vue'
-import { RouterLink, vRoutePreview, type RoutePreviewOptions } from '../src/index.js'
+import {
+  RouterLink,
+  vRoutePreview,
+  usePageActions,
+  attachRouteMenu,
+  type PageActions,
+  type RoutePreviewOptions,
+} from '../src/index.js'
 import { events, mount, page, settle } from './helpers.js'
 import { views } from './shims/nativescript-vue.js'
 
@@ -28,14 +35,23 @@ function stubUIKit() {
   })
   vi.stubGlobal('UIContextMenuInteractionDelegate', {})
   vi.stubGlobal('UIContextMenuInteraction', {
-    alloc: () => ({ initWithDelegate: (delegate: any) => ({ delegate }) }),
+    alloc: () => ({
+      initWithDelegate: (delegate: any) => ({
+        delegate,
+        updated: undefined as any,
+        updateVisibleMenuWithBlock(block: (menu: unknown) => unknown) {
+          this.updated = block(this.updated)
+        },
+        dismissMenu: vi.fn(),
+      }),
+    }),
   })
   vi.stubGlobal('UIContextMenuConfiguration', {
     configurationWithIdentifierPreviewProviderActionProvider: (
-      _identifier: null,
+      identifier: unknown,
       preview: (() => unknown) | null,
       actions: (() => unknown) | null,
-    ) => ({ preview, actions }),
+    ) => ({ identifier, preview, actions }),
   })
   vi.stubGlobal('NSMutableArray', {
     new: () => {
@@ -57,7 +73,7 @@ function stubUIKit() {
     ) => ({ title, image, handler, attributes: 0 }),
   })
   vi.stubGlobal('UIImage', { systemImageNamed: (name: string) => ({ name }) })
-  vi.stubGlobal('UIMenuElementAttributes', { Destructive: 2 })
+  vi.stubGlobal('UIMenuElementAttributes', { Destructive: 2, Disabled: 1 })
   vi.stubGlobal('UIContextMenuInteractionCommitStyle', { Pop: 1 })
   vi.stubGlobal('CGSizeMake', (width: number, height: number) => ({ width, height }))
 }
@@ -93,6 +109,138 @@ const animator = () => ({
 })
 
 describe('route context menus', () => {
+  it('updates a visible native menu from shared state and rechecks availability before dispatch', async () => {
+    stubUIKit()
+    let actions!: PageActions
+    const title = ref('Save'),
+      allowed = ref(true),
+      shown = ref(true),
+      run = vi.fn()
+    const component = defineComponent({
+      setup() {
+        actions = usePageActions([
+          { id: 'save', title, enabled: allowed, visible: shown, destructive: true, run },
+        ])
+        const options = { to: '/', actions: actions.menu() }
+        return () =>
+          h('Page', {}, [withDirectives(h('GridLayout'), [[vRoutePreview, options]])])
+      },
+    })
+    const { app } = await mount([{ path: '/', component }])
+    const grid = views.get('GridLayout')!.at(-1)!
+    const interaction = grid.ios.interactions[0]
+    const config =
+      interaction.delegate.contextMenuInteractionConfigurationForMenuAtLocation(
+        null,
+        null,
+      )
+    const native = config.actions()
+    expect(native.children[0].attributes).toBe(2)
+    title.value = 'Salvar'
+    allowed.value = false
+    expect(interaction.updated.children[0]).toMatchObject({
+      title: 'Salvar',
+      attributes: 3,
+    })
+    native.children[0].handler()
+    expect(run).not.toHaveBeenCalled()
+    shown.value = false
+    expect(interaction.updated.children).toHaveLength(0)
+    shown.value = allowed.value = true
+    interaction.updated.children[0].handler()
+    await settle()
+    expect(run).toHaveBeenCalledOnce()
+    grid.notify({ eventName: 'unloaded', object: grid })
+    const lastUpdate = interaction.updated
+    title.value = 'After unload'
+    expect(interaction.updated).toBe(lastUpdate)
+    native.children[0].handler()
+    expect(run).toHaveBeenCalledOnce()
+    app.unmount()
+  })
+
+  it('rejects both an action and a preview commit captured before row rebinding', async () => {
+    stubUIKit()
+    const oldRun = vi.fn(),
+      newRun = vi.fn()
+    const { router, app } = await mount([
+      {
+        path: '/',
+        component: row(() => ({
+          to: '/messages/1',
+          preview: Preview,
+          actions: [{ title: 'First item', run: oldRun }],
+        })),
+      },
+      { path: '/messages/:id', component: page('Message') },
+    ])
+    const grid = views.get('GridLayout')!.at(-1)!
+    const interaction = grid.ios.interactions[0],
+      delegate = interaction.delegate
+    const old = delegate.contextMenuInteractionConfigurationForMenuAtLocation(null, null)
+    const oldAction = old.actions().children[0]
+    attachRouteMenu(grid as any, {
+      to: '/messages/2',
+      actions: [{ title: 'Second item', run: newRun }],
+    })
+    const next = delegate.contextMenuInteractionConfigurationForMenuAtLocation(null, null)
+    oldAction.handler()
+    delegate.contextMenuInteractionWillPerformPreviewActionForMenuWithConfigurationAnimator(
+      null,
+      old,
+      animator(),
+    )
+    await settle()
+    expect(oldRun).not.toHaveBeenCalled()
+    expect(router.currentRoute.value.path).toBe('/')
+    next.actions().children[0].handler()
+    expect(newRun).toHaveBeenCalledOnce()
+    expect(interaction.dismissMenu).toHaveBeenCalled()
+    app.unmount()
+  })
+  it('reports async actions and synchronous navigation failures from native callbacks', async () => {
+    stubUIKit()
+    const actionError = new Error('async action'),
+      navigationError = new Error('sync navigation')
+    const onError = vi.fn()
+    const options = {
+      to: '/',
+      preview: Preview,
+      onError,
+      actions: [
+        {
+          title: 'Fail',
+          run: async () => {
+            throw actionError
+          },
+        },
+      ],
+    }
+    const { app, router } = await mount([{ path: '/', component: row(() => options) }])
+    const interaction = views.get('GridLayout')!.at(-1)!.ios.interactions[0]
+    const delegate = interaction.delegate
+    const config = delegate.contextMenuInteractionConfigurationForMenuAtLocation(
+      null,
+      null,
+    )
+    config.actions().children[0].handler()
+    await settle()
+    expect(onError).toHaveBeenCalledExactlyOnceWith(actionError)
+    const push = vi.spyOn(router, 'push').mockImplementation(() => {
+      throw navigationError
+    })
+    delegate.contextMenuInteractionWillPerformPreviewActionForMenuWithConfigurationAnimator(
+      null,
+      config,
+      animator(),
+    )
+    await settle()
+    expect(onError).toHaveBeenLastCalledWith(navigationError)
+    expect(onError).toHaveBeenCalledTimes(2)
+    push.mockRestore()
+    app.unmount()
+  })
+
   it('previews without touching the stack, commits through a push and lets the preview go', async () => {
     stubUIKit()
     const archive = vi.fn()
@@ -263,16 +411,26 @@ describe('route context menus', () => {
       }
       getMenu() {
         return {
-          add: (_group: number, id: number, _order: number, title: string) =>
-            this.items.push({ id, title }),
+          clear: () => {
+            this.items = []
+          },
+          add: (_group: number, id: number, _order: number, title: string) => {
+            this.items.push({ id, title })
+            return { setEnabled() {} }
+          },
         }
       }
       setOnMenuItemClickListener(listener: any) {
         this.listener = listener
       }
       show() {}
+      dismiss() {}
+      setOnDismissListener() {}
     }
     ;(PopupMenu as any).OnMenuItemClickListener = function (this: any, impl: any) {
+      return impl
+    }
+    ;(PopupMenu as any).OnDismissListener = function (this: any, impl: any) {
       return impl
     }
     vi.stubGlobal('android', {

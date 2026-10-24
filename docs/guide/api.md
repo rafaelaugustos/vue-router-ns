@@ -178,6 +178,10 @@ Augment `Register` and `RouteMeta` as shown in [typed routes](./typed-routes).
 
 `useNativeSearch(options)` registers page-owned native search. Exports: `NativeSearchOptions`, `NativeSearch`. See [native bars and search](./native-bars) for query ownership, activation and platform differences.
 
+## Page actions
+
+`usePageActions(source, { onError? })` shares typed, page-owned callbacks and reactive state between `PageActionItem` and route menus. Exports: `PageAction`, `PageActionContext`, `PageActionState`, `PageActions`, `PageActionsOptions`. See [page actions](./page-actions) for execution, cancellation, ownership and optional keyboard reuse.
+
 ## Keyboard commands
 
 `useNavigationCommands(source)` and `NavigationCommandScope` bind opt-in commands to a page/window. Types: `NavigationCommand`, `NavigationCommandState`, `NavigationCommands`, `NavigationShortcut`, `KeyModifier`. See [keyboard commands](./keyboard).

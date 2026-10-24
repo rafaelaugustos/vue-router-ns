@@ -1,5 +1,7 @@
 # Barras e busca nativas
 
+Para compartilhar estado, execução assíncrona e tratamento de erros entre header, menu e teclado, veja [ações da página](./page-actions).
+
 Use a `ActionBar` do NativeScript para títulos e ações reativos. Ela mantém a Toolbar/UINavigationBar, os delegates e o botão de voltar. No iOS, `iosLargeTitle="true"` habilita o título grande que recolhe ao rolar uma lista nativa. A ActionBar padrão do Android não oferece a mesma política de título grande.
 
 <Clip name="ios-search" caption="O campo de busca nativo filtra a caixa de entrada sem adicionar uma rota. Simulador iOS 26." />

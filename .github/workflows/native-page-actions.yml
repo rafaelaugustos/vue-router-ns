@@ -1,0 +1,105 @@
+name: Native page actions
+on:
+  workflow_call:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ios:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - run: gem install cocoapods xcodeproj --no-document
+      - run: npm ci && npm run build
+      - run: npm install --no-audit --no-fund
+        working-directory: demo
+      - run: npm install -g nativescript
+      - name: Prepare native resources
+        run: |
+          ns usage-reporting disable
+          ns error-reporting disable
+          ns create actions-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null
+          cp -R /tmp/actions-scaffold/App_Resources demo/App_Resources
+      - run: ns build ios --for-device false --env.actionsTest
+        working-directory: demo
+      - name: Create dedicated simulator
+        run: |
+          SIM=$(xcrun simctl create RouterPageActions com.apple.CoreSimulator.SimDeviceType.iPhone-16 com.apple.CoreSimulator.SimRuntime.iOS-18-6)
+          echo "IOS_SIMULATOR=$SIM" >> "$GITHUB_ENV"
+          xcrun simctl boot "$SIM"
+          xcrun simctl bootstatus "$SIM" -b
+      - name: Lifetime, HMR and navigation contracts
+        run: node scripts/native/page-actions/run.mjs
+      - name: Real header and menu input
+        run: |
+          ruby scripts/native/page-actions/project.rb /tmp/router-page-actions-tests
+          node scripts/native/command-timeout.mjs 600000 xcodebuild test \
+            -project /tmp/router-page-actions-tests/PageActionsChecks.xcodeproj -scheme PageActionsChecks \
+            -destination "platform=iOS Simulator,id=$IOS_SIMULATOR" \
+            -derivedDataPath /tmp/router-page-actions-tests/build -collect-test-diagnostics never \
+            -resultBundlePath scripts/native/out/actions-ios/input.xcresult
+      - name: Clean up dedicated simulator
+        if: always() && env.IOS_SIMULATOR != ''
+        run: |
+          xcrun simctl shutdown "$IOS_SIMULATOR"
+          xcrun simctl delete "$IOS_SIMULATOR"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: page-actions-ios
+          path: scripts/native/out
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - run: npm ci && npm run build
+      - run: npm install --no-audit --no-fund
+        working-directory: demo
+      - run: npm install -g nativescript
+      - name: Prepare native resources
+        run: |
+          ns usage-reporting disable
+          ns error-reporting disable
+          ns create actions-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null
+          cp -R /tmp/actions-scaffold/App_Resources demo/App_Resources
+      - run: ns build android --env.actionsTest
+        working-directory: demo
+      - name: Lifetime, HMR, navigation and real input
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 36
+          arch: x86_64
+          target: google_apis
+          profile: pixel_7
+          disable-animations: false
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: |
+            ANDROID_SERIAL=emulator-5554 node scripts/native/page-actions/run.mjs
+            ANDROID_SERIAL=emulator-5554 OUT=scripts/native/out/actions-android-input node scripts/native/page-actions/android-input.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: page-actions-android
+          path: scripts/native/out
