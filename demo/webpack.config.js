@@ -22,6 +22,7 @@ module.exports = (env) => {
       'entrypoints',
       'drawer',
       'adaptivedrawer',
+      'actions',
       'middleware',
       'layouts',
       'files',

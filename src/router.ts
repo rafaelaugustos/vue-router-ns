@@ -37,6 +37,7 @@ import {
   type RouterWindow,
 } from './windows.js'
 import { Deferred } from './components/Deferred.js'
+import { PageActionItem } from './components/PageActionItem.js'
 import { DrawerLayoutView, RouterDrawer } from './drawer.js'
 import { IOSDrawerLayoutView } from './drawer-ios.js'
 import { vRoutePreview } from './context-menu.js'
@@ -2017,6 +2018,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       app.component('RouterUIKitSplitView', RouterUIKitSplitView)
       app.component('RouterLink', RouterLink)
       app.component('Deferred', Deferred)
+      app.component('PageActionItem', PageActionItem)
       app.component('RouterDrawer', RouterDrawer)
       app.component('RouterTabs', RouterTabs)
       app.component('RouterTab', RouterTab)

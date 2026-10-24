@@ -176,6 +176,10 @@ Estenda `Register` e `RouteMeta` como mostrado em [rotas tipadas](./typed-routes
 
 `useNativeSearch(options)` registra uma busca própria da página. Tipos: `NativeSearchOptions`, `NativeSearch`. Veja [barras e busca nativas](./native-bars) para persistência da query, ativação e diferenças entre plataformas.
 
+## Ações da página
+
+`usePageActions(source, { onError? })` compartilha callbacks tipados e estado reativo da página entre `PageActionItem` e menus de rota. Tipos: `PageAction`, `PageActionContext`, `PageActionState`, `PageActions`, `PageActionsOptions`. Veja [ações da página](./page-actions) para execução, cancelamento, ownership e integração opcional com teclado.
+
 ## Comandos de teclado
 
 `useNavigationCommands(source)` e `NavigationCommandScope` vinculam comandos opt-in à página/janela. Tipos: `NavigationCommand`, `NavigationCommandState`, `NavigationCommands`, `NavigationShortcut`, `KeyModifier`. Veja [comandos de teclado](./keyboard).

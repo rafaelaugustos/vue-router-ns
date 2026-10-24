@@ -104,6 +104,15 @@ export type {
   KeyModifier,
 } from './commands.js'
 export { NavigationCommandScope } from './components/NavigationCommandScope.js'
+export { usePageActions } from './page-actions.js'
+export { PageActionItem } from './components/PageActionItem.js'
+export type {
+  PageAction,
+  PageActionContext,
+  PageActionState,
+  PageActions,
+  PageActionsOptions,
+} from './page-actions.js'
 export { useNavigationFocus } from './accessibility.js'
 export type {
   NavigationFocus,
@@ -172,6 +181,7 @@ declare module '@vue/runtime-core' {
   }
 
   interface GlobalComponents {
+    PageActionItem: typeof import('./components/PageActionItem.js').PageActionItem
     NavigationCommandScope: typeof import('./components/NavigationCommandScope.js').NavigationCommandScope
     RouterUIKitSplitView: typeof import('./components/RouterUIKitSplitView.js').RouterUIKitSplitView
     RouterSplitView: typeof import('./components/RouterSplitView.js').RouterSplitView

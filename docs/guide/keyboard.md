@@ -1,5 +1,7 @@
 # Native keyboard commands
 
+To share state, asynchronous execution and error handling across the header, menu and keyboard, see [page actions](./page-actions).
+
 Commands are opt-in and belong to a routed page. Render `NavigationCommandScope` inside its Page around the content. It is a native GridLayout: normal layout attributes (`rows`, `columns`, padding) work. Its iOS 13+ UIView participates in the focused responder chain, and a tap inside it moves keyboard focus there without taking the touch from the row or control underneath; Android listens for unhandled native keys through ViewCompat, after the focused control gets its chance.
 
 ```vue

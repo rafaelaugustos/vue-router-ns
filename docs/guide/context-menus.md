@@ -1,5 +1,7 @@
 # Context menu previews
 
+To share state, asynchronous execution and error handling across the header, menu and keyboard, see [page actions](./page-actions).
+
 Long-press a row, see where it leads, then decide. On iOS, `UIContextMenuInteraction` shows a preview of the destination with a menu of actions, and tapping the preview commits it into a navigation. Android has no live preview, so the same options become a popup menu: the route first, then the actions.
 
 ```vue
