@@ -1,5 +1,7 @@
 # Tabs and other independent stacks
 
+See [native capabilities and container choices](./capabilities) for ownership, platform boundaries and the rc.2/rc.3 distinction.
+
 `<RouterTabs>` puts named stacks behind a native tab bar and keeps the two in step:
 
 ```vue

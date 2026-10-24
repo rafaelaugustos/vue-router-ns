@@ -1,5 +1,7 @@
 # Native bars and search
 
+See [native capabilities and container choices](./capabilities) for ownership, platform boundaries and the rc.2/rc.3 distinction.
+
 To share state, asynchronous execution and error handling across the header, menu and keyboard, see [page actions](./page-actions).
 
 Keep titles and actions in NativeScript's `ActionBar`. It owns the native Toolbar/UINavigationBar, delegates, and back button. Reactive titles and `ActionItem` bindings already work, including on return from detail. On iOS, `iosLargeTitle="true"` enables the native collapsing title; use a native scrolling view as the page content. Android has no equivalent large-title policy in the standard ActionBar.

@@ -1,5 +1,7 @@
 # Drawer nativo
 
+Veja [capacidades nativas e escolha de containers](./capabilities) para responsabilidades, limites por plataforma e diferenças entre rc.2 e rc.3.
+
 O `<RouterDrawer>` coloca um menu na borda inicial ao redor das pilhas nativas existentes. No Android, usa o `DrawerLayout` do AndroidX; no iOS, views, gestos e animações do UIKit. Ambos mantêm os slots montados sem criar rotas.
 
 ::: info Próxima rc.3

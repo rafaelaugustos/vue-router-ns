@@ -13,6 +13,9 @@ hero:
       text: Get started
       link: /guide/install
     - theme: alt
+      text: Native capabilities
+      link: /guide/capabilities
+    - theme: alt
       text: Examples and videos
       link: /guide/demo
     - theme: alt
