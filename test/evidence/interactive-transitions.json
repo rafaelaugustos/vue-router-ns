@@ -1,0 +1,150 @@
+{
+  "date": "2026-10-24",
+  "ios": "26.0",
+  "core": "9.1.3",
+  "vue": "3.1.2",
+  "commands": [
+    {
+      "name": "Plain",
+      "status": "PASS Plain",
+      "mode": "Plain",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "issues": []
+    },
+    {
+      "name": "Check cancel",
+      "status": "PASS Check cancel",
+      "mode": "Plain",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "issues": []
+    },
+    {
+      "name": "Check commit",
+      "status": "PASS Check commit",
+      "mode": "Plain",
+      "resultCount": 1,
+      "disposed": 1,
+      "stack": ["/"],
+      "issues": []
+    },
+    {
+      "name": "Zoom",
+      "status": "PASS Zoom",
+      "mode": "Zoom",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "issues": []
+    },
+    {
+      "name": "Check cancel",
+      "status": "PASS Check cancel",
+      "mode": "Zoom",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "issues": []
+    },
+    {
+      "name": "Check commit",
+      "status": "PASS Check commit",
+      "mode": "Zoom",
+      "resultCount": 1,
+      "disposed": 1,
+      "stack": ["/"],
+      "issues": []
+    },
+    {
+      "name": "Guarded zoom",
+      "status": "PASS Guarded zoom",
+      "mode": "Guarded zoom",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "issues": []
+    },
+    {
+      "name": "Check guard",
+      "status": "PASS Check guard",
+      "mode": "Guarded zoom",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "issues": []
+    },
+    {
+      "name": "Allow",
+      "status": "PASS Allow",
+      "mode": "Guarded zoom",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "issues": []
+    },
+    {
+      "name": "Check commit",
+      "status": "PASS Check commit",
+      "mode": "Guarded zoom",
+      "resultCount": 1,
+      "disposed": 1,
+      "stack": ["/"],
+      "issues": []
+    },
+    {
+      "name": "Removed source",
+      "status": "PASS Removed source",
+      "mode": "Removed source",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "issues": []
+    },
+    {
+      "name": "Check commit",
+      "status": "PASS Check commit",
+      "mode": "Removed source",
+      "resultCount": 1,
+      "disposed": 1,
+      "stack": ["/"],
+      "issues": []
+    },
+    {
+      "name": "Plain",
+      "status": "PASS Plain",
+      "mode": "Plain",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "issues": []
+    },
+    {
+      "name": "Interrupt soon",
+      "status": "PASS Interrupt soon",
+      "mode": "Plain",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "issues": []
+    },
+    {
+      "name": "Check interrupt",
+      "status": "PASS Check interrupt",
+      "mode": "Plain",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "issues": []
+    }
+  ],
+  "interruptRequests": [
+    {
+      "event": "interrupt-request",
+      "interactive": true
+    }
+  ],
+  "androidReports": 15
+}

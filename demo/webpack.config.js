@@ -23,6 +23,7 @@ module.exports = (env) => {
       'drawer',
       'adaptivedrawer',
       'actions',
+      'transitions',
       'middleware',
       'layouts',
       'files',
