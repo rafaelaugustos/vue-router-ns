@@ -20,6 +20,11 @@ router.beforeEach((to, from, { type }) => {
 `onBeforeRouteLeave` runs when its page is about to be removed from the stack: on back, replace or `clearHistory`, and also on the Android back button, which the router intercepts so your guard gets a say. Pushing another page on top keeps the page alive, so the guard doesn't run then.
 
 ```ts
+import { computed, ref } from 'nativescript-vue'
+import { Dialogs } from '@nativescript/core'
+import { onBeforeRouteLeave } from 'vue-router-ns'
+
+const draft = ref('')
 const dirty = computed(() => draft.value.trim() !== '')
 
 onBeforeRouteLeave(() => Dialogs.confirm('Discard this draft?'), { when: dirty })
@@ -37,3 +42,7 @@ onBeforeRouteLeave(() => Dialogs.confirm('Discard this draft?'), { when: dirty }
 | Modal swiped down, or tapped outside         | Runs the guard with the sheet staying put, and closes the modal if it allows. Mail does this.    |
 
 The rest of the time, a native pop is native: the router keeps its stack in sync and runs `afterEach`, but nothing can veto it.
+
+## Continue learning
+
+Run the [modal editor tutorial](./first-app) to exercise refusal, saving and discarding with complete source. For native gesture boundaries, see [pages, stacks and state](./mental-model#native-back-and-guards).

@@ -1,46 +1,39 @@
-# What vue-router-ns is
+# Learn vue-router-ns
 
-vue-router-ns gives [NativeScript-Vue 3](https://nativescript-vue.org) the API of Vue Router, built on top of the native navigation stack instead of a URL history.
+Build native navigation in a NativeScript-Vue 3 app using routes, params, guards and results. The router coordinates real native stacks: pages remain alive underneath each other, each tab can have its own history, and native Back is part of the navigation flow.
 
-```ts
-const router = createRouter({
-  routes: [
-    { path: '/', name: 'inbox', component: () => import('./pages/Inbox.vue') },
-    {
-      path: '/messages/:id',
-      name: 'message',
-      component: () => import('./pages/Message.vue'),
-    },
-    { path: '/compose', component: () => import('./pages/Compose.vue'), modal: true },
-  ],
-})
+<a id="where-to-start"></a>
 
-router.push({ name: 'message', params: { id: 42 } })
-```
+## Start here
 
-## Why not Vue Router itself
+| Your goal                  | Start with                                | What you will have                                                  |
+| -------------------------- | ----------------------------------------- | ------------------------------------------------------------------- |
+| Add the router to an app   | [Installation](./install)                 | A native Page rendered through `RouterView`                         |
+| Learn by building          | [Your first app](./first-app)             | A list, detail page and guarded modal editor, with complete source  |
+| Understand the behavior    | [Pages, stacks and state](./mental-model) | A model for page lifetime, native Back, tabs and modal ownership    |
+| Evaluate the possibilities | [Example gallery](./examples)             | Real recordings linked to guides, runnable code and platform limits |
+| Solve an application task  | [Common tasks](./recipes)                 | A route to the relevant API and its important constraints           |
 
-Vue Router can't drive a mobile app: it models navigation as one URL that changes, with a `<RouterView>` that swaps components. A NativeScript app has a `Frame` with a stack of pages that stay alive underneath each other, a back button and an iOS swipe that pop pages without asking anyone, modals, and often one stack per tab.
+The first-app tutorial assumes basic Vue single-file components and a working NativeScript-Vue project. It introduces one stack before adding results and guards. [Fieldnotes](./native-showcase) is the next step: drawer, native search, shared actions and the same state-retention rules.
 
-So this is not a wrapper around Vue Router. The frame's back stack is the source of truth, and the router mirrors it after every native navigation. What you get is the API you already know (`push`, guards, `useRoute`, named routes, params) with semantics that make sense on a phone.
+<a id="what-it-covers"></a>
 
-## What it covers
+## Choose a navigation structure
 
-- [A route per page](./pages): `useRoute()` inside a page never changes, even with other pages pushed on top.
-- [Leave guards](./guards) that the Android back button, the iOS back button and a modal's swipe-down go through, and that turn the iOS swipe off while they'd block it.
-- [Modal routes](./modals) with their own stack, and `pushForResult()` to get a value back from a page.
-- [One stack per tab](./tabs), with a tap on the active tab going back to its first page.
-- [Adaptive list and detail](./split-view), with one push history across compact and expanded layouts.
-- [Typed routes](./typed-routes): names and params checked across the app, with no code generation.
-- [Zoom and shared elements](./transitions): iOS 18's zoom out of a view, and NativeScript's shared element transitions.
-- [Deep links](./deep-links) that bring their parents along, [the whole stack set as a list](./stack), and [restoring it](./restore) after the app is killed.
-- [Android predictive back](./android-back) for pages that want to follow the swipe.
-- [`<Deferred>`](./pages#pages-with-a-lot-to-lay-out) for pages that should animate in before they fill up.
+Start with one `RouterView`. Add [tabs](./tabs) for independent destination histories, a [drawer](./drawer) for a menu around existing content, or [list/detail](./split-view) for a compact/expanded layout. A [modal](./modals) temporarily owns a separate stack and can return a value.
 
-## Where to start
+The [container guide](./capabilities#choose-a-container) explains supported combinations, including why a drawer, a native tab sidebar and a UIKit split controller are different owners.
 
-1. [Install it](./install) and mount a `<RouterView>`.
-2. Read [Navigating](./navigating) and [Every page keeps its route](./pages): that's where it differs most from the web.
-3. Coming from Vue Router, skim [the differences](./vue-router).
+## Add the native experience
 
-The release candidate is published under `next`. Unit tests and native simulator/emulator suites cover the [RC scope](./compatibility); that page records the supported versions and remaining limits.
+Keep titles and buttons in NativeScript's [ActionBar](./native-bars). Use [page actions](./page-actions) to share behavior between headers, menus and supported keyboard commands. Add [context menus](./context-menus), [transitions](./transitions), [focus and motion behavior](./accessibility) as the flow needs them.
+
+For application integration, continue with [deep links](./deep-links), [system pickers](./native-flows), [state restoration](./restore) and [diagnostics](./diagnostics). File conventions and experimental integrations have their own advanced guides; explicit routes remain the default.
+
+<a id="why-not-vue-router-itself"></a>
+
+## Coming from Vue Router
+
+Familiar method names help, but a mobile app has several possible native stacks and retained pages. Read [the differences](./vue-router), then the [mental model](./mental-model), before relying on web page-lifetime assumptions.
+
+The package is a release candidate. [Compatibility](./compatibility) identifies the supported dependencies, experimental APIs and remaining validation limits. The [API reference](./api) is the lookup index once you know which part of the system you need.

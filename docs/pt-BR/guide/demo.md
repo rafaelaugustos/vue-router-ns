@@ -12,6 +12,8 @@ Escolha uma funcionalidade, veja o resultado e copie o trecho correspondente. Os
 
 [Instalação](./install) · [Transição a partir de um elemento](./transitions#card-com-routerlink) · [Demo completo](https://github.com/rafaelaugustos/vue-router-ns/tree/main/demo)
 
+<a id="airbnb-ns"></a>
+
 ## Airbnb NS: um app de acomodações
 
 <Clip name="ios-airbnb" :width="320" caption="Airbnb NS: abas nativas, zoom do card e retorno por gesto, prévias por toque longo e favoritos. Trecho editado de uma gravação no simulador iPhone 17 / iOS 26, com as animações na velocidade original." />

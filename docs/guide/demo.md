@@ -12,6 +12,8 @@ Pick a feature, watch the result, and copy the corresponding snippet. Examples u
 
 [Installation](./install) · [Transition from an element](./transitions#card-with-routerlink) · [Complete demo](https://github.com/rafaelaugustos/vue-router-ns/tree/main/demo)
 
+<a id="airbnb-ns"></a>
+
 ## Airbnb NS: an accommodation app
 
 <Clip name="ios-airbnb" :width="320" caption="Airbnb NS: native tabs, card zoom and gesture dismissal, context-menu previews and favorites. Edited from an iPhone 17 / iOS 26 simulator recording; animations play at their original speed." />

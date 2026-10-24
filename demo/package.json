@@ -12,7 +12,9 @@
     "airbnb:bundle:ios": "webpack --env ios --env airbnb",
     "airbnb:bundle:android": "webpack --env android --env airbnb",
     "showcase:ios": "ns run ios --env.showcase",
-    "showcase:android": "ns run android --env.showcase"
+    "showcase:android": "ns run android --env.showcase",
+    "tutorial:ios": "ns run ios --env.tutorial",
+    "tutorial:android": "ns run android --env.tutorial"
   },
   "dependencies": {
     "@nativescript/core": "9.1.3",
