@@ -1,5 +1,7 @@
 # Native drawer
 
+See [native capabilities and container choices](./capabilities) for ownership, platform boundaries and the rc.2/rc.3 distinction.
+
 `<RouterDrawer>` puts a start-edge menu around existing native stacks. Android uses AndroidX `DrawerLayout`; iOS uses UIKit views, pan gestures and animations. Both keep the content and drawer slots mounted without adding routes.
 
 ::: info Upcoming rc.3

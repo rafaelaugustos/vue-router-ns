@@ -56,7 +56,7 @@ At 1080 × 2400, each snapshot allocates **10,368,000 bytes** (about 9.9 MiB), v
 
 These are synchronous capture samples on ARM64 emulators with other local work running, not frame-rate baselines or hardware performance claims. Observation wraps the real candidate method only to measure elapsed time/allocation; it does not substitute an implementation. Capture can exceed a frame budget on other content/devices. Static snapshots do not represent live video, surfaces or changing SDK content. Secure windows, SurfaceView/TextureView descendants, failed software drawing, and custom/shared transitions decline capture. The ImageView is excluded from accessibility traversal; audible TalkBack acceptance is not claimed.
 
-Edge-to-edge screenshot inspection confirmed visible previous/current content and intact system status/navigation bars during the gesture. Insets/styles are not changed by the prototype. The test covers single-window Frames and modal inner Frames; it does not claim multiwindow scene reconstruction or change the pending #46 scope.
+Edge-to-edge screenshot inspection confirmed visible previous/current content and intact system status/navigation bars during the gesture. Insets/styles are not changed by the prototype. The test covers single-window Frames and modal inner Frames; it does not claim multiwindow scene reconstruction. Window ownership, same-process reconnection and cold task/scene restoration have separate evidence in [native-windows.md](./native-windows.md); those results do not extend this gesture matrix.
 
 ## Run
 

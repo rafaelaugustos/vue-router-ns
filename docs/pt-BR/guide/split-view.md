@@ -1,5 +1,7 @@
 # Lista e detalhe
 
+Veja [capacidades nativas e escolha de containers](./capabilities) para responsabilidades, limites por plataforma e diferenças entre rc.2 e rc.3.
+
 O `RouterSplitView` mostra a lista e o detalhe lado a lado quando há espaço. Numa janela estreita, o detalhe cobre a lista. As rotas e os métodos de navegação são os mesmos nos dois layouts:
 
 ```vue
