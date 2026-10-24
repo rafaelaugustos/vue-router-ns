@@ -92,3 +92,5 @@ router.push(to, {
 ```
 
 A default transition set on the frame (`Frame.defaultTransition`) takes the animation back from UIKit, so leave it unset where you zoom.
+
+See [interactive transition ownership and limits](./interactive-transitions) before designing custom gesture adapters.

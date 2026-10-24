@@ -92,3 +92,5 @@ router.push(to, {
 ```
 
 Uma transição padrão definida no frame (`Frame.defaultTransition`) toma a animação do UIKit de volta, então deixe-a sem definir onde você usar o zoom.
+
+Veja [controle e limites das transições interativas](./interactive-transitions) antes de criar adaptadores de gestos.
