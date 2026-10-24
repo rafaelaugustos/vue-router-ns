@@ -253,6 +253,7 @@ const pause = (ms = 500) => new Promise((resolve) => setTimeout(resolve, ms))
 let busy = false
 function findHost() {
   const visit = (view: any) => {
+    if (!view) return
     if (typeof view.openDrawer === 'function') host = view
     view.eachChildView?.((child: any) => {
       visit(child)
@@ -264,6 +265,7 @@ function findHost() {
 function frames() {
   const found: Frame[] = []
   const visit = (view: any) => {
+    if (!view) return
     if (view instanceof Frame) found.push(view)
     view.eachChildView?.((child: any) => {
       visit(child)
