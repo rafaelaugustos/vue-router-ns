@@ -1,5 +1,6 @@
 import { LayoutBase, Utils, View } from '@nativescript/core'
 import type { DrawerLayoutLike } from './drawer.js'
+import type { DrawerGeometry } from './drawer-geometry.js'
 
 declare const UIView: any
 declare const UIViewController: any
@@ -39,6 +40,41 @@ export class IOSDrawerLayoutView extends LayoutBase implements DrawerLayoutLike 
   private focusOrigin: any
   private contentAccessibility: boolean | undefined
   private childControllers = new Set<any>()
+  private geometry: DrawerGeometry | undefined
+
+  get drawerGeometry() {
+    return this.geometry!
+  }
+  set drawerGeometry(value: DrawerGeometry) {
+    const changed = value.presentation !== (this.geometry?.presentation ?? 'overlay')
+    this.geometry = value
+    if (changed) {
+      this.stopAnimation()
+      const wasOpen = this.settledOpen
+      this.targetOpen = this.settledOpen = false
+      this.progress = 0
+      this.isolate(false)
+      if (this.pan) this.pan.enabled = !this.permanent
+      if (this.pane) this.pane.hidden = !this.permanent
+      if (this.scrim) this.scrim.hidden = true
+      this.apply(0)
+      if (wasOpen) this.notify({ eventName: 'drawerClosed', object: this })
+      if (
+        UIAccessibilityIsVoiceOverRunning() &&
+        !this.nativeViewProtected?.window?.rootViewController?.presentedViewController
+      ) {
+        UIAccessibilityPostNotification(
+          UIAccessibilityLayoutChangedNotification,
+          this.permanent ? this.pane : this.content,
+        )
+      }
+      this.focusOrigin = undefined
+    }
+    this.requestLayout()
+  }
+  private get permanent() {
+    return this.geometry?.presentation === 'permanent'
+  }
 
   /** LayoutBase inserts UIViews, but UIKit containers also need controller ownership. */
   private attachControllers() {
@@ -149,7 +185,7 @@ export class IOSDrawerLayoutView extends LayoutBase implements DrawerLayoutLike 
         },
         gestureRecognizerShouldReceiveTouch(this: any, _recognizer: any, touch: any) {
           const owner = this.owner?.deref() as IOSDrawerLayoutView | undefined
-          if (!owner) return false
+          if (!owner || owner.permanent) return false
           if (owner.isDrawerOpen) return true
           const native = owner.nativeViewProtected
           const x = touch.locationInView(native).x
@@ -186,19 +222,35 @@ export class IOSDrawerLayoutView extends LayoutBase implements DrawerLayoutLike 
     const { layout } = Utils
     const width = layout.getMeasureSpecSize(widthSpec)
     const height = layout.getMeasureSpecSize(heightSpec)
-    const paneWidth = Math.min(
-      layout.toDevicePixels(this.drawerWidth),
-      Math.max(0, width - layout.toDevicePixels(44)),
-    )
+    const paneWidth = this.permanent
+      ? layout.toDevicePixels(this.geometry!.pane.width)
+      : Math.min(
+          layout.toDevicePixels(this.drawerWidth),
+          Math.max(0, width - layout.toDevicePixels(44)),
+        )
     this.eachChildView((child) => {
       View.measureChild(
         this,
         child,
         layout.makeMeasureSpec(
-          this.getChildIndex(child) === 1 ? paneWidth : width,
+          this.getChildIndex(child) === 1
+            ? paneWidth
+            : this.permanent
+              ? layout.toDevicePixels(this.geometry!.content.width)
+              : width,
           layout.EXACTLY,
         ),
-        layout.makeMeasureSpec(height, layout.EXACTLY),
+        layout.makeMeasureSpec(
+          this.permanent
+            ? layout.toDevicePixels(
+                (this.getChildIndex(child) === 1
+                  ? this.geometry!.pane
+                  : this.geometry!.content
+                ).height,
+              )
+            : height,
+          layout.EXACTLY,
+        ),
       )
       return true
     })
@@ -209,19 +261,47 @@ export class IOSDrawerLayoutView extends LayoutBase implements DrawerLayoutLike 
     this.attachControllers()
     const width = right - left
     const height = bottom - top
-    const paneWidth = Math.min(
-      Utils.layout.toDevicePixels(this.drawerWidth),
-      Math.max(0, width - Utils.layout.toDevicePixels(44)),
-    )
+    const paneWidth = this.permanent
+      ? Utils.layout.toDevicePixels(this.geometry!.pane.width)
+      : Math.min(
+          Utils.layout.toDevicePixels(this.drawerWidth),
+          Math.max(0, width - Utils.layout.toDevicePixels(44)),
+        )
     this.paneWidth = Utils.layout.toDeviceIndependentPixels(paneWidth)
     const content = this.getChildAt(0)
     const pane = this.getChildAt(1)
-    if (content) View.layoutChild(this, content, 0, 0, width, height)
+    if (content) {
+      if (this.permanent) {
+        const rect = this.geometry!.content
+        const px = Utils.layout.toDevicePixels
+        View.layoutChild(
+          this,
+          content,
+          px(rect.x),
+          px(rect.y),
+          px(rect.x + rect.width),
+          px(rect.y + rect.height),
+        )
+      } else View.layoutChild(this, content, 0, 0, width, height)
+    }
     if (pane) {
       // Core lays out an untransformed frame; reapply our transform afterwards.
       pane.nativeViewProtected.transform = CGAffineTransformMakeTranslation(0, 0)
-      const start = this.sign === 1 ? 0 : width - paneWidth
-      View.layoutChild(this, pane, start, 0, start + paneWidth, height)
+      if (this.permanent) {
+        const rect = this.geometry!.pane
+        const px = Utils.layout.toDevicePixels
+        View.layoutChild(
+          this,
+          pane,
+          px(rect.x),
+          px(rect.y),
+          px(rect.x + rect.width),
+          px(rect.y + rect.height),
+        )
+      } else {
+        const start = this.sign === 1 ? 0 : width - paneWidth
+        View.layoutChild(this, pane, start, 0, start + paneWidth, height)
+      }
     }
     this.scrim.frame = this.nativeViewProtected.bounds
     this.nativeViewProtected.bringSubviewToFront(this.scrim)
@@ -245,6 +325,7 @@ export class IOSDrawerLayoutView extends LayoutBase implements DrawerLayoutLike 
   }
 
   private shouldBegin(recognizer: any): boolean {
+    if (this.permanent) return false
     const native = this.nativeViewProtected
     const velocity = recognizer.velocityInView(native)
     if (Math.abs(velocity.x) <= Math.abs(velocity.y) || !this.paneWidth) return false
@@ -269,6 +350,7 @@ export class IOSDrawerLayoutView extends LayoutBase implements DrawerLayoutLike 
   }
 
   private drag(recognizer: any) {
+    if (this.permanent) return
     if (recognizer.state === 1) {
       this.dragWasOpen = this.targetOpen
       this.stopAnimation()
@@ -312,6 +394,14 @@ export class IOSDrawerLayoutView extends LayoutBase implements DrawerLayoutLike 
   private apply(progress: number) {
     this.progress = progress
     if (!this.pane || !this.scrim) return
+    if (this.permanent) {
+      this.pane.transform = CGAffineTransformMakeTranslation(0, 0)
+      this.pane.hidden = false
+      this.pane.accessibilityElementsHidden = false
+      this.scrim.hidden = true
+      this.scrim.alpha = 0
+      return
+    }
     this.pane.transform = CGAffineTransformMakeTranslation(
       (progress - 1) * this.paneWidth * this.sign,
       0,
@@ -354,6 +444,7 @@ export class IOSDrawerLayoutView extends LayoutBase implements DrawerLayoutLike 
   }
 
   private settle(open: boolean, animated = true) {
+    if (this.permanent) return
     this.targetOpen = open
     if (
       !open &&

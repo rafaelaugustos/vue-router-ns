@@ -21,6 +21,7 @@ module.exports = (env) => {
       'windows',
       'entrypoints',
       'drawer',
+      'adaptivedrawer',
       'middleware',
       'layouts',
       'files',

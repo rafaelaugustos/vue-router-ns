@@ -187,7 +187,10 @@ jobs:
           node scripts/native/prepare-folds.mjs
       - name: Build the foldable fixture
         working-directory: demo
-        run: ns build android --env.foldsTest
+        run: |
+          ns build android --env.foldsTest
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk /tmp/native-folds.apk
+          ns build android --env.adaptivedrawerTest
       - name: Native fold/posture acceptance
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -200,9 +203,12 @@ jobs:
           disable-animations: false
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           script: |
-            adb install -r demo/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+            adb install -r /tmp/native-folds.apk
             ANDROID_SERIAL=emulator-5554 FOLD_DISPLAY_FEATURES='fold-[1104,0,1104,1840]' node scripts/native/folds-android.mjs
             ANDROID_SERIAL=emulator-5554 EXPECT_OCCLUDING=1 FOLD_DISPLAY_FEATURES='hinge-[1056,0,1152,1840]' OUT=scripts/native/out/hinges node scripts/native/folds-android.mjs
+            ANDROID_SERIAL=emulator-5554 OUT=scripts/native/out/adaptive-contracts node scripts/native/adaptive-drawer/run.mjs
+            ANDROID_SERIAL=emulator-5554 OUT=scripts/native/out/adaptive-input node scripts/native/adaptive-drawer/android-input.mjs
+            ANDROID_SERIAL=emulator-5554 OUT=scripts/native/out/adaptive-hinge node scripts/native/adaptive-drawer/folds.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -210,6 +216,7 @@ jobs:
           path: |
             scripts/native/out/folds
             scripts/native/out/hinges
+            scripts/native/out/adaptive-*
 
   ios-vite:
     runs-on: macos-15

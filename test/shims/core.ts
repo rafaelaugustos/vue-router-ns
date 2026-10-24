@@ -240,9 +240,33 @@ export class LayoutBase extends View {
 
 /** The Android drawer layout the router wraps, opening and closing on request. */
 export class DrawerLayoutStub extends LayoutBase {
+  override get nativeViewProtected() {
+    return {
+      getLocationInWindow: (value: number[]) => {
+        value[0] = value[1] = 0
+      },
+      getResources: () => ({ getDisplayMetrics: () => ({ density: 1 }) }),
+      getPaddingLeft: () => 0,
+      getPaddingRight: () => 0,
+      getPaddingTop: () => 0,
+      getPaddingBottom: () => 0,
+      getWidth: () => this.width,
+      getHeight: () => 800,
+      getLayoutDirection: () => 0,
+    }
+  }
   drawerWidth = 300
+  private geometry?: import('../../src/drawer-geometry.js').DrawerGeometry
+  get drawerGeometry() {
+    return this.geometry!
+  }
+  set drawerGeometry(value: import('../../src/drawer-geometry.js').DrawerGeometry) {
+    if (value.presentation === 'permanent') this.closeDrawer()
+    this.geometry = value
+  }
   opened = false
   openDrawer() {
+    if (this.geometry?.presentation === 'permanent') return
     if (this.opened) return
     this.opened = true
     this.notify({ eventName: 'drawerOpened', object: this })
