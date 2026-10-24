@@ -86,6 +86,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('api', 'api'),
         page('internals', 'how-it-works'),
         page('diagnostics', 'diagnostics'),
+        page('diagnosticsViewer', 'diagnostics-viewer'),
         page('hosts', 'native-hosts'),
       ],
     },
@@ -132,6 +133,7 @@ const en = {
   api: 'API',
   internals: 'How it works',
   diagnostics: 'Navigation diagnostics',
+  diagnosticsViewer: 'Visual report viewer',
   hosts: 'Native hosts (experimental)',
   destinations: 'Native destinations (experimental)',
 }
@@ -176,6 +178,7 @@ const pt = {
   api: 'API',
   internals: 'Como funciona',
   diagnostics: 'Diagnóstico de navegação',
+  diagnosticsViewer: 'Visualizador de relatórios',
   hosts: 'Hosts nativos (experimental)',
   destinations: 'Destinos nativos (experimental)',
 }

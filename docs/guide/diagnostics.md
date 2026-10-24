@@ -1,5 +1,7 @@
 # Navigation diagnostics
 
+[Open the visual report viewer](./diagnostics-viewer) to import exported JSON, compare stacks and inspect correlated timelines without connecting to an app.
+
 Enable a bounded timeline and a read-only comparison of the router's logical history with its native Frames:
 
 ```ts
@@ -59,7 +61,7 @@ const data = inspector?.toJSON()
 stopListening?.()
 ```
 
-The package supplies a standalone JSON format and the native demo's inspector rather than depending on a private NativeScript-Vue devtools extension. You can inspect the collector through an application-owned reference in Chrome DevTools or build a viewer from the public data. No process-global inspector or network transport is installed automatically.
+The package supplies a standalone JSON format and the native demo's inspector. The optional [report viewer](./diagnostics-viewer) reads those exports without a private NativeScript-Vue devtools extension. You can also inspect the collector through an application-owned reference in Chrome DevTools. No process-global inspector or network transport is installed automatically.
 
 `toJSON()` returns `{ version: 1, routerId, clock: 'monotonic', startedAt, droppedEvents, events, snapshot }`. The oldest events are discarded at capacity; a retained span end may have lost its start. `clear()` empties the buffer and drop counter while preserving IDs and the clock origin.
 

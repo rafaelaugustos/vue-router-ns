@@ -72,10 +72,13 @@
     "test:native:files": "bash scripts/native/files-android.sh",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
+    "docs:dev": "npm run diagnostics:build && vitepress dev docs",
+    "docs:build": "npm run diagnostics:typecheck && npm run diagnostics:build && vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "diagnostics:build": "node tools/diagnostics-viewer/build.mjs",
+    "diagnostics:dev": "vite tools/diagnostics-viewer --host 127.0.0.1",
+    "diagnostics:typecheck": "tsc --noEmit -p tools/diagnostics-viewer/tsconfig.json"
   },
   "peerDependencies": {
     "@nativescript/core": "^9.1.3",

@@ -24,3 +24,6 @@ examples/file-routing/nsconfig.json
 examples/file-routing/.ns-vite-build/
 
 .native-core/
+
+docs/public/diagnostics-viewer/
+scripts/diagnostics-viewer/out/
