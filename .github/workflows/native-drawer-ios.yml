@@ -57,6 +57,26 @@ jobs:
             -destination "platform=iOS Simulator,id=$IOS_SIMULATOR" \
             -derivedDataPath /tmp/router-drawer-tests/build -collect-test-diagnostics never \
             -resultBundlePath scripts/native/out/drawer-ios/checks.xcresult
+      - name: Build adaptive drawer fixture
+        run: ns build ios --for-device false --env.adaptivedrawerTest
+        working-directory: demo
+      - name: Adaptive identity, state and modal contracts
+        run: OUT=scripts/native/out/adaptive-ios node scripts/native/adaptive-drawer/run.mjs
+      - name: Adaptive Reduce Motion contracts
+        run: |
+          xcrun simctl spawn "$IOS_SIMULATOR" defaults write com.apple.Accessibility ReduceMotionEnabled -bool YES
+          EXPECT_REDUCED_MOTION=1 OUT=scripts/native/out/adaptive-reduced-motion node scripts/native/adaptive-drawer/run.mjs
+          xcrun simctl spawn "$IOS_SIMULATOR" defaults delete com.apple.Accessibility ReduceMotionEnabled
+      - name: Adaptive native input and rotation
+        run: |
+          xcrun simctl uninstall "$IOS_SIMULATOR" org.nativescript.vuerouterns
+          xcrun simctl install "$IOS_SIMULATOR" demo/platforms/ios/build/Debug-iphonesimulator/demo.app
+          ruby scripts/native/adaptive-drawer/project.rb /tmp/router-adaptive-tests
+          node scripts/native/command-timeout.mjs 600000 xcodebuild test \
+            -project /tmp/router-adaptive-tests/AdaptiveDrawerChecks.xcodeproj -scheme AdaptiveDrawerChecks \
+            -destination "platform=iOS Simulator,id=$IOS_SIMULATOR" \
+            -derivedDataPath /tmp/router-adaptive-tests/build -collect-test-diagnostics never \
+            -resultBundlePath scripts/native/out/adaptive-ios/checks.xcresult
       - name: Clean up dedicated simulator
         if: always() && env.IOS_SIMULATOR != ''
         run: |

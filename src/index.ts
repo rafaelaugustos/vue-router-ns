@@ -139,7 +139,11 @@ export { RouterUIKitSplitView } from './components/RouterUIKitSplitView.js'
 export { supportsUIKitSplitView, type UIKitSplitView } from './uikit-split.js'
 export type { UIKitSplitFrames } from './hosts/uikit-split.js'
 export { RouterDrawer } from './drawer.js'
-export type { RouterDrawerHandle } from './drawer.js'
+export type {
+  RouterDrawerHandle,
+  DrawerPresentation,
+  ResolvedDrawerPresentation,
+} from './drawer.js'
 export { RouterView } from './components/RouterView.js'
 export { RouterLink } from './components/RouterLink.js'
 export { Deferred } from './components/Deferred.js'

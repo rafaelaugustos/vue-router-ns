@@ -3,7 +3,7 @@
 O `<RouterDrawer>` coloca um menu na borda inicial ao redor das pilhas nativas existentes. No Android, usa o `DrawerLayout` do AndroidX; no iOS, views, gestos e animações do UIKit. Ambos mantêm os slots montados sem criar rotas.
 
 ::: info Próxima rc.3
-A implementação iOS faz parte da próxima `0.1.0-rc.3`. A versão publicada `0.1.0-rc.2` suporta o drawer apenas no Android.
+A implementação iOS e a apresentação adaptativa fazem parte da próxima `0.1.0-rc.3`. A versão publicada `0.1.0-rc.2` suporta o drawer sobreposto apenas no Android.
 :::
 
 O mesmo template funciona nas duas plataformas:
@@ -42,13 +42,52 @@ O drawer não apaga o histórico de um destino ao selecioná-lo novamente. O bot
 - Uma navegação concluída fecha o drawer, a menos que `closeOnNavigate` seja `false`. Se um guard recusar a navegação, ele continua aberto.
 - Uma modal ou bottom sheet sobre o drawer recebe o Back primeiro, incluindo seus guards e resultado. Se mantiver o drawer aberto com `:closeOnNavigate="false"`, o Back volta para ele após dispensar a modal.
 
+## Apresentação adaptativa
+
+Ative com `presentation="auto"`. O drawer mede a **largura disponível no próprio contêiner**. Rotação, redução do pai e redimensionamento da janela podem mudar a apresentação sem substituir o componente, seus slots, Frames, Pages ou instâncias Vue.
+
+```vue
+<RouterDrawer
+  ref="drawer"
+  presentation="auto"
+  :breakpoint="840"
+  :width="280"
+  v-model:open="menuOpen"
+  @presentationChange="mode = $event"
+>
+  <template #drawer><!-- Botões dos destinos --></template>
+  <RouterView />
+</RouterDrawer>
+```
+
+| API                   | Comportamento                                                                                                                                                  |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `presentation`        | `overlay` (padrão), `permanent` ou `auto`.                                                                                                                     |
+| `breakpoint`          | Largura mínima do contêiner para o modo permanente automático; padrão de 840 DIPs. Não depende do modelo do aparelho.                                          |
+| `width`               | Largura desejada do painel. O modo permanente limita a metade do contêiner, exceto quando uma dobra vertical separadora determina as duas regiões.             |
+| `foldAware`           | Padrão `true`. Reutiliza a integração opcional com AndroidX WindowManager no modo permanente. Sem a dependência, a adaptação por largura continua funcionando. |
+| `drawer.presentation` | Modo resolvido, somente leitura: `overlay` ou `permanent`.                                                                                                     |
+| `presentationChange`  | Emite o modo resolvido quando ele muda. O primeiro layout medido pode resolver `auto`; consulte a ref para obter o modo atual.                                 |
+
+`open`, `drawer.isOpen`, `opened` e `closed` descrevem a **sobreposição**. O painel permanente fica visível com `isOpen=false`: `open()`, `close()` e `toggle()` não alteram sua visibilidade, e uma tentativa de definir `v-model:open=true` é normalizada para `false`. Não há scrim nem gesto de drawer, o painel não reivindica o Back e `closeOnNavigate` não o oculta. Menu e conteúdo ficam disponíveis para toque e navegação por acessibilidade.
+
+Entrar no modo permanente cancela o gesto/animação de drawer em andamento e normaliza o model. Uma sobreposição já aberta emite `closed` uma vez; uma abertura que não terminou não emite `opened` atrasado. Ao voltar para `overlay`, o painel começa fechado e fora da árvore de acessibilidade. A troca não navega, não executa guards, não dispensa modais de rota e não resolve resultados pendentes. No iOS, a troca é imediata, inclusive com Reduzir Movimento; as animações normais do overlay mantêm sua política existente.
+
+Com a [dependência opcional para dobráveis](./split-view), uma dobra vertical separadora ou oclusiva coloca o painel permanente na região inicial e o conteúdo na outra, excluindo a dobradiça. Uma dobradiça horizontal mantém ambos lado a lado na maior região utilizável. `foldAware=false` desativa isso. A dobra não força `auto` abaixo do breakpoint; o overlay mantém o comportamento existente sobre todo o contêiner. Use o modo permanente quando o app precisar separar a navegação pela dobradiça abaixo desse limite.
+
+Mantenha um único `RouterDrawer` montado durante a adaptação. Não alterne entre duas árvores de `RouterView` com `v-if` e keys diferentes. O drawer acrescenta um menu ao redor de pilhas existentes; [`RouterTabs sidebar`](./tabs) pede ao UIKit uma sidebar com os destinos das abas no iPad, e [`RouterSplitView`](./split-view) organiza a navegação lista/detalhe. No iOS, o drawer permanente é um menu persistente próprio, não `UISplitViewController` nem a sidebar de abas do UIKit. `RouterUIKitSplitView` continua exigindo a raiz da janela e não pode ser envolvido por ele.
+
+<Clip name="adaptive-drawer" aspect="834 / 1210" caption="Interação real no iPad: modos sobreposto e permanente, rascunho e abas preservados, RTL e resultado de modal." />
+
+Execute `ns run ios --env.adaptivedrawerTest` ou `ns run android --env.adaptivedrawerTest` em `demo` após compilar o pacote. O [relatório de aceitação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-adaptive.md) distingue verificações nativas automatizadas dos testes ainda manuais de leitor de tela falado e múltiplas janelas reais.
+
 ## Estilo e plataformas
 
 O painel é um `GridLayout` com a classe `router-drawer` e fundo branco; dê à raiz do seu slot o próprio fundo e espaçamento. `width` é em pixels independentes de densidade. O `DrawerLayout` vem com o AppCompat, então nada é adicionado ao build; o `NavigationView` opcional do Material não é usado, as suas próprias views são o menu.
 
 O pequeno host nativo fica neste pacote e usa as dependências AndroidX já fornecidas pelo runtime do NativeScript. Não exige um plugin de drawer separado nem alterações no core. O [relatório de validação nativa](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer.md) lista as versões de Android e das dependências testadas.
 
-No iOS, o painel se sobrepõe ao conteúdo no iPhone e no iPad. A largura deixa pelo menos 44 pontos disponíveis para fechar pelo scrim em janelas estreitas. É um drawer sobreposto. Para a navegação por abas com sidebar controlada pelo UIKit no iPad, use [`<RouterTabs sidebar>`](./tabs). O painel permanente adaptativo é tratado separadamente na #134.
+No modo overlay do iOS, o painel se sobrepõe ao conteúdo no iPhone e no iPad. A largura deixa pelo menos 44 pontos disponíveis para fechar pelo scrim em janelas estreitas. No modo permanente, as mesmas views UIKit ficam lado a lado. No Android, o mesmo host AndroidX organiza dois filhos de conteúdo no modo permanente; não mantém um drawer modal travado aberto sobre o conteúdo.
 
 O `RouterUIKitSplitView` precisa ser a raiz da janela: não o coloque dentro de um drawer. O `RouterSplitView`, que compõe pilhas de Frames, pode ser conteúdo do drawer. Veja [navegação dividida](./split-view).
 
