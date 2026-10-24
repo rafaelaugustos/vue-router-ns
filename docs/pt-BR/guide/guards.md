@@ -20,6 +20,11 @@ router.beforeEach((to, from, { type }) => {
 O `onBeforeRouteLeave` roda quando sua página está prestes a ser removida da pilha: no back, no replace ou no `clearHistory`, e também no botão de voltar do Android, que o router intercepta para o seu guard ter voz. Empurrar outra página por cima mantém a página viva, então o guard não roda nessa hora.
 
 ```ts
+import { computed, ref } from 'nativescript-vue'
+import { Dialogs } from '@nativescript/core'
+import { onBeforeRouteLeave } from 'vue-router-ns'
+
+const draft = ref('')
 const dirty = computed(() => draft.value.trim() !== '')
 
 onBeforeRouteLeave(() => Dialogs.confirm('Descartar o rascunho?'), { when: dirty })
@@ -37,3 +42,7 @@ O `when` é opcional, e importa no iOS. Um swipe de voltar não consegue esperar
 | Modal puxado para baixo, ou toque fora dele   | Roda o guard com o sheet parado, e fecha o modal se ele permitir. O Mail faz isso.            |
 
 No resto do tempo, um pop nativo é nativo: o router mantém a pilha em sincronia e roda o `afterEach`, mas nada consegue vetá-lo.
+
+## Continue aprendendo
+
+Execute o [tutorial do editor modal](./first-app) para praticar recusa, salvar e descartar com código completo. Veja as restrições dos gestos em [páginas, pilhas e estado](./mental-model).

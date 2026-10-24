@@ -5,6 +5,9 @@ import VersionBadge from './VersionBadge.vue'
 import DefaultTheme from 'vitepress/theme'
 import type { Theme } from 'vitepress'
 import Clip from './Clip.vue'
+import HomeExperience from './HomeExperience.vue'
+import ExampleGallery from './ExampleGallery.vue'
+import StackModel from './StackModel.vue'
 import './custom.css'
 
 export default {
@@ -16,5 +19,8 @@ export default {
     }),
   enhanceApp({ app }) {
     app.component('Clip', Clip)
+    app.component('HomeExperience', HomeExperience)
+    app.component('ExampleGallery', ExampleGallery)
+    app.component('StackModel', StackModel)
   },
 } satisfies Theme

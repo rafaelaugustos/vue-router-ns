@@ -1,46 +1,39 @@
-# O que é o vue-router-ns
+# Aprenda vue-router-ns
 
-O vue-router-ns dá ao [NativeScript-Vue 3](https://nativescript-vue.org) a API do Vue Router, construída em cima da pilha de navegação nativa em vez de um histórico de URLs.
+Construa a navegação de um app NativeScript-Vue 3 com rotas, params, guards e resultados. O router coordena pilhas nativas reais: páginas continuam vivas umas sob as outras, cada aba pode ter seu próprio histórico e o Back nativo faz parte do fluxo.
 
-```ts
-const router = createRouter({
-  routes: [
-    { path: '/', name: 'inbox', component: () => import('./pages/Inbox.vue') },
-    {
-      path: '/messages/:id',
-      name: 'message',
-      component: () => import('./pages/Message.vue'),
-    },
-    { path: '/compose', component: () => import('./pages/Compose.vue'), modal: true },
-  ],
-})
+<a id="por-onde-comecar"></a>
 
-router.push({ name: 'message', params: { id: 42 } })
-```
+## Comece aqui
 
-## Por que não o próprio Vue Router
+| Seu objetivo                | Por onde começar                           | O que você terá                                                             |
+| --------------------------- | ------------------------------------------ | --------------------------------------------------------------------------- |
+| Adicionar o router a um app | [Instalação](./install)                    | Uma Page nativa renderizada pelo `RouterView`                               |
+| Aprender construindo        | [Seu primeiro app](./first-app)            | Lista, detalhe e editor modal protegido, com código completo                |
+| Entender o comportamento    | [Páginas, pilhas e estado](./mental-model) | Um modelo para o ciclo da página, Back nativo, abas e modais                |
+| Avaliar as possibilidades   | [Galeria de exemplos](./examples)          | Gravações reais ligadas a guias, código executável e limites por plataforma |
+| Resolver uma tarefa do app  | [Tarefas comuns](./recipes)                | Um caminho até a API relevante e suas restrições importantes                |
 
-O Vue Router não consegue guiar um app mobile: ele modela a navegação como uma URL que muda, com um `<RouterView>` que troca componentes. Um app NativeScript tem um `Frame` com uma pilha de páginas que continuam vivas umas sob as outras, um botão de voltar e um swipe no iOS que removem páginas sem perguntar a ninguém, modais, e muitas vezes uma pilha por aba.
+O tutorial inicial pressupõe conhecimento básico de componentes Vue e um projeto NativeScript-Vue funcionando. Ele apresenta uma pilha antes de adicionar resultados e guards. O [Fieldnotes](./native-showcase) vem depois: drawer, busca nativa, ações compartilhadas e as mesmas regras de preservação de estado.
 
-Então isto não é um wrapper do Vue Router. A back stack do frame é a fonte da verdade, e o router a espelha depois de cada navegação nativa. O que você recebe é a API que já conhece (`push`, guards, `useRoute`, rotas nomeadas, params) com uma semântica que faz sentido num celular.
+<a id="o-que-ele-cobre"></a>
 
-## O que ele cobre
+## Escolha a estrutura de navegação
 
-- [Uma rota por página](./pages): o `useRoute()` dentro de uma página nunca muda, mesmo com outras páginas por cima.
-- [Leave guards](./guards) pelos quais passam o botão de voltar do Android, o botão de voltar do iOS e o swipe para baixo de um modal, e que desligam o swipe do iOS enquanto bloqueariam.
-- [Rotas modais](./modals) com a própria pilha, e `pushForResult()` para receber um valor de volta de uma página.
-- [Uma pilha por aba](./tabs), com o toque na aba ativa voltando para a primeira página.
-- [Lista e detalhe adaptáveis](./split-view), com o mesmo histórico de push nos layouts compacto e expandido.
-- [Rotas tipadas](./typed-routes): nomes e params checados no app inteiro, sem geração de código.
-- [Zoom e elementos compartilhados](./transitions): o zoom do iOS 18 a partir de uma view, e as transições de elementos compartilhados do NativeScript.
-- [Deep links](./deep-links) que trazem os pais junto, [a pilha inteira definida como lista](./stack), e [a restauração dela](./restore) depois que o app é morto.
-- [Predictive back no Android](./android-back) para páginas que querem acompanhar o swipe.
-- [`<Deferred>`](./pages#paginas-com-muito-para-montar) para páginas que devem animar antes de se preencher.
+Comece com um `RouterView`. Adicione [abas](./tabs) para destinos com históricos independentes, um [drawer](./drawer) para envolver o conteúdo com um menu, ou [lista/detalhe](./split-view) para layouts compactos e expandidos. Um [modal](./modals) controla temporariamente uma pilha separada e pode devolver um valor.
 
-## Por onde começar
+O [guia de containers](./capabilities#choose-a-container) explica as combinações suportadas e por que drawer, sidebar de abas e split UIKit têm responsabilidades diferentes.
 
-1. [Instale](./install) e monte um `<RouterView>`.
-2. Leia [Navegando](./navigating) e [Cada página guarda sua rota](./pages): é onde ele mais difere da web.
-3. Vindo do Vue Router, passe pelas [diferenças](./vue-router).
+## Adicione a experiência nativa
 
-A candidata à versão estável é publicada sob a tag `next`. Testes unitários e suítes nativas em simuladores/emuladores cobrem o [escopo da RC](./compatibility); essa página registra as versões suportadas e os limites restantes.
+Mantenha títulos e botões no [ActionBar](./native-bars) do NativeScript. Use [ações da página](./page-actions) para compartilhar comportamento entre headers, menus e comandos de teclado suportados. Adicione [menus contextuais](./context-menus), [transições](./transitions), [foco e movimento](./accessibility) conforme o fluxo precisar.
+
+Para integrar o app ao sistema, siga com [deep links](./deep-links), [pickers](./native-flows), [restauração de estado](./restore) e [diagnósticos](./diagnostics). Convenções de arquivos e integrações experimentais ficam nos guias avançados; rotas explícitas continuam sendo o padrão.
+
+<a id="por-que-nao-o-proprio-vue-router"></a>
+
+## Vindo do Vue Router
+
+Os nomes familiares ajudam, mas um app móvel pode ter várias pilhas nativas e páginas preservadas. Leia [as diferenças](./vue-router) e o [modelo de navegação](./mental-model) antes de aplicar pressupostos do ciclo de páginas da web.
+
+O pacote é uma release candidate. A página de [compatibilidade](./compatibility) identifica dependências suportadas, APIs experimentais e limites da validação. A [referência da API](./api) serve para consulta depois que você sabe qual parte do sistema precisa usar.

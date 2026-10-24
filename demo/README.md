@@ -125,3 +125,7 @@ Additional home reference photos (illustrative):
 - `garden-house.jpg`: https://images.unsplash.com/photo-1564013799919-ab600027ffc6
 - `bedroom.jpg`: https://images.unsplash.com/photo-1611892440504-42a792e24d32
 - `city-house.jpg`: https://images.unsplash.com/photo-1568605114967-8130f3a36994
+
+## First-app tutorial
+
+`npm run tutorial:ios` or `npm run tutorial:android` selects the small Pocket notes app after the setup above. Its files under `src/tutorial` are embedded directly into the [English tutorial](../docs/guide/first-app.md) and [tutorial em português](../docs/pt-BR/guide/first-app.md). The main mail app remains the default entry. Like the other demo entries, installation uses the same application ID and replaces the currently installed demo.

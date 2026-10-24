@@ -1,5 +1,7 @@
 # API
 
+This is the lookup reference. Start with [your first app](./first-app) to learn the flow, [common tasks](./recipes) to choose an API, or [container choices](./capabilities) to decide navigation ownership.
+
 ## Creating a router
 
 ```ts

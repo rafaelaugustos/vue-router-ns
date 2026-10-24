@@ -1,5 +1,7 @@
 # API
 
+Esta é a referência para consulta. Comece pelo [primeiro app](./first-app) para aprender o fluxo, por [tarefas comuns](./recipes) para escolher uma API ou pela [escolha de containers](./capabilities) para definir as responsabilidades de navegação.
+
 ## Criando um router
 
 ```ts
