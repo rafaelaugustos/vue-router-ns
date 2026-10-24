@@ -80,6 +80,7 @@ jobs:
       - run: npm install -g nativescript
       - name: Prepare native resources
         run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install emulator >/dev/null
           ns usage-reporting disable
           ns error-reporting disable
           ns create actions-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null

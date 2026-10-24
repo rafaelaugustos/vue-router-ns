@@ -23,6 +23,17 @@ final class PageActionsUITests: XCTestCase {
         button.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
     }
     func dismiss() { app.coordinate(withNormalizedOffset: CGVector(dx: 0.95, dy: 0.92)).tap() }
+    func frontmost(_ name: String) -> XCUIElement {
+        let matches = app.buttons.matching(identifier: name)
+        for _ in 0..<25 {
+            if let button = matches.allElementsBoundByIndex.first(where: { $0.isHittable }) {
+                return button
+            }
+            Thread.sleep(forTimeInterval: 0.2)
+        }
+        XCTFail(app.debugDescription)
+        return matches.firstMatch
+    }
     func testSharedNativeActions() {
         text("Saved 0 · errors 0")
         app.buttons["Save"].firstMatch.tap()
@@ -58,10 +69,10 @@ final class PageActionsUITests: XCTestCase {
         choose("Inspect")
         text("route /modal")
         XCTAssertTrue(app.buttons["Done"].firstMatch.waitForExistence(timeout: 5))
-        app.buttons.matching(identifier: "Block leaving").allElementsBoundByIndex.last!.tap()
+        frontmost("Block leaving").tap()
         app.buttons["Done"].firstMatch.tap()
         text("route /modal")
-        app.buttons.matching(identifier: "Unblock leaving").allElementsBoundByIndex.last!.tap()
+        frontmost("Unblock leaving").tap()
         app.buttons["Done"].firstMatch.tap()
         text("Result accepted")
         let shot = XCTAttachment(screenshot: app.screenshot())
