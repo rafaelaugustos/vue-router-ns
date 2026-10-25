@@ -1,0 +1,79 @@
+{
+  "package": "vue-router-ns@0.1.0-rc.3",
+  "runs": [
+    {
+      "result": "Passed",
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0,
+      "name": "baseline",
+      "method": "testFirstAppFlow",
+      "durationSeconds": 49.556,
+      "device": {
+        "modelName": "iPhone 17 Pro",
+        "osVersion": "27.2",
+        "osBuildNumber": "24B5099f",
+        "platform": "iOS"
+      },
+      "environment": {
+        "package": "vue-router-ns@0.1.0-rc.3",
+        "platform": "iOS",
+        "sdk": "27.2",
+        "reduceMotion": false,
+        "contentSize": "UICTContentSizeCategoryXS"
+      },
+      "videoCaptured": false
+    },
+    {
+      "result": "Passed",
+      "passedTests": 1,
+      "failedTests": 0,
+      "skippedTests": 0,
+      "name": "preferences",
+      "method": "testSystemPreferences",
+      "durationSeconds": 43.306,
+      "device": {
+        "modelName": "iPhone 17 Pro",
+        "osVersion": "27.2",
+        "osBuildNumber": "24B5099f",
+        "platform": "iOS"
+      },
+      "environment": {
+        "package": "vue-router-ns@0.1.0-rc.3",
+        "platform": "iOS",
+        "sdk": "27.2",
+        "reduceMotion": true,
+        "contentSize": "UICTContentSizeCategoryAccessibilityXXXL"
+      },
+      "videoCaptured": false
+    }
+  ],
+  "restored": true,
+  "before": {
+    "textSize": "Extra Small",
+    "largerAccessibilitySizesEnabled": false,
+    "reduceMotion": false
+  },
+  "requestedPreferences": {
+    "textSize": "Accessibility Extra Extra Extra Large",
+    "largerAccessibilitySizesEnabled": true,
+    "reduceMotion": true
+  },
+  "after": {
+    "textSize": "Extra Small",
+    "largerAccessibilitySizesEnabled": false,
+    "reduceMotion": false
+  },
+  "date": "2026-10-25",
+  "consumerSource": "20291d576e3516223cdbdbb5fac07f42f03b4140",
+  "recordingNote": "devicectl screen-record unsupported on the physical device; test results do not depend on recording",
+  "videoDemonstration": {
+    "capture": "USB screen recording of the physical iPhone; no microphone or camera input",
+    "method": "testFirstAppFlow",
+    "result": "Passed",
+    "passedTests": 1,
+    "failedTests": 0,
+    "skippedTests": 0,
+    "durationSeconds": 50.277
+  }
+}
