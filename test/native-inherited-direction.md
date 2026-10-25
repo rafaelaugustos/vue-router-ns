@@ -67,7 +67,7 @@ This matches the original #139 exception. The failed XCTest reports “Applicati
 
 ## Disposition
 
-Keep #139 open. The minimal Vue-only reproduction is tracked upstream in [NativeScript-Vue #1186](https://github.com/nativescript-vue/nativescript-vue/issues/1186). The new Core-only reproduction supersedes the earlier narrowing to a Core/renderer interaction. It excludes Vue, the router and Drawer as necessary dependencies. No corrected upstream revision has been established. No global semantic-direction patch, delegate replacement or always-active guard is added to the router.
+Keep #139 open. The Core-only startup-order reproduction is tracked in [NativeScript Core #11586](https://github.com/NativeScript/NativeScript/issues/11586). The earlier Vue-only reproduction is tracked upstream in [NativeScript-Vue #1186](https://github.com/nativescript-vue/nativescript-vue/issues/1186). The new Core-only reproduction supersedes the earlier narrowing to a Core/renderer interaction. It excludes Vue, the router and Drawer as necessary dependencies. No corrected upstream revision has been established. No global semantic-direction patch, delegate replacement or always-active guard is added to the router.
 
 `RouterDrawer.direction` retains its bounded container implementation from #117. Generic inherited CSS direction around navigation remains a documented limitation until an upstream correction passes this fixture. Users should not infer that every native container supports that composition.
 

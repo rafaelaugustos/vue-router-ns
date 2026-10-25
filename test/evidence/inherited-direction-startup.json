@@ -127,5 +127,6 @@
     "physical device for this fixture",
     "Core-only startup comparison on iOS 26",
     "generic late-direction workaround or dynamic RTL"
-  ]
+  ],
+  "upstream": "https://github.com/NativeScript/NativeScript/issues/11586"
 }
