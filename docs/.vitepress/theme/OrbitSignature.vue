@@ -1,11 +1,9 @@
 <script setup>
 import { computed } from 'vue'
-import { useData } from 'vitepress'
+import { useDocsLocale } from './locale'
 
-const { lang } = useData()
-const label = computed(() =>
-  lang.value.startsWith('pt') ? 'Gerenciado pelo' : 'Managed by',
-)
+const { t } = useDocsLocale()
+const label = computed(() => t('Managed by', 'Gerenciado pelo'))
 </script>
 
 <template>

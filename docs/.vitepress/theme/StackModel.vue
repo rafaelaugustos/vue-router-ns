@@ -1,25 +1,25 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useData } from 'vitepress'
-const { lang } = useData()
-const pt = computed(() => lang.value === 'pt-BR')
+import { useDocsLocale } from './locale'
+const { t, localize } = useDocsLocale()
 const step = ref(0)
 const descriptions = computed(() =>
-  pt.value
-    ? [
-        'Home guarda a busca “coast” em um ref local. Só há uma entrada na pilha.',
-        'push adiciona Note. Home permanece montada, com a mesma busca, mas está coberta.',
-        'pushForResult abre Edit em um Frame modal. Note e Home continuam na pilha original.',
-        'back({ result }) fecha Edit e resolve a Promise em Note. A página Note existente recebe o resultado.',
-        'Back remove Note. Home reaparece com a busca “coast”; ela não montou novamente.',
-      ]
-    : [
-        'Home keeps the query “coast” in a local ref. There is one entry in the stack.',
-        'push adds Note. Home stays mounted with the same query, but is covered.',
-        'pushForResult opens Edit in a modal Frame. Note and Home remain in the original stack.',
-        'back({ result }) closes Edit and resolves the Promise in Note. The existing Note page receives the result.',
-        'Back removes Note. Home reappears with the query “coast”; it did not mount again.',
-      ],
+  localize(
+    [
+      'Home keeps the query “coast” in a local ref. There is one entry in the stack.',
+      'push adds Note. Home stays mounted with the same query, but is covered.',
+      'pushForResult opens Edit in a modal Frame. Note and Home remain in the original stack.',
+      'back({ result }) closes Edit and resolves the Promise in Note. The existing Note page receives the result.',
+      'Back removes Note. Home reappears with the query “coast”; it did not mount again.',
+    ],
+    [
+      'Home guarda a busca “coast” em um ref local. Só há uma entrada na pilha.',
+      'push adiciona Note. Home permanece montada, com a mesma busca, mas está coberta.',
+      'pushForResult abre Edit em um Frame modal. Note e Home continuam na pilha original.',
+      'back({ result }) fecha Edit e resolve a Promise em Note. A página Note existente recebe o resultado.',
+      'Back remove Note. Home reaparece com a busca “coast”; ela não montou novamente.',
+    ],
+  ),
 )
 const actions = [
   'Home',
@@ -34,14 +34,15 @@ const actions = [
   <figure class="stack-model">
     <figcaption>
       {{
-        pt
-          ? 'Modelo conceitual — não é um simulador nativo'
-          : 'Conceptual model — not a native simulator'
+        t(
+          'Conceptual model — not a native simulator',
+          'Modelo conceitual — não é um simulador nativo',
+        )
       }}
     </figcaption>
     <div
       class="stack-model-buttons"
-      :aria-label="pt ? 'Etapas da navegação' : 'Navigation steps'"
+      :aria-label="t('Navigation steps', 'Etapas da navegação')"
     >
       <button
         v-for="(action, i) in actions"
@@ -64,12 +65,8 @@ const actions = [
           <strong>Note / coast</strong
           ><small>{{
             step === 3
-              ? pt
-                ? 'Resultado recebido'
-                : 'Result received'
-              : pt
-                ? 'Entrada própria'
-                : 'Own entry'
+              ? t('Result received', 'Resultado recebido')
+              : t('Own entry', 'Entrada própria')
           }}</small>
         </div>
         <div class="stack-model-page" :class="{ covered: step > 0 && step < 4 }">
@@ -77,12 +74,12 @@ const actions = [
         </div>
       </div>
       <div class="stack-model-frame" :class="{ empty: step !== 2 }">
-        <span>{{ pt ? 'Frame modal' : 'Modal Frame' }}</span>
+        <span>{{ t('Modal Frame', 'Frame modal') }}</span>
         <div v-if="step === 2" class="stack-model-page">
           <strong>Edit / coast</strong
-          ><small>{{ pt ? 'Rascunho local' : 'Local draft' }}</small>
+          ><small>{{ t('Local draft', 'Rascunho local') }}</small>
         </div>
-        <p v-else>{{ pt ? 'Sem modal aberto' : 'No open modal' }}</p>
+        <p v-else>{{ t('No open modal', 'Sem modal aberto') }}</p>
       </div>
     </div>
     <p class="stack-model-explanation" role="status">{{ descriptions[step] }}</p>

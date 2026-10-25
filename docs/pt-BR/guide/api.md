@@ -205,3 +205,16 @@ Estenda `Register` e `RouteMeta` como mostrado em [rotas tipadas](./typed-routes
 `RestoreOptions.key` fornece uma chave estável de snapshot do app. Callbacks de janela recebem `RestoreContext` opcional (`windowId`, `key`) em `save(state, context)` e `load(context)`. `SavedStacks` de janela inclui `windowKey`; uma chave incompatível é ignorada. `RouterWindow` é um subconjunto estrutural de NativeWindow para manter as declarações do pacote utilizáveis com versões anteriores suportadas do core. Veja [janelas nativas](./windows) para inicialização, ciclo de vida, configuração e limites.
 
 O módulo opcional `vue-router-ns/system-search` exporta `createSystemSearch`, `SystemSearch`, `SystemSearchOptions` e `SearchItem`. `supportsPinnedShortcuts()` é exportado pela raiz. Veja [deep links](./deep-links).
+
+## Tipos exportados adicionais e leitura de metadados
+
+| Export                       | Contrato                                                                                                                            |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `RouteMenuAction`            | Descritor de ação em menu de contexto nativo; consulte [menus de contexto](./context-menus).                                        |
+| `SearchBarPlacement`         | `'automatic'`, `'stacked'`, `'inline'` ou `'integrated'` para posicionar a busca no UIKit. A disponibilidade depende da plataforma. |
+| `DrawerPresentation`         | Modo solicitado: `'overlay'`, `'permanent'` ou `'auto'`.                                                                            |
+| `ResolvedDrawerPresentation` | Modo efetivo `'overlay'` ou `'permanent'`, informado pelo handle e pelo evento de apresentação do drawer.                           |
+| `UIKitSplitFrames`           | Payload experimental do host nativo que estende `SplitFrames` com `view: UIKitSplitView` readonly.                                  |
+| `PageMetaTransform`          | Resultado experimental do gerador: `hasMacro`, `metadata`, `code` transformado e seu source `map`.                                  |
+
+A entrada experimental, exclusiva de Node, `vue-router-ns/file-routing/generator` também exporta `parsePageMetadataJson(source, filename): PageMeta`. Ela valida um objeto de metadados JSON e lança `FileRouteError` para metadados inválidos ou sem suporte. Serve à integração de arquivos adjacentes de metadados; não executa código de rotas.

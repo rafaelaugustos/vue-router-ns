@@ -8,7 +8,7 @@ This tutorial uses explicit routes and public APIs. It assumes basic Vue single-
 
 ## 1. Create the files
 
-After installing the router, put these **seven complete files** under the app's `src` directory. Replace the starter app entry/root with the files below; keep its native resources and build configuration. Code is embedded directly from the runnable [tutorial source](https://github.com/rafaelaugustos/vue-router-ns/tree/main/demo/src/tutorial), so both language guides use the same implementation.
+After installing the router, put these **seven complete files** under the app's `src` directory. Replace the starter app entry/root with the files below; keep its native resources and build configuration. Code is embedded directly from the runnable [tutorial source](https://github.com/rafaelaugustos/vue-router-ns/tree/main/demo/src/tutorial), so all language guides use the same implementation.
 
 ```text
 src/

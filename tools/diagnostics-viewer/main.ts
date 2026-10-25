@@ -1,4 +1,6 @@
 import './style.css'
+import es from '../../docs/.vitepress/locales/es-ui'
+import zh from '../../docs/.vitepress/locales/zh-CN-ui'
 import {
   compareStack,
   filterTimeline,
@@ -15,8 +17,11 @@ import {
 import { examples } from './examples.js'
 import type { DiagnosticsExport } from '../../src/diagnostics.js'
 
-const copy = {
+const baseCopy = {
   en: {
+    previous: 'Previous',
+    next: 'Next',
+    language: 'Language',
     title: 'Navigation diagnostics',
     subtitle: 'Follow the request. Inspect the native stack.',
     local: 'Local files · read only',
@@ -107,6 +112,9 @@ const copy = {
     eventIssue: 'Recorded issue events may differ from the later snapshot.',
   },
   'pt-BR': {
+    previous: 'Anterior',
+    next: 'Próxima',
+    language: 'Idioma',
     title: 'Diagnósticos de navegação',
     subtitle: 'Acompanhe a requisição. Inspecione a pilha nativa.',
     local: 'Arquivos locais · somente leitura',
@@ -198,9 +206,17 @@ const copy = {
     eventIssue: 'Eventos de issue registrados podem diferir do snapshot posterior.',
   },
 }
+const translate = (messages: Record<string, string>): typeof baseCopy.en =>
+  Object.fromEntries(
+    Object.entries(baseCopy.en).map(([key, value]) => [key, messages[value] ?? value]),
+  ) as typeof baseCopy.en
+const copy = { ...baseCopy, es: translate(es), 'zh-CN': translate(zh) }
 type Locale = keyof typeof copy
+const requestedLocale = new URLSearchParams(location.search).get('lang')
 let locale: Locale =
-  new URLSearchParams(location.search).get('lang') === 'pt-BR' ? 'pt-BR' : 'en'
+  requestedLocale && Object.hasOwn(copy, requestedLocale)
+    ? (requestedLocale as Locale)
+    : 'en'
 const t = (key: keyof typeof copy.en) => copy[locale][key]
 const format = (value: number) =>
   new Intl.NumberFormat(locale, { maximumFractionDigits: 2 }).format(value)
@@ -363,11 +379,13 @@ function render() {
       { class: 'header-actions' },
       badge(t('local'), 'local'),
       selectControl(
-        'Language',
+        t('language'),
         locale,
         [
           ['en', 'English'],
           ['pt-BR', 'Português'],
+          ['es', 'Español'],
+          ['zh-CN', '简体中文'],
         ],
         (value) => {
           locale = value as Locale
@@ -996,12 +1014,8 @@ function pager(
   change: (page: number) => void,
   id: string,
 ) {
-  const previous = button(
-    locale === 'en' ? 'Previous' : 'Anterior',
-    () => change(page - 1),
-    { id: `${id}-previous` },
-  )
-  const next = button(locale === 'en' ? 'Next' : 'Próxima', () => change(page + 1), {
+  const previous = button(t('previous'), () => change(page - 1), { id: `${id}-previous` })
+  const next = button(t('next'), () => change(page + 1), {
     id: `${id}-next`,
   })
   previous.disabled = page === 0
