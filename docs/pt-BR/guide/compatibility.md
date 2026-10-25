@@ -34,7 +34,7 @@ O controle e a restauração de múltiplas janelas estão incluídos como recurs
 
 ## Limites conhecidos
 
-- CSS `direction` herdado do NativeScript ao redor de navegação nativa genérica pode causar um crash no grafo de gestos do iOS 18.6. `RouterDrawer` usa sua própria prop `direction` e tratamento limitado ao container UIKit; layouts genéricos continuam sob [investigação (#139)](https://github.com/rafaelaugustos/vue-router-ns/issues/139).
+- CSS `direction` herdado do NativeScript ao redor de navegação nativa genérica pode causar um crash no grafo de gestos do iOS 18.6. `RouterDrawer` usa sua própria prop `direction` e tratamento limitado ao container UIKit; layouts genéricos continuam sob [investigação (#139)](https://github.com/rafaelaugustos/vue-router-ns/issues/139). Uma reprodução apenas com Core agora dispara a mesma falha quando a árvore nativa com LTR herdado é montada antes de `Application.run()`; Vue e router não são necessários. O controle que adia a direção não é uma solução alternativa certificada para aplicativos.
 - Flags, labels e declarações de foco verificadas automaticamente não certificam a navegação falada com VoiceOver/TalkBack. A [validação do exemplo integrado](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-showcase.md) e os relatórios de cada recurso identificam as verificações manuais restantes.
 
 - HMR nativo com Vite usa metadados `.route.json`. `definePageMeta` funciona com webpack e Vite empacotado, mas não durante HMR nativo do Vite. Adicionar/remover registros de layouts ou middleware exige reiniciar o app; editar scripts pode remontar páginas. Veja [rotas por arquivos](./file-routing).

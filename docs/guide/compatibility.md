@@ -34,7 +34,7 @@ Multiple-window ownership and restoration are included as experimental features,
 
 ## Known limits
 
-- Inherited NativeScript CSS `direction` around generic native navigation can trigger a gesture-graph crash on iOS 18.6. `RouterDrawer` uses its own `direction` prop and bounded UIKit handling; generic layouts remain under [investigation (#139)](https://github.com/rafaelaugustos/vue-router-ns/issues/139).
+- Inherited NativeScript CSS `direction` around generic native navigation can trigger a gesture-graph crash on iOS 18.6. `RouterDrawer` uses its own `direction` prop and bounded UIKit handling; generic layouts remain under [investigation (#139)](https://github.com/rafaelaugustos/vue-router-ns/issues/139). A Core-only reproduction now triggers the same failure when the native tree with inherited LTR is assembled before `Application.run()`; Vue and the router are not required. The passing deferred-direction control is not a certified application workaround.
 - Automated native accessibility flags, labels and focus declarations do not certify spoken VoiceOver/TalkBack traversal. The [showcase acceptance](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-showcase.md) and individual feature reports identify remaining manual checks.
 
 - Native Vite HMR uses `.route.json` metadata. `definePageMeta` works with webpack and bundled Vite, but is not supported during native Vite HMR. Adding/removing layout or middleware registrations requires an app restart; script edits can remount pages. See [file routing](./file-routing).

@@ -1,0 +1,132 @@
+{
+  "date": "2026-10-25",
+  "core": "9.1.3",
+  "iosRuntime": "9.1.0",
+  "entry": "Core-only src/app.js; no Vue or router imports",
+  "devices": ["iPhone 16 / iOS 18.6", "iPad Pro 11-inch M4 / iPadOS 18.6"],
+  "originalException": "Invalid parameter not satisfying: targetNode",
+  "nativeStack": [
+    "-[UIGestureGraphEdge initWithLabel:sourceNode:targetNode:directed:]",
+    "-[UIGestureGraph addUniqueEdgeWithLabel:sourceNode:targetNode:directed:properties:]",
+    "_UIGestureEnvironmentUpdate"
+  ],
+  "runs": [
+    {
+      "result": "Passed",
+      "passedTests": 2,
+      "failedTests": 0,
+      "skippedTests": 0,
+      "run": "action-bar",
+      "cases": [
+        {
+          "method": "testExplicitBarControl",
+          "result": "passed",
+          "seconds": 11.972
+        },
+        {
+          "method": "testExplicitBarLTR",
+          "result": "passed",
+          "seconds": 12.417
+        }
+      ]
+    },
+    {
+      "result": "Failed",
+      "passedTests": 2,
+      "failedTests": 1,
+      "skippedTests": 0,
+      "run": "creation-order",
+      "cases": [
+        {
+          "method": "testEarlyFrameLTR",
+          "result": "passed",
+          "seconds": 11.537
+        },
+        {
+          "method": "testPrebuiltControl",
+          "result": "passed",
+          "seconds": 12.434
+        },
+        {
+          "method": "testPrebuiltLTR",
+          "result": "failed",
+          "seconds": 26.406
+        }
+      ]
+    },
+    {
+      "result": "Passed",
+      "passedTests": 3,
+      "failedTests": 0,
+      "skippedTests": 0,
+      "run": "construction",
+      "cases": [
+        {
+          "method": "testPrebuiltFrameLTR",
+          "result": "passed",
+          "seconds": 11.618
+        },
+        {
+          "method": "testPrebuiltLateLTR",
+          "result": "passed",
+          "seconds": 12.525
+        },
+        {
+          "method": "testPrebuiltRootLTR",
+          "result": "passed",
+          "seconds": 12.386
+        }
+      ]
+    },
+    {
+      "result": "Failed",
+      "passedTests": 2,
+      "failedTests": 1,
+      "skippedTests": 0,
+      "run": "ipad",
+      "cases": [
+        {
+          "method": "testInheritedLTR",
+          "result": "passed",
+          "seconds": 13.559
+        },
+        {
+          "method": "testPrebuiltControl",
+          "result": "passed",
+          "seconds": 13.993
+        },
+        {
+          "method": "testPrebuiltLTR",
+          "result": "failed",
+          "seconds": 26.412
+        }
+      ]
+    },
+    {
+      "result": "Failed",
+      "passedTests": 1,
+      "failedTests": 1,
+      "skippedTests": 0,
+      "run": "video",
+      "cases": [
+        {
+          "method": "testInheritedLTR",
+          "result": "passed",
+          "seconds": 11.545
+        },
+        {
+          "method": "testPrebuiltLTR",
+          "result": "failed",
+          "seconds": 26.453
+        }
+      ]
+    }
+  ],
+  "disposition": "Known crash reproduced with Core alone; no production fix. Intentionally failing research regression is outside required CI.",
+  "notVerified": [
+    "physical device for this fixture",
+    "Core-only startup comparison on iOS 26",
+    "generic late-direction workaround or dynamic RTL"
+  ],
+  "upstream": "https://github.com/NativeScript/NativeScript/issues/11586"
+}

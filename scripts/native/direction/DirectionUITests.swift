@@ -23,6 +23,14 @@ final class DirectionUITests: XCTestCase {
             .press(forDuration: 0.05, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.65)), withVelocity: .slow, thenHoldForDuration: 0)
         XCTAssertTrue(push.waitForExistence(timeout: 10), app.debugDescription)
     }
+    func testExplicitBarControl() { check("explicit-bar-none") }
+    func testExplicitBarLTR() { check("explicit-bar-ltr") }
+    func testPrebuiltControl() { check("prebuilt-none") }
+    func testPrebuiltLTR() { check("prebuilt-ltr") }
+    func testEarlyFrameLTR() { check("early-frame-ltr") }
+    func testPrebuiltFrameLTR() { check("prebuilt-frame-ltr") }
+    func testPrebuiltRootLTR() { check("prebuilt-root-ltr") }
+    func testPrebuiltLateLTR() { check("prebuilt-late-ltr") }
     func testTabsControl() { check("tabs-none") }
     func testTabsLTR() { check("tabs-ltr") }
     func testLateLTR() { check("late-ltr") }
