@@ -47,3 +47,5 @@ Multiple-window ownership and restoration are included as experimental features,
 A new version on `main` is published only after the complete CI and native contract workflows pass on that same commit. The final npm tarball is installed into fresh explicit-route, webpack and Vite projects before publication; the tarball and installation logs are retained as a workflow artifact. A failed or cancelled required suite blocks publication. Experimental upstream tests do not substitute for tests on published dependencies.
 
 RC builds use npm's `next` tag. As with the betas, `latest` also follows the newest prerelease until the first stable version exists. Use an exact version and commit your lockfile for reproducible application builds.
+
+See [Path to 0.1.0 stable](./stable-readiness) for release gates, evidence and remaining work.

@@ -47,3 +47,5 @@ O controle e a restauração de múltiplas janelas estão incluídos como recurs
 Uma versão nova em `main` só é publicada após os workflows completos de CI e contratos nativos passarem naquele mesmo commit. O tarball final do npm é instalado em projetos novos com rotas explícitas, webpack e Vite antes da publicação; o pacote e os logs ficam como artefato do workflow. Uma suíte obrigatória com falha ou cancelada bloqueia a publicação. Testes com protótipos upstream não substituem testes com dependências publicadas.
 
 As RCs usam a tag `next` do npm. Como nas betas, `latest` também acompanha o prerelease mais novo até existir uma versão estável. Fixe uma versão exata e versione o lockfile para builds reproduzíveis do app.
+
+Veja o [caminho para a 0.1.0 estável](./stable-readiness) para os critérios, evidências e trabalho restante.
