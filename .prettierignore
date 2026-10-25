@@ -17,6 +17,9 @@ examples/file-routing/platforms
 examples/file-routing/hooks
 examples/file-routing/App_Resources
 examples/file-routing/src/generated
+examples/ios-direction-repro/platforms
+examples/ios-direction-repro/hooks
+examples/ios-direction-repro/App_Resources
 
 .native-core/
 

@@ -25,6 +25,7 @@ const argument = (prefix) => {
 const mode = argument('direction-mode=') ?? 'none'
 const explicitBar = mode.startsWith('explicit-bar-')
 const events = []
+let startup
 let root, frame
 const earlyFrame = mode === 'prebuilt-frame-ltr' ? new Frame() : undefined
 const earlyRoot = mode === 'prebuilt-root-ltr' ? new GridLayout() : undefined
@@ -34,6 +35,7 @@ function record(event) {
   events.push({
     event,
     mode,
+    startup,
     page: page?.actionBar?.title,
     history: frame?.backStack?.length,
     rootDirection: root?.style?.direction,
@@ -139,7 +141,21 @@ function createRoot() {
 }
 // Match renderers that assemble their native tree before Application.run().
 // Keep the failing startup order explicit; moving direction to loaded is only a control.
-const prebuilt = ['prebuilt-none', 'prebuilt-ltr', 'prebuilt-late-ltr'].includes(mode)
+const prebuilt = [
+  'prebuilt-none',
+  'prebuilt-ltr',
+  'prebuilt-late-ltr',
+  'prebuilt-request-layout',
+  'prebuilt-load-view',
+].includes(mode)
   ? createRoot()
   : undefined
+if (prebuilt) {
+  const controller = frame.ios.controller
+  const loadedBefore = Boolean(controller.viewIfLoaded)
+  if (mode === 'prebuilt-request-layout') frame.requestLayout()
+  if (mode === 'prebuilt-load-view') void controller.view
+  startup = { loadedBefore, loadedAfter: Boolean(controller.viewIfLoaded) }
+  console.log(`DIRECTION STARTUP ${JSON.stringify(startup)}`)
+}
 Application.run({ create: () => prebuilt ?? createRoot() })
