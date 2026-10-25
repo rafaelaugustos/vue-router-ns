@@ -32,6 +32,22 @@ Install the built app first. Set `DEVELOPMENT_TEAM` when generating a runner for
 
 `testFirstAppFlow` asserts keyboard input, dirty guard refusal, saved/discarded modal results, query retention and real reversed/committed Back. `testSystemPreferences` validates the same application flow using the native back button; run it with the desired OS settings and retain `consumer-environment.json`. It does not itself change or assert an OS preference. Restore any settings you change.
 
+For physical iPhone acceptance, install the signed app and build the signed runner first:
+
+```sh
+DEVELOPMENT_TEAM=TEAM ruby scripts/native/rc3-consumer/project.rb /tmp/consumer-checks
+xcodebuild build-for-testing -project /tmp/consumer-checks/ConsumerChecks.xcodeproj \
+  -scheme ConsumerChecks -destination 'platform=iOS,id=DEVICE' \
+  -derivedDataPath /tmp/consumer-derived
+python3 scripts/native/rc3-consumer/physical.py --device DEVICE \
+  --project /tmp/consumer-checks/ConsumerChecks.xcodeproj \
+  --derived-data /tmp/consumer-derived --out /tmp/consumer-physical
+```
+
+Keep the device connected and unlocked. Use a new output directory for each run. This runner snapshots the current text size, larger accessibility sizes and Reduce Motion; runs the baseline; enables accessibility XXXL and Reduce Motion; runs the preferences case; and checks what UIKit actually reported inside the app. It restores and verifies the original settings in `finally`, including after test failures or handled interruption. Force-killing the process or disconnecting the phone can prevent restoration; the original values remain in `before-appearance.json` for recovery.
+
+Each case must report exactly one passed native test. Raw XCTest bundles and device metadata stay in the output directory; `physical-summary.json` omits device names and identifiers and records test counts, actual app preferences and restoration. Review it before committing evidence. Optional `--record` attempts `devicectl` screen recording; unsupported devices produce a warning and capture log, not a video. A separate real recording is still required for a PR.
+
 For Android, install the built APK, then run:
 
 ```sh
@@ -42,4 +58,4 @@ The runner uses actual adb input and UIAutomator snapshots. `CONSUMER_REPORT` se
 
 ## Manual checks still required
 
-[The acceptance report](../../test/native-rc3-consumer.md) distinguishes verified runs from remaining physical checks. Spoken VoiceOver traversal is pending at the maintainer's request; TalkBack on physical Android and final-consumer physical text/motion settings are not certified. Do not turn an automation pass into a screen-reader speech claim. Track completion in [#152](https://github.com/rafaelaugustos/vue-router-ns/issues/152).
+[The acceptance report](../../test/native-rc3-consumer.md) distinguishes verified runs from remaining physical checks. Spoken VoiceOver traversal is pending at the maintainer's request; TalkBack on physical Android remains pending. The final consumer now has physical iPhone baseline and maximum text/Reduce Motion passes, with original settings restored. Do not turn an automation pass into a screen-reader speech claim. Track completion in [#152](https://github.com/rafaelaugustos/vue-router-ns/issues/152).

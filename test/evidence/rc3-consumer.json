@@ -13,7 +13,9 @@
     "iOS 18.6: final consumer flow and interactive Back",
     "iOS 26.0: final Dynamic Type XXXL and system Reduce Motion flow with button Back",
     "Android API 36: final consumer flow",
-    "package integrity metadata and typecheck"
+    "package integrity metadata and typecheck",
+    "physical iPhone 17 Pro iOS 27.2 beta: final consumer flow and interactive Back",
+    "physical iPhone 17 Pro iOS 27.2 beta: final Dynamic Type XXXL and actual Reduce Motion flow with button Back; original preferences restored"
   ],
   "preferences": {
     "actual": {
@@ -25,10 +27,6 @@
       "reduceMotion": false
     }
   },
-  "pending": [
-    "spoken VoiceOver deferred by maintainer",
-    "physical TalkBack",
-    "final physical UI recheck: device locked",
-    "physical large text and Reduce Motion"
-  ]
+  "pending": ["spoken VoiceOver deferred by maintainer", "physical TalkBack"],
+  "physicalEvidence": "rc3-physical-consumer.json"
 }
