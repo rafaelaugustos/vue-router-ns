@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-25",
+  "package": "vue-router-ns@0.1.0-rc.3",
+  "integrity": "sha512-AX9oDC+2XTM2MJt27DvxT5Zz/Kmrc7SuID3oIuSFShzxNh8BYgMioc91vCfjOLDFKlTOFTmyqBInDgxgwEBFsA==",
+  "versions": {
+    "core": "9.1.3",
+    "vue": "3.1.2",
+    "ios": "9.1.0",
+    "android": "9.1.1"
+  },
+  "passed": [
+    "physical iPhone 17 Pro iOS 27.2 beta: initial flow before UI refinements",
+    "iOS 18.6: final consumer flow and interactive Back",
+    "iOS 26.0: final Dynamic Type XXXL and system Reduce Motion flow with button Back",
+    "Android API 36: final consumer flow",
+    "package integrity metadata and typecheck"
+  ],
+  "preferences": {
+    "actual": {
+      "contentSize": "UICTContentSizeCategoryAccessibilityXXXL",
+      "reduceMotion": true
+    },
+    "restored": {
+      "contentSize": "large",
+      "reduceMotion": false
+    }
+  },
+  "pending": [
+    "spoken VoiceOver deferred by maintainer",
+    "physical TalkBack",
+    "final physical UI recheck: device locked",
+    "physical large text and Reduce Motion"
+  ]
+}
