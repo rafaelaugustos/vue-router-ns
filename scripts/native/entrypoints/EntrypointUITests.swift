@@ -132,11 +132,17 @@ final class EntrypointUITests: XCTestCase {
         if spotlight.buttons["Continue"].waitForExistence(timeout: 3) { spotlight.buttons["Continue"].tap() }
         let field = spotlight.textFields.firstMatch
         XCTAssertTrue(field.waitForExistence(timeout: 10), spotlight.debugDescription)
-        field.tap()
-        if field.buttons["Clear text"].exists { field.buttons["Clear text"].tap() }
-        field.typeText("Router Entry Guide")
         let result = spotlight.cells.matching(NSPredicate(format: "identifier CONTAINS %@ AND label BEGINSWITH %@", "ResultCell", "Router Entry Guide")).firstMatch
-        XCTAssertTrue(result.waitForExistence(timeout: 60), spotlight.debugDescription)
+        // Spotlight queries the index once per edit, while a fresh simulator may
+        // still be committing the batch it already acknowledged to the fixture.
+        let deadline = Date().addingTimeInterval(180)
+        repeat {
+            field.tap()
+            if field.buttons["Clear text"].exists { field.buttons["Clear text"].tap() }
+            field.typeText("Router Entry Guide")
+            if result.waitForExistence(timeout: 20) { break }
+        } while Date() < deadline
+        XCTAssertTrue(result.exists, spotlight.debugDescription)
         capture("spotlight-system-result")
         result.tap()
         route("/login")
