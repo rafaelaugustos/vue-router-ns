@@ -1,5 +1,6 @@
 import {
   Application,
+  ActionBar,
   Button,
   File,
   Frame,
@@ -22,8 +23,11 @@ const argument = (prefix) => {
   }
 }
 const mode = argument('direction-mode=') ?? 'none'
+const explicitBar = mode.startsWith('explicit-bar-')
 const events = []
 let root, frame
+const earlyFrame = mode === 'prebuilt-frame-ltr' ? new Frame() : undefined
+const earlyRoot = mode === 'prebuilt-root-ltr' ? new GridLayout() : undefined
 function record(event) {
   const page = frame?.currentPage
   const controller = frame?.ios?.controller
@@ -53,6 +57,7 @@ function button(text, tap) {
 }
 function detail() {
   const page = new Page()
+  if (explicitBar) page.actionBar = new ActionBar()
   page.actionBar.title = 'Detail'
   const layout = new StackLayout()
   layout.padding = 24
@@ -75,6 +80,7 @@ function detail() {
 }
 function home() {
   const page = new Page()
+  if (explicitBar) page.actionBar = new ActionBar()
   page.actionBar.title = 'Direction control'
   const layout = new StackLayout()
   layout.padding = 24
@@ -87,39 +93,53 @@ function home() {
   page.on('navigatedTo', () => record('home-ready'))
   return page
 }
-Application.run({
-  create: () => {
-    root = new GridLayout()
-    frame = new Frame()
-    if (mode === 'inherited-ltr' || mode === 'tabs-ltr') root.style.direction = 'ltr'
-    if (mode === 'inherited-rtl') root.style.direction = 'rtl'
-    if (mode === 'frame-ltr') frame.style.direction = 'ltr'
-    if (mode.startsWith('tabs-')) {
-      const tabs = new TabView()
-      const first = new TabViewItem()
-      first.title = 'Home'
-      first.view = frame
-      const second = new TabViewItem()
-      second.title = 'Settings'
-      const other = new Frame()
-      other.navigate({
-        create: () => {
-          const p = new Page()
-          p.actionBar.title = 'Settings'
-          return p
-        },
-        animated: false,
-      })
-      second.view = other
-      tabs.items = [first, second]
-      root.addChild(tabs)
-    } else root.addChild(frame)
-    root.on('loaded', () => {
-      if (mode === 'late-ltr') root.style.direction = 'ltr'
-      if (mode === 'container-ltr') root.nativeViewProtected.semanticContentAttribute = 3
-      record('loaded')
+function createRoot() {
+  root = earlyRoot ?? new GridLayout()
+  frame = earlyFrame ?? new Frame()
+  if (mode === 'early-frame-ltr') frame.navigate({ create: home, animated: false })
+  if (
+    mode === 'inherited-ltr' ||
+    mode === 'tabs-ltr' ||
+    mode === 'explicit-bar-ltr' ||
+    mode === 'prebuilt-ltr' ||
+    mode === 'early-frame-ltr' ||
+    mode === 'prebuilt-frame-ltr' ||
+    mode === 'prebuilt-root-ltr'
+  )
+    root.style.direction = 'ltr'
+  if (mode === 'inherited-rtl') root.style.direction = 'rtl'
+  if (mode === 'frame-ltr') frame.style.direction = 'ltr'
+  if (mode.startsWith('tabs-')) {
+    const tabs = new TabView()
+    const first = new TabViewItem()
+    first.title = 'Home'
+    first.view = frame
+    const second = new TabViewItem()
+    second.title = 'Settings'
+    const other = new Frame()
+    other.navigate({
+      create: () => {
+        const p = new Page()
+        p.actionBar.title = 'Settings'
+        return p
+      },
+      animated: false,
     })
-    frame.navigate({ create: home, animated: false })
-    return root
-  },
-})
+    second.view = other
+    tabs.items = [first, second]
+    root.addChild(tabs)
+  } else root.addChild(frame)
+  root.on('loaded', () => {
+    if (mode === 'late-ltr' || mode === 'prebuilt-late-ltr') root.style.direction = 'ltr'
+    if (mode === 'container-ltr') root.nativeViewProtected.semanticContentAttribute = 3
+    record('loaded')
+  })
+  if (mode !== 'early-frame-ltr') frame.navigate({ create: home, animated: false })
+  return root
+}
+// Match renderers that assemble their native tree before Application.run().
+// Keep the failing startup order explicit; moving direction to loaded is only a control.
+const prebuilt = ['prebuilt-none', 'prebuilt-ltr', 'prebuilt-late-ltr'].includes(mode)
+  ? createRoot()
+  : undefined
+Application.run({ create: () => prebuilt ?? createRoot() })
