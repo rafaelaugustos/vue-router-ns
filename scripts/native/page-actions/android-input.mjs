@@ -6,9 +6,24 @@ import { adb, command, initialize, out, pause, serial } from './bridge.mjs'
 
 assert(serial, 'Android only')
 await initialize()
+const dumpPath = '/sdcard/actions-window.xml'
+async function dump() {
+  for (let attempt = 0; attempt < 10; attempt++) {
+    await adb('shell', 'rm', '-f', dumpPath)
+    const report = await adb(
+      'shell',
+      'uiautomator',
+      'dump',
+      '--compressed',
+      dumpPath,
+    ).catch(() => '')
+    if (report.includes('dumped to:')) return adb('shell', 'cat', dumpPath)
+    await pause(500)
+  }
+  throw new Error('UIAutomator never produced a window hierarchy')
+}
 async function nodes(name = 'window') {
-  await adb('shell', 'uiautomator', 'dump', '--compressed', '/sdcard/actions-window.xml')
-  const xml = await adb('shell', 'cat', '/sdcard/actions-window.xml')
+  const xml = await dump()
   await writeFile(`${out}/${name}.xml`, xml)
   const result = [],
     ancestors = []
@@ -40,7 +55,7 @@ function point(node) {
   return [String((left + right) >> 1), String((top + bottom) >> 1)]
 }
 async function tap(text, long = false) {
-  const xy = point(find(await nodes(), text))
+  const xy = point(find(await wait(text), text))
   if (long) await adb('shell', 'input', 'swipe', ...xy, ...xy, '900')
   else await adb('shell', 'input', 'tap', ...xy)
   await pause(300)
