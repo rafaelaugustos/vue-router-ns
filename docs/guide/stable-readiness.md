@@ -22,11 +22,11 @@ The [capability map](./capabilities) explains actual platform owners. The [compa
 
 A previous green candidate is evidence for that revision, not a waiver for a changed release commit. Missing hardware coverage stays **unverified** until tested or explicitly accepted as a documented limitation by the maintainer. A beta iOS device pass supplements, rather than replaces, the supported simulator baseline. No elapsed soak period or download count alone proves readiness.
 
-## Remaining work and backlog
+## Follow-ups and investigation decisions
 
 - **#139:** isolate the inherited CSS direction crash. A passing Drawer-specific correction does not establish a generic Core fix. Keep the issue open until ownership and the disposition are backed by native evidence.
-- **#152:** finish the independent published-consumer report and expose outstanding physical accessibility checks. Spoken VoiceOver/TalkBack traversal cannot be inferred from labels or focus flags.
-- **#145:** specify and prototype optional native-host transition observation. This is research/backlog; a uniform seek/cancel controller, continuous UIKit progress and a Jolt adapter are not stable-release requirements.
+- **#152:** the [published-consumer report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-rc3-consumer.md) records physical VoiceOver service output and the emulator TalkBack procedure/results separately from UI assertions. Android hardware is unavailable; the maintainer accepted emulator validation with that limit. Read the speech and gesture boundaries before treating this as broad accessibility certification.
+- **#145:** the [v1 observation proposal](https://github.com/rafaelaugustos/vue-router-ns/blob/main/research/transition-observation/README.md) records the native lifecycle evidence and decision to keep the adapter private. Missing authoritative entry IDs and unsupported concurrent target mutation prevent a public controller. Continuous UIKit progress and a Jolt adapter remain outside stable-release requirements.
 - **#64:** maintain the roadmap as an index of delivered scope and current follow-ups, not a checklist that silently promotes experimental integrations to stable.
 
 Further delivery can stay in candidates when a fix changes behavior or the frozen API. Once the gates above have evidence and the maintainer accepts the remaining documented limits, publish 0.1.0 through the release workflow. A later 1.0.0 decision needs its own API compatibility commitment and application experience; it does not follow from exhausting the issue list.

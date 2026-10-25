@@ -1,4 +1,4 @@
-/** Proposal v0: research only, deliberately absent from the package exports. */
+/** Proposal v1: research only, deliberately absent from the package exports. */
 export interface Identity {
   window: string
   host: string
@@ -54,4 +54,12 @@ export function session(
       return ended
     },
   }
+}
+
+let nextSubscription = 0
+/** Identity is local to this observer runtime, including reconnects to the same host. */
+export function sessionIds(host: string) {
+  const subscription = ++nextSubscription
+  let sequence = 0
+  return () => `${host}:${subscription}:${++sequence}`
 }

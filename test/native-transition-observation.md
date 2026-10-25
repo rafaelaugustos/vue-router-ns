@@ -1,4 +1,4 @@
-# Optional native-host observation — proposal v0
+# Optional native-host observation — proposal v1
 
 Related: #145 and #136. This is a research fixture and a decision record, not a package API. Core 9.1.3, NativeScript-Vue 3.1.2 and iOS runtime 9.1.0 remain unchanged. Read [the versioned proposal](../research/transition-observation/README.md) before treating an observation as a host capability.
 
@@ -18,12 +18,21 @@ The fixture recorded `interactive: true` at the unsubscribe and replacement stim
 
 An earlier iPadOS 18.6 run received interaction-ended and cancelled completion events, but a stronger assertion that both coordinator endpoint controllers mapped to entry IDs failed. Both `viewControllerForKey` results were null. A second attempt waiting for populated endpoints did not establish an identity mapping. The final prototype therefore reports **null identities**, not guessed paths; the iPad run is not represented as a full passing matrix.
 
-The six lifecycle-model tests pass: repeated completion, source/target invalidation, unload/unsubscribe with late callbacks, and subscriber failure. This does not establish actual native covered-target replacement or host unload during interaction. Modal inner Back, zoom recognizer discovery, optional/custom hosts, multiple windows and Android observation remain unverified by this adapter. Reduce Motion is not overridden; this normal-motion run is not physical-device accessibility evidence.
+The expanded final suite passed **4 native cases, 0 failures, in 103.980 s** on the same iPhone 17 / iOS 26.0 simulator. [Lifecycle evidence](./evidence/transition-observation-lifecycle.json) records:
+
+- Modal inner Back: cancellation preserves the modal stack; commit settles/disposes once and leaves the root Frame unchanged. Events carry the modal host ID.
+- Actual Frame unload during interaction: all observer targets removed and exactly one `host-unloaded` terminal. Remount creates a working observer with a distinct session ID; cancellation still preserves the new page.
+- Target invalidation during interaction: one interrupted terminal, then replacement after UIKit completion, old covered target removed, one result and converged histories.
+- The original guard, cancellation, commit, unsubscribe and source-replacement checks passed again.
+
+The direct concurrent target replacement attempt **failed**: `setStack` entered a native back transition but remained pending beyond the four-second post-gesture bound. Waiting for UIKit completion before replacement passed (12.695 s in the final suite). This is an explicit unsupported concurrency case, not a passing concurrent-mutation claim or a production fix.
+
+Seven lifecycle-model tests cover repeated completion, source/target invalidation, unload/unsubscribe, subscriber failure and distinct IDs after reconnect. Zoom recognizer discovery, optional/custom hosts, multiple windows and Android observation remain outside this adapter's demonstrated capability. Reduce Motion is not overridden; this normal-motion run is not physical-device accessibility evidence.
 
 UIKit retains registered coordinator blocks until the transition releases them. Unsubscribe removes recognizer targets and the unload listener, invalidates the session, suppresses late delivery and releases the subscriber reference. It cannot unregister UIKit's already registered completion blocks. This bounded retention cost is part of the proposal, not hidden behind a dispose method.
 
 ## Decision
 
-Keep the observer private to research. The signals are useful for diagnostics, but missing authoritative entry mapping and native lifetime coverage make a public adapter premature. #145 remains open for those gaps; they do not become release requirements for 0.1.0. No Jolt dependency, uniform progress/seek API, delegate replacement or router settlement change is added.
+Keep the observer private to research. The signals are useful for diagnostics, but missing authoritative entry mapping, unsupported concurrent target mutation and cross-host capability gaps make a public adapter premature. The versioned proposal, native evidence, negative controls and explicit decision complete the research scope of #145; unsupported capabilities do not become release requirements for 0.1.0. No Jolt dependency, uniform progress/seek API, delegate replacement or router settlement change is added.
 
 Generate the runner using `scripts/native/observation/project.rb`; `OBSERVATION_APP` selects its installed bundle ID. The recorded run used a separate local test ID, `org.nativescript.routerobservation`, to avoid replacing other demos. The checked-in demo keeps its original ID. Full commands and primary API references are in the proposal.

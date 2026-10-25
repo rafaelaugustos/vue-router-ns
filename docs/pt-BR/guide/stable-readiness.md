@@ -22,11 +22,11 @@ O [mapa de capacidades](./capabilities) explica os responsáveis nativos. O [gui
 
 Uma candidata verde comprova aquela revisão, não dispensa os testes de um commit posterior. Cobertura física ausente continua **não verificada** até ser testada ou aceita explicitamente como limitação documentada pelo mantenedor. Um teste físico em iOS beta complementa a matriz de simuladores suportada. Tempo de uso ou número de downloads, isoladamente, não provam prontidão.
 
-## Trabalho restante e backlog
+## Próximos trabalhos e decisões das investigações
 
 - **#139:** isolar o crash de direção CSS herdada. A correção específica do Drawer não comprova uma solução genérica no Core. A issue permanece aberta até haver evidência nativa da responsabilidade e da decisão tomada.
-- **#152:** concluir o relatório do consumidor publicado e tornar visíveis os testes físicos de acessibilidade pendentes. Labels e flags de foco não comprovam a navegação falada de VoiceOver/TalkBack.
-- **#145:** especificar e prototipar observação opcional de transições em hosts nativos. É pesquisa/backlog; controlador universal de seek/cancel, progresso contínuo do UIKit e adaptador Jolt não são requisitos da versão estável.
+- **#152:** o [relatório do consumidor publicado](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-rc3-consumer.md) registra a saída do serviço VoiceOver no iPhone e o procedimento/resultados de TalkBack no emulador, separados das asserções de interface. Sem Android físico disponível, o mantenedor aceitou validar no emulador e registrar esse limite. Consulte os limites de fala e gestos antes de interpretar o resultado como certificação geral de acessibilidade.
+- **#145:** a [proposta v1 de observação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/research/transition-observation/README.md) registra a evidência nativa de ciclo de vida e a decisão de manter o adaptador privado. Falta de identidade autoritativa das entradas e troca concorrente de destino sem suporte impedem um controlador público. Progresso contínuo do UIKit e adaptador Jolt continuam fora dos requisitos da versão estável.
 - **#64:** manter o roadmap como índice do escopo entregue e dos próximos trabalhos, sem promover integrações experimentais a estáveis de forma implícita.
 
 Correções que mudem comportamento ou a API congelada podem exigir outra candidata. Com evidência para os critérios acima e aceitação dos limites documentados, a 0.1.0 pode ser publicada pelo workflow de release. Uma futura 1.0.0 precisa de sua própria decisão sobre compatibilidade da API e experiência em aplicativos; não decorre de zerar a lista de issues.

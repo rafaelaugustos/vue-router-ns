@@ -38,4 +38,25 @@ final class ObservationUITests: XCTestCase {
         swipe(false)
         command("Check interrupt"); capture("interrupted-gesture")
     }
+    func testModalInnerBack() {
+        continueAfterFailure = false
+        app.launch()
+        command("Modal"); command("Modal push")
+        swipe(false); command("Check cancel")
+        swipe(true); command("Check modal")
+        capture("modal-inner-back")
+    }
+    func testCoveredTargetReplacement() {
+        continueAfterFailure = false
+        app.launch(); command("Target case"); command("Target soon")
+        swipe(false); command("Check target")
+        capture("covered-target-replaced")
+    }
+    func testHostUnloadAndReconnect() {
+        continueAfterFailure = false
+        app.launch(); command("Plain"); command("Unload soon")
+        swipe(false); command("Restore host")
+        command("Plain"); swipe(false); command("Check cancel"); command("Check reconnect")
+        capture("host-reconnected")
+    }
 }
