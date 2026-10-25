@@ -67,3 +67,7 @@ Movimento reduzido é consultado na admissão da navegação/gesto (`motion: 'sy
 - [Android: requisitos de transições Fragment](https://developer.android.com/guide/fragments/animate)
 
 [O follow-up de capacidades #145](https://github.com/rafaelaugustos/vue-router-ns/issues/145) fica fora das condições para publicar a rc.3.
+
+## Proposta de observação v0
+
+[A proposta e o protótipo da #145](https://github.com/rafaelaugustos/vue-router-ns/tree/main/research/transition-observation) observam o Back comum do UIKit sem substituir delegates nem consultar o estado em loop. Há evidência nativa de cancelamento/confirmação, cancelamento da assinatura e substituição da entrada atual; o mapeamento de identidade, Back interno de modal e outros casos de ciclo de vida/host ainda têm lacunas. A decisão é manter o trabalho em pesquisa: não há novo observador público, promessa de progresso contínuo ou adaptador Jolt. Consulte o [relatório nativo](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-transition-observation.md).
