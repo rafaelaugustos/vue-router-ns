@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { session, type Observation } from '../research/transition-observation/session'
+import {
+  session,
+  sessionIds,
+  type Observation,
+} from '../research/transition-observation/session'
 const identity = {
   window: 'w',
   host: 'h',
@@ -51,4 +55,11 @@ describe('research observation session', () => {
     }).not.toThrow()
     expect(s.ended).toBe(true)
   })
+})
+
+it('does not reuse session identities when reconnecting to the same host', () => {
+  const first = sessionIds('same-host')
+  const reconnected = sessionIds('same-host')
+  const ids = [first(), first(), reconnected(), reconnected()]
+  expect(new Set(ids).size).toBe(4)
 })

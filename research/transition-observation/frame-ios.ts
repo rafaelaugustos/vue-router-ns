@@ -1,5 +1,5 @@
 import type { Frame } from '@nativescript/core'
-import { session, type Observation } from './session'
+import { session, sessionIds, type Observation } from './session'
 let Target: any
 
 /** Only observes the Frame's known UIKit Back recognizers. No delegate replacement,
@@ -8,11 +8,11 @@ export function observeFrameBack(
   frame: Frame,
   identity: { window: string; host: string },
   entry: (controller: UIViewController | null) => string | null,
-  listener: (event: Observation) => void,
+  listener: ((event: Observation) => void) | undefined,
 ) {
   const controller = frame.ios.controller as UINavigationController
-  let disposed = false,
-    sequence = 0
+  const nextSession = sessionIds(identity.host)
+  let disposed = false
   let active: ReturnType<typeof session> | undefined
   const seen = new WeakSet<object>()
   const targets: UIGestureRecognizer[] = []
@@ -29,13 +29,19 @@ export function observeFrameBack(
     const current = session(
       {
         ...identity,
-        session: `${identity.host}:${++sequence}`,
+        session: nextSession(),
         source: entry(from),
         target: entry(to),
       },
       listener,
     )
     active = current
+    // A subscriber may dispose synchronously from the began event.
+    if (disposed) {
+      current.invalidate('unsubscribed')
+      active = undefined
+      return
+    }
     coordinator.notifyWhenInteractionChangesUsingBlock(
       (context: UIViewControllerTransitionCoordinatorContext) => {
         if (!disposed) current.interaction(context.cancelled)
@@ -74,24 +80,29 @@ export function observeFrameBack(
       targets.push(recognizer)
     }
   }
-  const dispose = () => {
+  const dispose = (reason = 'unsubscribed') => {
     if (disposed) return
     disposed = true
     for (const recognizer of targets) recognizer.removeTargetAction(target, 'changed')
     targets.length = 0
     target.probe = undefined
-    frame.off('unloaded', dispose)
-    active?.invalidate('host-unloaded-or-unsubscribed')
+    frame.off('unloaded', unload)
+    active?.invalidate(reason)
+    listener = undefined
     active = undefined
   }
-  frame.on('unloaded', dispose)
+  const unload = () => dispose('host-unloaded')
+  frame.on('unloaded', unload)
   return {
     // Host integration must call this when an entry identity is replaced. The
     // prototype does not infer authority from a matching path or native pointer.
     invalidate(reason: 'source-replaced' | 'target-replaced') {
       active?.invalidate(reason)
     },
-    dispose,
+    dispose: () => dispose(),
+    get disposed() {
+      return disposed
+    },
     get active() {
       return !!active && !active.ended
     },
