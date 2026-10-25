@@ -6,9 +6,24 @@ import { adb, command, initialize, out, pause, serial } from './bridge.mjs'
 
 assert(serial, 'Android only')
 await initialize()
+const dumpPath = '/sdcard/adaptive-window.xml'
+async function dump() {
+  for (let attempt = 0; attempt < 10; attempt++) {
+    await adb('shell', 'rm', '-f', dumpPath)
+    const report = await adb(
+      'shell',
+      'uiautomator',
+      'dump',
+      '--compressed',
+      dumpPath,
+    ).catch(() => '')
+    if (report.includes('dumped to:')) return adb('shell', 'cat', dumpPath)
+    await pause(500)
+  }
+  throw new Error('UIAutomator never produced a window hierarchy')
+}
 async function nodes() {
-  await adb('shell', 'uiautomator', 'dump', '--compressed', '/sdcard/adaptive-window.xml')
-  const xml = await adb('shell', 'cat', '/sdcard/adaptive-window.xml')
+  const xml = await dump()
   await writeFile(`${out}/window.xml`, xml)
   return [...xml.matchAll(/<node\s+([^>]+)/g)].map((match) =>
     Object.fromEntries(
@@ -16,13 +31,20 @@ async function nodes() {
     ),
   )
 }
+async function find(text) {
+  for (let attempt = 0; attempt < 8; attempt++) {
+    const item = (await nodes()).find(
+      (node) =>
+        node.text.toLowerCase() === text.toLowerCase() ||
+        node['content-desc'].toLowerCase() === text.toLowerCase(),
+    )
+    if (item) return item
+    await pause(300)
+  }
+  throw new Error(`Missing native input target: ${text}`)
+}
 async function tap(text) {
-  const item = (await nodes()).find(
-    (node) =>
-      node.text.toLowerCase() === text.toLowerCase() ||
-      node['content-desc'].toLowerCase() === text.toLowerCase(),
-  )
-  assert(item, `Missing native input target: ${text}`)
+  const item = await find(text)
   const [left, top, right, bottom] = item.bounds.match(/\d+/g).map(Number)
   await adb(
     'shell',
