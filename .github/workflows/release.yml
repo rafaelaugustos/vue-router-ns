@@ -39,8 +39,11 @@ jobs:
           if [ "$(npm view "$name@$version" version 2>/dev/null)" = "$version" ]; then
             echo "published=true" >> "$GITHUB_OUTPUT"
           fi
+          # The GitHub release is only cut after a successful publish, and the
+          # registry can still serve a stale packument right after that publish.
           if gh release view "v$version" > /dev/null 2>&1; then
             echo "released=true" >> "$GITHUB_OUTPUT"
+            echo "published=true" >> "$GITHUB_OUTPUT"
           fi
   ci:
     needs: check
@@ -99,7 +102,15 @@ jobs:
         if: needs.check.outputs.published != 'true'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish "$ROUTER_TARBALL" --provenance --access public --tag "${{ needs.check.outputs.dist-tag }}"
+          VERSION: ${{ needs.check.outputs.version }}
+          DIST_TAG: ${{ needs.check.outputs.dist-tag }}
+        run: |
+          name=$(node -p "require('./package.json').name")
+          if [ "$(npm view "$name@$VERSION" version 2>/dev/null)" = "$VERSION" ]; then
+            echo "::notice::$name@$VERSION is already on npm; skipping the publish"
+            exit 0
+          fi
+          npm publish "$ROUTER_TARBALL" --provenance --access public --tag "$DIST_TAG"
 
       - name: Point latest at the newest pre-release
         if: needs.check.outputs.dist-tag == 'next'
