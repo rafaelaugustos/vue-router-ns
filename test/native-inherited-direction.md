@@ -15,7 +15,7 @@ The failure is reproducible **without vue-router-ns**. A NativeScript-Vue Frame,
 | NativeScript-Vue only: no direction                                       | Pass, including keyboard and reversed/committed Back | Pass for keyboard and committed Back |
 | NativeScript-Vue only: inherited LTR                                      | Same original UIKit assertion captured in LLDB       | App terminates when Draft is tapped  |
 
-The same Vue-only pair was also tested on iPhone 17 / iOS 26.0: the no-direction control passed; inherited LTR terminated the app after the TextField tap. This is not limited to iOS 18.6.
+The same Vue-only pair was also tested on iPhone 17 / iOS 26.0: the no-direction control passed; inherited LTR allowed text entry, but the reversing Back assertion failed because detail was no longer visible. The iOS 18.6 keyboard crash was not observed in that iOS 26 run, and the full interaction regression is not green there either.
 
 The minimum physical-device comparison remains unverified; the separate rc.3 consumer pass on physical iOS 27.2 beta does not cover this inherited-direction fixture.
 
