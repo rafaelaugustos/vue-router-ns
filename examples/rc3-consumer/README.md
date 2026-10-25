@@ -56,6 +56,36 @@ ANDROID_SERIAL=emulator-5560 node scripts/native/rc3-consumer/android.mjs
 
 The runner uses actual adb input and UIAutomator snapshots. `CONSUMER_REPORT` selects its output directory. The reversing iOS touch helper is XCTest-only and is never included in the app/package.
 
-## Manual checks still required
+## Speech service checks
 
-[The acceptance report](../../test/native-rc3-consumer.md) distinguishes verified runs from remaining physical checks. Spoken VoiceOver traversal is pending at the maintainer's request; TalkBack on physical Android remains pending. The final consumer now has physical iPhone baseline and maximum text/Reduce Motion passes, with original settings restored. Do not turn an automation pass into a screen-reader speech claim. Track completion in [#152](https://github.com/rafaelaugustos/vue-router-ns/issues/152).
+For Xcode 27 and iOS 27 or later, opt into the VoiceOver runner when generating the project. Older SDK builds exclude that file by default:
+
+```sh
+VOICEOVER_TESTS=1 DEVELOPMENT_TEAM=TEAM ruby scripts/native/rc3-consumer/project.rb /tmp/consumer-voiceover
+xcodebuild test -project /tmp/consumer-voiceover/ConsumerChecks.xcodeproj \
+  -scheme ConsumerChecks -destination 'platform=iOS,id=DEVICE' \
+  -only-testing:ConsumerChecks/VoiceOverTests/testSpokenNavigation \
+  -resultBundlePath /tmp/consumer-voiceover.xcresult
+xcrun xcresulttool export attachments --path /tmp/consumer-voiceover.xcresult \
+  --output-path /tmp/consumer-voiceover-attachments
+```
+
+The JSON attachment contains actual VoiceOver service utterances. The runner restores the original enabled state even after an assertion failure. Keep the phone connected and unlocked.
+
+For the Android speech check, use an isolated emulator with TalkBack and a working TTS voice installed. In TalkBack settings → Advanced settings → Developer settings, record the current log level, enable **VERBOSE** and accept its confirmation. Enable TalkBack. This is a local test setting: restore its original level afterward. Display speech output is optional. [Android's testing guide](https://developer.android.com/guide/topics/ui/accessibility/testing) describes TalkBack testing; the test helper uses [the flag that keeps accessibility services running](https://developer.android.com/reference/android/app/UiAutomation#FLAG_DONT_SUPPRESS_ACCESSIBILITY_SERVICES).
+
+Build the shell-only tree/action helper using your installed Android SDK (example versions below), then run the test:
+
+```sh
+mkdir -p /tmp/consumer-tree-classes
+javac -source 8 -target 8 -cp "$ANDROID_HOME/platforms/android-36/android.jar" \
+  -d /tmp/consumer-tree-classes scripts/native/rc3-consumer/ConsumerTree.java
+"$ANDROID_HOME/build-tools/36.0.0/d8" --lib "$ANDROID_HOME/platforms/android-36/android.jar" \
+  --output /tmp/consumer-tree.jar /tmp/consumer-tree-classes/ConsumerTree.class
+adb -s emulator-5560 push /tmp/consumer-tree.jar /data/local/tmp/consumer-tree.jar
+ANDROID_SERIAL=emulator-5560 python3 scripts/native/rc3-consumer/talkback.py
+```
+
+Commands run from the repository root. The helper is never packaged in the app. It activates existing native controls and reads the current consumer window without suppressing TalkBack. The Python runner stores speech fragments, completion callbacks and focus checks under `CONSUMER_REPORT` (default `/tmp/router-consumer-talkback`). It restores service settings to their state at runner entry; restore any manual setup settings afterward. Use a fresh report directory for each attempt and retain `result.json` only from a fully passing run.
+
+[The acceptance report](../../test/native-rc3-consumer.md) separates physical VoiceOver evidence, emulator TalkBack evidence and the limits of both. Neither labels nor an enabled screen-reader setting alone establish spoken acceptance. Follow-up release decisions remain with the maintainer.

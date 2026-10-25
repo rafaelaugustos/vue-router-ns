@@ -1,0 +1,829 @@
+{
+  "date": "2026-10-25",
+  "platform": "Android 16 / API 36 emulator",
+  "talkBackVersion": "16.0.0.738667889",
+  "result": {
+    "passed": true,
+    "hardware": "emulator only",
+    "input": "native accessibility activation and keyboard Tab",
+    "speech": "TalkBack SpeechControllerImpl + TTS completion callbacks",
+    "touchGestureTraversal": false,
+    "originalServiceSettings": {
+      "enabled_accessibility_services": "com.google.android.marvin.talkback/com.google.android.marvin.talkback.TalkBackService",
+      "accessibility_enabled": "1"
+    },
+    "restoredServiceSettings": {
+      "enabled_accessibility_services": "com.google.android.marvin.talkback/com.google.android.marvin.talkback.TalkBackService",
+      "accessibility_enabled": "1"
+    }
+  },
+  "serviceRestartAnnouncements": 0,
+  "stages": [
+    {
+      "stage": "home",
+      "utterances": ["rc3consumer", "Pocket notes"],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_155",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_156",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "push",
+      "utterances": [
+        "Along the coast",
+        "Find a note",
+        "Edit in a modal, A quiet path beside the sea.",
+        "Along the coast",
+        "Along the coast",
+        "A quiet path beside the sea.",
+        "Along the coast",
+        "Heading"
+      ],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_157",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_158",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_159",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_160",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_161",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_162",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_163",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_163",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "detail-tab-1",
+      "utterances": ["Edit in a modal", "Edit in a modal", "Edit in a modal"],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_164",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_165",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_166",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "detail-tab-2",
+      "utterances": [],
+      "ttsCompletions": []
+    },
+    {
+      "stage": "detail-tab-3",
+      "utterances": [],
+      "ttsCompletions": []
+    },
+    {
+      "stage": "detail-tab-4",
+      "utterances": [],
+      "ttsCompletions": []
+    },
+    {
+      "stage": "detail-focus",
+      "visibleFocus": [
+        {
+          "text": "Edit in a modal",
+          "description": "",
+          "bounds": [63, 477, 1017, 603],
+          "accessibilityFocused": true,
+          "visible": true
+        }
+      ],
+      "utterances": [],
+      "ttsCompletions": []
+    },
+    {
+      "stage": "modal-open",
+      "utterances": [
+        "Save note, No unsaved changes, A quiet path beside the sea.",
+        "Edit note",
+        "Edit note",
+        "No unsaved changes",
+        "Edit in a modal",
+        "Edit note",
+        "Heading",
+        "Edit note"
+      ],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_167",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_168",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_169",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_170",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_171",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_172",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_172",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_173",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "modal-tab-1",
+      "utterances": [
+        "Note draft. A quiet path beside the sea.",
+        "Editing. ",
+        "Note draft. A quiet path beside the sea."
+      ],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_174",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_175",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_176",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "modal-tab-2",
+      "utterances": ["Save note", "Save note", "Button", "Showing Password keyboard"],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_177",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_178",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_178",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_179",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "modal-tab-3",
+      "utterances": [
+        "Note draft. A quiet path beside the sea.",
+        "Editing. ",
+        "A quiet path beside the sea.",
+        "Edit box",
+        "Showing English (US) (QWERTY)"
+      ],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_180",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_181",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_181",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_181",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "modal-tab-4",
+      "utterances": ["Save note", "Button", "Showing Password keyboard"],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_182",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_183",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_183",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_184",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "modal-focus",
+      "visibleFocus": [
+        {
+          "text": "Save note",
+          "description": "",
+          "bounds": [225, 936, 855, 1062],
+          "accessibilityFocused": true,
+          "visible": true
+        }
+      ],
+      "utterances": [],
+      "ttsCompletions": []
+    },
+    {
+      "stage": "keyboard-dismiss",
+      "utterances": ["keyboard hidden"],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_185",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "modal-return",
+      "utterances": [
+        "rc3consumer",
+        "Edit in a modal",
+        "Button",
+        "Double-tap to activate"
+      ],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_186",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_187",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_187",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "returned-detail-tab-1",
+      "utterances": [],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_188",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "returned-detail-tab-2",
+      "utterances": [],
+      "ttsCompletions": []
+    },
+    {
+      "stage": "returned-detail-tab-3",
+      "utterances": [],
+      "ttsCompletions": []
+    },
+    {
+      "stage": "returned-detail-tab-4",
+      "utterances": [],
+      "ttsCompletions": []
+    },
+    {
+      "stage": "returned-detail-focus",
+      "visibleFocus": [
+        {
+          "text": "Edit in a modal",
+          "description": "",
+          "bounds": [63, 477, 1017, 603],
+          "accessibilityFocused": true,
+          "visible": true
+        }
+      ],
+      "utterances": [],
+      "ttsCompletions": []
+    },
+    {
+      "stage": "guard-modal-open",
+      "utterances": [
+        "Save note, No unsaved changes, A quiet path beside the sea.",
+        "Edit note",
+        "Edit note",
+        "No unsaved changes",
+        "Edit in a modal",
+        "Edit note",
+        "Edit note",
+        "Heading"
+      ],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_189",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_190",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_191",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_192",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_193",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_194",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_195",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_195",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "edit",
+      "utterances": [
+        "Note draft. A quiet path beside the sea.",
+        "Editing. ",
+        "Note draft. A quiet path beside the sea.",
+        "a",
+        "Showing English (US) (QWERTY)"
+      ],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_196",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_198",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_197",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_199",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_200",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "guard-keyboard-dismiss",
+      "utterances": ["keyboard hidden"],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_201",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "guard-open",
+      "utterances": [
+        "DISCARD, KEEP EDITING",
+        "Discard changes?",
+        "Your unsaved text will be lost."
+      ],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_202",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_203",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "guard-tab-1",
+      "utterances": ["KEEP EDITING", "KEEP EDITING", "Button", "Double-tap to activate"],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_204",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_205",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_206",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_206",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_207",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "guard-tab-2",
+      "utterances": ["DISCARD", "DISCARD", "Button", "Double-tap to activate"],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_208",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_209",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_209",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_210",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "guard-tab-3",
+      "utterances": ["KEEP EDITING", "KEEP EDITING", "Button", "Double-tap to activate"],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_211",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_212",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_212",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_213",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "guard-tab-4",
+      "utterances": ["DISCARD", "DISCARD", "Button", "Double-tap to activate"],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_214",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_215",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_215",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_216",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "guard-focus",
+      "visibleFocus": [
+        {
+          "text": "DISCARD",
+          "description": "",
+          "bounds": [764, 1298, 978, 1440],
+          "accessibilityFocused": true,
+          "visible": true
+        }
+      ],
+      "utterances": [],
+      "ttsCompletions": []
+    },
+    {
+      "stage": "guard-refused",
+      "utterances": [
+        "KEEP EDITING",
+        "Note draft. A quiet path beside the sea.",
+        "Edit note",
+        "Editing. ",
+        "aA quiet path beside the sea."
+      ],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_217",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_218",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_219",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_220",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "retained-modal-tab-1",
+      "utterances": ["Save note", "Save note", "Button", "Showing Password keyboard"],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_220",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_221",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_222",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_222",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_223",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "retained-modal-tab-2",
+      "utterances": [
+        "Note draft. A quiet path beside the sea.",
+        "Editing. ",
+        "aA quiet path beside the sea.",
+        "Edit box",
+        "Showing English (US) (QWERTY)"
+      ],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_224",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_225",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_225",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_225",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "retained-modal-tab-3",
+      "utterances": ["Save note", "Button", "Showing Password keyboard"],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_226",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_227",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_227",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_228",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "retained-modal-tab-4",
+      "utterances": [
+        "Note draft. A quiet path beside the sea.",
+        "Editing. ",
+        "aA quiet path beside the sea.",
+        "Edit box",
+        "Showing English (US) (QWERTY)"
+      ],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_229",
+          "completed": false
+        },
+        {
+          "utteranceId": "talkback_230",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_230",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_230",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "retained-modal-focus",
+      "visibleFocus": [
+        {
+          "text": "aA quiet path beside the sea.",
+          "description": "Note draft. A quiet path beside the sea.",
+          "bounds": [225, 388, 855, 861],
+          "accessibilityFocused": true,
+          "visible": true
+        }
+      ],
+      "utterances": [],
+      "ttsCompletions": []
+    },
+    {
+      "stage": "retained-keyboard-dismiss",
+      "utterances": ["keyboard hidden"],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_231",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_232",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "discard-open",
+      "utterances": [
+        "DISCARD, KEEP EDITING",
+        "Discard changes?",
+        "Your unsaved text will be lost."
+      ],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_233",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_234",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "discard-return",
+      "utterances": [
+        "DISCARD",
+        "rc3consumer",
+        "Edit in a modal",
+        "Button",
+        "Double-tap to activate"
+      ],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_235",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_236",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_237",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_238",
+          "completed": true
+        },
+        {
+          "utteranceId": "talkback_238",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "discarded-detail-tab-1",
+      "utterances": [],
+      "ttsCompletions": [
+        {
+          "utteranceId": "talkback_239",
+          "completed": true
+        }
+      ]
+    },
+    {
+      "stage": "discarded-detail-tab-2",
+      "utterances": [],
+      "ttsCompletions": []
+    },
+    {
+      "stage": "discarded-detail-tab-3",
+      "utterances": [],
+      "ttsCompletions": []
+    },
+    {
+      "stage": "discarded-detail-tab-4",
+      "utterances": [],
+      "ttsCompletions": []
+    },
+    {
+      "stage": "discarded-detail-focus",
+      "visibleFocus": [
+        {
+          "text": "Edit in a modal",
+          "description": "",
+          "bounds": [63, 477, 1017, 603],
+          "accessibilityFocused": true,
+          "visible": true
+        }
+      ],
+      "utterances": [],
+      "ttsCompletions": []
+    }
+  ],
+  "sessionSetupRestored": {
+    "enabledAccessibilityServices": null,
+    "accessibilityEnabled": false,
+    "displaySpeechOutput": false,
+    "logLevel": "ERROR",
+    "emulatorProximity": 1,
+    "notificationPermissionGranted": false,
+    "temporaryNotificationPermissionFlagsCleared": true
+  }
+}

@@ -1,0 +1,364 @@
+{
+  "date": "2026-10-25",
+  "environment": "Physical iPhone 17 Pro / iOS 27.2 beta",
+  "source": "XCUIVoiceOverService.Output.utterance",
+  "passed": true,
+  "durationSeconds": 120.567,
+  "originalVoiceOverEnabled": false,
+  "restoredVoiceOverEnabled": false,
+  "genericBackBehavior": "Activation opens the dirty-modal guard; refusal retains modal; later discard returns to the same covered detail.",
+  "utterances": [
+    {
+      "stage": "home",
+      "utterance": "Published rc.3 \u00b7 consumer acceptance"
+    },
+    {
+      "stage": "home",
+      "utterance": "Find a note Find a note Text field Double tap to edit."
+    },
+    {
+      "stage": "home",
+      "utterance": "Along the coast"
+    },
+    {
+      "stage": "detail",
+      "utterance": "Along the coast Heading"
+    },
+    {
+      "stage": "detail",
+      "utterance": "A quiet path beside the sea."
+    },
+    {
+      "stage": "detail",
+      "utterance": "Edit in a modal"
+    },
+    {
+      "stage": "detail",
+      "utterance": "Edit in a modal"
+    },
+    {
+      "stage": "detail",
+      "utterance": "A quiet path beside the sea."
+    },
+    {
+      "stage": "detail",
+      "utterance": "Along the coast Heading"
+    },
+    {
+      "stage": "detail",
+      "utterance": "Back button"
+    },
+    {
+      "stage": "detail",
+      "utterance": "Back button"
+    },
+    {
+      "stage": "open-modal",
+      "utterance": "Along the coast Heading"
+    },
+    {
+      "stage": "open-modal",
+      "utterance": "A quiet path beside the sea."
+    },
+    {
+      "stage": "open-modal",
+      "utterance": "Edit in a modal"
+    },
+    {
+      "stage": "modal",
+      "utterance": "Edit note Heading"
+    },
+    {
+      "stage": "modal",
+      "utterance": "Hide keyboard Button"
+    },
+    {
+      "stage": "modal",
+      "utterance": "Note draft A quiet path beside the sea. Text field Double tap to edit. Use the rotor to access Misspelled Words"
+    },
+    {
+      "stage": "modal",
+      "utterance": "No unsaved changes"
+    },
+    {
+      "stage": "modal",
+      "utterance": "Save note"
+    },
+    {
+      "stage": "modal",
+      "utterance": "Save note"
+    },
+    {
+      "stage": "modal",
+      "utterance": "No unsaved changes"
+    },
+    {
+      "stage": "modal",
+      "utterance": "Note draft A quiet path beside the sea. Text field Double tap to edit. Use the rotor to access Misspelled Words"
+    },
+    {
+      "stage": "modal",
+      "utterance": "Hide keyboard Button"
+    },
+    {
+      "stage": "modal",
+      "utterance": "Edit note Heading"
+    },
+    {
+      "stage": "modal",
+      "utterance": "Cancel Button"
+    },
+    {
+      "stage": "modal",
+      "utterance": "Cancel Button"
+    },
+    {
+      "stage": "returned-detail",
+      "utterance": "Along the coast Heading"
+    },
+    {
+      "stage": "returned-detail",
+      "utterance": "A quiet path beside the sea."
+    },
+    {
+      "stage": "returned-detail",
+      "utterance": "Edit in a modal"
+    },
+    {
+      "stage": "returned-detail",
+      "utterance": "Edit in a modal"
+    },
+    {
+      "stage": "returned-detail",
+      "utterance": "A quiet path beside the sea."
+    },
+    {
+      "stage": "returned-detail",
+      "utterance": "Along the coast Heading"
+    },
+    {
+      "stage": "returned-detail",
+      "utterance": "Back button"
+    },
+    {
+      "stage": "returned-detail",
+      "utterance": "Back button"
+    },
+    {
+      "stage": "guard-open",
+      "utterance": "Along the coast Heading"
+    },
+    {
+      "stage": "guard-open",
+      "utterance": "A quiet path beside the sea."
+    },
+    {
+      "stage": "guard-open",
+      "utterance": "Edit in a modal"
+    },
+    {
+      "stage": "guard-edit",
+      "utterance": "Edit note Heading"
+    },
+    {
+      "stage": "guard-edit",
+      "utterance": "Hide keyboard Button"
+    },
+    {
+      "stage": "guard-edit",
+      "utterance": "Note draft A quiet path beside the sea. Text field Double tap to edit. Use the rotor to access Misspelled Words"
+    },
+    {
+      "stage": "guard-cancel",
+      "utterance": "Note draft A quiet path beside the sea.a Text field Double tap to edit. Use the rotor to access Misspelled Words"
+    },
+    {
+      "stage": "guard-cancel",
+      "utterance": "Unsaved changes"
+    },
+    {
+      "stage": "guard-cancel",
+      "utterance": "Save note"
+    },
+    {
+      "stage": "guard-cancel",
+      "utterance": "Save note"
+    },
+    {
+      "stage": "guard-cancel",
+      "utterance": "Unsaved changes"
+    },
+    {
+      "stage": "guard-cancel",
+      "utterance": "Note draft A quiet path beside the sea.a Text field Double tap to edit. Use the rotor to access Misspelled Words"
+    },
+    {
+      "stage": "guard-cancel",
+      "utterance": "Hide keyboard Button"
+    },
+    {
+      "stage": "guard-cancel",
+      "utterance": "Edit note Heading"
+    },
+    {
+      "stage": "guard-cancel",
+      "utterance": "Cancel Button"
+    },
+    {
+      "stage": "guard-dialog",
+      "utterance": "Your unsaved text will be lost."
+    },
+    {
+      "stage": "guard-dialog",
+      "utterance": "Keep editing Button"
+    },
+    {
+      "stage": "guard-dialog",
+      "utterance": "Discard Button"
+    },
+    {
+      "stage": "guard-dialog",
+      "utterance": "Discard Button"
+    },
+    {
+      "stage": "guard-dialog",
+      "utterance": "Keep editing Button"
+    },
+    {
+      "stage": "guard-dialog",
+      "utterance": "Your unsaved text will be lost."
+    },
+    {
+      "stage": "guard-dialog",
+      "utterance": "Discard changes?"
+    },
+    {
+      "stage": "guard-dialog",
+      "utterance": "Discard changes?"
+    },
+    {
+      "stage": "guard-refuse",
+      "utterance": "Your unsaved text will be lost."
+    },
+    {
+      "stage": "guard-refuse",
+      "utterance": "Keep editing Button"
+    },
+    {
+      "stage": "guard-retained-modal",
+      "utterance": "Cancel Button"
+    },
+    {
+      "stage": "guard-retained-modal",
+      "utterance": "Edit note Heading"
+    },
+    {
+      "stage": "guard-retained-modal",
+      "utterance": "Hide keyboard Button"
+    },
+    {
+      "stage": "guard-retained-modal",
+      "utterance": "Note draft A quiet path beside the sea.a Text field Double tap to edit. Use the rotor to access Misspelled Words"
+    },
+    {
+      "stage": "guard-retained-modal",
+      "utterance": "Unsaved changes"
+    },
+    {
+      "stage": "guard-retained-modal",
+      "utterance": "Save note"
+    },
+    {
+      "stage": "guard-retained-modal",
+      "utterance": "Save note"
+    },
+    {
+      "stage": "guard-retained-modal",
+      "utterance": "Unsaved changes"
+    },
+    {
+      "stage": "guard-retained-modal",
+      "utterance": "Note draft A quiet path beside the sea.a Text field Double tap to edit. Use the rotor to access Misspelled Words"
+    },
+    {
+      "stage": "guard-retained-modal",
+      "utterance": "Hide keyboard Button"
+    },
+    {
+      "stage": "guard-retained-modal",
+      "utterance": "Edit note Heading"
+    },
+    {
+      "stage": "guard-retained-modal",
+      "utterance": "Cancel Button"
+    },
+    {
+      "stage": "guard-retained-modal",
+      "utterance": "Back button"
+    },
+    {
+      "stage": "guard-retained-modal",
+      "utterance": "Back button"
+    },
+    {
+      "stage": "guard-boundary-activation",
+      "utterance": "Back button"
+    },
+    {
+      "stage": "guard-boundary-refuse",
+      "utterance": "Your unsaved text will be lost."
+    },
+    {
+      "stage": "guard-boundary-refuse",
+      "utterance": "Keep editing Button"
+    },
+    {
+      "stage": "guard-discard-open",
+      "utterance": "Cancel Button"
+    },
+    {
+      "stage": "guard-discard",
+      "utterance": "Your unsaved text will be lost."
+    },
+    {
+      "stage": "guard-discard",
+      "utterance": "Keep editing Button"
+    },
+    {
+      "stage": "guard-discard",
+      "utterance": "Discard Button"
+    },
+    {
+      "stage": "guard-returned-detail",
+      "utterance": "Along the coast Heading"
+    },
+    {
+      "stage": "guard-returned-detail",
+      "utterance": "A quiet path beside the sea."
+    },
+    {
+      "stage": "guard-returned-detail",
+      "utterance": "Edit in a modal"
+    },
+    {
+      "stage": "guard-returned-detail",
+      "utterance": "Edit in a modal"
+    },
+    {
+      "stage": "guard-returned-detail",
+      "utterance": "A quiet path beside the sea."
+    },
+    {
+      "stage": "guard-returned-detail",
+      "utterance": "Along the coast Heading"
+    },
+    {
+      "stage": "guard-returned-detail",
+      "utterance": "Back button"
+    },
+    {
+      "stage": "guard-returned-detail",
+      "utterance": "Back button"
+    }
+  ]
+}

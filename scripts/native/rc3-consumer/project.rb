@@ -8,6 +8,10 @@ target.source_build_phase.add_file_reference(
   project.main_group.new_file(File.realpath(File.expand_path('ConsumerUITests.swift', __dir__))))
 target.source_build_phase.add_file_reference(
   project.main_group.new_file(File.realpath(File.expand_path('../contracts/ContractTouch.m', __dir__))))
+if ENV['VOICEOVER_TESTS'] == '1'
+  target.source_build_phase.add_file_reference(
+    project.main_group.new_file(File.realpath(File.expand_path('VoiceOverTests.m', __dir__))))
+end
 target.build_configurations.each do |config|
   config.build_settings['PRODUCT_BUNDLE_IDENTIFIER'] = 'org.nativescript.rc3consumerchecks'
   config.build_settings['GENERATE_INFOPLIST_FILE'] = 'YES'
