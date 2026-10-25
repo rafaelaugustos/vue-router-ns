@@ -1,0 +1,182 @@
+{
+  "date": "2026-10-25",
+  "core": "9.1.3",
+  "iosRuntime": "9.1.0",
+  "vue": "3.1.2",
+  "router": "0.1.0-rc.3",
+  "upstreamBase": "6bb01ea",
+  "upstreamCandidate": "91337f9",
+  "upstreamPR": "https://github.com/NativeScript/NativeScript/pull/11587",
+  "change": "iOS View.requestLayout reads controller.viewIfLoaded instead of controller.view; layout flags, parent propagation and loaded-native-view invalidation preserved.",
+  "runs": [
+    {
+      "run": "baseline-mechanism",
+      "device": "iPhone 16 / iOS 18.6",
+      "entry": "Core",
+      "candidateApplied": false,
+      "cases": [
+        {
+          "method": "testPrebuiltLoadView",
+          "result": "failed",
+          "seconds": 25.957
+        },
+        {
+          "method": "testPrebuiltRequestLayout",
+          "result": "failed",
+          "seconds": 25.714
+        }
+      ]
+    },
+    {
+      "run": "candidate-mechanism",
+      "device": "iPhone 16 / iOS 18.6",
+      "entry": "Core",
+      "candidateApplied": true,
+      "cases": [
+        {
+          "method": "testPrebuiltControl",
+          "result": "passed",
+          "seconds": 11.955
+        },
+        {
+          "method": "testPrebuiltLoadView",
+          "result": "failed",
+          "seconds": 26.34
+        },
+        {
+          "method": "testPrebuiltLTR",
+          "result": "passed",
+          "seconds": 11.333
+        },
+        {
+          "method": "testPrebuiltRequestLayout",
+          "result": "passed",
+          "seconds": 12.425
+        }
+      ]
+    },
+    {
+      "run": "candidate-ipad",
+      "device": "iPad Pro 11-inch M4 / iPadOS 18.6",
+      "entry": "Core",
+      "candidateApplied": true,
+      "cases": [
+        {
+          "method": "testInheritedLTR",
+          "result": "passed",
+          "seconds": 13.588
+        },
+        {
+          "method": "testPrebuiltControl",
+          "result": "passed",
+          "seconds": 14.052
+        },
+        {
+          "method": "testPrebuiltLTR",
+          "result": "passed",
+          "seconds": 14.187
+        },
+        {
+          "method": "testPrebuiltRequestLayout",
+          "result": "passed",
+          "seconds": 13.978
+        }
+      ]
+    },
+    {
+      "run": "candidate-vue",
+      "device": "iPhone 16 / iOS 18.6",
+      "entry": "Vue only",
+      "candidateApplied": true,
+      "cases": [
+        {
+          "method": "testControl",
+          "result": "passed",
+          "seconds": 11.651
+        },
+        {
+          "method": "testInheritedLTR",
+          "result": "passed",
+          "seconds": 12.523
+        }
+      ]
+    },
+    {
+      "run": "candidate-router-final",
+      "device": "iPhone 16 / iOS 18.6",
+      "entry": "Published router rc.3",
+      "candidateApplied": true,
+      "cases": [
+        {
+          "method": "testInheritedLTR",
+          "result": "passed",
+          "seconds": 13.883
+        },
+        {
+          "method": "testTabsControl",
+          "result": "passed",
+          "seconds": 13.614
+        },
+        {
+          "method": "testTabsLTR",
+          "result": "passed",
+          "seconds": 13.659
+        }
+      ]
+    },
+    {
+      "run": "candidate-router-ios26-final",
+      "device": "iPhone 17 / iOS 26.0",
+      "entry": "Published router rc.3",
+      "candidateApplied": true,
+      "cases": [
+        {
+          "method": "testControl",
+          "result": "passed",
+          "seconds": 14.757
+        },
+        {
+          "method": "testInheritedLTR",
+          "result": "passed",
+          "seconds": 14.805
+        },
+        {
+          "method": "testTabsLTR",
+          "result": "passed",
+          "seconds": 14.924
+        }
+      ]
+    }
+  ],
+  "negativeControls": "prebuilt-load-view deliberately reads controller.view before Application.run; fails on original and candidate. Original prebuilt-request-layout also fails. Failures terminate on Draft focus.",
+  "startupEvidence": {
+    "device": "iPadOS 18.6",
+    "mode": "prebuilt-request-layout",
+    "loadedBefore": false,
+    "loadedAfter": false
+  },
+  "coreUnitTests": {
+    "targetedOriginal": {
+      "passed": 6,
+      "failed": 1
+    },
+    "targetedCandidate": {
+      "passed": 7,
+      "failed": 0
+    },
+    "fullCandidate": {
+      "filesPassed": 44,
+      "passed": 568,
+      "skipped": 1,
+      "failed": 0
+    }
+  },
+  "testHarness": "Check typed text before Back; after reversing touch, wait up to 5 seconds for the edited accessibility value, then commit Back and require home. Final router runs reinstall the runner to avoid executing an older installed test binary.",
+  "supersededIOS26Runs": "Immediate post-gesture accessibility reads reported an empty value while the screenshot still showed draft; also occurred without direction. A stale runner initially repeated the old assertion after recompilation. These failed runs are not counted as passes or as application crashes.",
+  "notVerified": [
+    "physical iPhone unavailable during this pass",
+    "dynamic RTL and arbitrary navigation hosts",
+    "complete upstream apps/automated suite; two native assertions added but not run in that suite"
+  ],
+  "disposition": "Candidate correction submitted upstream; #139 stays open pending review, publication and released-dependency validation. No production router patch or dependency bump."
+}

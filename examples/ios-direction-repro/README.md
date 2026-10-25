@@ -58,3 +58,28 @@ Select `testInheritedLTR`, `testPrebuiltControl` and `testPrebuiltLTR` for the p
 The `testPrebuiltLTR` Core case and inherited-LTR Vue case are **known failing regression reproductions** on iOS/iPadOS 18.6. It is deliberately not made green by disabling native Back. These manual research cases are not added to the required CI gate while upstream is unresolved. The reversing touch helper is compiled only into the XCTest runner, never the application or library.
 
 For the original exception, attach LLDB to the launched simulator app and break at `objc_exception_throw` before tapping Draft. Print `(id)$x0` on arm64 and capture the stack. See [the investigation report](../../test/native-inherited-direction.md). App resources, native build products and installed dependencies are ignored; no signing team is committed.
+
+## Candidate Core correction: preserve lazy controller loading
+
+Core 9.1.3's iOS `View.requestLayout()` accesses `viewController.view`, which loads the controller view. Inherited direction requests layout during tree assembly, so a prebuilt Frame can load its UINavigationController view before `UIApplicationMain`. The candidate uses `viewIfLoaded` instead, retaining dirty flags, ancestor invalidation and invalidation of already loaded native views.
+
+Two additional Core-only controls isolate this mechanism without setting direction:
+
+| Mode                      | Operation before `Application.run()`        | Original Core           | Candidate                                      |
+| ------------------------- | ------------------------------------------- | ----------------------- | ---------------------------------------------- |
+| `prebuilt-request-layout` | `frame.requestLayout()`                     | Terminates on Draft tap | Full keyboard/Back flow passes                 |
+| `prebuilt-load-view`      | Read `frame.ios.controller.view` explicitly | Terminates on Draft tap | Still terminates: intentional negative control |
+
+`startup.loadedBefore` and `startup.loadedAfter` in `Documents/direction.json` use the non-loading `viewIfLoaded` getter. They describe whether the view was loaded, not whether the Frame object existed.
+
+The patch helper is **opt-in and restricted to this locked research app's Core 9.1.3 dependency**. It is never run by installation or imported by the router:
+
+```sh
+node scripts/core-layout-patch.mjs apply
+ns build ios
+# Reinstall the built app before testing. Also compare --env.vue and --env.router.
+node scripts/core-layout-patch.mjs revert
+ns build ios
+```
+
+The helper refuses an unexpected Core version or source block. `npm ci` also restores the published dependency. `testPrebuiltLoadView` remains a deliberately failing control even with the candidate. The correction requires upstream review and publication; this fixture patch does not fix applications installing the published router/Core packages. See the [candidate results](../../test/evidence/inherited-direction-layout-fix.json) and [investigation report](../../test/native-inherited-direction.md).
