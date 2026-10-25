@@ -67,3 +67,7 @@ Reduce Motion is read at navigation/gesture admission (`motion: 'system'`, `'red
 - [Android: Fragment transition requirements](https://developer.android.com/guide/fragments/animate)
 
 [Host capability follow-up #145](https://github.com/rafaelaugustos/vue-router-ns/issues/145) remains outside the rc.3 release gate.
+
+## Observation proposal v0
+
+[The #145 proposal and prototype](https://github.com/rafaelaugustos/vue-router-ns/tree/main/research/transition-observation) observe ordinary UIKit Back without replacing delegates or polling. Native cancellation/commit and unsubscribe/current-replacement controls have recorded evidence, while entry identity mapping, modal inner Back and several lifetime/host cases remain gaps. The decision is to keep it in research: there is no new public observer, continuous progress promise or Jolt adapter. See [the native report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-transition-observation.md).
