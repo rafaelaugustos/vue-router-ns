@@ -1,0 +1,373 @@
+{
+  "date": "2026-10-25",
+  "platform": "iPhone 17 simulator / iOS 26.0",
+  "versions": {
+    "core": "9.1.3",
+    "vue": "3.1.2",
+    "ios": "9.1.0"
+  },
+  "commands": [
+    {
+      "name": "Plain",
+      "status": "PASS Plain",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "observations": [],
+      "completions": [],
+      "issues": []
+    },
+    {
+      "name": "Check cancel",
+      "status": "PASS Check cancel",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "observations": [
+        {
+          "window": "fixture-window",
+          "host": "root-frame",
+          "session": "root-frame:1",
+          "source": null,
+          "target": null,
+          "type": "began",
+          "progress": null
+        },
+        {
+          "window": "fixture-window",
+          "host": "root-frame",
+          "session": "root-frame:1",
+          "source": null,
+          "target": null,
+          "type": "interaction-ended",
+          "cancelled": true
+        },
+        {
+          "window": "fixture-window",
+          "host": "root-frame",
+          "session": "root-frame:1",
+          "source": null,
+          "target": null,
+          "type": "terminal",
+          "outcome": "cancelled"
+        }
+      ],
+      "completions": [
+        {
+          "cancelled": true,
+          "outcome": "cancelled"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "name": "Check commit",
+      "status": "PASS Check commit",
+      "resultCount": 1,
+      "disposed": 1,
+      "stack": ["/"],
+      "observations": [
+        {
+          "window": "fixture-window",
+          "host": "root-frame",
+          "session": "root-frame:1",
+          "source": null,
+          "target": null,
+          "type": "began",
+          "progress": null
+        },
+        {
+          "window": "fixture-window",
+          "host": "root-frame",
+          "session": "root-frame:1",
+          "source": null,
+          "target": null,
+          "type": "interaction-ended",
+          "cancelled": true
+        },
+        {
+          "window": "fixture-window",
+          "host": "root-frame",
+          "session": "root-frame:1",
+          "source": null,
+          "target": null,
+          "type": "terminal",
+          "outcome": "cancelled"
+        },
+        {
+          "window": "fixture-window",
+          "host": "root-frame",
+          "session": "root-frame:2",
+          "source": null,
+          "target": null,
+          "type": "began",
+          "progress": null
+        },
+        {
+          "window": "fixture-window",
+          "host": "root-frame",
+          "session": "root-frame:2",
+          "source": null,
+          "target": null,
+          "type": "interaction-ended",
+          "cancelled": false
+        },
+        {
+          "window": "fixture-window",
+          "host": "root-frame",
+          "session": "root-frame:2",
+          "source": null,
+          "target": null,
+          "type": "terminal",
+          "outcome": "committed"
+        }
+      ],
+      "completions": [
+        {
+          "cancelled": true,
+          "outcome": "cancelled"
+        },
+        {
+          "cancelled": false,
+          "outcome": "committed"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "name": "Guarded plain",
+      "status": "PASS Guarded plain",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "observations": [],
+      "completions": [],
+      "issues": []
+    },
+    {
+      "name": "Check guard",
+      "status": "PASS Check guard",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "observations": [],
+      "completions": [],
+      "issues": []
+    },
+    {
+      "name": "Allow",
+      "status": "PASS Allow",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "observations": [],
+      "completions": [],
+      "issues": []
+    },
+    {
+      "name": "Check commit",
+      "status": "PASS Check commit",
+      "resultCount": 1,
+      "disposed": 1,
+      "stack": ["/"],
+      "observations": [
+        {
+          "window": "fixture-window",
+          "host": "root-frame",
+          "session": "root-frame:3",
+          "source": null,
+          "target": null,
+          "type": "began",
+          "progress": null
+        },
+        {
+          "window": "fixture-window",
+          "host": "root-frame",
+          "session": "root-frame:3",
+          "source": null,
+          "target": null,
+          "type": "interaction-ended",
+          "cancelled": false
+        },
+        {
+          "window": "fixture-window",
+          "host": "root-frame",
+          "session": "root-frame:3",
+          "source": null,
+          "target": null,
+          "type": "terminal",
+          "outcome": "committed"
+        }
+      ],
+      "completions": [
+        {
+          "cancelled": false,
+          "outcome": "committed"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "name": "Plain",
+      "status": "PASS Plain",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "observations": [],
+      "completions": [],
+      "issues": []
+    },
+    {
+      "name": "Detach soon",
+      "status": "PASS Detach soon",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "observations": [],
+      "completions": [],
+      "issues": []
+    },
+    {
+      "name": "Check detach",
+      "status": "PASS Check detach",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "observations": [
+        {
+          "window": "fixture-window",
+          "host": "root-frame",
+          "session": "root-frame:4",
+          "source": null,
+          "target": null,
+          "type": "began",
+          "progress": null
+        },
+        {
+          "window": "fixture-window",
+          "host": "root-frame",
+          "session": "root-frame:4",
+          "source": null,
+          "target": null,
+          "type": "terminal",
+          "outcome": "interrupted",
+          "reason": "host-unloaded-or-unsubscribed"
+        }
+      ],
+      "completions": [
+        {
+          "cancelled": false,
+          "outcome": "interrupted"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "name": "Back",
+      "status": "PASS Back",
+      "resultCount": 1,
+      "disposed": 1,
+      "stack": ["/"],
+      "observations": [
+        {
+          "window": "fixture-window",
+          "host": "root-frame",
+          "session": "root-frame:4",
+          "source": null,
+          "target": null,
+          "type": "began",
+          "progress": null
+        },
+        {
+          "window": "fixture-window",
+          "host": "root-frame",
+          "session": "root-frame:4",
+          "source": null,
+          "target": null,
+          "type": "terminal",
+          "outcome": "interrupted",
+          "reason": "host-unloaded-or-unsubscribed"
+        }
+      ],
+      "completions": [
+        {
+          "cancelled": false,
+          "outcome": "interrupted"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "name": "Plain",
+      "status": "PASS Plain",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "observations": [],
+      "completions": [],
+      "issues": []
+    },
+    {
+      "name": "Interrupt soon",
+      "status": "PASS Interrupt soon",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "observations": [],
+      "completions": [],
+      "issues": []
+    },
+    {
+      "name": "Check interrupt",
+      "status": "PASS Check interrupt",
+      "resultCount": 0,
+      "disposed": 0,
+      "stack": ["/", "/detail"],
+      "observations": [
+        {
+          "window": "fixture-window",
+          "host": "root-frame",
+          "session": "root-frame:1",
+          "source": null,
+          "target": null,
+          "type": "began",
+          "progress": null
+        },
+        {
+          "window": "fixture-window",
+          "host": "root-frame",
+          "session": "root-frame:1",
+          "source": null,
+          "target": null,
+          "type": "terminal",
+          "outcome": "interrupted",
+          "reason": "source-replaced"
+        }
+      ],
+      "completions": [
+        {
+          "cancelled": false,
+          "outcome": "interrupted"
+        }
+      ],
+      "issues": []
+    }
+  ],
+  "lifecycle": [
+    {
+      "event": "detach-request",
+      "interactive": true
+    },
+    {
+      "event": "interrupt-request",
+      "interactive": true
+    }
+  ],
+  "gaps": [
+    "source/target controller mapping returned null",
+    "native modal inner Back",
+    "native covered-target replacement",
+    "native host unload during interaction",
+    "Android and optional host observer capability"
+  ]
+}

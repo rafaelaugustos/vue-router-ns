@@ -2,6 +2,8 @@ const { resolve } = require('path')
 const webpack = require('@nativescript/webpack')
 
 module.exports = (env) => {
+  if (env.observationTest && !env.ios)
+    throw new Error('The observation prototype currently supports iOS only')
   webpack.init(env)
 
   webpack.chainWebpack((config) => {
@@ -24,6 +26,7 @@ module.exports = (env) => {
       'adaptivedrawer',
       'actions',
       'transitions',
+      'observation',
       'showcase',
       'middleware',
       'layouts',
