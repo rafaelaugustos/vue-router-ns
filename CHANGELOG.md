@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+## 0.1.0-rc.4 (2026-10-25)
+
+Documentation and release-readiness candidate. The navigation runtime and public API are unchanged from rc.3; the supported dependency baseline remains NativeScript Core 9.1.3 / NativeScript-Vue 3.1.2.
+
+- Add Spanish and Simplified Chinese documentation: all 46 guides and the homepage, localized navigation/search, gallery, interactive stack model and diagnostics viewer. Preserve code examples, API identifiers, guide anchors and viewer reports across language changes. Add Chinese word segmentation for search and automated locale consistency checks. (#161)
+- Add the 1.0 readiness review, document seven previously missing named exports, and define the remaining API, dependency and final-artifact decisions. Backlog features are not automatic release requirements. (#153, #161)
+- Record independent acceptance of the published rc.3 package, physical iPhone validation and VoiceOver service evidence, plus TalkBack validation on an Android emulator. Android physical-device coverage remains unavailable; the reports distinguish speech/gesture limits from automated UI assertions. These are revision-specific records, not new physical-device acceptance for rc.4. (#155, #157, #159)
+- Complete the passive native Back observation investigation and lifecycle/cleanup checks. Keep the adapter private: authoritative entry identifiers and concurrent target changes still prevent a supported public controller. No public interactive-transition API or Jolt integration is added. (#156, #159)
+- Isolate the inherited-direction iOS crash in NativeScript Core startup order, and validate the proposed lazy-controller correction in native fixtures. The correction remains an upstream proposal, not a fix shipped in this router package. (#154, #158, #160)
+
+**Known limitation — #139:** inherited NativeScript CSS `direction` around generic native navigation can still crash on iOS/iPadOS 18.6 with published Core 9.1.3. `RouterDrawer` has its own bounded direction handling. [NativeScript #11587](https://github.com/NativeScript/NativeScript/pull/11587) proposes the Core correction; neither its unpublished patch nor delaying direction is a certified general application workaround. This candidate does not require that upstream change to be published, and does not claim to fix this crash.
+
+The new translations received technical review from machine-assisted drafts; independent native-speaker proofreading is not claimed. Experimental API boundaries remain in the [compatibility guide](https://vue-router-ns.rafaelaugusto.dev/guide/compatibility).
+
+Publication is gated by full CI/native validation on this release commit and fresh-install checks against the final tarball. npm uses `next`; under the existing prerelease policy, `latest` also advances while no stable release exists.
+
 ## 0.1.0-rc.3 (2026-10-24)
 
 Native Navigation Experience: compose native containers, page actions and retained navigation state on the published Core 9.1.3 / NativeScript-Vue 3.1.2 baseline.

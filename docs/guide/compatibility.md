@@ -1,6 +1,6 @@
 # RC scope and compatibility
 
-The `0.1.0-rc.3` release candidate freezes the documented, non-experimental API while we validate it for the stable release. Explicit JavaScript/TypeScript route tables remain the default. File conventions are optional; both use native navigation, without a Vue Router or Nuxt runtime.
+The `0.1.0-rc.4` release candidate freezes the documented, non-experimental API while we validate it for the stable release. Explicit JavaScript/TypeScript route tables remain the default. File conventions are optional; both use native navigation, without a Vue Router or Nuxt runtime.
 
 ## Supported baseline
 
