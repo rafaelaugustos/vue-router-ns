@@ -1,0 +1,16 @@
+{
+  "name": "native-direction-repro",
+  "private": true,
+  "version": "1.0.0",
+  "main": "src/app.js",
+  "dependencies": {
+    "@nativescript/core": "9.1.3",
+    "nativescript-vue": "3.1.2",
+    "vue-router-ns": "0.1.0-rc.3"
+  },
+  "devDependencies": {
+    "@nativescript/ios": "9.1.0",
+    "@nativescript/webpack": "5.0.38",
+    "webpack": "5.111.1"
+  }
+}
