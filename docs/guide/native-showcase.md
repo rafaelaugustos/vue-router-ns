@@ -1,5 +1,7 @@
 # Fieldnotes: an integrated native navigation example
 
+New to the router? Start with [Pocket notes](./first-app), then use this guide to compose the native features. See [pages, stacks and state](./mental-model) for the lifetime model.
+
 <Clip name="native-showcase" aspect="402 / 874" caption="Actual iOS 26 simulator: drawer, native search and menus, shared header actions, modal result, unsaved-edit guards and return to the retained list." />
 
 Fieldnotes is a small, runnable list/detail app. A drawer opens destinations; native page headers and search lead into a note; header and context-menu actions share state; an editor protects unsaved changes; a native modal returns a result to the same detail page.

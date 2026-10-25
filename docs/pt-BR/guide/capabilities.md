@@ -29,6 +29,8 @@ Os exemplos abaixo são caminhos do repositório. Siga a [configuração do demo
 
 Execute flags em `demo`, por exemplo `ns run ios --env.actionsTest` ou `ns run android --env.actionsTest`. Fixtures exclusivos de iOS exigem iOS. Large titles, headers, busca e menus não exigem um novo subsistema “Native Navigation Headers”.
 
+<a id="choose-a-container"></a>
+
 ## Escolha um container
 
 | Container                  | O que controla                                              | Quando usar                                                                                                                      |

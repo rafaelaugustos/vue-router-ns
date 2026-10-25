@@ -1,49 +1,39 @@
-# Install
+# Install and open a page
+
+You need Node 20.19.4+, NativeScript-Vue 3.1.2+ (3.x), and NativeScript Core 9.1.3+ (9.x). Prepare the native SDKs with [NativeScript environment setup](https://docs.nativescript.org/setup/); building iOS locally requires macOS and Xcode. The full tested baseline is in [compatibility](./compatibility).
+
+## Create or use a NativeScript-Vue project
+
+If you already have a running NativeScript-Vue app, use its directory. Otherwise, follow the [official NativeScript-Vue starter](https://nativescript-vue.org/docs/getting-started/installation):
+
+```sh
+ns create pocket-notes --template @nativescript-vue/template-blank@latest
+cd pocket-notes
+```
+
+Install the router in that project:
 
 ```sh
 npm install vue-router-ns@next
 ```
 
-The release candidate is published under `next`. Requires `nativescript-vue` 3.1.2+ (3.x), `@nativescript/core` 9.1.3+ (9.x), and Node 20.19.4+. See the [RC scope and compatibility](https://vue-router-ns.rafaelaugusto.dev/guide/compatibility) for tested versions and experimental features.
-
-Use beta.15 or newer with npm 10. Beta.14's optional Vite peer triggered npm's
-`Cannot read properties of null (reading 'edgesOut')` resolver crash, even in apps
-using explicit routes. The router no longer declares Vite or webpack peers; the
-normal install command above works without `--legacy-peer-deps`.
-
-If you opt into [file routing](./file-routing), install the chosen bundler as an
-app development dependency. Keep a working NativeScript Vite lockfile when using
-npm 10: creating that builder's dependency tree from scratch can hit a separate
-optional-peer resolver failure even without this router. npm 11 handles the
-lockfile-free Vite setup in the installation checks.
-
-## Try it online
-
-Use the [StackBlitz playground](./playground) with NativeScript Preview to edit examples and run them on a device before setting up local native SDKs.
+The `next` tag selects a release candidate. Commit the resulting lockfile for reproducible installs.
 
 ## Getting started
 
-Export the router from `router.ts`, then install it:
+Use this minimal structure under the project's `src` directory. Replace the starter's app-level Frame with `RouterView`; the router creates its native Frame.
 
 ```ts
-// router.ts
+// src/router.ts
 import { createRouter } from 'vue-router-ns'
 
 export const router = createRouter({
-  routes: [
-    { path: '/', component: () => import('./pages/Home.vue') },
-    {
-      path: '/messages/:id',
-      name: 'message',
-      component: () => import('./pages/Message.vue'),
-    },
-    { path: '/compose', component: () => import('./pages/Compose.vue'), modal: true },
-  ],
+  routes: [{ path: '/', component: () => import('./pages/Home.vue') }],
 })
 ```
 
 ```ts
-// app.ts
+// src/app.ts
 import { createApp } from 'nativescript-vue'
 import App from './App.vue'
 import { router } from './router'
@@ -52,76 +42,42 @@ createApp(App).use(router).start()
 ```
 
 ```vue
-<!-- App.vue -->
+<!-- src/App.vue -->
 <template>
   <RouterView />
 </template>
 ```
 
-`<RouterView>` renders a `Frame` and shows the route given in `initial` (`/` by default). Every route component is a page, so it renders a `<Page>`:
-
 ```vue
-<!-- pages/Message.vue -->
-<script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router-ns'
-
-const route = useRoute()
-const router = useRouter()
-</script>
-
+<!-- src/pages/Home.vue -->
 <template>
   <Page>
-    <ActionBar :title="`Message ${route.params.id}`" />
-    <Button text="Reply" @tap="router.push('/compose')" />
+    <ActionBar title="Pocket notes" />
+    <Label text="Your first native page" margin="24" />
   </Page>
 </template>
 ```
 
-Complete the other two pages in the route table:
+Run on a configured simulator/emulator or connected device:
 
-```vue
-<!-- pages/Home.vue -->
-<script setup lang="ts">
-import { useRouter } from 'vue-router-ns'
-const router = useRouter()
-</script>
-
-<template>
-  <Page>
-    <ActionBar title="Home" />
-    <Button text="Open message" @tap="router.push('/messages/42')" />
-  </Page>
-</template>
+```sh
+ns run ios
+# or:
+ns run android
 ```
 
-```vue
-<!-- pages/Compose.vue -->
-<script setup lang="ts">
-import { useRouter } from 'vue-router-ns'
-const router = useRouter()
-</script>
+You should see **Pocket notes** and **Your first native page**. Continue to [build your first app](./first-app): add a list, a detail page, a modal result and an unsaved-edit guard using complete files.
 
-<template>
-  <Page>
-    <ActionBar title="Compose" />
-    <Button text="Close" @tap="router.back()" />
-  </Page>
-</template>
-```
+## Try it online
 
-For a branded startup screen, keep the first page mounted underneath a [splash overlay](./splash).
+The [StackBlitz playground](./playground) provides a browser editor connected to NativeScript Preview on your device. Its prebuilt native runtime has limits; see that guide before evaluating platform-specific features.
 
 ## The demo app
 
-The repository ships a small mail app with two tabs in [`demo/`](https://github.com/rafaelaugustos/vue-router-ns/tree/main/demo). It covers typed params, a compose modal that returns its text, a leave guard that only asks while there's a draft, a login guard, a lazy page, `clearHistory`, a message page that follows the Android back swipe, and tabs that go back to their first page when tapped again.
+To run the repository examples instead of creating a project, follow the [Fieldnotes checkout setup](./native-showcase#run-from-a-checkout). Use `npm run tutorial:ios` / `tutorial:android` from `demo` for the first-app tutorial, `showcase:ios` / `showcase:android` for Fieldnotes, or `ns run ios` / `ns run android` for the default mail app. All entries share the demo application ID, so installing one replaces the other on that device.
 
-With the [NativeScript CLI](https://docs.nativescript.org/setup/) installed:
+## Installation troubleshooting
 
-```sh
-npm install
-npm run build
+With npm 10, use beta.15 or newer. Beta.14's optional Vite peer triggered `Cannot read properties of null (reading 'edgesOut')`; the router no longer declares Vite or webpack peers and does not require `--legacy-peer-deps`.
 
-cd demo
-npm install
-ns run ios         # or: ns run android
-```
+File routing is optional. If you choose it, install the bundler described in [its guide](./file-routing). Keep a working NativeScript Vite lockfile on npm 10: that builder has a separate optional-peer resolver issue when starting without a lockfile. See [the installation evidence](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/npm-install.md) for tested combinations.

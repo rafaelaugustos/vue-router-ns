@@ -38,13 +38,14 @@ module.exports = (env) => {
       'predictiveplain',
     ].filter((name) => env[`${name}Test`])
     if (fixtures.length > 1) throw new Error('Select only one native acceptance fixture')
-    if (env.showcase && (env.airbnb || fixtures.length))
-      throw new Error('Select showcase without another app or acceptance fixture')
-    if (env.showcase) {
+    const apps = ['showcase', 'tutorial'].filter((name) => env[name])
+    if (apps.length > 1 || (apps.length && (env.airbnb || fixtures.length)))
+      throw new Error('Select one app without another app or acceptance fixture')
+    if (apps.length) {
       const entry = config.entry('bundle')
       entry.values().forEach((path) => {
         if (path === resolve(__dirname, 'src/app.ts'))
-          entry.delete(path).add(resolve(__dirname, 'src/showcase/app.ts'))
+          entry.delete(path).add(resolve(__dirname, `src/${apps[0]}/app.ts`))
       })
     }
     if (env.airbnb && fixtures.length)

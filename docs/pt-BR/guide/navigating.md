@@ -1,5 +1,7 @@
 # Navegando
 
+Use `push` para abrir uma página, `back` para voltar e `replace` para substituir a entrada atual. Dentro de uma página roteada, obtenha a instância com `const router = useRouter()` de `vue-router-ns`; fora das páginas, importe seu router configurado. O [tutorial inicial](./first-app) mostra a configuração completa.
+
 ```ts
 router.push('/messages/42?from=push')
 router.push({ name: 'message', params: { id: 42 }, query: { from: 'push' } })

@@ -1,10 +1,14 @@
 # Fieldnotes: exemplo integrado de navegação nativa
 
+Começando com o router? Construa o [Pocket notes](./first-app) antes de combinar os recursos nativos deste guia. Veja [páginas, pilhas e estado](./mental-model) para entender os ciclos de vida.
+
 <Clip name="native-showcase" aspect="402 / 874" caption="Simulador iOS 26 real: drawer, busca e menus nativos, ações compartilhadas no header, resultado de modal, guards de edição e retorno à lista preservada." />
 
 Fieldnotes é um pequeno app executável de lista/detalhe. O drawer abre destinos; headers e busca nativos levam à nota; ações do header e menu compartilham estado; o editor protege alterações não salvas; um modal nativo devolve resultado à mesma página de detalhe.
 
 Ele usa APIs públicas e a **0.1.0-rc.3**. A rc.2 anterior já oferece headers, large titles iOS, busca, menus contextuais, guards, resultados de modal e foco de navegação. O drawer iOS e as ações compartilhadas deste exemplo são novidades da rc.3. Compile este checkout para executar o exemplo completo; instalar apenas rc.2 não fornece essas adições.
+
+<a id="run-from-a-checkout"></a>
 
 ## Execute a partir do checkout
 
