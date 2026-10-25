@@ -1,6 +1,6 @@
 # Alcance y compatibilidad de RC {#rc-scope-and-compatibility}
 
-La versión candidata `0.1.0-rc.3` congela la API no experimental documentada mientras la validamos para la versión estable. Las tablas de rutas explícitas JavaScript/TypeScript siguen siendo las predeterminadas. Las convenciones de archivos son opcionales; ambos usan navegación nativa, sin un Vue Router o tiempo de ejecución de Nuxt.
+La versión candidata `0.1.0-rc.4` congela la API no experimental documentada mientras la validamos para la versión estable. Las tablas de rutas explícitas JavaScript/TypeScript siguen siendo las predeterminadas. Las convenciones de archivos son opcionales; ambos usan navegación nativa, sin un Vue Router o tiempo de ejecución de Nuxt.
 
 ## Línea base admitida {#supported-baseline}
 

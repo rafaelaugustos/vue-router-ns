@@ -1,6 +1,6 @@
 # RC 范围和兼容性 {#rc-scope-and-compatibility}
 
-`0.1.0-rc.3` 候选版本冻结了已记录的非实验性 API，同时我们验证它的稳定版本。显式 JavaScript/TypeScript 路由表仍为默认值。文件约定是可选的；两者都使用原生导航，无需 Vue Router或 Nuxt 运行时。
+`0.1.0-rc.4` 候选版本冻结了已记录的非实验性 API，同时我们验证它的稳定版本。显式 JavaScript/TypeScript 路由表仍为默认值。文件约定是可选的；两者都使用原生导航，无需 Vue Router或 Nuxt 运行时。
 
 ## 支持的基线 {#supported-baseline}
 
