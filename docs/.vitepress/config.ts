@@ -136,7 +136,7 @@ const en = {
   introduction: 'Learning path',
   install: 'Install',
   compatibility: 'RC scope and compatibility',
-  stableReadiness: 'Path to stable',
+  stableReadiness: 'Stable and 1.0 readiness',
   splash: 'Startup splash',
   demo: 'Examples and videos',
   playground: 'Try with StackBlitz',
@@ -192,7 +192,7 @@ const pt = {
   introduction: 'Trilha de aprendizado',
   install: 'Instalação',
   compatibility: 'Escopo da RC e compatibilidade',
-  stableReadiness: 'Caminho para a estável',
+  stableReadiness: 'Prontidão para a estável e 1.0',
   splash: 'Splash de abertura',
   demo: 'Exemplos e vídeos',
   playground: 'Experimente com StackBlitz',
@@ -233,6 +233,118 @@ const pt = {
   destinations: 'Destinos nativos (experimental)',
 }
 
+const es: typeof en = {
+  start: 'Inicio',
+  concepts: 'Conceptos fundamentales',
+  containers: 'Contenedores de navegación',
+  native: 'Experiencia nativa',
+  application: 'Flujos de la aplicación',
+  advanced: 'Avanzado y experimental',
+  firstApp: 'Crea tu primera app',
+  mentalModel: 'Páginas, pilas y estado',
+  examples: 'Galería de ejemplos',
+  recipes: 'Tareas habituales',
+  reference: 'Referencia',
+  introduction: 'Ruta de aprendizaje',
+  install: 'Instalación',
+  compatibility: 'Alcance de la RC y compatibilidad',
+  stableReadiness: 'Preparación para la versión estable y 1.0',
+  splash: 'Pantalla de inicio',
+  demo: 'Ejemplos y vídeos',
+  playground: 'Prueba con StackBlitz',
+  navigating: 'Navegación',
+  routes: 'Cada página conserva su ruta',
+  fileRouting: 'Rutas opcionales desde archivos',
+  layouts: 'Layouts nativos opcionales',
+  guards: 'Guards de navegación',
+  middleware: 'Middleware y helpers opcionales',
+  dataLoading: 'Datos de ruta (experimental)',
+  suspense: 'Suspense nativo (experimental)',
+  modals: 'Modales y resultados',
+  capabilities: 'Capacidades y opciones nativas',
+  nativeShowcase: 'Ejemplo nativo integrado',
+  transitions: 'Zoom y elementos compartidos',
+  interactiveTransitions: 'Límites de las transiciones interactivas',
+  tabs: 'Pestañas',
+  split: 'Lista y detalle',
+  drawer: 'Drawer nativo',
+  contextMenus: 'Vistas previas en menús contextuales',
+  typed: 'Rutas tipadas',
+  deepLinks: 'Enlaces profundos',
+  stack: 'Definir toda la pila',
+  restore: 'Restaurar tras finalizar el proceso',
+  windows: 'Ventanas nativas',
+  androidBack: 'Retroceso predictivo en Android',
+  nativeBars: 'Barras y búsqueda nativas',
+  pageActions: 'Acciones de página',
+  keyboard: 'Comandos de teclado',
+  accessibility: 'Accesibilidad y movimiento',
+  flows: 'Selectores del sistema y flujos nativos',
+  vueRouter: 'Diferencias con Vue Router',
+  api: 'API',
+  internals: 'Cómo funciona',
+  diagnostics: 'Diagnósticos de navegación',
+  diagnosticsViewer: 'Visualizador de informes',
+  hosts: 'Hosts nativos (experimental)',
+  destinations: 'Destinos nativos (experimental)',
+}
+
+const zh: typeof en = {
+  start: '入门',
+  concepts: '核心概念',
+  containers: '导航容器',
+  native: '原生体验',
+  application: '应用流程',
+  advanced: '高级与实验性功能',
+  firstApp: '构建第一个应用',
+  mentalModel: '页面、导航栈与状态',
+  examples: '示例库',
+  recipes: '常见任务',
+  reference: '参考',
+  introduction: '学习路线',
+  install: '安装',
+  compatibility: '候选版本范围与兼容性',
+  stableReadiness: '稳定版与 1.0 就绪评估',
+  splash: '启动画面',
+  demo: '示例与视频',
+  playground: '在 StackBlitz 中体验',
+  navigating: '导航',
+  routes: '每个页面保留自己的路由',
+  fileRouting: '可选的文件路由',
+  layouts: '可选的原生布局',
+  guards: '导航守卫',
+  middleware: '可选的中间件与辅助函数',
+  dataLoading: '路由数据（实验性）',
+  suspense: '原生 Suspense（实验性）',
+  modals: '模态页面与返回结果',
+  capabilities: '原生能力与方案选择',
+  nativeShowcase: '原生集成示例',
+  transitions: '缩放与共享元素',
+  interactiveTransitions: '交互式转场的限制',
+  tabs: '标签页',
+  split: '列表与详情',
+  drawer: '原生抽屉导航',
+  contextMenus: '上下文菜单预览',
+  typed: '类型安全路由',
+  deepLinks: '深度链接',
+  stack: '设置整个导航栈',
+  restore: '进程终止后的状态恢复',
+  windows: '原生窗口',
+  androidBack: 'Android 预测性返回',
+  nativeBars: '原生导航栏与搜索',
+  pageActions: '页面操作',
+  keyboard: '键盘命令',
+  accessibility: '无障碍与动态效果',
+  flows: '系统选择器与原生流程',
+  vueRouter: '与 Vue Router 的区别',
+  api: 'API',
+  internals: '工作原理',
+  diagnostics: '导航诊断',
+  diagnosticsViewer: '诊断报告查看器',
+  hosts: '原生宿主（实验性）',
+  destinations: '原生目标页面（实验性）',
+}
+
 export default defineConfig({
   title: 'vue-router-ns',
   description:
@@ -255,7 +367,46 @@ export default defineConfig({
     search: {
       provider: 'local',
       options: {
+        miniSearch: {
+          options: {
+            // Use the same segmentation while indexing and querying. Without
+            // it, a Chinese paragraph can become one unsearchable long token.
+            tokenize: (text: string) =>
+              Array.from(
+                new Intl.Segmenter('zh-CN', { granularity: 'word' }).segment(text),
+              )
+                .filter((part) => part.isWordLike)
+                .map((part) => part.segment),
+          },
+        },
         locales: {
+          es: {
+            translations: {
+              button: {
+                buttonText: 'Buscar',
+                buttonAriaLabel: 'Buscar en la documentación',
+              },
+              modal: {
+                noResultsText: 'No hay resultados para',
+                resetButtonTitle: 'Borrar búsqueda',
+                footer: {
+                  selectText: 'abrir',
+                  navigateText: 'navegar',
+                  closeText: 'cerrar',
+                },
+              },
+            },
+          },
+          'zh-CN': {
+            translations: {
+              button: { buttonText: '搜索', buttonAriaLabel: '搜索文档' },
+              modal: {
+                noResultsText: '没有找到相关结果',
+                resetButtonTitle: '清空搜索',
+                footer: { selectText: '选择', navigateText: '切换', closeText: '关闭' },
+              },
+            },
+          },
           'pt-BR': {
             translations: {
               button: { buttonText: 'Buscar', buttonAriaLabel: 'Buscar' },
@@ -279,6 +430,79 @@ export default defineConfig({
     ],
   },
   locales: {
+    es: {
+      label: 'Español',
+      lang: 'es',
+      link: '/es/',
+      description:
+        'La API de Vue Router para NativeScript-Vue 3 sobre la pila de navegación nativa.',
+      themeConfig: {
+        nav: [
+          { text: 'Guía', link: '/es/guide/' },
+          { text: 'Ejemplos', link: '/es/guide/examples' },
+          { text: 'API', link: '/es/guide/api' },
+          { text: 'Versiones', link: repo + '/releases' },
+        ],
+        sidebar: { '/es/guide/': sidebar('/es', es) },
+        outline: { level: [2, 3], label: 'En esta página' },
+        editLink: {
+          pattern: repo + '/edit/main/docs/:path',
+          text: 'Editar esta página en GitHub',
+        },
+        docFooter: { prev: 'Anterior', next: 'Siguiente' },
+        lastUpdated: { text: 'Actualizado el' },
+        darkModeSwitchLabel: 'Apariencia',
+        lightModeSwitchTitle: 'Cambiar al tema claro',
+        darkModeSwitchTitle: 'Cambiar al tema oscuro',
+        sidebarMenuLabel: 'Menú',
+        returnToTopLabel: 'Volver arriba',
+        langMenuLabel: 'Cambiar idioma',
+        notFound: {
+          title: 'Página no encontrada',
+          quote: 'Esta página no está disponible.',
+          linkText: 'Volver al inicio',
+        },
+        footer: {
+          message: 'Publicado bajo la licencia MIT.',
+          copyright: 'Mantenido por' + ' Rafael Augusto ' + 'y' + ' ' + cortex,
+        },
+      },
+    },
+
+    'zh-CN': {
+      label: '简体中文',
+      lang: 'zh-CN',
+      link: '/zh-CN/',
+      description: '基于原生导航栈，为 NativeScript-Vue 3 提供 Vue Router 风格的 API。',
+      themeConfig: {
+        nav: [
+          { text: '指南', link: '/zh-CN/guide/' },
+          { text: '示例', link: '/zh-CN/guide/examples' },
+          { text: 'API', link: '/zh-CN/guide/api' },
+          { text: '版本', link: repo + '/releases' },
+        ],
+        sidebar: { '/zh-CN/guide/': sidebar('/zh-CN', zh) },
+        outline: { level: [2, 3], label: '本页目录' },
+        editLink: {
+          pattern: repo + '/edit/main/docs/:path',
+          text: '在 GitHub 上编辑此页',
+        },
+        docFooter: { prev: '上一页', next: '下一页' },
+        lastUpdated: { text: '更新于' },
+        darkModeSwitchLabel: '外观',
+        lightModeSwitchTitle: '切换为浅色主题',
+        darkModeSwitchTitle: '切换为深色主题',
+        sidebarMenuLabel: '菜单',
+        returnToTopLabel: '返回顶部',
+        langMenuLabel: '切换语言',
+        notFound: { title: '页面未找到', quote: '此页面不存在。', linkText: '返回首页' },
+        footer: {
+          message: '基于 MIT 许可证发布。',
+          copyright: '维护者：' + ' Rafael Augusto ' + '与' + ' ' + cortex,
+        },
+      },
+    },
+
     root: {
       label: 'English',
       lang: 'en',

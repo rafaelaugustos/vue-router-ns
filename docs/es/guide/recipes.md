@@ -1,0 +1,31 @@
+# Tareas comunes de la aplicación {#common-application-tasks}
+
+Comience con lo que la aplicación necesita hacer. Estos caminos conducen a un patrón de trabajo, luego a los detalles de la API y las restricciones de la plataforma. Para ver aplicaciones en ejecución completas, utilice la galería de ejemplos [---](./examples).
+
+| Quiero…                                                              | Usar este patrón                                                         | Comprobar antes de enviar                                                                                                                                 |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Abrir un detalle y regresar a la misma lista                         | [Primera aplicación](./first-app), `push` / `back`                       | Mantener el estado de la consulta en la página de lista retenida; [la visibilidad no está montando](./mental-model#visibility-is-different-from-mounting) |
+| Preguntar antes de perder una edición                                | [Licencia condicional guard](./guards#leave-guards)                      | Activar solo mientras esté sucio; El deslizamiento hacia atrás de iOS está deshabilitado mientras el guard está activo                                    |
+| Devuelve un valor seleccionado o editado                             | [`pushForResult` y `back({ result })`](./modals#getting-a-result-back)   | Maneja `undefined` para cancelación; `T` genérico no es validación en tiempo de ejecución                                                                 |
+| Requerir inicio de sesión antes de un destino                        | [Global o ruta guards](./guards)                                         | Redirigir a una ruta permitida; un guard de salida no se ejecuta solo porque se empuja otra página                                                        |
+| Mantenga historiales separados para destinos de nivel superior       | [Nombrado stacks en pestañas](./tabs)                                    | Un drawer por sí solo no crea un stack por elemento de menú                                                                                               |
+| Mantener un menú visible en una ventana amplia                       | [Adaptive drawer](./drawer#adaptive-presentation)                        | Medir el ancho del contenedor; la visibilidad del panel permanente difiere de la superposición `open`                                                     |
+| Mostrar lista y detalle juntos                                       | [Navegación dividida](./split-view)                                      | Elija Frame dividido o UIKit dividido; siga las restricciones documentadas de raíz/contenedor                                                             |
+| Compartir una acción entre el encabezado y el menú                   | [Page acciones](./page-actions)                                          | La aplicación aún posee operaciones comerciales, confirmaciones y permisos                                                                                |
+| Búsqueda dentro de una página retenida                               | [Búsqueda nativa](./native-bars#search-owned-by-a-page)                  | La consulta de búsqueda es el estado de la aplicación; escribir no agrega entradas de navegación                                                          |
+| Abrir un destino desde un enlace del sistema operativo               | [Enlaces profundos](./deep-links)                                        | Configurar el manifiesto/derechos nativos, el mapeo de rutas y el destino stack                                                                           |
+| Recibir una imagen o documento del sistema                           | [Flujos nativos](./native-flows)                                         | Distinguir cancelación de falla y respetar la propiedad de la página/ventana                                                                              |
+| Recuperarse después de que el sistema operativo cierre la aplicación | [Restauración del estado](./restore)                                     | Persistir en el estado de la aplicación serializable; JavaScript Las promesas no sobreviven a la terminación del proceso                                  |
+| Devolver el foco accesible después de un modal                       | [Enfoque de navegación](./accessibility)                                 | Proporcionar ID de objetivos nativos estables y realizar pruebas con tecnología de asistencia real                                                        |
+| Explicar una navegación lenta o fallida                              | [Diagnostics](./diagnostics) y [visor de informes](./diagnostics-viewer) | Exportar desde la aplicación afectada; Los informes de muestra sintéticos no son pruebas comparativas de dispositivos .                                   |
+
+## Elige el siguiente nivel de detalle {#choose-the-next-level-of-detail}
+
+- **Obtenga un flujo completo:** [primera aplicación](./first-app), luego [Notas de campo](./native-showcase).
+- **Encuentre patrones nativos copiables:** [libro de recetas de características](./demo).
+- **Buscar un método o tipo:** [AReferencia PI](./api).
+- **Decida si una capacidad se ajusta a una plataforma:** [mapa de capacidades](./capabilities) y [compatibilidad](./compatibility).
+
+## Cuando las funciones opcionales ayudan {#when-optional-features-help}
+
+[Rutas de archivos](./file-routing) puede reemplazar una tabla de rutas explícita de gran tamaño; [layouts](./layouts) y [middleware](./middleware) organizan convenciones compartidas. [Cargadores de rutas](./data-loading), [native Suspense](./suspense), [windows](./windows) y los hosts/destinos personalizados siguen siendo experimentales donde están marcados. Agréguelos para un requisito de aplicación concreto después de que el flujo de navegación básico esté funcionando.

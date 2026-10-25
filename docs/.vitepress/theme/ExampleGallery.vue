@@ -1,25 +1,25 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useData, withBase } from 'vitepress'
-const { lang } = useData()
-const pt = computed(() => lang.value === 'pt-BR')
+import { withBase } from 'vitepress'
+import { useDocsLocale } from './locale'
+const { t, link } = useDocsLocale()
 const platform = ref('all')
 const query = ref('')
 function clearFilters() {
   query.value = ''
   platform.value = 'all'
 }
-const link = (path: string) => withBase(`${pt.value ? '/pt-BR' : ''}/guide/${path}`)
 const examples = computed(() => [
   {
     id: 'first-app',
     platform: 'ios',
     path: 'first-app',
-    level: pt.value ? 'COMECE AQUI' : 'START HERE',
-    title: pt.value ? 'Seu primeiro fluxo completo' : 'Your first complete flow',
-    text: pt.value
-      ? 'Lista, detalhe, edição em modal e guard. Todos os arquivos do tutorial também executam no demo.'
-      : 'List, detail, a modal editor and a guard. Every tutorial file also runs in the demo.',
+    level: t('START HERE', 'COMECE AQUI'),
+    title: t('Your first complete flow', 'Seu primeiro fluxo completo'),
+    text: t(
+      'List, detail, a modal editor and a guard. Every tutorial file also runs in the demo.',
+      'Lista, detalhe, edição em modal e guard. Todos os arquivos do tutorial também executam no demo.',
+    ),
     media: 'first-app',
     capture: 'iOS 26',
   },
@@ -27,11 +27,12 @@ const examples = computed(() => [
     id: 'fieldnotes',
     platform: 'ios',
     path: 'native-showcase',
-    level: pt.value ? 'APP INTEGRADO' : 'INTEGRATED APP',
+    level: t('INTEGRATED APP', 'APP INTEGRADO'),
     title: 'Fieldnotes',
-    text: pt.value
-      ? 'Drawer, busca, ações compartilhadas e estado preservado em um app pequeno.'
-      : 'Drawer, search, shared actions and retained state in one small app.',
+    text: t(
+      'Drawer, search, shared actions and retained state in one small app.',
+      'Drawer, busca, ações compartilhadas e estado preservado em um app pequeno.',
+    ),
     media: 'native-showcase',
     capture: 'iOS 26',
   },
@@ -39,11 +40,12 @@ const examples = computed(() => [
     id: 'airbnb',
     platform: 'ios',
     path: 'demo#airbnb-ns',
-    level: pt.value ? 'APP INTEGRADO' : 'INTEGRATED APP',
+    level: t('INTEGRATED APP', 'APP INTEGRADO'),
     title: 'Airbnb NS',
-    text: pt.value
-      ? 'Feed de acomodações, favoritos, abas e transição de um card para o detalhe.'
-      : 'Accommodation feed, favorites, tabs and a transition from card to detail.',
+    text: t(
+      'Accommodation feed, favorites, tabs and a transition from card to detail.',
+      'Feed de acomodações, favoritos, abas e transição de um card para o detalhe.',
+    ),
     media: 'ios-airbnb',
     capture: 'iOS 26',
   },
@@ -51,11 +53,12 @@ const examples = computed(() => [
     id: 'adaptive',
     platform: 'ios',
     path: 'drawer',
-    level: pt.value ? 'CONTAINER' : 'CONTAINER',
-    title: pt.value ? 'Drawer adaptativo' : 'Adaptive drawer',
-    text: pt.value
-      ? 'Overlay e painel permanente com as mesmas páginas, históricos e rascunhos.'
-      : 'Overlay and permanent pane with the same pages, histories and drafts.',
+    level: t('CONTAINER', 'CONTAINER'),
+    title: t('Adaptive drawer', 'Drawer adaptativo'),
+    text: t(
+      'Overlay and permanent pane with the same pages, histories and drafts.',
+      'Overlay e painel permanente com as mesmas páginas, históricos e rascunhos.',
+    ),
     media: 'adaptive-drawer',
     capture: 'iOS / iPadOS 18.6',
   },
@@ -63,11 +66,12 @@ const examples = computed(() => [
     id: 'actions',
     platform: 'ios',
     path: 'page-actions',
-    level: pt.value ? 'EXPERIÊNCIA NATIVA' : 'NATIVE EXPERIENCE',
-    title: pt.value ? 'Uma ação, várias superfícies' : 'One action, several surfaces',
-    text: pt.value
-      ? 'Header e menu compartilham título, disponibilidade, estado ocupado e erros.'
-      : 'Header and menu share title, availability, busy state and errors.',
+    level: t('NATIVE EXPERIENCE', 'EXPERIÊNCIA NATIVA'),
+    title: t('One action, several surfaces', 'Uma ação, várias superfícies'),
+    text: t(
+      'Header and menu share title, availability, busy state and errors.',
+      'Header e menu compartilham título, disponibilidade, estado ocupado e erros.',
+    ),
     media: 'page-actions',
     capture: 'iOS 18.6',
   },
@@ -75,11 +79,12 @@ const examples = computed(() => [
     id: 'tabs',
     platform: 'android',
     path: 'tabs',
-    level: 'CONTAINER',
-    title: pt.value ? 'Histórico por aba' : 'History per tab',
-    text: pt.value
-      ? 'Navegue, alterne de aba e volte ao mesmo ponto em cada pilha.'
-      : 'Navigate, switch tabs and return to the same position in each stack.',
+    level: t('CONTAINER', 'CONTAINER'),
+    title: t('History per tab', 'Histórico por aba'),
+    text: t(
+      'Navigate, switch tabs and return to the same position in each stack.',
+      'Navegue, alterne de aba e volte ao mesmo ponto em cada pilha.',
+    ),
     media: 'android-tabs',
     capture: 'Android 16',
   },
@@ -87,11 +92,12 @@ const examples = computed(() => [
     id: 'sheet',
     platform: 'android',
     path: 'modals',
-    level: pt.value ? 'FLUXO NATIVO' : 'NATIVE FLOW',
-    title: pt.value ? 'Bottom sheet com rota' : 'A routed bottom sheet',
-    text: pt.value
-      ? 'Apresente uma página nativa em uma sheet Material, com histórico e Back.'
-      : 'Present a native page in a Material sheet with history and Back handling.',
+    level: t('NATIVE FLOW', 'FLUXO NATIVO'),
+    title: t('A routed bottom sheet', 'Bottom sheet com rota'),
+    text: t(
+      'Present a native page in a Material sheet with history and Back handling.',
+      'Apresente uma página nativa em uma sheet Material, com histórico e Back.',
+    ),
     media: 'android-sheet',
     capture: 'Android 16',
   },
@@ -99,11 +105,12 @@ const examples = computed(() => [
     id: 'drawer',
     platform: 'android',
     path: 'drawer',
-    level: 'CONTAINER',
-    title: pt.value ? 'Menu e Back no Android' : 'Android menu and Back',
-    text: pt.value
-      ? 'O Back fecha o drawer aberto antes de remover uma página.'
-      : 'Back closes the open drawer before removing a page.',
+    level: t('CONTAINER', 'CONTAINER'),
+    title: t('Android menu and Back', 'Menu e Back no Android'),
+    text: t(
+      'Back closes the open drawer before removing a page.',
+      'O Back fecha o drawer aberto antes de remover uma página.',
+    ),
     media: 'android-drawer',
     capture: 'Android 16',
   },
@@ -111,11 +118,12 @@ const examples = computed(() => [
     id: 'loaders',
     platform: 'android',
     path: 'data-loading',
-    level: pt.value ? 'EXPERIMENTAL' : 'EXPERIMENTAL',
-    title: pt.value ? 'Dados, erro e nova tentativa' : 'Data, error and retry',
-    text: pt.value
-      ? 'Observe o carregamento por entrada sem bloquear a apresentação nativa.'
-      : 'Observe data loading per entry without blocking native presentation.',
+    level: t('EXPERIMENTAL', 'EXPERIMENTAL'),
+    title: t('Data, error and retry', 'Dados, erro e nova tentativa'),
+    text: t(
+      'Observe data loading per entry without blocking native presentation.',
+      'Observe o carregamento por entrada sem bloquear a apresentação nativa.',
+    ),
     media: 'android-loaders',
     capture: 'Android 16',
   },
@@ -123,13 +131,14 @@ const examples = computed(() => [
     id: 'viewer',
     platform: 'web',
     path: 'diagnostics-viewer',
-    level: pt.value ? 'FERRAMENTA' : 'TOOL',
-    title: pt.value ? 'Visualizador de diagnósticos' : 'Diagnostics viewer',
-    text: pt.value
-      ? 'Investigue pilhas, guards e divergências em relatórios locais. Dados demonstrativos sintéticos.'
-      : 'Investigate stacks, guards and mismatches in local reports. Synthetic demonstration data.',
+    level: t('TOOL', 'FERRAMENTA'),
+    title: t('Diagnostics viewer', 'Visualizador de diagnósticos'),
+    text: t(
+      'Investigate stacks, guards and mismatches in local reports. Synthetic demonstration data.',
+      'Investigue pilhas, guards e divergências em relatórios locais. Dados demonstrativos sintéticos.',
+    ),
     media: 'diagnostics-viewer',
-    capture: pt.value ? 'Navegador' : 'Browser',
+    capture: t('Browser', 'Navegador'),
   },
 ])
 const filtered = computed(() =>
@@ -142,10 +151,10 @@ const filtered = computed(() =>
   ),
 )
 const filters = computed(() => [
-  { id: 'all', name: pt.value ? 'Todas' : 'All' },
+  { id: 'all', name: t('All', 'Todas') },
   { id: 'ios', name: 'iOS / iPadOS' },
   { id: 'android', name: 'Android' },
-  { id: 'web', name: pt.value ? 'Navegador' : 'Browser' },
+  { id: 'web', name: t('Browser', 'Navegador') },
 ])
 </script>
 
@@ -153,14 +162,14 @@ const filters = computed(() => [
   <div class="example-gallery">
     <div class="example-toolbar">
       <label class="example-search"
-        ><span>{{ pt ? 'Encontre um exemplo' : 'Find an example' }}</span
+        ><span>{{ t('Find an example', 'Encontre um exemplo') }}</span
         ><input
           v-model="query"
           type="search"
-          :placeholder="pt ? 'Busca, drawer, modal…' : 'Search, drawer, modal…'"
+          :placeholder="t('Search, drawer, modal…', 'Busca, drawer, modal…')"
       /></label>
       <fieldset class="example-filters">
-        <legend>{{ pt ? 'Plataforma da gravação' : 'Recording platform' }}</legend>
+        <legend>{{ t('Recording platform', 'Plataforma da gravação') }}</legend>
         <button
           v-for="filter in filters"
           :key="filter.id"
@@ -173,7 +182,7 @@ const filters = computed(() => [
       </fieldset>
     </div>
     <p class="example-count" role="status">
-      {{ filtered.length }} {{ pt ? 'exemplos encontrados' : 'examples found' }}
+      {{ filtered.length }} {{ t('examples found', 'exemplos encontrados') }}
     </p>
     <div class="example-grid">
       <a
@@ -196,7 +205,7 @@ const filters = computed(() => [
           <h2>{{ example.title }}</h2>
           <p>{{ example.text }}</p>
           <span class="example-open"
-            >{{ pt ? 'Veja o vídeo e o código' : 'Watch and see the code' }}
+            >{{ t('Watch and see the code', 'Veja o vídeo e o código') }}
             <span aria-hidden="true">→</span></span
           >
         </div>
@@ -204,12 +213,10 @@ const filters = computed(() => [
     </div>
     <div v-if="!filtered.length" class="example-empty">
       <p>
-        {{
-          pt ? 'Nenhum exemplo com esses filtros.' : 'No examples match these filters.'
-        }}
+        {{ t('No examples match these filters.', 'Nenhum exemplo com esses filtros.') }}
       </p>
       <button type="button" @click="clearFilters">
-        {{ pt ? 'Limpar filtros' : 'Clear filters' }}
+        {{ t('Clear filters', 'Limpar filtros') }}
       </button>
     </div>
   </div>

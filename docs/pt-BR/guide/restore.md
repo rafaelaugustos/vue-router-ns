@@ -101,7 +101,7 @@ Sem migração explícita, um path indisponível reinicia aquela pilha em `initi
 
 ## Janelas nativas
 
-No Core 9.1.3+, um router ligado a uma `NativeWindow` recebe contexto de janela em `save(state, context)` e `load(context)`. Use `restore.key` e `context.key` para separar os snapshots. Nesse modo, sair do processo preserva a pilha; fechar uma janela grava `null` somente no snapshot dela. O comportamento de limpar ao sair descrito acima se aplica ao modo legado, sem uma janela proprietária. Veja [janelas nativas](./windows#persistência-por-janela) para inicialização e limites.
+No Core 9.1.3+, um router ligado a uma `NativeWindow` recebe contexto de janela em `save(state, context)` e `load(context)`. Use `restore.key` e `context.key` para separar os snapshots. Nesse modo, sair do processo preserva a pilha; fechar uma janela grava `null` somente no snapshot dela. O comportamento de limpar ao sair descrito acima se aplica ao modo legado, sem uma janela proprietária. Veja [janelas nativas](./windows#persistencia-por-janela) para inicialização e limites.
 
 ### Responsabilidades e comportamento validado
 

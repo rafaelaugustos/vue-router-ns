@@ -27,3 +27,5 @@ examples/file-routing/.ns-vite-build/
 
 docs/public/diagnostics-viewer/
 scripts/diagnostics-viewer/out/
+
+scripts/docs/out/

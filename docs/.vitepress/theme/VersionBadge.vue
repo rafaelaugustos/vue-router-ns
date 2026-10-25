@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useData } from 'vitepress'
+import { useDocsLocale } from './locale'
 import { version } from '../../../package.json'
 
-const { lang } = useData()
+const { t } = useDocsLocale()
 </script>
 
 <template>
   <span
     class="version-badge"
-    :title="`${lang === 'pt-BR' ? 'Versão da documentação' : 'Documentation version'}: ${version}`"
+    :title="`${t('Documentation version', 'Versão da documentação')}: ${version}`"
     >v{{ version }}</span
   >
 </template>

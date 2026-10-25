@@ -25,3 +25,5 @@ examples/ios-direction-repro/App_Resources
 
 docs/public/diagnostics-viewer/
 scripts/diagnostics-viewer/out/
+
+scripts/docs/out/

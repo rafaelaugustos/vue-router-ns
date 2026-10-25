@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <a href="https://vue-router-ns.rafaelaugusto.dev">Documentation</a> · <a href="https://vue-router-ns.rafaelaugusto.dev/pt-BR/">Documentação em português</a>
+  <a href="https://vue-router-ns.rafaelaugusto.dev">Documentation</a> · <a href="https://vue-router-ns.rafaelaugusto.dev/pt-BR/">Documentação em português</a> · <a href="https://vue-router-ns.rafaelaugusto.dev/es/">Documentación en español</a> · <a href="https://vue-router-ns.rafaelaugusto.dev/zh-CN/">简体中文文档</a>
 </p>
 
 ```ts

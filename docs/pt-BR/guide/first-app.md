@@ -8,7 +8,7 @@ O tutorial usa rotas explícitas e APIs públicas. Pressupõe conhecimento bási
 
 ## 1. Crie os arquivos
 
-Depois de instalar o router, coloque estes **sete arquivos completos** no diretório `src` do app. Substitua a entrada e a raiz do starter pelos arquivos abaixo; mantenha seus recursos nativos e configuração de build. O código é incorporado diretamente da [fonte executável do tutorial](https://github.com/rafaelaugustos/vue-router-ns/tree/main/demo/src/tutorial), então os dois idiomas usam a mesma implementação. Os textos da interface do exemplo estão em inglês.
+Depois de instalar o router, coloque estes **sete arquivos completos** no diretório `src` do app. Substitua a entrada e a raiz do starter pelos arquivos abaixo; mantenha seus recursos nativos e configuração de build. O código é incorporado diretamente da [fonte executável do tutorial](https://github.com/rafaelaugustos/vue-router-ns/tree/main/demo/src/tutorial), então todos os idiomas usam a mesma implementação. Os textos da interface do exemplo estão em inglês.
 
 ```text
 src/
