@@ -222,7 +222,9 @@ for (const [name, report] of Object.entries(cases)) {
     result: rotation.navigationActive
       ? 'overlap'
       : navigates
-        ? 'rotation-deferred'
+        ? rotation.navigationCompletionPending
+          ? 'overlap-unconfirmed'
+          : 'rotation-deferred'
         : 'settled-control',
   })
 }
