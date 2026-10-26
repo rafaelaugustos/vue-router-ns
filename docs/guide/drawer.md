@@ -91,6 +91,8 @@ On iPadOS 26.0, the same fixture also retained coherent state when UIKit cancell
 
 Swiping from the content edge of the permanent sidebar did not start an interactive navigation in the current driver. That direction remains an explicit coverage gap. Physical iPads and Stage Manager have not been validated by this run. See the [rotation acceptance report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-rotation.md) for the scenarios, observed ordering and remaining limits.
 
+The [isolated Back controls](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-back-content-edge.md) reproduce the inset-content limitation with a plain NativeScript Core 9.1.3 Frame, without Vue or RouterDrawer. On iPadOS 26.0, a UIKit control distinguishes default navigation from delegates exposing custom transition callbacks. Keep an explicit Back action available in permanent mode. This investigation does not establish rotation-during-swipe coverage for that direction.
+
 ## Styling and platforms
 
 The pane is a `GridLayout` with the class `router-drawer` and a white background; give your slot's root its own background and padding. `width` is in device-independent pixels. `DrawerLayout` comes with AppCompat, so nothing is added to the build; the optional Material `NavigationView` is not used, your own views are the menu.

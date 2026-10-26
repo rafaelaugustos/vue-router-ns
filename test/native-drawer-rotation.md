@@ -16,6 +16,8 @@ Dedicated iPad Pro 11-inch M4 simulators, iPadOS 18.6 and 26.0. Ten scenarios ar
 - iPadOS 26.0: the final current-coordinator check also observed deferred rotation in all exercised active cases; programmatic navigation and both portrait-to-landscape swipe attempts retained coherent state. Both swipe attempts were cancelled by UIKit, including the long intended-commit drag. Gesture intent is not substituted for UIKit's actual result.
 - On both OS versions, the two landscape-to-portrait swipe cases did not begin interactive navigation from the permanent content edge. The recognizer was enabled and its native view geometry was recorded. These are **not reproduced**, not passing rotation-during-gesture cases. [Issue #168](https://github.com/rafaelaugustos/vue-router-ns/issues/168) tracks input/containment isolation and the missing coverage.
 
+The subsequent [isolated Back investigation](./native-back-content-edge.md) reproduces the inset limitation in published Core without Vue or RouterDrawer, and compares individual UIKit navigation delegate callbacks. It does not turn the two missing gesture cases below into rotation coverage.
+
 Eight rotation cases are exercised and two gesture cases remain unproven on each OS. The pending modal remains pending across rotation and resolves once on an explicit Back. The original 38 adaptive bridge contracts also pass on iPadOS 18.6 with the expanded fixture.
 
 ### Final-run event ordering
