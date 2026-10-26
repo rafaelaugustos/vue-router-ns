@@ -83,6 +83,14 @@ Mantenha um único `RouterDrawer` montado durante a adaptação. Não alterne en
 
 Execute `ns run ios --env.adaptivedrawerTest` ou `ns run android --env.adaptivedrawerTest` em `demo` após compilar o pacote. O [relatório de aceitação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-adaptive.md) distingue verificações nativas automatizadas dos testes ainda manuais de leitor de tela falado e múltiplas janelas reais.
 
+## Rotação durante a navegação {#rotation-during-navigation}
+
+No simulador com iPadOS 18.6, pedidos de orientação durante um push animado, Back programático ou gesto interativo de voltar resultaram em **rotação visual depois do término da navegação**. As páginas testadas, instâncias Vue, rascunhos e históricos nativo e lógico foram preservados nessa sequência; um Back confirmado removeu sua página uma vez, enquanto um gesto cancelado a manteve. Isso comprova retenção de estado diante de um pedido de rotação no meio da navegação, sem garantir que o UIKit execute as duas animações simultaneamente.
+
+No iPadOS 26.0, o mesmo fixture também preservou um estado coerente quando o UIKit cancelou o gesto longo que pretendia confirmar a volta. Considere o resultado nativo de confirmação ou cancelamento; não suponha que o gesto continuará inalterado durante a rotação.
+
+O gesto iniciado na borda do conteúdo da sidebar permanente não iniciou uma navegação interativa com o driver atual. Esse sentido continua sendo uma lacuna explícita de cobertura. iPads físicos e Stage Manager não foram validados nesta execução. Consulte o [relatório de aceitação da rotação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-rotation.md) para ver os cenários, a sequência observada e os limites restantes.
+
 ## Estilo e plataformas
 
 O painel é um `GridLayout` com a classe `router-drawer` e fundo branco; dê à raiz do seu slot o próprio fundo e espaçamento. `width` é em pixels independentes de densidade. O `DrawerLayout` vem com o AppCompat, então nada é adicionado ao build; o `NavigationView` opcional do Material não é usado, as suas próprias views são o menu.

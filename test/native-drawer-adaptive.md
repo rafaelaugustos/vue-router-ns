@@ -29,6 +29,10 @@ Native input tests prove that the persistent pane does not intercept content tou
 
 The hinge driver reads native FoldingFeature bounds delivered by AndroidX, compares both layout rectangles against the occluding strip, and verifies unchanged identities/history at every checkpoint. Coverage includes open and half-open postures, RTL, a horizontal hinge below a modal, and unsubscribing/re-enabling fold awareness. The display feature is configured in the emulator's platform provider, not injected into the library.
 
+## Rotation requested during active navigation
+
+The separate [#167 rotation report](./native-drawer-rotation.md) adds native timing evidence, retained identities/history and actual commit/cancel outcomes on iPadOS 18.6 and 26.0. It distinguishes an orientation request made during navigation from rotation callbacks that overlap the same active coordinator. Two permanent-content edge gesture cases remain explicitly not reproduced and are tracked in #168; the earlier rotation checks above do not establish that missing coverage.
+
 ## Automated checks and release gate
 
 - 607 unit tests pass, 10 skipped. New tests cover geometry/breakpoints, fold exclusion, mode events, initial model normalization, modal results and observer disposal.

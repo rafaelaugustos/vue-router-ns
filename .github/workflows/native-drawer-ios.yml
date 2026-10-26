@@ -77,6 +77,9 @@ jobs:
             -destination "platform=iOS Simulator,id=$IOS_SIMULATOR" \
             -derivedDataPath /tmp/router-adaptive-tests/build -collect-test-diagnostics never \
             -resultBundlePath scripts/native/out/adaptive-ios/checks.xcresult
+      - name: iPad rotation requested during active navigation
+        if: matrix.device == 'iPad-Pro-11-inch-M4-8GB'
+        run: OUT=scripts/native/out/adaptive-rotation node scripts/native/adaptive-drawer/rotation.mjs
       - name: Clean up dedicated simulator
         if: always() && env.IOS_SIMULATOR != ''
         run: |

@@ -83,6 +83,14 @@ Keep one `RouterDrawer` mounted when adapting. Do not switch between two keyed `
 
 Run `ns run ios --env.adaptivedrawerTest` or `ns run android --env.adaptivedrawerTest` from `demo` after building the package. The [acceptance report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-adaptive.md) distinguishes automated native input/state checks from outstanding spoken screen-reader and real multiwindow checks.
 
+## Rotation during navigation
+
+On the iPadOS 18.6 simulator, orientation requests made during an animated push, programmatic Back or interactive swipe-back were followed by **visual rotation after navigation finished**. The tested pages, Vue instances, drafts and both native and logical histories survived that ordering; a committed Back removed its page once, while a cancelled swipe retained it. This is evidence of state retention under a mid-navigation rotation request, not a guarantee that UIKit runs both animations simultaneously.
+
+On iPadOS 26.0, the same fixture also retained coherent state when UIKit cancelled the long swipe that was intended to commit. Use the native commit/cancel outcome; do not assume that a gesture will continue unchanged across rotation.
+
+Swiping from the content edge of the permanent sidebar did not start an interactive navigation in the current driver. That direction remains an explicit coverage gap. Physical iPads and Stage Manager have not been validated by this run. See the [rotation acceptance report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-rotation.md) for the scenarios, observed ordering and remaining limits.
+
 ## Styling and platforms
 
 The pane is a `GridLayout` with the class `router-drawer` and a white background; give your slot's root its own background and padding. `width` is in device-independent pixels. `DrawerLayout` comes with AppCompat, so nothing is added to the build; the optional Material `NavigationView` is not used, your own views are the menu.

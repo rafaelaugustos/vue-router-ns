@@ -83,6 +83,14 @@ Mantenga un `RouterDrawer` montado al realizar la adaptación. No cambie entre d
 
 Ejecute `ns run ios --env.adaptivedrawerTest` o `ns run android --env.adaptivedrawerTest` desde `demo` después de compilar el paquete. El informe de aceptación [informe de validación](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-adaptive.md) distingue las verificaciones de estado/entrada nativas automatizadas de las excelentes verificaciones de lectores de pantalla hablados y de múltiples ventanas reales.
 
+## Rotación durante la navegación {#rotation-during-navigation}
+
+En el simulador con iPadOS 18.6, las solicitudes de orientación durante un push animado, una vuelta programática o un gesto interactivo de volver produjeron una **rotación visual después de finalizar la navegación**. Las páginas probadas, las instancias de Vue, los borradores y los historiales nativo y lógico se conservaron en esa secuencia; una vuelta confirmada eliminó su página una sola vez, mientras que un gesto cancelado la mantuvo. Esto demuestra la conservación del estado ante una solicitud de rotación durante la navegación, sin garantizar que UIKit ejecute ambas animaciones simultáneamente.
+
+En iPadOS 26.0, el mismo entorno de prueba también conservó un estado coherente cuando UIKit canceló el gesto largo que pretendía confirmar la vuelta. Respeta el resultado nativo de confirmación o cancelación; no supongas que el gesto continuará sin cambios durante la rotación.
+
+El deslizamiento desde el borde del contenido de la barra lateral permanente no inició una navegación interactiva con el controlador de pruebas actual. Esa dirección sigue siendo una carencia explícita de cobertura. Esta ejecución no valida iPads físicos ni Stage Manager. Consulta el [informe de aceptación de la rotación](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-rotation.md) para conocer los escenarios, la secuencia observada y los límites pendientes.
+
 ## Estilismos y plataformas {#styling-and-platforms}
 
 El panel es un `GridLayout` con la clase `router-drawer` y fondo blanco; Dale a la raíz de tu slot su propio fondo y relleno. `width` está en píxeles independientes del dispositivo. `DrawerLayout` viene con AppCompat, por lo que no se agrega nada a la compilación; el Material opcional `NavigationView` no se utiliza, sus propias vistas son el menú.

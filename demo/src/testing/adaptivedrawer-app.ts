@@ -33,6 +33,13 @@ import {
 } from 'vue-router-ns'
 import { observeWindowFolds, splitViewport, type WindowFold } from '../../../dist/folding'
 
+import {
+  nativeIdentity,
+  rotateDuringNavigation,
+  rotationReport,
+  finishUnobservedGesture,
+} from './adaptive-rotation'
+
 const handle = ref<RouterDrawerHandle>()
 const presentation = ref<DrawerPresentation>('auto')
 const resolved = ref('overlay')
@@ -43,6 +50,7 @@ const rtl = ref(false),
   foldAware = ref(true)
 const selected = ref('home'),
   result = ref('none')
+let resultSettlements = 0
 const events = { opened: 0, closed: 0, presentations: [] as string[] }
 let host: any
 let folds: readonly WindowFold[] = []
@@ -52,6 +60,7 @@ const captures: {
   blocked: Ref<boolean>
   title: string
   alive: boolean
+  disposals: number
 }[] = []
 let baseline:
   | {
@@ -71,12 +80,14 @@ const page = (title: string, modal = false) =>
       const state: (typeof captures)[number] = {
         title,
         alive: true,
+        disposals: 0,
         draft: ref(''),
         blocked: ref(false),
       }
       captures.push(state)
       onBeforeUnmount(() => {
         state.alive = false
+        state.disposals++
       })
       usePageState('draft', {
         save: () => state.draft.value,
@@ -142,6 +153,7 @@ const router = createRouter({
 async function modal() {
   result.value = 'pending'
   result.value = String(await router.pushForResult('/modal'))
+  resultSettlements++
 }
 const App = defineComponent({
   setup() {
@@ -285,6 +297,73 @@ function entries() {
       native: stack.native.map((item) => ({ id: item.id, entries: item.entries })),
     }))
 }
+function startRotation(operation: string, landscape: boolean) {
+  findHost()
+  const home = frames().find((frame) =>
+    captures.some(
+      (state) => state.title === 'Adaptive navigation' && state.page?.frame === frame,
+    ),
+  )
+  if (!isIOS || !home) throw new Error('iOS home Frame required')
+  rotateDuringNavigation(
+    home,
+    operation,
+    landscape,
+    () =>
+      operation.startsWith('push')
+        ? router.push('/detail', { frame: 'home' })
+        : router.back({ frame: 'home' }),
+    () => ({
+      mode: handle.value!.presentation,
+      selected: selected.value,
+      result: result.value,
+      resultSettlements,
+      frames: frames().map((frame) => ({
+        name: captures.some(
+          (state) => state.title === 'Adaptive navigation' && state.page?.frame === frame,
+        )
+          ? 'home'
+          : 'settings',
+        id: nativeIdentity(frame),
+        native: nativeIdentity(frame.nativeViewProtected),
+        pages: [
+          ...frame.backStack.map((entry) => entry.resolvedPage),
+          frame.currentPage,
+        ].map(nativeIdentity),
+        controllers: isIOS
+          ? Array.from({ length: frame.ios.controller.viewControllers.count }, (_, i) =>
+              nativeIdentity(frame.ios.controller.viewControllers.objectAtIndex(i)),
+            )
+          : [],
+        pageControllers: isIOS
+          ? [
+              ...frame.backStack.map((entry) => entry.resolvedPage),
+              frame.currentPage,
+            ].map((page) => nativeIdentity(page?.ios))
+          : [],
+      })),
+      captures: captures.map((state) => ({
+        id: nativeIdentity(state),
+        page: nativeIdentity(state.page),
+        native: nativeIdentity(state.page?.nativeViewProtected),
+        alive: state.alive,
+        disposals: state.disposals,
+        draft: state.draft.value,
+      })),
+      entries: entries(),
+      diagnostics: router.diagnostics!.snapshot(),
+      geometry: host.drawerGeometry,
+      bounds: [0, 1].map((index) => {
+        const view = host.getChildAt(index).nativeViewProtected
+        return { x: view.frame.origin.x, width: view.bounds.size.width }
+      }),
+      open: handle.value!.isOpen,
+      contentHidden: host.getChildAt(0).nativeViewProtected.accessibilityElementsHidden,
+      paneHidden: host.getChildAt(1).nativeViewProtected.accessibilityElementsHidden,
+      issues: router.diagnostics!.snapshot().issues,
+    }),
+  )
+}
 setInterval(async () => {
   if (busy || !handle.value || !File.exists(commandPath)) return
   busy = true
@@ -300,6 +379,12 @@ setInterval(async () => {
       })
     }
     switch (request.action) {
+      case 'finishUnobservedGesture':
+        finishUnobservedGesture()
+        break
+      case 'rotation':
+        startRotation(request.value.operation, request.value.landscape)
+        break
       case 'mode':
         presentation.value = request.value
         break
@@ -352,7 +437,18 @@ setInterval(async () => {
         captures
           .filter((state) => state.page?.frame?.currentPage === state.page)
           .forEach((state) => {
-            state.draft.value = request.value
+            const value = request.value
+            if (typeof value === 'string') state.draft.value = value
+            else {
+              const name = captures.some(
+                (candidate) =>
+                  candidate.title === 'Adaptive navigation' &&
+                  candidate.page?.frame === state.page?.frame,
+              )
+                ? 'home'
+                : 'settings'
+              if (name === value.frame) state.draft.value = value.text
+            }
           })
         break
       case 'remember': {
@@ -384,11 +480,13 @@ setInterval(async () => {
     output.writeTextSync(
       JSON.stringify({
         id,
+        rotation: isIOS ? rotationReport() : null,
         reduceMotion: isIOS && UIAccessibilityIsReduceMotionEnabled(),
         mode: handle.value.presentation,
         open: handle.value.isOpen,
         model: open.value,
         result: result.value,
+        resultSettlements,
         events,
         geometry: host.drawerGeometry,
         viewport: splitViewport(host),
