@@ -2,6 +2,8 @@ import { existsSync } from 'node:fs'
 import { defineConfig, type DefaultTheme } from 'vitepress'
 
 const site = 'https://vue-router-ns.rafaelaugusto.dev'
+const socialImageAlt =
+  "vue-router-ns. Vue Router's API on the native stack. Routes, guards, params and typed names, with phone screens stacked in a native navigation flow."
 const repo = 'https://github.com/rafaelaugustos/vue-router-ns'
 const cortex = '<a href="https://getcortexlabs.com/">Cortex Labs</a>'
 
@@ -360,7 +362,16 @@ export default defineConfig({
     ['link', { rel: 'icon', type: 'image/png', href: '/icon.png' }],
     ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
     ['meta', { name: 'theme-color', content: '#29bd79' }],
-    ['meta', { property: 'og:image', content: `${site}/logo.png` }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: 'vue-router-ns' }],
+    ['meta', { property: 'og:image', content: `${site}/vue-router-ns-social.jpg` }],
+    ['meta', { property: 'og:image:type', content: 'image/jpeg' }],
+    ['meta', { property: 'og:image:width', content: '1200' }],
+    ['meta', { property: 'og:image:height', content: '630' }],
+    ['meta', { property: 'og:image:alt', content: socialImageAlt }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:image', content: `${site}/vue-router-ns-social.jpg` }],
+    ['meta', { name: 'twitter:image:alt', content: socialImageAlt }],
   ],
   themeConfig: {
     logo: { light: '/icon.png', dark: '/icon.png' },
