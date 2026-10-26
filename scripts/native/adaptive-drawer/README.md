@@ -30,6 +30,21 @@ xcodebuild test \
 
 The result bundle path must not already exist. The iPad test verifies the actual `auto` transition at 840 DIPs between portrait and landscape; the phone also exercises explicit permanent presentation.
 
+## Rotation during active navigation
+
+Use a dedicated, booted iPad Pro 11-inch M4 with the adaptive fixture built above. This companion requires Ruby with the xcodeproj gem and Xcode. It reinstalls the app, warms two named stacks with distinct drafts, generates its XCTest project in a temporary directory and reads simulator files directly to avoid XCTest's implicit app-idle synchronization before orientation requests.
+
+```sh
+IOS_SIMULATOR=<dedicated-booted-ipad-uuid> OUT=scripts/native/out/adaptive-rotation \
+  node scripts/native/adaptive-drawer/rotation.mjs
+```
+
+Use a new output directory for each run because Xcode result bundles cannot already exist. Optionally set `RECORD_VIDEO=1` to retain a real simulator recording, and `RUBY=/path/to/ruby` if your configured Ruby is not on PATH. The driver has a four-minute XCTest timeout and copies per-case JSON and XCTest logs even when XCTest fails. Build products stay in a temporary directory rather than the uploaded artifacts.
+
+The probe attempts ten scenarios across push, programmatic Back, intended swipe commit/cancel and settled/modal controls. Each active case must prove that the orientation request preceded native navigation completion. The report separately labels `overlap`, `rotation-deferred`, `overlap-unconfirmed`, `settled-control` and `gesture-not-reproduced`. If navigation completion is pending but its coordinator is no longer current, overlap remains unconfirmed. The last label is an explicit gap, not a passing interactive-rotation case: in the current iPadOS 18.6/26.0 runs, the permanent content-edge swipe did not begin navigation. See [#168](https://github.com/rafaelaugustos/vue-router-ns/issues/168).
+
+A native observer records the rotation callback and current coordinator identity without replacing delegates or synthesizing a pop. The host checks surviving object/entry identities, inactive history/drafts, real native controller membership, disposal count, promise settlement, bounds/accessibility state, and follow-up guards/navigation. A committed or cancelled gesture is judged by UIKit's actual completion, not the intended drag length. The [detailed acceptance report](../../../test/native-drawer-rotation.md) records OS differences and physical-device limitations.
+
 ## Android
 
 ```sh

@@ -5,7 +5,7 @@ FileUtils.mkdir_p(dir)
 project = Xcodeproj::Project.new(File.join(dir, 'AdaptiveDrawerChecks.xcodeproj'))
 target = project.new_target(:ui_test_bundle, 'AdaptiveDrawerChecks', :ios, '18.0')
 target.source_build_phase.add_file_reference(
-  project.main_group.new_file(File.expand_path('AdaptiveDrawerUITests.swift', __dir__)))
+  project.main_group.new_file(File.expand_path(ARGV[1] == 'rotation' ? 'RotationUITests.swift' : 'AdaptiveDrawerUITests.swift', __dir__)))
 target.build_configurations.each do |config|
   config.build_settings['PRODUCT_BUNDLE_IDENTIFIER'] = 'org.nativescript.adaptivedrawerchecks'
   config.build_settings['GENERATE_INFOPLIST_FILE'] = 'YES'

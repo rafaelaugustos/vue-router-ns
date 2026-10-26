@@ -83,6 +83,14 @@ iOS 实现和自适应表示是 `0.1.0-rc.3` 的一部分。之前的 `0.1.0-rc.
 
 构建包后从 `demo` 运行 `ns run ios --env.adaptivedrawerTest` 或 `ns run android --env.adaptivedrawerTest`。 [验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-adaptive.md) 将自动原生输入/状态检查与出色的语音屏幕阅读器和真正的多窗口检查区分开来。
 
+## 导航期间旋转 {#rotation-during-navigation}
+
+在 iPadOS 18.6 模拟器上，测试在页面推进动画、程序触发的返回或交互式返回手势进行期间请求改变方向，观察到的是**导航结束后才开始界面旋转**。在这一执行顺序下，测试中的页面、Vue 实例、草稿以及原生和逻辑导航历史均得以保留；确认返回时，页面只卸载一次；取消返回手势时，页面仍然保留。这证明了导航期间收到旋转请求时的状态保持能力，但不保证 UIKit 同时执行两种动画。
+
+在 iPadOS 26.0 上，即使 UIKit 取消了原本用于确认返回的长距离滑动，同一测试场景仍保持了状态一致。应以原生系统实际确认或取消的结果为准，不要假定旋转期间手势会保持原样继续执行。
+
+当前测试驱动从常驻侧栏旁的内容边缘发起滑动时，未能启动交互式导航，因此这一方向仍存在明确的测试覆盖缺口。本次测试也未验证实体 iPad 或 Stage Manager。具体场景、实际执行顺序及剩余限制，请参阅[旋转验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-rotation.md)。
+
 ## 样式与平台 {#styling-and-platforms}
 
 该窗格是 `GridLayout`，类别为 `router-drawer`，背景为白色；为你的槽的根提供自己的背景和填充。 `width` 是与设备无关的像素。 `DrawerLayout` 附带 AppCompat，因此无需在构建中添加任何内容；可选材质`NavigationView`未使用，您自己的视图是菜单。
