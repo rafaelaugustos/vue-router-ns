@@ -4,6 +4,8 @@ const webpack = require('@nativescript/webpack')
 module.exports = (env) => {
   if (env.observationTest && !env.ios)
     throw new Error('The observation prototype currently supports iOS only')
+  if (env.backedgeTest && !env.ios)
+    throw new Error('The native Back control supports iOS only')
   webpack.init(env)
 
   webpack.chainWebpack((config) => {
@@ -24,6 +26,7 @@ module.exports = (env) => {
       'entrypoints',
       'drawer',
       'adaptivedrawer',
+      'backedge',
       'actions',
       'transitions',
       'observation',

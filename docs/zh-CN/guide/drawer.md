@@ -91,6 +91,8 @@ iOS 实现和自适应表示是 `0.1.0-rc.3` 的一部分。之前的 `0.1.0-rc.
 
 当前测试驱动从常驻侧栏旁的内容边缘发起滑动时，未能启动交互式导航，因此这一方向仍存在明确的测试覆盖缺口。本次测试也未验证实体 iPad 或 Stage Manager。具体场景、实际执行顺序及剩余限制，请参阅[旋转验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-rotation.md)。
 
+[独立返回对照测试](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-back-content-edge.md)在未使用 Vue 或 RouterDrawer 的 NativeScript Core 9.1.3 Frame 中也复现了内容区域右移后的限制。在 iPadOS 26.0 上，UIKit 对照测试区分了默认导航与暴露自定义转场回调的 delegate。常驻模式下应保留明确的返回操作。本次调查不代表已经验证该方向上返回手势期间的旋转行为。
+
 ## 样式与平台 {#styling-and-platforms}
 
 该窗格是 `GridLayout`，类别为 `router-drawer`，背景为白色；为你的槽的根提供自己的背景和填充。 `width` 是与设备无关的像素。 `DrawerLayout` 附带 AppCompat，因此无需在构建中添加任何内容；可选材质`NavigationView`未使用，您自己的视图是菜单。

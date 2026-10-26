@@ -91,6 +91,8 @@ No iPadOS 26.0, o mesmo fixture também preservou um estado coerente quando o UI
 
 O gesto iniciado na borda do conteúdo da sidebar permanente não iniciou uma navegação interativa com o driver atual. Esse sentido continua sendo uma lacuna explícita de cobertura. iPads físicos e Stage Manager não foram validados nesta execução. Consulte o [relatório de aceitação da rotação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-rotation.md) para ver os cenários, a sequência observada e os limites restantes.
 
+Os [controles isolados de Back](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-back-content-edge.md) reproduzem a limitação do conteúdo deslocado com um Frame do NativeScript Core 9.1.3, sem Vue nem RouterDrawer. No iPadOS 26.0, um controle UIKit distingue a navegação padrão de delegates que expõem callbacks de transição personalizada. Mantenha uma ação explícita de voltar disponível no modo permanente. Esta investigação não comprova a rotação durante o gesto nesse sentido.
+
 ## Estilo e plataformas
 
 O painel é um `GridLayout` com a classe `router-drawer` e fundo branco; dê à raiz do seu slot o próprio fundo e espaçamento. `width` é em pixels independentes de densidade. O `DrawerLayout` vem com o AppCompat, então nada é adicionado ao build; o `NavigationView` opcional do Material não é usado, as suas próprias views são o menu.
