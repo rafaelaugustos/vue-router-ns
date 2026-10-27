@@ -4,6 +4,8 @@ This feature is experimental and requires the supported Core 9.1.3+ / NativeScri
 
 The router owns the Vue apps behind Frame pages, retaining them while their routes remain in native history. Android Activity recreation is validated with published Core 9.1.3 and NativeScript-Vue 3.1.2; no dependency patch is required. Page and layout HMR still use native Page replacement. Restoration of original Android tasks and UIKit scene sessions after process death is validated. iPad scene disconnect/reconnect within the same running process is also validated: the original Pages, Vue state, guards and pending navigation results survive. The native suite requests a real UIKit scene disconnection using a simulator-only driver; this is separate from background resume and cold restoration.
 
+The demo now uses NativeScript-Vue 3.1.3. Its upstream `$navigateTo` fix does not replace the router-owned page lifecycle described above. The [3.1.3 validation report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vue-3.1.3.md) separates the new acceptance results from the earlier 3.1.2 evidence and records the platform limits.
+
 ## One router per window
 
 Each `NativeWindow` owns one router. Its named views, modal stack, navigation queue, guards and results are independent. Two windows can both have a view named `inbox`.

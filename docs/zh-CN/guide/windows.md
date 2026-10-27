@@ -4,6 +4,8 @@
 
 路由器拥有 Frame 页面后面的 Vue 应用程序，并在其路由保留在原生历史记录中时保留它们。 Android 活动娱乐已通过已发布的 Core 9.1.3 和 NativeScript-Vue 3.1.2 进行验证；不需要依赖补丁。 Page和布局HMR仍然使用原生Page替换。验证了进程死亡后原始 Android 任务和 UIKit 场景会话的恢复。 iPad 场景在同一运行过程中断开/重新连接也得到验证：原始页面、Vue 状态、导航守卫 和待处理的导航结果仍然存在。原生套件使用仅模拟器驱动程序请求真实的 UIKit 场景断开连接；这与后台恢复和冷恢复是分开的。
 
+演示应用现已使用 NativeScript-Vue 3.1.3。该版本对 `$navigateTo` 的修复不替代上文所述的路由器页面生命周期管理。[3.1.3 验证报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vue-3.1.3.md) 区分了本次验收结果与此前的 3.1.2 测试证据，并记录了各平台的限制。
+
 ## 每个窗口一个路由器 {#one-router-per-window}
 
 每台`NativeWindow`拥有一台路由器。其命名视图、模态 导航栈、导航队列、导航守卫 和结果是独立的。两个窗口都可以有一个名为 `inbox` 的视图​​。

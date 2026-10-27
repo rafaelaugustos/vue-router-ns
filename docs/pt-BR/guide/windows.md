@@ -4,6 +4,8 @@ Este recurso é experimental e exige as dependências suportadas Core 9.1.3+ / N
 
 O router controla os apps Vue das páginas em Frames e os mantém enquanto suas rotas permanecem no histórico nativo. A recriação de Activity Android foi validada com Core 9.1.3 e NativeScript-Vue 3.1.2 publicados, sem patch de dependência. O HMR de páginas e layouts continua usando substituição de Page nativa. A restauração das tarefas Android e sessões UIKit originais após morte do processo foi validada. A desconexão/reconexão de cenas no iPad dentro do mesmo processo também foi validada: as Pages originais, o estado Vue, os guards e os resultados de navegação pendentes são preservados. A suíte solicita uma desconexão real pelo UIKit usando um driver exclusivo do simulador; esse teste é separado da volta do background e da restauração após morte do processo.
 
+O demo agora usa NativeScript-Vue 3.1.3. A correção upstream de `$navigateTo` não substitui o ciclo de vida das páginas controlado pelo router, descrito acima. O [relatório de validação da 3.1.3](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vue-3.1.3.md) separa os novos resultados da evidência anterior em 3.1.2 e registra os limites por plataforma.
+
 ## Um router por janela
 
 Cada `NativeWindow` possui um router. Views nomeadas, pilha de modais, fila de navegação, guards e resultados são independentes. Duas janelas podem ter uma view chamada `inbox`.
