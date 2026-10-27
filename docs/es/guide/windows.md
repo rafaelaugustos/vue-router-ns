@@ -4,6 +4,8 @@ Esta característica es experimental y requiere las dependencias compatibles de 
 
 El enrutador posee las aplicaciones Vue detrás de las páginas Frame y las retiene mientras sus rutas permanecen en el historial nativo. Android La recreación de actividad está validada con Core 9.1.3 y NativeScript-Vue 3.1.2 publicados; no se requiere ningún parche de dependencia. Page y el diseño HMR todavía usan el reemplazo nativo Page. Se valida la restauración de las tareas Android originales y las sesiones de escena UIKit después de la terminación del proceso. La desconexión/reconexión de la escena iPad dentro del mismo proceso en ejecución también se valida: las páginas originales, el estado de Vue, el guards y los resultados de navegación pendientes sobreviven. La suite nativa solicita una desconexión de escena UIKit real utilizando un controlador exclusivo de simulador; esto es independiente del currículum en segundo plano y la restauración en frío.
 
+La demo ahora usa NativeScript-Vue 3.1.3. Su corrección de `$navigateTo` no sustituye el ciclo de vida de páginas que gestiona el router, descrito arriba. El [informe de validación de 3.1.3](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vue-3.1.3.md) distingue los nuevos resultados de las pruebas anteriores con 3.1.2 y documenta los límites de cada plataforma.
+
 ## Un enrutador por ventana {#one-router-per-window}
 
 Cada `NativeWindow` posee un enrutador. Sus vistas con nombre, modal stack, cola de navegación, guards y resultados son independientes. Dos ventanas pueden tener una vista denominada `inbox`.

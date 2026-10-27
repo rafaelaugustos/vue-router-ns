@@ -1,5 +1,7 @@
 # NativeWindow routing validation — 2026-10-15
 
+For the NativeScript-Vue 3.1.3 dependency update, see the [current validation report](./native-vue-3.1.3.md). The dated sections below retain their original dependency versions and results. The early dependency blocker was superseded by router-owned mounting on 2026-10-22; the upstream `$navigateTo` correction subsequently shipped in 3.1.3.
+
 Current #49 completion evidence, including hosted process IDs, original task/session checks and independent drafts, is consolidated in [page state acceptance](./native-page-state.md#completed-multi-window-acceptance--2026-10-23). Historical limitations below describe their stated revisions; they are superseded by the completed restoration results.
 
 ## Latest acceptance — 2026-10-22, after RC integration

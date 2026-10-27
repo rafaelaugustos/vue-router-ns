@@ -17,6 +17,8 @@ The RC narrows beta's Core `>=8.9.0` and NativeScript-Vue `^3.0.0` declarations 
 
 Native CI covers Android API 34/35/36 and iOS/iPadOS 18.6 simulators. Additional iOS 26 runs and physical-device accessibility checks are recorded in the repository's [validation reports](https://github.com/rafaelaugustos/vue-router-ns/tree/main/test). These reports identify their tested revisions; they do not imply a fresh physical-device pass for every release.
 
+Development and the demo now use [NativeScript-Vue 3.1.3](https://github.com/nativescript-vue/nativescript-vue/releases/tag/v3.1.3); the published RC.4 acceptance baseline above remains 3.1.2 and the peer requirement remains `^3.1.2`. Version 3.1.3 fixes retained page apps in `$navigateTo` during native-window recreation and releases them on permanent window closure. Router Frame pages already use router-owned `createNativeView()` lifecycles. See the [3.1.3 validation report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vue-3.1.3.md) for the focused window tests; this update is not a new release or a repeat of the complete release matrix.
+
 ## API scope
 
 The RC freezes explicit routes and typed locations; push/replace/back and results; guards and navigation lifecycle; RouterView, RouterLink, tabs, drawer and Frame split navigation; modal routes; opt-in page-state restoration; and the documented native integrations outside the experimental list below. Defect fixes remain possible. An unavoidable incompatible correction before stable must be documented with migration instructions in a new candidate.

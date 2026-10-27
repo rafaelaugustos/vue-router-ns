@@ -17,6 +17,8 @@ RC 将 beta 的 Core `>=8.9.0` 和 NativeScript-Vue `^3.0.0` 声明缩小到经�
 
 原生 CI 涵盖 Android API 34/35/36 和 iOS/iPadOS 18.6 模拟器。其他 iOS 26 次运行和物理设备可访问性检查记录在存储库的 [验证报告](https://github.com/rafaelaugustos/vue-router-ns/tree/main/test) 中。这些报告确定了其经过测试的修订版本；它们并不意味着每个版本都有新的真机验证。
 
+开发环境和演示应用现已使用 [NativeScript-Vue 3.1.3](https://github.com/nativescript-vue/nativescript-vue/releases/tag/v3.1.3)；上表中的已发布 RC.4 验收基线仍为 3.1.2，peer 依赖要求仍为 `^3.1.2`。3.1.3 修复了 `$navigateTo` 在原生窗口重建时保留页面 Vue 应用、并在窗口永久关闭时卸载它们的行为。路由器的 Frame 页面已通过 `createNativeView()` 自行管理生命周期。[3.1.3 验证报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vue-3.1.3.md) 记录了本次窗口专项测试；本次更新不代表路由器的新版本，也不代表重新完成了整个发布测试矩阵。
+
 ## API 范围 {#api-scope}
 
 RC 冻结显式路由和带类型的导航位置；推/替换/返回和结果； 导航守卫和导航生命周期； RouterView、RouterLink、选项卡、抽屉导航 和 Frame 分割导航；模态路由；可选的页面状态恢复；以及下面实验列表之外记录的原生集成。缺陷修复仍然是可能的。在稳定之前不可避免的不兼容修正必须记录在新候选中的迁移说明中。
