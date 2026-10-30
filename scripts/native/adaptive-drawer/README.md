@@ -58,6 +58,8 @@ ANDROID_SERIAL=<dedicated-emulator> OUT=scripts/native/out/adaptive-input node s
 
 The first driver verifies state and identity; the second uses `input tap/text/keyevent` and UIAutomator to prove that both regions receive real input in permanent mode, hidden/covered regions leave the accessibility tree, typed drafts survive tab/mode changes, and Back pops a page instead of consuming permanent visibility.
 
+The input driver can dismiss one system-owned **Pixel Launcher isn't responding** dialog, which otherwise obscures the fixture and produces a misleading missing-target failure. Before closing it, the driver saves `launcher-anr-1.xml` and `.png`; `launcher-recovery-1.json` records the outcome and fixture PIDs before/after. It then reads a fresh hierarchy and continues the original scenario. It never restarts the fixture or retries failed navigation assertions. A repeated launcher ANR, any other app's ANR, an unusable Close app button, or a missing/changed fixture PID fails the run and retains evidence. This recovery is specific to the English CI emulator dialog; other system dialogs remain failures.
+
 On a Pixel Fold emulator configured with [`prepare-fold-avd.mjs`](../prepare-fold-avd.mjs):
 
 ```sh
