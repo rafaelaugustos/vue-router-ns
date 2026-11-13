@@ -18,7 +18,13 @@ export const out = resolve(
 export const ios = async (...args) =>
   (await exec('xcrun', ['simctl', ...args])).stdout.trim()
 export const adb = async (...args) =>
-  (await exec('adb', ['-s', serial, ...args])).stdout.trim()
+  (
+    await exec('adb', ['-s', serial, ...args], {
+      timeout: 20000,
+      killSignal: 'SIGKILL',
+      maxBuffer: 8 * 1024 * 1024,
+    })
+  ).stdout.trim()
 export const pause = (ms) => new Promise((done) => setTimeout(done, ms))
 let directory
 let sequence = 0
@@ -45,7 +51,8 @@ export async function initialize() {
     await adb('shell', 'pm', 'clear', pkg)
     await adb('shell', 'am', 'start', '-n', `${pkg}/com.tns.NativeScriptActivity`)
   }
-  for (let i = 0; i < 150; i++) {
+  const readyBy = Date.now() + 30000
+  while (Date.now() < readyBy) {
     try {
       if (sim) await access(directory)
       else await adb('shell', 'run-as', pkg, 'ls', 'files/adaptive')
@@ -57,6 +64,7 @@ export async function initialize() {
   throw new Error('Adaptive fixture failed to initialize')
 }
 export async function command(action, value) {
+  const started = Date.now()
   if (sim && !directory)
     directory = `${await ios('get_app_container', sim, pkg, 'data')}/Documents/adaptive`
   const id = `${Date.now()}-${sequence++}`
@@ -66,10 +74,11 @@ export async function command(action, value) {
     execFileSync(
       'adb',
       ['-s', serial, 'shell', `run-as ${pkg} sh -c 'cat > files/adaptive/command.json'`],
-      { input: payload },
+      { input: payload, timeout: 20000, killSignal: 'SIGKILL' },
     )
   let result
-  for (let i = 0; i < 100; i++) {
+  const replyBy = Date.now() + 20000
+  while (Date.now() < replyBy) {
     try {
       result = JSON.parse(
         sim
@@ -80,10 +89,10 @@ export async function command(action, value) {
     if (result?.id === id) break
     await pause(200)
   }
-  assert.equal(result?.id, id, `Timed out: ${action}`)
-  assert(!result.error, result.error)
-  reports.push({ action, value, ...result })
+  reports.push({ action, value, elapsedMs: Date.now() - started, ...result })
   await mkdir(out, { recursive: true })
   await writeFile(`${out}/results.json`, JSON.stringify(reports, null, 2))
+  assert.equal(result?.id, id, `Timed out: ${action}`)
+  assert(!result.error, result.error)
   return result
 }
