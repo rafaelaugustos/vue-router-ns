@@ -133,3 +133,5 @@ console.log(report.harnessVersion, report.contractVersion, report.checks)
 请同时维护公开类型、harness 版本、独立打包的消费端、原生驱动和翻译。专项 CI 在相关 PR 中检查打包导入；iOS 测试可手动运行，并每周运行。原生手势和生命周期证据补充 harness。本次验收不证明实体设备覆盖、Android 适配器支持、重复资源回收或稳定 API 承诺。
 
 生命周期 fixture 会覆盖并重新显示所有者保留的 Page。从父容器移除 Frame 会使 Core 销毁其 UIKit 控制器；应将此视为所有者永久关闭，并创建新的 Frame/适配器，而不是复用旧对象。
+
+<Clip name="native-host-conformance" :width="480" aspect="3 / 4" caption="独立适配器：取消、拦截和完成原生 Back，临时卸载/重新加载及销毁。iOS 18.6 模拟器；fixture 标签保留英文。" />

@@ -1,0 +1,81 @@
+{
+  "site": {
+    "base": "http://127.0.0.1:4174",
+    "reports": [
+      "Push, retained search, modal result, cancellation and keyboard Escape passed.",
+      "Four localized homes and 320\u20131440px layouts passed.",
+      "Reduced motion settles animation and prevents automatic video playback.",
+      "Server-rendered content and guide navigation work without JavaScript."
+    ],
+    "errors": []
+  },
+  "guide": {
+    "reports": [
+      {
+        "locale": "en",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/native-hosts",
+          "/zh-CN/guide/native-hosts",
+          "/pt-BR/guide/native-hosts",
+          "/es/guide/native-hosts",
+          "/zh-CN/guide/native-hosts",
+          "/pt-BR/guide/native-hosts",
+          "/guide/native-hosts",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/guide/native-hosts.md"
+        ],
+        "headingCount": 7
+      },
+      {
+        "locale": "pt-BR/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/native-hosts",
+          "/zh-CN/guide/native-hosts",
+          "/guide/native-hosts",
+          "/es/guide/native-hosts",
+          "/zh-CN/guide/native-hosts",
+          "/guide/native-hosts",
+          "/pt-BR/guide/native-hosts",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/pt-BR/guide/native-hosts.md"
+        ],
+        "headingCount": 7
+      },
+      {
+        "locale": "es/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/zh-CN/guide/native-hosts",
+          "/guide/native-hosts",
+          "/pt-BR/guide/native-hosts",
+          "/zh-CN/guide/native-hosts",
+          "/guide/native-hosts",
+          "/pt-BR/guide/native-hosts",
+          "/es/guide/native-hosts",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/es/guide/native-hosts.md"
+        ],
+        "headingCount": 7
+      },
+      {
+        "locale": "zh-CN/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/native-hosts",
+          "/guide/native-hosts",
+          "/pt-BR/guide/native-hosts",
+          "/es/guide/native-hosts",
+          "/guide/native-hosts",
+          "/pt-BR/guide/native-hosts",
+          "/zh-CN/guide/native-hosts",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/zh-CN/guide/native-hosts.md"
+        ],
+        "headingCount": 7
+      }
+    ],
+    "search": "passed"
+  }
+}

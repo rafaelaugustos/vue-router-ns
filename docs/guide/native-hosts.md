@@ -133,3 +133,5 @@ This review keeps the contract **experimental at version 1**. The corrections en
 Maintain the public types, harness version, independent packed consumer, native driver and translations together. The focused CI checks packed imports on relevant PRs; its iOS lane runs manually and weekly. Native gestures and lifecycle evidence supplement the harness. This acceptance does not establish hardware coverage, Android adapter support, repeated resource collection or a stable API promise.
 
 The native lifecycle fixture covers and reveals a retained parent Page. Removing a Frame from its parent destroys its UIKit controller in Core; treat that as permanent owner teardown and create a fresh Frame/adapter instead of reusing it.
+
+<Clip name="native-host-conformance" :width="480" aspect="3 / 4" caption="Independent adapter: cancelled, blocked and committed native Back, temporary unload/reload and disposal. iOS 18.6 simulator; fixture labels remain in English." />

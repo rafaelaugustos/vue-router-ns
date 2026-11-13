@@ -133,3 +133,5 @@ A revisão mantém o contrato **experimental na versão 1**. As correções resp
 Mantenha os tipos públicos, a versão do harness, o consumidor independente empacotado, o driver nativo e as traduções juntos. O CI focado verifica imports empacotados nos PRs relevantes; a execução iOS é manual e semanal. Evidências de gestos e ciclo de vida complementam o harness. Esta validação não estabelece cobertura em aparelhos físicos, suporte a adaptadores Android, coleta repetida de recursos ou promessa de API estável.
 
 A fixture de ciclo de vida cobre e revela uma Page retida pelo dono. Remover um Frame do pai destrói seu controlador UIKit no Core; trate isso como encerramento definitivo do dono e crie outro Frame/adaptador em vez de reutilizá-lo.
+
+<Clip name="native-host-conformance" :width="480" aspect="3 / 4" caption="Adaptador independente: Back nativo cancelado, bloqueado e concluído, descarregamento/recarga temporários e descarte. Simulador iOS 18.6; rótulos da fixture em inglês." />

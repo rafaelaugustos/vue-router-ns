@@ -1,0 +1,446 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "72a1bbd194977daf96b4bf6fcf2ec8247c3d65ab",
+  "date": "2026-11-13",
+  "target": {
+    "device": "iPad Pro 13-inch (M4), simulator",
+    "system": "iOS 18.6",
+    "xcode": "27.0 (27A266a)",
+    "core": "9.1.4",
+    "nativescriptVue": "3.1.3",
+    "vueRuntime": "3.5.45",
+    "iosRuntime": "9.1.0"
+  },
+  "xctest": {
+    "tests": 1,
+    "failures": 0,
+    "seconds": 39.907
+  },
+  "packages": {
+    "router": {
+      "filename": "vue-router-ns-0.1.0-rc.4.tgz",
+      "shasum": "b253586fa34e252b2729ad024399a24871724bd6",
+      "integrity": "sha512-Dq7+VhDywFjbh6c2w2xJ56jNi6/3yOhOHV2OKydcsv0xCwEPD1iP7jA6Ks9HETrvkaEPSYxSdtsPAgwzrU/w2Q==",
+      "size": 392649
+    },
+    "adapter": {
+      "filename": "vue-router-ns-example-frame-host-1.0.0.tgz",
+      "shasum": "0dec1759a763f94323d9b38112977b212b93e31f",
+      "integrity": "sha512-BE9YQTu3mCg3V98YfXCHqeWrQIjEAIkc4IugKHmc7hPwHucyI2JRGSqr4r7JQmIorAxZ/er1VJOcr+hsxWMgLw==",
+      "size": 2624
+    }
+  },
+  "reports": [
+    {
+      "command": "conformance",
+      "ok": true,
+      "checks": [],
+      "logical": [],
+      "native": [],
+      "loaded": false,
+      "resultCount": 0,
+      "disposedPages": 0,
+      "lifetimes": [],
+      "vueErrors": [],
+      "gestureEvents": 0,
+      "gesturePeak": 0,
+      "extra": {
+        "harnessVersion": 1,
+        "contractVersion": 1,
+        "kind": "external-ios-frame",
+        "capabilities": {
+          "replace": true,
+          "clearHistory": true,
+          "pinnedRoot": false,
+          "close": false,
+          "cancellableDismissal": false,
+          "multipleVisible": false
+        },
+        "checks": [
+          {
+            "name": "version and capabilities",
+            "status": "passed"
+          },
+          {
+            "name": "initially unloaded host",
+            "status": "passed"
+          },
+          {
+            "name": "initial page and handle",
+            "status": "passed"
+          },
+          {
+            "name": "push, back and retained identity",
+            "status": "passed"
+          },
+          {
+            "name": "replace capability",
+            "status": "passed"
+          },
+          {
+            "name": "clearHistory capability",
+            "status": "passed"
+          },
+          {
+            "name": "guard cancellation",
+            "status": "passed"
+          },
+          {
+            "name": "concurrent requests",
+            "status": "passed"
+          },
+          {
+            "name": "native pop and exactly-once result",
+            "status": "passed"
+          },
+          {
+            "name": "atomic push failure",
+            "status": "passed"
+          },
+          {
+            "name": "failed back result isolation",
+            "status": "passed"
+          },
+          {
+            "name": "held dismissal",
+            "status": "skipped"
+          },
+          {
+            "name": "owner disposal and pending result",
+            "status": "passed"
+          },
+          {
+            "name": "late callbacks and repeated disposal",
+            "status": "passed"
+          }
+        ]
+      }
+    },
+    {
+      "command": "prepare",
+      "ok": true,
+      "checks": ["two real UIKit controllers"],
+      "logical": ["/", "/gesture"],
+      "native": [40, 46],
+      "loaded": true,
+      "controllers": 2,
+      "resultCount": 0,
+      "disposedPages": 0,
+      "lifetimes": [
+        {
+          "id": 1,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "id": 2,
+          "path": "/gesture",
+          "event": "setup"
+        }
+      ],
+      "vueErrors": [],
+      "gestureEvents": 0,
+      "gesturePeak": 0
+    },
+    {
+      "command": "cancelled",
+      "ok": true,
+      "checks": [
+        "two real UIKit controllers",
+        "cancelled gesture actually moved UIKit transition",
+        "cancelled native gesture retains identities",
+        "cancelled gesture retains result and Vue apps"
+      ],
+      "logical": ["/", "/gesture"],
+      "native": [40, 46],
+      "loaded": true,
+      "controllers": 2,
+      "resultCount": 0,
+      "disposedPages": 0,
+      "lifetimes": [
+        {
+          "id": 1,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "id": 2,
+          "path": "/gesture",
+          "event": "setup"
+        }
+      ],
+      "vueErrors": [],
+      "gestureEvents": 65,
+      "gesturePeak": 0.31976744186046513
+    },
+    {
+      "command": "guard-on",
+      "ok": true,
+      "checks": [
+        "two real UIKit controllers",
+        "cancelled gesture actually moved UIKit transition",
+        "cancelled native gesture retains identities",
+        "cancelled gesture retains result and Vue apps",
+        "leave guard disables native swipe"
+      ],
+      "logical": ["/", "/gesture"],
+      "native": [40, 46],
+      "loaded": true,
+      "controllers": 2,
+      "resultCount": 0,
+      "disposedPages": 0,
+      "lifetimes": [
+        {
+          "id": 1,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "id": 2,
+          "path": "/gesture",
+          "event": "setup"
+        }
+      ],
+      "vueErrors": [],
+      "gestureEvents": 0,
+      "gesturePeak": 0
+    },
+    {
+      "command": "guarded",
+      "ok": true,
+      "checks": [
+        "two real UIKit controllers",
+        "cancelled gesture actually moved UIKit transition",
+        "cancelled native gesture retains identities",
+        "cancelled gesture retains result and Vue apps",
+        "leave guard disables native swipe",
+        "blocked native gesture retains history and result",
+        "guard prevented UIKit gesture recognition"
+      ],
+      "logical": ["/", "/gesture"],
+      "native": [40, 46],
+      "loaded": true,
+      "controllers": 2,
+      "resultCount": 0,
+      "disposedPages": 0,
+      "lifetimes": [
+        {
+          "id": 1,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "id": 2,
+          "path": "/gesture",
+          "event": "setup"
+        }
+      ],
+      "vueErrors": [],
+      "gestureEvents": 0,
+      "gesturePeak": 0
+    },
+    {
+      "command": "committed",
+      "ok": true,
+      "checks": [
+        "two real UIKit controllers",
+        "cancelled gesture actually moved UIKit transition",
+        "cancelled native gesture retains identities",
+        "cancelled gesture retains result and Vue apps",
+        "leave guard disables native swipe",
+        "blocked native gesture retains history and result",
+        "guard prevented UIKit gesture recognition",
+        "committed gesture actually moved UIKit transition",
+        "native gesture settles result once",
+        "native gesture preserves root and disposes departed app"
+      ],
+      "logical": ["/"],
+      "native": [40],
+      "loaded": true,
+      "controllers": 1,
+      "resultCount": 1,
+      "disposedPages": 1,
+      "lifetimes": [
+        {
+          "id": 1,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "id": 2,
+          "path": "/gesture",
+          "event": "setup"
+        },
+        {
+          "id": 2,
+          "path": "/gesture",
+          "event": "unmounted"
+        }
+      ],
+      "vueErrors": [],
+      "gestureEvents": 104,
+      "gesturePeak": 0.8270348837209303
+    },
+    {
+      "command": "detach",
+      "ok": true,
+      "checks": [
+        "two real UIKit controllers",
+        "cancelled gesture actually moved UIKit transition",
+        "cancelled native gesture retains identities",
+        "cancelled gesture retains result and Vue apps",
+        "leave guard disables native swipe",
+        "blocked native gesture retains history and result",
+        "guard prevented UIKit gesture recognition",
+        "committed gesture actually moved UIKit transition",
+        "native gesture settles result once",
+        "native gesture preserves root and disposes departed app",
+        "container reports unloaded",
+        "temporary unload retains Page and Vue app"
+      ],
+      "logical": ["/"],
+      "native": [40],
+      "loaded": false,
+      "controllers": 1,
+      "resultCount": 1,
+      "disposedPages": 1,
+      "lifetimes": [
+        {
+          "id": 1,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "id": 2,
+          "path": "/gesture",
+          "event": "setup"
+        },
+        {
+          "id": 2,
+          "path": "/gesture",
+          "event": "unmounted"
+        }
+      ],
+      "vueErrors": [],
+      "gestureEvents": 104,
+      "gesturePeak": 0.8270348837209303
+    },
+    {
+      "command": "reattach",
+      "ok": true,
+      "checks": [
+        "two real UIKit controllers",
+        "cancelled gesture actually moved UIKit transition",
+        "cancelled native gesture retains identities",
+        "cancelled gesture retains result and Vue apps",
+        "leave guard disables native swipe",
+        "blocked native gesture retains history and result",
+        "guard prevented UIKit gesture recognition",
+        "committed gesture actually moved UIKit transition",
+        "native gesture settles result once",
+        "native gesture preserves root and disposes departed app",
+        "container reports unloaded",
+        "temporary unload retains Page and Vue app",
+        "reattach preserves Page and Vue app",
+        "navigation works after reattach"
+      ],
+      "logical": ["/", "/gesture"],
+      "native": [40, 53],
+      "loaded": true,
+      "controllers": 2,
+      "resultCount": 1,
+      "disposedPages": 1,
+      "lifetimes": [
+        {
+          "id": 1,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "id": 2,
+          "path": "/gesture",
+          "event": "setup"
+        },
+        {
+          "id": 2,
+          "path": "/gesture",
+          "event": "unmounted"
+        },
+        {
+          "id": 3,
+          "path": "/gesture",
+          "event": "setup"
+        }
+      ],
+      "vueErrors": [],
+      "gestureEvents": 104,
+      "gesturePeak": 0.8270348837209303
+    },
+    {
+      "command": "dispose",
+      "ok": true,
+      "checks": [
+        "two real UIKit controllers",
+        "cancelled gesture actually moved UIKit transition",
+        "cancelled native gesture retains identities",
+        "cancelled gesture retains result and Vue apps",
+        "leave guard disables native swipe",
+        "blocked native gesture retains history and result",
+        "guard prevented UIKit gesture recognition",
+        "committed gesture actually moved UIKit transition",
+        "native gesture settles result once",
+        "native gesture preserves root and disposes departed app",
+        "container reports unloaded",
+        "temporary unload retains Page and Vue app",
+        "reattach preserves Page and Vue app",
+        "navigation works after reattach",
+        "owner closure settles pending result once",
+        "owner closure releases native handle and all Vue apps",
+        "each destination app unmounts exactly once",
+        "no Vue lifecycle errors",
+        "late callbacks and repeated unmount are inert",
+        "no reconciliation issues"
+      ],
+      "logical": [],
+      "native": [],
+      "loaded": false,
+      "resultCount": 2,
+      "disposedPages": 3,
+      "lifetimes": [
+        {
+          "id": 1,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "id": 2,
+          "path": "/gesture",
+          "event": "setup"
+        },
+        {
+          "id": 2,
+          "path": "/gesture",
+          "event": "unmounted"
+        },
+        {
+          "id": 3,
+          "path": "/gesture",
+          "event": "setup"
+        },
+        {
+          "id": 1,
+          "path": "/",
+          "event": "unmounted"
+        },
+        {
+          "id": 3,
+          "path": "/gesture",
+          "event": "unmounted"
+        }
+      ],
+      "vueErrors": [],
+      "gestureEvents": 104,
+      "gesturePeak": 0.8270348837209303
+    }
+  ]
+}

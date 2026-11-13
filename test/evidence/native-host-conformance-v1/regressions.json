@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "controlCommit": "54013746c55d6771140424dcdbbb7e8e46edfa12",
+  "candidateCommit": "72a1bbd194977daf96b4bf6fcf2ec8247c3d65ab",
+  "control": {
+    "passed": 2,
+    "failed": 13,
+    "tests": [
+      {
+        "name": "an old unmount never closes a replacement under the same name",
+        "status": "failed"
+      },
+      {
+        "name": "honors close capability on an externally mounted host at its root",
+        "status": "failed"
+      },
+      {
+        "name": "holds external dismissal for leave guards and closes after approval",
+        "status": "failed"
+      },
+      {
+        "name": "does not deliver a result from a failed back on a later successful back",
+        "status": "failed"
+      },
+      {
+        "name": "owner closure releases a pending host promise and later rejection cannot block remount",
+        "status": "failed"
+      },
+      {
+        "name": "rolls back partial attach ownership when attach throws",
+        "status": "failed"
+      },
+      {
+        "name": "settles pending results even when an adapter throws during disposal",
+        "status": "failed"
+      },
+      {
+        "name": "uses the targeted named host capabilities when another host is focused",
+        "status": "failed"
+      },
+      {
+        "name": "waits for native acknowledgement even after push resolves",
+        "status": "passed"
+      },
+      {
+        "name": "an unloaded host queues locally without blocking another host",
+        "status": "failed"
+      },
+      {
+        "name": "does not deliver an uncommitted Back result when its owner unmounts",
+        "status": "failed"
+      },
+      {
+        "name": "reports an external close once, after switching focus to the surviving host",
+        "status": "failed"
+      },
+      {
+        "name": "waits for the method promise after native completion has arrived",
+        "status": "passed"
+      },
+      {
+        "name": "rejects cancellableDismissal without its required method before attaching",
+        "status": "failed"
+      },
+      {
+        "name": "rejects multipleVisible without its required method before attaching",
+        "status": "failed"
+      }
+    ]
+  },
+  "candidate": {
+    "passed": 15,
+    "failed": 0
+  },
+  "fullSuite": {
+    "passed": 683,
+    "skipped": 10,
+    "files": 55
+  }
+}
