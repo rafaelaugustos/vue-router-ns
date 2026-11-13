@@ -32,9 +32,76 @@ Snapshots, entries, route data and nested parameter/query arrays are frozen. An 
 - A pinned split root can be selected and remains pinned. Selection never removes it.
 - While a modal is open, selection is confined to its top modal stack. Selecting covered history rejects without dismissing a modal; use the existing modal Back flow first. Selecting the modal root keeps the modal open.
 
-Persist application routes and page state through [restoration](./restore), not these live addresses. Popped entries are gone: there is no forward history, and reconstruction does not resurrect their native objects. Native Back controls remain in place. An optional history menu is a separate stage; this API does not install one.
+Persist application routes and page state through [restoration](./restore), not these live addresses. Popped entries are gone: there is no forward history, and reconstruction does not resurrect their native objects. Native Back controls remain in place.
 
 <Clip name="entry-history" :width="480" aspect="3 / 4" caption="Two native stacks: exact duplicate selection, guard refusal, stale address rejection, cancelled/committed native Back and owner disposal. iOS 18.6 simulator; fixture labels are in English." />
+
+## Optional Back history menu
+
+`useBackHistoryMenu()` opts an app-owned control into the owning page's retained history. It leaves UIKit's system Back button and its built-in long-press menu in place. Android's toolbar Back does not supply a retained-entry menu; this API provides a native popup. On iOS, app-owned controls use an anchored native action sheet/popover, which also works when opened from a keyboard command. No private Back-button lookup or navigation delegate replacement is needed.
+
+Call it during routed page setup. Provide a clearly labelled history button as well as long press, and translate the labels for your app:
+
+```vue
+<script setup lang="ts">
+import { ref } from 'nativescript-vue'
+import type { View } from '@nativescript/core'
+import {
+  useRouter,
+  useBackHistoryMenu,
+  useNavigationCommands,
+  NavigationCommandScope,
+} from 'vue-router-ns'
+
+const router = useRouter()
+const back = ref<{ nativeView: View }>()
+const menu = useBackHistoryMenu({
+  title: 'Back history',
+  cancelTitle: 'Cancel',
+  label: (entry, index) => `${entry.route.fullPath} · ${index + 1}`,
+  onError: console.error,
+})
+const open = () => (back.value ? menu.show(back.value.nativeView) : false)
+const commands = useNavigationCommands([
+  {
+    id: 'history',
+    title: 'Back history',
+    shortcut: { input: 'h', modifiers: ['ctrl'] },
+    action: open,
+  },
+  { id: 'back', title: 'Back', shortcut: { input: 'Escape' }, action: 'back' },
+])
+</script>
+
+<template>
+  <Page>
+    <NavigationCommandScope :commands="commands">
+      <StackLayout>
+        <Button
+          ref="back"
+          text="Back"
+          accessibilityLabel="Back; hold for history"
+          @tap="!menu.active.value && router.back()"
+          @longPress="open"
+        />
+        <Button text="Show history" accessibilityLabel="Show Back history" @tap="open" />
+      </StackLayout>
+    </NavigationCommandScope>
+  </Page>
+</template>
+```
+
+`show(source: View)` returns whether the menu is open. It never navigates or reveals another stack. Repeated calls while open are idempotent, including NativeScript's multiple long-press phases. The source must be loaded and belong to this visible page. At the root, during native navigation, behind a modal, in an unselected tab, after disposal, or when native presentation is unavailable, it returns `false`.
+
+The menu snapshots earlier entries, newest first, excluding the current top. `label(entry, index, history)` receives the root-based index and the frozen history; the default is the route name (or full path) followed by its one-based position. Distinguish repeated locations and reconstructed entries in your labels when useful. `title` and `cancelTitle` accept a string, ref or getter and are read on opening; Android displays the entry labels without a heading or Cancel row.
+
+Selection dismisses the menu and uses `backToEntry()` with that exact address. Guards can refuse it without changing history. Unexpected navigation errors go to `onError`, or the console. `active` is a readonly ref; `dismiss()` closes only this menu and returns whether it was open. Page coverage, source unloading, history changes and owner disposal close it and invalidate old callbacks. It cannot retarget a new occurrence of the same route.
+
+Native UI handles selection and dismissal. The optional keyboard command opens the same menu; Escape closes it before route Back when dispatched through the command scope. Android also supports arrow keys/Enter and hardware Back. UIKit supports native cancellation and outside-tap dismissal on iPad. The native checks verify accessible labels and keyboard input; they do not certify VoiceOver/TalkBack speech or every OS keyboard mode. A custom host needs a loaded routed NativeScript Page/anchor for this UI; otherwise use the readonly history API to render its own controls.
+
+On the audited iOS 18.6/Core 9.1.4 combination, selecting from UIKit’s original long-press history bypassed an active page leave guard. The optional menu above uses the guarded router path; installing it does not intercept the original UIKit menu. Apps that require guarded history selection must use app-owned controls and hide the system Back control (for example, a NativeScript `NavigationButton` with `visibility="collapsed"`). The native-control guard gap remains follow-up work in #178.
+
+<Clip name="back-history-menu" :width="480" aspect="3 / 4" caption="Two stacks: original UIKit history, app-owned Back long press, Ctrl H/Escape, guard refusal, exact duplicate selection, concurrent navigation and disposal. iOS 18.6 simulator; fixture labels are in English." />
 
 ## Reconciling a list of routes
 

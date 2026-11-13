@@ -5,6 +5,7 @@ FileUtils.mkdir_p(dir)
 project = Xcodeproj::Project.new(File.join(dir, 'HistoryChecks.xcodeproj'))
 target = project.new_target(:ui_test_bundle, 'HistoryChecks', :ios, '18.0')
 target.source_build_phase.add_file_reference(project.main_group.new_file(File.expand_path('HistoryUITests.swift', __dir__)))
+target.source_build_phase.add_file_reference(project.main_group.new_file(File.expand_path('MenuUITests.swift', __dir__)))
 target.source_build_phase.add_file_reference(project.main_group.new_file(File.expand_path('../contracts/ContractTouch.m', __dir__)))
 target.build_configurations.each do |config|
   config.build_settings['PRODUCT_BUNDLE_IDENTIFIER'] = 'org.nativescript.historychecks178'

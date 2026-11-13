@@ -27,6 +27,7 @@ module.exports = (env) => {
       'windows',
       'entrypoints',
       'history',
+      'historymenu',
       'drawer',
       'adaptivedrawer',
       'backedge',

@@ -3,6 +3,7 @@ import { inject, onUnmounted, toValue, type MaybeRefOrGetter } from 'nativescrip
 import { entryKey } from './injection.js'
 import { pageEffect, pageVisible, watchPageVisibility } from './page-effects.js'
 import { dismissPageSearch } from './search.js'
+import { dismissPageHistoryMenu } from './history-menu.js'
 import type { RegisteredRouter } from './typed.js'
 import { bindCommands, type NativeCommandsHost } from './commands-native.js'
 import { commandFocusOrigin } from './accessibility.js'
@@ -116,7 +117,7 @@ export function useNavigationCommands(
                     command.shortcut.input === 'Escape' &&
                     !command.shortcut.modifiers?.length,
                 ) &&
-                dismissPageSearch(page),
+                (dismissPageHistoryMenu(page) || dismissPageSearch(page)),
             },
             page,
           )

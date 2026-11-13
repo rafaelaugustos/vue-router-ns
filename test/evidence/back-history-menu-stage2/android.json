@@ -1,0 +1,808 @@
+{
+  "platform": "android",
+  "reports": [
+    {
+      "command": "seed",
+      "ok": true,
+      "checks": ["five retained inbox entries"],
+      "errors": [],
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf0lagz-mu5fuw5gdy-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "window-34d2967c-b686-46e8-a97f-c39539c8dcf3",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:1",
+              "key": "mwf0lah0ay9f-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:3",
+              "key": "mwf0lah0ay9f-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:4",
+              "key": "mwf0lah0ay9f-4",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:5",
+              "key": "mwf0lah0ay9f-5",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:6",
+              "key": "mwf0lah0ay9f-6",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf0lagz-mu5fuw5gdy-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "window-34d2967c-b686-46e8-a97f-c39539c8dcf3",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-2",
+              "id": "mwf0lagz-mu5fuw5gdy-2:2",
+              "key": "mwf0lah0ay9f-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-2",
+              "id": "mwf0lagz-mu5fuw5gdy-2:7",
+              "key": "mwf0lah0ay9f-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-2",
+              "id": "mwf0lagz-mu5fuw5gdy-2:8",
+              "key": "mwf0lah0ay9f-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "unchanged",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "opening and dismissing preserve both stacks",
+        "native dismissal clears active state",
+        "opening and dismissing preserve both stacks",
+        "native dismissal clears active state"
+      ],
+      "errors": [],
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf0lagz-mu5fuw5gdy-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "window-34d2967c-b686-46e8-a97f-c39539c8dcf3",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:1",
+              "key": "mwf0lah0ay9f-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:3",
+              "key": "mwf0lah0ay9f-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:4",
+              "key": "mwf0lah0ay9f-4",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:5",
+              "key": "mwf0lah0ay9f-5",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:6",
+              "key": "mwf0lah0ay9f-6",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf0lagz-mu5fuw5gdy-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "window-34d2967c-b686-46e8-a97f-c39539c8dcf3",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-2",
+              "id": "mwf0lagz-mu5fuw5gdy-2:2",
+              "key": "mwf0lah0ay9f-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-2",
+              "id": "mwf0lagz-mu5fuw5gdy-2:7",
+              "key": "mwf0lah0ay9f-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-2",
+              "id": "mwf0lagz-mu5fuw5gdy-2:8",
+              "key": "mwf0lah0ay9f-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "guard",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "opening and dismissing preserve both stacks",
+        "native dismissal clears active state",
+        "opening and dismissing preserve both stacks",
+        "native dismissal clears active state"
+      ],
+      "errors": [],
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf0lagz-mu5fuw5gdy-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "window-34d2967c-b686-46e8-a97f-c39539c8dcf3",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:1",
+              "key": "mwf0lah0ay9f-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:3",
+              "key": "mwf0lah0ay9f-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:4",
+              "key": "mwf0lah0ay9f-4",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:5",
+              "key": "mwf0lah0ay9f-5",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:6",
+              "key": "mwf0lah0ay9f-6",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf0lagz-mu5fuw5gdy-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "window-34d2967c-b686-46e8-a97f-c39539c8dcf3",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-2",
+              "id": "mwf0lagz-mu5fuw5gdy-2:2",
+              "key": "mwf0lah0ay9f-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-2",
+              "id": "mwf0lagz-mu5fuw5gdy-2:7",
+              "key": "mwf0lah0ay9f-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-2",
+              "id": "mwf0lagz-mu5fuw5gdy-2:8",
+              "key": "mwf0lah0ay9f-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "refused",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "opening and dismissing preserve both stacks",
+        "native dismissal clears active state",
+        "opening and dismissing preserve both stacks",
+        "native dismissal clears active state",
+        "guard refused menu selection without popping",
+        "refused selection closes menu"
+      ],
+      "errors": [],
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf0lagz-mu5fuw5gdy-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "window-34d2967c-b686-46e8-a97f-c39539c8dcf3",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:1",
+              "key": "mwf0lah0ay9f-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:3",
+              "key": "mwf0lah0ay9f-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:4",
+              "key": "mwf0lah0ay9f-4",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:5",
+              "key": "mwf0lah0ay9f-5",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:6",
+              "key": "mwf0lah0ay9f-6",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf0lagz-mu5fuw5gdy-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "window-34d2967c-b686-46e8-a97f-c39539c8dcf3",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-2",
+              "id": "mwf0lagz-mu5fuw5gdy-2:2",
+              "key": "mwf0lah0ay9f-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-2",
+              "id": "mwf0lagz-mu5fuw5gdy-2:7",
+              "key": "mwf0lah0ay9f-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-2",
+              "id": "mwf0lagz-mu5fuw5gdy-2:8",
+              "key": "mwf0lah0ay9f-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "selected",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "opening and dismissing preserve both stacks",
+        "native dismissal clears active state",
+        "opening and dismissing preserve both stacks",
+        "native dismissal clears active state",
+        "guard refused menu selection without popping",
+        "refused selection closes menu",
+        "selected first duplicate retains original native Page",
+        "selection leaves every Archive Page intact"
+      ],
+      "errors": [],
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf0lagz-mu5fuw5gdy-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "window-34d2967c-b686-46e8-a97f-c39539c8dcf3",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:1",
+              "key": "mwf0lah0ay9f-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:3",
+              "key": "mwf0lah0ay9f-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf0lagz-mu5fuw5gdy-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "window-34d2967c-b686-46e8-a97f-c39539c8dcf3",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-2",
+              "id": "mwf0lagz-mu5fuw5gdy-2:2",
+              "key": "mwf0lah0ay9f-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-2",
+              "id": "mwf0lagz-mu5fuw5gdy-2:7",
+              "key": "mwf0lah0ay9f-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-2",
+              "id": "mwf0lagz-mu5fuw5gdy-2:8",
+              "key": "mwf0lah0ay9f-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "invalidate",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "opening and dismissing preserve both stacks",
+        "native dismissal clears active state",
+        "opening and dismissing preserve both stacks",
+        "native dismissal clears active state",
+        "guard refused menu selection without popping",
+        "refused selection closes menu",
+        "selected first duplicate retains original native Page",
+        "selection leaves every Archive Page intact",
+        "menu opens before concurrent push",
+        "concurrent navigation dismisses old menu"
+      ],
+      "errors": [],
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf0lagz-mu5fuw5gdy-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "window-34d2967c-b686-46e8-a97f-c39539c8dcf3",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:1",
+              "key": "mwf0lah0ay9f-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:3",
+              "key": "mwf0lah0ay9f-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-1",
+              "id": "mwf0lagz-mu5fuw5gdy-1:9",
+              "key": "mwf0lah0ay9f-9",
+              "restored": false,
+              "route": {
+                "path": "/next",
+                "fullPath": "/next",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf0lagz-mu5fuw5gdy-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "window-34d2967c-b686-46e8-a97f-c39539c8dcf3",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-2",
+              "id": "mwf0lagz-mu5fuw5gdy-2:2",
+              "key": "mwf0lah0ay9f-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-2",
+              "id": "mwf0lagz-mu5fuw5gdy-2:7",
+              "key": "mwf0lah0ay9f-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0lagz-mu5fuw5gdy-2",
+              "id": "mwf0lagz-mu5fuw5gdy-2:8",
+              "key": "mwf0lah0ay9f-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "dispose",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "opening and dismissing preserve both stacks",
+        "native dismissal clears active state",
+        "opening and dismissing preserve both stacks",
+        "native dismissal clears active state",
+        "guard refused menu selection without popping",
+        "refused selection closes menu",
+        "selected first duplicate retains original native Page",
+        "selection leaves every Archive Page intact",
+        "menu opens before concurrent push",
+        "concurrent navigation dismisses old menu",
+        "menu opens before owner disposal",
+        "disposed owner closes and cannot reopen menu",
+        "no Vue or reconciliation errors"
+      ],
+      "errors": [],
+      "history": {}
+    }
+  ]
+}

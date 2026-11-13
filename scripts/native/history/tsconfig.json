@@ -1,4 +1,8 @@
 {
   "extends": "../../../demo/tsconfig.json",
-  "include": ["../../../demo/src/testing/history-app.ts", "../../../demo/types"]
+  "include": [
+    "../../../demo/src/testing/history-app.ts",
+    "../../../demo/src/testing/historymenu-app.ts",
+    "../../../demo/types"
+  ]
 }
