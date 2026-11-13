@@ -34,14 +34,22 @@ onBeforeRouteLeave(() => Dialogs.confirm('Discard this draft?'), { when: dirty }
 
 ## Qué hace la plataforma mientras un guard está activo {#what-the-platform-does-while-a-guard-is-active}
 
-| Gesto                                                      | Comportamiento                                                                                          |
-| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| Android botón de retroceso, o soltando el deslizador       | Pasa por el guard.                                                                                      |
-| iOS deslizar hacia atrás                                   | Desactivado para esa página, ya que no puede esperar una respuesta asíncrona.                           |
-| iOS Botón de retroceso de ActionBar (iOS 16 y posteriores) | Tiene el mismo aspecto, pero pasa por guard como `router.back()`. En iOS 15 el pop sigue siendo nativo. |
-| Modal deslizado hacia abajo o tocado afuera                | Ejecuta el guard con la hoja quieta y cierra el modal si lo permite. El correo hace esto.               |
+| Gesto                                                | Comportamiento                                                                                                                                                                                           |
+| ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Android botón de retroceso, o soltando el deslizador | Pasa por el guard.                                                                                                                                                                                       |
+| iOS deslizar hacia atrás                             | Desactivado para esa página, ya que no puede esperar una respuesta asíncrona.                                                                                                                            |
+| Back/historial de ActionBar en iOS (16+)             | Usa temporalmente un elemento nativo controlado por el router mientras una página eliminable tiene un guard activo; tocar y seleccionar historial ejecutan guards. En iOS 15 el pop sigue siendo nativo. |
+| Modal deslizado hacia abajo o tocado afuera          | Ejecuta el guard con la hoja quieta y cierra el modal si lo permite. El correo hace esto.                                                                                                                |
 
 El resto del tiempo, un pop nativo es nativo: el enrutador mantiene sincronizado su stack y ejecuta `afterEach`, pero nada puede vetarlo.
+
+Un salto de historial nativo puede eliminar varias páginas, por lo que la ActionBar protegida incluye los guards bajo la página actual. Su menú usa direcciones estables y el flujo existente de guards, resultados y eliminación. Una confirmación pendiente nunca autoriza seleccionar una nueva aparición de la misma ruta. Los encabezados se amplían mediante el `ActionBar.update()` público de la Page y se restauran al devolver el control o eliminar al propietario; los delegates de navegación no cambian. Se aplica a Pages enrutadas de NativeScript con ActionBar. iOS 15 conserva el límite anterior de pop nativo.
+
+Los guards globales por sí solos no deshabilitan gestos nativos ni activan este control. Sin un guard de salida activo en el historial eliminable, el Back nativo se reconcilia después del pop del sistema. Usa `onBeforeRouteLeave` con `when` para proteger estado frente al historial nativo. Un guard en la raíz no sustituye el control, porque seleccionar la raíz la conserva.
+
+Los cambios del encabezado o de los guards cierran cualquier menú contextual abierto en el encabezado; se ignoran los callbacks de una página cubierta, modificada o eliminada.
+
+<Clip name="guarded-back-history" :width="480" aspect="3 / 4" caption="Back nativo protegido: guards en el tope/página cubierta, confirmación Stay/Leave, selección exacta de duplicados, encabezados y restauración. Simulador iOS 18.6; etiquetas en inglés." />
 
 ## Continuar aprendiendo {#continue-learning}
 

@@ -44,18 +44,72 @@ final class MenuUITests: XCTestCase {
         command("invalidate")
         command("dispose")
     }
-    // Separate reproduction of the existing UIKit history/leave-guard gap.
-    // Not included in the passing opt-in menu acceptance sequence.
+    // Stage 2 reproduced the UIKit history/leave-guard gap here.
+    // Stage 3 must pass the same unchanged-history assertion.
     func testGuardedUIKitHistoryAudit() {
         continueAfterFailure = false
         app.launch()
         command("seed")
         command("guard")
         app.navigationBars.element(boundBy: 0).buttons.firstMatch.press(forDuration: 1.2)
-        let guardedMenu = app.buttons["between"].exists
-        print("Guarded UIKit history menu available: \(guardedMenu)")
-        if guardedMenu { app.buttons["between"].tap() }
+        let target = app.buttons["between (3)"].exists ? app.buttons["between (3)"] : app.buttons["between"]
+        XCTAssertTrue(target.waitForExistence(timeout: 5), app.debugDescription)
+        target.tap()
         command("unchanged")
+    }
+
+    func guardedMenu(_ target: String) {
+        let back = app.navigationBars.element(boundBy: 0).buttons["router-guarded-back"]
+        XCTAssertTrue(back.waitForExistence(timeout: 5), app.debugDescription)
+        back.press(forDuration: 1.2)
+        XCTAssertTrue(app.buttons[target].waitForExistence(timeout: 5), app.debugDescription)
+        app.buttons[target].tap()
+    }
+    func testGuardedBack() {
+        continueAfterFailure = false
+        app.launch()
+        command("seed")
+        command("guard")
+        guardedMenu("item (2)")
+        command("protected")
+        command("protect")
+        guardedMenu("item (2)")
+        command("protected")
+        command("header")
+        app.navigationBars.element(boundBy: 0).buttons["Tools"].tap()
+        command("header-ok")
+        command("confirm")
+        guardedMenu("item (2)")
+        XCTAssertTrue(app.alerts["Leave protected page?"].waitForExistence(timeout: 5))
+        app.alerts.buttons["Stay"].tap()
+        command("protected")
+        guardedMenu("item (2)")
+        XCTAssertTrue(app.alerts["Leave protected page?"].waitForExistence(timeout: 5))
+        app.alerts.buttons["Leave"].tap()
+        command("selected")
+        XCTAssertFalse(app.navigationBars.element(boundBy: 0).buttons["router-guarded-back"].exists)
+        command("seed")
+        command("arm")
+        // Hold through activation: releasing over UIKit's first history row
+        // would itself select that row before the timer fires.
+        app.navigationBars.element(boundBy: 0).buttons.firstMatch.press(forDuration: 8)
+        XCTAssertTrue(app.staticTexts["5 retained entries"].exists, app.debugDescription)
+        XCTAssertTrue(app.staticTexts["Guard activated while native history was open"].waitForExistence(timeout: 8))
+        XCTAssertFalse(app.buttons["between"].exists, app.debugDescription)
+        command("unchanged")
+        app.navigationBars.element(boundBy: 0).buttons["router-guarded-back"].tap()
+        command("single")
+        command("handoff")
+        XCTAssertFalse(app.navigationBars.element(boundBy: 0).buttons["router-guarded-back"].exists)
+        app.navigationBars.element(boundBy: 0).buttons.firstMatch.press(forDuration: 1.2)
+        // UIKit may select the row under the held finger on release.
+        if app.staticTexts["inbox · /item"].exists { app.buttons["between"].tap() }
+        command("native")
+        app.buttons["history:teardown"].tap()
+        let back = app.navigationBars.element(boundBy: 0).buttons["router-guarded-back"]
+        XCTAssertTrue(back.waitForExistence(timeout: 3))
+        back.press(forDuration: 1.2)
+        XCTAssertTrue(app.staticTexts["PASS teardown"].waitForExistence(timeout: 10), app.debugDescription)
     }
 
 }

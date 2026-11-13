@@ -1,0 +1,419 @@
+{
+  "platform": "ios",
+  "os": "18.6",
+  "xctestSeconds": 13.575,
+  "reports": [
+    {
+      "command": "seed",
+      "ok": true,
+      "checks": ["five retained inbox entries"],
+      "errors": [],
+      "guardCalls": [],
+      "toolsTapped": 0,
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf3dklf-15g2vt2dsrn-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-1",
+              "id": "mwf3dklf-15g2vt2dsrn-1:1",
+              "key": "mwf3dklgr81n-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-1",
+              "id": "mwf3dklf-15g2vt2dsrn-1:3",
+              "key": "mwf3dklgr81n-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-1",
+              "id": "mwf3dklf-15g2vt2dsrn-1:4",
+              "key": "mwf3dklgr81n-4",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-1",
+              "id": "mwf3dklf-15g2vt2dsrn-1:5",
+              "key": "mwf3dklgr81n-5",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-1",
+              "id": "mwf3dklf-15g2vt2dsrn-1:6",
+              "key": "mwf3dklgr81n-6",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf3dklf-15g2vt2dsrn-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-2",
+              "id": "mwf3dklf-15g2vt2dsrn-2:2",
+              "key": "mwf3dklgr81n-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-2",
+              "id": "mwf3dklf-15g2vt2dsrn-2:7",
+              "key": "mwf3dklgr81n-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-2",
+              "id": "mwf3dklf-15g2vt2dsrn-2:8",
+              "key": "mwf3dklgr81n-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "guard",
+      "ok": true,
+      "checks": ["five retained inbox entries"],
+      "errors": [],
+      "guardCalls": [],
+      "toolsTapped": 0,
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf3dklf-15g2vt2dsrn-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-1",
+              "id": "mwf3dklf-15g2vt2dsrn-1:1",
+              "key": "mwf3dklgr81n-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-1",
+              "id": "mwf3dklf-15g2vt2dsrn-1:3",
+              "key": "mwf3dklgr81n-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-1",
+              "id": "mwf3dklf-15g2vt2dsrn-1:4",
+              "key": "mwf3dklgr81n-4",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-1",
+              "id": "mwf3dklf-15g2vt2dsrn-1:5",
+              "key": "mwf3dklgr81n-5",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-1",
+              "id": "mwf3dklf-15g2vt2dsrn-1:6",
+              "key": "mwf3dklgr81n-6",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf3dklf-15g2vt2dsrn-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-2",
+              "id": "mwf3dklf-15g2vt2dsrn-2:2",
+              "key": "mwf3dklgr81n-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-2",
+              "id": "mwf3dklf-15g2vt2dsrn-2:7",
+              "key": "mwf3dklgr81n-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-2",
+              "id": "mwf3dklf-15g2vt2dsrn-2:8",
+              "key": "mwf3dklgr81n-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "unchanged",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "opening and dismissing preserve both stacks",
+        "native dismissal clears active state"
+      ],
+      "errors": [],
+      "guardCalls": ["/last"],
+      "toolsTapped": 0,
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf3dklf-15g2vt2dsrn-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-1",
+              "id": "mwf3dklf-15g2vt2dsrn-1:1",
+              "key": "mwf3dklgr81n-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-1",
+              "id": "mwf3dklf-15g2vt2dsrn-1:3",
+              "key": "mwf3dklgr81n-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-1",
+              "id": "mwf3dklf-15g2vt2dsrn-1:4",
+              "key": "mwf3dklgr81n-4",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-1",
+              "id": "mwf3dklf-15g2vt2dsrn-1:5",
+              "key": "mwf3dklgr81n-5",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-1",
+              "id": "mwf3dklf-15g2vt2dsrn-1:6",
+              "key": "mwf3dklgr81n-6",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf3dklf-15g2vt2dsrn-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-2",
+              "id": "mwf3dklf-15g2vt2dsrn-2:2",
+              "key": "mwf3dklgr81n-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-2",
+              "id": "mwf3dklf-15g2vt2dsrn-2:7",
+              "key": "mwf3dklgr81n-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3dklf-15g2vt2dsrn-2",
+              "id": "mwf3dklf-15g2vt2dsrn-2:8",
+              "key": "mwf3dklgr81n-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "guides": {
+    "reports": [
+      {
+        "guide": "guards",
+        "locale": "en",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/guards",
+          "/zh-CN/guide/guards",
+          "/pt-BR/guide/guards",
+          "/es/guide/guards",
+          "/zh-CN/guide/guards",
+          "/pt-BR/guide/guards",
+          "/guide/guards",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/guide/guards.md"
+        ],
+        "guardedDescription": true
+      },
+      {
+        "guide": "guards",
+        "locale": "pt-BR/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/guards",
+          "/zh-CN/guide/guards",
+          "/guide/guards",
+          "/es/guide/guards",
+          "/zh-CN/guide/guards",
+          "/guide/guards",
+          "/pt-BR/guide/guards",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/pt-BR/guide/guards.md"
+        ],
+        "guardedDescription": true
+      },
+      {
+        "guide": "guards",
+        "locale": "es/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/zh-CN/guide/guards",
+          "/guide/guards",
+          "/pt-BR/guide/guards",
+          "/zh-CN/guide/guards",
+          "/guide/guards",
+          "/pt-BR/guide/guards",
+          "/es/guide/guards",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/es/guide/guards.md"
+        ],
+        "guardedDescription": true
+      },
+      {
+        "guide": "guards",
+        "locale": "zh-CN/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/guards",
+          "/guide/guards",
+          "/pt-BR/guide/guards",
+          "/es/guide/guards",
+          "/guide/guards",
+          "/pt-BR/guide/guards",
+          "/zh-CN/guide/guards",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/zh-CN/guide/guards.md"
+        ],
+        "guardedDescription": true
+      },
+      {
+        "guide": "stack",
+        "locale": "en",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/stack",
+          "/zh-CN/guide/stack",
+          "/pt-BR/guide/stack",
+          "/es/guide/stack",
+          "/zh-CN/guide/stack",
+          "/pt-BR/guide/stack",
+          "/guide/stack",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/guide/stack.md"
+        ],
+        "guardedDescription": true
+      },
+      {
+        "guide": "stack",
+        "locale": "pt-BR/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/stack",
+          "/zh-CN/guide/stack",
+          "/guide/stack",
+          "/es/guide/stack",
+          "/zh-CN/guide/stack",
+          "/guide/stack",
+          "/pt-BR/guide/stack",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/pt-BR/guide/stack.md"
+        ],
+        "guardedDescription": true
+      },
+      {
+        "guide": "stack",
+        "locale": "es/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/zh-CN/guide/stack",
+          "/guide/stack",
+          "/pt-BR/guide/stack",
+          "/zh-CN/guide/stack",
+          "/guide/stack",
+          "/pt-BR/guide/stack",
+          "/es/guide/stack",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/es/guide/stack.md"
+        ],
+        "guardedDescription": true
+      },
+      {
+        "guide": "stack",
+        "locale": "zh-CN/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/stack",
+          "/guide/stack",
+          "/pt-BR/guide/stack",
+          "/es/guide/stack",
+          "/guide/stack",
+          "/pt-BR/guide/stack",
+          "/zh-CN/guide/stack",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/zh-CN/guide/stack.md"
+        ],
+        "guardedDescription": true
+      }
+    ],
+    "search": "passed",
+    "videoMetadata": "passed in four locales",
+    "errors": []
+  },
+  "experience": {
+    "base": "http://127.0.0.1:4174",
+    "reports": [
+      "Push, retained search, modal result, cancellation and keyboard Escape passed.",
+      "Four localized homes and 320–1440px layouts passed.",
+      "Reduced motion settles animation and prevents automatic video playback.",
+      "Server-rendered content and guide navigation work without JavaScript."
+    ],
+    "errors": []
+  }
+}

@@ -14,7 +14,8 @@ import {
   type VNode,
 } from 'nativescript-vue'
 import { entryKey, routeKey, routerKey } from './injection.js'
-import { holdBackButton, zoomFrom } from './ios.js'
+import { zoomFrom } from './ios.js'
+import { bindGuardedBack } from './guarded-back.js'
 import { isBlocked, type Entry } from './stack.js'
 import { connectPageEffects } from './page-effects.js'
 import { layoutIssues, walkLayoutTree } from './layouts.js'
@@ -46,6 +47,7 @@ export function createPage(entry: Entry, { link, unlink, reload }: PageLink) {
       let page: Page | null = null
       let stopReload: (() => void) | undefined
       let stopEffects: (() => void) | undefined
+      let stopGuardedBack: (() => void) | undefined
       const diagnose = () => {
         if (!__DEV__ || !entry.layout) return
         const issues = layoutIssues(instance.subTree, entry.component)
@@ -115,12 +117,10 @@ export function createPage(entry: Entry, { link, unlink, reload }: PageLink) {
           blocked,
           (value) => {
             page!.enableSwipeBackNavigation = !value
-            if (isIOS) {
-              holdBackButton(page!, value ? () => void entry.stack.router.back() : null)
-            }
           },
           { immediate: true },
         )
+        if (isIOS) stopGuardedBack = bindGuardedBack(entry, page)
 
         if (entry.stack.host?.capabilities.cancellableDismissal) {
           watch(
@@ -132,6 +132,7 @@ export function createPage(entry: Entry, { link, unlink, reload }: PageLink) {
       })
 
       onBeforeUnmount(() => {
+        stopGuardedBack?.()
         stopEffects?.()
         stopReload?.()
         if (page) unlink(page)

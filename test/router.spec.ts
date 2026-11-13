@@ -386,25 +386,6 @@ describe('leave guards', () => {
     expect(router.currentRoute.value.path).toBe('/')
   })
 
-  it('take over the iOS back button while active, and hand it back after', async () => {
-    const dirty = ref(true)
-    const { router, frame } = await mount([
-      ...routes,
-      { path: '/form', component: Form(() => dirty.value) },
-    ])
-    await router.push('/form')
-    const item = frame().currentPage!.ios.navigationItem
-
-    expect(item.backAction).toBeTypeOf('function')
-    item.backAction()
-    await settle()
-    expect(router.currentRoute.value.path).toBe('/form')
-
-    dirty.value = false
-    await nextTick()
-    expect(item.backAction).toBeNull()
-  })
-
   it('leave the back button alone on iOS before 16', async () => {
     const { router, frame } = await mount(
       [...routes, { path: '/form', component: Form() }],

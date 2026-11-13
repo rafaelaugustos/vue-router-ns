@@ -1,0 +1,1848 @@
+{
+  "platform": "ios",
+  "os": "18.6",
+  "device": "iPad Pro 13-inch (M4) simulator",
+  "core": "9.1.4",
+  "nativescriptVue": "3.1.3",
+  "runtime": "9.1.0",
+  "xcode": "27.0 (27A266a)",
+  "xctestSeconds": 80.805,
+  "reports": [
+    {
+      "command": "seed",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "app-owned header action survives guarded Back updates",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "selected first duplicate retains original native Page",
+        "selection leaves every Archive Page intact",
+        "five retained inbox entries"
+      ],
+      "errors": [],
+      "guardCalls": ["/last", "/between", "/between", "/between"],
+      "toolsTapped": 1,
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:1",
+              "key": "mwf3b84vo1fd-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:9",
+              "key": "mwf3b84vo1fd-9",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:10",
+              "key": "mwf3b84vo1fd-10",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:11",
+              "key": "mwf3b84vo1fd-11",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:12",
+              "key": "mwf3b84vo1fd-12",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:2",
+              "key": "mwf3b84vo1fd-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:13",
+              "key": "mwf3b84vo1fd-13",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:14",
+              "key": "mwf3b84vo1fd-14",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "guard",
+      "ok": true,
+      "checks": ["five retained inbox entries"],
+      "errors": [],
+      "guardCalls": [],
+      "toolsTapped": 0,
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:1",
+              "key": "mwf3b84vo1fd-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:3",
+              "key": "mwf3b84vo1fd-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:4",
+              "key": "mwf3b84vo1fd-4",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:5",
+              "key": "mwf3b84vo1fd-5",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:6",
+              "key": "mwf3b84vo1fd-6",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:2",
+              "key": "mwf3b84vo1fd-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:7",
+              "key": "mwf3b84vo1fd-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:8",
+              "key": "mwf3b84vo1fd-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "protect",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard"
+      ],
+      "errors": [],
+      "guardCalls": ["/last"],
+      "toolsTapped": 0,
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:1",
+              "key": "mwf3b84vo1fd-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:3",
+              "key": "mwf3b84vo1fd-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:4",
+              "key": "mwf3b84vo1fd-4",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:5",
+              "key": "mwf3b84vo1fd-5",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:6",
+              "key": "mwf3b84vo1fd-6",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:2",
+              "key": "mwf3b84vo1fd-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:7",
+              "key": "mwf3b84vo1fd-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:8",
+              "key": "mwf3b84vo1fd-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "protected",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "app-owned header action survives guarded Back updates",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard"
+      ],
+      "errors": [],
+      "guardCalls": ["/last", "/between", "/between"],
+      "toolsTapped": 1,
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:1",
+              "key": "mwf3b84vo1fd-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:3",
+              "key": "mwf3b84vo1fd-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:4",
+              "key": "mwf3b84vo1fd-4",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:5",
+              "key": "mwf3b84vo1fd-5",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:6",
+              "key": "mwf3b84vo1fd-6",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:2",
+              "key": "mwf3b84vo1fd-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:7",
+              "key": "mwf3b84vo1fd-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:8",
+              "key": "mwf3b84vo1fd-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "header",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard"
+      ],
+      "errors": [],
+      "guardCalls": ["/last", "/between"],
+      "toolsTapped": 0,
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:1",
+              "key": "mwf3b84vo1fd-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:3",
+              "key": "mwf3b84vo1fd-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:4",
+              "key": "mwf3b84vo1fd-4",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:5",
+              "key": "mwf3b84vo1fd-5",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:6",
+              "key": "mwf3b84vo1fd-6",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:2",
+              "key": "mwf3b84vo1fd-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:7",
+              "key": "mwf3b84vo1fd-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:8",
+              "key": "mwf3b84vo1fd-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "header-ok",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "app-owned header action survives guarded Back updates"
+      ],
+      "errors": [],
+      "guardCalls": ["/last", "/between"],
+      "toolsTapped": 1,
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:1",
+              "key": "mwf3b84vo1fd-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:3",
+              "key": "mwf3b84vo1fd-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:4",
+              "key": "mwf3b84vo1fd-4",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:5",
+              "key": "mwf3b84vo1fd-5",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:6",
+              "key": "mwf3b84vo1fd-6",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:2",
+              "key": "mwf3b84vo1fd-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:7",
+              "key": "mwf3b84vo1fd-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:8",
+              "key": "mwf3b84vo1fd-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "confirm",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "app-owned header action survives guarded Back updates"
+      ],
+      "errors": [],
+      "guardCalls": ["/last", "/between"],
+      "toolsTapped": 1,
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:1",
+              "key": "mwf3b84vo1fd-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:3",
+              "key": "mwf3b84vo1fd-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:4",
+              "key": "mwf3b84vo1fd-4",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:5",
+              "key": "mwf3b84vo1fd-5",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:6",
+              "key": "mwf3b84vo1fd-6",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:2",
+              "key": "mwf3b84vo1fd-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:7",
+              "key": "mwf3b84vo1fd-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:8",
+              "key": "mwf3b84vo1fd-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "selected",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "app-owned header action survives guarded Back updates",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "selected first duplicate retains original native Page",
+        "selection leaves every Archive Page intact"
+      ],
+      "errors": [],
+      "guardCalls": ["/last", "/between", "/between", "/between"],
+      "toolsTapped": 1,
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:1",
+              "key": "mwf3b84vo1fd-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:3",
+              "key": "mwf3b84vo1fd-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:2",
+              "key": "mwf3b84vo1fd-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:7",
+              "key": "mwf3b84vo1fd-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:8",
+              "key": "mwf3b84vo1fd-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "arm",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "app-owned header action survives guarded Back updates",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "selected first duplicate retains original native Page",
+        "selection leaves every Archive Page intact",
+        "five retained inbox entries"
+      ],
+      "errors": [],
+      "guardCalls": ["/last", "/between", "/between", "/between"],
+      "toolsTapped": 1,
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:1",
+              "key": "mwf3b84vo1fd-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:9",
+              "key": "mwf3b84vo1fd-9",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:10",
+              "key": "mwf3b84vo1fd-10",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:11",
+              "key": "mwf3b84vo1fd-11",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:12",
+              "key": "mwf3b84vo1fd-12",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:2",
+              "key": "mwf3b84vo1fd-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:13",
+              "key": "mwf3b84vo1fd-13",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:14",
+              "key": "mwf3b84vo1fd-14",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "unchanged",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "app-owned header action survives guarded Back updates",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "selected first duplicate retains original native Page",
+        "selection leaves every Archive Page intact",
+        "five retained inbox entries",
+        "opening and dismissing preserve both stacks",
+        "native dismissal clears active state"
+      ],
+      "errors": [],
+      "guardCalls": ["/last", "/between", "/between", "/between"],
+      "toolsTapped": 1,
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:1",
+              "key": "mwf3b84vo1fd-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:9",
+              "key": "mwf3b84vo1fd-9",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:10",
+              "key": "mwf3b84vo1fd-10",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:11",
+              "key": "mwf3b84vo1fd-11",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:12",
+              "key": "mwf3b84vo1fd-12",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:2",
+              "key": "mwf3b84vo1fd-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:13",
+              "key": "mwf3b84vo1fd-13",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:14",
+              "key": "mwf3b84vo1fd-14",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "single",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "app-owned header action survives guarded Back updates",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "selected first duplicate retains original native Page",
+        "selection leaves every Archive Page intact",
+        "five retained inbox entries",
+        "opening and dismissing preserve both stacks",
+        "native dismissal clears active state",
+        "short Back removes only the unguarded top",
+        "short Back keeps Archive unchanged"
+      ],
+      "errors": [],
+      "guardCalls": ["/last", "/between", "/between", "/between"],
+      "toolsTapped": 1,
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:1",
+              "key": "mwf3b84vo1fd-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:9",
+              "key": "mwf3b84vo1fd-9",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:10",
+              "key": "mwf3b84vo1fd-10",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:11",
+              "key": "mwf3b84vo1fd-11",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:2",
+              "key": "mwf3b84vo1fd-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:13",
+              "key": "mwf3b84vo1fd-13",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:14",
+              "key": "mwf3b84vo1fd-14",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "handoff",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "app-owned header action survives guarded Back updates",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "selected first duplicate retains original native Page",
+        "selection leaves every Archive Page intact",
+        "five retained inbox entries",
+        "opening and dismissing preserve both stacks",
+        "native dismissal clears active state",
+        "short Back removes only the unguarded top",
+        "short Back keeps Archive unchanged"
+      ],
+      "errors": [],
+      "guardCalls": ["/last", "/between", "/between", "/between"],
+      "toolsTapped": 1,
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:1",
+              "key": "mwf3b84vo1fd-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:9",
+              "key": "mwf3b84vo1fd-9",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:10",
+              "key": "mwf3b84vo1fd-10",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:11",
+              "key": "mwf3b84vo1fd-11",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:2",
+              "key": "mwf3b84vo1fd-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:13",
+              "key": "mwf3b84vo1fd-13",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:14",
+              "key": "mwf3b84vo1fd-14",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "native",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "app-owned header action survives guarded Back updates",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "selected first duplicate retains original native Page",
+        "selection leaves every Archive Page intact",
+        "five retained inbox entries",
+        "opening and dismissing preserve both stacks",
+        "native dismissal clears active state",
+        "short Back removes only the unguarded top",
+        "short Back keeps Archive unchanged",
+        "UIKit Back history selection reconciles native entries"
+      ],
+      "errors": [],
+      "guardCalls": ["/last", "/between", "/between", "/between"],
+      "toolsTapped": 1,
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:1",
+              "key": "mwf3b84vo1fd-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:9",
+              "key": "mwf3b84vo1fd-9",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-1",
+              "id": "mwf3b84t-q3h51k53azc-1:10",
+              "key": "mwf3b84vo1fd-10",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf3b84t-q3h51k53azc-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:2",
+              "key": "mwf3b84vo1fd-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:13",
+              "key": "mwf3b84vo1fd-13",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf3b84t-q3h51k53azc-2",
+              "id": "mwf3b84t-q3h51k53azc-2:14",
+              "key": "mwf3b84vo1fd-14",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": "teardown",
+      "ok": true,
+      "checks": [
+        "five retained inbox entries",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "app-owned header action survives guarded Back updates",
+        "guarded native history preserves both stacks",
+        "native history invokes the page leave guard",
+        "selected first duplicate retains original native Page",
+        "selection leaves every Archive Page intact",
+        "five retained inbox entries",
+        "opening and dismissing preserve both stacks",
+        "native dismissal clears active state",
+        "short Back removes only the unguarded top",
+        "short Back keeps Archive unchanged",
+        "UIKit Back history selection reconciles native entries",
+        "owner disposal removes guarded history",
+        "guarded native flow has no Vue or reconciliation errors"
+      ],
+      "errors": [],
+      "guardCalls": ["/last", "/between", "/between", "/between"],
+      "toolsTapped": 1,
+      "history": {}
+    }
+  ]
+}

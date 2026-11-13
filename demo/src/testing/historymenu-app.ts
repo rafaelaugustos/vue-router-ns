@@ -1,5 +1,13 @@
 // Opt-in real iOS/Android menu fixture: --env.historymenuTest --no-hmr.
-import { File, Frame, knownFolders, type Page, type View } from '@nativescript/core'
+import {
+  ActionItem,
+  Dialogs,
+  File,
+  Frame,
+  knownFolders,
+  type Page,
+  type View,
+} from '@nativescript/core'
 import { ActionBar, createApp, defineComponent, h, nextTick, ref } from 'nativescript-vue'
 import {
   createRouter,
@@ -21,7 +29,13 @@ const visible = ref(true),
 const sources: Record<string, View> = {},
   checks: string[] = [],
   errors: string[] = []
-const block = ref(false)
+declare const __HISTORY_GUARDS__: boolean
+const block = ref(false),
+  guardOnly = ref<string | null>(null)
+let confirmChoice = false,
+  toolsTapped = 0,
+  callsBeforeSingle = 0
+const guardCalls: string[] = []
 let older: Page,
   archive: Page[],
   before: string[],
@@ -43,7 +57,20 @@ const Screen = defineComponent({
     const bound = useRouter(),
       route = useRoute(),
       instance = ++sequence
-    onBeforeRouteLeave(() => false, { when: block })
+    onBeforeRouteLeave(
+      () => {
+        guardCalls.push(route.path)
+        return confirmChoice
+          ? Dialogs.confirm({
+              title: 'Leave protected page?',
+              message: route.path,
+              okButtonText: 'Leave',
+              cancelButtonText: 'Stay',
+            })
+          : false
+      },
+      { when: () => block.value && (!guardOnly.value || route.path === guardOnly.value) },
+    )
     const menu = useBackHistoryMenu({
       title: 'Retained history',
       cancelTitle: 'Cancel',
@@ -134,13 +161,16 @@ const router = createRouter({
   diagnostics: true,
 })
 router.beforeEach((_to, _from, info) =>
-  info.type === 'back' && block.value ? false : undefined,
+  info.type === 'back' && block.value && !__HISTORY_GUARDS__ ? false : undefined,
 )
 async function command(name: string) {
   status.value = `RUN ${name}`
   let error: unknown
   try {
     if (name === 'seed') {
+      block.value = false
+      confirmChoice = false
+      guardOnly.value = null
       for (const frame of ['inbox', 'archive']) {
         await router.backToRoot({ frame, animated: false })
         for (const path of frame === 'inbox'
@@ -153,6 +183,65 @@ async function command(name: string) {
       before = ids()
       check(before.length === 5, 'five retained inbox entries')
       detail.value = 'Inbox has two /item visits; Archive owns the last navigation.'
+    } else if (name === 'protect') {
+      guardOnly.value = '/between'
+      block.value = true
+      detail.value = 'Only /between is protected. The current page has no active guard.'
+    } else if (name === 'protected') {
+      check(
+        same(ids(), before) && same(pages('archive'), archive),
+        'guarded native history preserves both stacks',
+      )
+      check(guardCalls.length > 0, 'native history invokes the page leave guard')
+    } else if (name === 'confirm') {
+      confirmChoice = true
+      detail.value = 'The covered page asks before leaving. Stay refuses; Leave allows.'
+    } else if (name === 'header') {
+      const bar = frames.inbox!.currentPage!.actionBar
+      const action = new ActionItem()
+      action.text = 'Tools'
+      action.ios.position = 'left'
+      action.on('tap', () => {
+        toolsTapped++
+      })
+      bar.actionItems.addItem(action)
+      bar.title = 'Edited header'
+      detail.value = 'App changed the header. Tools and guarded Back must both work.'
+    } else if (name === 'header-ok') {
+      check(toolsTapped === 1, 'app-owned header action survives guarded Back updates')
+    } else if (name === 'arm') {
+      callsBeforeSingle = guardCalls.length
+      setTimeout(() => {
+        guardOnly.value = '/between'
+        block.value = true
+        detail.value = 'Guard activated while native history was open'
+      }, 6500)
+      detail.value =
+        'Open native Back history now. A guard will activate while it is open.'
+    } else if (name === 'single') {
+      check(
+        ids().length === 4 && guardCalls.length === callsBeforeSingle,
+        'short Back removes only the unguarded top',
+      )
+      check(same(pages('archive'), archive), 'short Back keeps Archive unchanged')
+    } else if (name === 'handoff') {
+      block.value = false
+      await nextTick()
+      detail.value =
+        'Guards are inactive: the original UIKit Back and history are restored.'
+    } else if (name === 'teardown') {
+      block.value = true
+      await new Promise((resolve) => setTimeout(resolve, 2500))
+      visible.value = false
+      await nextTick()
+      check(
+        !router.history.value && !router.getHistory({ frame: 'inbox' }),
+        'owner disposal removes guarded history',
+      )
+      check(
+        errors.length === 0 && router.diagnostics!.snapshot().issues.length === 0,
+        'guarded native flow has no Vue or reconciliation errors',
+      )
     } else if (name === 'unchanged') {
       check(
         same(ids(), before) && same(pages('archive'), archive),
@@ -180,7 +269,7 @@ async function command(name: string) {
       await router.push('/next', { frame: 'inbox' })
       check(!menus.inbox!.active.value, 'concurrent navigation dismisses old menu')
     } else if (name === 'native') {
-      check(ids().length === 3, 'UIKit Back history menu reconciles a native multi-pop')
+      check(ids().length === 3, 'UIKit Back history selection reconciles native entries')
       detail.value =
         'UIKit’s original Back history still works and reconciles retained entries.'
     } else if (name === 'dispose') {
@@ -210,6 +299,8 @@ async function command(name: string) {
         error: error ? String(error) : undefined,
         checks,
         errors,
+        guardCalls: [...guardCalls],
+        toolsTapped,
         history: {
           inbox: router.getHistory({ frame: 'inbox' }),
           archive: router.getHistory({ frame: 'archive' }),
@@ -242,21 +333,41 @@ const App = defineComponent({
       h(
         'WrapLayout',
         { row: 2, margin: '0 12 8' },
-        [
-          'seed',
-          'unchanged',
-          'guard',
-          'refused',
-          'selected',
-          'invalidate',
-          'native',
-          'dispose',
-        ].map((name) =>
+        (__HISTORY_GUARDS__
+          ? [
+              'seed',
+              'guard',
+              'protect',
+              'protected',
+              'header',
+              'header-ok',
+              'confirm',
+              'selected',
+              'arm',
+              'unchanged',
+              'single',
+              'handoff',
+              'native',
+              'teardown',
+            ]
+          : [
+              'seed',
+              'unchanged',
+              'guard',
+              'refused',
+              'selected',
+              'invalidate',
+              'native',
+              'dispose',
+            ]
+        ).map((name) =>
           h('Button', {
             text: name,
             accessibilityLabel: `history:${name}`,
             fontSize: 13,
             minHeight: 40,
+            margin: 3,
+            padding: 6,
             onTap: () => void command(name),
           }),
         ),

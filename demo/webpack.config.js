@@ -14,6 +14,7 @@ module.exports = (env) => {
     config.plugin('DefinePlugin').tap((args) => {
       args[0].__ROUTER_STARTUP_TRACE__ = JSON.stringify(!!env.startupTrace)
       args[0].__PREDICTIVE_CORE__ = JSON.stringify(!!env.predictiveCore)
+      args[0].__HISTORY_GUARDS__ = JSON.stringify(!!env.historyGuards)
       args[0].__CONTRACT_FAULT__ = JSON.stringify(!!env.contractFault)
       return args
     })

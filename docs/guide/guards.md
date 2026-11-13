@@ -34,14 +34,22 @@ onBeforeRouteLeave(() => Dialogs.confirm('Discard this draft?'), { when: dirty }
 
 ## What the platform does while a guard is active
 
-| Gesture                                      | Behavior                                                                                         |
-| -------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| Android back button, or releasing the swipe  | Goes through the guard.                                                                          |
-| iOS swipe back                               | Turned off for that page, since it can't wait for an async answer.                               |
-| iOS ActionBar back button (iOS 16 and later) | Looks the same, but goes through the guard like `router.back()`. On iOS 15 the pop stays native. |
-| Modal swiped down, or tapped outside         | Runs the guard with the sheet staying put, and closes the modal if it allows. Mail does this.    |
+| Gesture                                     | Behavior                                                                                                                                                                 |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Android back button, or releasing the swipe | Goes through the guard.                                                                                                                                                  |
+| iOS swipe back                              | Turned off for that page, since it can't wait for an async answer.                                                                                                       |
+| iOS ActionBar Back/history (iOS 16+)        | Temporarily uses a native router-controlled item while a removable page has an active leave guard; both tap and history selection run guards. iOS 15 pops remain native. |
+| Modal swiped down, or tapped outside        | Runs the guard with the sheet staying put, and closes the modal if it allows. Mail does this.                                                                            |
 
 The rest of the time, a native pop is native: the router keeps its stack in sync and runs `afterEach`, but nothing can veto it.
+
+A native history jump may remove several pages, so the protected ActionBar includes guards below the current page. Its menu uses stable entry addresses and the existing guard/result/disposal path. A pending confirmation never becomes permission to select a newer occurrence of the same route. Headers are extended through the Page's public `ActionBar.update()` and restored on handoff or teardown; navigation delegates are unchanged. This applies to routed NativeScript Pages with an ActionBar. iOS 15 retains the earlier native-pop limit.
+
+Global guards alone do not disable native gestures or activate this control. With no active page leave guard in removable history, native Back still reconciles after the OS pop. Use `onBeforeRouteLeave` with `when` for state that must be protected from native history. A root guard does not replace a history control because selecting the root retains it.
+
+Header updates or guard changes dismiss any open header context menu; callbacks from a covered, changed or disposed page are ignored.
+
+<Clip name="guarded-back-history" :width="480" aspect="3 / 4" caption="Guarded native Back: top/covered guards, Stay/Leave confirmation, exact duplicate selection, header updates and restoration. iOS 18.6 simulator; English fixture labels." />
 
 ## Continue learning
 
