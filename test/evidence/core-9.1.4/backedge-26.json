@@ -1,0 +1,46 @@
+{
+  "devicesAndConfigurations": [
+    {
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "D8A31BAA-89C9-4353-B053-A0D9FFFDADB2",
+        "deviceName": "Router-Core914-iPad26",
+        "modelName": "iPad Pro 11-inch (M4)",
+        "osBuildNumber": "23A343",
+        "osVersion": "26.0",
+        "platform": "iOS Simulator"
+      },
+      "expectedFailures": 0,
+      "failedTests": 0,
+      "passedTests": 2,
+      "skippedTests": 0,
+      "testPlanConfiguration": {
+        "configurationId": "1",
+        "configurationName": "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription": "BackEdgeChecks · Built with macOS 26.6.2",
+  "expectedFailures": 0,
+  "failedTests": 0,
+  "finishTime": 1794548524.826,
+  "passedTests": 2,
+  "result": "Passed",
+  "runtimeWarnings": [
+    {
+      "issueType": "Runtime Warning",
+      "message": "`UIScene` lifecycle will soon be required. Failure to adopt will result in an assert in the future."
+    },
+    {
+      "issueType": "Runtime Warning",
+      "message": "Update the Info.plist: 1) `UIRequiresFullScreen` will soon be ignored. 2) Support for all orientations will soon be required."
+    }
+  ],
+  "skippedTests": 0,
+  "startTime": 1794548382.79,
+  "statistics": [],
+  "testFailures": [],
+  "title": "Test - BackEdgeChecks",
+  "topInsights": [],
+  "totalTestCount": 2
+}

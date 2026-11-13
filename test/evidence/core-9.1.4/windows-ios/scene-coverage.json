@@ -1,0 +1,6 @@
+{
+  "backgroundResume": true,
+  "processRestoration": false,
+  "sameProcessReconnect": false,
+  "disconnectedBeforeResume": []
+}

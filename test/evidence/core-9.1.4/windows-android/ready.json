@@ -1,0 +1,23 @@
+{
+  "command": "ready",
+  "stage": "boot",
+  "ok": true,
+  "pid": 5673,
+  "sceneEvents": [],
+  "checks": ["snapshot scope a"],
+  "sessions": [
+    {
+      "key": "a",
+      "paths": ["/", "/edit", "/edit"],
+      "drafts": ["", "draft A first", "draft A second"],
+      "unmounted": 0,
+      "entryKeys": ["mwejue1daf2g-1", "mwejue1daf2g-2", "mwejue1daf2g-3"],
+      "window": "window-8baceb10-6260-4d99-a9ec-7d0f79d1c523",
+      "state": "attached",
+      "task": 221,
+      "activity": 137799784,
+      "loaded": true,
+      "nativePages": 3
+    }
+  ]
+}

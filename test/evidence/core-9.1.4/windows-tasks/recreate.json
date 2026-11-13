@@ -1,0 +1,70 @@
+{
+  "command": "recreate",
+  "stage": "back-after-recreate",
+  "ok": true,
+  "pid": 6111,
+  "sceneEvents": [],
+  "checks": [
+    "snapshot scope a",
+    "snapshot scope a",
+    "snapshot scope b",
+    "A duplicate history restored",
+    "B history restored",
+    "snapshot scope a",
+    "snapshot scope b",
+    "snapshot scope a",
+    "A previous duplicate draft restored",
+    "B state remains independent",
+    "snapshot scope a",
+    "snapshot scope b",
+    "snapshot scope a",
+    "snapshot scope b",
+    "snapshot scope b",
+    "OS link leaves A unchanged",
+    "snapshot scope b",
+    "snapshot scope b",
+    "snapshot scope a",
+    "snapshot scope b",
+    "snapshot scope b",
+    "Activity was replaced in the same JS process",
+    "Activity recreation retains all Vue pages",
+    "snapshot scope b",
+    "logical history after recreation",
+    "native history after recreation",
+    "retained Vue page remains reactive",
+    "snapshot scope b",
+    "other window survives recreation"
+  ],
+  "recreation": {
+    "before": 151125067,
+    "after": 245726884
+  },
+  "sessions": [
+    {
+      "key": "a",
+      "paths": ["/", "/edit"],
+      "drafts": ["", "draft A first", "draft A second"],
+      "unmounted": 1,
+      "entryKeys": ["mwejw4eq9bb6-1", "mwejw4eq9bb6-2"],
+      "window": "window-555064e9-15fd-4b0e-b9ab-c25fb757bcf5",
+      "state": "attached",
+      "task": 225,
+      "activity": 137799784,
+      "loaded": false,
+      "nativePages": 2
+    },
+    {
+      "key": "b",
+      "paths": ["/", "/edit", "/items/10"],
+      "drafts": ["", "reactive after recreate", "", "", ""],
+      "unmounted": 2,
+      "entryKeys": ["mwejw5run6d9-1", "mwejw5run6d9-2", "mwejwatu97b1-5"],
+      "window": "window-ff804465-2dcd-4afc-907b-97941db76a1d",
+      "state": "attached",
+      "task": 226,
+      "activity": 245726884,
+      "loaded": true,
+      "nativePages": 3
+    }
+  ]
+}

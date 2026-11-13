@@ -1,6 +1,8 @@
 # 稳定版与 1.0 就绪评审 {#stable-release-and-1-0-readiness}
 
-`0.1.0-rc.3` 已发布。下一项决策是：文档中非实验性功能的范围是否已达到发布 **0.1.0** 的条件，而不是要求完成路线图上的全部功能。下方的 1.0 评审是独立的兼容性决策，不会自动升级版本。未关闭的 issue 数量少，并不等于通过验收。
+`0.1.0-rc.4` 已发布。下一项决策是：文档中非实验性功能的范围是否已达到发布 **0.1.0** 的条件，而不是要求完成路线图上的全部功能。下方的 1.0 评审是独立的兼容性决策，不会自动升级版本。未关闭的 issue 数量少，并不等于通过验收。
+
+更新 — 2026-11-13：Core 9.1.4 已发布，当前 checkout 已采用该版本。请参阅[依赖验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md)和[路线图 #64](https://github.com/rafaelaugustos/vue-router-ns/issues/64)。下方带日期的 1.0 评审属于历史记录；#175/#176 跟踪多窗口与 NativeHost 的稳定化，#183 跟踪当前完整矩阵的失败。
 
 ## 已交付内容 {#what-has-been-delivered}
 
@@ -24,7 +26,7 @@
 
 ## 后续工作与研究结论 {#follow-ups-and-investigation-decisions}
 
-- **#139：** 已定位 Core 原因，[NativeScript #11587](https://github.com/NativeScript/NativeScript/pull/11587)提出修复，[PR #160](https://github.com/rafaelaugustos/vue-router-ns/pull/160)记录原生验证。已发布的 Core 9.1.3 仍受影响。应等待修复发布、更新依赖并重新执行消费应用/原生测试矩阵，或在发布决策前明确缩小支持的组合范围。
+- **#139：** Core 修复 [#11587](https://github.com/NativeScript/NativeScript/pull/11587) 已随 9.1.4 发布。当前 checkout 已采用该版本；[新验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) 记录了测试组合。仍须在最终发布提交上验证消费者安装包和完整原生矩阵。Core 9.1.3 仍受影响。
 - **#152：** [已发布版本的消费应用报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-rc3-consumer.md)分别记录真机 VoiceOver 服务输出、模拟器 TalkBack 步骤与结果，以及 UI 断言。目前没有 Android 真机；维护者已接受模拟器验证及其限制。请先阅读语音与手势的验证边界，不要将其视为全面的无障碍认证。
 - **#145：** [v1 观察接口提案](https://github.com/rafaelaugustos/vue-router-ns/blob/main/research/transition-observation/README.md)记录原生生命周期证据及保持适配器私有的决定。缺少权威条目 ID，且不支持并发修改目标，因此尚不能提供公开控制器。连续 UIKit 转场进度和 Jolt 适配器不属于稳定版的必要条件。
 - **#64：** 路线图用于索引已交付范围与当前后续工作，不应在无明确决策的情况下把实验性集成升级为稳定功能。

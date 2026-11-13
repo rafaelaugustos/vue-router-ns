@@ -1,0 +1,133 @@
+{
+  "command": "close",
+  "stage": "close",
+  "ok": true,
+  "pid": 86059,
+  "sceneEvents": [
+    {
+      "event": "sceneWillConnect",
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77"
+    },
+    {
+      "event": "sceneDidActivate",
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77"
+    },
+    {
+      "event": "sceneWillConnect",
+      "window": "D581860B-038B-4877-A5E1-85DF686AB6A8"
+    },
+    {
+      "event": "sceneDidActivate",
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77"
+    },
+    {
+      "event": "sceneDidActivate",
+      "window": "D581860B-038B-4877-A5E1-85DF686AB6A8"
+    },
+    {
+      "event": "sceneDidEnterBackground",
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77"
+    },
+    {
+      "event": "sceneDidEnterBackground",
+      "window": "D581860B-038B-4877-A5E1-85DF686AB6A8"
+    },
+    {
+      "event": "sceneDidDisconnect",
+      "window": "D581860B-038B-4877-A5E1-85DF686AB6A8"
+    },
+    {
+      "event": "sceneWillConnect",
+      "window": "D581860B-038B-4877-A5E1-85DF686AB6A8"
+    },
+    {
+      "event": "sceneDidActivate",
+      "window": "D581860B-038B-4877-A5E1-85DF686AB6A8"
+    },
+    {
+      "event": "sceneDidActivate",
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77"
+    },
+    {
+      "event": "sceneDidActivate",
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77"
+    },
+    {
+      "event": "sceneDidEnterBackground",
+      "window": "D581860B-038B-4877-A5E1-85DF686AB6A8"
+    },
+    {
+      "event": "sceneDidDisconnect",
+      "window": "D581860B-038B-4877-A5E1-85DF686AB6A8"
+    }
+  ],
+  "checks": [
+    "snapshot scope a",
+    "snapshot scope a",
+    "snapshot scope a",
+    "snapshot scope a",
+    "snapshot scope b",
+    "snapshot scope b",
+    "snapshot scope b",
+    "A history isolated",
+    "B history isolated",
+    "two native windows",
+    "B guard blocks back",
+    "snapshot scope b",
+    "B back leaves A unchanged",
+    "A modal result does not close B",
+    "B modal result",
+    "UIKit reconnect requires iOS",
+    "Scene disconnection driver runs only in a simulator",
+    "snapshot scope b",
+    "snapshot scope a",
+    "snapshot scope b",
+    "Loaded simulator-only scene driver",
+    "snapshot scope b",
+    "Native disconnection request: {\n    status = \"response received\";\n}",
+    "Session remains open during disconnect",
+    "B history after scene reconnect",
+    "B draft after scene reconnect",
+    "UIKit controller stack matches retained routes",
+    "Scene reconnect retains Page identities",
+    "Scene reconnect retains Vue page apps",
+    "Scene disconnect does not settle a pending result",
+    "Guard still blocks back after reconnect",
+    "snapshot scope b",
+    "Retained page result completes once after reconnect",
+    "Retained Vue state updates the recreated native text field",
+    "snapshot scope b",
+    "snapshot scope b",
+    "snapshot scope a",
+    "Vue HMR runtime available",
+    "snapshot scope a",
+    "snapshot scope b",
+    "B script HMR preserves history",
+    "B script HMR applies new setup",
+    "A script HMR preserves history",
+    "A script HMR applies new setup",
+    "snapshot scope b",
+    "snapshot scope b",
+    "navigation after multi-window HMR",
+    "snapshot scope a",
+    "snapshot scope b",
+    "snapshot scope b",
+    "closed window releases all Vue page apps",
+    "closed B snapshot cleared",
+    "A snapshot retained"
+  ],
+  "sessions": [
+    {
+      "key": "a",
+      "paths": ["/", "/edit"],
+      "drafts": ["", "draft A first", "draft A second", "", ""],
+      "unmounted": 3,
+      "entryKeys": ["mwejnv7b6kt0-1", "mwejnv7b6kt0-2"],
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77",
+      "state": "attached",
+      "loaded": true,
+      "nativePages": 2,
+      "controllers": 2
+    }
+  ]
+}

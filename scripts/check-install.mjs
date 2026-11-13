@@ -66,7 +66,7 @@ for (const bundler of ['none', 'webpack', 'vite']) {
           version: '1.0.0',
           private: true,
           type: 'module',
-          dependencies: { '@nativescript/core': '9.1.3', 'nativescript-vue': '3.1.2' },
+          dependencies: { '@nativescript/core': '9.1.4', 'nativescript-vue': '3.1.2' },
           devDependencies,
         },
         null,
