@@ -79,7 +79,8 @@
     "prepack": "npm run build",
     "diagnostics:build": "node tools/diagnostics-viewer/build.mjs",
     "diagnostics:dev": "vite tools/diagnostics-viewer --host 127.0.0.1",
-    "diagnostics:typecheck": "tsc --noEmit -p tools/diagnostics-viewer/tsconfig.json"
+    "diagnostics:typecheck": "tsc --noEmit -p tools/diagnostics-viewer/tsconfig.json",
+    "docs:test": "node scripts/docs/review-experience.mjs"
   },
   "peerDependencies": {
     "@nativescript/core": "^9.1.4",
@@ -93,6 +94,8 @@
   },
   "devDependencies": {
     "@nativescript/core": "^9.1.4",
+    "@playwright/test": "1.64.1",
+    "@rafaelaugusto/jolt": "0.1.0-rc.15",
     "@types/node": "^22.20.5",
     "@vue/compiler-sfc": "^3.5.44",
     "@vue/runtime-core": "^3.5.44",

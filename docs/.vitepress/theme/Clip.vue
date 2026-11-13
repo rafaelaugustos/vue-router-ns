@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { withBase } from 'vitepress'
+import { useMotionPreference } from './experience/motion'
+
+const { reduced } = useMotionPreference()
 
 withDefaults(
   defineProps<{ name: string; caption: string; width?: number; aspect?: string }>(),
@@ -21,7 +24,7 @@ const pause = () => {
   }
 }
 const playWhenVisible = () => {
-  if (visible && !motion?.matches && !manuallyPaused) {
+  if (visible && !motion?.matches && !reduced.value && !manuallyPaused) {
     void video.value?.play().catch(() => {})
   }
 }
@@ -33,9 +36,11 @@ const onPlay = () => {
   manuallyPaused = false
 }
 const onMotionChange = () => {
-  if (motion?.matches) pause()
+  if (motion?.matches || reduced.value) pause()
   else playWhenVisible()
 }
+
+watch(reduced, onMotionChange)
 
 onMounted(() => {
   const element = video.value!
