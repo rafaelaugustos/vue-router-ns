@@ -106,6 +106,16 @@ independent adapter is useful evidence, not a stable API commitment.
 
 ## Other validation
 
+The initial [hosted native attempt](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43415426661)
+stopped before running the app: Ruby project generation exceeded its 30-second
+limit after cold simulator startup. Driver/workflow commit `3a5eac1` prepares and
+builds XCTest before boot, with a separate three-minute preparation budget. The
+native execution budgets and assertions are unchanged. Its prepared-project path
+also passed locally in **39.823 seconds**, with all nine command reports passing.
+The [hosted retry](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43416569975)
+records the remote result separately; it runs the same runtime and application
+fixture as the original local acceptance.
+
 - **683 tests passed**, 10 existing skips, across 55 files; no type errors.
 - Root types/build, independent adapter build and packed consumer typecheck passed.
 - Formatting, patch whitespace, native shell helpers and driver syntax passed.
