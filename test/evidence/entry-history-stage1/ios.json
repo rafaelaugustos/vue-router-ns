@@ -1,0 +1,1509 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "9fd4831fd2cb0830e4cae1b9e41ea28003ae8a57",
+  "date": "2026-11-13",
+  "target": {
+    "device": "iPad Pro 13-inch (M4), simulator",
+    "system": "iOS 18.6",
+    "xcode": "27.0 (27A266a)",
+    "core": "9.1.4",
+    "nativescriptVue": "3.1.3",
+    "iosRuntime": "9.1.0"
+  },
+  "xctest": {
+    "tests": 1,
+    "failures": 0,
+    "seconds": 27.115
+  },
+  "recording": {
+    "file": "docs/public/media/entry-history.mp4",
+    "seconds": 28.145,
+    "originalSpeed": true
+  },
+  "reports": [
+    {
+      "command": "seed",
+      "ok": true,
+      "checks": [
+        "duplicate routes have distinct live addresses",
+        "both native stacks match retained history",
+        "other stack owns focus before selection"
+      ],
+      "results": [],
+      "lifetimes": [
+        {
+          "instance": 1,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "instance": 2,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "instance": 3,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 4,
+          "path": "/between",
+          "event": "setup"
+        },
+        {
+          "instance": 5,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 6,
+          "path": "/last",
+          "event": "setup"
+        },
+        {
+          "instance": 7,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 8,
+          "path": "/last",
+          "event": "setup"
+        }
+      ],
+      "errors": [],
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwez2sq0-4hk06vwuo7b-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:1",
+              "key": "mwez2sq2onrp-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:3",
+              "key": "mwez2sq2onrp-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:4",
+              "key": "mwez2sq2onrp-4",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:5",
+              "key": "mwez2sq2onrp-5",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:6",
+              "key": "mwez2sq2onrp-6",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwez2sq0-4hk06vwuo7b-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:2",
+              "key": "mwez2sq2onrp-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:7",
+              "key": "mwez2sq2onrp-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:8",
+              "key": "mwez2sq2onrp-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      },
+      "native": {
+        "inbox": [26, 42, 50, 58, 66],
+        "archive": [34, 74, 82]
+      },
+      "gestureEvents": 0,
+      "gesturePeak": 0
+    },
+    {
+      "command": "blocked",
+      "ok": true,
+      "checks": [
+        "duplicate routes have distinct live addresses",
+        "both native stacks match retained history",
+        "other stack owns focus before selection",
+        "guard refuses exact selection",
+        "refused selection preserves native pages and pending results"
+      ],
+      "results": [],
+      "lifetimes": [
+        {
+          "instance": 1,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "instance": 2,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "instance": 3,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 4,
+          "path": "/between",
+          "event": "setup"
+        },
+        {
+          "instance": 5,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 6,
+          "path": "/last",
+          "event": "setup"
+        },
+        {
+          "instance": 7,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 8,
+          "path": "/last",
+          "event": "setup"
+        }
+      ],
+      "errors": [],
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwez2sq0-4hk06vwuo7b-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:1",
+              "key": "mwez2sq2onrp-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:3",
+              "key": "mwez2sq2onrp-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:4",
+              "key": "mwez2sq2onrp-4",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:5",
+              "key": "mwez2sq2onrp-5",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:6",
+              "key": "mwez2sq2onrp-6",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwez2sq0-4hk06vwuo7b-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:2",
+              "key": "mwez2sq2onrp-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:7",
+              "key": "mwez2sq2onrp-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:8",
+              "key": "mwez2sq2onrp-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      },
+      "native": {
+        "inbox": [26, 42, 50, 58, 66],
+        "archive": [34, 74, 82]
+      },
+      "gestureEvents": 0,
+      "gesturePeak": 0
+    },
+    {
+      "command": "jump",
+      "ok": true,
+      "checks": [
+        "duplicate routes have distinct live addresses",
+        "both native stacks match retained history",
+        "other stack owns focus before selection",
+        "guard refuses exact selection",
+        "refused selection preserves native pages and pending results",
+        "exact selection completes",
+        "older duplicate keeps its original native Page",
+        "logical address still identifies the retained Page",
+        "other stack preserves every native Page",
+        "removed results settle once, only top receives chosen value"
+      ],
+      "results": [
+        {
+          "label": "between"
+        },
+        {
+          "label": "newer duplicate"
+        },
+        {
+          "label": "last",
+          "value": "chosen"
+        }
+      ],
+      "lifetimes": [
+        {
+          "instance": 1,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "instance": 2,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "instance": 3,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 4,
+          "path": "/between",
+          "event": "setup"
+        },
+        {
+          "instance": 5,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 6,
+          "path": "/last",
+          "event": "setup"
+        },
+        {
+          "instance": 7,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 8,
+          "path": "/last",
+          "event": "setup"
+        },
+        {
+          "instance": 4,
+          "path": "/between",
+          "event": "unmounted"
+        },
+        {
+          "instance": 5,
+          "path": "/item",
+          "event": "unmounted"
+        },
+        {
+          "instance": 6,
+          "path": "/last",
+          "event": "unmounted"
+        }
+      ],
+      "errors": [],
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwez2sq0-4hk06vwuo7b-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:1",
+              "key": "mwez2sq2onrp-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:3",
+              "key": "mwez2sq2onrp-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwez2sq0-4hk06vwuo7b-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:2",
+              "key": "mwez2sq2onrp-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:7",
+              "key": "mwez2sq2onrp-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:8",
+              "key": "mwez2sq2onrp-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      },
+      "native": {
+        "inbox": [26, 42],
+        "archive": [34, 74, 82]
+      },
+      "gestureEvents": 0,
+      "gesturePeak": 0
+    },
+    {
+      "command": "stale",
+      "ok": true,
+      "checks": [
+        "duplicate routes have distinct live addresses",
+        "both native stacks match retained history",
+        "other stack owns focus before selection",
+        "guard refuses exact selection",
+        "refused selection preserves native pages and pending results",
+        "exact selection completes",
+        "older duplicate keeps its original native Page",
+        "logical address still identifies the retained Page",
+        "other stack preserves every native Page",
+        "removed results settle once, only top receives chosen value",
+        "removed address cannot select the surviving identical path"
+      ],
+      "results": [
+        {
+          "label": "between"
+        },
+        {
+          "label": "newer duplicate"
+        },
+        {
+          "label": "last",
+          "value": "chosen"
+        }
+      ],
+      "lifetimes": [
+        {
+          "instance": 1,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "instance": 2,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "instance": 3,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 4,
+          "path": "/between",
+          "event": "setup"
+        },
+        {
+          "instance": 5,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 6,
+          "path": "/last",
+          "event": "setup"
+        },
+        {
+          "instance": 7,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 8,
+          "path": "/last",
+          "event": "setup"
+        },
+        {
+          "instance": 4,
+          "path": "/between",
+          "event": "unmounted"
+        },
+        {
+          "instance": 5,
+          "path": "/item",
+          "event": "unmounted"
+        },
+        {
+          "instance": 6,
+          "path": "/last",
+          "event": "unmounted"
+        }
+      ],
+      "errors": [],
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwez2sq0-4hk06vwuo7b-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:1",
+              "key": "mwez2sq2onrp-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:3",
+              "key": "mwez2sq2onrp-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwez2sq0-4hk06vwuo7b-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:2",
+              "key": "mwez2sq2onrp-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:7",
+              "key": "mwez2sq2onrp-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:8",
+              "key": "mwez2sq2onrp-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      },
+      "native": {
+        "inbox": [26, 42],
+        "archive": [34, 74, 82]
+      },
+      "gestureEvents": 0,
+      "gesturePeak": 0
+    },
+    {
+      "command": "prepare",
+      "ok": true,
+      "checks": [
+        "duplicate routes have distinct live addresses",
+        "both native stacks match retained history",
+        "other stack owns focus before selection",
+        "guard refuses exact selection",
+        "refused selection preserves native pages and pending results",
+        "exact selection completes",
+        "older duplicate keeps its original native Page",
+        "logical address still identifies the retained Page",
+        "other stack preserves every native Page",
+        "removed results settle once, only top receives chosen value",
+        "removed address cannot select the surviving identical path"
+      ],
+      "results": [
+        {
+          "label": "between"
+        },
+        {
+          "label": "newer duplicate"
+        },
+        {
+          "label": "last",
+          "value": "chosen"
+        }
+      ],
+      "lifetimes": [
+        {
+          "instance": 1,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "instance": 2,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "instance": 3,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 4,
+          "path": "/between",
+          "event": "setup"
+        },
+        {
+          "instance": 5,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 6,
+          "path": "/last",
+          "event": "setup"
+        },
+        {
+          "instance": 7,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 8,
+          "path": "/last",
+          "event": "setup"
+        },
+        {
+          "instance": 4,
+          "path": "/between",
+          "event": "unmounted"
+        },
+        {
+          "instance": 5,
+          "path": "/item",
+          "event": "unmounted"
+        },
+        {
+          "instance": 6,
+          "path": "/last",
+          "event": "unmounted"
+        },
+        {
+          "instance": 9,
+          "path": "/last",
+          "event": "setup"
+        }
+      ],
+      "errors": [],
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwez2sq0-4hk06vwuo7b-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:1",
+              "key": "mwez2sq2onrp-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:3",
+              "key": "mwez2sq2onrp-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:9",
+              "key": "mwez2sq2onrp-9",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwez2sq0-4hk06vwuo7b-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:2",
+              "key": "mwez2sq2onrp-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:7",
+              "key": "mwez2sq2onrp-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:8",
+              "key": "mwez2sq2onrp-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      },
+      "native": {
+        "inbox": [26, 42, 90],
+        "archive": [34, 74, 82]
+      },
+      "gestureEvents": 0,
+      "gesturePeak": 0
+    },
+    {
+      "command": "cancelled",
+      "ok": true,
+      "checks": [
+        "duplicate routes have distinct live addresses",
+        "both native stacks match retained history",
+        "other stack owns focus before selection",
+        "guard refuses exact selection",
+        "refused selection preserves native pages and pending results",
+        "exact selection completes",
+        "older duplicate keeps its original native Page",
+        "logical address still identifies the retained Page",
+        "other stack preserves every native Page",
+        "removed results settle once, only top receives chosen value",
+        "removed address cannot select the surviving identical path",
+        "cancelled swipe moved a real UIKit transition",
+        "cancelled native swipe preserves history and results"
+      ],
+      "results": [
+        {
+          "label": "between"
+        },
+        {
+          "label": "newer duplicate"
+        },
+        {
+          "label": "last",
+          "value": "chosen"
+        }
+      ],
+      "lifetimes": [
+        {
+          "instance": 1,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "instance": 2,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "instance": 3,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 4,
+          "path": "/between",
+          "event": "setup"
+        },
+        {
+          "instance": 5,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 6,
+          "path": "/last",
+          "event": "setup"
+        },
+        {
+          "instance": 7,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 8,
+          "path": "/last",
+          "event": "setup"
+        },
+        {
+          "instance": 4,
+          "path": "/between",
+          "event": "unmounted"
+        },
+        {
+          "instance": 5,
+          "path": "/item",
+          "event": "unmounted"
+        },
+        {
+          "instance": 6,
+          "path": "/last",
+          "event": "unmounted"
+        },
+        {
+          "instance": 9,
+          "path": "/last",
+          "event": "setup"
+        }
+      ],
+      "errors": [],
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwez2sq0-4hk06vwuo7b-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:1",
+              "key": "mwez2sq2onrp-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:3",
+              "key": "mwez2sq2onrp-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:9",
+              "key": "mwez2sq2onrp-9",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwez2sq0-4hk06vwuo7b-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:2",
+              "key": "mwez2sq2onrp-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:7",
+              "key": "mwez2sq2onrp-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:8",
+              "key": "mwez2sq2onrp-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      },
+      "native": {
+        "inbox": [26, 42, 90],
+        "archive": [34, 74, 82]
+      },
+      "gestureEvents": 0,
+      "gesturePeak": 0
+    },
+    {
+      "command": "native",
+      "ok": true,
+      "checks": [
+        "duplicate routes have distinct live addresses",
+        "both native stacks match retained history",
+        "other stack owns focus before selection",
+        "guard refuses exact selection",
+        "refused selection preserves native pages and pending results",
+        "exact selection completes",
+        "older duplicate keeps its original native Page",
+        "logical address still identifies the retained Page",
+        "other stack preserves every native Page",
+        "removed results settle once, only top receives chosen value",
+        "removed address cannot select the surviving identical path",
+        "cancelled swipe moved a real UIKit transition",
+        "cancelled native swipe preserves history and results",
+        "committed swipe moved a real UIKit transition",
+        "native Back reconciles the same retained identity",
+        "native Back settles its result once",
+        "native Back leaves the other stack unchanged"
+      ],
+      "results": [
+        {
+          "label": "between"
+        },
+        {
+          "label": "newer duplicate"
+        },
+        {
+          "label": "last",
+          "value": "chosen"
+        },
+        {
+          "label": "gesture"
+        }
+      ],
+      "lifetimes": [
+        {
+          "instance": 1,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "instance": 2,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "instance": 3,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 4,
+          "path": "/between",
+          "event": "setup"
+        },
+        {
+          "instance": 5,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 6,
+          "path": "/last",
+          "event": "setup"
+        },
+        {
+          "instance": 7,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 8,
+          "path": "/last",
+          "event": "setup"
+        },
+        {
+          "instance": 4,
+          "path": "/between",
+          "event": "unmounted"
+        },
+        {
+          "instance": 5,
+          "path": "/item",
+          "event": "unmounted"
+        },
+        {
+          "instance": 6,
+          "path": "/last",
+          "event": "unmounted"
+        },
+        {
+          "instance": 9,
+          "path": "/last",
+          "event": "setup"
+        },
+        {
+          "instance": 9,
+          "path": "/last",
+          "event": "unmounted"
+        }
+      ],
+      "errors": [],
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwez2sq0-4hk06vwuo7b-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:1",
+              "key": "mwez2sq2onrp-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-1",
+              "id": "mwez2sq0-4hk06vwuo7b-1:3",
+              "key": "mwez2sq2onrp-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwez2sq0-4hk06vwuo7b-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:2",
+              "key": "mwez2sq2onrp-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:7",
+              "key": "mwez2sq2onrp-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwez2sq0-4hk06vwuo7b-2",
+              "id": "mwez2sq0-4hk06vwuo7b-2:8",
+              "key": "mwez2sq2onrp-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      },
+      "native": {
+        "inbox": [26, 42],
+        "archive": [34, 74, 82]
+      },
+      "gestureEvents": 53,
+      "gesturePeak": 0.8323643410852714
+    },
+    {
+      "command": "dispose",
+      "ok": true,
+      "checks": [
+        "duplicate routes have distinct live addresses",
+        "both native stacks match retained history",
+        "other stack owns focus before selection",
+        "guard refuses exact selection",
+        "refused selection preserves native pages and pending results",
+        "exact selection completes",
+        "older duplicate keeps its original native Page",
+        "logical address still identifies the retained Page",
+        "other stack preserves every native Page",
+        "removed results settle once, only top receives chosen value",
+        "removed address cannot select the surviving identical path",
+        "cancelled swipe moved a real UIKit transition",
+        "cancelled native swipe preserves history and results",
+        "committed swipe moved a real UIKit transition",
+        "native Back reconciles the same retained identity",
+        "native Back settles its result once",
+        "native Back leaves the other stack unchanged",
+        "owner disposal removes both public histories",
+        "closed owner invalidates its saved selection",
+        "every destination app unmounts exactly once",
+        "no Vue or reconciliation errors"
+      ],
+      "results": [
+        {
+          "label": "between"
+        },
+        {
+          "label": "newer duplicate"
+        },
+        {
+          "label": "last",
+          "value": "chosen"
+        },
+        {
+          "label": "gesture"
+        }
+      ],
+      "lifetimes": [
+        {
+          "instance": 1,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "instance": 2,
+          "path": "/",
+          "event": "setup"
+        },
+        {
+          "instance": 3,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 4,
+          "path": "/between",
+          "event": "setup"
+        },
+        {
+          "instance": 5,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 6,
+          "path": "/last",
+          "event": "setup"
+        },
+        {
+          "instance": 7,
+          "path": "/item",
+          "event": "setup"
+        },
+        {
+          "instance": 8,
+          "path": "/last",
+          "event": "setup"
+        },
+        {
+          "instance": 4,
+          "path": "/between",
+          "event": "unmounted"
+        },
+        {
+          "instance": 5,
+          "path": "/item",
+          "event": "unmounted"
+        },
+        {
+          "instance": 6,
+          "path": "/last",
+          "event": "unmounted"
+        },
+        {
+          "instance": 9,
+          "path": "/last",
+          "event": "setup"
+        },
+        {
+          "instance": 9,
+          "path": "/last",
+          "event": "unmounted"
+        },
+        {
+          "instance": 1,
+          "path": "/",
+          "event": "unmounted"
+        },
+        {
+          "instance": 3,
+          "path": "/item",
+          "event": "unmounted"
+        },
+        {
+          "instance": 2,
+          "path": "/",
+          "event": "unmounted"
+        },
+        {
+          "instance": 7,
+          "path": "/item",
+          "event": "unmounted"
+        },
+        {
+          "instance": 8,
+          "path": "/last",
+          "event": "unmounted"
+        }
+      ],
+      "errors": [],
+      "history": {},
+      "native": {
+        "inbox": [26, 42],
+        "archive": [34, 74, 82]
+      },
+      "gestureEvents": 53,
+      "gesturePeak": 0.8323643410852714
+    }
+  ]
+}

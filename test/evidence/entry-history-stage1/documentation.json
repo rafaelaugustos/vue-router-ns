@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "9fd4831fd2cb0830e4cae1b9e41ea28003ae8a57",
+  "build": "passed",
+  "siteReview": "passed: responsive navigation, reduced motion, server-rendered content and keyboard interaction",
+  "guide": {
+    "reports": [
+      {
+        "locale": "en",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/stack",
+          "/zh-CN/guide/stack",
+          "/pt-BR/guide/stack",
+          "/es/guide/stack",
+          "/zh-CN/guide/stack",
+          "/pt-BR/guide/stack",
+          "/guide/stack",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/guide/stack.md"
+        ],
+        "headingCount": 3
+      },
+      {
+        "locale": "pt-BR/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/stack",
+          "/zh-CN/guide/stack",
+          "/guide/stack",
+          "/es/guide/stack",
+          "/zh-CN/guide/stack",
+          "/guide/stack",
+          "/pt-BR/guide/stack",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/pt-BR/guide/stack.md"
+        ],
+        "headingCount": 3
+      },
+      {
+        "locale": "es/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/zh-CN/guide/stack",
+          "/guide/stack",
+          "/pt-BR/guide/stack",
+          "/zh-CN/guide/stack",
+          "/guide/stack",
+          "/pt-BR/guide/stack",
+          "/es/guide/stack",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/es/guide/stack.md"
+        ],
+        "headingCount": 3
+      },
+      {
+        "locale": "zh-CN/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/stack",
+          "/guide/stack",
+          "/pt-BR/guide/stack",
+          "/es/guide/stack",
+          "/guide/stack",
+          "/pt-BR/guide/stack",
+          "/zh-CN/guide/stack",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/zh-CN/guide/stack.md"
+        ],
+        "headingCount": 3
+      }
+    ],
+    "search": "passed"
+  }
+}
