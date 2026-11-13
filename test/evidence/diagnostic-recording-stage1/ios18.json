@@ -1,0 +1,132 @@
+[
+  {
+    "command": "initial",
+    "records": 33,
+    "retainedBytes": 13958,
+    "exportBytes": 14308,
+    "dropped": 0,
+    "cleared": 0,
+    "overhead": {
+      "samples": 18,
+      "totalMs": 3.0660000011266675,
+      "maxMs": 0.9910000007948838
+    }
+  },
+  {
+    "command": "success",
+    "records": 63,
+    "retainedBytes": 29089,
+    "exportBytes": 29438,
+    "dropped": 0,
+    "cleared": 0,
+    "overhead": {
+      "samples": 34,
+      "totalMs": 5.185000005440088,
+      "maxMs": 0.9910000007948838
+    }
+  },
+  {
+    "command": "blocked",
+    "records": 79,
+    "retainedBytes": 37601,
+    "exportBytes": 37951,
+    "dropped": 0,
+    "cleared": 0,
+    "overhead": {
+      "samples": 42,
+      "totalMs": 5.7130000059260055,
+      "maxMs": 0.9910000007948838
+    }
+  },
+  {
+    "command": "cancelled",
+    "records": 121,
+    "retainedBytes": 61066,
+    "exportBytes": 61415,
+    "dropped": 0,
+    "cleared": 0,
+    "overhead": {
+      "samples": 64,
+      "totalMs": 8.628999996290077,
+      "maxMs": 0.9910000007948838
+    }
+  },
+  {
+    "command": "modal",
+    "records": 160,
+    "retainedBytes": 94613,
+    "exportBytes": 94964,
+    "dropped": 20,
+    "cleared": 0,
+    "overhead": {
+      "samples": 95,
+      "totalMs": 14.769999997952254,
+      "maxMs": 0.9910000007948838
+    }
+  },
+  {
+    "command": "divergence",
+    "records": 160,
+    "retainedBytes": 96454,
+    "exportBytes": 96805,
+    "dropped": 28,
+    "cleared": 0,
+    "overhead": {
+      "samples": 100,
+      "totalMs": 15.51399999880232,
+      "maxMs": 0.9910000007948838
+    }
+  },
+  {
+    "command": "recovery",
+    "records": 160,
+    "retainedBytes": 97294,
+    "exportBytes": 97646,
+    "dropped": 32,
+    "cleared": 0,
+    "overhead": {
+      "samples": 103,
+      "totalMs": 15.755000003991881,
+      "maxMs": 0.9910000007948838
+    }
+  },
+  {
+    "command": "truncate",
+    "records": 160,
+    "retainedBytes": 134415,
+    "exportBytes": 134769,
+    "dropped": 212,
+    "cleared": 0,
+    "overhead": {
+      "samples": 283,
+      "totalMs": 25.396000008186093,
+      "maxMs": 0.9910000007948838
+    }
+  },
+  {
+    "command": "clear",
+    "records": 2,
+    "retainedBytes": 926,
+    "exportBytes": 1278,
+    "dropped": 212,
+    "cleared": 160,
+    "overhead": {
+      "samples": 284,
+      "totalMs": 25.59000000837841,
+      "maxMs": 0.9910000007948838
+    }
+  },
+  {
+    "command": "stop",
+    "records": 3,
+    "retainedBytes": 1765,
+    "exportBytes": 2118,
+    "dropped": 212,
+    "cleared": 160,
+    "overhead": {
+      "samples": 285,
+      "totalMs": 25.683000007120427,
+      "maxMs": 0.9910000007948838
+    }
+  }
+]

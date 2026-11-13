@@ -196,7 +196,9 @@ Aumente `Register` y `RouteMeta` como se muestra en las rutas escritas [Rutas es
 
 ## Diagnóstico {#diagnostics}
 
-`RouterDiagnostics` expone `routerId`, `stopped`, `events`, `droppedEvents`, `snapshot()`, `subscribe(listener)`, `toJSON()`, `export()`, `clear()` y `stop()`. Los datos son de solo lectura, están delimitados y redactados; `stop()` publica fuentes en vivo. Tipos exportados: `DiagnosticsOptions`, `RouterDiagnostics`, `DiagnosticsExport`, `DiagnosticSnapshot`, `DiagnosticStack`, `DiagnosticHost`, `DiagnosticEntry`, `DiagnosticIssue`, `DiagnosticIssueCode`, `DiagnosticEvent`, `DiagnosticPhase` y `DiagnosticOutcome`. Consulte [diagnostics](./diagnostics) para conocer el formato, la semántica de temporización y la ciclo de vida.
+`RouterDiagnostics` expone `routerId`, `stopped`, `events`, `droppedEvents`, `snapshot()`, `subscribe(listener)`, `toJSON()`, `export()`, `clear()` y `stop()`. Los datos son de solo lectura, están delimitados y redactados; `stop()` libera las fuentes activas. Tipos exportados: `DiagnosticsOptions`, `RouterDiagnostics`, `DiagnosticsExport`, `DiagnosticSnapshot`, `DiagnosticStack`, `DiagnosticHost`, `DiagnosticEntry`, `DiagnosticIssue`, `DiagnosticIssueCode`, `DiagnosticEvent`, `DiagnosticPhase` y `DiagnosticOutcome`. Consulte [diagnostics](./diagnostics) para conocer el formato, la semántica de temporización y la ciclo de vida.
+
+`recording()` devuelve una grabación v2 experimental que requiere activación; `checkpoint()` observa explícitamente el estado actual. Configure `diagnostics.recording` con un booleano o `DiagnosticRecordingOptions`. Tipos adicionales de solo lectura: `DiagnosticsRecording`, `DiagnosticRecord`, `DiagnosticBoundary`, `DiagnosticObservation`. Los exports v1 no cambian. Consulte el [contrato de grabación](./diagnostics#experimental-recording-contract) para límites de bytes, huecos y el alcance actual del visor.
 
 ## Búsqueda nativa {#native-search}
 

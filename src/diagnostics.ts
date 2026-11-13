@@ -1,4 +1,12 @@
-import type { Page, View } from '@nativescript/core'
+import type { Frame, Page, View } from '@nativescript/core'
+import {
+  createRecording,
+  type DiagnosticBoundary,
+  type DiagnosticObservation,
+  type DiagnosticRecordingOptions,
+  type DiagnosticsRecording,
+} from './diagnostic-recording.js'
+import { tabOf } from './tabs.js'
 import type { NativeHostPart } from './host.js'
 import type { Entry, Stack } from './stack.js'
 import type { NavigationType, RouteLocation } from './types.js'
@@ -6,6 +14,8 @@ import type { NavigationType, RouteLocation } from './types.js'
 export interface DiagnosticsOptions {
   /** Number of events retained, from 1 to 10,000. Defaults to 500. */
   maxEvents?: number
+  /** Experimental v2 recording. Disabled by default; v1 exports remain unchanged. */
+  recording?: boolean | DiagnosticRecordingOptions
 }
 
 export type DiagnosticPhase =
@@ -117,6 +127,10 @@ export interface RouterDiagnostics {
   subscribe(listener: (event: DiagnosticEvent) => void): () => void
   toJSON(): DiagnosticsExport
   export(): string
+  /** Detached v2 recording, or undefined unless opted in. Does not sample live state. */
+  recording(): DiagnosticsRecording | undefined
+  /** Observe a checkpoint now, e.g. after an external tab selection. No-op without recording. */
+  checkpoint(): void
   /** Clears retained events without changing identities or stopping collection. */
   clear(): void
   /** Releases live sources and subscriptions; retains only the bounded plain-data report. */
@@ -167,6 +181,7 @@ export function createDiagnostics(
   options: DiagnosticsOptions,
   source: () => DiagnosticSource[],
   findEntry: (page: Page) => Entry | undefined,
+  focused?: () => Stack | undefined,
 ) {
   const maxEvents = options.maxEvents ?? 500
   if (!Number.isInteger(maxEvents) || maxEvents < 1 || maxEvents > 10_000)
@@ -175,6 +190,13 @@ export function createDiagnostics(
   const origin = clock()
   const startedAt = Date.now()
   const routerId = `router-${++routerSequence}`
+  const recording = options.recording
+    ? createRecording(
+        options.recording === true ? {} : options.recording,
+        { routerId, startedAt },
+        clock,
+      )
+    : undefined
   const ids = new WeakMap<object, string>()
   const settledResults = new WeakSet<Entry>()
   const active = new WeakMap<Stack, number>()
@@ -182,6 +204,7 @@ export function createDiagnostics(
   const events: DiagnosticEvent[] = []
   let sources: (() => DiagnosticSource[]) | undefined = source
   let lookup: typeof findEntry | undefined = findEntry
+  let focus = focused
   let sequence = 0
   let objectSequence = 0
   let spanSequence = 0
@@ -227,6 +250,10 @@ export function createDiagnostics(
       droppedEvents++
     }
     events.push(event)
+    recording?.measure(() => {
+      recording.append({ kind: 'event', time: event.time, event })
+      capture('event', event.id)
+    })
     for (const listener of [...listeners]) {
       if (stopped) break
       try {
@@ -251,7 +278,7 @@ export function createDiagnostics(
     }
   }
 
-  function snapshot(): DiagnosticSnapshot {
+  function snapshot(observations?: DiagnosticObservation[]): DiagnosticSnapshot {
     if (stopped && lastSnapshot) return lastSnapshot
     const stacks: DiagnosticStack[] = []
     const issues: DiagnosticIssue[] = []
@@ -309,11 +336,70 @@ export function createDiagnostics(
           logical,
           native: nativeHosts,
         })
+        if (observations) {
+          const native = hosts.find((part) => part.native)?.native
+          const tab = native && tabOf(native as Frame)
+          const visible =
+            stack.host?.visible?.() ??
+            (stack.host && !stack.host.capabilities.multipleVisible
+              ? hosts.flatMap((part) => part.pages.slice(-1))
+              : undefined)
+          observations.push({
+            stackId: id,
+            closed: stack.closed,
+            selected:
+              stack.selected?.() ??
+              (tab ? tab.index === tab.tabView.selectedIndex : null),
+            routerFocused: focus ? focus() === stack : null,
+            hostVisible: visible
+              ? visible.map((page) => {
+                  const entry = lookup?.(page)
+                  return entry ? entryId(entry) : null
+                })
+              : null,
+            tab: tab
+              ? {
+                  id: identity(tab.tabView, 'tab'),
+                  index: tab.index,
+                  selectedIndex: tab.tabView.selectedIndex,
+                }
+              : null,
+            inputFocused: null,
+          })
+        }
       }
     } catch {
       issues.push({ code: 'inspection-failed' })
     }
     return freeze({ routerId, time: now(), stopped, stacks, issues })
+  }
+
+  function capture(boundary: DiagnosticBoundary, eventId?: number) {
+    if (!recording) return
+    const observations: DiagnosticObservation[] = []
+    const state = snapshot(observations)
+    if (state.issues.some((issue) => issue.code === 'inspection-failed')) {
+      recording.append({
+        kind: 'gap',
+        reason: 'inspection-failed',
+        boundary,
+        eventId,
+        time: state.time,
+      })
+    } else {
+      recording.append({
+        kind: 'checkpoint',
+        boundary,
+        eventId,
+        time: state.time,
+        snapshot: state,
+        observations: freeze(observations),
+      })
+    }
+  }
+
+  function checkpoint(boundary: DiagnosticBoundary) {
+    if (!stopped) recording?.measure(() => capture(boundary))
   }
 
   function audit() {
@@ -358,24 +444,37 @@ export function createDiagnostics(
       })
     },
     export: () => JSON.stringify(api.toJSON(), null, 2),
+    recording: () => recording?.read(stopped),
+    checkpoint: () => checkpoint('manual'),
     clear() {
       events.length = 0
       droppedEvents = 0
+      if (stopped) return
+      recording?.measure(() => {
+        recording.clear(now())
+        capture('clear')
+      })
     },
     stop() {
       if (stopped) return
       const final = snapshot()
+      // Observe while sources are still live; reads after stop never inspect native state.
+      checkpoint('stop')
       stopped = true
       lastSnapshot = Object.freeze({ ...final, stopped: true })
       sources = undefined
       lookup = undefined
+      focus = undefined
       listeners.clear()
       reported.clear()
     },
   }
 
+  checkpoint('initial')
+
   return {
     api,
+    checkpoint,
     begin(
       stack: Stack,
       operation: NavigationType,

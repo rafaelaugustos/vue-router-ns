@@ -1,0 +1,152 @@
+{
+  "version": 2,
+  "captureId": "mwfdr9un-router-1-8ivr00zlpgr",
+  "routerId": "router-1",
+  "startedAt": 1794598744991,
+  "clock": "monotonic",
+  "stopped": true,
+  "epoch": 1,
+  "droppedRecords": 212,
+  "clearedRecords": 160,
+  "limits": {
+    "maxRecords": 160,
+    "maxBytes": 262144
+  },
+  "retainedBytes": 1765,
+  "overhead": {
+    "samples": 285,
+    "totalMs": 25.683000007120427,
+    "maxMs": 0.9910000007948838
+  },
+  "records": [
+    {
+      "kind": "gap",
+      "reason": "cleared",
+      "time": 25209.608000001026,
+      "sequence": 373,
+      "epoch": 1
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "clear",
+      "time": 25209.732999999687,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 25209.732999999687,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": false,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": false,
+                "awaitingResult": false
+              },
+              {
+                "id": "router-1:entry-2",
+                "route": "/items/:id",
+                "active": false,
+                "awaitingResult": false
+              },
+              {
+                "id": "router-1:entry-3",
+                "route": "/items/:id",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1", "router-1:entry-2", "router-1:entry-3"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-3"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 374,
+      "epoch": 1
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "stop",
+      "time": 27893.136999999115,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 27893.136999999115,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": false,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": false,
+                "awaitingResult": false
+              },
+              {
+                "id": "router-1:entry-2",
+                "route": "/items/:id",
+                "active": false,
+                "awaitingResult": false
+              },
+              {
+                "id": "router-1:entry-3",
+                "route": "/items/:id",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1", "router-1:entry-2", "router-1:entry-3"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-3"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 375,
+      "epoch": 1
+    }
+  ]
+}

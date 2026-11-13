@@ -3,6 +3,7 @@ import {
   createRouter,
   type RouterDiagnostics,
   type DiagnosticSnapshot,
+  type DiagnosticsRecording,
 } from '../src/index.js'
 
 it('exports readonly, handle-free diagnostic data without changing route inference', () => {
@@ -22,4 +23,11 @@ it('exports readonly, handle-free diagnostic data without changing route inferen
   // @ts-expect-error diagnostic records are readonly
   router.diagnostics!.events[0]!.time = 0
   expectTypeOf(router.diagnostics!.toJSON().version).toEqualTypeOf<1>()
+  expectTypeOf(router.diagnostics!.recording()).toEqualTypeOf<
+    DiagnosticsRecording | undefined
+  >()
+  const recording = router.diagnostics!.recording()!
+  // @ts-expect-error recordings cannot expose mutable history
+  recording.records.push({})
+  expectTypeOf(recording.version).toEqualTypeOf<2>()
 })

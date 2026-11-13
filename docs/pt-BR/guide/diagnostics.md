@@ -74,3 +74,40 @@ O pacote fornece um formato JSON independente e o inspector do demo nativo. O [v
 Rotas são representadas pelo **padrão** correspondente, como `/messages/:id(\\d+)`. Params/paths resolvidos, query, hash, metadata, props, resultados, objetos nativos, mensagens e stacks de exceções nunca são exportados. Padrões de rota e nomes de pilha são identificadores definidos pelo app: mantenha dados de usuário fora dessas definições. O coletor não tem uma opção que copie dados arbitrários da rota/página.
 
 No demo de debug, abra **Settings → Navigation diagnostics**. Compare um guard de 350 ms com setup síncrono de 80 ms, insira uma Page nativa sem gestão do router para observar divergência e recuperação e copie um relatório JSON sem os valores de rota. Checks nativos são registrados separadamente dos testes com shim; os tempos desses fixtures não são garantias de desempenho.
+
+## Contrato experimental de gravação {#experimental-recording-contract}
+
+Ative separadamente para preservar observações intermediárias das pilhas nativa e lógica:
+
+```ts
+const router = createRouter({
+  routes,
+  diagnostics: {
+    maxEvents: 500,
+    recording: { maxRecords: 500, maxBytes: 1024 * 1024 },
+  },
+})
+const inspector = router.diagnostics!
+inspector.checkpoint() // e.g. after an app-owned tab selection
+const capture = inspector.recording() // readonly v2 object; no live sampling
+const recordingJSON = JSON.stringify(capture)
+const legacyJSON = inspector.export() // unchanged v1, for the current viewer
+```
+
+Esta é a primeira etapa do contrato de gravação. O [viewer](./diagnostics-viewer) continua importando v1; validação da importação v2, controles de replay sincronizado e análise da primeira divergência ficam para a próxima etapa. Ler uma gravação nunca executa guards, busca dados, navega no app ou restaura objetos nativos.
+
+`recording: true` usa os padrões acima. `maxRecords` aceita 1–10.000 e `maxBytes` aceita 1.024–8.388.608. Ambos limitam o buffer v2 separado; `maxEvents` continua limitando v1. `retainedBytes` conta a serialização UTF-8 compacta do array de registros, incluindo colchetes e vírgulas. O pequeno envelope do relatório, espaços de formatação, cópias exportadas e alocações temporárias de snapshots ficam fora desse orçamento. É um limite de retenção, não de heap.
+
+O envelope v2 inclui `captureId`, `routerId`, `clock`, `startedAt`, `stopped`, `epoch`, `limits`, `retainedBytes`, `droppedRecords`, `clearedRecords`, `overhead` e `records`. Cada registro tem uma `sequence` crescente, sua `epoch` e um `time` monotônico. Eventos preservam os IDs de correlação v1. Checkpoints contêm um `snapshot` completo, `observations`, uma `boundary` e um `eventId` opcional que os originou. São independentes: descartar um checkpoint anterior não invalida um posterior.
+
+O coletor observa inicialização, eventos, reconciliação nativa antes e depois da atualização lógica, checkpoints explícitos, limpeza e parada. O histórico nativo vem das páginas observadas no host, não dos nomes de operações. Só os instantes dos checkpoints são observados: não há gravação contínua nem interpolação entre eles. Mudanças externas de aba aparecem na próxima observação; chame `checkpoint()` após a seleção quando esse instante importar. Não são adicionados polling nem listeners nativos.
+
+`active` continua sendo um indicador do ciclo de vida da entrada. `hostVisible` descreve páginas visíveis dentro do host, sem considerar obstrução por outro modal/janela. `selected` e `tab` registram pertencimento e índice nativo selecionado quando disponíveis. `routerFocused` identifica a pilha de destino do router; `inputFocused` é sempre desconhecido. Observações nulas devem continuar desconhecidas. IDs estáveis de entrada/pilha/host/janela/aba valem dentro da captura; não una capturas independentes por IDs locais iguais.
+
+Descartar o início incrementa `droppedRecords`. Limpar avança `epoch`, conta os registros descartados em `clearedRecords`, emite uma lacuna de limpeza e observa um novo checkpoint. Sequências e identidades não reiniciam. Registros grandes demais viram lacunas de tamanho; falhas de inspeção viram lacunas de inspeção sem dados de exceção nem estado parcial. Um buffer pequeno pode reter apenas uma lacuna ou evento: isso não significa uma pilha vazia. Um intervalo pode perder uma de suas pontas. Parar congela a gravação; a navegação pode continuar.
+
+Não diagnostique uma divergência estável a partir de um checkpoint ocupado ou anterior à reconciliação. Uma observação posterior comparável pode mostrar a primeira **observação retida** de discordância, nunca sua causa ou início exato; registros ausentes ampliam essa incerteza. A mesma política de omissão de dados do v1 se aplica. `overhead` mede trabalho síncrono do coletor v2, excluindo listeners, exportação e renderização. A gravação acrescenta custo de inspeção/serialização e pode afetar os tempos de navegação; não é medição de FPS.
+
+<Clip name="diagnostic-recording" :width="480" aspect="3 / 4" caption="Captura real no iOS 18.6: sucesso, recusa do guard, cancelamento, ciclo do modal, divergência nativa intencional e recuperação, limites de retenção, limpeza e parada. Rótulos do fixture em inglês; sem replay sintético." />
+
+Dez checks nativos passaram. O trabalho medido do coletor e os tamanhos dos arquivos são medidas do fixture, não garantias de desempenho do dispositivo. Veja o [relatório de validação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-diagnostic-recording-stage1.md) e o [driver reproduzível](https://github.com/rafaelaugustos/vue-router-ns/blob/main/scripts/native/recording/README.md).

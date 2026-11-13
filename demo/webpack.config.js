@@ -26,6 +26,7 @@ module.exports = (env) => {
       'loaders',
       'preload',
       'preloaddata',
+      'recording',
       'suspense',
       'windows',
       'entrypoints',

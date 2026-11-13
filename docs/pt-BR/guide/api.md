@@ -196,6 +196,8 @@ Estenda `Register` e `RouteMeta` como mostrado em [rotas tipadas](./typed-routes
 
 `RouterDiagnostics` expõe `routerId`, `stopped`, `events`, `droppedEvents`, `snapshot()`, `subscribe(listener)`, `toJSON()`, `export()`, `clear()` e `stop()`. Os dados são readonly, limitados e sem valores de rota; `stop()` libera as fontes vivas. Tipos exportados: `DiagnosticsOptions`, `RouterDiagnostics`, `DiagnosticsExport`, `DiagnosticSnapshot`, `DiagnosticStack`, `DiagnosticHost`, `DiagnosticEntry`, `DiagnosticIssue`, `DiagnosticIssueCode`, `DiagnosticEvent`, `DiagnosticPhase` e `DiagnosticOutcome`. Veja [diagnóstico](./diagnostics) para formato, semântica dos tempos e ciclo de vida.
 
+`recording()` retorna uma gravação v2 experimental opt-in; `checkpoint()` observa explicitamente o estado atual. Configure `diagnostics.recording` com um booleano ou `DiagnosticRecordingOptions`. Tipos readonly adicionais: `DiagnosticsRecording`, `DiagnosticRecord`, `DiagnosticBoundary`, `DiagnosticObservation`. Os exports v1 permanecem iguais. Veja o [contrato de gravação](./diagnostics#experimental-recording-contract) para limites em bytes, lacunas e o limite atual do viewer.
+
 ## Busca nativa
 
 `useNativeSearch(options)` registra uma busca própria da página. Tipos: `NativeSearchOptions`, `NativeSearch`. Veja [barras e busca nativas](./native-bars) para persistência da query, ativação e diferenças entre plataformas.
