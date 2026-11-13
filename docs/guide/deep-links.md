@@ -102,7 +102,7 @@ if (preview.status === 'resolved') {
 }
 ```
 
-The `destination` is either `{ route: ... }` or `{ url: 'myapp://messages/42' }`. A route uses an absolute path or a string name with serializable params, query and hash. A URL uses the existing scheme/host screening and mapping; its link source is `'app'`. The intent's `source` is an application-defined label, not proof of origin or permission. Notifications, search and drag/drop adapters remain application-owned.
+The `destination` is either `{ route: ... }` or `{ url: 'myapp://messages/42' }`. A route uses an absolute path or a string name with serializable params, query and hash. A URL uses the existing scheme/host screening and mapping; its link source is `'app'`. The intent's `source` is an application-defined label, not proof of origin or permission. Notification provider callbacks, search and drag/drop adapters remain application-owned; the notification payload helper below validates destination data.
 
 Only plain JSON data is accepted: no native/Vue objects, functions, accessors, symbols or unknown fields. Requests are copied and recursively frozen. Limits are 16 KiB of compact UTF-8 JSON, 8,192 characters per string, 32 object fields, 64 array items, depth 7 and 1,024 values. Source labels allow 128 characters; delivery and target identifiers allow 256. Parse external JSON and validate its application-specific content before handing it to the router. Shape validation never authorizes access; normal guards still enforce permissions.
 
@@ -170,6 +170,42 @@ Normal guards and failures still apply. If invalidated during a guard, navigatio
 Pass `options: { replace: true }` in the request if the destination should replace login, and target the same named stack explicitly. The app owns permission checks, login-route policy and protected-history cleanup on sign-out. Legacy `openLink` and its listeners remain available; a listener can retain the original URL after a guard redirects to login. The [native acceptance](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-intent-resume-stage2.md) demonstrates that composition.
 
 <Clip name="intent-resume" :width="640" aspect="3 / 4" caption="Real iPad simulator: an OS URL opens app-owned login, sign-in resumes once, and cancellation, account change, expiry and sign-out during a guard prevent stale navigation. Authentication is controlled fixture state, without an external provider; labels are in English." />
+
+## Notification destinations {#notification-destinations}
+
+`notificationIntent(payload, context)` converts a notification's app-defined JSON destination into a frozen `NavigationIntent` with `source: 'notification'`. It neither resolves nor navigates. The payload accepts only `version: 1`, `destination` (route or URL) and optional `expiresAt`; the app supplies delivery identity, target and navigation options separately.
+
+```ts
+import { notificationIntent } from 'vue-router-ns'
+
+// The provider adapter extracts this app-defined JSON field from an OPEN action.
+const payload = {
+  version: 1,
+  destination: { route: { name: 'message', params: { id: '42' } } },
+  expiresAt: Date.now() + 60_000,
+}
+const intent = notificationIntent(payload, {
+  delivery: { scope: session.deliveryScope, id: response.openEventId },
+  target: { frame: 'inbox' },
+})
+if ('status' in intent) {
+  showIgnored(intent.reason)
+} else {
+  const preview = router.resolveIntent(intent)
+  // Use suspendIntent(intent, policy) instead when app-owned login is needed.
+  const result = await router.openIntent(intent)
+}
+```
+
+The example's `session`, `response` and `showIgnored` belong to your app. Extract only your reviewed destination field from the provider envelope; convert native dictionaries to plain JSON data and bound text before parsing. Unknown fields, getters, functions, malformed routes and requests exceeding the intent limits (including 16 KiB for the final envelope) return `invalid`. Unsupported versions return `version`; elapsed deadlines return `expired`. Resolution and execution still reject unavailable routes, disallowed URLs and wrong owners, and recheck expiry. Keep credentials and private provider metadata out of destinations.
+
+Only handle an explicit user open action: receiving a notification, a background update or a dismissal must not navigate. Keep OS completion handlers independent of login/readiness waits. The helper installs no notification delegate, SDK, permission prompt or background receiver. Your provider's response handling remains app-owned; [Apple's notification response guidance](https://developer.apple.com/documentation/usernotifications/handling-notifications-and-notification-related-actions) describes the native callback used by the fixture.
+
+Bind the response to the intended account in application policy before submitting it. Neither a source label nor a supplied route proves origin, recipient or permission. Never copy `delivery`, `target` or `options` from untrusted payloads: those fields in the payload are rejected. Use a stable scope for the intended account/session and an id for one open action, reused across callbacks for that action. A message id alone may identify several intentional taps; a fresh id on every callback defeats deduplication. If a provider cannot distinguish taps, define that policy explicitly in its adapter. The helper does not consume ids; `openIntent` or `suspendIntent` reserves them in the receiving router's bounded in-memory ledger.
+
+Login uses the same `suspendIntent` flow above. Cold delivery waits for mounting and restored history; this does not persist a pending login across process death. Reuse/focus/new-window selection remains explicit app policy. The [native fixture and limits](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-notification-intents-stage3.md) cover real iOS local notification taps with warm and terminated apps, login resumption, duplicate response processing and rejected destinations. Remote push providers, Android notification delivery and Spotlight are outside this stage.
+
+<Clip name="notification-intents" :width="640" aspect="3 / 4" caption="Real iPad simulator: open iOS notifications with the app running or terminated, resume after app-owned login, reject invalid/expired destinations and preserve an independent draft. Local notifications and controlled authentication; labels in English." />
 
 ## Home-screen shortcuts
 

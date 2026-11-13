@@ -1,0 +1,9 @@
+{
+  "src/intents.ts": "b1f80fa1e266b111683c8363275797ac8620d90dd0bedf35b5751b6f5a27bc45",
+  "src/index.ts": "5f1d4318bb0e3e40e0ad7cb957041a78cf89b851bb617b490494aeae2393a88b",
+  "test/notification-intent.spec.ts": "1b6b14cb0990ab03dfbec9c6b31b375fefd4c6ed8d72332bb829a90e27480b64",
+  "demo/src/testing/notifications-app.ts": "a629b2ca9cd8b95ffc9a0f7b32761846a19f5a557c27785a1101e2c84ece7b7e",
+  "scripts/native/notifications/ios.mjs": "cebab00d732b29eca62a148593c95ad92cd4bebb5e96c5e8a6fb758517ddb954",
+  "scripts/native/notifications/NotificationsUITests.swift": "9f20f8d87357cf63bc65b83a1fb416031ef48507d5143b80c289d44f59eaa33b",
+  "docs/public/media/notification-intents.mp4": "e9e5d30676a42c8092a97999aff95b22262ac1caa7e9d15d01c1eea563512a94"
+}

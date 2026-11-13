@@ -102,7 +102,7 @@ if (preview.status === 'resolved') {
 }
 ```
 
-`destination` 可以是 `{ route: ... }` 或 `{ url: 'myapp://messages/42' }`。路由使用绝对路径或字符串名称，以及可序列化的 params、query 和 hash。URL 复用现有 scheme/host 筛选与映射，其链接来源为 `'app'`。Intent 的 `source` 是应用定义的标签，并不能证明来源或权限。通知、搜索与拖放适配器仍由应用负责。
+`destination` 可以是 `{ route: ... }` 或 `{ url: 'myapp://messages/42' }`。路由使用绝对路径或字符串名称，以及可序列化的 params、query 和 hash。URL 复用现有 scheme/host 筛选与映射，其链接来源为 `'app'`。Intent 的 `source` 是应用定义的标签，并不能证明来源或权限。通知提供方回调、搜索与拖放适配器仍由应用负责；下文的通知 helper 负责验证目标数据。
 
 仅接受普通 JSON 数据：不允许原生/Vue 对象、函数、访问器、symbol 或未知字段。请求会被复制并递归冻结。限制为紧凑 UTF-8 JSON 16 KiB、每个字符串 8,192 个字符、每个对象 32 个字段、每个数组 64 项、深度 7 和 1,024 个值。来源标签最多 128 个字符；投递和目标标识符最多 256 个字符。请先解析外部 JSON 并验证应用特定内容，再交给 router。结构验证不代表授权；正常守卫仍需检查权限。
 
@@ -170,6 +170,42 @@ function accountChanged() {
 若目标应替换登录页，请在请求中传入 `options: { replace: true }`，并明确指定同一个具名栈。应用负责权限、登录路由策略及退出登录后的受保护历史清理。现有 `openLink` 及其监听器仍然可用；在守卫重定向到登录页之后，监听器可以保留原始 URL。[原生验收](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-intent-resume-stage2.md) 演示了这种组合。
 
 <Clip name="intent-resume" :width="640" aspect="3 / 4" caption="真实 iPad 模拟器：系统 URL 打开应用登录页，登录后只恢复一次；取消、账户切换、过期以及守卫期间退出登录会阻止过时导航。认证使用测试应用控制的状态，没有外部提供方；界面标签为英文。" />
+
+## 通知目标 {#notification-destinations}
+
+`notificationIntent(payload, context)` 将应用定义的 JSON 目标转换为冻结的 `NavigationIntent`，其中包含 `source: 'notification'`。该函数不解析路由，也不执行导航。负载只接受 `version: 1`、`destination`（路由或 URL）及可选的 `expiresAt`；投递标识、窗口/栈目标和导航选项由应用单独提供。
+
+```ts
+import { notificationIntent } from 'vue-router-ns'
+
+// The provider adapter extracts this app-defined JSON field from an OPEN action.
+const payload = {
+  version: 1,
+  destination: { route: { name: 'message', params: { id: '42' } } },
+  expiresAt: Date.now() + 60_000,
+}
+const intent = notificationIntent(payload, {
+  delivery: { scope: session.deliveryScope, id: response.openEventId },
+  target: { frame: 'inbox' },
+})
+if ('status' in intent) {
+  showIgnored(intent.reason)
+} else {
+  const preview = router.resolveIntent(intent)
+  // Use suspendIntent(intent, policy) instead when app-owned login is needed.
+  const result = await router.openIntent(intent)
+}
+```
+
+示例中的 `session`、`response` 和 `showIgnored` 由应用定义。只从提供方的数据中提取经过审核的目标字段；将原生字典转换为普通 JSON 数据，并在解析文本前限制长度。未知字段、getter、函数、无效路由及超出 intent 限制的请求（包括最终数据总量 16 KiB）返回 `invalid`。不支持的版本返回 `version`；已过期的请求返回 `expired`。路由解析与执行仍会拒绝不存在的路由、禁止的 URL 和错误的所属窗口，并再次检查有效期。目标中不应包含凭据或提供方的私有元数据。
+
+只处理用户明确执行的打开操作；收到通知、后台更新或关闭通知都不应触发导航。原生完成回调应独立于登录和挂载等待及时结束。此 helper 不安装 delegate、SDK、权限提示或后台接收器。提供方响应处理仍由应用负责；[Apple 的通知响应指南](https://developer.apple.com/documentation/usernotifications/handling-notifications-and-notification-related-actions) 描述了测试应用使用的原生回调。
+
+提交前，应用必须通过自己的策略将响应绑定到预期账户。来源标签或路由并不能证明来源、接收者或访问权限。不要从不可信负载复制 `delivery`、`target` 或 `options`：负载中的这些字段会被拒绝。为预期账户/会话使用稳定 scope，为一次打开操作分配一个 id，并在该操作的重复回调中复用它。一个消息 id 可能对应多次有意点击；每次回调生成新 id 则无法去重。如果提供方不能区分点击，应在其适配器中明确制定策略。helper 本身不占用 id；接收 router 的 `openIntent` 或 `suspendIntent` 会在有界内存记录中保留它。
+
+登录使用上文相同的 `suspendIntent` 流程。应用终止后的通知投递会等待挂载和历史恢复；这不代表待处理登录能够跨进程保存。复用、聚焦或新建窗口仍由应用明确选择。[原生测试及限制](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-notification-intents-stage3.md) 覆盖应用运行和终止时的真实 iOS 本地通知点击、登录后恢复、重复响应处理及被拒绝的目标。远程推送服务、Android 原生通知投递和 Spotlight 不属于本阶段。
+
+<Clip name="notification-intents" :width="640" aspect="3 / 4" caption="真实 iPad 模拟器：应用运行或终止时打开 iOS 通知，登录后恢复导航，拒绝无效或过期目标，并保留独立草稿。使用本地通知和受控认证状态；界面为英文。" />
 
 ## 主屏幕快捷方式 {#home-screen-shortcuts}
 

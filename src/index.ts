@@ -29,7 +29,10 @@ export type {
   SuspendedIntent,
   IntentSuspensionState,
 } from './intent-resume.js'
+export { notificationIntent } from './intents.js'
 export type {
+  NotificationIntentPayload,
+  NotificationIntentContext,
   NavigationIntent,
   IntentRoute,
   IntentResolution,

@@ -29,6 +29,7 @@ module.exports = (env) => {
       'recording',
       'intents',
       'intentresume',
+      'notifications',
       'suspense',
       'windows',
       'entrypoints',
