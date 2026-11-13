@@ -2,7 +2,9 @@
 
 `0.1.0-rc.4` 候选版本冻结了已记录的非实验性 API，同时我们验证它的稳定版本。显式 JavaScript/TypeScript 路由表仍为默认值。文件约定是可选的；两者都使用原生导航，无需 Vue Router或 Nuxt 运行时。
 
-2026-11-13 的[窗口生命周期契约](./windows#lifecycle-support-decision-2026-11-13)选用已发布的 Core 9.1.4 / Vue 3.1.3，并保留实验性状态。Android 重复清理测量不代表真机、Stage Manager、实时调整大小或 iPad 重复循环资源保留已获认证。选择部署范围前，请参阅该指南链接的带版本报告。
+2026-11-13 的[窗口生命周期契约](./windows#lifecycle-support-decision-2026-11-13)选用已发布的 Core 9.1.4 / Vue 3.1.3，并保留实验性状态。Android 重复清理测量不代表 Android 真机、Stage Manager、实时调整大小或 iPad 重复循环资源保留已获认证。选择部署范围前，请参阅该指南链接的带版本报告。
+
+11 英寸 iPad Pro 真机（第 3 代，iPadOS 27.0 / 24A5418b）也在 31.9 秒内通过了窗口隔离、后台恢复、HMR 和关闭测试；这不代表已验证 iPad 重复资源回收。
 
 ## 支持的基线 {#supported-baseline}
 

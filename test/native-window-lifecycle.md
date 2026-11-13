@@ -6,7 +6,8 @@ promoting every native-window composition. No release is published.
 
 Runtime and application fixture source: `7e4c558f65180e98a35a14dd48f103c2b134f0fc`.
 The subsequent iPad UI-driver correction scopes commands to window B when both
-windows are visible; it does not change the runtime or acceptance assertions. The
+windows are visible and activates the surviving app after closure; it does not
+change the runtime or acceptance assertions. The
 control uses the router from `993a2b7` with the isolated measurement fixture. No
 NativeScript Core, NativeScript-Vue or platform runtime dependency is patched.
 
@@ -68,7 +69,7 @@ Local builds used Node 20.19.4, NativeScript webpack 5.0.41 / webpack 5.112.2.
 Fast checks used Node 22.23.3. The existing Vue compiler/runtime patch-version
 warning (3.5.44/3.5.45) was emitted; no dependency was modified to suppress it.
 
-Physical iPad/Android, Stage Manager, external displays, active resize/rotation,
+Physical Android, Stage Manager, external displays, active resize/rotation,
 natural memory pressure and repeated iPad resource collection are **not certified**.
 An explicit Activity recreation is not a physical rotation test. The iPad live
 reconnect uses the existing simulator-only fault-injection bundle to ask the OS
@@ -88,6 +89,35 @@ subscriptions, external references, incoming-document policy and content resolve
 Process death destroys JavaScript Promises and arbitrary native objects. The cold
 scenarios reconstruct only persisted route identities and opt-in page state in a
 new process. Live reconnection preserves the existing objects and pending results.
+
+## Physical iPad acceptance
+
+A connected **iPad Pro 11-inch (3rd generation), iPadOS 27.0 (24A5418b)** passed
+`WindowUITests.testWindows` in **31.888 seconds**, one test and zero failures.
+The [retained native reports](./evidence/window-lifecycle/physical-ipad.json)
+confirm independent histories, guards, modal results, background resume, restored
+draft/reactivity, HMR in both windows, subsequent navigation and permanent closure.
+Closing B unmounts its Vue page apps, clears B's persisted snapshot and preserves
+A's snapshot. All four command reports belong to the same application process.
+This is one complete public-API lifecycle scenario, not repeated iPad heap or
+forced scene-disconnection acceptance.
+
+The unchanged application fixture was built with the published dependency pins
+above, signed for development and installed with the isolated bundle identifier
+`org.nativescript.vuerouterns.windows175` / display name `Router Windows175`.
+Only the application identity, URL scheme, local signing settings and XCTest
+target identifier differed from the normal fixture. No private simulator scene
+probe was installed. Build time was 39.672 seconds, excluding initial setup.
+
+The first physical attempt completed all native assertions, but closing a
+foreground full-screen scene revealed SpringBoard. XCTest timed out querying
+the background application's accessibility tree. The driver now checks that the
+application has not exited and activates its surviving scene before reading the
+Close acknowledgement. A fresh installation then passed the complete UI test;
+the failed attempt is not counted as a passing XCTest run. The test also observed
+an orientation change during preparation, but this is not a controlled rotation
+matrix. Video capture was unavailable through the device command, and Rafael
+explicitly waived a physical-device recording; the Android video remains available.
 
 ## CI and reproduction
 
@@ -113,9 +143,22 @@ No warm-cache speedup is claimed from this single run.
 In that initial run, the ordinary iPad scenario passed. Cold restoration preserved
 the original scene identities and passed HMR, but the Close tap did not reach the
 fixture while two windows with identical button identifiers were visible. The
-driver now selects the button inside window B explicitly. Local cold restoration
-passes with this selector; hosted revalidation is pending. Live reconnect was
-skipped in the failed hosted run and is not counted as a hosted pass.
+driver now selects the button inside window B explicitly. Live reconnect was
+skipped in that failed hosted run and is not counted as a pass there.
+
+[Hosted revalidation](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43394657045)
+on `bc30be54a66701b543d9b10f5673df9cad83e226` passed **all three jobs**:
+Android API 34 in **6m09s**, API 36 in **7m00s**, and the complete iPad job in
+**9m25s**. All three iPad modes passed, including original scene restoration and
+same-process reconnect. These are observed complete-job timings, not a general
+CI performance guarantee.
+
+The [iPad validation evidence](./evidence/window-lifecycle/ipad-validation.json)
+retains the hosted command reports and all three local reruns of the final
+driver, which additionally activates the surviving app after closure for
+full-screen physical iPads. The physical run and final local simulator runs
+validate that last driver adjustment; it is not presented as part of the earlier
+hosted revision. Runtime and application fixture are unchanged throughout.
 
 The [hosted Android evidence](./evidence/window-lifecycle/hosted-android.json)
 retains original task IDs, entry identities, before/after process IDs and all

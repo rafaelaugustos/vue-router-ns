@@ -11,6 +11,12 @@ final class WindowUITests: XCTestCase {
         XCTAssertTrue(buttons.firstMatch.waitForExistence(timeout: 30), app.debugDescription)
         let button = buttons.allElementsBoundByIndex.first(where: { $0.isHittable }) ?? buttons.firstMatch
         button.tap()
+        if name == "close" {
+            // Closing a foreground full-screen scene can reveal SpringBoard.
+            // Resume the surviving scene before querying its acknowledgement.
+            XCTAssertNotEqual(app.state, .notRunning)
+            app.activate()
+        }
         status(name)
     }
     func status(_ name: String) {

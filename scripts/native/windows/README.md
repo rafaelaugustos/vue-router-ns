@@ -38,7 +38,7 @@ superseded manual runs on the same non-main branch. It keeps both Android API ro
 and all three iPad scenarios. Dispatch this workflow for window work instead of
 the entire native contract matrix.
 
-Repeated iPad resource sampling, physical devices, Stage Manager, active resizing
+Repeated iPad resource sampling, physical Android, Stage Manager, active resizing
 and natural memory pressure remain outside this acceptance. See the
 [versioned lifecycle report](../../../test/native-window-lifecycle.md).
 
@@ -82,6 +82,31 @@ IOS_SIMULATOR=<dedicated-iPad-UUID> node scripts/native/windows/ios.mjs
 This checks native window isolation, independent modal results, background/foreground reactivity, multi-window script HMR and closure. `scene-coverage.json` records whether UIKit actually disconnected a scene before resume. A background/foreground pass **does not** establish OS-driven disconnect/reconnect. Restoration into a new process and same-process scene disconnection are checked separately below.
 
 Artifacts contain command reports with logical/native histories, native identities, entry keys, cleanup counts, PIDs and diagnostics. The broadcast receiver and command UI are fixture-only. Actual webpack/Vite HMR also runs in the native contract/conventions suites.
+
+### Connected physical iPad
+
+The public baseline also passed on an iPad Pro 11-inch (3rd generation), iPadOS
+27.0 (24A5418b). Use a separate worktree and an isolated application identifier
+before installing on a personal device. This run used
+`org.nativescript.vuerouterns.windows175`, display name `Router Windows175` and
+a matching XCTest application target. Build with `--for-device --team-id <team>`
+instead of simulator signing, then install the resulting IPA using
+`xcrun devicectl device install app --device <device> <ipa>`.
+
+Generate the XCTest project with `project.rb`, enable development signing for
+that local test target, and run only `WindowUITests/testWindows` against
+`platform=iOS,id=<device>`. The driver selects window B explicitly and brings
+the still-running application forward after closure, because closing a full-screen
+scene can reveal SpringBoard. Export `Documents/windows-prepare.json`,
+`windows-resume.json`, `windows-hmr.json` and `windows-close.json` with
+`devicectl device copy from --domain-type appDataContainer`, using the isolated
+bundle ID as `--domain-identifier`. Require every report to pass and retain the
+same process ID. See the versioned report for the retained result and limits.
+
+The `ios.mjs` installation/reset/process-kill steps are simulator-specific.
+Do not use `RECONNECT_SCENES` or `SceneDriver.m` on hardware. This physical run
+does not certify forced scene disconnection, Stage Manager or repeated iPad
+resource collection.
 
 ## OS-task reconstruction acceptance
 
