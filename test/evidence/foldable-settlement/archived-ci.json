@@ -1,0 +1,225 @@
+[
+  {
+    "action": "mode",
+    "value": "overlay",
+    "id": "1794232272497-0",
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "overlay",
+    "open": false,
+    "model": false,
+    "result": "none",
+    "resultSettlements": 0,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": []
+    },
+    "geometry": {
+      "presentation": "overlay",
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "pane": {
+        "x": 0,
+        "y": 0,
+        "width": 280,
+        "height": 604.952380952381
+      },
+      "content": {
+        "x": 0,
+        "y": 0,
+        "width": 841.1428571428571,
+        "height": 604.952380952381
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 420.57142857142856,
+        "top": 0,
+        "right": 420.57142857142856,
+        "bottom": 700.952380952381,
+        "vertical": true,
+        "separating": false,
+        "occluding": false
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": false,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 0,
+      "width": 2208
+    },
+    "paneBounds": {
+      "x": -735,
+      "width": 735
+    }
+  },
+  {
+    "action": "open",
+    "id": "1794232276325-1",
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "overlay",
+    "open": false,
+    "model": false,
+    "result": "none",
+    "resultSettlements": 0,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": []
+    },
+    "geometry": {
+      "presentation": "overlay",
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "pane": {
+        "x": 0,
+        "y": 0,
+        "width": 280,
+        "height": 604.952380952381
+      },
+      "content": {
+        "x": 0,
+        "y": 0,
+        "width": 841.1428571428571,
+        "height": 604.952380952381
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 420.57142857142856,
+        "top": 0,
+        "right": 420.57142857142856,
+        "bottom": 700.952380952381,
+        "vertical": true,
+        "separating": false,
+        "occluding": false
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 0,
+      "width": 2208
+    },
+    "paneBounds": {
+      "x": 0,
+      "width": 735
+    }
+  }
+]

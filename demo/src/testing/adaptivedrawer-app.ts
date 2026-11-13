@@ -32,6 +32,7 @@ import {
   type RouterDrawerHandle,
 } from 'vue-router-ns'
 import { observeWindowFolds, splitViewport, type WindowFold } from '../../../dist/folding'
+import { observeDrawerSettlement } from './adaptive-settlement'
 
 import {
   nativeIdentity,
@@ -53,6 +54,7 @@ const selected = ref('home'),
 let resultSettlements = 0
 const events = { opened: 0, closed: 0, presentations: [] as string[] }
 let host: any
+let settlement: ReturnType<typeof observeDrawerSettlement> | undefined
 let folds: readonly WindowFold[] = []
 const captures: {
   page?: Page
@@ -273,6 +275,13 @@ function findHost() {
     })
   }
   visit(Application.getRootView())
+  if (host && !settlement) {
+    settlement = observeDrawerSettlement(host)
+    host.once('unloaded', () => {
+      settlement?.dispose()
+      settlement = undefined
+    })
+  }
 }
 function frames() {
   const found: Frame[] = []
@@ -467,7 +476,10 @@ setInterval(async () => {
         break
     }
     await nextTick()
-    await pause()
+    // The fire-and-forget modal command still needs its navigation completion
+    // window; drawer/layout commands finish as soon as Android is actually idle.
+    if (!isIOS && request.action === 'modal') await pause()
+    const settled = await settlement!.wait()
     resolved.value = handle.value.presentation
     const current = frames()
     const residentPages = current.flatMap((frame) => [
@@ -480,6 +492,7 @@ setInterval(async () => {
     output.writeTextSync(
       JSON.stringify({
         id,
+        settlement: settled,
         rotation: isIOS ? rotationReport() : null,
         reduceMotion: isIOS && UIAccessibilityIsReduceMotionEnabled(),
         mode: handle.value.presentation,

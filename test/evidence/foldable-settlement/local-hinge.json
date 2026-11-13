@@ -1,0 +1,2720 @@
+[
+  {
+    "action": "mode",
+    "value": "permanent",
+    "elapsedMs": 2745,
+    "id": "1794553983398-0",
+    "settlement": {
+      "elapsedMs": 576,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "none",
+    "resultSettlements": 0,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "pane": {
+        "x": 0,
+        "y": 0,
+        "width": 402,
+        "height": 604.952380952381
+      },
+      "content": {
+        "x": 439,
+        "y": 0,
+        "width": 402.1428571428571,
+        "height": 604.952380952381
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 402.2857142857143,
+        "top": 0,
+        "right": 438.85714285714283,
+        "bottom": 700.952380952381,
+        "vertical": true,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 1152,
+      "width": 1056
+    },
+    "paneBounds": {
+      "x": 0,
+      "width": 1056
+    }
+  },
+  {
+    "action": "push",
+    "value": "home",
+    "elapsedMs": 639,
+    "id": "1794553986144-1",
+    "settlement": {
+      "elapsedMs": 36,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "none",
+    "resultSettlements": 0,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "pane": {
+        "x": 0,
+        "y": 0,
+        "width": 402,
+        "height": 604.952380952381
+      },
+      "content": {
+        "x": 439,
+        "y": 0,
+        "width": 402.1428571428571,
+        "height": 604.952380952381
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 402.2857142857143,
+        "top": 0,
+        "right": 438.85714285714283,
+        "bottom": 700.952380952381,
+        "vertical": true,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-3",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1", "router-1:entry-3"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": ""
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 1152,
+      "width": 1056
+    },
+    "paneBounds": {
+      "x": 0,
+      "width": 1056
+    }
+  },
+  {
+    "action": "push",
+    "value": "settings",
+    "elapsedMs": 609,
+    "id": "1794553986783-2",
+    "settlement": {
+      "elapsedMs": 60,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "none",
+    "resultSettlements": 0,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "pane": {
+        "x": 0,
+        "y": 0,
+        "width": 402,
+        "height": 604.952380952381
+      },
+      "content": {
+        "x": 439,
+        "y": 0,
+        "width": 402.1428571428571,
+        "height": 604.952380952381
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 402.2857142857143,
+        "top": 0,
+        "right": 438.85714285714283,
+        "bottom": 700.952380952381,
+        "vertical": true,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-3",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1", "router-1:entry-3"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-4",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2", "router-1:entry-4"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": ""
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 1152,
+      "width": 1056
+    },
+    "paneBounds": {
+      "x": 0,
+      "width": 1056
+    }
+  },
+  {
+    "action": "select",
+    "value": "home",
+    "elapsedMs": 437,
+    "id": "1794553987393-3",
+    "settlement": {
+      "elapsedMs": 79,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "none",
+    "resultSettlements": 0,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "pane": {
+        "x": 0,
+        "y": 0,
+        "width": 402,
+        "height": 604.952380952381
+      },
+      "content": {
+        "x": 439,
+        "y": 0,
+        "width": 402.1428571428571,
+        "height": 604.952380952381
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 402.2857142857143,
+        "top": 0,
+        "right": 438.85714285714283,
+        "bottom": 700.952380952381,
+        "vertical": true,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-3",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1", "router-1:entry-3"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-4",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2", "router-1:entry-4"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": ""
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 1152,
+      "width": 1056
+    },
+    "paneBounds": {
+      "x": 0,
+      "width": 1056
+    }
+  },
+  {
+    "action": "draft",
+    "value": "fold draft",
+    "elapsedMs": 345,
+    "id": "1794553987830-4",
+    "settlement": {
+      "elapsedMs": 75,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "none",
+    "resultSettlements": 0,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "pane": {
+        "x": 0,
+        "y": 0,
+        "width": 402,
+        "height": 604.952380952381
+      },
+      "content": {
+        "x": 439,
+        "y": 0,
+        "width": 402.1428571428571,
+        "height": 604.952380952381
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 402.2857142857143,
+        "top": 0,
+        "right": 438.85714285714283,
+        "bottom": 700.952380952381,
+        "vertical": true,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-3",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1", "router-1:entry-3"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-4",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2", "router-1:entry-4"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 1152,
+      "width": 1056
+    },
+    "paneBounds": {
+      "x": 0,
+      "width": 1056
+    }
+  },
+  {
+    "action": "remember",
+    "elapsedMs": 334,
+    "id": "1794553988175-5",
+    "settlement": {
+      "elapsedMs": 18,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "none",
+    "resultSettlements": 0,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "pane": {
+        "x": 0,
+        "y": 0,
+        "width": 402,
+        "height": 604.952380952381
+      },
+      "content": {
+        "x": 439,
+        "y": 0,
+        "width": 402.1428571428571,
+        "height": 604.952380952381
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 402.2857142857143,
+        "top": 0,
+        "right": 438.85714285714283,
+        "bottom": 700.952380952381,
+        "vertical": true,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-3",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1", "router-1:entry-3"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-4",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2", "router-1:entry-4"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 1152,
+      "width": 1056
+    },
+    "paneBounds": {
+      "x": 0,
+      "width": 1056
+    }
+  },
+  {
+    "action": "snapshot",
+    "elapsedMs": 76,
+    "id": "1794553988510-6",
+    "settlement": {
+      "elapsedMs": 18,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "none",
+    "resultSettlements": 0,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "pane": {
+        "x": 0,
+        "y": 0,
+        "width": 402,
+        "height": 604.952380952381
+      },
+      "content": {
+        "x": 439,
+        "y": 0,
+        "width": 402.1428571428571,
+        "height": 604.952380952381
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 402.2857142857143,
+        "top": 0,
+        "right": 438.85714285714283,
+        "bottom": 700.952380952381,
+        "vertical": true,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-3",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1", "router-1:entry-3"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-4",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2", "router-1:entry-4"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 1152,
+      "width": 1056
+    },
+    "paneBounds": {
+      "x": 0,
+      "width": 1056
+    }
+  },
+  {
+    "action": "snapshot",
+    "elapsedMs": 334,
+    "id": "1794553988726-7",
+    "settlement": {
+      "elapsedMs": 27,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "none",
+    "resultSettlements": 0,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "pane": {
+        "x": 0,
+        "y": 0,
+        "width": 402,
+        "height": 604.952380952381
+      },
+      "content": {
+        "x": 439,
+        "y": 0,
+        "width": 402.1428571428571,
+        "height": 604.952380952381
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 402.2857142857143,
+        "top": 0,
+        "right": 438.85714285714283,
+        "bottom": 700.952380952381,
+        "vertical": true,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-3",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1", "router-1:entry-3"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-4",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2", "router-1:entry-4"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 1152,
+      "width": 1056
+    },
+    "paneBounds": {
+      "x": 0,
+      "width": 1056
+    }
+  },
+  {
+    "action": "rtl",
+    "value": true,
+    "elapsedMs": 322,
+    "id": "1794553989060-8",
+    "settlement": {
+      "elapsedMs": 49,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "none",
+    "resultSettlements": 0,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "pane": {
+        "x": 439,
+        "y": 0,
+        "width": 402.1428571428571,
+        "height": 604.952380952381
+      },
+      "content": {
+        "x": 0,
+        "y": 0,
+        "width": 402,
+        "height": 604.952380952381
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "rtl": true
+    },
+    "folds": [
+      {
+        "left": 402.2857142857143,
+        "top": 0,
+        "right": 438.85714285714283,
+        "bottom": 700.952380952381,
+        "vertical": true,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-3",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1", "router-1:entry-3"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-4",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2", "router-1:entry-4"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 0,
+      "width": 1056
+    },
+    "paneBounds": {
+      "x": 1152,
+      "width": 1056
+    }
+  },
+  {
+    "action": "snapshot",
+    "elapsedMs": 112,
+    "id": "1794553989382-9",
+    "settlement": {
+      "elapsedMs": 20,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "none",
+    "resultSettlements": 0,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "pane": {
+        "x": 439,
+        "y": 0,
+        "width": 402.1428571428571,
+        "height": 604.952380952381
+      },
+      "content": {
+        "x": 0,
+        "y": 0,
+        "width": 402,
+        "height": 604.952380952381
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "rtl": true
+    },
+    "folds": [
+      {
+        "left": 402.2857142857143,
+        "top": 0,
+        "right": 438.85714285714283,
+        "bottom": 700.952380952381,
+        "vertical": true,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-3",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1", "router-1:entry-3"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-4",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2", "router-1:entry-4"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 0,
+      "width": 1056
+    },
+    "paneBounds": {
+      "x": 1152,
+      "width": 1056
+    }
+  },
+  {
+    "action": "rtl",
+    "value": false,
+    "elapsedMs": 336,
+    "id": "1794553989494-10",
+    "settlement": {
+      "elapsedMs": 54,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "none",
+    "resultSettlements": 0,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "pane": {
+        "x": 0,
+        "y": 0,
+        "width": 402,
+        "height": 604.952380952381
+      },
+      "content": {
+        "x": 439,
+        "y": 0,
+        "width": 402.1428571428571,
+        "height": 604.952380952381
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 402.2857142857143,
+        "top": 0,
+        "right": 438.85714285714283,
+        "bottom": 700.952380952381,
+        "vertical": true,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-3",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1", "router-1:entry-3"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-4",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2", "router-1:entry-4"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 1152,
+      "width": 1056
+    },
+    "paneBounds": {
+      "x": 0,
+      "width": 1056
+    }
+  },
+  {
+    "action": "modal",
+    "elapsedMs": 896,
+    "id": "1794553989830-11",
+    "settlement": {
+      "elapsedMs": 18,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "pending",
+    "resultSettlements": 0,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "pane": {
+        "x": 0,
+        "y": 0,
+        "width": 402,
+        "height": 604.952380952381
+      },
+      "content": {
+        "x": 439,
+        "y": 0,
+        "width": 402.1428571428571,
+        "height": 604.952380952381
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 402.2857142857143,
+        "top": 0,
+        "right": 438.85714285714283,
+        "bottom": 700.952380952381,
+        "vertical": true,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-3",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1", "router-1:entry-3"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-4",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2", "router-1:entry-4"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Pending result",
+        "value": ""
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 1152,
+      "width": 1056
+    },
+    "paneBounds": {
+      "x": 0,
+      "width": 1056
+    }
+  },
+  {
+    "action": "snapshot",
+    "elapsedMs": 160,
+    "id": "1794553990770-12",
+    "settlement": {
+      "elapsedMs": 39,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "pending",
+    "resultSettlements": 0,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "pane": {
+        "x": 0,
+        "y": 0,
+        "width": 402,
+        "height": 604.952380952381
+      },
+      "content": {
+        "x": 439,
+        "y": 0,
+        "width": 402.1428571428571,
+        "height": 604.952380952381
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 402.2857142857143,
+        "top": 0,
+        "right": 438.85714285714283,
+        "bottom": 700.952380952381,
+        "vertical": true,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-3",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1", "router-1:entry-3"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-4",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2", "router-1:entry-4"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Pending result",
+        "value": ""
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 1152,
+      "width": 1056
+    },
+    "paneBounds": {
+      "x": 0,
+      "width": 1056
+    }
+  },
+  {
+    "action": "snapshot",
+    "elapsedMs": 204,
+    "id": "1794553991131-13",
+    "settlement": {
+      "elapsedMs": 19,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "pending",
+    "resultSettlements": 0,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 700.952380952381,
+      "height": 745.1428571428571,
+      "pane": {
+        "x": 0,
+        "y": 343,
+        "width": 280,
+        "height": 402.1428571428571
+      },
+      "content": {
+        "x": 280,
+        "y": 343,
+        "width": 420.95238095238096,
+        "height": 402.1428571428571
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 700.952380952381,
+      "height": 745.1428571428571,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 0,
+        "top": 402.2857142857143,
+        "right": 700.952380952381,
+        "bottom": 438.85714285714283,
+        "vertical": false,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-3",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1", "router-1:entry-3"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-4",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2", "router-1:entry-4"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Pending result",
+        "value": ""
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 735,
+      "width": 1105
+    },
+    "paneBounds": {
+      "x": 0,
+      "width": 735
+    }
+  },
+  {
+    "action": "back",
+    "elapsedMs": 912,
+    "id": "1794553991335-14",
+    "settlement": {
+      "elapsedMs": 197,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "accepted",
+    "resultSettlements": 1,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 700.952380952381,
+      "height": 745.1428571428571,
+      "pane": {
+        "x": 0,
+        "y": 343,
+        "width": 280,
+        "height": 402.1428571428571
+      },
+      "content": {
+        "x": 280,
+        "y": 343,
+        "width": 420.95238095238096,
+        "height": 402.1428571428571
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 700.952380952381,
+      "height": 745.1428571428571,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 0,
+        "top": 402.2857142857143,
+        "right": 700.952380952381,
+        "bottom": 438.85714285714283,
+        "vertical": false,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-3",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1", "router-1:entry-3"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-4",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2", "router-1:entry-4"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Pending result",
+        "value": ""
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 735,
+      "width": 1105
+    },
+    "paneBounds": {
+      "x": 0,
+      "width": 735
+    }
+  },
+  {
+    "action": "foldAware",
+    "value": false,
+    "elapsedMs": 455,
+    "id": "1794553992247-15",
+    "settlement": {
+      "elapsedMs": 46,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "accepted",
+    "resultSettlements": 1,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 700.952380952381,
+      "height": 745.1428571428571,
+      "pane": {
+        "x": 0,
+        "y": 0,
+        "width": 280,
+        "height": 745.1428571428571
+      },
+      "content": {
+        "x": 280,
+        "y": 0,
+        "width": 420.95238095238096,
+        "height": 745.1428571428571
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 700.952380952381,
+      "height": 745.1428571428571,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 0,
+        "top": 402.2857142857143,
+        "right": 700.952380952381,
+        "bottom": 438.85714285714283,
+        "vertical": false,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-3",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1", "router-1:entry-3"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-4",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2", "router-1:entry-4"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Pending result",
+        "value": ""
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 735,
+      "width": 1105
+    },
+    "paneBounds": {
+      "x": 0,
+      "width": 735
+    }
+  },
+  {
+    "action": "snapshot",
+    "elapsedMs": 107,
+    "id": "1794553992703-16",
+    "settlement": {
+      "elapsedMs": 17,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "accepted",
+    "resultSettlements": 1,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 700.952380952381,
+      "height": 745.1428571428571,
+      "pane": {
+        "x": 0,
+        "y": 0,
+        "width": 280,
+        "height": 745.1428571428571
+      },
+      "content": {
+        "x": 280,
+        "y": 0,
+        "width": 420.95238095238096,
+        "height": 745.1428571428571
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 700.952380952381,
+      "height": 745.1428571428571,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 0,
+        "top": 402.2857142857143,
+        "right": 700.952380952381,
+        "bottom": 438.85714285714283,
+        "vertical": false,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-3",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1", "router-1:entry-3"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-4",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2", "router-1:entry-4"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Pending result",
+        "value": ""
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 735,
+      "width": 1105
+    },
+    "paneBounds": {
+      "x": 0,
+      "width": 735
+    }
+  },
+  {
+    "action": "foldAware",
+    "value": true,
+    "elapsedMs": 355,
+    "id": "1794553992811-17",
+    "settlement": {
+      "elapsedMs": 53,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "accepted",
+    "resultSettlements": 1,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 700.952380952381,
+      "height": 745.1428571428571,
+      "pane": {
+        "x": 0,
+        "y": 343,
+        "width": 280,
+        "height": 402.1428571428571
+      },
+      "content": {
+        "x": 280,
+        "y": 343,
+        "width": 420.95238095238096,
+        "height": 402.1428571428571
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 700.952380952381,
+      "height": 745.1428571428571,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 0,
+        "top": 402.2857142857143,
+        "right": 700.952380952381,
+        "bottom": 438.85714285714283,
+        "vertical": false,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-3",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1", "router-1:entry-3"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-4",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2", "router-1:entry-4"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Pending result",
+        "value": ""
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 735,
+      "width": 1105
+    },
+    "paneBounds": {
+      "x": 0,
+      "width": 735
+    }
+  },
+  {
+    "action": "snapshot",
+    "elapsedMs": 629,
+    "id": "1794553993167-18",
+    "settlement": {
+      "elapsedMs": 20,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "accepted",
+    "resultSettlements": 1,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 700.952380952381,
+      "height": 745.1428571428571,
+      "pane": {
+        "x": 0,
+        "y": 343,
+        "width": 280,
+        "height": 402.1428571428571
+      },
+      "content": {
+        "x": 280,
+        "y": 343,
+        "width": 420.95238095238096,
+        "height": 402.1428571428571
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 700.952380952381,
+      "height": 745.1428571428571,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 0,
+        "top": 402.2857142857143,
+        "right": 700.952380952381,
+        "bottom": 438.85714285714283,
+        "vertical": false,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-3",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1", "router-1:entry-3"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-4",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2", "router-1:entry-4"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Pending result",
+        "value": ""
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 735,
+      "width": 1105
+    },
+    "paneBounds": {
+      "x": 0,
+      "width": 735
+    }
+  },
+  {
+    "action": "snapshot",
+    "elapsedMs": 595,
+    "id": "1794553993839-19",
+    "settlement": {
+      "elapsedMs": 19,
+      "state": 0,
+      "events": []
+    },
+    "rotation": null,
+    "reduceMotion": false,
+    "mode": "permanent",
+    "open": false,
+    "model": false,
+    "result": "accepted",
+    "resultSettlements": 1,
+    "events": {
+      "opened": 0,
+      "closed": 0,
+      "presentations": ["permanent"]
+    },
+    "geometry": {
+      "presentation": "permanent",
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "pane": {
+        "x": 0,
+        "y": 0,
+        "width": 402,
+        "height": 604.952380952381
+      },
+      "content": {
+        "x": 439,
+        "y": 0,
+        "width": 402.1428571428571,
+        "height": 604.952380952381
+      }
+    },
+    "viewport": {
+      "x": 0,
+      "y": 96,
+      "width": 841.1428571428571,
+      "height": 604.952380952381,
+      "rtl": false
+    },
+    "folds": [
+      {
+        "left": 402.2857142857143,
+        "top": 0,
+        "right": 438.85714285714283,
+        "bottom": 700.952380952381,
+        "vertical": true,
+        "separating": true,
+        "occluding": true
+      }
+    ],
+    "preserved": true,
+    "entries": [
+      {
+        "id": "router-1:stack-1",
+        "logical": [
+          {
+            "id": "router-1:entry-1",
+            "route": "/",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-3",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-3",
+            "entries": ["router-1:entry-1", "router-1:entry-3"]
+          }
+        ]
+      },
+      {
+        "id": "router-1:stack-2",
+        "logical": [
+          {
+            "id": "router-1:entry-2",
+            "route": "/settings",
+            "awaitingResult": false
+          },
+          {
+            "id": "router-1:entry-4",
+            "route": "/detail",
+            "awaitingResult": false
+          }
+        ],
+        "native": [
+          {
+            "id": "router-1:host-4",
+            "entries": ["router-1:entry-2", "router-1:entry-4"]
+          }
+        ]
+      }
+    ],
+    "entriesPreserved": true,
+    "drafts": [
+      {
+        "title": "Adaptive navigation",
+        "value": ""
+      },
+      {
+        "title": "Settings",
+        "value": ""
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Your draft",
+        "value": "fold draft"
+      },
+      {
+        "title": "Pending result",
+        "value": ""
+      }
+    ],
+    "issues": [],
+    "contentHidden": false,
+    "paneHidden": false,
+    "paneVisible": true,
+    "modalPane": null,
+    "recognizers": null,
+    "contentBounds": {
+      "x": 1152,
+      "width": 1056
+    },
+    "paneBounds": {
+      "x": 0,
+      "width": 1056
+    }
+  }
+]
