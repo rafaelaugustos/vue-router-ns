@@ -4,6 +4,7 @@ import { promisify } from 'node:util'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { activityStates } from './activity-state.mjs'
+import { recordLifecycle } from './record.mjs'
 const exec = promisify(execFile)
 const serial = process.env.ANDROID_SERIAL
 assert(serial, 'Set ANDROID_SERIAL to a test emulator')
@@ -21,7 +22,8 @@ async function restoreTask(id) {
 const adb = async (...args) =>
   (
     await exec('adb', ['-s', serial, ...args], {
-      timeout: 60000,
+      timeout: args[0] === 'install' ? 90000 : 20000,
+      killSignal: 'SIGKILL',
       maxBuffer: 12 * 1024 * 1024,
     })
   ).stdout
@@ -45,6 +47,7 @@ async function result(command, pid) {
   throw new Error(`Timeout waiting for ${command}`)
 }
 async function command(name, pid) {
+  const start = performance.now()
   await adb(
     'shell',
     'am',
@@ -57,7 +60,9 @@ async function command(name, pid) {
     'command',
     name,
   )
-  return result(name, pid)
+  const report = await result(name, pid)
+  console.log(`${name}: ${Math.round(performance.now() - start)} ms`)
+  return report
 }
 const pass = (report) => assert.equal(report.ok, true, `${report.stage}: ${report.error}`)
 try {
@@ -175,6 +180,13 @@ try {
   pass(recreated)
   pass(await command('hmr', after))
   pass(await command('close', after))
+  const lifecycle = async () => {
+    for (let batch = 0; batch < 3; batch++)
+      pass(await command(`lifecycle-${batch}`, after))
+  }
+  if (process.env.RECORD_VIDEO === '1')
+    await recordLifecycle({ adb, serial, out, run: lifecycle })
+  else await lifecycle()
   pass(await command('launcher', after))
   console.log('Window isolation, process-death restoration and OS link checks passed')
 } finally {

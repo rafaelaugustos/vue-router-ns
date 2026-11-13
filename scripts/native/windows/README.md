@@ -1,5 +1,49 @@
 # NativeWindow acceptance (#46)
 
+## Repeated Android lifecycle (#175)
+
+The ordinary and original-task Android runs also create six secondary windows in
+three batches. Each window keeps two Page identities and a pending result through
+two real Activity recreations, then closes during an asynchronous guard. The result
+must settle once, the guard's late answer must cancel, both Vue page apps must
+unmount, the scoped snapshot must clear and the surviving history must stay intact.
+
+Closed router handles remain strongly referenced, as they may be by a diagnostics
+consumer. The fixture observes retired Pages with JavaScript WeakRef and all three
+native Activities per window with Java WeakReference/ReferenceQueue. It never calls
+the native weak reference's get(), which would create a new strong bridge wrapper.
+Each batch gets exactly three collection rounds, with 300 ms before and after each
+JS/ART collection. The bound is at most one retired Page and one Activity across
+all completed batches, not one per window. Resource counts and every round are
+saved in lifecycle-0/1/2.json; collection never retries until it passes.
+
+Listener counts read the published Core 9.1.4 global Observable registry without
+replacing its methods. Counts must return to the pre-window baseline. Persistence
+callbacks are created outside the fixture's Session scope, and its temporary guard
+is unsubscribed, so retaining a router does not accidentally retain test-owned
+Pages. Unit coverage additionally closes an already detached owner with a pending
+result/guard; that case is not presented as a physical-device native run.
+
+Use RECORD_VIDEO=1 with the Android driver to record the actual six-window phase.
+The driver saves window-lifecycle.mp4 at original speed in OUT. The recording does
+not visualize the garbage collector; JSON contains the corresponding measurements.
+The source Activity is brought to the foreground before each request: Android can
+reject background window creation. Use a dedicated, clean emulator profile.
+
+ADB operations have a 20-second limit (APK installation: 90 seconds) and SIGKILL
+on timeout. Command reports have a 45-second polling deadline. Each command prints
+elapsed milliseconds; failures save their JSON before assertions. The standalone
+Native windows workflow builds once per platform, adds Gradle caching, and cancels
+superseded manual runs on the same non-main branch. It keeps both Android API rows
+and all three iPad scenarios. Dispatch this workflow for window work instead of
+the entire native contract matrix.
+
+Repeated iPad resource sampling, physical devices, Stage Manager, active resizing
+and natural memory pressure remain outside this acceptance. See the
+[versioned lifecycle report](../../../test/native-window-lifecycle.md).
+
+## Running the suites
+
 Run in a separate worktree with generated `demo/App_Resources` and installed demo dependencies. Resource preparation sets Android `launchMode="standard"` and enables multiple iPad scenes. Use dedicated test simulators: the drivers clear the demo's data.
 
 ```sh

@@ -7,6 +7,9 @@ jobs:
   android:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    concurrency:
+      group: native-windows-android-${{ matrix.api }}-${{ github.ref }}
+      cancel-in-progress: ${{ github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main' }}
     strategy:
       fail-fast: false
       matrix:
@@ -23,6 +26,10 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+          cache: gradle
+          cache-dependency-path: |
+            demo/package.json
+            scripts/native/windows/prepare.mjs
       - name: Enable KVM
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -66,6 +73,9 @@ jobs:
     name: iPad window isolation and resume
     runs-on: macos-15
     timeout-minutes: 25
+    concurrency:
+      group: native-windows-ios-${{ github.ref }}
+      cancel-in-progress: ${{ github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main' }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7

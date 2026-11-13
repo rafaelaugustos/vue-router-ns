@@ -7,9 +7,12 @@ import {
   knownFolders,
   isAndroid,
   isIOS,
+  Utils,
+  type Page as NativePage,
   type NativeWindow,
   type WindowContentRequest,
 } from '@nativescript/core'
+import { getNativeScriptGlobals } from '@nativescript/core/globals/global-utils'
 import {
   ActionBar,
   createApp,
@@ -26,6 +29,7 @@ import {
   getWindowRoute,
   useRouter,
   usePageState,
+  NavigationFailureType,
   type Router,
   type SavedStacks,
 } from 'vue-router-ns'
@@ -50,6 +54,32 @@ let revision = 0
 let stage = 'boot'
 let busy = false
 let recreation: { before: number; after?: number } | undefined
+const lifecycle: object[] = []
+// Keep closed router handles, as a diagnostics UI may do. They must not keep
+// Activities or disposed pages alive. Native weak references never call get().
+const closedRouters: Router[] = []
+const retiredPages: WeakRef<NativePage>[] = []
+const retiredActivities: java.lang.ref.WeakReference<android.app.Activity>[] = []
+const activityQueue = isAndroid
+  ? new java.lang.ref.ReferenceQueue<android.app.Activity>()
+  : undefined
+let collectedActivities = 0
+const listenerCounts = () => {
+  // Read-only instrumentation of published Core's Observable registry.
+  const observers = (
+    getNativeScriptGlobals().events as unknown as {
+      _observers: Record<string, unknown[]>
+    }
+  )._observers
+  check(!!observers, 'Core global observer registry available')
+  const count = (event: string) => observers[event]?.length ?? 0
+  return {
+    suspend: count('suspend'),
+    exit: count('exit'),
+    back: count('activityBackPressed'),
+    link: count('activityNewIntent'),
+  }
+}
 interface Session {
   key: string
   router: Router
@@ -115,6 +145,7 @@ function report(command: string, error?: unknown) {
     sceneEvents,
     checks,
     recreation,
+    lifecycle,
     sessions: snapshot(),
   }
   reportFile.writeTextSync(JSON.stringify(result))
@@ -154,13 +185,20 @@ const Page = Object.assign(
                 draft.value = event.value
               },
             }),
-            ...['prepare', 'resume', 'restore-scenes', 'reconnect', 'hmr', 'close'].map(
-              (name) =>
-                h('Button', {
-                  text: name,
-                  accessibilityIdentifier: `windows:${name}`,
-                  onTap: () => void command(name),
-                }),
+            ...[
+              'prepare',
+              'resume',
+              'restore-scenes',
+              'reconnect',
+              'hmr',
+              'close',
+              'lifecycle-0',
+            ].map((name) =>
+              h('Button', {
+                text: name,
+                accessibilityIdentifier: `windows:${name}`,
+                onTap: () => void command(name),
+              }),
             ),
           ]),
         ])
@@ -176,9 +214,11 @@ const routes = [
   { path: '/items/:id', component: Page },
   { path: '/compose', component: Page, modal: { animated: false } },
 ]
-function makeSession(key: string, window?: NativeWindow, initial = '/') {
+// Keep persistence closures outside the Vue app's lexical scope. Otherwise a
+// retained router can retain the fixture's Session/Frame through its own store.
+function makeRouter(key: string, window?: NativeWindow) {
   const storageKey = `windows-46:${key}`
-  const router = createRouter({
+  return createRouter({
     routes,
     window,
     links: { schemes: ['windows46'] },
@@ -196,6 +236,9 @@ function makeSession(key: string, window?: NativeWindow, initial = '/') {
       },
     },
   })
+}
+function makeSession(key: string, window?: NativeWindow, initial = '/') {
+  const router = makeRouter(key, window)
   const app = createApp({
     render: () =>
       h(RouterView, {
@@ -280,7 +323,19 @@ async function focus(session: Session) {
   ).getAppTasks()
   for (let i = 0; i < tasks.size(); i++) {
     const task = tasks.get(i)
-    if (task.getTaskInfo()!.taskId === activity.getTaskId()) task.moveToFront()
+    let info: android.app.ActivityManager.RecentTaskInfo | null
+    try {
+      info = task.getTaskInfo()
+    } catch (error) {
+      // The OS can remove a just-closed task after getAppTasks() snapshots the
+      // list. Skip only that stale record, never a failure moving our target.
+      if (!String(error).includes('Unable to find task ID')) throw error
+      continue
+    }
+    if (info?.taskId === activity.getTaskId()) {
+      task.moveToFront()
+      break
+    }
   }
   await until(
     () => Application.android.foregroundActivity === activity,
@@ -487,6 +542,147 @@ async function reloadWindows() {
   await second.router.back({ animated: false })
   check(paths(second).join(',') === pathsB, 'navigation after multi-window HMR')
 }
+
+async function lifecycleCycle(key: string) {
+  await focus(first)
+  const baseline = listenerCounts()
+  const survivor = paths(first).join(',')
+  first.router.openWindow('/', { data: { documentId: key } })
+  await until(() => sessions.has(key), `create ${key}`)
+  const session = sessions.get(key)!
+  await session.router.isReady()
+  await focus(session)
+  const owner = session.router.window.value as NativeWindow
+  let settled = 0
+  const result = session.router
+    .pushForResult('/items/pending', { animated: false })
+    .then((value) => {
+      settled++
+      return value
+    })
+  await until(
+    () => session.router.currentRoute.value.path === '/items/pending',
+    'pending page',
+  )
+  const pages = [
+    ...session.frame!.backStack.map((entry) => entry.resolvedPage),
+    session.frame!.currentPage!,
+  ]
+  retiredPages.push(...pages.map((page) => new WeakRef(page)))
+  const events: string[] = []
+  owner.on('detached', () => events.push('detached'))
+  owner.on('attached', () => events.push('attached'))
+  const activities: number[] = []
+  const rememberActivity = () => {
+    const activity = owner.android!.activity as android.app.Activity
+    activities.push(activity.hashCode())
+    retiredActivities.push(new java.lang.ref.WeakReference(activity, activityQueue!))
+    return activity
+  }
+  for (let repeat = 0; repeat < 2; repeat++) {
+    const old = rememberActivity()
+    old.recreate()
+    await until(
+      () =>
+        owner.android?.activity !== old &&
+        session.frame?.isLoaded &&
+        session.frame.navigationQueueIsEmpty(),
+      'cycle replacement Activity',
+    )
+    await focus(session)
+    const current = [
+      ...session.frame!.backStack.map((entry) => entry.resolvedPage),
+      session.frame!.currentPage!,
+    ]
+    check(
+      current.every((page, index) => page === pages[index]),
+      `${key}: retained page identities ${repeat}`,
+    )
+    check(
+      session.unmounted === 0 && settled === 0,
+      `${key}: retained apps and result ${repeat}`,
+    )
+  }
+  rememberActivity()
+  check(new Set(activities).size === 3, `${key}: three distinct Activities`)
+  check(
+    events.join(',') === 'detached,attached,detached,attached',
+    `${key}: two complete lifecycle pairs`,
+  )
+  let releaseGuard!: (allow: boolean) => void
+  const guard = new Promise<boolean>((resolve) => {
+    releaseGuard = resolve
+  })
+  let guarding = false
+  const stopGuard = session.router.beforeEach(() => {
+    guarding = true
+    return guard
+  })
+  const navigation = session.router.push('/items/guarded', { animated: false })
+  await until(() => guarding, 'pending guard')
+  owner.close()
+  await until(() => owner.state === 'closed', 'cycle closed')
+  check(
+    (await result) === undefined && settled === 1,
+    `${key}: result settles once on close`,
+  )
+  releaseGuard(true)
+  check(
+    (await navigation)?.type === NavigationFailureType.cancelled,
+    `${key}: late guard cannot commit`,
+  )
+  stopGuard()
+  await nextTick()
+  check(
+    session.unmounted === session.drafts.length && session.unmounted === 2,
+    `${key}: exactly two page apps disposed`,
+  )
+  check(
+    !sessions.has(key) && session.router.stack.value.length === 0,
+    `${key}: closed session removed`,
+  )
+  check(
+    ApplicationSettings.getString(`windows-46:${key}`) === 'null',
+    `${key}: scoped snapshot cleared`,
+  )
+  check(paths(first).join(',') === survivor, `${key}: surviving history unchanged`)
+  check(
+    JSON.stringify(listenerCounts()) === JSON.stringify(baseline),
+    `${key}: global listeners return to baseline`,
+  )
+  closedRouters.push(session.router)
+  lifecycle.push({
+    key,
+    activities,
+    events,
+    unmounted: session.unmounted,
+    settled,
+    listeners: listenerCounts(),
+  })
+  await focus(first)
+}
+
+async function lifecycleBatch(batch: string) {
+  check(isAndroid, 'Repeated Activity lifecycle requires Android')
+  for (let cycle = 0; cycle < 2; cycle++) await lifecycleCycle(`${batch}-${cycle}`)
+  const collections = []
+  // Fixed collection budget, never retry until the desired count appears.
+  for (let round = 0; round < 3; round++) {
+    await pause(300)
+    Utils.GC()
+    java.lang.Runtime.getRuntime().gc()
+    await pause(300)
+    while (activityQueue!.poll()) collectedActivities++
+    collections.push({
+      round,
+      pages: retiredPages.filter((page) => !!page.deref()).length,
+      activities: retiredActivities.length - collectedActivities,
+    })
+  }
+  lifecycle.push({ batch, closedRouters: closedRouters.length, collections })
+  check(collections.at(-1)!.pages <= 1, `${batch}: bounded retired Pages`)
+  check(collections.at(-1)!.activities <= 1, `${batch}: bounded retired Activities`)
+}
 async function command(name: string) {
   if (busy) return
   busy = true
@@ -498,6 +694,7 @@ async function command(name: string) {
     }
     await first.router.isReady()
     if (name === 'prepare') await prepare()
+    else if (/^lifecycle-[0-2]$/.test(name)) await lifecycleBatch(name)
     else if (name === 'restore') await restored()
     else if (name === 'reconnect') {
       check(isIOS, 'UIKit reconnect requires iOS')

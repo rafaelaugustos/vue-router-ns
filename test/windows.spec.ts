@@ -328,6 +328,50 @@ describe('NativeWindow ownership', () => {
     expect(result).toBe('done')
   })
 
+  it('bounds callbacks through repeated recreation and closes detached results once', async () => {
+    const first = await mountWindow(new NativeWindow('survivor'), undefined, true)
+    const backListeners = Application.android.listenerCount('activityBackPressed')
+    const linkListeners = Application.android.listenerCount('activityNewIntent')
+    for (let cycle = 0; cycle < 4; cycle++) {
+      const window = new NativeWindow(`document-${cycle}`)
+      const { router, frame, app } = await mountWindow(window, undefined, true)
+      const result = vi.fn()
+      const pending = router.pushForResult('/items/1').then(result)
+      await settle()
+      const retained = frame.currentPage
+      for (let recreation = 0; recreation < 3; recreation++) {
+        const previous = window.android!.activity
+        window.detach()
+        expect(previous.getOnBackPressedDispatcher().enabledCount()).toBe(1)
+        const activity = new Activity()
+        window.attach(activity)
+        window.notify({ eventName: 'activityCreated', activity, window })
+        expect(activity.getOnBackPressedDispatcher().enabledCount()).toBe(2)
+        expect(window.listenerCount('activityCreated')).toBe(1)
+        expect(frame.currentPage).toBe(retained)
+        expect(result).not.toHaveBeenCalled()
+      }
+      let releaseGuard!: (allow: boolean) => void
+      const guard = new Promise<boolean>((resolve) => {
+        releaseGuard = resolve
+      })
+      router.beforeEach(() => guard)
+      const navigation = router.push('/items/2')
+      await settle()
+      window.detach()
+      window.close()
+      await pending
+      expect(result).toHaveBeenCalledExactlyOnceWith(undefined)
+      releaseGuard(true)
+      expect((await navigation)?.type).toBe(NavigationFailureType.cancelled)
+      app.unmount()
+      expect(paths(router.stack.value)).toEqual([])
+      expect(Application.android.listenerCount('activityBackPressed')).toBe(backListeners)
+      expect(Application.android.listenerCount('activityNewIntent')).toBe(linkListeners)
+      expect(paths(first.router.stack.value)).toEqual(['/'])
+    }
+  })
+
   it('clears only the closed window snapshot even when closing a pending modal', async () => {
     const saved = new Map<string, SavedStacks | null>()
     const storage = (key: string): RestoreOptions => ({
