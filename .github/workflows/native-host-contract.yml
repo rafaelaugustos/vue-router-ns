@@ -1,0 +1,81 @@
+name: External NativeHost (experimental)
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'examples/native-host-*/**'
+      - 'scripts/native/native-host/**'
+      - 'scripts/native/contracts/ContractTouch.*'
+      - 'test/host-*.ts'
+      - '*package*.json'
+      - '.github/workflows/native-host-contract.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * 1'
+permissions:
+  contents: read
+
+jobs:
+  packed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run test/host-lifecycle.spec.ts test/host-conformance.spec.ts test/hosts.spec.ts
+      - run: node scripts/native/native-host/prepare.mjs
+        env:
+          HOST_SKIP_RESOURCES: '1'
+          HOST_PACK_OUT: scripts/native/out/native-host-pack
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-host-packages
+          path: scripts/native/out/native-host-pack/packages.json
+  ios:
+    if: github.event_name != 'pull_request'
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - run: gem install cocoapods xcodeproj --no-document
+      - run: npm ci
+      - run: npm install -g nativescript
+      - name: Prepare packed router, adapter and isolated consumer
+        run: |
+          ns usage-reporting disable
+          ns error-reporting disable
+          HOST_PACK_OUT=scripts/native/out/native-host-pack node scripts/native/native-host/prepare.mjs
+      - run: ns build ios --for-device false --no-hmr
+        working-directory: examples/native-host-app
+      - name: Boot dedicated iPad
+        run: |
+          SIM=$(xcrun simctl create RouterHostContract com.apple.CoreSimulator.SimDeviceType.iPad-Pro-13-inch-M4-8GB com.apple.CoreSimulator.SimRuntime.iOS-18-6)
+          echo "IOS_SIMULATOR=$SIM" >> "$GITHUB_ENV"
+          xcrun simctl boot "$SIM"
+          xcrun simctl bootstatus "$SIM" -b
+      - name: Native gestures and owner lifecycle
+        run: node scripts/native/native-host/ios.mjs
+        env:
+          RECORD_VIDEO: '1'
+      - name: Shut down dedicated simulator
+        if: always() && env.IOS_SIMULATOR != ''
+        run: |
+          xcrun simctl shutdown "$IOS_SIMULATOR"
+          xcrun simctl delete "$IOS_SIMULATOR"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: external-native-host-ios
+          path: scripts/native/out

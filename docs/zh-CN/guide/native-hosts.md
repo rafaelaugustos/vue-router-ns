@@ -102,3 +102,34 @@ host.native?.ios // the UINavigationController, on iOS
 - 虽然是实验性的，但合同可能会在测试版中发生变化。任何不兼容的更改都会影响版本，并在更改日志中列出，并一起更新内置主机、内存示例和合约套件。
 - 添加可选成员或功能不会提升版本。未实现可选成员的主机将保留其当前行为。
 - 当合约离开实验状态时，版本将遵循此包的 semver：仅在主要版本中不兼容的主机更改。
+
+## 外部适配器验收 {#external-adapter-acceptance}
+
+可选导出 `vue-router-ns/testing/native-host` 提供 `runNativeHostConformance`，无需 Vitest、Node API 或 router 内部导入。`NATIVE_HOST_CONFORMANCE_VERSION` 对检查单独进行版本管理，与 `NATIVE_HOST_VERSION` 独立。请在一次性测试应用中运行：
+
+```ts
+import { runNativeHostConformance } from 'vue-router-ns/testing/native-host'
+
+const report = await runNativeHostConformance(createFixture, { timeoutMs: 8000 })
+console.log(report.harnessVersion, report.contractVersion, report.checks)
+```
+
+`createFixture` 接收路由记录。将其安装到新的 router 中，挂载空 host，并返回 `router`、`host`、`unmount` 和 `popNatively`。如果 host 初始尚未加载，请先返回 fixture，不要等待就绪；提供 `load` 来显示它。可选探针 `rejectNext`、`lateEvents` 和 `dismissAttempted` 分别检查注入的原子失败、过期回调和被拦截的关闭尝试。报告明确标记跳过的探针；跳过不代表通过验证。`NativeHostConformanceError.report` 保留失败前的检查结果。factory 负责清理未完成的初始化；harness 会拆卸所有成功创建的 fixture。
+
+请参阅[独立适配器包](https://github.com/rafaelaugustos/vue-router-ns/tree/main/examples/native-host-adapter)、[消费端与驱动](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/native-host)和[版本化验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-host-conformance-v1.md)。示例只使用公开导出直接挂载 Vue 视图，并通过 tarball 安装。支持范围是 Core 9.1.4、NativeScript-Vue 3.1.3 下的 iOS Frame 呈现。Android、模态关闭、固定根页面、多个可见页面和脚本 HMR 均不在此示例的支持范围内。
+
+### 顺序与所有权 {#ordering-and-ownership}
+
+- `push` 和 `back` 必须等返回的 promise 与原生确认都完成后才结束。仅解决 promise 不会完成导航。`changed()` 必须看到最终的原生页面顺序，并保留仍在栈中的页面身份。取消手势不会改变该顺序。
+- 必须在原生状态变更或确认之前抛出错误或拒绝 promise。确认变更后应成功解决 promise。在原生变更已确认后再拒绝属于违反契约；router 无法撤销任意平台状态。
+- 临时卸载保留页面身份、Vue 状态和待处理结果。尚未加载的 host 在本地排队呈现，其他栈仍可导航。重新附加复用同一个存活的 host。永久调用 `unmount()` 会销毁它；新的所有者需要新的适配器。旧的卸载函数不能关闭同名替代 host。
+- `dispose()` 必须卸载其拥有的全部 Vue 视图、移除监听器并释放原生句柄，也应清理 attach 失败后的部分初始化。即使适配器清理抛出错误，router 仍会释放逻辑条目和待处理导航。延迟回调不能恢复已关闭的栈。
+- `cancellableDismissal` 要求实现 `holdDismissal`；`multipleVisible` 要求实现 `visible`。挂载前会检查这两个方法。已有能力字段仍是必需的布尔值。可选呈现提示和诊断方法保持可选。转场观察、进度控制与 Jolt 集成不会增加 host 的必需条件。
+
+### 稳定性与维护 {#stability-and-maintenance}
+
+本次审查将契约保持为**实验性的版本 1**。修正落实已有的所有权和声明能力；合规适配器无需迁移。声明能力却缺少必需方法的适配器应实现该方法，或将能力声明为不支持。新增必需成员或更改完成语义需要提升契约版本并提供迁移说明；新增可选成员保留版本 1。
+
+请同时维护公开类型、harness 版本、独立打包的消费端、原生驱动和翻译。专项 CI 在相关 PR 中检查打包导入；iOS 测试可手动运行，并每周运行。原生手势和生命周期证据补充 harness。本次验收不证明实体设备覆盖、Android 适配器支持、重复资源回收或稳定 API 承诺。
+
+生命周期 fixture 会覆盖并重新显示所有者保留的 Page。从父容器移除 Frame 会使 Core 销毁其 UIKit 控制器；应将此视为所有者永久关闭，并创建新的 Frame/适配器，而不是复用旧对象。

@@ -102,3 +102,34 @@ Rode a suíte de contrato contra o host antes de declarar suporte. Ela fica em [
 - Enquanto experimental, o contrato pode mudar numa versão beta. Qualquer mudança incompatível incrementa a versão, aparece no changelog e atualiza juntos os hosts embutidos, o exemplo em memória e a suíte de contrato.
 - Adicionar um membro ou capacidade opcional não incrementa a versão. Hosts que não implementam um membro opcional mantêm o comportamento atual.
 - Quando o contrato deixar de ser experimental, a versão seguirá o semver deste pacote: mudanças incompatíveis de host só em uma versão major.
+
+## Validação de adaptadores externos
+
+A exportação opcional `vue-router-ns/testing/native-host` oferece `runNativeHostConformance` sem Vitest, APIs do Node ou imports internos do router. `NATIVE_HOST_CONFORMANCE_VERSION` versiona as verificações separadamente de `NATIVE_HOST_VERSION`. Execute em um app de teste descartável:
+
+```ts
+import { runNativeHostConformance } from 'vue-router-ns/testing/native-host'
+
+const report = await runNativeHostConformance(createFixture, { timeoutMs: 8000 })
+console.log(report.harnessVersion, report.contractVersion, report.checks)
+```
+
+`createFixture` recebe os registros de rotas. Instale-os em um router novo, monte um host vazio e retorne `router`, `host`, `unmount` e `popNatively`. Se o host começar descarregado, retorne antes de aguardar sua prontidão e forneça `load` para exibi-lo. Os probes opcionais `rejectNext`, `lateEvents` e `dismissAttempted` exercitam falhas atômicas injetadas, callbacks antigos e tentativas de fechamento retidas. O relatório identifica os probes ignorados; eles não contam como cobertura aprovada. `NativeHostConformanceError.report` preserva as verificações até a falha. A factory limpa qualquer montagem parcial; o harness desmonta toda fixture criada com sucesso.
+
+Consulte o [pacote independente do adaptador](https://github.com/rafaelaugustos/vue-router-ns/tree/main/examples/native-host-adapter), o [consumidor e driver](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/native-host) e o [relatório versionado](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-host-conformance-v1.md). O exemplo monta views Vue diretamente pelas exportações públicas e é instalado a partir de tarballs. Seu escopo é a apresentação em Frame no iOS com Core 9.1.4 e NativeScript-Vue 3.1.3. Android, fechamento de modal, raiz fixa, múltiplas páginas visíveis e HMR de scripts ficam fora do suporte deste exemplo.
+
+### Ordem e responsabilidade
+
+- `push` e `back` só terminam depois que a promise retornada e a confirmação nativa terminam. Resolver a promise não conclui a navegação sozinho. `changed()` deve observar a ordem nativa final, preservando a identidade das páginas retidas. Um gesto cancelado mantém essa ordem.
+- Lance um erro ou rejeite antes de alterar o estado nativo ou confirmar a operação. Depois da confirmação, resolva com sucesso. Rejeitar após uma alteração nativa concluída viola o contrato; o router não consegue desfazer qualquer estado da plataforma.
+- O descarregamento temporário preserva identidades, estado Vue e resultados pendentes. Um host descarregado enfileira a apresentação localmente; outra pilha pode navegar. A reanexação reutiliza o mesmo host vivo. `unmount()` definitivo o descarta; crie outro adaptador para um novo dono. Uma desmontagem antiga não pode fechar um substituto com o mesmo nome.
+- `dispose()` deve desmontar todas as views Vue que possui, remover listeners e liberar handles, inclusive após falha parcial no attach. O router libera entradas lógicas e navegação pendente mesmo se a limpeza do adaptador lançar um erro. Callbacks atrasados não ressuscitam a pilha fechada.
+- `cancellableDismissal` exige `holdDismissal`; `multipleVisible` exige `visible`. Os métodos são verificados antes da anexação. Todos os campos de capacidade existentes continuam sendo booleanos obrigatórios. Dicas de apresentação e métodos de diagnóstico opcionais permanecem opcionais. Observação de transições, controle de progresso e integração com Jolt não acrescentam requisitos ao host.
+
+### Estabilidade e manutenção
+
+A revisão mantém o contrato **experimental na versão 1**. As correções respeitam a responsabilidade e as capacidades já declaradas; adaptadores conformes não precisam migrar. Quem declara uma capacidade sem seu método obrigatório deve implementá-lo ou declarar a capacidade falsa. Novos membros obrigatórios ou mudanças na semântica de conclusão exigem incremento de versão e notas de migração; membros opcionais aditivos preservam a versão 1.
+
+Mantenha os tipos públicos, a versão do harness, o consumidor independente empacotado, o driver nativo e as traduções juntos. O CI focado verifica imports empacotados nos PRs relevantes; a execução iOS é manual e semanal. Evidências de gestos e ciclo de vida complementam o harness. Esta validação não estabelece cobertura em aparelhos físicos, suporte a adaptadores Android, coleta repetida de recursos ou promessa de API estável.
+
+A fixture de ciclo de vida cobre e revela uma Page retida pelo dono. Remover um Frame do pai destrói seu controlador UIKit no Core; trate isso como encerramento definitivo do dono e crie outro Frame/adaptador em vez de reutilizá-lo.

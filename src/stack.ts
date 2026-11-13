@@ -37,6 +37,8 @@ export interface Stack {
   pending: (Deferred<void> & { entry?: Entry; nativeCompleted?: boolean }) | undefined
   /** Navigations committed here, including ones waiting for the frame to load. */
   settled: Promise<unknown>
+  /** Releases in-flight adapter promises when ownership ends permanently. */
+  endWaiters: Set<() => void>
   closed: boolean
 }
 

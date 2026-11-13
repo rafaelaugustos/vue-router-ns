@@ -19,5 +19,5 @@ export function mountNativeHost(
   const internals = (router as unknown as { [INTERNAL]?: RouterInternals })[INTERNAL]
   if (!internals) throw new Error('mountNativeHost() needs a router from createRouter()')
   void internals.mount(name, host, initial)
-  return () => internals.unmount(name)
+  return () => internals.unmount(name, host)
 }

@@ -102,3 +102,34 @@ Run the contract suite against the host before claiming support. It lives in [`t
 - While experimental, the contract may change in a beta release. Any incompatible change bumps the version, is listed in the changelog, and updates the built-in hosts, the memory example and the contract suite together.
 - Adding an optional member or capability does not bump the version. Hosts that don't implement an optional member keep their current behavior.
 - When the contract leaves experimental status, the version will follow this package's semver: incompatible host changes only in a major release.
+
+## External adapter acceptance
+
+The optional `vue-router-ns/testing/native-host` export provides `runNativeHostConformance` without Vitest, Node APIs or router internals. `NATIVE_HOST_CONFORMANCE_VERSION` versions the checks independently of `NATIVE_HOST_VERSION`. Run it in a disposable test app:
+
+```ts
+import { runNativeHostConformance } from 'vue-router-ns/testing/native-host'
+
+const report = await runNativeHostConformance(createFixture, { timeoutMs: 8000 })
+console.log(report.harnessVersion, report.contractVersion, report.checks)
+```
+
+`createFixture` receives route records. Install them in a fresh router, mount an empty host and return `router`, `host`, `unmount` and `popNatively`. Return before waiting for readiness if the host starts unloaded; provide `load` to reveal it. Optional `rejectNext`, `lateEvents` and `dismissAttempted` probes exercise injected atomic failures, stale callbacks and held dismissal. The report records skipped probes; they are not passing coverage. `NativeHostConformanceError.report` preserves the checks up to a failure. The factory owns partial setup cleanup; every completed fixture is torn down by the harness.
+
+See the [independent adapter package](https://github.com/rafaelaugustos/vue-router-ns/tree/main/examples/native-host-adapter), [consumer and driver](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/native-host) and [versioned acceptance report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-host-conformance-v1.md). The example mounts Vue views directly using public exports and is installed from tarballs. Its scope is iOS Frame presentation with Core 9.1.4 and NativeScript-Vue 3.1.3. Android, modal closure, pinned roots, multiple visible pages and script HMR are outside this example's support.
+
+### Ordering and ownership
+
+- `push` and `back` complete only after both their returned promise and the native acknowledgement finish. Resolving alone does not finish navigation. `changed()` must see the final native page order, including stable identities of retained pages. A cancelled gesture leaves that order unchanged.
+- Throw or reject before native mutation or acknowledgement. After acknowledging a change, resolve successfully. A rejection after a committed native mutation violates the contract; the router cannot undo arbitrary platform state.
+- Temporary unload keeps page identities, Vue state and pending results. An unloaded host queues presentation locally; another stack can navigate. Reattachment reuses the same live host. Permanent `unmount()` disposes it; create a new adapter for a new owner. A stale unmount cannot close a replacement with the same name.
+- `dispose()` must unmount every owned Vue view, remove listeners and release native handles, including partial setup after an attach failure. The router releases logical entries and pending navigation even if adapter cleanup throws. Captured late callbacks cannot resurrect a closed stack.
+- `cancellableDismissal` requires `holdDismissal`; `multipleVisible` requires `visible`. Both methods are checked before attachment. All existing capability fields remain required booleans. Optional presentation hints and diagnostic methods remain optional. Transition observation, progress control and Jolt integration add no host requirements.
+
+### Stability and maintenance
+
+This review keeps the contract **experimental at version 1**. The corrections enforce existing ownership and declared capabilities; compliant adapters need no migration. Adapters declaring a capability without its required method must implement that method or declare the capability false. Adding a new required member or changing completion semantics requires a contract-version bump and migration notes; additive optional members preserve version 1.
+
+Maintain the public types, harness version, independent packed consumer, native driver and translations together. The focused CI checks packed imports on relevant PRs; its iOS lane runs manually and weekly. Native gestures and lifecycle evidence supplement the harness. This acceptance does not establish hardware coverage, Android adapter support, repeated resource collection or a stable API promise.
+
+The native lifecycle fixture covers and reveals a retained parent Page. Removing a Frame from its parent destroys its UIKit controller in Core; treat that as permanent owner teardown and create a fresh Frame/adapter instead of reusing it.

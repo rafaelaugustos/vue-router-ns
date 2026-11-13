@@ -92,7 +92,7 @@ export interface NativeHost<TNative extends object = object> {
   readonly native: TNative | null
   /** A host that isn't loaded yet, like a tab iOS hasn't shown, queues its own pushes without holding up the others. */
   readonly loaded: boolean
-  /** Called once, before the first push. */
+  /** Called once, before the first push. If it throws, dispose() cleans partial setup. */
   attach(delegate: NativeHostDelegate): void
   /** Pages in native order, bottom to top, whether the router mounted them or not. */
   pages(): readonly Page[]
@@ -100,13 +100,15 @@ export interface NativeHost<TNative extends object = object> {
   visible?(): readonly Page[]
   /**
    * Mounts `component` as a new page on top. Completion is reported through
-   * `delegate.changed()`; a rejection or throw fails the navigation.
+   * `delegate.changed()`; returning/resolving alone does not complete it.
+   * A throw/rejection must precede native mutation and completion callbacks.
+   * Resolve after acknowledging success; never reject an acknowledged change.
    */
   push(component: Component, options: NativeHostPushOptions): void | Promise<void>
   /**
    * Returns to `target`, a page from `pages()`, dropping everything above it.
    * `null` closes the host. Completion is reported through `delegate.changed()`
-   * or `delegate.closed()`.
+   * or `delegate.closed()`. The same atomic failure/promise rules as push apply.
    */
   back(target: Page | null, options: NativeHostBackOptions): void | Promise<void>
   /** Holds or releases the user's own dismissal. Only with `cancellableDismissal`. */
@@ -128,7 +130,7 @@ export interface NativeHost<TNative extends object = object> {
   willAnimate?(options: { clearHistory: boolean }): boolean
   /** The native containers, for diagnostics. Defaults to one `'main'` part. */
   parts?(): readonly NativeHostPart[]
-  /** Stops listening and releases native handles. Safe to call twice. */
+  /** Stops listening, unmounts owned Vue views and releases handles. Safe to call twice. */
   dispose(): void
 }
 
@@ -147,6 +149,14 @@ export function assertHostVersion(host: NativeHost) {
         `version ${String(host.version)}; this router needs ${NATIVE_HOST_VERSION}`,
     )
   }
+  if (host.capabilities.cancellableDismissal && typeof host.holdDismissal !== 'function')
+    throw new Error(
+      `[vue-router-ns] The "${host.kind}" host declares cancellableDismissal but has no holdDismissal()`,
+    )
+  if (host.capabilities.multipleVisible && typeof host.visible !== 'function')
+    throw new Error(
+      `[vue-router-ns] The "${host.kind}" host declares multipleVisible but has no visible()`,
+    )
 }
 
 export function unsupportedOperation(host: NativeHost, operation: string): Error {
