@@ -1,4 +1,5 @@
 import { createRouteData, disposeRouteData, type RouteLoader } from './route-data.js'
+import { createDataPreloader, type RouteDataPreloadOptions } from './data-preload.js'
 import {
   createRoutePreloader,
   settledPreload,
@@ -186,6 +187,8 @@ export interface RouterOptions<
   loaders?: Readonly<Record<string, RouteLoader>>
   /** Experimental code-only preparation budgets. Work starts only through preload(). */
   preload?: RoutePreloadOptions
+  /** Experimental data preparation budgets; only explicitly opted-in loaders can run. */
+  preloadData?: RouteDataPreloadOptions
   /** One router per NativeWindow. Otherwise inferred from the first mounted view. */
   window?: RouterWindow
   /** Optional native layouts. Each owns a Page and renders its destination through a slot. */
@@ -267,6 +270,8 @@ export interface Router<M extends RouteMapLike = RouteMapGeneric> {
   resolve(to: RouteLocationRawOf<M>): RouteLocation
   /** Experimental. Prepare the matched leaf's code without guards, data loaders or native allocation. */
   preload(to: RouteLocationRawOf<M>): RoutePreload
+  /** Experimental. Prepare one declared, explicitly authorized loader without navigation. */
+  preloadData(to: RouteLocationRawOf<M>, loader: RouteLoader): RoutePreload
   /** Invalidate speculative leases, for example on sign-out or explicit code changes. */
   clearPreloads(): void
 
@@ -388,7 +393,15 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   const middleware = createMiddlewareRegistry()
   const resolveGuards = callbacks<NavigationGuard>()
   const afterHooks = callbacks<NavigationHookAfter>()
-  const startRouteData = createRouteData(options.loaders)
+  const routeData = createRouteData(options.loaders, (loader, to, from) =>
+    dataPreloads.acquire(loader, to, from),
+  )
+  const dataPreloads = createDataPreloader(
+    options.preloadData,
+    (loader, to) =>
+      to.matched.every((record) => matcher.getRoutes().includes(record)) &&
+      routeData.resolve(to).has(loader),
+  )
   const errorHandlers = callbacks<NavigationErrorHandler>()
   const backClaimants = callbacks<SystemBackClaimant>()
   const claimedBack = () => backClaimants.list().find((claimant) => claimant.owns())
@@ -539,6 +552,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     previews.get(stack)?.dispose()
     stack.closed = true
     preloads.cancelOwner(stack)
+    dataPreloads.cancelOwner(stack)
     presentations.get(stack)?.(undefined)
     presentations.delete(stack)
     windowWaiters.get(stack)?.()
@@ -679,7 +693,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       settle: undefined,
       disposed: false,
     }
-    startRouteData(entry, from)
+    routeData.start(entry, from)
     return entry
   }
 
@@ -1674,6 +1688,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     if (stopped) return
     stopped = true
     preloads.dispose()
+    dataPreloads.dispose()
     for (const wake of windowWaiters.values()) wake()
     attached.value = false
     stopPlatform?.()
@@ -2021,6 +2036,21 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
           return settledPreload({ status: 'error', error })
         }
       },
+      preloadData(to, loader) {
+        if (stopped || origin?.closed)
+          return settledPreload({ status: 'cancelled', reason: 'disposed' })
+        try {
+          const from = topOf(origin ?? focused())?.route ?? START_LOCATION
+          return dataPreloads.preload(
+            loader,
+            resolveTarget(to, from),
+            from,
+            origin ?? owner,
+          )
+        } catch (error) {
+          return settledPreload({ status: 'error', error })
+        }
+      },
       openWindow(raw, options) {
         if (stopped) throw new Error('The router window is closed')
         const from =
@@ -2185,21 +2215,27 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     window: nativeWindow,
     diagnostics: diagnostics?.api,
     options: options as RouterOptions,
-    clearPreloads: () => preloads.clear(),
+    clearPreloads() {
+      preloads.clear()
+      dataPreloads.clear()
+    },
 
     addRoute(parentOrRoute: RouteRecordName | RouteRecordRaw, route?: RouteRecordRaw) {
       const remove = route
         ? matcher.addRoute(route, parentOrRoute as RouteRecordName)
         : matcher.addRoute(parentOrRoute as RouteRecordRaw)
       preloads.invalidate()
+      dataPreloads.invalidate()
       return () => {
         remove()
         preloads.invalidate()
+        dataPreloads.invalidate()
       }
     },
     removeRoute(name: RouteRecordName) {
       matcher.removeRoute(name)
       preloads.invalidate()
+      dataPreloads.invalidate()
     },
     hasRoute: matcher.hasRoute,
     getRoutes: matcher.getRoutes,

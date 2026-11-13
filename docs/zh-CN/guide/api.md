@@ -139,6 +139,12 @@ handle 提供只读 `state`、`ready: Promise<RoutePreloadResult>` 和 `cancel()
 
 `RouterOptions.preload?: RoutePreloadOptions` 配置 `concurrency`（2）、`maxEntries`（16）和 `ttl`（30,000 ms）。限额、所有权、取消和授权边界见[代码预加载](./preloading)。
 
+## 路由数据预加载 {#route-data-preloading}
+
+实验性的 `router.preloadData(to, loader): RoutePreload` 准备一个已声明加载器；`useRouteDataPreload()` 获取页面拥有的对应函数。`defineRouteLoader(load, { preload })` 使用 `RouteLoaderOptions` / `RouteLoaderPreload` 明确启用定义：`scope()` 返回稳定对象，`authorize({ to, from })` 同步授权。无作用域或权限被拒绝时返回 `unauthorized` 取消。导航仍执行全部正常守卫。
+
+`RouterOptions.preloadData?: RouteDataPreloadOptions` 提供独立并发、数量和 TTL 限额。`RouteLoaderContext.preloading` 标识推测性工作。创建匹配条目时可以复用数据，无需阻塞展示；`reload()` 使用普通加载。`clearPreloads()` 也会使数据准备失效，但不会清除条目或应用缓存已经消费的结果。作用域变化、独立消费者、传输取消与限制请参阅[数据准备](./data-preloading)。
+
 ## 可组合项 {#composables}
 
 | 函数                                   | 合约                                                                                                                                                                                                                             |

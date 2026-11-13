@@ -3,13 +3,34 @@ import { entryKey } from './injection.js'
 import { pageEffect } from './page-effects.js'
 import { settledPreload, type RoutePreload } from './preload.js'
 import type { RegisteredRouteMap, RouteLocationRawOf } from './typed.js'
+import type { RouteLoader } from './route-data.js'
+import type { Router } from './router.js'
 
 /** Experimental. Capture in page setup; all leases end when that page/scope is disposed. */
 export function useRoutePreload(): (
   to: RouteLocationRawOf<RegisteredRouteMap>,
 ) => RoutePreload {
+  return pageOwned((router, to: RouteLocationRawOf<RegisteredRouteMap>) =>
+    router.preload(to),
+  )
+}
+
+/** Experimental. Capture in setup; prepare one explicitly opted-in declared loader. */
+export function useRouteDataPreload(): (
+  to: RouteLocationRawOf<RegisteredRouteMap>,
+  loader: RouteLoader,
+) => RoutePreload {
+  return pageOwned(
+    (router, to: RouteLocationRawOf<RegisteredRouteMap>, loader: RouteLoader) =>
+      router.preloadData(to, loader),
+  )
+}
+
+function pageOwned<A extends unknown[]>(
+  prepare: (router: Router, ...args: A) => RoutePreload,
+): (...args: A) => RoutePreload {
   const entry = hasInjectionContext() ? inject(entryKey, null) : null
-  if (!entry) throw new Error('useRoutePreload() must be used inside a routed page')
+  if (!entry) throw new Error('Route preload helpers must be used inside a routed page')
   const handles = new Set<RoutePreload>()
   let closed = false
   const dispose = () => {
@@ -22,10 +43,10 @@ export function useRoutePreload(): (
     unregister()
     dispose()
   })
-  return (to) => {
+  return (...args) => {
     if (closed || entry.disposed)
       return settledPreload({ status: 'cancelled', reason: 'disposed' })
-    const handle = entry.stack.router.preload(to)
+    const handle = prepare(entry.stack.router, ...args)
     handles.add(handle)
     const stop = watch(
       handle.state,

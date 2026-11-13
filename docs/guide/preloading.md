@@ -113,7 +113,7 @@ The budget limits router-held speculative references and work counts, not import
 
 ## Authorization and native evidence
 
-Preloading code runs the lazy factory and module initialization before navigation guards. Do not put protected fetches, credentials or navigation side effects there. Keep protected data in [authorized route loaders](./data-loading). Actual navigation always runs its normal guards; a guard redirect may choose a different destination. This stage has no speculative-data API or cache framework requirement.
+Preloading code runs the lazy factory and module initialization before navigation guards. Do not put protected fetches, credentials or navigation side effects there. Keep protected data in [authorized route loaders](./data-loading). Actual navigation always runs its normal guards; a guard redirect may choose a different destination. For data, use the separate [explicitly authorized data preparation](./data-preloading) API. Neither API requires a cache framework.
 
 <Clip name="route-code-preload" :width="480" aspect="3 / 4" caption="Cold/prepared touch, abandoned drag, guard refusal and owner disposal. The factory includes a controlled 900 ms delay; timings are not an import benchmark. iOS 18.6 simulator; English fixture labels." />
 

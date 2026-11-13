@@ -42,3 +42,40 @@ identity checks. It does not establish garbage collection, physical-device
 performance, screen-reader behavior or Android native touch acceptance. Contract
 tests separately cover budgets, concurrent consumers, window boundaries,
 invalidation, errors and normal navigation settlement.
+
+## Explicit data preparation — stage 2
+
+Build with `--env.preloaddataTest --no-hmr` instead of `preloadTest`. This separate
+fixture makes real HTTP requests to a local endpoint with a controlled **900 ms**
+response delay. Enable fixture-only local transport in the ignored demo resources
+before building:
+
+```sh
+python3 scripts/native/loaders/prepare.py
+npm run build
+cd demo
+ns build ios --for-device false --env.preloaddataTest --no-hmr
+cd ..
+IOS_SIMULATOR=<dedicated-booted-iPad-UDID> PRELOAD_DATA_TEST=1 RECORD_VIDEO=1 OUT=scripts/native/out/preloaddata node scripts/native/preload/ios.mjs
+```
+
+The same driver starts and closes `data-server.mjs` on port **18819**. For manual
+use, start that server separately; do not run a manual server while using the
+driver. Both modes use the same fixture typecheck/project. The transport setup
+is confined to demo resources and does not alter router/application policy.
+
+The data sequence requires twelve application reports plus independent HTTP
+counts. It covers a cold page presenting while data is pending, prepared data
+reused after release, abandoned drag, denied speculative authorization (zero
+requests), a refusing navigation guard after preparation, account A invalidated
+during HTTP followed by a separate account B request, and owner disposal.
+The HTTP log must contain exactly seven requests, all completed; neither release
+to a prepared page nor denied preparation adds a request.
+
+The fixture's fetch adapter deliberately cannot abort transport. It records
+cancellation callbacks and verifies that late responses cannot restore cancelled
+interest or publish into the new account. A client with request/subscription
+cancellation can adapt the same callback without cancelling other consumers.
+Counters use the stage-1 instrumentation above. Timing demonstrates the controlled
+server delay moving before release, not network performance. The same simulator,
+hardware, Android and collection limits apply.
