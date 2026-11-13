@@ -4,8 +4,9 @@ Multi-window remains **experimental**. This stage fixes resource retention when 
 application keeps a closed router handle, and defines the tested subset instead of
 promoting every native-window composition. No release is published.
 
-Acceptance source: `7e4c558f65180e98a35a14dd48f103c2b134f0fc`. Subsequent documentation,
-video and evidence commits do not change the runtime or native fixtures. The
+Runtime and application fixture source: `7e4c558f65180e98a35a14dd48f103c2b134f0fc`.
+The subsequent iPad UI-driver correction scopes commands to window B when both
+windows are visible; it does not change the runtime or acceptance assertions. The
 control uses the router from `993a2b7` with the isolated measurement fixture. No
 NativeScript Core, NativeScript-Vue or platform runtime dependency is patched.
 
@@ -73,8 +74,10 @@ An explicit Activity recreation is not a physical rotation test. The iPad live
 reconnect uses the existing simulator-only fault-injection bundle to ask the OS
 for a real disconnection; it is distinct from background resume and process death.
 The test-only private scene driver is not shipped in the router package.
-[#188](https://github.com/rafaelaugustos/vue-router-ns/issues/188) tracks repeated
-iPad and physical-device validation before any future stability promotion.
+[#188](https://github.com/rafaelaugustos/vue-router-ns/issues/188) tracks additional
+iPad and window-management coverage. Physical hardware is not a generic issue-closing
+or stability gate: simulator/emulator acceptance is valid for the documented subset.
+Require hardware only for a selected behavior those environments cannot reproduce adequately.
 
 Unit coverage additionally repeats four windows with three detach/attach cycles
 each, then closes an already detached owner while a result and guard are pending.
@@ -106,6 +109,13 @@ uses the acceptance source above. Both Android jobs passed: API 34 in 456 second
 emulator/acceptance steps took 264/270 seconds. These are complete job durations,
 including both reconstruction modes and repeated cleanup. The jobs run in parallel.
 No warm-cache speedup is claimed from this single run.
+
+In that initial run, the ordinary iPad scenario passed. Cold restoration preserved
+the original scene identities and passed HMR, but the Close tap did not reach the
+fixture while two windows with identical button identifiers were visible. The
+driver now selects the button inside window B explicitly. Local cold restoration
+passes with this selector; hosted revalidation is pending. Live reconnect was
+skipped in the failed hosted run and is not counted as a hosted pass.
 
 The [hosted Android evidence](./evidence/window-lifecycle/hosted-android.json)
 retains original task IDs, entry identities, before/after process IDs and all

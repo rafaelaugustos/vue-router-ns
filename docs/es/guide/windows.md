@@ -21,7 +21,7 @@ El [informe versionado del ciclo de vida](https://github.com/rafaelaugustos/vue-
 
 La desconexión temporal conserva las Pages, el estado Vue y los resultados pendientes existentes. El cierre permanente libera las páginas de esa ventana y resuelve sus resultados una vez; un guard tardío no puede confirmar navegación en la pila cerrada. La muerte del proceso inicia otro proceso JavaScript: solo se reconstruye el estado de rutas/páginas persistido explícitamente, nunca las Promises anteriores ni objetos nativos arbitrarios. La aplicación debe liberar sus propias suscripciones y referencias externas.
 
-La [#188](https://github.com/rafaelaugustos/vue-router-ns/issues/188) sigue la evidencia de ciclos repetidos en iPad y dispositivos físicos necesaria antes de una futura promoción a estable.
+La [#188](https://github.com/rafaelaugustos/vue-router-ns/issues/188) sigue la ampliación de cobertura de iPad y gestión de ventanas. La aceptación en simulador/emulador es válida para este alcance; el hardware físico solo es necesario cuando un escenario seleccionado no puede reproducirse adecuadamente allí.
 
 ## Un enrutador por ventana {#one-router-per-window}
 

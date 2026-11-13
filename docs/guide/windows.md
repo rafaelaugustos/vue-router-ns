@@ -21,7 +21,7 @@ The [versioned lifecycle report](https://github.com/rafaelaugustos/vue-router-ns
 
 Live detachment preserves the existing Pages, Vue state and pending results. Permanent closure disposes that owner's pages and settles their results once; a late guard cannot commit into the closed stack. Process death starts a new JavaScript process: only explicitly persisted route/page state is reconstructed, never the old Promises or arbitrary native objects. Applications must still release their own subscriptions and external references.
 
-[#188](https://github.com/rafaelaugustos/vue-router-ns/issues/188) tracks the repeated iPad and physical-device evidence required before a future stability promotion.
+[#188](https://github.com/rafaelaugustos/vue-router-ns/issues/188) tracks additional iPad and window-management coverage. Simulator/emulator acceptance is valid for this scope; physical hardware is required only when a selected scenario cannot be reproduced adequately there.
 
 ## One router per window
 

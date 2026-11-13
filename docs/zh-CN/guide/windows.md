@@ -21,7 +21,7 @@
 
 临时断开保留现有 Page、Vue 状态和待定结果。永久关闭会释放所属窗口的页面，并将其结果完成一次；延迟返回的 guard 无法向已关闭的栈提交导航。进程死亡后会启动新的 JavaScript 进程：只重建明确持久化的路由/页面状态，不会恢复旧 Promise 或任意原生对象。应用仍须释放自身的订阅和外部引用。
 
-[#188](https://github.com/rafaelaugustos/vue-router-ns/issues/188) 跟踪未来提升为稳定功能前所需的 iPad 重复循环与真机验证证据。
+[#188](https://github.com/rafaelaugustos/vue-router-ns/issues/188) 跟踪更多 iPad 与窗口管理场景的覆盖。模拟器验收对本范围有效；只有选定场景无法在模拟器中充分复现时，才需要真机。
 
 ## 每个窗口一个路由器 {#one-router-per-window}
 

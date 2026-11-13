@@ -21,7 +21,7 @@ O [relatório versionado do ciclo de vida](https://github.com/rafaelaugustos/vue
 
 A desconexão temporária preserva as Pages, o estado Vue e os resultados pendentes existentes. O fechamento permanente descarta as páginas daquela janela e conclui seus resultados uma vez; um guard atrasado não pode confirmar navegação na pilha fechada. A morte do processo inicia um novo processo JavaScript: apenas o estado de rotas/páginas explicitamente persistido é reconstruído, nunca as Promises antigas ou objetos nativos arbitrários. A aplicação ainda deve liberar suas próprias subscriptions e referências externas.
 
-A [#188](https://github.com/rafaelaugustos/vue-router-ns/issues/188) acompanha as evidências de ciclos repetidos no iPad e dispositivos físicos necessárias antes de uma futura promoção para estável.
+A [#188](https://github.com/rafaelaugustos/vue-router-ns/issues/188) acompanha a ampliação dos testes de iPad e gerenciamento de janelas. A aceitação em simulador/emulador é válida para este escopo; aparelho físico só é necessário quando um cenário selecionado não pode ser reproduzido adequadamente nesses ambientes.
 
 ## Um router por janela
 
