@@ -114,9 +114,62 @@ A `delivery` pair uses `scope` and `id` across source labels within one router l
 
 A preview returns `resolved` or `ignored`. Execution returns `handled` with the requested `location` and optional `failure`, or `ignored` with `reason`. Handled means the normal pipeline settled: guards may redirect, abort or cancel, and the requested page may never appear. Ignored reasons include `invalid`, `version`, `expired`, `unmatched`, `scheme`, `host`, `repeat`, `busy`, `wrong-window`, `owner-closed` and `target-unavailable`. Payloads and delivery identifiers are not added to diagnostics.
 
-This first stage does not persist requests, suspend/resume authentication or select new windows. Existing login handling remains app-owned. The [native fixture](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/intents) checks real Frames, guards and OS URL delivery; its [acceptance report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-navigation-intents-stage1.md) separates native evidence from unit coverage.
+Requests are not persisted and do not select new windows. Explicit in-memory login resumption is described below; authentication remains app-owned. The [native fixture](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/intents) checks real Frames, guards and OS URL delivery; its [acceptance report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-navigation-intents-stage1.md) separates native evidence from unit coverage.
 
 <Clip name="navigation-intents" :width="640" aspect="3 / 4" caption="Real iPad simulator: preview without navigation, named/URL destinations, duplicate and guard outcomes, modal disposal and OS URL delivery. App labels are in English." />
+
+## Resume after login (experimental) {#resume-after-login}
+
+Use `suspendIntent(request, policy)` before presenting app-owned login, or after an existing link guard redirects there. It returns `suspended` with a handle, or `ignored`. Suspension resolves and copies the request but does not navigate, run guards, allocate a Page or detect authentication. The app decides when to show, replace or close login.
+
+```ts
+import type { NavigationIntent, SuspendedIntent } from 'vue-router-ns'
+
+let authScope = {}
+let authenticated = false
+let pending: SuspendedIntent | undefined
+const policy = {
+  scope: () => authScope,
+  authorize: () => authenticated,
+  maxAge: 120_000,
+}
+
+async function requireLogin(request: NavigationIntent) {
+  const result = router.suspendIntent(request, policy)
+  if (result.status === 'ignored') return result
+  pending = result
+  await router.push('/login', { frame: 'inbox' })
+  return result
+}
+
+async function completeLogin() {
+  authenticated = true
+  return pending?.resume()
+}
+
+function cancelLogin() {
+  pending?.cancel()
+  pending = undefined
+}
+
+function accountChanged() {
+  authenticated = false
+  authScope = {}
+  cancelLogin()
+}
+```
+
+After the real provider succeeds, update the app's authentication state and call `resume()`. Do not set the example's boolean from an untrusted payload. `scope()` must return the same stable object across the intended login; replace it on sign-out, another account or a new authentication flow. `authorize(location, intent)` must synchronously return true only while that destination remains permitted. Both callbacks must be pure; async/throwing permission checks fail closed. Session identity and callbacks stay in memory and are never serialized into the request.
+
+Each router retains one pending authentication flow. A valid new suspension or accepted `openIntent` supersedes it; malformed or duplicate deliveries do not. The delivery identity remains reserved through login and resume, so a repeated callback cannot create another attempt. Once authorized, every `resume()` call returns the same promise, even after settlement or rejection. Calling before authorization returns `unauthorized` and keeps the request pending. `cancel()` prevents later admission; call it when login is cancelled or the session changes. Normal navigation to login does not automatically cancel the pending flow.
+
+The readonly `state` ref reports `pending`, `resuming`, `settled` or `cancelled`, with an optional `reason`. Scope changes return `scope-changed`; a newer intent returns `superseded`; explicit cancellation returns `cancelled`. `maxAge` is a positive integer up to 300,000 milliseconds, defaulting to five minutes; an earlier request expiry wins. A timer releases expired pending work. Expiry, removed routes, owner closure and permission are checked again during resume. Unlike ordinary intent admission, resumed permission/expiry checks also survive async guards, component loading and guard redirects, including the redirected destination.
+
+Normal guards and failures still apply. If invalidated during a guard, navigation reports its usual cancelled failure. Already committed parent pages and native transitions that have started are not rolled back; cancellation blocks remaining admission. A suspended handle is not a durable exactly-once delivery guarantee. It is an idempotent attempt in this router lifetime. There is no request persistence, automatic provider integration or inferred account identity.
+
+Pass `options: { replace: true }` in the request if the destination should replace login, and target the same named stack explicitly. The app owns permission checks, login-route policy and protected-history cleanup on sign-out. Legacy `openLink` and its listeners remain available; a listener can retain the original URL after a guard redirects to login. The [native acceptance](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-intent-resume-stage2.md) demonstrates that composition.
+
+<Clip name="intent-resume" :width="640" aspect="3 / 4" caption="Real iPad simulator: an OS URL opens app-owned login, sign-in resumes once, and cancellation, account change, expiry and sign-out during a guard prevent stale navigation. Authentication is controlled fixture state, without an external provider; labels are in English." />
 
 ## Home-screen shortcuts
 

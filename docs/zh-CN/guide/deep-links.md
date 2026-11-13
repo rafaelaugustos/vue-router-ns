@@ -114,9 +114,62 @@ if (preview.status === 'resolved') {
 
 预览返回 `resolved` 或 `ignored`。执行返回 `handled`，包含请求的 `location` 和可选的 `failure`，或返回带 `reason` 的 `ignored`。Handled 表示正常流程已经结束：守卫可能重定向、中止或取消，请求的页面不一定出现。忽略原因包括 `invalid`、`version`、`expired`、`unmatched`、`scheme`、`host`、`repeat`、`busy`、`wrong-window`、`owner-closed` 和 `target-unavailable`。不会把 payload 或投递标识符加入诊断数据。
 
-本阶段不持久化请求、不暂停/恢复认证，也不选择新窗口。现有登录流程仍由应用负责。[原生测试应用](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/intents) 检查真实 Frame、守卫及系统 URL 投递；[验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-navigation-intents-stage1.md) 区分原生证据与单元测试覆盖。
+请求不会持久化，也不会选择新窗口。下文介绍显式的内存内登录恢复；认证仍由应用负责。[原生测试应用](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/intents) 检查真实 Frame、守卫及系统 URL 投递；[验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-navigation-intents-stage1.md) 区分原生证据与单元测试覆盖。
 
 <Clip name="navigation-intents" :width="640" aspect="3 / 4" caption="真实 iPad 模拟器：无导航预览、名称/URL 目标、重复投递和守卫结果、模态销毁及系统 URL 投递。应用标签为英文。" />
+
+## 登录后恢复（实验性） {#resume-after-login}
+
+在展示应用自己的登录页之前，或现有链接守卫重定向到登录页之后，使用 `suspendIntent(request, policy)`。它返回带句柄的 `suspended`，或 `ignored`。挂起操作会解析并复制请求，但不会导航、执行守卫、创建 Page 或检测认证。应用自行决定何时显示、替换或关闭登录页。
+
+```ts
+import type { NavigationIntent, SuspendedIntent } from 'vue-router-ns'
+
+let authScope = {}
+let authenticated = false
+let pending: SuspendedIntent | undefined
+const policy = {
+  scope: () => authScope,
+  authorize: () => authenticated,
+  maxAge: 120_000,
+}
+
+async function requireLogin(request: NavigationIntent) {
+  const result = router.suspendIntent(request, policy)
+  if (result.status === 'ignored') return result
+  pending = result
+  await router.push('/login', { frame: 'inbox' })
+  return result
+}
+
+async function completeLogin() {
+  authenticated = true
+  return pending?.resume()
+}
+
+function cancelLogin() {
+  pending?.cancel()
+  pending = undefined
+}
+
+function accountChanged() {
+  authenticated = false
+  authScope = {}
+  cancelLogin()
+}
+```
+
+真实认证提供方确认成功后，更新应用的认证状态并调用 `resume()`。不要根据不可信 payload 设置示例中的布尔值。`scope()` 在预期登录流程中必须返回同一个稳定对象；退出登录、切换账户或开始新认证流程时应替换它。`authorize(location, intent)` 只能在该目标仍获授权时同步返回 true。两个回调都必须保持纯函数行为；异步或抛出错误的权限检查会拒绝操作。会话身份和回调只保留在内存中，不会序列化到请求里。
+
+每个 router 保留一个待完成的认证流程。新的有效挂起请求或被接受的 `openIntent` 会替换它；格式错误或重复投递不会。投递身份在登录和恢复期间保持占用，因此重复回调不会产生另一次尝试。授权后，所有 `resume()` 调用都返回同一个 Promise，即使它已经完成或拒绝。授权前调用会返回 `unauthorized`，并保留待处理请求。`cancel()` 会阻止后续准入；取消登录或会话变化时应调用它。正常导航到登录页不会自动取消待处理流程。
+
+只读 `state` ref 报告 `pending`、`resuming`、`settled` 或 `cancelled`，并可包含 `reason`。范围变化返回 `scope-changed`；较新的 intent 返回 `superseded`；显式取消返回 `cancelled`。`maxAge` 为不超过 300,000 毫秒的正整数，默认五分钟；请求本身更早的过期时间优先。计时器会释放已过期的待处理工作。恢复时会重新检查过期、路由删除、所属窗口关闭和权限。与普通 intent 的准入检查不同，恢复操作会在异步守卫、组件加载和守卫重定向后继续检查，包括重定向后的目标。
+
+正常守卫和导航失败仍然适用。若在守卫执行期间失效，导航会报告常规取消失败。已经提交的父页面和已经开始的原生过渡不会回滚；取消会阻止剩余的准入。挂起句柄不提供持久化的恰好一次投递保证。它表示该 router 生命周期内的一次幂等尝试。不提供请求持久化、自动认证提供方集成或推断账户身份。
+
+若目标应替换登录页，请在请求中传入 `options: { replace: true }`，并明确指定同一个具名栈。应用负责权限、登录路由策略及退出登录后的受保护历史清理。现有 `openLink` 及其监听器仍然可用；在守卫重定向到登录页之后，监听器可以保留原始 URL。[原生验收](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-intent-resume-stage2.md) 演示了这种组合。
+
+<Clip name="intent-resume" :width="640" aspect="3 / 4" caption="真实 iPad 模拟器：系统 URL 打开应用登录页，登录后只恢复一次；取消、账户切换、过期以及守卫期间退出登录会阻止过时导航。认证使用测试应用控制的状态，没有外部提供方；界面标签为英文。" />
 
 ## 主屏幕快捷方式 {#home-screen-shortcuts}
 

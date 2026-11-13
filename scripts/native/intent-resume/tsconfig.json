@@ -1,0 +1,4 @@
+{
+  "extends": "../../../demo/tsconfig.json",
+  "include": ["../../../demo/src/testing/intentresume-app.ts", "../../../demo/types"]
+}

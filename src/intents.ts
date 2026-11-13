@@ -46,6 +46,10 @@ export type IntentIgnoredReason =
   | 'wrong-window'
   | 'target-unavailable'
   | 'busy'
+  | 'unauthorized'
+  | 'scope-changed'
+  | 'cancelled'
+  | 'superseded'
 
 export interface IgnoredIntent {
   readonly status: 'ignored'

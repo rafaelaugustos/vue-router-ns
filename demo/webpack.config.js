@@ -28,6 +28,7 @@ module.exports = (env) => {
       'preloaddata',
       'recording',
       'intents',
+      'intentresume',
       'suspense',
       'windows',
       'entrypoints',
