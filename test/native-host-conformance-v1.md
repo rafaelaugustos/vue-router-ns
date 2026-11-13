@@ -119,8 +119,14 @@ passed XCTest preparation, then exceeded the 30-second app-installation budget
 before running tests. Commit `2ef25cd` allows three minutes for that setup step,
 without changing navigation timeouts or assertions. The
 [following run](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43420069788)
-tracks hosted acceptance separately. The final local run above tests source
-`359fcdb` and the prepared-project path.
+installed the app and XCTest runner, but stopped at the five-minute driver limit
+while launching `HostChecks-Runner` under Xcode 16.4. Its XCTest output is empty,
+the diagnostic session ends at runner launch, and no application command reports
+exist. It provides no hosted native acceptance result. See the
+[hosted outcome](./evidence/native-host-conformance-v1/hosted.json) and run artifacts.
+Hosted iOS automation remains unvalidated; the native acceptance claimed here is
+local. The final local run above tests source `359fcdb` and the prepared-project
+path. All PR checks (unit/types, native contracts and packed consumption) passed.
 
 - **685 tests passed**, 10 existing skips, across 55 files; no type errors.
 - Root types/build, independent adapter build and packed consumer typecheck passed.
