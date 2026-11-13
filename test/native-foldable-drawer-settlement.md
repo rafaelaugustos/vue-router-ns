@@ -26,7 +26,17 @@ The original failed foldable job took 440 seconds: 174 seconds building its two 
 
 `gh workflow run native.yml --ref <candidate-branch> -f lane=foldable` now runs just the complete foldable acceptance lane. It retains both 21-checkpoint fold/hinge suites, adaptive contracts, native input and adaptive hinge checks. The opening regression runs first, before the posture suites. Gradle dependencies are cached, and a newer manual run on the same non-main branch cancels an obsolete one. Default/full-workflow callers retain all integration lanes.
 
-The targeted hosted result and duration will be recorded after the candidate completes. A focused green result does not close the iOS half of #183 or certify the full release matrix.
+The complete [focused hosted run](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43383732271) passed on Linux x86_64/API 35 at `36592db`: 38 adaptive commands, 21 fold checkpoints, 21 occluding-hinge checkpoints, native input/accessibility/Back and all six adaptive hinge cases. The [second run](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43384944338) at `78e4245` passed the same complete lane with the populated Gradle cache. The native fixture, driver and workflow are identical between these commits; the later commit adds documentation and recording evidence.
+
+| Measured phase                             | Cold Gradle cache | Warm Gradle cache |
+| ------------------------------------------ | ----------------: | ----------------: |
+| Build both fixtures                        |             176 s |              99 s |
+| Emulator startup and complete native tests |             297 s |             328 s |
+| Entire foldable job                        |     546 s (9m06s) |     517 s (8m37s) |
+
+The build phase decreased by 77 seconds (44%). The total improved by 29 seconds (5%) in these two observations; emulator/setup variation consumed some of the build saving. This is not a claim of 44% improvement for the whole job. Focused dispatch avoids waiting for unrelated lanes in the approximately 41-minute matrix while preserving the complete foldable coverage. [Cold timing/evidence](./evidence/foldable-settlement/hosted-cold.json), [warm timing](./evidence/foldable-settlement/hosted-warm.json).
+
+A focused green result does not close the iOS half of #183 or certify the full release matrix.
 
 ## Actual application recording
 
