@@ -32,9 +32,76 @@ if (selected) await router.backToEntry(selected, { animated: false })
 - split 的固定根条目可以被选择，并继续保持固定。选择操作绝不会移除它。
 - 存在打开的模态窗口时，只能选择最上层模态栈内的条目。选择被遮挡的历史会拒绝，不会关闭模态窗口；请先使用现有的模态 Back 流程。选择模态根条目会保持模态窗口打开。
 
-请通过[恢复机制](./restore)持久化应用路由和页面状态，不要持久化这些实例地址。弹出的条目已经消失：没有前进历史，重建也不会复活原来的原生对象。原生 Back 控件仍然保留。可选的历史菜单属于后续阶段；此 API 不安装菜单。
+请通过[恢复机制](./restore)持久化应用路由和页面状态，不要持久化这些实例地址。弹出的条目已经消失：没有前进历史，重建也不会复活原来的原生对象。原生 Back 控件仍然保留。
 
 <Clip name="entry-history" :width="480" aspect="3 / 4" caption="两个原生栈：重复路径的精确选择、守卫拒绝、旧地址拒绝、取消/完成原生 Back，以及关闭所有者。iOS 18.6 模拟器；演示应用的标签为英文。" />
+
+## 可选的 Back 历史菜单 {#optional-back-history-menu}
+
+`useBackHistoryMenu()` 为应用自己的控件提供所属页面的保留历史。它保留 UIKit 系统 Back 按钮及其内置长按菜单。Android 工具栏的 Back 不提供保留条目菜单；此 API 提供原生弹出菜单。在 iOS 上，应用控件使用锚定的原生操作表/popover，也可以通过键盘命令打开。无需使用私有 API 查找 Back 按钮，也不替换导航 delegate。
+
+在路由页面的 setup 中调用。除了长按，还应提供标签清晰的历史按钮，并为应用翻译标签：
+
+```vue
+<script setup lang="ts">
+import { ref } from 'nativescript-vue'
+import type { View } from '@nativescript/core'
+import {
+  useRouter,
+  useBackHistoryMenu,
+  useNavigationCommands,
+  NavigationCommandScope,
+} from 'vue-router-ns'
+
+const router = useRouter()
+const back = ref<{ nativeView: View }>()
+const menu = useBackHistoryMenu({
+  title: 'Back history',
+  cancelTitle: 'Cancel',
+  label: (entry, index) => `${entry.route.fullPath} · ${index + 1}`,
+  onError: console.error,
+})
+const open = () => (back.value ? menu.show(back.value.nativeView) : false)
+const commands = useNavigationCommands([
+  {
+    id: 'history',
+    title: 'Back history',
+    shortcut: { input: 'h', modifiers: ['ctrl'] },
+    action: open,
+  },
+  { id: 'back', title: 'Back', shortcut: { input: 'Escape' }, action: 'back' },
+])
+</script>
+
+<template>
+  <Page>
+    <NavigationCommandScope :commands="commands">
+      <StackLayout>
+        <Button
+          ref="back"
+          text="Back"
+          accessibilityLabel="Back; hold for history"
+          @tap="!menu.active.value && router.back()"
+          @longPress="open"
+        />
+        <Button text="Show history" accessibilityLabel="Show Back history" @tap="open" />
+      </StackLayout>
+    </NavigationCommandScope>
+  </Page>
+</template>
+```
+
+`show(source: View)` 返回菜单是否打开。它不会导航，也不会显示其他栈。菜单打开时重复调用是幂等的，包括 NativeScript 长按手势的多个阶段。来源必须已加载且属于这个可见页面。在根条目、原生导航期间、模态后方、未选中的标签页、释放后，或原生呈现不可用时，返回 `false`。
+
+菜单记录当前顶部之前的条目，从最近到最早排列，不包含当前顶部。`label(entry, index, history)` 接收从根开始的索引和冻结的历史；默认标签是路由名称（或完整路径），后接从一开始的位置编号。需要时，应在标签中区分重复位置和重建条目。`title` 和 `cancelTitle` 接受字符串、ref 或 getter，在打开时读取；Android 显示条目标签，不显示标题或取消行。
+
+选择会关闭菜单，并将精确地址传给 `backToEntry()`。守卫可以拒绝导航而不改变历史。意外的导航错误传给 `onError`，未提供时输出到控制台。`active` 是只读 ref；`dismiss()` 仅关闭此菜单，并返回它此前是否打开。页面被覆盖、来源卸载、历史变化和所有者释放都会关闭菜单并使旧回调失效。它不会改为选中同一路由的新一次访问。
+
+原生界面负责选择和关闭。可选键盘命令打开相同菜单；通过命令作用域处理时，Escape 会先关闭菜单，再考虑路由 Back。Android 还支持方向键/Enter 和硬件 Back。UIKit 支持原生取消，以及在 iPad 上点击外部关闭。原生检查验证了无障碍标签和键盘输入，但不代表已认证 VoiceOver/TalkBack 朗读或所有系统键盘模式。自定义 host 需要已加载的 NativeScript 路由 Page/锚点才能使用此界面；否则可使用只读历史 API 构建自己的控件。
+
+在已审计的 iOS 18.6/Core 9.1.4 组合上，从 UIKit 原有长按历史中选择条目绕过了启用的页面离开守卫。上面的可选菜单使用 router 的守卫流程；安装它不会拦截 UIKit 原有菜单。需要受守卫保护的历史选择时，应用必须使用自己的控件并隐藏系统 Back（例如使用 NativeScript 的 `NavigationButton`，设置 `visibility="collapsed"`）。原生控件的守卫缺口仍是 #178 的后续工作。
+
+<Clip name="back-history-menu" :width="480" aspect="3 / 4" caption="两个栈：UIKit 原有历史、应用 Back 长按、Ctrl H/Escape、守卫拒绝、精确选择重复条目、并发导航和释放。iOS 18.6 模拟器；演示应用标签为英文。" />
 
 ## 协调路由列表 {#reconciling-a-list-of-routes}
 

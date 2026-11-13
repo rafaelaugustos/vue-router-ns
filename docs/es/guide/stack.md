@@ -32,9 +32,76 @@ Los snapshots, las entradas, los datos de ruta y los arrays internos de parámet
 - La raíz fija de un split puede seleccionarse y permanece fija. La selección nunca la elimina.
 - Mientras haya un modal abierto, la selección se limita al stack del modal superior. Seleccionar un historial cubierto rechaza sin cerrar el modal; usa primero el flujo existente de Back del modal. Seleccionar la raíz del modal lo mantiene abierto.
 
-Persiste rutas y estado de la aplicación mediante la [restauración](./restore), no estas direcciones de instancia. Las entradas eliminadas desaparecen: no hay historial de avance y reconstruirlas no resucita sus objetos nativos. Los controles nativos de Back permanecen. Un menú opcional de historial corresponde a otra etapa; esta API no instala uno.
+Persiste rutas y estado de la aplicación mediante la [restauración](./restore), no estas direcciones de instancia. Las entradas eliminadas desaparecen: no hay historial de avance y reconstruirlas no resucita sus objetos nativos. Los controles nativos de Back permanecen.
 
 <Clip name="entry-history" :width="480" aspect="3 / 4" caption="Dos stacks nativos: selección exacta entre duplicados, guard que rechaza, dirección obsoleta, Back nativo cancelado/completado y cierre de propietarios. Simulador iOS 18.6; etiquetas del app en inglés." />
+
+## Menú opcional de historial en Back {#optional-back-history-menu}
+
+`useBackHistoryMenu()` ofrece el historial retenido de la página a un control de la aplicación. Conserva el botón Back del sistema UIKit y su menú de pulsación larga. El Back de la barra de Android no ofrece un menú de entradas retenidas; esta API proporciona un popup nativo. En iOS, los controles de la aplicación usan un action sheet/popover anclado, que también se abre desde un comando de teclado. No requiere buscar el botón Back mediante APIs privadas ni sustituir delegates de navegación.
+
+Llámalo durante el setup de una página enrutada. Además de la pulsación larga, ofrece un botón de historial con una etiqueta clara y traduce los textos para tu aplicación:
+
+```vue
+<script setup lang="ts">
+import { ref } from 'nativescript-vue'
+import type { View } from '@nativescript/core'
+import {
+  useRouter,
+  useBackHistoryMenu,
+  useNavigationCommands,
+  NavigationCommandScope,
+} from 'vue-router-ns'
+
+const router = useRouter()
+const back = ref<{ nativeView: View }>()
+const menu = useBackHistoryMenu({
+  title: 'Back history',
+  cancelTitle: 'Cancel',
+  label: (entry, index) => `${entry.route.fullPath} · ${index + 1}`,
+  onError: console.error,
+})
+const open = () => (back.value ? menu.show(back.value.nativeView) : false)
+const commands = useNavigationCommands([
+  {
+    id: 'history',
+    title: 'Back history',
+    shortcut: { input: 'h', modifiers: ['ctrl'] },
+    action: open,
+  },
+  { id: 'back', title: 'Back', shortcut: { input: 'Escape' }, action: 'back' },
+])
+</script>
+
+<template>
+  <Page>
+    <NavigationCommandScope :commands="commands">
+      <StackLayout>
+        <Button
+          ref="back"
+          text="Back"
+          accessibilityLabel="Back; hold for history"
+          @tap="!menu.active.value && router.back()"
+          @longPress="open"
+        />
+        <Button text="Show history" accessibilityLabel="Show Back history" @tap="open" />
+      </StackLayout>
+    </NavigationCommandScope>
+  </Page>
+</template>
+```
+
+`show(source: View)` devuelve si el menú está abierto. Nunca navega ni revela otro stack. Las llamadas repetidas mientras está abierto son idempotentes, incluidas las múltiples fases de pulsación larga de NativeScript. El origen debe estar cargado y pertenecer a esta página visible. En la raíz, durante navegación nativa, detrás de un modal, en una pestaña no seleccionada, tras la eliminación o cuando no está disponible la presentación nativa, devuelve `false`.
+
+El menú captura las entradas anteriores, de la más reciente a la más antigua, excluyendo el tope actual. `label(entry, index, history)` recibe el índice desde la raíz y el historial congelado; por defecto muestra el nombre de la ruta (o su ruta completa) seguido de la posición contando desde uno. Distingue ubicaciones repetidas y entradas reconstruidas en las etiquetas cuando sea útil. `title` y `cancelTitle` aceptan string, ref o getter y se leen al abrir; Android muestra las etiquetas sin encabezado ni fila Cancelar.
+
+Seleccionar cierra el menú y llama a `backToEntry()` con esa dirección exacta. Los guards pueden rechazarlo sin cambiar el historial. Los errores inesperados de navegación se envían a `onError` o a la consola. `active` es una ref de solo lectura; `dismiss()` cierra únicamente este menú y devuelve si estaba abierto. Cubrir la página, descargar el origen, cambiar el historial o eliminar al propietario cierra el menú e invalida callbacks antiguos. Nunca cambia el destino a una nueva aparición de la misma ruta.
+
+La interfaz nativa gestiona selección y cierre. El comando opcional de teclado abre el mismo menú; Escape lo cierra antes del Back de ruta cuando se procesa mediante el ámbito de comandos. Android también admite flechas/Enter y Back físico. UIKit admite cancelación nativa y cierre al tocar fuera en iPad. Las comprobaciones nativas verifican etiquetas accesibles y teclado; no certifican la voz de VoiceOver/TalkBack ni todos los modos de teclado del sistema. Un host personalizado necesita una Page/ancla enrutada de NativeScript cargada para esta interfaz; de lo contrario puede usar la API de historial de solo lectura para mostrar sus propios controles.
+
+En la combinación auditada de iOS 18.6/Core 9.1.4, seleccionar desde el historial original de UIKit omitió un guard de salida activo. El menú opcional anterior usa el flujo del router con guards; instalarlo no intercepta el menú original de UIKit. Las aplicaciones que requieren selección protegida deben usar controles propios y ocultar el Back del sistema (por ejemplo, un `NavigationButton` de NativeScript con `visibility="collapsed"`). La limitación del control nativo sigue pendiente en #178.
+
+<Clip name="back-history-menu" :width="480" aspect="3 / 4" caption="Dos stacks: historial original de UIKit, pulsación larga en Back de la aplicación, Ctrl H/Escape, rechazo del guard, selección exacta de duplicados, navegación concurrente y eliminación. Simulador iOS 18.6; etiquetas del app en inglés." />
 
 ## Reconciliar una lista de rutas {#reconciling-a-list-of-routes}
 

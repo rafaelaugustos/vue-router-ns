@@ -10,6 +10,8 @@ import type { RegisteredRouter } from './typed.js'
 import type { RouteLocation } from './types.js'
 
 export { createRouter, START_LOCATION } from './router.js'
+export { useBackHistoryMenu } from './history-menu.js'
+export type { BackHistoryMenu, BackHistoryMenuOptions } from './history-menu.js'
 export type { Router, RouterOptions, SystemBackClaimant } from './router.js'
 export type {
   NavigationHistory,

@@ -52,6 +52,8 @@ Install once with `createApp(App).use(router).start()`. This registers the compo
 
 `backToEntry(target: NavigationHistoryTarget, options?: BackToEntryOptions)` selects an exact live entry. Pass a snapshot entry directly. `BackToEntryOptions` accepts `animated` and `result`, with no frame override. It resolves to `NavigationFailure | undefined`; unavailable addresses and covered modal boundaries reject. See [retained history](./stack#selecting-an-exact-retained-entry) for scope, restoration and concurrency rules.
 
+`useBackHistoryMenu(options?: BackHistoryMenuOptions)` creates an optional page-owned menu. `BackHistoryMenu` exposes readonly `active`, `show(source: View): boolean` and `dismiss(): boolean`. See [Back history menu](./stack#optional-back-history-menu) for labels, keyboard commands, native fallbacks and lifecycle.
+
 ### Navigation options
 
 `push`, `replace` and `pushForResult` accept `NavigationOptions`:

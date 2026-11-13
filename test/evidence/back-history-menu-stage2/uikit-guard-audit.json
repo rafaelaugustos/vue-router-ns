@@ -1,0 +1,259 @@
+{
+  "platform": "iOS18.6 / Core9.1.4",
+  "expectedInboxEntries": 5,
+  "observedInboxEntries": 4,
+  "observation": "Original UIKit long-press Back history bypasses active page leave guard; optional menu acceptance is separate. Known open follow-up in #178.",
+  "report": {
+    "command": "unchanged",
+    "ok": false,
+    "error": "Error: opening and dismissing preserve both stacks",
+    "checks": [
+      "five retained inbox entries",
+      "UIKit Back history menu reconciles a native multi-pop",
+      "five retained inbox entries",
+      "opening and dismissing preserve both stacks",
+      "native dismissal clears active state"
+    ],
+    "errors": [],
+    "history": {
+      "inbox": {
+        "scope": {
+          "id": "mwf0khav-ijcrk2q9v6n-1",
+          "name": "inbox",
+          "kind": "frame",
+          "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+          "pinnedRoot": false
+        },
+        "entries": [
+          {
+            "scopeId": "mwf0khav-ijcrk2q9v6n-1",
+            "id": "mwf0khav-ijcrk2q9v6n-1:1",
+            "key": "mwf0khaw64yh-1",
+            "restored": false,
+            "route": {
+              "path": "/",
+              "fullPath": "/",
+              "hash": "",
+              "params": {},
+              "query": {}
+            }
+          },
+          {
+            "scopeId": "mwf0khav-ijcrk2q9v6n-1",
+            "id": "mwf0khav-ijcrk2q9v6n-1:9",
+            "key": "mwf0khaw64yh-9",
+            "restored": false,
+            "route": {
+              "path": "/item",
+              "fullPath": "/item",
+              "hash": "",
+              "params": {},
+              "query": {}
+            }
+          },
+          {
+            "scopeId": "mwf0khav-ijcrk2q9v6n-1",
+            "id": "mwf0khav-ijcrk2q9v6n-1:10",
+            "key": "mwf0khaw64yh-10",
+            "restored": false,
+            "route": {
+              "path": "/between",
+              "fullPath": "/between",
+              "hash": "",
+              "params": {},
+              "query": {}
+            }
+          },
+          {
+            "scopeId": "mwf0khav-ijcrk2q9v6n-1",
+            "id": "mwf0khav-ijcrk2q9v6n-1:11",
+            "key": "mwf0khaw64yh-11",
+            "restored": false,
+            "route": {
+              "path": "/item",
+              "fullPath": "/item",
+              "hash": "",
+              "params": {},
+              "query": {}
+            }
+          }
+        ]
+      },
+      "archive": {
+        "scope": {
+          "id": "mwf0khav-ijcrk2q9v6n-2",
+          "name": "archive",
+          "kind": "frame",
+          "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+          "pinnedRoot": false
+        },
+        "entries": [
+          {
+            "scopeId": "mwf0khav-ijcrk2q9v6n-2",
+            "id": "mwf0khav-ijcrk2q9v6n-2:2",
+            "key": "mwf0khaw64yh-2",
+            "restored": false,
+            "route": {
+              "path": "/",
+              "fullPath": "/",
+              "hash": "",
+              "params": {},
+              "query": {}
+            }
+          },
+          {
+            "scopeId": "mwf0khav-ijcrk2q9v6n-2",
+            "id": "mwf0khav-ijcrk2q9v6n-2:13",
+            "key": "mwf0khaw64yh-13",
+            "restored": false,
+            "route": {
+              "path": "/item",
+              "fullPath": "/item",
+              "hash": "",
+              "params": {},
+              "query": {}
+            }
+          },
+          {
+            "scopeId": "mwf0khav-ijcrk2q9v6n-2",
+            "id": "mwf0khav-ijcrk2q9v6n-2:14",
+            "key": "mwf0khaw64yh-14",
+            "restored": false,
+            "route": {
+              "path": "/last",
+              "fullPath": "/last",
+              "hash": "",
+              "params": {},
+              "query": {}
+            }
+          }
+        ]
+      }
+    }
+  },
+  "isolatedReproduction": {
+    "observedInboxEntries": 4,
+    "report": {
+      "command": "unchanged",
+      "ok": false,
+      "error": "Error: opening and dismissing preserve both stacks",
+      "checks": ["five retained inbox entries"],
+      "errors": [],
+      "history": {
+        "inbox": {
+          "scope": {
+            "id": "mwf0s90j-kbjbt9e6t8h-1",
+            "name": "inbox",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf0s90j-kbjbt9e6t8h-1",
+              "id": "mwf0s90j-kbjbt9e6t8h-1:1",
+              "key": "mwf0s90lj52n-1",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0s90j-kbjbt9e6t8h-1",
+              "id": "mwf0s90j-kbjbt9e6t8h-1:3",
+              "key": "mwf0s90lj52n-3",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0s90j-kbjbt9e6t8h-1",
+              "id": "mwf0s90j-kbjbt9e6t8h-1:4",
+              "key": "mwf0s90lj52n-4",
+              "restored": false,
+              "route": {
+                "path": "/between",
+                "fullPath": "/between",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0s90j-kbjbt9e6t8h-1",
+              "id": "mwf0s90j-kbjbt9e6t8h-1:5",
+              "key": "mwf0s90lj52n-5",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        },
+        "archive": {
+          "scope": {
+            "id": "mwf0s90j-kbjbt9e6t8h-2",
+            "name": "archive",
+            "kind": "frame",
+            "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+            "pinnedRoot": false
+          },
+          "entries": [
+            {
+              "scopeId": "mwf0s90j-kbjbt9e6t8h-2",
+              "id": "mwf0s90j-kbjbt9e6t8h-2:2",
+              "key": "mwf0s90lj52n-2",
+              "restored": false,
+              "route": {
+                "path": "/",
+                "fullPath": "/",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0s90j-kbjbt9e6t8h-2",
+              "id": "mwf0s90j-kbjbt9e6t8h-2:7",
+              "key": "mwf0s90lj52n-7",
+              "restored": false,
+              "route": {
+                "path": "/item",
+                "fullPath": "/item",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            },
+            {
+              "scopeId": "mwf0s90j-kbjbt9e6t8h-2",
+              "id": "mwf0s90j-kbjbt9e6t8h-2:8",
+              "key": "mwf0s90lj52n-8",
+              "restored": false,
+              "route": {
+                "path": "/last",
+                "fullPath": "/last",
+                "hash": "",
+                "params": {},
+                "query": {}
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

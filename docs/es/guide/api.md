@@ -52,6 +52,8 @@ Instalar una vez con `createApp(App).use(router).start()`. Esto registra los com
 
 `backToEntry(target: NavigationHistoryTarget, options?: BackToEntryOptions)` selecciona una entrada exacta de la instancia actual. Pasa directamente una entrada del snapshot. `BackToEntryOptions` acepta `animated` y `result`, sin sustituir el frame. Se resuelve con `NavigationFailure | undefined`; las direcciones no disponibles y los historiales cubiertos por modales rechazan. Consulta [historial retenido](./stack#selecting-an-exact-retained-entry) para las reglas de ámbito, restauración y concurrencia.
 
+`useBackHistoryMenu(options?: BackHistoryMenuOptions)` crea un menú opcional de la página. `BackHistoryMenu` expone `active` de solo lectura, `show(source: View): boolean` y `dismiss(): boolean`. Consulta [menú de historial](./stack#optional-back-history-menu) para etiquetas, teclado, alternativas nativas y ciclo de vida.
+
 ### Opciones de navegación {#navigation-options}
 
 `push`, `replace` y `pushForResult` aceptan `NavigationOptions`:

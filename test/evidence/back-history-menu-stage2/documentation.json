@@ -1,0 +1,81 @@
+{
+  "guides": {
+    "reports": [
+      {
+        "locale": "en",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/stack",
+          "/zh-CN/guide/stack",
+          "/pt-BR/guide/stack",
+          "/es/guide/stack",
+          "/zh-CN/guide/stack",
+          "/pt-BR/guide/stack",
+          "/guide/stack",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/guide/stack.md"
+        ],
+        "headingCount": 4
+      },
+      {
+        "locale": "pt-BR/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/stack",
+          "/zh-CN/guide/stack",
+          "/guide/stack",
+          "/es/guide/stack",
+          "/zh-CN/guide/stack",
+          "/guide/stack",
+          "/pt-BR/guide/stack",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/pt-BR/guide/stack.md"
+        ],
+        "headingCount": 4
+      },
+      {
+        "locale": "es/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/zh-CN/guide/stack",
+          "/guide/stack",
+          "/pt-BR/guide/stack",
+          "/zh-CN/guide/stack",
+          "/guide/stack",
+          "/pt-BR/guide/stack",
+          "/es/guide/stack",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/es/guide/stack.md"
+        ],
+        "headingCount": 4
+      },
+      {
+        "locale": "zh-CN/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/stack",
+          "/guide/stack",
+          "/pt-BR/guide/stack",
+          "/es/guide/stack",
+          "/guide/stack",
+          "/pt-BR/guide/stack",
+          "/zh-CN/guide/stack",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/zh-CN/guide/stack.md"
+        ],
+        "headingCount": 4
+      }
+    ],
+    "search": "passed"
+  },
+  "experience": {
+    "base": "http://127.0.0.1:4174",
+    "reports": [
+      "Push, retained search, modal result, cancellation and keyboard Escape passed.",
+      "Four localized homes and 320–1440px layouts passed.",
+      "Reduced motion settles animation and prevents automatic video playback.",
+      "Server-rendered content and guide navigation work without JavaScript."
+    ],
+    "errors": []
+  }
+}

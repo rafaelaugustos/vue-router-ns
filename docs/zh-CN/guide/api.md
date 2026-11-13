@@ -52,6 +52,8 @@ const router = createRouter({ routes, restore, backPreview: true })
 
 `backToEntry(target: NavigationHistoryTarget, options?: BackToEntryOptions)` 选择当前实例中的精确条目。直接传入快照中的条目即可。`BackToEntryOptions` 接受 `animated` 和 `result`，不能改写 frame。返回值为 `NavigationFailure | undefined`；地址不可用或历史被模态窗口遮挡时，Promise 会拒绝。作用域、恢复和并发规则请参阅[保留历史](./stack#selecting-an-exact-retained-entry)。
 
+`useBackHistoryMenu(options?: BackHistoryMenuOptions)` 创建可选的页面所属菜单。`BackHistoryMenu` 提供只读 `active`、`show(source: View): boolean` 和 `dismiss(): boolean`。标签、键盘命令、原生替代界面和生命周期见 [Back 历史菜单](./stack#optional-back-history-menu)。
+
 ### 导航选项 {#navigation-options}
 
 `push`、`replace` 和 `pushForResult` 接受 `NavigationOptions`：
