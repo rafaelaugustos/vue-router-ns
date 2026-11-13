@@ -1,0 +1,223 @@
+[
+  {
+    "command": "preview",
+    "ok": true,
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/"],
+        "native": ["/"]
+      }
+    }
+  },
+  {
+    "command": "route",
+    "ok": true,
+    "result": {
+      "status": "handled",
+      "requested": "/items/7"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/items/7"],
+        "native": ["/", "/items/7"]
+      }
+    }
+  },
+  {
+    "command": "url",
+    "ok": true,
+    "result": {
+      "status": "handled",
+      "requested": "/items/8"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/items/7", "/items/8"],
+        "native": ["/", "/items/7", "/items/8"]
+      }
+    }
+  },
+  {
+    "command": "repeat",
+    "ok": true,
+    "result": {
+      "status": "ignored",
+      "reason": "repeat"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/items/7", "/items/8", "/items/delivery"],
+        "native": ["/", "/items/7", "/items/8", "/items/delivery"]
+      }
+    }
+  },
+  {
+    "command": "blocked",
+    "ok": true,
+    "result": {
+      "status": "handled",
+      "failure": 4,
+      "requested": "/blocked"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/items/7", "/items/8", "/items/delivery"],
+        "native": ["/", "/items/7", "/items/8", "/items/delivery"]
+      }
+    }
+  },
+  {
+    "command": "cancelled",
+    "ok": true,
+    "result": {
+      "status": "handled",
+      "failure": 8,
+      "requested": "/items/slow"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/items/7", "/items/8", "/items/delivery", "/items/fast"],
+        "native": ["/", "/items/7", "/items/8", "/items/delivery", "/items/fast"]
+      }
+    }
+  },
+  {
+    "command": "owner",
+    "ok": true,
+    "result": {
+      "status": "ignored",
+      "reason": "wrong-window"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/items/7", "/items/8", "/items/delivery", "/items/fast"],
+        "native": ["/", "/items/7", "/items/8", "/items/delivery", "/items/fast"]
+      }
+    }
+  },
+  {
+    "command": "expired",
+    "ok": true,
+    "result": {
+      "status": "ignored",
+      "reason": "expired"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/items/7", "/items/8", "/items/delivery", "/items/fast"],
+        "native": ["/", "/items/7", "/items/8", "/items/delivery", "/items/fast"]
+      }
+    }
+  },
+  {
+    "command": "removed",
+    "ok": true,
+    "result": {
+      "status": "ignored",
+      "reason": "unmatched"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/items/7", "/items/8", "/items/delivery", "/items/fast"],
+        "native": ["/", "/items/7", "/items/8", "/items/delivery", "/items/fast"]
+      }
+    }
+  },
+  {
+    "command": "modal",
+    "ok": true,
+    "result": {
+      "status": "handled",
+      "requested": "/modal"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/items/7", "/items/8", "/items/delivery", "/items/fast"],
+        "native": ["/", "/items/7", "/items/8", "/items/delivery", "/items/fast"]
+      }
+    }
+  },
+  {
+    "command": "os-link",
+    "ok": true,
+    "result": {
+      "source": "resume",
+      "path": "/items/os-link"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": [
+          "/",
+          "/items/7",
+          "/items/8",
+          "/items/delivery",
+          "/items/fast",
+          "/items/os-link"
+        ],
+        "native": [
+          "/",
+          "/items/7",
+          "/items/8",
+          "/items/delivery",
+          "/items/fast",
+          "/items/os-link"
+        ]
+      }
+    }
+  }
+]

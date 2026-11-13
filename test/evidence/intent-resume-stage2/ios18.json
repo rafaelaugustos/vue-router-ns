@@ -1,0 +1,208 @@
+[
+  {
+    "command": "request",
+    "ok": true,
+    "result": {
+      "source": "resume"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/login"],
+        "native": ["/", "/login"]
+      }
+    },
+    "sourceDraft": "Unsent source draft",
+    "state": {
+      "status": "pending"
+    }
+  },
+  {
+    "command": "login",
+    "ok": true,
+    "result": {
+      "status": "handled"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/private/url"],
+        "native": ["/", "/private/url"]
+      }
+    },
+    "sourceDraft": "Unsent source draft",
+    "state": {
+      "status": "settled"
+    }
+  },
+  {
+    "command": "again",
+    "ok": true,
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/private/url"],
+        "native": ["/", "/private/url"]
+      }
+    },
+    "sourceDraft": "Unsent source draft",
+    "state": {
+      "status": "settled"
+    }
+  },
+  {
+    "command": "cancel",
+    "ok": true,
+    "result": {
+      "status": "ignored",
+      "reason": "cancelled"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/"],
+        "native": ["/"]
+      }
+    },
+    "sourceDraft": "Unsent source draft",
+    "state": {
+      "status": "cancelled",
+      "reason": "cancelled"
+    }
+  },
+  {
+    "command": "account",
+    "ok": true,
+    "result": {
+      "status": "ignored",
+      "reason": "scope-changed"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/login"],
+        "native": ["/", "/login"]
+      }
+    },
+    "sourceDraft": "Unsent source draft",
+    "state": {
+      "status": "cancelled",
+      "reason": "scope-changed"
+    }
+  },
+  {
+    "command": "expired",
+    "ok": true,
+    "result": {
+      "status": "ignored",
+      "reason": "expired"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/login"],
+        "native": ["/", "/login"]
+      }
+    },
+    "sourceDraft": "Unsent source draft",
+    "state": {
+      "status": "cancelled",
+      "reason": "expired"
+    }
+  },
+  {
+    "command": "superseded",
+    "ok": true,
+    "result": {
+      "status": "ignored",
+      "reason": "superseded"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/private/new"],
+        "native": ["/", "/private/new"]
+      }
+    },
+    "sourceDraft": "Unsent source draft",
+    "state": {
+      "status": "settled"
+    }
+  },
+  {
+    "command": "race",
+    "ok": true,
+    "result": {
+      "status": "handled",
+      "failure": 8
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/login"],
+        "native": ["/", "/login"]
+      }
+    },
+    "sourceDraft": "Unsent source draft",
+    "state": {
+      "status": "settled",
+      "reason": "scope-changed"
+    }
+  },
+  {
+    "command": "removed",
+    "ok": true,
+    "result": {
+      "status": "ignored",
+      "reason": "unmatched"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/login"],
+        "native": ["/", "/login"]
+      }
+    },
+    "sourceDraft": "Unsent source draft",
+    "state": {
+      "status": "cancelled",
+      "reason": "unmatched"
+    }
+  }
+]

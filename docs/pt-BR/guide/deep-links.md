@@ -114,9 +114,62 @@ O par `delivery` usa `scope` e `id` entre rótulos de origem durante a vida de u
 
 A prévia retorna `resolved` ou `ignored`. A execução retorna `handled` com o destino solicitado em `location` e eventual `failure`, ou `ignored` com `reason`. Handled significa que o fluxo normal terminou: guards podem redirecionar, abortar ou cancelar, e a página pedida pode nem aparecer. Motivos ignorados incluem `invalid`, `version`, `expired`, `unmatched`, `scheme`, `host`, `repeat`, `busy`, `wrong-window`, `owner-closed` e `target-unavailable`. Payloads e identificadores de entrega não são adicionados aos diagnósticos.
 
-Esta primeira etapa não persiste pedidos, suspende/retoma autenticação nem seleciona novas janelas. O login existente continua sob responsabilidade do aplicativo. A [fixture nativa](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/intents) verifica Frames reais, guards e entrega de URL pelo sistema; o [relatório de validação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-navigation-intents-stage1.md) separa evidências nativas da cobertura unitária.
+Os pedidos não são persistidos nem selecionam novas janelas. A retomada explícita de login em memória está descrita abaixo; a autenticação continua sob responsabilidade do aplicativo. A [fixture nativa](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/intents) verifica Frames reais, guards e entrega de URL pelo sistema; o [relatório de validação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-navigation-intents-stage1.md) separa evidências nativas da cobertura unitária.
 
 <Clip name="navigation-intents" :width="640" aspect="3 / 4" caption="Simulador real de iPad: prévia sem navegação, destinos por nome/URL, repetição e guards, descarte de modal e entrega de URL pelo sistema. Os rótulos do app estão em inglês." />
+
+## Retomar após login (experimental) {#resume-after-login}
+
+Use `suspendIntent(request, policy)` antes de apresentar o login do aplicativo, ou depois que um guard de link existente redirecionar para ele. O retorno é `suspended` com um handle, ou `ignored`. A suspensão resolve e copia o pedido, mas não navega, executa guards, aloca uma Page nem detecta autenticação. O aplicativo decide quando mostrar, substituir ou fechar o login.
+
+```ts
+import type { NavigationIntent, SuspendedIntent } from 'vue-router-ns'
+
+let authScope = {}
+let authenticated = false
+let pending: SuspendedIntent | undefined
+const policy = {
+  scope: () => authScope,
+  authorize: () => authenticated,
+  maxAge: 120_000,
+}
+
+async function requireLogin(request: NavigationIntent) {
+  const result = router.suspendIntent(request, policy)
+  if (result.status === 'ignored') return result
+  pending = result
+  await router.push('/login', { frame: 'inbox' })
+  return result
+}
+
+async function completeLogin() {
+  authenticated = true
+  return pending?.resume()
+}
+
+function cancelLogin() {
+  pending?.cancel()
+  pending = undefined
+}
+
+function accountChanged() {
+  authenticated = false
+  authScope = {}
+  cancelLogin()
+}
+```
+
+Após o provedor real confirmar o login, atualize o estado de autenticação do app e chame `resume()`. Não defina o booleano do exemplo a partir de um payload não confiável. `scope()` deve retornar o mesmo objeto estável durante o login pretendido; substitua-o ao sair, trocar de conta ou iniciar outro fluxo de autenticação. `authorize(location, intent)` deve retornar true de forma síncrona apenas enquanto esse destino continuar permitido. Ambos os callbacks devem ser puros; verificações de permissão assíncronas ou que lançam erro recusam a operação. A identidade da sessão e os callbacks ficam em memória e nunca são serializados no pedido.
+
+Cada router retém um fluxo de autenticação pendente. Uma suspensão nova válida ou um `openIntent` aceito o substitui; entregas malformadas ou repetidas não. A identidade de entrega fica reservada durante login e retomada, evitando outra tentativa por callback repetido. Após autorização, todas as chamadas a `resume()` retornam a mesma Promise, mesmo após conclusão ou rejeição. Chamar antes da autorização retorna `unauthorized` e mantém o pedido pendente. `cancel()` impede admissões posteriores; chame quando o login for cancelado ou a sessão mudar. Navegar normalmente para o login não cancela o fluxo pendente automaticamente.
+
+O ref somente leitura `state` informa `pending`, `resuming`, `settled` ou `cancelled`, com `reason` opcional. Troca de escopo retorna `scope-changed`; um intent mais novo retorna `superseded`; cancelamento explícito retorna `cancelled`. `maxAge` é um inteiro positivo de até 300.000 milissegundos, com padrão de cinco minutos; uma expiração anterior do pedido prevalece. Um timer libera pendências expiradas. Expiração, rotas removidas, fechamento da janela e permissão são verificados novamente na retomada. Diferentemente da admissão de intents comuns, a retomada mantém essas verificações após guards assíncronos, carregamento de componentes e redirecionamentos de guards, incluindo o destino redirecionado.
+
+Os guards e as falhas normais continuam valendo. Invalidação durante um guard resulta na falha normal de navegação cancelada. Páginas de pais já confirmadas e transições nativas já iniciadas não são desfeitas; o cancelamento impede admissões restantes. O handle suspenso não garante entrega persistente exatamente uma vez. Ele representa uma tentativa idempotente durante a vida deste router. Não há persistência de pedidos, integração automática com provedor nem inferência de identidade de conta.
+
+Passe `options: { replace: true }` no pedido para substituir o login pelo destino e aponte explicitamente para a mesma stack nomeada. O app controla permissões, a política da rota de login e a limpeza do histórico protegido ao sair. O `openLink` existente e seus listeners continuam disponíveis; um listener pode reter a URL original depois que o guard redirecionar para login. A [validação nativa](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-intent-resume-stage2.md) demonstra essa composição.
+
+<Clip name="intent-resume" :width="640" aspect="3 / 4" caption="Simulador real de iPad: uma URL do sistema abre o login do app, a entrada retoma uma vez, e cancelamento, troca de conta, expiração e logout durante guard impedem navegação obsoleta. A autenticação é controlada pela fixture, sem provedor externo; rótulos em inglês." />
 
 ## Atalhos da tela inicial
 

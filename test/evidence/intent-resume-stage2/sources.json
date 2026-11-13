@@ -1,0 +1,10 @@
+{
+  "src/intent-resume.ts": "507e54f05e1839bf9e932341b823d51b7481f30a11bc119ef31851efb22ec668",
+  "src/intents.ts": "33ef51c3da0ee3e16788ff50c2d4d24d0f4c3808ab5b59885ad28b9e498005ff",
+  "src/router.ts": "10402b758cd19bf7bdbeebf3abf35237de1df8d49ede73799a37d1ee89943c1e",
+  "src/index.ts": "3c84a21c321fc4e8e00e13459fbf0c95efc45d75d386d3ac926e548544628524",
+  "demo/src/testing/intentresume-app.ts": "ad6cccf9d5bbdc5fdfd5c1c1e49e1057b415e9f9afd01aacd968846dc512904c",
+  "scripts/native/intent-resume/ios.mjs": "c03e16d93df19b11265b5e70de7eb4a9ab928719d22b5efbf1cc4b2dbbe2ffe8",
+  "scripts/native/intent-resume/IntentResumeUITests.swift": "d4557fa19bd2014e88e3399df7162045a21cf06366e23101e9cb544714a0245d",
+  "docs/public/media/intent-resume.mp4": "4d552ad0def78165efee1ca897284477a773802fd3b2f2ee325c800d97d5edf1"
+}
