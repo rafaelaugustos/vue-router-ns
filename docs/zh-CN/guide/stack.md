@@ -99,7 +99,7 @@ const commands = useNavigationCommands([
 
 原生界面负责选择和关闭。可选键盘命令打开相同菜单；通过命令作用域处理时，Escape 会先关闭菜单，再考虑路由 Back。Android 还支持方向键/Enter 和硬件 Back。UIKit 支持原生取消，以及在 iPad 上点击外部关闭。原生检查验证了无障碍标签和键盘输入，但不代表已认证 VoiceOver/TalkBack 朗读或所有系统键盘模式。自定义 host 需要已加载的 NativeScript 路由 Page/锚点才能使用此界面；否则可使用只读历史 API 构建自己的控件。
 
-在已审计的 iOS 18.6/Core 9.1.4 组合上，从 UIKit 原有长按历史中选择条目绕过了启用的页面离开守卫。上面的可选菜单使用 router 的守卫流程；安装它不会拦截 UIKit 原有菜单。需要受守卫保护的历史选择时，应用必须使用自己的控件并隐藏系统 Back（例如使用 NativeScript 的 `NavigationButton`，设置 `visibility="collapsed"`）。原生控件的守卫缺口仍是 #178 的后续工作。
+在 iOS 16 及以上版本中，只要 ActionBar 历史可能跳过启用的页面离开守卫，router 就会保护它，包括被覆盖页面的守卫。router 临时安装原生 Back 项：点击调用 `router.back()`，长按通过 `backToEntry()` 提供精确条目菜单。标签使用保留页面的标题（或路由）及其位置。守卫拒绝或等待期间历史保持不变。当所有可移除条目都没有启用的守卫时，会恢复 UIKit 原有的 Back/历史菜单。仅保留根条目上的守卫不需要替换控件。应用隐藏的 Back 控件保持隐藏；正常的 ActionBar 更新会保留应用的其他项目。原生手势的边界见[守卫](./guards#what-the-platform-does-while-a-guard-is-active)。可选的 `useBackHistoryMenu()` 仍可用于应用自己的控件和标签。
 
 <Clip name="back-history-menu" :width="480" aspect="3 / 4" caption="两个栈：UIKit 原有历史、应用 Back 长按、Ctrl H/Escape、守卫拒绝、精确选择重复条目、并发导航和释放。iOS 18.6 模拟器；演示应用标签为英文。" />
 

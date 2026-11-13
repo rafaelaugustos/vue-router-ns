@@ -9,6 +9,7 @@ assert(sim, 'Use a dedicated iPad simulator')
 const out = resolve(process.env.OUT ?? 'scripts/native/out/history')
 const project = resolve(process.env.XCTEST_PROJECT ?? '/tmp/history-checks')
 const pkg = 'org.nativescript.vuerouterns'
+const guards = process.env.HISTORY_GUARDS === '1'
 const audit = process.env.HISTORY_MENU_AUDIT === '1'
 const menu = process.env.HISTORY_MENU === '1' || audit
 const run = (cmd, args, extra = {}) =>
@@ -46,11 +47,13 @@ try {
       `${project}/HistoryChecks.xcodeproj`,
       '-scheme',
       'HistoryChecks',
-      audit
-        ? '-only-testing:HistoryChecks/MenuUITests/testGuardedUIKitHistoryAudit'
-        : menu
-          ? '-only-testing:HistoryChecks/MenuUITests/testBackHistoryMenu'
-          : '-only-testing:HistoryChecks/HistoryUITests/testRetainedHistory',
+      guards
+        ? '-only-testing:HistoryChecks/MenuUITests/testGuardedBack'
+        : audit
+          ? '-only-testing:HistoryChecks/MenuUITests/testGuardedUIKitHistoryAudit'
+          : menu
+            ? '-only-testing:HistoryChecks/MenuUITests/testBackHistoryMenu'
+            : '-only-testing:HistoryChecks/HistoryUITests/testRetainedHistory',
       '-destination',
       `platform=iOS Simulator,id=${sim}`,
       '-derivedDataPath',
@@ -79,20 +82,46 @@ const container = (
   await run('xcrun', ['simctl', 'get_app_container', sim, pkg, 'data'])
 ).stdout.trim()
 const reports = []
-for (const name of audit
-  ? ['seed', 'guard', 'unchanged']
-  : menu
-    ? [
-        'seed',
-        'native',
-        'unchanged',
-        'guard',
-        'refused',
-        'selected',
-        'invalidate',
-        'dispose',
-      ]
-    : ['seed', 'blocked', 'jump', 'stale', 'prepare', 'cancelled', 'native', 'dispose']) {
+for (const name of guards
+  ? [
+      'seed',
+      'guard',
+      'protect',
+      'protected',
+      'header',
+      'header-ok',
+      'confirm',
+      'selected',
+      'arm',
+      'unchanged',
+      'single',
+      'handoff',
+      'native',
+      'teardown',
+    ]
+  : audit
+    ? ['seed', 'guard', 'unchanged']
+    : menu
+      ? [
+          'seed',
+          'native',
+          'unchanged',
+          'guard',
+          'refused',
+          'selected',
+          'invalidate',
+          'dispose',
+        ]
+      : [
+          'seed',
+          'blocked',
+          'jump',
+          'stale',
+          'prepare',
+          'cancelled',
+          'native',
+          'dispose',
+        ]) {
   const raw = await readFile(`${container}/Documents/history-${name}.json`, 'utf8').catch(
     () => undefined,
   )
@@ -103,10 +132,14 @@ for (const name of audit
 }
 await run('xcrun', ['simctl', 'io', sim, 'screenshot', `${out}/final.png`])
 assert(!failure, `Native history test failed: ${out}/xcodebuild.log`)
-assert.equal(reports.length, audit ? 3 : 8)
+assert.equal(reports.length, guards ? 14 : audit ? 3 : 8)
 for (const report of reports) assert(report.ok, report.error)
 console.log(
-  menu
-    ? 'Back history menu: UIKit audit, long press, keyboard, dismissal, guards, duplicates and disposal passed'
-    : 'Retained history: exact duplicates, guards, other stack isolation, native gestures and disposal passed',
+  guards
+    ? 'Guarded UIKit Back: refusal, covered guard, confirmation, exact duplicate, header ownership, stale menu and restoration passed'
+    : audit
+      ? 'UIKit guard regression: native history selection preserves the guarded stack'
+      : menu
+        ? 'Back history menu: UIKit audit, long press, keyboard, dismissal, guards, duplicates and disposal passed'
+        : 'Retained history: exact duplicates, guards, other stack isolation, native gestures and disposal passed',
 )

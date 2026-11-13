@@ -72,9 +72,31 @@ labels and keyboard events, not screen-reader speech or every keyboard mode.
 
 ### Separate UIKit guard audit
 
-`HISTORY_MENU_AUDIT=1` selects `testGuardedUIKitHistoryAudit` instead of the passing
-menu suite. On iOS 18.6/Core 9.1.4 this reproduction **fails**: UIKit's original
-long-press history pops past an active `onBeforeRouteLeave` guard. The guard uses
-the existing router Back interception; the opt-in menu does not replace that
-system control. The failed audit is retained in the stage-2 report and #178 stays
-open. This probe is not counted as passing native acceptance.
+`HISTORY_MENU_AUDIT=1` selects `testGuardedUIKitHistoryAudit` instead of the menu
+suite. It reproduced a guard bypass on the stage-2 revision: UIKit history removed
+entries despite an active `onBeforeRouteLeave` guard. That failed audit remains
+in the stage-2 report. With stage 3, the same unchanged-history assertion must pass;
+the router supplies a guarded native Back/history item automatically.
+
+## Guarded UIKit Back/history (stage 3)
+
+Build with both `--env.historymenuTest --env.historyGuards --no-hmr`, then run:
+
+```sh
+IOS_SIMULATOR=<dedicated-booted-iPad-UDID> HISTORY_GUARDS=1 RECORD_VIDEO=1 OUT=scripts/native/out/guarded-back node scripts/native/history/ios.mjs
+```
+
+The XCTest sequence requires all fourteen application reports. It checks top and
+covered page guards, asynchronous Stay/Leave confirmation, exact duplicate Page
+identity, independent Archive Pages, app-owned header updates, a guard activating
+while original UIKit history is open, a single Back, restored system history and
+owner disposal with an open guarded menu. The activation probe holds the touch
+through the timer: releasing over UIKit's first history row may select it before
+the guard activates. These are native UIKit controls driven through XCTest.
+
+Focused contracts additionally cover stale callbacks after modal coverage,
+repeated selection, hidden Back controls, later ActionBar wrappers and the iOS 15
+boundary. Run the full fixture on separate dedicated iOS simulators sequentially;
+the generated XCTest project/build directory is shared by default. This stage is
+iOS-specific; it does not extend the native Android, physical-device or
+screen-reader evidence from earlier work.
