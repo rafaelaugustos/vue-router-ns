@@ -44,6 +44,23 @@ const routes = [
 ]
 
 describe('native tab host', () => {
+  it('reads another tab history without selecting it and reveals the exact target on Back', async () => {
+    const { app, router } = await mount(routes, { render: tree() })
+    const tabs = views.get('TabView')!.at(-1) as TabView
+    await router.push('/detail', { frame: 'a' })
+    const target = router.getHistory({ frame: 'a' })!.entries[0]!
+    await router.push('/b/detail', { frame: 'b' })
+    const other = router.getHistory({ frame: 'b' })!
+    expect(tabs.selectedIndex).toBe(1)
+    expect(router.getHistory({ frame: 'a' })!.entries).toHaveLength(2)
+    expect(tabs.selectedIndex).toBe(1)
+    await router.backToEntry(target)
+    expect(tabs.selectedIndex).toBe(0)
+    expect(router.getHistory({ frame: 'a' })!.entries).toEqual([target])
+    expect(router.getHistory({ frame: 'b' })!.entries).toEqual(other.entries)
+    app.unmount()
+  })
+
   it('renders UIKit tabs, reveals a tab for a navigation into its stack and goes back to root on reselect', async () => {
     const selected = vi.fn()
     const reselect = vi.fn()

@@ -11,9 +11,35 @@ import {
   type RouteLocationOf,
   type RouteRecordRaw,
   type Router,
+  type NavigationHistory,
+  type NavigationHistoryEntry,
+  type NavigationHistoryTarget,
+  type BackToEntryOptions,
 } from '../src/index.js'
 
 const Page = defineComponent({})
+
+describe('readonly entry history', () => {
+  it('accepts scoped targets and prevents mutation or a frame override', () => {
+    expectTypeOf<NavigationHistoryEntry>().toExtend<NavigationHistoryTarget>()
+    expectTypeOf<keyof BackToEntryOptions>().toEqualTypeOf<'animated' | 'result'>()
+    const snapshot = null as unknown as NavigationHistory
+    const router = null as unknown as Router
+    router.backToEntry(snapshot.entries[0]!, { animated: false, result: 'chosen' })
+    // @ts-expect-error live entry addresses require their stack scope
+    router.backToEntry({ id: 'entry' })
+    // @ts-expect-error the selected target owns its stack
+    router.backToEntry(snapshot.entries[0]!, { frame: 'other' })
+    // @ts-expect-error history is readonly
+    snapshot.entries.push(snapshot.entries[0]!)
+    // @ts-expect-error entry identity is readonly
+    snapshot.entries[0]!.id = 'other'
+    // @ts-expect-error detached route data is readonly
+    snapshot.entries[0]!.route.params.id = 'other'
+    // @ts-expect-error snapshots expose no native Page
+    snapshot.entries[0]!.page
+  })
+})
 
 describe('ParamsFromPath', () => {
   it('reads params and their modifiers', () => {

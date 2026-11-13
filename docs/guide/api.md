@@ -46,6 +46,12 @@ Install once with `createApp(App).use(router).start()`. This registers the compo
 
 `push`, `replace`, `back`, `go`, `backTo`, `backToRoot` and `setStack` resolve to `NavigationFailure | undefined`. Unexpected errors reject; see [failures](./navigating#failures-and-errors). Back methods have the [split-view semantics](./split-view#history-and-back) when called in a split stack.
 
+### Retained history
+
+`history` is a readonly ref of `NavigationHistory | undefined`. `getHistory(options?: HistoryOptions)` reads a frozen snapshot; `HistoryOptions.frame` selects a named stack without navigating. The snapshot exposes `NavigationHistoryScope` and `NavigationHistoryEntry` data with a detached `NavigationHistoryRoute`.
+
+`backToEntry(target: NavigationHistoryTarget, options?: BackToEntryOptions)` selects an exact live entry. Pass a snapshot entry directly. `BackToEntryOptions` accepts `animated` and `result`, with no frame override. It resolves to `NavigationFailure | undefined`; unavailable addresses and covered modal boundaries reject. See [retained history](./stack#selecting-an-exact-retained-entry) for scope, restoration and concurrency rules.
+
 ### Navigation options
 
 `push`, `replace` and `pushForResult` accept `NavigationOptions`:

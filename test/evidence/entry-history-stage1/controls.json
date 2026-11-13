@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "9fd4831fd2cb0830e4cae1b9e41ea28003ae8a57",
+  "fullSuite": {
+    "passed": 714,
+    "skipped": 10,
+    "files": 56
+  },
+  "controls": [
+    {
+      "mutation": "Replace exact ID lookup with closest matching route",
+      "expected": "['/', '/a']",
+      "actual": "['/', '/a', '/b', '/a']",
+      "failed": 1,
+      "passed": 0,
+      "tests": ["targets the older of two identical paths and preserves its native page"]
+    },
+    {
+      "mutation": "Remove guarded-top identity revalidation",
+      "expected": "NavigationFailureType.cancelled (8)",
+      "actual": "undefined (navigation accepted)",
+      "failed": 1,
+      "passed": 0,
+      "tests": ["cancels a pending selection after native mutation: retained target"]
+    }
+  ]
+}

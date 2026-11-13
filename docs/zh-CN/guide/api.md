@@ -46,6 +46,12 @@ const router = createRouter({ routes, restore, backPreview: true })
 
 `push`、`replace`、`back`、`go`、`backTo`、`backToRoot` 和 `setStack` 解析为 `NavigationFailure | undefined`。意外错误拒绝；请参阅 [失败](./navigating#failures-and-errors)。在拆分 导航栈 中调用时，Back 方法具有 [拆分视图语义](./split-view#history-and-back)。
 
+### 保留历史 {#retained-history}
+
+`history` 是类型为 `NavigationHistory | undefined` 的只读 ref。`getHistory(options?: HistoryOptions)` 读取冻结快照；`HistoryOptions.frame` 选择具名栈，不触发导航。快照提供 `NavigationHistoryScope` 和 `NavigationHistoryEntry` 数据，其中的 `NavigationHistoryRoute` 是独立副本。
+
+`backToEntry(target: NavigationHistoryTarget, options?: BackToEntryOptions)` 选择当前实例中的精确条目。直接传入快照中的条目即可。`BackToEntryOptions` 接受 `animated` 和 `result`，不能改写 frame。返回值为 `NavigationFailure | undefined`；地址不可用或历史被模态窗口遮挡时，Promise 会拒绝。作用域、恢复和并发规则请参阅[保留历史](./stack#selecting-an-exact-retained-entry)。
+
 ### 导航选项 {#navigation-options}
 
 `push`、`replace` 和 `pushForResult` 接受 `NavigationOptions`：
