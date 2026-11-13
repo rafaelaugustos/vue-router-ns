@@ -58,6 +58,18 @@ ANDROID_SERIAL=<dedicated-emulator> OUT=scripts/native/out/adaptive-input node s
 
 The first driver verifies state and identity; the second uses `input tap/text/keyevent` and UIAutomator to prove that both regions receive real input in permanent mode, hidden/covered regions leave the accessibility tree, typed drafts survive tab/mode changes, and Back pops a page instead of consuming permanent visibility.
 
+Android bridge snapshots wait for the actual `DrawerLayout` idle state and completed layout, with a three-second deadline. They do not assume that 500 ms means an opening completed. Each report includes native callback timestamps and settlement duration; the host also records command duration and preserves error replies. Commands are sent once. A missing endpoint, wrong model/accessibility state or changed native identity still fails. UIKit retains its existing timing.
+
+For a focused hosted run, push the candidate branch and use:
+
+```sh
+gh workflow run native.yml --ref <candidate-branch> -f lane=foldable
+```
+
+This selects the complete foldable lane: adaptive contracts, both fold/hinge suites, native input and adaptive hinge checks. The contracts run first so the opening regression fails before the longer posture suites. The lane caches Gradle dependencies and bounds ADB commands; a newer manual run on the same non-main branch cancels its obsolete predecessor. The default `all` selection and callers of the full workflow still run every integration lane. A focused green run does not certify the entire release matrix.
+
+To record the actual fixture, run `ANDROID_SERIAL=<dedicated-fold-emulator> OUT=scripts/native/out/adaptive-recording node scripts/native/adaptive-drawer/record.mjs`. The recording demonstrates overlay opening/closing, permanent presentation, retained drafts/tabs and a modal result; every step checks retained identities. It writes `drawer-settlement.mp4` alongside the command reports.
+
 The input driver can dismiss one system-owned **Pixel Launcher isn't responding** dialog, which otherwise obscures the fixture and produces a misleading missing-target failure. Before closing it, the driver saves `launcher-anr-1.xml` and `.png`; `launcher-recovery-1.json` records the outcome and fixture PIDs before/after. It then reads a fresh hierarchy and continues the original scenario. It never restarts the fixture or retries failed navigation assertions. A repeated launcher ANR, any other app's ANR, an unusable Close app button, or a missing/changed fixture PID fails the run and retains evidence. This recovery is specific to the English CI emulator dialog; other system dialogs remain failures.
 
 On a Pixel Fold emulator configured with [`prepare-fold-avd.mjs`](../prepare-fold-avd.mjs):

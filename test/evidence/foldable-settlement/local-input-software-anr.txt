@@ -1,0 +1,79 @@
+ACTIVITY MANAGER LAST ANR (dumpsys activity lastanr)
+  ANR time: Nov 13, 2026 4:07:53 AM
+  Reason: Input dispatching timed out (4eab1d4 org.nativescript.vuerouterns/com.tns.NativeScriptActivity (server) is not responding. Waited 5461ms for KeyEvent(deviceId=-1, eventTime=577743599941, source=KEYBOARD, displayId=-1, action=DOWN, flags=0x00000000, keyCode=N(42), scanCode=0, metaState=0x00000000, repeatCount=0), policyFlags=0x6b000000).
+
+  * Task{f8d1595 #18 type=standard A=10207:org.nativescript.vuerouterns U=0 visible=true visibleRequested=true mode=fullscreen translucent=false sz=1}
+    mLastNonFullscreenBounds=Rect(609, 145 - 1599, 1685)
+    isSleeping=false
+    topResumedActivity=ActivityRecord{9df14c u0 org.nativescript.vuerouterns/com.tns.NativeScriptActivity t18}
+
+  mLastHomeActivityStartResult=0
+  mLastStarter:
+    mCurrentUser=0
+    mLastStartReason=startActivityAsUser
+    mLastStartActivityTimeMs=Nov 13, 2026 4:06:40 AM
+    mLastStartActivityResult=0
+    mStartActivity:
+      packageName=org.nativescript.vuerouterns processName=org.nativescript.vuerouterns
+      launchedFromUid=2000 launchedFromPackage=com.android.shell launchedFromFeature=null userId=0
+      app=ProcessRecord{c43199d 4449:org.nativescript.vuerouterns/u0a207}
+      Intent { flg=0x10000000 cmp=org.nativescript.vuerouterns/com.tns.NativeScriptActivity }
+      rootOfTask=true task=Task{f8d1595 #18 type=standard A=10207:org.nativescript.vuerouterns}
+      taskAffinity=10207:org.nativescript.vuerouterns
+      mActivityComponent=org.nativescript.vuerouterns/com.tns.NativeScriptActivity
+      baseDir=/data/app/~~dtn7PFWfRYSs11ezeR_0hA==/org.nativescript.vuerouterns-vCQSo1kO4EOYhXEs8GThDw==/base.apk
+      dataDir=/data/user/0/org.nativescript.vuerouterns
+      stateNotNeeded=false componentSpecified=true mActivityType=standard
+      compat={420dpi always-compat} theme=0x7f100120
+      mLastReportedConfigurations:
+        mGlobalConfig={1.0 310mcc260mnc [en_US] ldltr sw701dp w841dp h701dp 420dpi lrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 2208, 1840) mAppBounds=Rect(0, 0 - 2208, 1840) mMaxBounds=Rect(0, 0 - 2208, 1840) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=undefined mAlwaysOnTop=undefined mRotation=ROTATION_0} as.4 s.55 fontWeightAdjustment=0}
+        mOverrideConfig={1.0 310mcc260mnc [en_US] ldltr sw701dp w841dp h701dp 420dpi lrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 2208, 1840) mAppBounds=Rect(0, 0 - 2208, 1840) mMaxBounds=Rect(0, 0 - 2208, 1840) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=standard mAlwaysOnTop=undefined mRotation=ROTATION_0} as.4 s.4 fontWeightAdjustment=0}
+      mLastReportedActivityWindowInfo=ActivityWindowInfo{isEmbedded=false, taskBounds=Rect(0, 0 - 2208, 1840), taskFragmentBounds=Rect(0, 0 - 2208, 1840)}
+      CurrentConfiguration={1.0 310mcc260mnc [en_US] ldltr sw701dp w841dp h701dp 420dpi lrg land finger -keyb/v/h -nav/h winConfig={ mBounds=Rect(0, 0 - 2208, 1840) mAppBounds=Rect(0, 0 - 2208, 1840) mMaxBounds=Rect(0, 0 - 2208, 1840) mDisplayRotation=ROTATION_0 mWindowingMode=fullscreen mActivityType=standard mAlwaysOnTop=undefined mRotation=ROTATION_0} as.4 s.4 fontWeightAdjustment=0}
+      RequestedOverrideConfiguration={0.0 ?mcc0mnc ?localeList ?layoutDir ?swdp ?wdp ?hdp ?density ?lsize ?long ?ldr ?wideColorGamut ?orien ?uimode ?night ?touch ?keyb/?/? ?nav/? winConfig={ mBounds=Rect(0, 0 - 0, 0) mAppBounds=null mMaxBounds=Rect(0, 0 - 0, 0) mDisplayRotation=undefined mWindowingMode=undefined mActivityType=standard mAlwaysOnTop=undefined mRotation=undefined} ?fontWeightAdjustment}
+      taskDescription: label="null" icon=null iconResource=/0 iconFilename=null primaryColor=fff5f5f5
+        backgroundColor=fffafafa statusBarColor=ff757575 navigationBarColor=808080
+       backgroundColorFloating=ffffffff
+      launchFailed=false launchCount=1 lastLaunchTime=-1m2s879ms
+      mHaveState=false mIcicle=null
+      state=RESUMED delayedResume=false finishing=false
+      keysPaused=false inHistory=true idle=true
+      occludesParent=true noDisplay=false immersive=false launchMode=0
+      mActivityType=standard
+      mImeInsetsFrozenUntilStartInput=false
+      windows=[Window{4eab1d4 u0 org.nativescript.vuerouterns/com.tns.NativeScriptActivity}]
+      windowType=2
+      mOccludesParent=true
+      overrideOrientation=SCREEN_ORIENTATION_UNSPECIFIED
+      requestedOrientation=SCREEN_ORIENTATION_UNSPECIFIED
+      mVisibleRequested=true mVisible=true mClientVisible=true reportedDrawn=true reportedVisible=true
+      mNumInterestingWindows=1 mNumDrawnWindows=1 allDrawn=true lastAllDrawn=false)
+      startingData=null firstWindowDrawn=true mIsExiting=false
+      nowVisible=true lastVisibleTime=-56s248ms
+      resizeMode=RESIZE_MODE_RESIZEABLE_VIA_SDK_VERSION
+      mLastReportedMultiWindowMode=false mLastReportedPictureInPictureMode=false
+      supportsSizeChanges=SIZE_CHANGES_UNSUPPORTED_METADATA
+      configChanges=0xfb7
+      neverSandboxDisplayApis=false
+      alwaysSandboxDisplayApis=false
+      areBoundsLetterboxed=false
+      mCameraCompatControlState=hidden
+      mCameraCompatControlEnabled=true
+    mIntent=Intent { flg=0x10000000 cmp=org.nativescript.vuerouterns/com.tns.NativeScriptActivity }
+    mLaunchMode=LAUNCH_MULTIPLE    mLaunchFlags=0x10000000 mDoResume=true mAddingToTask=true mInTaskFragment=null
+
+  ResumedActivity: ActivityRecord{9df14c u0 org.nativescript.vuerouterns/com.tns.NativeScriptActivity t18}
+  LockTaskController:
+    mLockTaskModeState=NONE
+    mLockTaskModeTasks=
+    mLockTaskPackages (userId:packages)=
+
+  KeyguardController:
+    mKeyguardShowing=false
+    mAodShowing=false
+    mKeyguardGoingAway=false
+   KeyguardShowing=false AodShowing=false KeyguardGoingAway=false DismissalRequested=false  Occluded=false DismissingKeyguardActivity=null TurnScreenOnActivity=null at display=0
+    mDismissalRequested=false
+
+-------------------------------------------------------------------------------
+
