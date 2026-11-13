@@ -395,13 +395,17 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   /** Native transitions in flight. Navigations wait for them, so they always start from a settled screen. */
   let settled: Promise<unknown> = Promise.resolve()
 
-  const focusedFrame = (): Stack | undefined => {
+  const focusedFrame = (exclude?: Stack): Stack | undefined => {
     const last = lastFrame.value
-    if (last && !last.closed && last.selected?.() !== false) return last
+    if (last && last !== exclude && !last.closed && last.selected?.() !== false)
+      return last
+    const available = [...frames.values()].filter(
+      (stack) => stack !== exclude && !stack.closed,
+    )
     return (
-      [...frames.values()].find((stack) => stack.selected?.()) ??
-      frames.get('default') ??
-      frames.values().next().value
+      available.find((stack) => stack.selected?.()) ??
+      available.find((stack) => stack.name === 'default') ??
+      available[0]
     )
   }
 
@@ -437,6 +441,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       attempt: undefined,
       pending: undefined,
       settled: Promise.resolve(),
+      endWaiters: new Set(),
       closed: false,
     } as Omit<Stack, 'router'> as Stack
 
@@ -461,16 +466,26 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     })
     stack.host = host
     diagnostics?.event('host', stack, 'attach')
-    host.attach({
-      changed: () => sync(stack),
-      closed: () => onHostClosed(stack),
-      dismissAttempted: () => onDismissAttempt(stack),
-      backPressed: () => onHostBackPressed(stack),
-      backGesture: () => gestureSession(stack),
-    })
+    try {
+      host.attach({
+        changed: () => sync(stack),
+        closed: () => onHostClosed(stack),
+        dismissAttempted: () => onDismissAttempt(stack),
+        backPressed: () => onHostBackPressed(stack),
+        backGesture: () => gestureSession(stack),
+      })
+    } catch (error) {
+      try {
+        close(stack)
+      } catch {
+        /* Preserve the original attach failure. */
+      }
+      throw error
+    }
   }
 
-  function close(stack: Stack) {
+  function close(stack: Stack, nativeCompletion = false) {
+    if (stack.closed) return
     diagnostics?.event('host', stack, 'dispose')
     previews.get(stack)?.dispose()
     stack.closed = true
@@ -481,15 +496,24 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     // A retained router may still expose this closed Stack through lastFrame.
     // Its detached host closure must not keep the Frame and native Pages alive.
     detachers.delete(stack)
-    stack.host?.dispose()
+    const host = stack.host
     stack.host = null
-    for (const entry of stack.entries.value) dispose(entry)
-    stack.entries.value = []
-    // A queued destination may own SDK resources before its Page joins the
-    // visible native history (for example an unloaded tab closed by its owner).
-    if (stack.pending?.entry) dispose(stack.pending.entry)
-    stack.pending?.resolve()
-    stack.pending = undefined
+    // Owner teardown is not the acknowledgement of a pending Back result.
+    if (!nativeCompletion) {
+      for (const entry of stack.entries.value) entry.result = undefined
+    }
+    try {
+      host?.dispose()
+    } finally {
+      for (const entry of stack.entries.value) dispose(entry)
+      stack.entries.value = []
+      // A queued destination may own resources before joining native history.
+      if (stack.pending?.entry) dispose(stack.pending.entry)
+      stack.pending?.resolve()
+      stack.pending = undefined
+      for (const wake of stack.endWaiters) wake()
+      stack.endWaiters.clear()
+    }
   }
 
   /** Mirrors the host into the stack after every native navigation. */
@@ -550,7 +574,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     const from = topOf(stack)?.route
     const initiated = !!stack.pending
     modals.value = modals.value.filter((modal) => modal !== stack)
-    close(stack)
+    close(stack, stack.pending?.closing === true)
     settleNavigationFocus(modalOrigins.get(stack), true)
 
     // swiped down, tapped outside or closed by the Android back button
@@ -863,6 +887,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
   /** The route revealed when a modal closes. */
   function routeBelow(stack: Stack): RouteLocation {
+    if (!stack.modal) return topOf(focusedFrame(stack))?.route ?? START_LOCATION
     const index = modals.value.indexOf(stack)
     const below = index > 0 ? modals.value[index - 1] : focusedFrame()
     return topOf(below)?.route ?? START_LOCATION
@@ -1177,13 +1202,14 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     const shown = expect(stack, entry)
     const mounting = trace?.span('mount', 'page')
     try {
-      await host.push(createPage(entry, pageLink), {
+      const presenting = host.push(createPage(entry, pageLink), {
         initial,
         animated: initial || reduced ? false : options.animated,
         transition,
         replace: request.type === 'replace' && !clearHistory && !hidden,
         clearHistory,
       })
+      await awaitHost(stack, Promise.all([presenting, shown]))
       mounting?.end()
     } catch (error) {
       mounting?.end('error')
@@ -1192,8 +1218,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       stack.pending = undefined
       throw error
     }
-    await shown
-    await finishNativeDestination(entry)
+    if (!entry.disposed) await finishNativeDestination(entry)
   }
 
   async function commitModal(
@@ -1313,7 +1338,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     animated: boolean | undefined,
   ) {
     const top = topOf(stack)
-    if (top && result !== undefined) top.result = result
+    const previousResult = top?.result
 
     const host = stack.host!
     if (shouldReduceMotion(stack)) {
@@ -1325,14 +1350,35 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     }
     if (!target && !host.capabilities.close) throw unsupportedOperation(host, 'closing')
 
+    if (top && result !== undefined) top.result = result
     const done = expect(stack)
+    // A native close only acknowledges this result when closing was requested.
+    // An unrelated owner close during a page pop cancels its tentative result.
+    stack.pending!.closing = target === null
     try {
-      await host.back(target?.page ?? null, { animated })
+      const leaving = host.back(target?.page ?? null, { animated })
+      await awaitHost(stack, Promise.all([leaving, done]))
     } catch (error) {
+      if (top && !top.disposed) top.result = previousResult
       stack.pending = undefined
       throw error
     }
-    await done
+  }
+
+  /** Stop waiting on adapter promises when ownership ends, without retaining
+   * one lifetime-promise reaction for every navigation in a long-lived host. */
+  async function awaitHost(stack: Stack, operation: Promise<unknown>) {
+    let wake!: () => void
+    const ended = new Promise<void>((resolve) => {
+      wake = resolve
+      if (stack.closed) resolve()
+      else stack.endWaiters.add(resolve)
+    })
+    try {
+      await Promise.race([operation, ended])
+    } finally {
+      stack.endWaiters.delete(wake)
+    }
   }
 
   function expect(stack: Stack, entry?: Entry): Promise<void> {
@@ -1610,9 +1656,15 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       onModalClosed(stack)
       return
     }
+    const from = topOf(stack)?.route
+    const initiated = !!stack.pending
     frames.delete(stack.name)
-    close(stack)
-    if (lastFrame.value === stack) lastFrame.value = undefined
+    try {
+      close(stack, stack.pending?.closing === true)
+    } finally {
+      if (lastFrame.value === stack) lastFrame.value = undefined
+    }
+    if (!initiated && from) notifyAfter(currentRoute.value, from)
   }
 
   // -- links ------------------------------------------------------------------
@@ -1787,13 +1839,16 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       return failure
     }
 
-    function goBack(pick: NonNullable<Request['pick']>, options: BackOptions = {}) {
+    function goBack(
+      pick: (entries: readonly Entry[], stack: Stack) => Entry | null | undefined,
+      options: BackOptions = {},
+    ) {
       const stack = stackFor(origin, options.frame)
       stack.reveal?.()
       return run({
         type: 'back',
         stack,
-        pick,
+        pick: (entries) => pick(entries, stack),
         options: { animated: options.animated },
         result: options.result,
         redirects: 0,
@@ -1852,8 +1907,13 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
       back: (options) =>
         goBack(
-          (entries) =>
-            entries.at(-2) ?? (scope().modal && entries.length === 1 ? null : undefined),
+          (entries, stack) =>
+            entries.at(-2) ??
+            (stack.host?.capabilities.close &&
+            !stack.host?.capabilities.pinnedRoot &&
+            entries.length === 1
+              ? null
+              : undefined),
           options,
         ),
 
@@ -1865,9 +1925,13 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         }
         if (delta >= 0) return Promise.resolve(undefined)
 
-        return goBack((entries) => {
+        return goBack((entries, stack) => {
           if (-delta < entries.length) return entries.at(delta - 1)
-          return scope().modal && -delta === entries.length ? null : undefined
+          return stack.host?.capabilities.close &&
+            !stack.host?.capabilities.pinnedRoot &&
+            -delta === entries.length
+            ? null
+            : undefined
         })
       },
 
@@ -1956,12 +2020,15 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       return mounted
     },
 
-    unmount(name) {
+    unmount(name, owner) {
       const stack = frames.get(name)
-      if (!stack) return
+      if (!stack || (owner && stack.host !== owner)) return
       frames.delete(name)
-      close(stack)
-      if (lastFrame.value === stack) lastFrame.value = undefined
+      try {
+        close(stack)
+      } finally {
+        if (lastFrame.value === stack) lastFrame.value = undefined
+      }
     },
   }
 

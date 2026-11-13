@@ -122,7 +122,7 @@ export function createPage(entry: Entry, { link, unlink, reload }: PageLink) {
           { immediate: true },
         )
 
-        if (entry.stack.modal) {
+        if (entry.stack.host?.capabilities.cancellableDismissal) {
           watch(
             () => entry.isActive() && blocked.value,
             (value) => entry.stack.host?.holdDismissal?.(value),

@@ -51,6 +51,10 @@
     "./system-search": {
       "types": "./dist/system-search.d.ts",
       "default": "./dist/system-search.js"
+    },
+    "./testing/native-host": {
+      "types": "./dist/testing/native-host.d.ts",
+      "default": "./dist/testing/native-host.js"
     }
   },
   "files": [

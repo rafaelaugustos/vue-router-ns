@@ -23,6 +23,11 @@ examples/file-routing/src/pages/live-renamed.vue
 examples/file-routing/nsconfig.json
 examples/file-routing/.ns-vite-build/
 
+examples/native-host-app/platforms/
+examples/native-host-app/hooks/
+examples/native-host-app/App_Resources/
+examples/native-host-app/nsconfig.json
+
 .native-core/
 
 docs/public/diagnostics-viewer/

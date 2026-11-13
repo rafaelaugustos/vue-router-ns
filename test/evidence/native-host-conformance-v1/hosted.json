@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "run": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43420069788",
+  "sourceCommit": "2ef25cde3cf3fcf64eac96ddf24e612f358af98c",
+  "runtimeCommit": "359fcdb58c1f9dd9f3641c130cc11ac6d57e7fb2",
+  "runner": "macos-15, arm64",
+  "xcode": "16.4",
+  "system": "iOS 18.6 simulator",
+  "packed": "passed",
+  "ios": "failed",
+  "nativeAcceptance": "not established",
+  "failure": {
+    "phase": "XCTest runner launch",
+    "driverLimitSeconds": 300,
+    "lastDiagnosticEvent": "Launching org.nativescript.hostchecks176.xctrunner",
+    "testOutputEmpty": true,
+    "applicationReports": 0,
+    "artifact": "external-native-host-ios"
+  },
+  "localAcceptance": "ios.json",
+  "earlierAttempts": [
+    {
+      "run": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43415426661",
+      "phase": "Ruby project generation",
+      "outcome": "30-second preparation timeout before tests"
+    },
+    {
+      "run": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43416569975",
+      "phase": "Application installation",
+      "outcome": "30-second preparation timeout before tests"
+    }
+  ]
+}

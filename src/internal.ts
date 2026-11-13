@@ -11,7 +11,7 @@ export interface RouterInternals {
     selected?: () => boolean,
     present?: (route: RouteLocation | undefined) => void,
   ): Promise<void>
-  unmount(name: string): void
+  unmount(name: string, owner?: NativeHost): void
 }
 
 export const INTERNAL = Symbol(__DEV__ ? 'router internals' : '')

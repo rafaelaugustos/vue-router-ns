@@ -102,3 +102,36 @@ Ejecute el conjunto de contratos contra el host antes de reclamar soporte. Vive 
 - Si bien es experimental, el contrato puede cambiar en una versión beta. Cualquier cambio incompatible modifica la versión, aparece en el registro de cambios y actualiza los hosts integrados, la memoria de ejemplo y el conjunto de contratos juntos.
 - Agregar un miembro o capacidad opcional no mejora la versión. Los hosts que no implementan un miembro opcional mantienen su comportamiento actual.
 - Cuando el contrato deja el estado experimental, la versión seguirá el semver de este paquete: el host incompatible cambia solo en una versión principal.
+
+## Validación de adaptadores externos {#external-adapter-acceptance}
+
+La exportación opcional `vue-router-ns/testing/native-host` ofrece `runNativeHostConformance` sin Vitest, APIs de Node ni imports internos del router. `NATIVE_HOST_CONFORMANCE_VERSION` versiona las comprobaciones por separado de `NATIVE_HOST_VERSION`. Ejecútela en una aplicación de prueba desechable:
+
+```ts
+import { runNativeHostConformance } from 'vue-router-ns/testing/native-host'
+
+const report = await runNativeHostConformance(createFixture, { timeoutMs: 8000 })
+console.log(report.harnessVersion, report.contractVersion, report.checks)
+```
+
+`createFixture` recibe los registros de rutas. Instálelos en un router nuevo, monte un host vacío y devuelva `router`, `host`, `unmount` y `popNatively`. Si el host comienza descargado, devuelva la fixture antes de esperar a que esté lista; proporcione `load` para mostrarlo. Los probes opcionales `rejectNext`, `lateEvents` y `dismissAttempted` ejercitan fallos atómicos inyectados, callbacks antiguos e intentos de cierre retenidos. El informe identifica los probes omitidos; no cuentan como cobertura aprobada. `NativeHostConformanceError.report` conserva las comprobaciones hasta el fallo. La factory limpia el montaje parcial; el harness desmonta toda fixture creada correctamente.
+
+Consulte el [paquete independiente del adaptador](https://github.com/rafaelaugustos/vue-router-ns/tree/main/examples/native-host-adapter), el [consumidor y driver](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/native-host) y el [informe versionado](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-host-conformance-v1.md). El ejemplo monta vistas Vue directamente mediante exportaciones públicas y se instala desde tarballs. Su alcance es la presentación Frame en iOS con Core 9.1.4 y NativeScript-Vue 3.1.3. Android, cierre modal, raíces fijas, varias páginas visibles y HMR de scripts quedan fuera del soporte de este ejemplo.
+
+### Orden y responsabilidad {#ordering-and-ownership}
+
+- `push` y `back` terminan después de que finalicen tanto la promesa devuelta como la confirmación nativa. Resolver la promesa por sí solo no completa la navegación. `changed()` debe observar el orden nativo final, conservando las identidades de las páginas retenidas. Un gesto cancelado no modifica ese orden.
+- Lance un error o rechace antes de modificar el estado nativo o confirmar la operación. Después de confirmarla, resuelva correctamente. Rechazar tras una modificación nativa confirmada viola el contrato; el router no puede deshacer un estado arbitrario de la plataforma.
+- La descarga temporal conserva identidades, estado Vue y resultados pendientes. Un host descargado encola la presentación localmente; otra pila puede navegar. La reconexión reutiliza el mismo host vivo. `unmount()` definitivo lo descarta; cree otro adaptador para un nuevo propietario. Un desmontaje antiguo no puede cerrar un reemplazo con el mismo nombre.
+- `dispose()` debe desmontar todas las vistas Vue que posee, eliminar listeners y liberar handles, incluso después de un fallo parcial de attach. El router libera las entradas lógicas y la navegación pendiente aunque la limpieza del adaptador lance un error. Los callbacks tardíos no resucitan una pila cerrada.
+- `cancellableDismissal` requiere `holdDismissal`; `multipleVisible` requiere `visible`. Ambos métodos se verifican antes de adjuntar el host. Todos los campos de capacidad existentes siguen siendo booleanos obligatorios. Las indicaciones de presentación y los métodos de diagnóstico opcionales siguen siendo opcionales. La observación de transiciones, el control del progreso y la integración con Jolt no añaden requisitos al host.
+
+### Estabilidad y mantenimiento {#stability-and-maintenance}
+
+Esta revisión mantiene el contrato **experimental en la versión 1**. Las correcciones aplican la responsabilidad y las capacidades ya declaradas; los adaptadores conformes no necesitan migración. Quienes declaren una capacidad sin su método obligatorio deben implementarlo o declarar la capacidad falsa. Añadir un miembro obligatorio o cambiar la semántica de finalización exige incrementar la versión del contrato y documentar la migración; los miembros opcionales aditivos conservan la versión 1.
+
+Mantenga juntos los tipos públicos, la versión del harness, el consumidor independiente empaquetado, el driver nativo y las traducciones. El CI específico verifica imports empaquetados en los PR relevantes; su ejecución iOS es manual y semanal. Las pruebas nativas de gestos y ciclo de vida complementan el harness. Esta validación no establece cobertura en dispositivos físicos, soporte para adaptadores Android, recolección repetida de recursos ni una promesa de API estable.
+
+La fixture de ciclo de vida cubre y revela una Page retenida por el propietario. Eliminar un Frame de su padre destruye su controlador UIKit en Core; trátelo como cierre definitivo del propietario y cree otro Frame/adaptador en lugar de reutilizarlo.
+
+<Clip name="native-host-conformance" :width="480" aspect="3 / 4" caption="Adaptador independiente: Back nativo cancelado, bloqueado y completado, descarga/recarga temporal y cierre. Simulador iOS 18.6; etiquetas de la fixture en inglés." />
