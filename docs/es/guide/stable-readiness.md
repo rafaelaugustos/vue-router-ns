@@ -1,6 +1,8 @@
 # Versión estable y preparación para 1.0 {#stable-release-and-1-0-readiness}
 
-`0.1.0-rc.3` ya está publicado. La siguiente decisión es si su alcance documentado y no experimental está listo para **0.1.0**, sin requerir todas las funciones de la hoja de ruta. La revisión 1.0 a continuación es una decisión de compatibilidad separada, no un aumento automático de la versión. Un pequeño número de issues abiertas no es un criterio de aceptación.
+`0.1.0-rc.4` ya está publicado. La siguiente decisión es si su alcance documentado y no experimental está listo para **0.1.0**, sin requerir todas las funciones de la hoja de ruta. La revisión 1.0 a continuación es una decisión de compatibilidad separada, no un aumento automático de la versión. Un pequeño número de issues abiertas no es un criterio de aceptación.
+
+Actualización — 13/11/2026: Core 9.1.4 está publicado y este checkout lo adopta. Consulta la [aceptación de la dependencia](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) y el [roadmap #64](https://github.com/rafaelaugustos/vue-router-ns/issues/64). La revisión de 1.0 fechada más abajo es histórica; #175/#176 siguen la estabilización de multi-window y NativeHost, y #183 los fallos actuales de la matriz completa.
 
 ## Lo que se ha entregado {#what-has-been-delivered}
 
@@ -24,7 +26,7 @@ Un candidato anterior con pruebas aprobadas aporta evidencia de esa revisión; n
 
 ## Seguimientos y decisiones de investigación {#follow-ups-and-investigation-decisions}
 
-- **#139:** se aísla la causa Core y [NativeScript #11587](https://github.com/NativeScript/NativeScript/pull/11587) propone la corrección. [PR #160](https://github.com/rafaelaugustos/vue-router-ns/pull/160) registra la validación nativa. El Core 9.1.3 publicado todavía está afectado. Espere una corrección publicada, actualice la dependencia y vuelva a ejecutar la matriz de consumidor/nativa, o limite explícitamente la composición admitida antes de tomar una decisión de lanzamiento.
+- **#139:** la corrección de Core [#11587](https://github.com/NativeScript/NativeScript/pull/11587) se publicó en 9.1.4. Este checkout la adopta; el [nuevo informe](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) registra las composiciones probadas. El artefacto final en el consumidor y la matriz nativa completa aún necesitan aceptación en el commit de publicación. Core 9.1.3 sigue afectado.
 - **#152:** el informe del consumidor publicado [informe de validación](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-rc3-consumer.md) registra la salida física del servicio VoiceOver y el procedimiento/resultados del emulador TalkBack por separado de las aserciones de la interfaz de usuario. El hardware Android no está disponible; el mantenedor aceptó la validación del emulador con ese límite. Lea los límites del habla y los gestos antes de tratar esto como una certificación de accesibilidad amplia.
 - **#145:** la propuesta de observación [v1](https://github.com/rafaelaugustos/vue-router-ns/blob/main/research/transition-observation/README.md) registra la evidencia del ciclo de vida nativo y la decisión de mantener el adaptador privado. La falta de identificadores de entrada autoritativos y la mutación de destino simultánea no admitida impiden un controlador público. El progreso continuo de UIKit y un adaptador Jolt permanecen fuera de los requisitos de versión estable.
 - **#64:** mantiene la hoja de ruta como un índice del alcance entregado y los seguimientos actuales, no como una lista de verificación que promueve silenciosamente integraciones experimentales a estables.

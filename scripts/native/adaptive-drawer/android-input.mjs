@@ -2,11 +2,36 @@ import assert from 'node:assert/strict'
 import { writeFile } from 'node:fs/promises'
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
-import { adb, command, initialize, out, pause, serial } from './bridge.mjs'
+import { adb, command, initialize, out, pause, pkg, serial } from './bridge.mjs'
+import { createLauncherRecovery, windowNodes } from './launcher-recovery.mjs'
 
 assert(serial, 'Android only')
 await initialize()
 const dumpPath = '/sdcard/adaptive-window.xml'
+async function screenshot(name) {
+  const shot = await promisify(execFile)(
+    'adb',
+    ['-s', serial, 'exec-out', 'screencap', '-p'],
+    { encoding: 'buffer', maxBuffer: 16 * 1024 * 1024 },
+  )
+  const start = shot.stdout.indexOf(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))
+  assert(start >= 0, 'Screenshot is not a PNG')
+  await writeFile(`${out}/${name}.png`, shot.stdout.subarray(start))
+}
+const recoverLauncher = createLauncherRecovery({
+  pid: () => adb('shell', 'pidof', pkg).catch(() => ''),
+  capture: async (xml, attempt) => {
+    await writeFile(`${out}/launcher-anr-${attempt}.xml`, xml)
+    await screenshot(`launcher-anr-${attempt}`)
+  },
+  tap: (x, y) => adb('shell', 'input', 'tap', String(x), String(y)),
+  pause,
+  saveReport: (report) =>
+    writeFile(
+      `${out}/launcher-recovery-${report.attempt}.json`,
+      JSON.stringify(report, null, 2),
+    ),
+})
 async function dump() {
   for (let attempt = 0; attempt < 10; attempt++) {
     await adb('shell', 'rm', '-f', dumpPath)
@@ -23,13 +48,10 @@ async function dump() {
   throw new Error('UIAutomator never produced a window hierarchy')
 }
 async function nodes() {
-  const xml = await dump()
+  let xml = await dump()
+  while (await recoverLauncher(xml)) xml = await dump()
   await writeFile(`${out}/window.xml`, xml)
-  return [...xml.matchAll(/<node\s+([^>]+)/g)].map((match) =>
-    Object.fromEntries(
-      [...match[1].matchAll(/([\w-]+)="([^"]*)"/g)].map(([, key, value]) => [key, value]),
-    ),
-  )
+  return windowNodes(xml)
 }
 async function find(text) {
   for (let attempt = 0; attempt < 8; attempt++) {
@@ -88,17 +110,7 @@ assert(
   (await nodes()).some((node) => node.text === 'route /'),
   'Permanent pane stole system Back',
 )
-const shot = await promisify(execFile)(
-  'adb',
-  ['-s', serial, 'exec-out', 'screencap', '-p'],
-  { encoding: 'buffer', maxBuffer: 16 * 1024 * 1024 },
-)
-await writeFile(
-  `${out}/native-input.png`,
-  shot.stdout.subarray(
-    shot.stdout.indexOf(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])),
-  ),
-)
+await screenshot('native-input')
 console.log(
   'Native Android input, retained draft, accessibility reachability and Back passed',
 )

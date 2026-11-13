@@ -4,6 +4,8 @@
 主机合同是新的，并且可能在测试版本之间发生变化。更改会增加 `NATIVE_HOST_VERSION` 并列在更改日志中。请参阅 [版本控制策略](#versioning-policy)。
 :::
 
+稳定性评审和独立适配器验收由 [#176](https://github.com/rafaelaugustos/vue-router-ns/issues/176) 跟踪。更新 NativeScript 依赖不会自动取消此公共契约的实验性状态。
+
 **host** 是路由器在其中驱动 导航栈 的原生容器。`<RouterView>` 将 NativeScript `Frame` 交给路由器； `<RouterSplitView>` 递了两个；模态路由在原生模态中获取一个框架。每个都经过相同的合同，因此路由器保留匹配、导航守卫、结果、历史记录和协调的一种实现，而主机拥有演示、手势和原生句柄。
 
 合同的存在使得可以添加原生 抽屉导航、工作表和平台控制器，而无需分叉路由器或在每个适配器内重新实现 导航守卫。内置主机为第一批用户：`createFrameHost(frame)`、`createFrameHost(frame, { modal: true })` 和 `createSplitFrameHost(list, detail, options)`。

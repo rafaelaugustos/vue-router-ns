@@ -46,7 +46,7 @@ final class BackEdgeUITests: XCTestCase {
 
     func testPublishedCoreFrame() {
         for inset in [false, true] {
-            check(bundle: "org.nativescript.vuerouterns", mode: "core", inset: inset, expectedPop: !inset)
+            check(bundle: "org.nativescript.vuerouterns", mode: "core", inset: inset, expectedPop: !inset || ProcessInfo.processInfo.operatingSystemVersion.majorVersion >= 26)
         }
     }
 }

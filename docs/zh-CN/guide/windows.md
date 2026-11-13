@@ -1,8 +1,10 @@
 # 在多个原生窗口中导航 {#navigation-in-multiple-native-windows}
 
-此功能是实验性的，需要支持的 Core 9.1.3+ / NativeScript-Vue 3.1.2+ 依赖项以及平台的多窗口配置。
+此功能是实验性的，需要支持的 Core 9.1.4+ / NativeScript-Vue 3.1.2+ 依赖项以及平台的多窗口配置。
 
 路由器拥有 Frame 页面后面的 Vue 应用程序，并在其路由保留在原生历史记录中时保留它们。 Android 活动娱乐已通过已发布的 Core 9.1.3 和 NativeScript-Vue 3.1.2 进行验证；不需要依赖补丁。 Page和布局HMR仍然使用原生Page替换。验证了进程死亡后原始 Android 任务和 UIKit 场景会话的恢复。 iPad 场景在同一运行过程中断开/重新连接也得到验证：原始页面、Vue 状态、导航守卫 和待处理的导航结果仍然存在。原生套件使用仅模拟器驱动程序请求真实的 UIKit 场景断开连接；这与后台恢复和冷恢复是分开的。
+
+演示应用现使用 Core 9.1.4 / NativeScript-Vue 3.1.3。[9.1.4 报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) 记录本次窗口测试；[3.1.3 报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vue-3.1.3.md) 保留此前 Core 9.1.3 的证据。上游修复不替代路由器自身的页面生命周期和恢复适配器。多窗口仍是实验性功能；[#175](https://github.com/rafaelaugustos/vue-router-ns/issues/175) 跟踪支持矩阵、重复生命周期/资源测试和稳定性决策。
 
 ## 每个窗口一个路由器 {#one-router-per-window}
 
@@ -64,7 +66,7 @@ createApp(App).use(router).start()
 
 使用 [NativeScript 多窗口指南](https://docs.nativescript.org/guide/multi-window) 进行完整的原生设置。 `openWindow` 转发请求；它无法更改已安装的清单、权利或设备功能。当您的应用程序中多窗口 UI 不可用时，提供普通的 `push()` 操作。
 
-当打开另一个窗口时，包括在原始 Activity 完成之后，绑定的 Android 路由器使用其幸存的 Activity 类。这避免了 [NativeScript #11526](https://github.com/NativeScript/NativeScript/issues/11526) 中 `router.openWindow()` 的 Core 启动器限制；直接调用 `Application.openWindow()` 保留 Core 的行为。
+绑定的 Android 路由器使用仍存活的 Activity 类打开新窗口，包括原始 Activity 已关闭的情况。Core 9.1.4 通过 #11552 修复了直接调用 `Application.openWindow()` 的启动路径，对应 [#11526](https://github.com/NativeScript/NativeScript/issues/11526)。路由器保留现有的窗口作用域请求路径；验证结果见 [9.1.4 报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md)。
 
 ## 分离、重新连接和关闭 {#detach-reconnect-and-close}
 

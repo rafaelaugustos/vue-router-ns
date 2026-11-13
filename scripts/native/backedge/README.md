@@ -2,6 +2,8 @@
 
 These opt-in controls isolate native input from RouterDrawer. They do not install a router workaround, alter NativeScript delegates, synthesize a pop or disable gesture rules. The tests encode the observed **published baseline**, including unavailable gestures; a passing run does not mean all gestures work.
 
+The current demo uses **Core 9.1.4**. Its default Frame now expects a native gesture pop at both full width and inset on iPadOS 26, as verified by the [Core 9.1.4 acceptance run](../../../test/native-core-9.1.4.md). The iPadOS 18 screen-edge expectations and all UIKit delegate controls are unchanged. The [original Core 9.1.3 matrix](../../../test/native-back-content-edge.md) remains historical evidence; it is not the current Core 9.1.4 expectation.
+
 Requirements: macOS/Xcode, Ruby with `xcodeproj`, installed demo dependencies, generated `demo/App_Resources` following the [demo setup](../../../demo/README.md), and a dedicated booted iPad simulator. The runner reinstalls `org.nativescript.vuerouterns` and `org.router168.uikit` on the explicitly chosen simulator. Do not use a device containing app data you want to retain.
 
 ```sh

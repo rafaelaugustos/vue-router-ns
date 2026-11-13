@@ -91,7 +91,9 @@ iOS 实现和自适应表示是 `0.1.0-rc.3` 的一部分。之前的 `0.1.0-rc.
 
 当前测试驱动从常驻侧栏旁的内容边缘发起滑动时，未能启动交互式导航，因此这一方向仍存在明确的测试覆盖缺口。本次测试也未验证实体 iPad 或 Stage Manager。具体场景、实际执行顺序及剩余限制，请参阅[旋转验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-rotation.md)。
 
-[独立返回对照测试](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-back-content-edge.md)在未使用 Vue 或 RouterDrawer 的 NativeScript Core 9.1.3 Frame 中也复现了内容区域右移后的限制。在 iPadOS 26.0 上，UIKit 对照测试区分了默认导航与暴露自定义转场回调的 delegate。常驻模式下应保留明确的返回操作。本次调查不代表已经验证该方向上返回手势期间的旋转行为。
+[独立返回对照测试](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-back-content-edge.md)此前在未使用 Vue 或 RouterDrawer 的 NativeScript Core 9.1.3 Frame 中也复现了内容区域右移后的限制。在 iPadOS 26.0 上，UIKit 对照测试区分了默认导航与暴露自定义转场回调的 delegate。常驻模式下应保留明确的返回操作。本次调查不代表已经验证该方向上返回手势期间的旋转行为。
+
+上述旋转测试使用 Core 9.1.3。Core 9.1.4 包含 #11590，为默认 Frame 导航保留内容区域返回手势；[新报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) 区分了 iPadOS 18 的屏幕边缘限制与 iPadOS 26 的内容导航行为。这项修复本身并不完成 [#167](https://github.com/rafaelaugustos/vue-router-ns/issues/167)/[#168](https://github.com/rafaelaugustos/vue-router-ns/issues/168) 的导航中旋转覆盖。请保留明确的返回按钮。
 
 ## 样式与平台 {#styling-and-platforms}
 

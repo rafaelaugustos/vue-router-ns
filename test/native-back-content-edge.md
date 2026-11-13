@@ -1,12 +1,14 @@
 # Native Back from inset iPad content — #168
 
+This report preserves the **Core 9.1.3 investigation baseline**. The current demo uses Core 9.1.4, whose default Frame succeeds at the inset content gesture on iPadOS 26 in the [published dependency acceptance run](./native-core-9.1.4.md). The current driver includes that verified expectation; the historical observations below are unchanged. Active rotation during that gesture remains unvalidated.
+
 ## Result and scope
 
 The missing permanent-drawer Back gesture is reproducible without Vue or vue-router-ns, using published NativeScript Core 9.1.3. A plain Core Frame at x=280, y=100 does not pop in response to the tested content-edge drag on iPadOS 18.6 or 26.0. Moving the same Frame to x=0 restores the gesture; its native header Back also works in the inset layout.
 
 A standalone UIKit control establishes that the same inset geometry and input work on iPadOS 26.0 with the default navigation delegate or a delegate implementing only `didShow`. Exposing the optional custom animation callback, even when it returns `nil`, prevents this tested gesture. Core exposes that callback for all Frame navigation, including default transitions. This is evidence for investigating Core's delegate selection, rather than adding a gesture override to RouterDrawer. It is not proof that changing that callback alone safely fixes Core's lifecycle, custom transitions or shared transitions.
 
-No production router behavior, NativeScript package or delegate is patched. These tests characterize current behavior; a passing baseline includes the explicitly unavailable gestures. The outstanding landscape-to-portrait rotation-during-Back cases in [the rotation report](./native-drawer-rotation.md) remain outstanding. A normal Back button is not substituted for an interactive gesture in that report.
+No production router behavior, NativeScript package or delegate was patched in this investigation. These observations characterize the Core 9.1.3 baseline, including the explicitly unavailable gestures. The outstanding landscape-to-portrait rotation-during-Back cases in [the rotation report](./native-drawer-rotation.md) remain outstanding. A normal Back button is not substituted for an interactive gesture in that report.
 
 ## Controls and method
 
@@ -37,8 +39,8 @@ All 24 expected baseline observations were reproduced (12 per OS), including nat
 
 ## Reproduction and remaining work
 
-Run the [Back control driver](../scripts/native/backedge/README.md) separately for each OS. It generates a temporary Xcode project and captures 12 observations per OS, logs, named XCTest attachments and optional real simulator video. It is opt-in and does not lengthen the fast PR gate.
+Run the [Back control driver](../scripts/native/backedge/README.md) separately for each OS. It generates a temporary Xcode project and captures 12 observations per OS, logs, named XCTest attachments and optional real simulator video. It is opt-in and does not lengthen the fast PR gate. To reproduce this historical Core 9.1.3 matrix, use fixture commit `b0fa617755105e21e636088560a80bb066c6f36e` in an isolated checkout with its original dependencies and expectations; the current checkout targets Core 9.1.4.
 
-Keep an explicit Back action available in permanent layouts. [NativeScript #11589](https://github.com/NativeScript/NativeScript/issues/11589) tracks Core's default/custom navigation delegate handling, preserving custom transitions, interactive cancellation and lifecycle bookkeeping. Once a supported dependency can start a real inset-content Back, rerun both committed and cancelled landscape-to-portrait cases with the existing rotation driver and retain the actual coordinator outcome. Until then, #168 remains open for that missing coverage.
+Keep an explicit Back action available in permanent layouts. [NativeScript #11589](https://github.com/NativeScript/NativeScript/issues/11589) records the investigation; the default Frame correction shipped in Core 9.1.4 through [#11590](https://github.com/NativeScript/NativeScript/pull/11590). With the published correction available, the remaining work is to rerun both committed and cancelled landscape-to-portrait cases with the existing rotation driver and retain the actual coordinator outcome. #168 remains open for that missing coverage.
 
 No physical iPad, Stage Manager, iPadOS 27, custom transition or spoken screen-reader claim follows from this matrix. This is separate from #139's inherited CSS-direction crash; no unpublished Core patch is used.

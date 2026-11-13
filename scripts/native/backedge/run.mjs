@@ -50,7 +50,7 @@ for (const [bundle, path] of [
 ]) {
   // These controls replace the two fixture apps on the explicitly chosen simulator.
   await exec('xcrun', ['simctl', 'terminate', sim, bundle]).catch(() => {})
-  await exec('xcrun', ['simctl', 'uninstall', sim, bundle])
+  await exec('xcrun', ['simctl', 'uninstall', sim, bundle]).catch(() => {})
   await exec('xcrun', ['simctl', 'install', sim, path])
 }
 let recording

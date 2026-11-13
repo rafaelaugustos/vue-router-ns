@@ -1,0 +1,23 @@
+{
+  "version": "9.1.4",
+  "tarballSha256": "1488560d441b0e679b06755c5acb59466d4f9d4c6140b08f6224a0bb237b010d",
+  "excluded": ["package.json (installation metadata)"],
+  "copies": {
+    "root": {
+      "filesCompared": 1362,
+      "differences": []
+    },
+    "demo": {
+      "filesCompared": 1362,
+      "differences": []
+    },
+    "direction": {
+      "filesCompared": 1362,
+      "differences": []
+    },
+    "backedge": {
+      "filesCompared": 1362,
+      "differences": []
+    }
+  }
+}
