@@ -1,0 +1,8 @@
+{
+  "examples/intent-windows/policy.ts": "21fb1411e146f3f3aafd4c14a2b54a11552df779aa0b98b88a8ea32693722f57",
+  "test/intent-window-policy.spec.ts": "d12768169c64e89b227520ca55606e300b409a68c2aad65492138ff5a38dde9b",
+  "demo/src/testing/intentwindows-app.ts": "919362cf034bedbc4de5b06961900dda75de2aee8aa201ce9cb5028866669234",
+  "scripts/native/intent-windows/ios.mjs": "90d5484734215afde3e9801ec427f6ea219ddce61a535663c61101625bb4cb65",
+  "scripts/native/intent-windows/IntentWindowsUITests.swift": "c29ec0ef37d5ce92ae1ac603648fa2293bd7fbab353f04a485f5e72ea617d4c8",
+  "docs/public/media/intent-window-policy.mp4": "e30ca3d5d7df7938a0fd7ff56636c5572cf6d6bed9ffcffd9b403f317689fe2d"
+}

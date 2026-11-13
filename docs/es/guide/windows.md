@@ -132,3 +132,48 @@ Con `links` habilitado, los intents cálidos Android y las URL de escena iOS, la
 Para una nueva ventana secundaria, Core invoca al solucionador de contenido **after** emitiendo su evento de intención/escena inicial. Páselo como `links: { initial: request }` al crear el enrutador, o reenvíe la URL con `router.openLink(url, { source: 'launch' })`; la llamada espera la restauración y el primer host nativo. Lea la URL de `request.android?.intent` o `request.ios?.connectionOptions`. En Android, no reproduzca la intención anterior cuando exista `request.android?.savedInstanceState`. Aplique la política elegida de vínculo nuevo versus historial guardado antes de esta transferencia. Un nuevo enlace entrante normalmente aterriza encima del historial restaurado; `clearHistory: true` inicia un nuevo stack.
 
 El enrutador no adivina a qué ventana de documento debe dirigirse una notificación sin propietario. La aplicación elige el enrutador/ventana y llama a su `openLink()`.
+
+## Política explícita de ventanas para intents {#intent-window-policy}
+
+El [ejemplo de aplicación](https://github.com/rafaelaugustos/vue-router-ns/tree/main/examples/intent-windows) combina las APIs de intents existentes con tu registro de ventanas. Es código para copiar en la aplicación, no una nueva API del paquete ni un registro global de propietarios. La aplicación proporciona el catálogo de rutas, el registro por cuenta y los callbacks nativos de creación/activación siguientes. Los propietarios del ejemplo comparten rutas y mapeo de URLs.
+
+```ts
+// Copy examples/intent-windows/policy.ts into your application.
+import { createWindowIntentPolicy } from './policy'
+
+const deliveries = createWindowIntentPolicy({
+  resolve: (request) => routingCatalog.resolveIntent(request),
+  find: (key) => accountWindows.get(key),
+  open: openApplicationWindow,
+  focus: activateApplicationWindow,
+})
+
+await deliveries.dispatch(intent, {
+  mode: 'focus',
+  key: 'account-a:document-42',
+  history: 'append',
+})
+await deliveries.dispatch(anotherIntent, {
+  mode: 'new',
+  key: 'account-a:document-43',
+  restore: 'saved',
+  history: 'reset',
+})
+
+// Before replacing the account session:
+deliveries.dispose()
+```
+
+Usa `reuse` para navegar en un propietario registrado sin pedir foco, `focus` para esperar su activación nativa o `new` para crear una clave de aplicación nueva. Los propietarios ausentes o cerrados no tienen fallback. Una solicitud nueva no puede incluir un `target.windowId` existente; una afirmación sobre un propietario existente debe coincidir con el id nativo seleccionado. El receptor vuelve a resolver el destino. El sistema puede rechazar la creación o activación, por lo que la aplicación debe limitar las esperas y observar la disponibilidad real. Consulta la [API de activación de escenas de Apple](https://developer.apple.com/documentation/uikit/uiapplication/activatescenesession%28for%3Aerrorhandler%3A%29).
+
+`append` fuerza `replace: false` y `clearHistory: false`; `reset` fuerza `replace: false` y `clearHistory: true`. Ambos usan los guards normales del stack seleccionado. Para propietarios nuevos, `restore: 'saved'` habilita la carga de su snapshot antes de la entrega; `restore: 'fresh'` lo omite. Crea una ruta inicial pública y entrega el destino una vez después de la disponibilidad; no utilices también el destino como ruta inicial. Los historiales de los demás propietarios permanecen intactos.
+
+El ejemplo reserva la identidad de entrega antes de los efectos nativos: hasta 32 solicitudes pendientes y los últimos 256 pares scope/id completados, incluidos los intentos rechazados. Los callbacks repetidos devuelven `repeat` sin crear ni enfocar otra ventana. Usa un id nuevo para un reintento intencional. Las creaciones simultáneas de la misma clave de aplicación devuelven `busy`. Este registro limitado pertenece a una instancia de sesión de cuenta y es independiente del registro de cada router receptor; ninguno persiste entre procesos.
+
+Usa claves de cuenta/documento controladas por la aplicación y un token único por solicitud de creación al sistema. Comprueba `current()` antes de adoptar su llegada nativa; una escena tardía no debe reemplazar un propietario más reciente. Solo la política de la aplicación elige ventanas e historial: etiquetas y claves del payload no autorizan acceso. Al cambiar de cuenta, llama a `dispose()`, cancela los handles de login y limpia las ventanas protegidas. La disposición evita que las esperas de adquisición/foco entren en navegación; un intento ya dentro de `openIntent` sigue las reglas de esa API y no se revierte. El login sigue usando el `suspendIntent` del propietario elegido y los guards de autorización de la aplicación.
+
+El [informe nativo](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-intent-window-policy-stage4.md) verifica escenas reales de iPad, historial guardado/nuevo, entrega duplicada, foco explícito, propietario incorrecto, cierre y rechazo por guard. Los historiales guardados son snapshots controlados, no reconstrucción tras terminar un proceso. B se activa antes de cerrarse; cierre en segundo plano, activación en Android, Stage Manager y pantallas externas quedan fuera de esta etapa.
+
+La prueba observa la activación nativa en primer plano tras una solicitud explícita a UIKit. Varias escenas del iPad pueden seguir activas; esto no certifica el foco del teclado del sistema.
+
+<Clip name="intent-window-policy" :width="640" aspect="3 / 4" caption="Simulador real de iPad: crea, reutiliza y enfoca escenas separadas, elige historial guardado/nuevo, limpia solo el stack seleccionado y rechaza solicitudes obsoletas. La ventana A conserva su Page original y su borrador; textos en inglés." />

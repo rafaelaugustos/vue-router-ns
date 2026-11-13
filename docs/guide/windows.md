@@ -132,3 +132,48 @@ With `links` enabled, warm Android intents and iOS scene URLs, user activities a
 For a new secondary window, Core invokes the content resolver **after** emitting its initial intent/scene event. Pass it as `links: { initial: request }` when creating the router, or forward the URL with `router.openLink(url, { source: 'launch' })`; the call waits for restoration and the first native host. Read the URL from `request.android?.intent` or `request.ios?.connectionOptions`. On Android, do not replay the old intent when `request.android?.savedInstanceState` exists. Apply your chosen fresh-link versus saved-history policy before this handoff. A fresh incoming link normally lands above the restored history; `clearHistory: true` starts a new stack.
 
 The router does not guess which document window an ownerless notification should target. The application chooses the router/window and calls its `openLink()`.
+
+## Explicit intent window policy {#intent-window-policy}
+
+The [application example](https://github.com/rafaelaugustos/vue-router-ns/tree/main/examples/intent-windows) composes the existing intent APIs with your window registry. It is copyable application code, not a new package API or a global owner registry. The application supplies the routing catalog, account-scoped registry and native creation/activation callbacks shown below. All owners in this example share routes and URL mapping.
+
+```ts
+// Copy examples/intent-windows/policy.ts into your application.
+import { createWindowIntentPolicy } from './policy'
+
+const deliveries = createWindowIntentPolicy({
+  resolve: (request) => routingCatalog.resolveIntent(request),
+  find: (key) => accountWindows.get(key),
+  open: openApplicationWindow,
+  focus: activateApplicationWindow,
+})
+
+await deliveries.dispatch(intent, {
+  mode: 'focus',
+  key: 'account-a:document-42',
+  history: 'append',
+})
+await deliveries.dispatch(anotherIntent, {
+  mode: 'new',
+  key: 'account-a:document-43',
+  restore: 'saved',
+  history: 'reset',
+})
+
+// Before replacing the account session:
+deliveries.dispose()
+```
+
+Choose `reuse` to navigate a registered owner without requesting focus, `focus` to await its native activation, or `new` to create a fresh application key. Missing or closed owners have no fallback. A fresh request cannot carry an existing `target.windowId`; an existing-owner assertion must match the selected native id. The receiver resolves the destination again. Native creation and activation can be refused by the OS, so the app must bound waits and observe actual readiness. See [Apple's scene activation API](https://developer.apple.com/documentation/uikit/uiapplication/activatescenesession%28for%3Aerrorhandler%3A%29).
+
+`append` forces `replace: false` and `clearHistory: false`; `reset` forces `replace: false` and `clearHistory: true`. Both use normal guards in the selected stack. For new owners, `restore: 'saved'` enables that owner's snapshot load before delivery, while `restore: 'fresh'` skips it. Create a public initial route, then deliver once after readiness; do not also put the destination in the initial route. The other owners' histories are untouched.
+
+The example reserves delivery identity before native side effects: at most 32 pending requests and the latest 256 settled scope/id pairs, including refused attempts. Repeated callbacks return `repeat` without allocating or focusing another window. Supply a fresh id for an intentional retry. Concurrent creation of the same application key returns `busy`. This bounded ledger belongs to one account-session instance and is independent of each receiving router's ledger; neither persists across process death.
+
+Use app-owned account/document keys and a unique token for each OS creation request. Check the supplied `current()` before adopting its native arrival; a late scene must not replace a newer registered owner. Only app policy chooses windows and history: payload labels and keys do not authorize access. On account replacement, call `dispose()`, cancel login handles and clean protected windows. Disposal prevents outstanding acquisition/focus handoffs from entering navigation; an attempt already in `openIntent` follows that API's rules and is not rolled back. Login still uses the selected owner's `suspendIntent` and application authorization guards.
+
+The [native report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-intent-window-policy-stage4.md) checks real iPad scenes, saved/fresh history choices, duplicate delivery, explicit focus, owner mismatch, closure and guard refusal. Saved histories are controlled snapshots, not process-death reconstruction. B is activated before closure; background closure, Android activation, Stage Manager and external displays are outside this stage.
+
+The fixture observes native foreground activation after an explicit UIKit request. Multiple iPad scenes may remain active; this does not certify system keyboard focus.
+
+<Clip name="intent-window-policy" :width="640" aspect="3 / 4" caption="Real iPad simulator: create, reuse and focus separate scenes, choose saved/fresh history, reset only the selected stack and reject stale requests. Window A retains its original Page and unsent draft; labels are in English." />

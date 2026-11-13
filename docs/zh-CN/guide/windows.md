@@ -132,3 +132,48 @@ UIKit 可能会以不同的顺序重新连接已保存的会话。首次打开�
 对于新的辅助窗口，Core 在 **发出其初始意图/场景事件之后调用内容解析器**。创建路由器时传递为`links: { initial: request }`，或者以`router.openLink(url, { source: 'launch' })`转发URL；呼叫等待恢复和第一个原生宿主。从 `request.android?.intent` 或 `request.ios?.connectionOptions` 读取 URL。在 Android 上，当 `request.android?.savedInstanceState` 存在时，不重放旧意图。在此切换之前应用您选择的新鲜链接与已保存历史记录策略。新的传入链接通常位于恢复的历史记录之上； `clearHistory: true` 开始了新的 导航栈。
 
 路由器不会猜测无主通知应针对哪个文档窗口。应用程序选择路由器/窗口并调用其 `openLink()`。
+
+## 明确的 intent 窗口策略 {#intent-window-policy}
+
+[应用示例](https://github.com/rafaelaugustos/vue-router-ns/tree/main/examples/intent-windows) 将现有 intent API 与应用的窗口注册表组合使用。这是可复制到应用中的代码，不是新增的包 API，也不是全局所属窗口注册表。应用提供下面的路由目录、账户级注册表和原生创建/激活回调。此示例的各窗口共享路由与 URL 映射。
+
+```ts
+// Copy examples/intent-windows/policy.ts into your application.
+import { createWindowIntentPolicy } from './policy'
+
+const deliveries = createWindowIntentPolicy({
+  resolve: (request) => routingCatalog.resolveIntent(request),
+  find: (key) => accountWindows.get(key),
+  open: openApplicationWindow,
+  focus: activateApplicationWindow,
+})
+
+await deliveries.dispatch(intent, {
+  mode: 'focus',
+  key: 'account-a:document-42',
+  history: 'append',
+})
+await deliveries.dispatch(anotherIntent, {
+  mode: 'new',
+  key: 'account-a:document-43',
+  restore: 'saved',
+  history: 'reset',
+})
+
+// Before replacing the account session:
+deliveries.dispose()
+```
+
+使用 `reuse` 在指定的已注册窗口中导航而不请求聚焦，使用 `focus` 等待该窗口原生激活，或使用 `new` 创建新的应用窗口键。窗口不存在或已关闭时不会选择替代窗口。新窗口请求不能携带现有的 `target.windowId`；已有窗口身份断言必须与选定的原生 id 一致。接收方会重新解析目标。系统可能拒绝创建或激活，因此应用必须限制等待时间并观察实际就绪状态。参见 [Apple 的场景激活 API](https://developer.apple.com/documentation/uikit/uiapplication/activatescenesession%28for%3Aerrorhandler%3A%29)。
+
+`append` 强制使用 `replace: false` 和 `clearHistory: false`；`reset` 强制使用 `replace: false` 和 `clearHistory: true`。两者均经过选定栈的正常守卫。对于新窗口，`restore: 'saved'` 在投递前启用该窗口的快照加载，`restore: 'fresh'` 则跳过旧快照。先创建公开的初始路由，就绪后再投递一次目标；不要同时将目标作为初始路由。其他窗口的历史保持不变。
+
+示例在任何原生操作之前保留投递身份：最多 32 个待处理请求和最近 256 个已完成 scope/id 对，包括被拒绝的尝试。重复回调返回 `repeat`，不会再创建或聚焦窗口。有意重试需使用新的 id。同一应用键的并发创建返回 `busy`。这个有界记录属于一个账户会话实例，与各接收 router 的记录独立；两者都不会跨进程保存。
+
+使用应用控制的账户/文档键，并为每个系统创建请求分配唯一 token。接纳原生窗口到达之前检查 `current()`；迟到的场景不能替换更新的已注册窗口。窗口和历史选择只由应用策略决定，负载标签与键不能授权访问。更换账户时调用 `dispose()`、取消登录 handle 并清理受保护窗口。释放实例会阻止正在等待获取/聚焦的请求进入导航；已经进入 `openIntent` 的尝试仍遵循该 API 的规则，不会被回滚。登录仍使用所选窗口的 `suspendIntent` 以及应用的授权守卫。
+
+[原生报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-intent-window-policy-stage4.md) 验证真实 iPad 场景、已保存/全新历史、重复投递、明确聚焦、错误所属窗口、关闭及守卫拒绝。保存的历史是受控快照，并非进程终止后的重建。关闭 B 之前会先激活它；后台关闭、Android 激活、Stage Manager 和外接显示器不属于本阶段。
+
+测试在明确请求 UIKit 后观察原生前台激活状态。iPad 的多个场景可能同时保持激活；这不能证明系统键盘焦点。
+
+<Clip name="intent-window-policy" :width="640" aspect="3 / 4" caption="真实 iPad 模拟器：创建、复用和聚焦独立场景，选择已保存或全新历史，仅重置选定栈，并拒绝过时请求。窗口 A 保留原始 Page 和未发送草稿；界面为英文。" />

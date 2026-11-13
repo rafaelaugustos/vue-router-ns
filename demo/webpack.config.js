@@ -2,6 +2,8 @@ const { resolve } = require('path')
 const webpack = require('@nativescript/webpack')
 
 module.exports = (env) => {
+  if (env.intentwindowsTest && !env.ios)
+    throw new Error('The intent window policy fixture supports iOS only')
   if (env.historyTest && !env.ios)
     throw new Error('The retained history gesture fixture supports iOS only')
   if (env.observationTest && !env.ios)
@@ -30,6 +32,7 @@ module.exports = (env) => {
       'intents',
       'intentresume',
       'notifications',
+      'intentwindows',
       'suspense',
       'windows',
       'entrypoints',

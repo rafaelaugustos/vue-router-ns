@@ -334,6 +334,8 @@ Warm scene URLs, user activities and quick actions stay in that scene; Android n
 
 The default policy **reuses the window chosen by the OS**; receiving a link does not focus a different window or create one. For notifications, an app can select an existing session, focus its native scene/task, then call that session's `router.openLink`. To create a window, call `Application.openWindow({ data: { href } })`; in the content resolver, hand `request.data.href` to the new router's `openLink` before mounting. Do not also pass that same destination as an initial route. `openLink` waits for the mount. Choosing the target explicitly keeps notification and document-window policies in the app instead of guessing from the currently focused global Frame. Android apps that create multiple Activities need a compatible launch mode, such as `standard`, and explicit flags for intentional task reuse/new tasks; the ordinary single-window example below uses `singleTask`.
 
+For an executable reuse/focus/new-window recipe with explicit restored-history choices, see [intent window policy](./windows#intent-window-policy).
+
 ### Platform setup
 
 The router reads what the platform delivers; registering for it is the app's. The package cannot verify domain ownership or publish association files.

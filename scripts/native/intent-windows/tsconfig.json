@@ -1,0 +1,4 @@
+{
+  "extends": "../../../demo/tsconfig.json",
+  "include": ["../../../demo/src/testing/intentwindows-app.ts", "../../../demo/types"]
+}

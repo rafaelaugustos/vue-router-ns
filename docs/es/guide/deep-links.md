@@ -334,6 +334,8 @@ Las URL de escenas cálidas, las actividades del usuario y las acciones rápidas
 
 La política predeterminada **vuelve a utilizar la ventana elegida por OS**; recibir un enlace no enfoca una ventana diferente ni crea una. Para las notificaciones, una aplicación puede seleccionar una sesión existente, enfocar su escena/tarea nativa y luego llamar al `router.openLink` de esa sesión. Para crear una ventana, llame a `Application.openWindow({ data: { href } })`; en el solucionador de contenido, entregue `request.data.href` al `openLink` del nuevo enrutador antes de montarlo. No pase también por ese mismo destino como ruta inicial. `openLink` espera la montura. La elección explícita del objetivo mantiene las políticas de notificación y ventana de documentos en la aplicación en lugar de adivinar a partir del Frame global enfocado actualmente. Las aplicaciones Android que crean múltiples actividades necesitan un modo de inicio compatible, como `standard`, y marcas explícitas para la reutilización intencional de tareas/nuevas tareas; El siguiente ejemplo normal de ventana única utiliza `singleTask`.
 
+Para un ejemplo ejecutable de reutilización, foco y creación de ventanas con selección explícita del historial restaurado, consulta la [política de ventanas para intents](./windows#intent-window-policy).
+
 ### Configuración de la plataforma {#platform-setup}
 
 El enrutador lee lo que entrega la plataforma; registrarse es de la aplicación. El paquete no puede verificar la propiedad del dominio ni publicar archivos de asociación.

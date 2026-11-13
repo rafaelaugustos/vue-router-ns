@@ -1,0 +1,323 @@
+[
+  {
+    "command": "create-saved",
+    "ok": true,
+    "result": {
+      "status": "handled"
+    },
+    "allocations": 1,
+    "focusRequests": 1,
+    "stacks": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "primary": true,
+        "state": "attached",
+        "logical": ["/"],
+        "native": ["/"],
+        "guards": 1
+      },
+      "b": {
+        "windowId": "ADE48C4C-D589-4305-904A-FE862B458614",
+        "primary": false,
+        "state": "attached",
+        "logical": ["/", "/saved", "/items/first"],
+        "native": ["/", "/saved", "/items/first"],
+        "guards": 3
+      }
+    },
+    "sourceDraft": "Unsent draft a"
+  },
+  {
+    "command": "repeat",
+    "ok": true,
+    "result": {
+      "status": "ignored",
+      "reason": "repeat"
+    },
+    "allocations": 1,
+    "focusRequests": 1,
+    "stacks": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "primary": true,
+        "state": "attached",
+        "logical": ["/"],
+        "native": ["/"],
+        "guards": 1
+      },
+      "b": {
+        "windowId": "ADE48C4C-D589-4305-904A-FE862B458614",
+        "primary": false,
+        "state": "attached",
+        "logical": ["/", "/saved", "/items/first"],
+        "native": ["/", "/saved", "/items/first"],
+        "guards": 3
+      }
+    },
+    "sourceDraft": "Unsent draft a"
+  },
+  {
+    "command": "reuse",
+    "ok": true,
+    "result": {
+      "status": "handled"
+    },
+    "allocations": 1,
+    "focusRequests": 1,
+    "stacks": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "primary": true,
+        "state": "attached",
+        "logical": ["/"],
+        "native": ["/"],
+        "guards": 1
+      },
+      "b": {
+        "windowId": "ADE48C4C-D589-4305-904A-FE862B458614",
+        "primary": false,
+        "state": "attached",
+        "logical": ["/", "/saved", "/items/first", "/items/reused"],
+        "native": ["/", "/saved", "/items/first", "/items/reused"],
+        "guards": 4
+      }
+    },
+    "sourceDraft": "Unsent draft a"
+  },
+  {
+    "command": "focus-a",
+    "ok": true,
+    "result": {
+      "status": "handled"
+    },
+    "allocations": 1,
+    "focusRequests": 2,
+    "stacks": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "primary": true,
+        "state": "attached",
+        "logical": ["/", "/items/focused-a"],
+        "native": ["/", "/items/focused-a"],
+        "guards": 2
+      },
+      "b": {
+        "windowId": "ADE48C4C-D589-4305-904A-FE862B458614",
+        "primary": false,
+        "state": "attached",
+        "logical": ["/", "/saved", "/items/first", "/items/reused"],
+        "native": ["/", "/saved", "/items/first", "/items/reused"],
+        "guards": 4
+      }
+    },
+    "sourceDraft": "Unsent draft a"
+  },
+  {
+    "command": "focus-b",
+    "ok": true,
+    "result": {
+      "status": "handled"
+    },
+    "allocations": 1,
+    "focusRequests": 3,
+    "stacks": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "primary": true,
+        "state": "attached",
+        "logical": ["/", "/items/focused-a"],
+        "native": ["/", "/items/focused-a"],
+        "guards": 2
+      },
+      "b": {
+        "windowId": "ADE48C4C-D589-4305-904A-FE862B458614",
+        "primary": false,
+        "state": "attached",
+        "logical": ["/", "/saved", "/items/first", "/items/reused", "/items/focused-b"],
+        "native": ["/", "/saved", "/items/first", "/items/reused", "/items/focused-b"],
+        "guards": 5
+      }
+    },
+    "sourceDraft": "Unsent draft a"
+  },
+  {
+    "command": "reset",
+    "ok": true,
+    "result": {
+      "status": "handled"
+    },
+    "allocations": 1,
+    "focusRequests": 3,
+    "stacks": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "primary": true,
+        "state": "attached",
+        "logical": ["/", "/items/focused-a"],
+        "native": ["/", "/items/focused-a"],
+        "guards": 2
+      },
+      "b": {
+        "windowId": "ADE48C4C-D589-4305-904A-FE862B458614",
+        "primary": false,
+        "state": "attached",
+        "logical": ["/items/reset"],
+        "native": ["/items/reset"],
+        "guards": 6
+      }
+    },
+    "sourceDraft": "Unsent draft a"
+  },
+  {
+    "command": "wrong-owner",
+    "ok": true,
+    "result": {
+      "status": "ignored",
+      "reason": "wrong-window"
+    },
+    "allocations": 1,
+    "focusRequests": 3,
+    "stacks": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "primary": true,
+        "state": "attached",
+        "logical": ["/", "/items/focused-a"],
+        "native": ["/", "/items/focused-a"],
+        "guards": 2
+      },
+      "b": {
+        "windowId": "ADE48C4C-D589-4305-904A-FE862B458614",
+        "primary": false,
+        "state": "attached",
+        "logical": ["/items/reset"],
+        "native": ["/items/reset"],
+        "guards": 6
+      }
+    },
+    "sourceDraft": "Unsent draft a"
+  },
+  {
+    "command": "create-fresh",
+    "ok": true,
+    "result": {
+      "status": "handled"
+    },
+    "allocations": 2,
+    "focusRequests": 4,
+    "stacks": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "primary": true,
+        "state": "attached",
+        "logical": ["/", "/items/focused-a"],
+        "native": ["/", "/items/focused-a"],
+        "guards": 2
+      },
+      "b": {
+        "windowId": "ADE48C4C-D589-4305-904A-FE862B458614",
+        "primary": false,
+        "state": "attached",
+        "logical": ["/items/reset"],
+        "native": ["/items/reset"],
+        "guards": 6
+      },
+      "c": {
+        "windowId": "E9E46A2D-0383-460B-839B-420727EFD72A",
+        "primary": false,
+        "state": "attached",
+        "logical": ["/", "/items/fresh"],
+        "native": ["/", "/items/fresh"],
+        "guards": 2
+      }
+    },
+    "sourceDraft": "Unsent draft a"
+  },
+  {
+    "command": "close-b",
+    "ok": true,
+    "result": {
+      "status": "ignored",
+      "reason": "target-unavailable"
+    },
+    "allocations": 2,
+    "focusRequests": 6,
+    "stacks": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "primary": true,
+        "state": "attached",
+        "logical": ["/", "/items/focused-a"],
+        "native": ["/", "/items/focused-a"],
+        "guards": 2
+      },
+      "c": {
+        "windowId": "E9E46A2D-0383-460B-839B-420727EFD72A",
+        "primary": false,
+        "state": "attached",
+        "logical": ["/", "/items/fresh"],
+        "native": ["/", "/items/fresh"],
+        "guards": 2
+      }
+    },
+    "sourceDraft": "Unsent draft a"
+  },
+  {
+    "command": "guard",
+    "ok": true,
+    "result": {
+      "status": "handled",
+      "failure": 4
+    },
+    "allocations": 2,
+    "focusRequests": 6,
+    "stacks": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "primary": true,
+        "state": "attached",
+        "logical": ["/", "/items/focused-a"],
+        "native": ["/", "/items/focused-a"],
+        "guards": 2
+      },
+      "c": {
+        "windowId": "E9E46A2D-0383-460B-839B-420727EFD72A",
+        "primary": false,
+        "state": "attached",
+        "logical": ["/", "/items/fresh"],
+        "native": ["/", "/items/fresh"],
+        "guards": 3
+      }
+    },
+    "sourceDraft": "Unsent draft a"
+  },
+  {
+    "command": "dispose",
+    "ok": true,
+    "result": {
+      "status": "ignored",
+      "reason": "scope-changed"
+    },
+    "allocations": 2,
+    "focusRequests": 6,
+    "stacks": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "primary": true,
+        "state": "attached",
+        "logical": ["/", "/items/focused-a"],
+        "native": ["/", "/items/focused-a"],
+        "guards": 2
+      },
+      "c": {
+        "windowId": "E9E46A2D-0383-460B-839B-420727EFD72A",
+        "primary": false,
+        "state": "attached",
+        "logical": ["/", "/items/fresh"],
+        "native": ["/", "/items/fresh"],
+        "guards": 3
+      }
+    },
+    "sourceDraft": "Unsent draft a"
+  }
+]

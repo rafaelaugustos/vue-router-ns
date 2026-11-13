@@ -334,6 +334,8 @@ URLs, user activities e quick actions de uma scene permanecem nela; novos intent
 
 A política padrão **reutiliza a janela escolhida pelo sistema**; receber um link não cria uma janela nem transfere o foco para outra. Para notificações, o app pode selecionar uma sessão existente, ativar sua scene/task nativa e chamar o `router.openLink` dessa sessão. Para criar uma janela, use `Application.openWindow({ data: { href } })`; no resolver, entregue `request.data.href` ao `openLink` do novo router antes de montar. Não passe o mesmo destino também como rota inicial. O `openLink` espera a montagem. Isso deixa a política de documentos e notificações explícita, sem adivinhar pelo Frame global em foco. Múltiplas Activities no Android exigem um launch mode compatível, como `standard`, e flags explícitas para reutilizar ou criar tasks; o exemplo de janela única abaixo usa `singleTask`.
 
+Para um exemplo executável de reutilização, foco e criação de janelas com escolha explícita do histórico restaurado, veja a [política de janelas para intents](./windows#intent-window-policy).
+
 ### Configuração por plataforma
 
 O router lê o que a plataforma entrega; registrar-se para isso é do app. O pacote não consegue verificar a posse de um domínio nem publicar arquivos de associação.
