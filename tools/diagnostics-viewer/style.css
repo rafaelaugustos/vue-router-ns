@@ -817,3 +817,68 @@ dd {
 .stack-card .pager {
   margin: 16px;
 }
+
+.replay {
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: white;
+  scroll-margin-top: 16px;
+}
+.replay-controls,
+.replay-current {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.replay-position {
+  display: grid;
+  gap: 8px;
+  margin: 18px 0 8px;
+  font-size: 13px;
+}
+.replay-position input {
+  width: 100%;
+  min-width: 0;
+  accent-color: #17656c;
+}
+.replay-current {
+  padding: 14px 0;
+}
+.observation {
+  padding: 12px 20px;
+  overflow-wrap: anywhere;
+}
+.observation .badge {
+  margin: 0 8px 8px 0;
+}
+.observation summary {
+  cursor: pointer;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.has-replay .report-heading {
+  margin-bottom: 20px;
+}
+.has-replay .report-heading h1 {
+  font-size: 30px;
+}
+.has-replay .issues {
+  padding: 12px 18px;
+}
+.state-unknown {
+  padding: 24px;
+  border: 1px dashed var(--line);
+}
+@media (max-width: 700px) {
+  .replay {
+    padding: 14px;
+  }
+  .replay-controls button {
+    flex: 1 1 100px;
+    padding: 9px;
+    font-size: 12px;
+  }
+}

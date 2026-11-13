@@ -2,7 +2,7 @@
 
 [Abra o visualizador de relatórios](/diagnostics-viewer/index.html?lang=pt-BR). Importe o JSON de `router.diagnostics.export()` para comparar o histórico lógico e nativo, inspecionar spans de navegação e acompanhar redirects. Não é necessário conectar o visualizador ao aplicativo.
 
-<Clip name="diagnostics-viewer" :width="780" aspect="1440 / 1050" caption="A ferramenta real no navegador: importação de exemplos, comparação de uma divergência nativa, filtro de guard rejeitado e inspeção de buffer truncado. Dados sintéticos, não benchmarks de dispositivos." />
+<Clip name="diagnostic-replay" :width="780" aspect="1440 / 1100" caption="Viewer offline real com capturas nativas do iOS 18.6: divergência e recuperação, seleção de guard/cancelamento, modal, reproduzir/pausar, lacunas após limpeza/truncamento e compatibilidade v1. Arquivos com ordem danificada são explicitamente sintéticos; não é nova execução nativa." />
 
 ## Coletar e abrir um relatório
 
@@ -18,9 +18,34 @@ const router = createRouter({
 const report = router.diagnostics?.export()
 ```
 
-No visualizador, escolha **Abrir relatórios JSON**. É possível manter até oito capturas independentes, cada uma com até 10 MiB e 10.000 eventos. Relatórios da versão 1 são suportados; JSON inválido, versões incompatíveis e campos malformados geram um erro por arquivo sem substituir os relatórios já abertos. Campos extras desconhecidos são descartados, não exibidos como payloads arbitrários.
+No visualizador, escolha **Abrir relatórios JSON**. Até oito arquivos independentes são retidos, cada um com no máximo 10 MiB. V1 aceita até 10.000 eventos; v2 também aplica os limites declarados de registros/bytes, até 10.000 registros e 8 MiB de dados compactos. JSON inválido, versões incompatíveis e campos malformados geram um erro por arquivo sem substituir relatórios abertos. Campos extras desconhecidos são descartados, não exibidos como payloads arbitrários.
 
 **Explorar relatórios de exemplo** substitui os arquivos abertos por três relatórios didáticos explicitamente sintéticos: investigação de navegação, buffer truncado e janela independente. O guard de 350 ms e o mount de 80 ms ilustram a linha do tempo; não são benchmarks nem limites de desempenho.
+
+## Replay de observações v2 {#replay-v2-observations}
+
+Ative o [contrato experimental de gravação](./diagnostics#experimental-recording-contract) para reter estados intermediários. Arquivos v1 continuam sendo relatórios do snapshot final, sem controles de replay.
+
+```ts
+const router = createRouter({
+  routes,
+  diagnostics: { recording: { maxRecords: 500, maxBytes: 1024 * 1024 } },
+})
+const recordingJSON = JSON.stringify(router.diagnostics!.recording())
+// Save with the app's own file-sharing mechanism, then open it in the viewer.
+```
+
+**Observações gravadas** oferece reproduzir/pausar, anterior/próxima e um controle de posição acessível por teclado. A reprodução avança uma observação retida por segundo; não reproduz o tempo original. Nunca navega no app, executa guards ou busca dados. Só começa quando solicitada e pausa ao importar, trocar captura/filtro/idioma, limpar ou ocultar a aba.
+
+Cada posição exibe apenas seu próprio checkpoint gravado. Pilhas nativa e lógica, códigos de issue, instante e detalhes de visibilidade/seleção mudam juntos. Na **Linha do tempo**, selecionar uma linha pausa a reprodução e seleciona seu checkpoint explicitamente vinculado; uma linha com span completo seleciona o evento de término. Links de redirects mantêm o filtro por requisição, e requisições concorrentes permanecem separadas. A linha do tempo retida inteira continua visível: eventos posteriores não comprovam o futuro do estado selecionado. Filtros não redefinem a ordem do replay nem a análise da primeira divergência.
+
+Um evento sem checkpoint vinculado retido mostra uma lacuna. O visualizador nunca escolhe um snapshot próximo, reaproveita estado anterior através de uma lacuna, interpola estados ou os reconstrói por nomes de operação. Prefixos descartados, épocas após limpeza, inspeções grandes demais/com falha, registros internos ausentes e metadados de retenção inconsistentes ficam explícitos. Identidades duplicadas, sequências ou relógios invertidos e épocas misturadas desabilitam o replay de pilhas do arquivo afetado. Estruturas inválidas e limites excedidos rejeitam o arquivo sem substituir capturas existentes. Um checkpoint posterior independente e válido ainda pode ser inspecionado após uma lacuna de registros ausentes.
+
+**Primeira divergência observada** leva à primeira discordância comparável retida. Pilhas ocupadas e observações anteriores à reconciliação adiam a comparação. A observação comparável anterior, quando existe, delimita um intervalo de incerteza; não se afirma o início exato nem a causa. O resultado considera o arquivo inteiro, mesmo se filtros ocultam algumas pilhas. Não observar divergência não comprova o histórico ausente.
+
+Expanda **Visibilidade, seleção e foco** para distinguir atividade da entrada, visibilidade local do host, aba/índice selecionado e pilha de destino do router. Foco de entrada do SO e observações indisponíveis permanecem desconhecidos. Arquivos importados separadamente nunca são unidos, mesmo quando os IDs locais ou da captura coincidem. Uma lacuna não significa pilha vazia.
+
+O vídeo usa gravações reais do iOS 18.6 da etapa anterior; arquivos danificados de propósito têm **SYNTHETIC** no nome. Esta etapa valida a ferramenta offline no navegador, não uma nova execução nativa ou benchmark de desempenho. Veja o [relatório de validação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/diagnostic-replay-stage2.md).
 
 ## Comparar o snapshot
 
@@ -54,7 +79,7 @@ Descartes do buffer, limites ausentes e capturas vazias são explícitos. `clear
 
 O visualizador lê os arquivos na memória da aba. Não há endpoint de upload, transporte ao vivo, analytics, armazenamento no navegador ou conexão com o runtime. Recarregar ou escolher **Limpar relatórios** remove as capturas abertas. A página é independente do shell da documentação; o HTML compilado bloqueia conexões de rede por Content Security Policy e contém seu próprio script/CSS.
 
-Escolha **Baixar visualizador offline** para salvar esse HTML. Abra o arquivo no navegador e importe relatórios sem conexão de rede. A barra superior permite alternar entre inglês e português. Se um navegador gerenciado bloquear scripts em arquivos locais, sirva a pasta compilada em localhost.
+Escolha **Baixar visualizador offline** para salvar esse HTML. Abra o arquivo no navegador e importe relatórios sem conexão de rede. A barra superior permite alternar entre inglês, português, espanhol e chinês simplificado. Se um navegador gerenciado bloquear scripts em arquivos locais, sirva a pasta compilada em localhost.
 
 Para compilar ou desenvolver a partir de um checkout:
 

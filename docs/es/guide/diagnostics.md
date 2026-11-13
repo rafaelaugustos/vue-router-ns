@@ -94,7 +94,7 @@ const recordingJSON = JSON.stringify(capture)
 const legacyJSON = inspector.export() // unchanged v1, for the current viewer
 ```
 
-Esta es la primera etapa del contrato de grabación. El [visor](./diagnostics-viewer) sigue importando v1; la validación de importación v2, los controles de reproducción sincronizada y el análisis de la primera divergencia corresponden a una etapa posterior. Leer una grabación nunca ejecuta guards, solicita datos, navega en la aplicación ni restaura objetos nativos.
+El [visor](./diagnostics-viewer#replay-v2-observations) importa v1 y v2, valida grabaciones y ofrece reproducción offline sincronizada y análisis de divergencias observadas. Leer una grabación nunca ejecuta guards, solicita datos, navega en la aplicación ni restaura objetos nativos.
 
 `recording: true` utiliza los valores predeterminados anteriores. `maxRecords` acepta 1–10.000 y `maxBytes` acepta 1.024–8.388.608. Ambos límites se aplican al búfer v2 independiente; `maxEvents` sigue limitando v1. `retainedBytes` cuenta la serialización UTF-8 compacta del array de registros, incluidos corchetes y comas. El pequeño envoltorio del informe, los espacios de formato, las copias exportadas y las asignaciones temporales de snapshots quedan fuera de ese presupuesto. Es un límite de retención, no del heap.
 

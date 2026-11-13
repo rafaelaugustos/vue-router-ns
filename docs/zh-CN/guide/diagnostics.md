@@ -94,7 +94,7 @@ const recordingJSON = JSON.stringify(capture)
 const legacyJSON = inspector.export() // unchanged v1, for the current viewer
 ```
 
-这是录制契约的第一阶段。[查看器](./diagnostics-viewer)仍然导入 v1；v2 导入验证、同步回放控件和首次分歧分析属于后续阶段。读取录制不会执行导航守卫、请求数据、在应用中导航或恢复原生对象。
+[查看器](./diagnostics-viewer#replay-v2-observations)导入 v1 和 v2、验证录制，并提供同步离线回放及已观测分歧分析。读取录制不会执行导航守卫、请求数据、在应用中导航或恢复原生对象。
 
 `recording: true` 使用上述默认值。`maxRecords` 接受 1–10,000，`maxBytes` 接受 1,024–8,388,608。两个限制均作用于独立的 v2 缓冲区；`maxEvents` 继续限制 v1。`retainedBytes` 统计记录数组紧凑 UTF-8 序列化后的字节数，包括方括号和逗号。报告的小型外层结构、格式化空白、导出副本以及快照的临时内存分配不在此预算内。这是保留容量限制，不是堆内存限制。
 

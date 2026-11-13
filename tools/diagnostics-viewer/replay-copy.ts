@@ -1,0 +1,197 @@
+export const replayCopy = {
+  title: [
+    'Recorded observations',
+    'Observações gravadas',
+    'Observaciones grabadas',
+    '录制的观测',
+  ],
+  format: [
+    'Versions 1 and 2 · up to 8 files · 10 MiB each',
+    'Versões 1 e 2 · até 8 arquivos · 10 MiB cada',
+    'Versiones 1 y 2 · hasta 8 archivos · 10 MiB cada uno',
+    '版本 1 和 2 · 最多 8 个文件 · 每个 10 MiB',
+  ],
+  play: [
+    'Play observations',
+    'Reproduzir observações',
+    'Reproducir observaciones',
+    '播放观测',
+  ],
+  pause: ['Pause', 'Pausar', 'Pausar', '暂停'],
+  previous: [
+    'Previous observation',
+    'Observação anterior',
+    'Observación anterior',
+    '上一个观测',
+  ],
+  next: ['Next observation', 'Próxima observação', 'Siguiente observación', '下一个观测'],
+  position: [
+    'Observation position',
+    'Posição da observação',
+    'Posición de observación',
+    '观测位置',
+  ],
+  pace: [
+    'One observation per second. Only recorded instants are shown; no interpolation or original-speed simulation.',
+    'Uma observação por segundo. Só instantes gravados são exibidos; sem interpolação nem simulação da velocidade original.',
+    'Una observación por segundo. Solo se muestran instantes grabados; sin interpolación ni simulación de la velocidad original.',
+    '每秒一个观测。仅显示已录制时刻，不插值，也不模拟原始速度。',
+  ],
+  unknown: [
+    'State not observed here. No stack is inferred or carried forward.',
+    'Estado não observado aqui. Nenhuma pilha é inferida ou reaproveitada.',
+    'Estado no observado aquí. No se infiere ni arrastra ninguna pila anterior.',
+    '此处状态未被观测。不会推断或沿用之前的栈。',
+  ],
+  deferred: [
+    'Before reconciliation: comparison deferred. Differences can be expected during a native update.',
+    'Antes da reconciliação: comparação adiada. Diferenças podem ser esperadas durante uma atualização nativa.',
+    'Antes de la reconciliación: comparación aplazada. Pueden existir diferencias esperadas durante una actualización nativa.',
+    '协调之前：暂缓比较。原生更新过程中可能出现预期的差异。',
+  ],
+  jump: [
+    'First observed divergence',
+    'Primeira divergência observada',
+    'Primera divergencia observada',
+    '首次观测到的分歧',
+  ],
+  prior: [
+    'Previous comparable observation',
+    'Observação comparável anterior',
+    'Observación comparable anterior',
+    '前一个可比较的观测',
+  ],
+  uncertain: [
+    'This bounds an uncertainty interval, not an exact onset or cause. Earlier or missing states remain unknown.',
+    'Isso delimita um intervalo de incerteza, não o início nem a causa exata. Estados anteriores ou ausentes continuam desconhecidos.',
+    'Esto delimita un intervalo de incertidumbre, no un inicio ni una causa exacta. Los estados anteriores o ausentes siguen siendo desconocidos.',
+    '这仅限定不确定区间，不代表确切起点或原因。更早或缺失的状态仍然未知。',
+  ],
+  noDivergence: [
+    'No divergence in comparable retained observations.',
+    'Sem divergência nas observações comparáveis retidas.',
+    'Sin divergencias en las observaciones comparables retenidas.',
+    '保留的可比较观测中未发现分歧。',
+  ],
+  noComparable: [
+    'No comparable state retained.',
+    'Nenhum estado comparável retido.',
+    'No se conserva ningún estado comparable.',
+    '未保留可比较的状态。',
+  ],
+  records: ['records', 'registros', 'registros', '记录'],
+  dropped: [
+    'dropped records',
+    'registros descartados',
+    'registros descartados',
+    '已淘汰记录',
+  ],
+  cleared: ['cleared records', 'registros apagados', 'registros borrados', '已清空记录'],
+  checkpoint: ['Checkpoint', 'Checkpoint', 'Checkpoint', '检查点'],
+  selected: [
+    'Selected membership',
+    'Aba selecionada',
+    'Pertenencia seleccionada',
+    '所属标签已选中',
+  ],
+  routing: [
+    'Router destination',
+    'Destino do router',
+    'Destino del router',
+    'Router 目标',
+  ],
+  visible: [
+    'Host-local visible entries',
+    'Entradas visíveis no host',
+    'Entradas visibles dentro del host',
+    'Host 内可见条目',
+  ],
+  focus: [
+    'OS input focus: unknown. Host visibility does not establish visibility through overlays.',
+    'Foco de entrada do SO: desconhecido. Visibilidade no host não garante visibilidade através de sobreposições.',
+    'Foco de entrada del SO: desconocido. La visibilidad en el host no garantiza visibilidad a través de superposiciones.',
+    '操作系统输入焦点未知。Host 内可见不代表未被覆盖层遮挡。',
+  ],
+  yes: ['Yes', 'Sim', 'Sí', '是'],
+  no: ['No', 'Não', 'No', '否'],
+  notKnown: ['Unknown', 'Desconhecido', 'Desconocido', '未知'],
+  tab: [
+    'Tab index / selected index',
+    'Índice da aba / índice selecionado',
+    'Índice de pestaña / índice seleccionado',
+    '标签索引 / 选中索引',
+  ],
+  gap: ['Observation gap', 'Lacuna de observação', 'Hueco de observación', '观测缺口'],
+  'missing-prefix': [
+    'Earlier records were not retained.',
+    'Registros anteriores não foram retidos.',
+    'No se conservaron los registros anteriores.',
+    '未保留更早的记录。',
+  ],
+  'missing-records': [
+    'Records are missing between these sequence positions.',
+    'Faltam registros entre estas posições da sequência.',
+    'Faltan registros entre estas posiciones de secuencia.',
+    '这些序列位置之间缺少记录。',
+  ],
+  'metadata-mismatch': [
+    'Retention metadata does not match this file. Coverage is uncertain.',
+    'Os metadados de retenção não correspondem ao arquivo. A cobertura é incerta.',
+    'Los metadatos de retención no coinciden con este archivo. La cobertura es incierta.',
+    '保留元数据与文件不符，覆盖范围不确定。',
+  ],
+  'ambiguous-order': [
+    'Record order or event identity is ambiguous. Stack replay is unavailable for this file.',
+    'A ordem ou identidade dos eventos é ambígua. O replay de pilhas está indisponível neste arquivo.',
+    'El orden o la identidad de eventos es ambiguo. La reproducción de pilas no está disponible en este archivo.',
+    '记录顺序或事件身份存在歧义。此文件无法回放栈状态。',
+  ],
+  'invalid-link': [
+    'The checkpoint has an inconsistent event link.',
+    'O checkpoint tem um vínculo de evento inconsistente.',
+    'El checkpoint tiene un vínculo de evento incoherente.',
+    '检查点的事件关联不一致。',
+  ],
+  unobserved: [
+    'No valid checkpoint was retained for this event or position.',
+    'Nenhum checkpoint válido foi retido para este evento ou posição.',
+    'No se conservó un checkpoint válido para este evento o posición.',
+    '未保留此事件或位置的有效检查点。',
+  ],
+  oversized: [
+    'The collector omitted a record that exceeded its byte budget.',
+    'O coletor omitiu um registro que excedeu o limite em bytes.',
+    'El recopilador omitió un registro que superó su límite de bytes.',
+    '收集器省略了超出字节预算的记录。',
+  ],
+  'inspection-failed': [
+    'Native inspection failed; no partial state is replayed.',
+    'A inspeção nativa falhou; nenhum estado parcial é reproduzido.',
+    'La inspección nativa falló; no se reproduce ningún estado parcial.',
+    '原生检查失败，不回放部分状态。',
+  ],
+  clearGap: [
+    'The collector was cleared. The next checkpoint starts a new observed epoch.',
+    'O coletor foi limpo. O próximo checkpoint inicia uma nova época observada.',
+    'Se limpió el recopilador. El siguiente checkpoint inicia una nueva época observada.',
+    '收集器已清空。下一个检查点开始新的观测周期。',
+  ],
+  observation: [
+    'Visibility, selection and focus',
+    'Visibilidade, seleção e foco',
+    'Visibilidad, selección y foco',
+    '可见性、选择与焦点',
+  ],
+  comparisonDeferred: [
+    'Comparison deferred',
+    'Comparação adiada',
+    'Comparación aplazada',
+    '暂缓比较',
+  ],
+} as const
+
+export function replayText(locale: string, key: keyof typeof replayCopy): string {
+  return replayCopy[key][
+    locale === 'pt-BR' ? 1 : locale === 'es' ? 2 : locale === 'zh-CN' ? 3 : 0
+  ]
+}
