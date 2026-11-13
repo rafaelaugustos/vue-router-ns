@@ -6,6 +6,24 @@ O router controla os apps Vue das páginas em Frames e os mantém enquanto suas 
 
 O demo agora usa Core 9.1.4 / NativeScript-Vue 3.1.3. O [relatório da 9.1.4](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) registra os novos testes de janelas; o [relatório da 3.1.3](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vue-3.1.3.md) preserva a evidência anterior com Core 9.1.3. As correções upstream não substituem o ciclo de vida das páginas e os adaptadores de restauração do router. Multi-window continua experimental; a [#175](https://github.com/rafaelaugustos/vue-router-ns/issues/175) acompanha a matriz suportada, testes repetidos de ciclo de vida/recursos e a decisão de estabilidade.
 
+## Decisão de suporte do ciclo de vida (2026-11-13)
+
+Multi-window permanece **experimental**. Este contrato cobre um router por janela da aplicação, Pages de Frame gerenciadas pelo router, históricos/resultados isolados, substituição temporária da superfície nativa e fechamento permanente. Não promove combinações arbitrárias de plugins, containers ou dispositivos.
+
+| Escopo                       | Baseline selecionada                                                                                                         | Limite da evidência                                                                                                                                            |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Android                      | Core 9.1.4, NativeScript-Vue 3.1.3, runtime Android 9.1.1                                                                    | Aceitação em emuladores API 34/36; reconstruir tasks originais exige API 29+. Esse piso não certifica as APIs 29–33.                                           |
+| iPad                         | Core 9.1.4, NativeScript-Vue 3.1.3, runtime iOS 9.1.0                                                                        | Simulador iPadOS 18.6: retomada do background, reconstrução das scenes originais e um ciclo de desconexão/reconexão no mesmo processo.                         |
+| iPad físico                  | iPad Pro 11″ (3ª geração), iPadOS 27.0 (24A5418b); mesmas versões de Core/Vue/iOS                                            | Históricos independentes, guards, resultados de modais, retomada, HMR/navegação e fechamento com desmontagem das páginas; apenas APIs públicas.                |
+| Limpeza repetida de recursos | Fixture Android, orçamento fixo de coleta                                                                                    | Seis janelas secundárias, duas substituições de Activity por janela, resultados/guards pendentes, contagem de listeners e referências fracas de Page/Activity. |
+| Fora do subconjunto validado | Android físico, Stage Manager, monitores externos, redimensionamento/rotação durante a navegação, pressão natural de memória | Sem nova garantia de aceitação. Ainda falta medir recursos em desconexões/fechamentos repetidos no iPad.                                                       |
+
+O [relatório versionado do ciclo de vida](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-window-lifecycle.md) registra revisões, ambientes exatos, resultados, limites e a gravação do app real. Recriar uma Activity no emulador não comprova rotação física nem pressão natural de memória. O driver de reconexão do iPad solicita uma desconexão real ao sistema por injeção de falha exclusiva do simulador.
+
+A desconexão temporária preserva as Pages, o estado Vue e os resultados pendentes existentes. O fechamento permanente descarta as páginas daquela janela e conclui seus resultados uma vez; um guard atrasado não pode confirmar navegação na pilha fechada. A morte do processo inicia um novo processo JavaScript: apenas o estado de rotas/páginas explicitamente persistido é reconstruído, nunca as Promises antigas ou objetos nativos arbitrários. A aplicação ainda deve liberar suas próprias subscriptions e referências externas.
+
+A [#188](https://github.com/rafaelaugustos/vue-router-ns/issues/188) acompanha a ampliação dos testes de iPad e gerenciamento de janelas. A aceitação em simulador/emulador é válida para este escopo; aparelho físico só é necessário quando um cenário selecionado não pode ser reproduzido adequadamente nesses ambientes.
+
 ## Um router por janela
 
 Cada `NativeWindow` possui um router. Views nomeadas, pilha de modais, fila de navegação, guards e resultados são independentes. Duas janelas podem ter uma view chamada `inbox`.

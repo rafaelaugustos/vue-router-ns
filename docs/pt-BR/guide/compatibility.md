@@ -2,6 +2,10 @@
 
 A candidata `0.1.0-rc.4` congela a API documentada não experimental enquanto validamos a versão estável. A tabela explícita de rotas em JavaScript/TypeScript continua sendo o padrão. Convenções de arquivos são opcionais; ambas usam navegação nativa, sem runtime de Vue Router ou Nuxt.
 
+O [contrato de ciclo de vida de janelas](./windows#decisao-de-suporte-do-ciclo-de-vida-2026-11-13) de 2026-11-13 seleciona Core 9.1.4 / Vue 3.1.3 publicados e mantém o status experimental. Medições de limpeza repetida no Android não certificam dispositivos Android físicos, Stage Manager, redimensionamento em uso ou retenção de recursos em ciclos repetidos no iPad. Consulte o relatório versionado no guia antes de escolher o escopo de uso.
+
+Um iPad Pro físico de 11″ (3ª geração), com iPadOS 27.0 (24A5418b), também passou em isolamento de janelas, retomada, HMR e fechamento em 31,9 segundos; isso não certifica a coleta repetida de recursos no iPad.
+
 ## Base suportada
 
 | Dependência        | Requisito da RC                           | Base de validação                                          |

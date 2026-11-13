@@ -6,6 +6,24 @@ The router owns the Vue apps behind Frame pages, retaining them while their rout
 
 The demo now uses Core 9.1.4 / NativeScript-Vue 3.1.3. The [9.1.4 report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) records the new window checks; the [3.1.3 report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vue-3.1.3.md) retains the earlier Core 9.1.3 evidence. The upstream fixes do not replace the router-owned page lifecycle and restoration adapters. Multi-window remains experimental; [#175](https://github.com/rafaelaugustos/vue-router-ns/issues/175) tracks the support matrix, repeated lifecycle/resource checks and stability decision.
 
+## Lifecycle support decision (2026-11-13)
+
+Multi-window remains **experimental**. This contract covers one router per application window, router-owned Frame pages, isolated histories/results, temporary native-surface replacement and permanent closure. It does not promote arbitrary plugin, container or device combinations.
+
+| Scope                        | Selected baseline                                                                                              | Evidence boundary                                                                                                                      |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Android                      | Core 9.1.4, NativeScript-Vue 3.1.3, Android runtime 9.1.1                                                      | API 34/36 emulator acceptance; original-task reconstruction requires API 29+. API 29–33 are not certified by that floor.               |
+| iPad                         | Core 9.1.4, NativeScript-Vue 3.1.3, iOS runtime 9.1.0                                                          | iPadOS 18.6 simulator: background resume, original scene reconstruction and one live disconnect/reconnect.                             |
+| Physical iPad                | iPad Pro 11-inch (3rd generation), iPadOS 27.0 (24A5418b); same Core/Vue/iOS pins                              | Independent histories, guards, modal results, background resume, HMR/navigation and closure with page disposal; public APIs only.      |
+| Repeated resource cleanup    | Android fixture, fixed collection budget                                                                       | Six secondary windows, two Activity replacements each, pending results/guards, listener baselines and weak Page/Activity observations. |
+| Outside the validated subset | Physical Android, Stage Manager, external displays, resize/rotation during navigation, natural memory pressure | No new acceptance claim. Repeated iPad disconnect/close resource measurements remain a gap.                                            |
+
+The [versioned lifecycle report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-window-lifecycle.md) records source revisions, exact environments, results, limitations and the actual app recording. Emulator Activity recreation is not evidence of physical rotation or natural memory pressure. The iPad reconnect driver requests a real OS disconnection through simulator-only fault injection.
+
+Live detachment preserves the existing Pages, Vue state and pending results. Permanent closure disposes that owner's pages and settles their results once; a late guard cannot commit into the closed stack. Process death starts a new JavaScript process: only explicitly persisted route/page state is reconstructed, never the old Promises or arbitrary native objects. Applications must still release their own subscriptions and external references.
+
+[#188](https://github.com/rafaelaugustos/vue-router-ns/issues/188) tracks additional iPad and window-management coverage. Simulator/emulator acceptance is valid for this scope; physical hardware is required only when a selected scenario cannot be reproduced adequately there.
+
 ## One router per window
 
 Each `NativeWindow` owns one router. Its named views, modal stack, navigation queue, guards and results are independent. Two windows can both have a view named `inbox`.

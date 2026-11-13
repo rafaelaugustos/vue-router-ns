@@ -1,0 +1,561 @@
+{
+  "runtimeSource": "7e4c558f65180e98a35a14dd48f103c2b134f0fc",
+  "device": {
+    "model": "iPad Pro (11-inch) (3rd generation)",
+    "os": "iPadOS 27.0",
+    "build": "24A5418b"
+  },
+  "dependencies": {
+    "core": "9.1.4",
+    "vue": "3.1.3",
+    "ios": "9.1.0"
+  },
+  "application": {
+    "bundleId": "org.nativescript.vuerouterns.windows175",
+    "name": "Router Windows175",
+    "configuration": "Debug; windowsTest; no dependency patches; no simulator scene probe"
+  },
+  "test": {
+    "method": "WindowUITests.testWindows",
+    "passed": 1,
+    "failed": 0,
+    "durationSeconds": 31.888,
+    "driver": "Explicit window B selector; activate surviving app after closure, asserting it has not exited first"
+  },
+  "note": "Native JSON fields retained; large diagnostics strings omitted. Personal device identifiers excluded. First attempt completed native assertions but XCTest queried a background app; it is not counted as a passing XCTest run. Video omitted at user request after capture was unavailable.",
+  "reports": [
+    {
+      "command": "prepare",
+      "ok": true,
+      "pid": 616,
+      "checks": [
+        "snapshot scope a",
+        "snapshot scope a",
+        "snapshot scope a",
+        "snapshot scope a",
+        "snapshot scope b",
+        "snapshot scope b",
+        "snapshot scope b",
+        "A history isolated",
+        "B history isolated",
+        "two native windows",
+        "B guard blocks back",
+        "snapshot scope b",
+        "B back leaves A unchanged",
+        "snapshot scope a",
+        "snapshot scope b",
+        "snapshot scope a",
+        "snapshot scope b",
+        "A modal result does not close B",
+        "B modal result"
+      ],
+      "sceneEvents": [
+        {
+          "event": "sceneWillConnect",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneWillConnect",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        }
+      ],
+      "sessions": [
+        {
+          "key": "a",
+          "paths": ["/", "/edit", "/edit"],
+          "drafts": ["", "draft A first", "draft A second", ""],
+          "unmounted": 1,
+          "entryKeys": ["mweqbsnpv2uq-1", "mweqbsnpv2uq-2", "mweqbsnpv2uq-3"],
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A",
+          "state": "attached",
+          "loaded": false,
+          "nativePages": 3,
+          "controllers": 3
+        },
+        {
+          "key": "b",
+          "paths": ["/", "/edit"],
+          "drafts": ["", "draft B", "", ""],
+          "unmounted": 2,
+          "entryKeys": ["mweqbvmukhq3-1", "mweqbvmukhq3-2"],
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3",
+          "state": "attached",
+          "loaded": true,
+          "nativePages": 2,
+          "controllers": 2
+        }
+      ]
+    },
+    {
+      "command": "resume",
+      "ok": true,
+      "pid": 616,
+      "checks": [
+        "snapshot scope a",
+        "snapshot scope a",
+        "snapshot scope a",
+        "snapshot scope a",
+        "snapshot scope b",
+        "snapshot scope b",
+        "snapshot scope b",
+        "A history isolated",
+        "B history isolated",
+        "two native windows",
+        "B guard blocks back",
+        "snapshot scope b",
+        "B back leaves A unchanged",
+        "snapshot scope a",
+        "snapshot scope b",
+        "snapshot scope a",
+        "snapshot scope b",
+        "A modal result does not close B",
+        "B modal result",
+        "snapshot scope a",
+        "snapshot scope b",
+        "A history after scene resume",
+        "B history after scene resume",
+        "B draft after scene resume",
+        "snapshot scope b",
+        "snapshot scope b",
+        "B reactivity after scene resume",
+        "snapshot scope a",
+        "snapshot scope b",
+        "snapshot scope a",
+        "snapshot scope a",
+        "snapshot scope b"
+      ],
+      "sceneEvents": [
+        {
+          "event": "sceneWillConnect",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneWillConnect",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        }
+      ],
+      "sessions": [
+        {
+          "key": "a",
+          "paths": ["/", "/edit"],
+          "drafts": ["", "draft A first", "draft A second", ""],
+          "unmounted": 2,
+          "entryKeys": ["mweqbsnpv2uq-1", "mweqbsnpv2uq-2"],
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A",
+          "state": "attached",
+          "loaded": false,
+          "nativePages": 2,
+          "controllers": 2
+        },
+        {
+          "key": "b",
+          "paths": ["/", "/edit"],
+          "drafts": ["", "reactive after scene resume", "", "", ""],
+          "unmounted": 3,
+          "entryKeys": ["mweqbvmukhq3-1", "mweqbvmukhq3-2"],
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3",
+          "state": "attached",
+          "loaded": true,
+          "nativePages": 2,
+          "controllers": 2
+        }
+      ]
+    },
+    {
+      "command": "hmr",
+      "ok": true,
+      "pid": 616,
+      "checks": [
+        "snapshot scope a",
+        "snapshot scope a",
+        "snapshot scope a",
+        "snapshot scope a",
+        "snapshot scope b",
+        "snapshot scope b",
+        "snapshot scope b",
+        "A history isolated",
+        "B history isolated",
+        "two native windows",
+        "B guard blocks back",
+        "snapshot scope b",
+        "B back leaves A unchanged",
+        "snapshot scope a",
+        "snapshot scope b",
+        "snapshot scope a",
+        "snapshot scope b",
+        "A modal result does not close B",
+        "B modal result",
+        "snapshot scope a",
+        "snapshot scope b",
+        "A history after scene resume",
+        "B history after scene resume",
+        "B draft after scene resume",
+        "snapshot scope b",
+        "snapshot scope b",
+        "B reactivity after scene resume",
+        "snapshot scope a",
+        "snapshot scope b",
+        "snapshot scope a",
+        "snapshot scope a",
+        "snapshot scope b",
+        "Vue HMR runtime available",
+        "snapshot scope b",
+        "B script HMR preserves history",
+        "B script HMR applies new setup",
+        "snapshot scope a",
+        "snapshot scope b",
+        "snapshot scope a",
+        "A script HMR preserves history",
+        "A script HMR applies new setup",
+        "snapshot scope a",
+        "snapshot scope b",
+        "snapshot scope b",
+        "snapshot scope b",
+        "navigation after multi-window HMR"
+      ],
+      "sceneEvents": [
+        {
+          "event": "sceneWillConnect",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneWillConnect",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        }
+      ],
+      "sessions": [
+        {
+          "key": "a",
+          "paths": ["/", "/edit"],
+          "drafts": ["", "draft A first", "draft A second", "", ""],
+          "unmounted": 3,
+          "entryKeys": ["mweqbsnpv2uq-1", "mweqbsnpv2uq-2"],
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A",
+          "state": "attached",
+          "loaded": false,
+          "nativePages": 2,
+          "controllers": 2
+        },
+        {
+          "key": "b",
+          "paths": ["/", "/edit"],
+          "drafts": ["", "reactive after scene resume", "", "", "", "", ""],
+          "unmounted": 5,
+          "entryKeys": ["mweqbvmukhq3-1", "mweqbvmukhq3-2"],
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3",
+          "state": "attached",
+          "loaded": true,
+          "nativePages": 2,
+          "controllers": 2
+        }
+      ]
+    },
+    {
+      "command": "close",
+      "ok": true,
+      "pid": 616,
+      "checks": [
+        "snapshot scope a",
+        "snapshot scope a",
+        "snapshot scope a",
+        "snapshot scope a",
+        "snapshot scope b",
+        "snapshot scope b",
+        "snapshot scope b",
+        "A history isolated",
+        "B history isolated",
+        "two native windows",
+        "B guard blocks back",
+        "snapshot scope b",
+        "B back leaves A unchanged",
+        "snapshot scope a",
+        "snapshot scope b",
+        "snapshot scope a",
+        "snapshot scope b",
+        "A modal result does not close B",
+        "B modal result",
+        "snapshot scope a",
+        "snapshot scope b",
+        "A history after scene resume",
+        "B history after scene resume",
+        "B draft after scene resume",
+        "snapshot scope b",
+        "snapshot scope b",
+        "B reactivity after scene resume",
+        "snapshot scope a",
+        "snapshot scope b",
+        "snapshot scope a",
+        "snapshot scope a",
+        "snapshot scope b",
+        "Vue HMR runtime available",
+        "snapshot scope b",
+        "B script HMR preserves history",
+        "B script HMR applies new setup",
+        "snapshot scope a",
+        "snapshot scope b",
+        "snapshot scope a",
+        "A script HMR preserves history",
+        "A script HMR applies new setup",
+        "snapshot scope a",
+        "snapshot scope b",
+        "snapshot scope b",
+        "snapshot scope b",
+        "navigation after multi-window HMR",
+        "snapshot scope a",
+        "snapshot scope b",
+        "snapshot scope b",
+        "closed window releases all Vue page apps",
+        "closed B snapshot cleared",
+        "A snapshot retained"
+      ],
+      "sceneEvents": [
+        {
+          "event": "sceneWillConnect",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneWillConnect",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidActivate",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A"
+        },
+        {
+          "event": "sceneDidEnterBackground",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        },
+        {
+          "event": "sceneDidDisconnect",
+          "window": "A8A75F30-B816-429B-A950-515A2B9768D3"
+        }
+      ],
+      "sessions": [
+        {
+          "key": "a",
+          "paths": ["/", "/edit"],
+          "drafts": ["", "draft A first", "draft A second", "", ""],
+          "unmounted": 3,
+          "entryKeys": ["mweqbsnpv2uq-1", "mweqbsnpv2uq-2"],
+          "window": "2C41E15F-87AE-4BF7-B58F-72F096AFD26A",
+          "state": "attached",
+          "loaded": false,
+          "nativePages": 2,
+          "controllers": 2
+        }
+      ]
+    }
+  ]
+}

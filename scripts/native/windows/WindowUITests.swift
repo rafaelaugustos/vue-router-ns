@@ -2,11 +2,21 @@ import XCTest
 final class WindowUITests: XCTestCase {
     let app = XCUIApplication(bundleIdentifier: "org.nativescript.vuerouterns")
     override func setUp() { continueAfterFailure = false }
-    func command(_ name: String) {
-        let buttons = app.buttons.matching(identifier: "windows:\(name)")
+    func command(_ name: String, window: String? = nil) {
+        let scope: XCUIElement = window.map {
+            app.windows.containing(.navigationBar, identifier: "Window \($0)").firstMatch
+        } ?? app
+        XCTAssertTrue(scope.waitForExistence(timeout: 30), app.debugDescription)
+        let buttons = scope.buttons.matching(identifier: "windows:\(name)")
         XCTAssertTrue(buttons.firstMatch.waitForExistence(timeout: 30), app.debugDescription)
         let button = buttons.allElementsBoundByIndex.first(where: { $0.isHittable }) ?? buttons.firstMatch
         button.tap()
+        if name == "close" {
+            // Closing a foreground full-screen scene can reveal SpringBoard.
+            // Resume the surviving scene before querying its acknowledgement.
+            XCTAssertNotEqual(app.state, .notRunning)
+            app.activate()
+        }
         status(name)
     }
     func status(_ name: String) {
@@ -22,9 +32,9 @@ final class WindowUITests: XCTestCase {
         XCUIDevice.shared.press(.home)
         sleep(3)
         app.activate()
-        command("resume")
-        command("hmr")
-        command("close")
+        command("resume", window: "b")
+        command("hmr", window: "b")
+        command("close", window: "b")
     }
     func testPrepareOnly() {
         app.launch()
@@ -34,7 +44,8 @@ final class WindowUITests: XCTestCase {
     func testReconnectPrepare() {
         app.launch()
         command("prepare")
-        let buttons = app.buttons.matching(identifier: "windows:reconnect")
+        let buttons = app.windows.containing(.navigationBar, identifier: "Window b")
+            .firstMatch.buttons.matching(identifier: "windows:reconnect")
         let button = buttons.allElementsBoundByIndex.first(where: { $0.isHittable }) ?? buttons.firstMatch
         button.tap()
         XCUIDevice.shared.press(.home)
@@ -42,13 +53,13 @@ final class WindowUITests: XCTestCase {
     func testReconnectResume() {
         app.activate()
         status("reconnect")
-        command("hmr")
-        command("close")
+        command("hmr", window: "b")
+        command("close", window: "b")
     }
     func testResumeOnly() {
         app.activate()
         command("restore-scenes")
-        command("hmr")
-        command("close")
+        command("hmr", window: "b")
+        command("close", window: "b")
     }
 }

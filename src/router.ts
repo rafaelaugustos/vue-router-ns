@@ -478,6 +478,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     presentations.delete(stack)
     windowWaiters.get(stack)?.()
     detachers.get(stack)?.()
+    // A retained router may still expose this closed Stack through lastFrame.
+    // Its detached host closure must not keep the Frame and native Pages alive.
+    detachers.delete(stack)
     stack.host?.dispose()
     stack.host = null
     for (const entry of stack.entries.value) dispose(entry)
@@ -1524,10 +1527,13 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
           events.off('activityCreated', onCreated)
           events.off('activityDestroyed', onDestroyed)
           for (const stop of activities.values()) stop()
+          // Core emits close before activityDestroyed. Shutdown unregisters
+          // onDestroyed, so it cannot be relied on to release these owners.
+          activities.clear()
         })
       }
     }
-    stopPlatform = () => stops.forEach((stop) => stop())
+    stopPlatform = () => stops.splice(0).forEach((stop) => stop())
   }
 
   function shutdown() {
@@ -1536,8 +1542,11 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     for (const wake of windowWaiters.values()) wake()
     attached.value = false
     stopPlatform?.()
+    stopPlatform = undefined
     stopWindow?.()
+    stopWindow = undefined
     stopLinks?.()
+    stopLinks = undefined
     for (const waiter of mountWaiters.values())
       waiter.reject(new Error('The router window is closed'))
     mountWaiters.clear()
