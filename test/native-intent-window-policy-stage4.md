@@ -58,7 +58,10 @@ reports, XCTest results and source recording remain under ignored
   changing assertions. This is unit evidence for those races, not a native race
   injection.
 - Runtime and fixture typechecks, package/native builds, driver syntax checks and
-  formatting pass. The package runtime is unchanged; packed-consumer acceptance
+  formatting pass. Typecheck and all 860 tests also pass with the generated build
+  directory temporarily absent. The root development type mapping resolves the
+  example's public package import to source; the native fixture still checks the
+  built public declarations. The package runtime is unchanged; packed-consumer acceptance
   from previous stages is not rerun or claimed here.
 - Four-locale parity/build and browser checks cover the new window-policy anchor,
   language links, narrow layout, search, video playback and reduced motion. The

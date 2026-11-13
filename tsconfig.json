@@ -13,6 +13,9 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
+    "paths": {
+      "vue-router-ns": ["./src/index.ts"]
+    },
     "types": ["node"]
   },
   "include": ["src", "test"]
