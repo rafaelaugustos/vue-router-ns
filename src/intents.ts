@@ -34,6 +34,20 @@ export interface NavigationIntent {
   }
 }
 
+/** The app-selected JSON field inside a notification, not the provider's entire envelope. */
+export interface NotificationIntentPayload {
+  readonly version: 1
+  readonly destination: NavigationIntent['destination']
+  readonly expiresAt?: number
+}
+
+/** Trusted application context. Never copy these fields from the notification payload. */
+export interface NotificationIntentContext {
+  readonly delivery?: NavigationIntent['delivery']
+  readonly target?: NavigationIntent['target']
+  readonly options?: NavigationIntent['options']
+}
+
 export type IntentIgnoredReason =
   | 'invalid'
   | 'version'
@@ -231,6 +245,31 @@ export function parseIntent(input: unknown): NavigationIntent | IgnoredIntent {
     )
       invalid()
     return value as NavigationIntent
+  } catch {
+    return { status: 'ignored', reason: 'invalid' }
+  }
+}
+
+/**
+ * Normalize a notification's bounded JSON destination without resolving or navigating.
+ * Provider/native response extraction and intentional tap identity remain app-owned.
+ */
+export function notificationIntent(
+  payload: unknown,
+  context: NotificationIntentContext = {},
+): NavigationIntent | IgnoredIntent {
+  try {
+    const data = copy(payload)
+    if (!fields(data, ['version', 'destination', 'expiresAt'])) return invalid()
+    if (data.version !== 1) return { status: 'ignored', reason: 'version' }
+    const policy = copy(context)
+    if (!fields(policy, ['delivery', 'target', 'options'])) return invalid()
+    // Revalidate the complete envelope: application context also counts toward its bound.
+    const intent = parseIntent({ ...data, source: 'notification', ...policy })
+    if ('status' in intent) return intent
+    if (intent.expiresAt !== undefined && intent.expiresAt <= Date.now())
+      return { status: 'ignored', reason: 'expired' }
+    return intent
   } catch {
     return { status: 'ignored', reason: 'invalid' }
   }

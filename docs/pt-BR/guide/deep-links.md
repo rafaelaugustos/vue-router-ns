@@ -102,7 +102,7 @@ if (preview.status === 'resolved') {
 }
 ```
 
-O `destination` contém `{ route: ... }` ou `{ url: 'myapp://messages/42' }`. Uma rota usa caminho absoluto ou nome em string com params, query e hash serializáveis. Uma URL usa a filtragem de scheme/host e o mapeamento existentes; sua origem de link é `'app'`. O `source` do intent é um rótulo definido pelo aplicativo, sem comprovar origem ou permissão. Adaptadores de notificações, busca e drag/drop continuam sob responsabilidade do aplicativo.
+O `destination` contém `{ route: ... }` ou `{ url: 'myapp://messages/42' }`. Uma rota usa caminho absoluto ou nome em string com params, query e hash serializáveis. Uma URL usa a filtragem de scheme/host e o mapeamento existentes; sua origem de link é `'app'`. O `source` do intent é um rótulo definido pelo aplicativo, sem comprovar origem ou permissão. Callbacks de provedores de notificações e adaptadores de busca e drag/drop continuam sob responsabilidade do aplicativo; o helper abaixo valida os dados de destino da notificação.
 
 Só são aceitos dados JSON simples: sem objetos nativos/Vue, funções, accessors, symbols ou campos desconhecidos. Os pedidos são copiados e congelados recursivamente. Os limites são 16 KiB de JSON UTF-8 compacto, 8.192 caracteres por string, 32 campos por objeto, 64 itens por array, profundidade 7 e 1.024 valores. A origem aceita 128 caracteres; identificadores de entrega e destino aceitam 256. Faça o parse de JSON externo e valide seu conteúdo específico antes de entregá-lo ao router. Validar o formato não autoriza acesso; os guards normais continuam verificando permissões.
 
@@ -170,6 +170,42 @@ Os guards e as falhas normais continuam valendo. Invalidação durante um guard 
 Passe `options: { replace: true }` no pedido para substituir o login pelo destino e aponte explicitamente para a mesma stack nomeada. O app controla permissões, a política da rota de login e a limpeza do histórico protegido ao sair. O `openLink` existente e seus listeners continuam disponíveis; um listener pode reter a URL original depois que o guard redirecionar para login. A [validação nativa](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-intent-resume-stage2.md) demonstra essa composição.
 
 <Clip name="intent-resume" :width="640" aspect="3 / 4" caption="Simulador real de iPad: uma URL do sistema abre o login do app, a entrada retoma uma vez, e cancelamento, troca de conta, expiração e logout durante guard impedem navegação obsoleta. A autenticação é controlada pela fixture, sem provedor externo; rótulos em inglês." />
+
+## Destinos de notificações {#notification-destinations}
+
+`notificationIntent(payload, context)` converte o destino JSON definido pelo app em um `NavigationIntent` congelado, com `source: 'notification'`. A função não resolve nem navega. O payload aceita apenas `version: 1`, `destination` (rota ou URL) e `expiresAt` opcional; o app fornece identidade da entrega, destino de janela/stack e opções de navegação separadamente.
+
+```ts
+import { notificationIntent } from 'vue-router-ns'
+
+// The provider adapter extracts this app-defined JSON field from an OPEN action.
+const payload = {
+  version: 1,
+  destination: { route: { name: 'message', params: { id: '42' } } },
+  expiresAt: Date.now() + 60_000,
+}
+const intent = notificationIntent(payload, {
+  delivery: { scope: session.deliveryScope, id: response.openEventId },
+  target: { frame: 'inbox' },
+})
+if ('status' in intent) {
+  showIgnored(intent.reason)
+} else {
+  const preview = router.resolveIntent(intent)
+  // Use suspendIntent(intent, policy) instead when app-owned login is needed.
+  const result = await router.openIntent(intent)
+}
+```
+
+No exemplo, `session`, `response` e `showIgnored` pertencem ao app. Extraia apenas o campo de destino revisado do envelope do provedor; converta dicionários nativos em dados JSON simples e limite o texto antes de fazer parse. Campos desconhecidos, getters, funções, rotas malformadas e pedidos acima dos limites de intents (incluindo 16 KiB para o envelope final) retornam `invalid`. Versões incompatíveis retornam `version`; prazos vencidos retornam `expired`. Resolução e execução continuam rejeitando rotas indisponíveis, URLs proibidas e owners incorretos, além de conferir novamente a validade. Não inclua credenciais nem metadados privados do provedor no destino.
+
+Trate apenas uma ação explícita de abertura pelo usuário: receber a notificação, atualizar em segundo plano ou dispensá-la não deve navegar. Finalize callbacks nativos independentemente da espera por login ou montagem. O helper não instala delegate, SDK, solicitação de permissão ou receptor em segundo plano. O tratamento da resposta do provedor pertence ao app; a [documentação de respostas da Apple](https://developer.apple.com/documentation/usernotifications/handling-notifications-and-notification-related-actions) descreve o callback nativo usado na fixture.
+
+Antes de enviar o pedido, vincule a resposta à conta pretendida pela política do app. Uma etiqueta de origem ou uma rota recebida não comprova origem, destinatário ou permissão. Nunca copie `delivery`, `target` ou `options` de payloads não confiáveis: esses campos são rejeitados no payload. Use um escopo estável para a conta/sessão pretendida e um id por ação de abertura, reutilizado nos callbacks dessa ação. Um id de mensagem pode representar vários toques intencionais; um id novo a cada callback impede a deduplicação. Se o provedor não distingue toques, defina essa política no adaptador. O helper não consome ids; `openIntent` ou `suspendIntent` os reserva na memória limitada do router receptor.
+
+O login usa o mesmo fluxo de `suspendIntent` acima. Uma entrega com o app encerrado espera montagem e restauração do histórico; isso não persiste um login pendente entre processos. Reutilizar, focar ou criar janelas continua sendo uma decisão explícita do app. A [fixture nativa e seus limites](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-notification-intents-stage3.md) cobrem toques reais em notificações locais do iOS com o app aberto e encerrado, retomada após login, reprocessamento duplicado e destinos rejeitados. Provedores de push remoto, entrega de notificações no Android e Spotlight ficam fora desta etapa.
+
+<Clip name="notification-intents" :width="640" aspect="3 / 4" caption="Simulador real de iPad: abre notificações do iOS com o app ativo ou encerrado, retoma após login do app, rejeita destinos inválidos/expirados e preserva um rascunho independente. Notificações locais e autenticação controlada; textos em inglês." />
 
 ## Atalhos da tela inicial
 

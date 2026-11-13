@@ -1,0 +1,301 @@
+[
+  {
+    "command": "received-warm",
+    "ok": true,
+    "result": {
+      "status": "suspended",
+      "source": "notification",
+      "phase": "warm",
+      "nativeAction": "com.apple.UNNotificationDefaultActionIdentifier"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/login"],
+        "native": ["/", "/login"]
+      }
+    },
+    "sourceDraft": "Unsent source draft",
+    "process": "1794608612354",
+    "nativeCallbacks": 1,
+    "guarded": 0
+  },
+  {
+    "command": "login-warm",
+    "ok": true,
+    "result": {
+      "status": "handled",
+      "intent": {
+        "version": 1,
+        "destination": {
+          "route": {
+            "name": "message",
+            "params": {
+              "id": "7"
+            }
+          }
+        },
+        "source": "notification",
+        "delivery": {
+          "scope": "fixture-account:a",
+          "id": "notification182-warm:com.apple.UNNotificationDefaultActionIdentifier"
+        },
+        "target": {
+          "frame": "target"
+        },
+        "options": {
+          "replace": true
+        },
+        "expiresAt": 1794608923205
+      },
+      "location": {
+        "path": "/messages/7",
+        "fullPath": "/messages/7",
+        "name": "message",
+        "params": {
+          "id": "7"
+        },
+        "query": {},
+        "hash": "",
+        "meta": {},
+        "matched": [
+          {
+            "path": "/messages/:id",
+            "name": "message",
+            "component": {},
+            "meta": {},
+            "beforeEnter": [],
+            "modal": false,
+            "children": []
+          }
+        ]
+      }
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/messages/7"],
+        "native": ["/", "/messages/7"]
+      }
+    },
+    "sourceDraft": "Unsent source draft",
+    "process": "1794608612354",
+    "nativeCallbacks": 1,
+    "guarded": 1
+  },
+  {
+    "command": "repeat",
+    "ok": true,
+    "result": {
+      "status": "ignored",
+      "reason": "repeat"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/messages/7"],
+        "native": ["/", "/messages/7"]
+      }
+    },
+    "sourceDraft": "Unsent source draft",
+    "process": "1794608612354",
+    "nativeCallbacks": 1,
+    "guarded": 1
+  },
+  {
+    "command": "received-invalid",
+    "ok": true,
+    "result": {
+      "status": "ignored",
+      "reason": "invalid"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/messages/7"],
+        "native": ["/", "/messages/7"]
+      }
+    },
+    "sourceDraft": "Unsent source draft",
+    "process": "1794608612354",
+    "nativeCallbacks": 2,
+    "guarded": 1
+  },
+  {
+    "command": "received-expired",
+    "ok": true,
+    "result": {
+      "status": "ignored",
+      "reason": "expired"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/messages/7"],
+        "native": ["/", "/messages/7"]
+      }
+    },
+    "sourceDraft": "Unsent source draft",
+    "process": "1794608612354",
+    "nativeCallbacks": 3,
+    "guarded": 1
+  },
+  {
+    "command": "received-missing",
+    "ok": true,
+    "result": {
+      "status": "ignored",
+      "reason": "unmatched"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/messages/7"],
+        "native": ["/", "/messages/7"]
+      }
+    },
+    "sourceDraft": "Unsent source draft",
+    "process": "1794608612354",
+    "nativeCallbacks": 4,
+    "guarded": 1
+  },
+  {
+    "command": "compare",
+    "ok": true,
+    "result": {
+      "sources": ["internal", "url", "shortcut-payload"],
+      "path": "/messages/7"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/messages/7"],
+        "native": ["/", "/messages/7"]
+      }
+    },
+    "sourceDraft": "Unsent source draft",
+    "process": "1794608612354",
+    "nativeCallbacks": 4,
+    "guarded": 1
+  },
+  {
+    "command": "received-cold",
+    "ok": true,
+    "result": {
+      "status": "suspended",
+      "source": "notification",
+      "phase": "cold",
+      "nativeAction": "com.apple.UNNotificationDefaultActionIdentifier"
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/login"],
+        "native": ["/", "/login"]
+      }
+    },
+    "sourceDraft": "Unsent source draft",
+    "process": "1794608664289",
+    "nativeCallbacks": 1,
+    "guarded": 0
+  },
+  {
+    "command": "login-cold",
+    "ok": true,
+    "result": {
+      "status": "handled",
+      "intent": {
+        "version": 1,
+        "destination": {
+          "route": {
+            "name": "message",
+            "params": {
+              "id": "7"
+            }
+          }
+        },
+        "source": "notification",
+        "delivery": {
+          "scope": "fixture-account:a",
+          "id": "notification182-cold:com.apple.UNNotificationDefaultActionIdentifier"
+        },
+        "target": {
+          "frame": "target"
+        },
+        "options": {
+          "replace": true
+        },
+        "expiresAt": 1794608964971
+      },
+      "location": {
+        "path": "/messages/7",
+        "fullPath": "/messages/7",
+        "name": "message",
+        "params": {
+          "id": "7"
+        },
+        "query": {},
+        "hash": "",
+        "meta": {},
+        "matched": [
+          {
+            "path": "/messages/:id",
+            "name": "message",
+            "component": {},
+            "meta": {},
+            "beforeEnter": [],
+            "modal": false,
+            "children": []
+          }
+        ]
+      }
+    },
+    "windowId": "C13D29CF-AF0A-490B-9D44-5401099DC2E7",
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/messages/7"],
+        "native": ["/", "/messages/7"]
+      }
+    },
+    "sourceDraft": "Unsent source draft",
+    "process": "1794608664289",
+    "nativeCallbacks": 1,
+    "guarded": 1
+  }
+]
