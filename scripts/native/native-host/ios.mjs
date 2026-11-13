@@ -23,7 +23,10 @@ const built = resolve(
 )
 const apps = (await readdir(built)).filter((name) => name.endsWith('.app'))
 assert.equal(apps.length, 1)
-await run('xcrun', ['simctl', 'install', sim, resolve(built, apps[0])])
+// First installation on a cold hosted simulator is setup, not a navigation probe.
+await run('xcrun', ['simctl', 'install', sim, resolve(built, apps[0])], {
+  timeout: 180000,
+})
 let recorder, recorded
 if (process.env.RECORD_VIDEO === '1') {
   recorder = spawn(
