@@ -74,3 +74,40 @@ The package supplies a standalone JSON format and the native demo's inspector. T
 Routes are represented by their matched **pattern**, such as `/messages/:id(\\d+)`. Resolved params/path values, query, hash, metadata, props, results, native objects, exception messages and stacks are never exported. Route patterns and stack names are application-defined identifiers: keep user data out of those definitions. The collector has no option that copies arbitrary route/page data.
 
 In the debug demo, open **Settings → Navigation diagnostics**. Compare a 350 ms guard with 80 ms synchronous page setup, insert an unmanaged native Page to observe a mismatch and recovery, and copy a redacted JSON report. Native checks are recorded separately from the shim tests; timing examples are diagnostic fixtures, not performance guarantees.
+
+## Experimental recording contract
+
+Opt in separately to preserve intermediate native and logical observations:
+
+```ts
+const router = createRouter({
+  routes,
+  diagnostics: {
+    maxEvents: 500,
+    recording: { maxRecords: 500, maxBytes: 1024 * 1024 },
+  },
+})
+const inspector = router.diagnostics!
+inspector.checkpoint() // e.g. after an app-owned tab selection
+const capture = inspector.recording() // readonly v2 object; no live sampling
+const recordingJSON = JSON.stringify(capture)
+const legacyJSON = inspector.export() // unchanged v1, for the current viewer
+```
+
+This is the first stage of the recording contract. The [viewer](./diagnostics-viewer) still imports v1; v2 import validation, synchronized replay controls and first-divergence analysis are a subsequent stage. Reading a recording never runs guards, requests data, navigates the app or restores native objects.
+
+`recording: true` uses the defaults above. `maxRecords` accepts 1–10,000 and `maxBytes` accepts 1,024–8,388,608. Both limits apply to the separate v2 buffer; `maxEvents` continues to bound v1. `retainedBytes` counts the compact UTF-8 serialization of the records array, including brackets and commas. The small report envelope, pretty-print whitespace, exported copies and temporary snapshot allocations are outside that byte budget. This is a retention limit, not a heap limit.
+
+The v2 envelope includes `captureId`, `routerId`, `clock`, `startedAt`, `stopped`, `epoch`, `limits`, `retainedBytes`, `droppedRecords`, `clearedRecords`, `overhead` and `records`. Each record has an increasing `sequence`, its `epoch` and monotonic `time`. Event records preserve v1 correlation IDs. Checkpoints hold a complete `snapshot`, `observations`, a `boundary` and optional triggering `eventId`. They are independent: evicting an older checkpoint does not invalidate a later one.
+
+The collector observes initialization, events, native reconciliation before and after logical updates, explicit checkpoints, clearing and stopping. Native history comes from host page observations, not operation names. Only checkpoint instants are observed: there is no continuous recording or interpolation between them. External tab changes are observed at the next boundary; call `checkpoint()` after selection when that instant matters. No polling or native listeners are added.
+
+`active` remains an entry lifecycle flag. `hostVisible` describes host-local visible pages, not occlusion by another modal/window. `selected` and `tab` record membership and native selected index when available. `routerFocused` identifies the router's destination stack; `inputFocused` is always unknown. Null observations must remain unknown. Stable entry/stack/host/window/tab IDs are meaningful within their capture; independent captures must not be joined by matching local IDs.
+
+Prefix eviction increments `droppedRecords`. Clearing advances `epoch`, counts discarded records in `clearedRecords`, emits a cleared gap and observes a fresh checkpoint. Sequence numbers and identities do not reset. Oversized records become an oversized gap; inspection failures become an inspection-failed gap without exception data or a partial state. A tiny buffer may retain only a gap or an event: that does not mean an empty stack. A retained span may lack one endpoint. Stopping freezes the recording; navigation can continue.
+
+Do not diagnose a settled divergence from a busy checkpoint or the boundary before reconciliation. A later comparable checkpoint can show the first **retained observation** of disagreement, never its exact cause or onset; missing records widen that uncertainty. The same redaction policy applies as to v1. `overhead` measures synchronous v2 collector work, excluding listeners, export and rendering. Recording adds inspection/serialization cost and can affect navigation timings; it is not an FPS measurement.
+
+<Clip name="diagnostic-recording" :width="480" aspect="3 / 4" caption="Actual iOS 18.6 capture: success, guard refusal, cancellation, modal lifetime, intentional native divergence and recovery, retention limits, clear and stop. English fixture labels; no synthetic replay." />
+
+Ten native checks passed. The recorded collector work and file sizes are fixture measurements, not device-performance guarantees. See the [validation report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-diagnostic-recording-stage1.md) and [repeatable driver](https://github.com/rafaelaugustos/vue-router-ns/blob/main/scripts/native/recording/README.md).

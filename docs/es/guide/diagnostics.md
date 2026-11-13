@@ -74,3 +74,40 @@ El paquete proporciona un formato JSON independiente y el inspector de demostrac
 Las rutas están representadas por su **pattern** coincidente, como `/messages/:id(\\d+)`. Los parámetros/valores de ruta resueltos, consultas, hash, metadatos, accesorios, resultados, objetos nativos, mensajes de excepción y stacks nunca se exportan. Los patrones de ruta y los nombres stack son identificadores definidos por la aplicación: mantenga los datos del usuario fuera de esas definiciones. El recopilador no tiene ninguna opción para copiar datos de ruta/página arbitrarios.
 
 En la demostración de depuración, abra **Configuración → Diagnóstico de navegación**. Compare un guard de 350 ms con una configuración de página síncrona de 80 ms, inserte un Page nativo no administrado para observar una discrepancia y una recuperación, y copie un informe JSON redactado. Las comprobaciones nativas se registran por separado de las pruebas de calce; Los ejemplos de sincronización son accesorios de diagnóstico, no garantías de rendimiento.
+
+## Contrato experimental de grabación {#experimental-recording-contract}
+
+Actívelo por separado para conservar observaciones intermedias del estado nativo y lógico:
+
+```ts
+const router = createRouter({
+  routes,
+  diagnostics: {
+    maxEvents: 500,
+    recording: { maxRecords: 500, maxBytes: 1024 * 1024 },
+  },
+})
+const inspector = router.diagnostics!
+inspector.checkpoint() // e.g. after an app-owned tab selection
+const capture = inspector.recording() // readonly v2 object; no live sampling
+const recordingJSON = JSON.stringify(capture)
+const legacyJSON = inspector.export() // unchanged v1, for the current viewer
+```
+
+Esta es la primera etapa del contrato de grabación. El [visor](./diagnostics-viewer) sigue importando v1; la validación de importación v2, los controles de reproducción sincronizada y el análisis de la primera divergencia corresponden a una etapa posterior. Leer una grabación nunca ejecuta guards, solicita datos, navega en la aplicación ni restaura objetos nativos.
+
+`recording: true` utiliza los valores predeterminados anteriores. `maxRecords` acepta 1–10.000 y `maxBytes` acepta 1.024–8.388.608. Ambos límites se aplican al búfer v2 independiente; `maxEvents` sigue limitando v1. `retainedBytes` cuenta la serialización UTF-8 compacta del array de registros, incluidos corchetes y comas. El pequeño envoltorio del informe, los espacios de formato, las copias exportadas y las asignaciones temporales de snapshots quedan fuera de ese presupuesto. Es un límite de retención, no del heap.
+
+El envoltorio v2 incluye `captureId`, `routerId`, `clock`, `startedAt`, `stopped`, `epoch`, `limits`, `retainedBytes`, `droppedRecords`, `clearedRecords`, `overhead` y `records`. Cada registro tiene una `sequence` creciente, su `epoch` y un `time` monotónico. Los eventos conservan los ID de correlación v1. Los checkpoints contienen un `snapshot` completo, `observations`, una `boundary` y un `eventId` opcional del evento desencadenante. Son independientes: descartar uno anterior no invalida otro posterior.
+
+El recopilador observa la inicialización, los eventos, la reconciliación nativa antes y después de actualizar el estado lógico, los checkpoints explícitos, la limpieza y la detención. El historial nativo procede de las páginas observadas del host, no de nombres de operaciones. Solo se observan los instantes de los checkpoints: no hay grabación continua ni interpolación entre ellos. Los cambios externos de pestaña aparecen en la siguiente observación; llame a `checkpoint()` después de seleccionar cuando ese instante importe. No se añaden sondeos ni listeners nativos.
+
+`active` sigue siendo un indicador del ciclo de vida de la entrada. `hostVisible` describe páginas visibles dentro del host, sin afirmar que otro modal o ventana no las oculta. `selected` y `tab` registran pertenencia e índice nativo seleccionado cuando están disponibles. `routerFocused` identifica el stack de destino del router; `inputFocused` siempre es desconocido. Las observaciones nulas deben seguir siendo desconocidas. Los ID estables de entrada/stack/host/ventana/pestaña solo tienen sentido dentro de su captura; no una capturas independientes por coincidencias de ID locales.
+
+Descartar el prefijo incrementa `droppedRecords`. Limpiar avanza `epoch`, cuenta los registros descartados en `clearedRecords`, emite un hueco de limpieza y observa un nuevo checkpoint. Las secuencias e identidades no se reinician. Un registro demasiado grande se convierte en un hueco de tamaño; los fallos de inspección se convierten en huecos de inspección sin datos de excepción ni estado parcial. Un búfer pequeño puede conservar solo un hueco o evento: eso no significa un stack vacío. Un intervalo retenido puede carecer de un extremo. Detener congela la grabación; la navegación puede continuar.
+
+No diagnostique una divergencia estable desde un checkpoint ocupado o anterior a la reconciliación. Otro posterior y comparable puede mostrar la primera **observación retenida** de discrepancia, nunca su causa ni inicio exacto; los registros ausentes amplían esa incertidumbre. Se aplica la misma política de omisión de datos que en v1. `overhead` mide el trabajo síncrono del recopilador v2, excluyendo listeners, exportación y renderizado. Grabar añade coste de inspección/serialización y puede afectar los tiempos de navegación; no mide FPS.
+
+<Clip name="diagnostic-recording" :width="480" aspect="3 / 4" caption="Captura real en iOS 18.6: éxito, rechazo del guard, cancelación, ciclo del modal, divergencia nativa intencional y recuperación, límites de retención, limpieza y detención. Etiquetas en inglés; sin reproducción sintética." />
+
+Pasaron diez comprobaciones nativas. El trabajo medido del recopilador y los tamaños de archivo son mediciones del fixture, no garantías de rendimiento del dispositivo. Consulte el [informe de validación](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-diagnostic-recording-stage1.md) y el [driver reproducible](https://github.com/rafaelaugustos/vue-router-ns/blob/main/scripts/native/recording/README.md).

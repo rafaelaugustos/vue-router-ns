@@ -196,7 +196,9 @@ handle 提供只读 `state`、`ready: Promise<RoutePreloadResult>` 和 `cancel()
 
 ## 诊断 {#diagnostics}
 
-`RouterDiagnostics` 公开 `routerId`、`stopped`、`events`、`droppedEvents`、`snapshot()`、`subscribe(listener)`、`toJSON()`、`export()`、 `clear()` 和 `stop()`。数据是只读的、有界的和经过编辑的； `stop()` 发布直播源。出口型号：`DiagnosticsOptions`、`RouterDiagnostics`、`DiagnosticsExport`、`DiagnosticSnapshot`、`DiagnosticStack`、`DiagnosticHost`、`DiagnosticEntry`、`DiagnosticIssue`、`DiagnosticIssueCode`、`DiagnosticEvent`、 `DiagnosticPhase` 和 `DiagnosticOutcome`。有关格式、时序语义和生命周期，请参阅 [diagnostics](./diagnostics)。
+`RouterDiagnostics` 公开 `routerId`、`stopped`、`events`、`droppedEvents`、`snapshot()`、`subscribe(listener)`、`toJSON()`、`export()`、 `clear()` 和 `stop()`。数据是只读的、有界的和经过编辑的； `stop()` 释放实时数据源。出口型号：`DiagnosticsOptions`、`RouterDiagnostics`、`DiagnosticsExport`、`DiagnosticSnapshot`、`DiagnosticStack`、`DiagnosticHost`、`DiagnosticEntry`、`DiagnosticIssue`、`DiagnosticIssueCode`、`DiagnosticEvent`、 `DiagnosticPhase` 和 `DiagnosticOutcome`。有关格式、时序语义和生命周期，请参阅 [diagnostics](./diagnostics)。
+
+`recording()` 返回显式启用的实验性 v2 录制；`checkpoint()` 显式观测当前状态。通过布尔值或 `DiagnosticRecordingOptions` 配置 `diagnostics.recording`。新增只读类型：`DiagnosticsRecording`、`DiagnosticRecord`、`DiagnosticBoundary`、`DiagnosticObservation`。现有 v1 导出保持不变。字节限制、缺口及查看器当前支持范围请参阅[录制契约](./diagnostics#experimental-recording-contract)。
 
 ## 原生搜索 {#native-search}
 

@@ -1,0 +1,2790 @@
+{
+  "version": 2,
+  "captureId": "mwfdr9un-router-1-8ivr00zlpgr",
+  "routerId": "router-1",
+  "startedAt": 1794598744991,
+  "clock": "monotonic",
+  "stopped": false,
+  "epoch": 0,
+  "droppedRecords": 0,
+  "clearedRecords": 0,
+  "limits": {
+    "maxRecords": 160,
+    "maxBytes": 262144
+  },
+  "retainedBytes": 37601,
+  "overhead": {
+    "samples": 42,
+    "totalMs": 5.7130000059260055,
+    "maxMs": 0.9910000007948838
+  },
+  "records": [
+    {
+      "kind": "checkpoint",
+      "boundary": "initial",
+      "time": 0.23700000019744039,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 0.23700000019744039,
+        "stopped": false,
+        "stacks": [],
+        "issues": []
+      },
+      "observations": [],
+      "sequence": 1,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 11.108999999123625,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "detail": "attach",
+        "id": 1,
+        "routerId": "router-1",
+        "time": 11.108999999123625,
+        "phase": "host",
+        "status": "event"
+      },
+      "sequence": 2,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 1,
+      "time": 11.146000000735512,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 11.146000000735512,
+        "stopped": false,
+        "stacks": [],
+        "issues": []
+      },
+      "observations": [],
+      "sequence": 3,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 137.05800000025192,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 1,
+        "operation": "push",
+        "route": "/",
+        "spanId": 1,
+        "id": 2,
+        "routerId": "router-1",
+        "time": 137.05800000025192,
+        "phase": "navigation",
+        "status": "start"
+      },
+      "sequence": 4,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 2,
+      "time": 137.21799999984796,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 137.21799999984796,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": []
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": [],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 5,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 137.59199999913108,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 1,
+        "operation": "push",
+        "route": "/",
+        "spanId": 2,
+        "id": 3,
+        "routerId": "router-1",
+        "time": 137.59199999913108,
+        "phase": "queue",
+        "status": "start"
+      },
+      "sequence": 6,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 3,
+      "time": 137.62800000040443,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 137.62800000040443,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": []
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": [],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 7,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 137.67300000108662,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 1,
+        "operation": "push",
+        "route": "/",
+        "spanId": 2,
+        "duration": 0.08100000195554458,
+        "outcome": "success",
+        "id": 4,
+        "routerId": "router-1",
+        "time": 137.67300000108662,
+        "phase": "queue",
+        "status": "end"
+      },
+      "sequence": 8,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 4,
+      "time": 137.6989999989746,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 137.6989999989746,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": []
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": [],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 9,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 137.7619999984745,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 1,
+        "operation": "push",
+        "route": "/",
+        "detail": "beforeEach",
+        "spanId": 3,
+        "id": 5,
+        "routerId": "router-1",
+        "time": 137.7619999984745,
+        "phase": "guard",
+        "status": "start"
+      },
+      "sequence": 10,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 5,
+      "time": 137.79900000008638,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 137.79900000008638,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": []
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": [],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 11,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 137.82699999865144,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 1,
+        "operation": "push",
+        "route": "/",
+        "detail": "beforeEach",
+        "spanId": 3,
+        "duration": 0.06399999983841553,
+        "outcome": "success",
+        "id": 6,
+        "routerId": "router-1",
+        "time": 137.82699999865144,
+        "phase": "guard",
+        "status": "end"
+      },
+      "sequence": 12,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 6,
+      "time": 137.85400000051595,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 137.85400000051595,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": []
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": [],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 13,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 137.90700000026845,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 1,
+        "operation": "push",
+        "route": "/",
+        "detail": "component",
+        "spanId": 4,
+        "id": 7,
+        "routerId": "router-1",
+        "time": 137.90700000026845,
+        "phase": "load",
+        "status": "start"
+      },
+      "sequence": 14,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 7,
+      "time": 137.93100000111735,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 137.93100000111735,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": []
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": [],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 15,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 138.0460000000312,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 1,
+        "operation": "push",
+        "route": "/",
+        "detail": "component",
+        "spanId": 4,
+        "duration": 0.13799999942420982,
+        "outcome": "success",
+        "id": 8,
+        "routerId": "router-1",
+        "time": 138.0460000000312,
+        "phase": "load",
+        "status": "end"
+      },
+      "sequence": 16,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 8,
+      "time": 138.0700000008801,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 138.0700000008801,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": []
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": [],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 17,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 138.09699999910663,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 1,
+        "operation": "push",
+        "route": "/",
+        "spanId": 5,
+        "id": 9,
+        "routerId": "router-1",
+        "time": 138.09699999910663,
+        "phase": "transition",
+        "status": "start"
+      },
+      "sequence": 18,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 9,
+      "time": 138.45299999957206,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 138.45299999957206,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": []
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": [],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 19,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 138.967999999295,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 1,
+        "operation": "push",
+        "route": "/",
+        "detail": "page",
+        "spanId": 6,
+        "id": 10,
+        "routerId": "router-1",
+        "time": 138.967999999295,
+        "phase": "mount",
+        "status": "start"
+      },
+      "sequence": 20,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 10,
+      "time": 139.0030000002298,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 139.0030000002298,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": []
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": [],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 21,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 140.2300000008836,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "entryId": "router-1:entry-1",
+        "route": "/",
+        "detail": "link",
+        "id": 11,
+        "routerId": "router-1",
+        "time": 140.2300000008836,
+        "phase": "page",
+        "status": "event"
+      },
+      "sequence": 22,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 11,
+      "time": 140.25799999944866,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 140.25799999944866,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": []
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": [],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 23,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "reconcile-before",
+      "time": 174.92399999900954,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 174.92399999900954,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-1"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 24,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 175.1059999987774,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "detail": "completion",
+        "id": 12,
+        "routerId": "router-1",
+        "time": 175.1059999987774,
+        "phase": "native",
+        "status": "event"
+      },
+      "sequence": 25,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 12,
+      "time": 175.1509999994596,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 175.1509999994596,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-1"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 26,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "reconcile-after",
+      "time": 175.2039999992121,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 175.2039999992121,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-1"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 27,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 175.4189999992377,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 1,
+        "operation": "push",
+        "route": "/",
+        "detail": "page",
+        "spanId": 6,
+        "duration": 36.450999999942724,
+        "outcome": "success",
+        "id": 13,
+        "routerId": "router-1",
+        "time": 175.4189999992377,
+        "phase": "mount",
+        "status": "end"
+      },
+      "sequence": 28,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 13,
+      "time": 175.44999999881838,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 175.44999999881838,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-1"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 29,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 175.74700000113808,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 1,
+        "operation": "push",
+        "route": "/",
+        "spanId": 5,
+        "duration": 37.65000000203145,
+        "outcome": "success",
+        "id": 14,
+        "routerId": "router-1",
+        "time": 175.74700000113808,
+        "phase": "transition",
+        "status": "end"
+      },
+      "sequence": 30,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 14,
+      "time": 175.79099999784376,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 175.79099999784376,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-1"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 31,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 175.88299999988521,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 1,
+        "operation": "push",
+        "route": "/",
+        "spanId": 1,
+        "duration": 38.823999999294756,
+        "outcome": "success",
+        "id": 15,
+        "routerId": "router-1",
+        "time": 175.88299999988521,
+        "phase": "navigation",
+        "status": "end"
+      },
+      "sequence": 32,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 15,
+      "time": 175.9189999975206,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 175.9189999975206,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": false,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-1"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 33,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 5111.245000000054,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 2,
+        "operation": "push",
+        "route": "/items/:id",
+        "spanId": 7,
+        "id": 16,
+        "routerId": "router-1",
+        "time": 5111.245000000054,
+        "phase": "navigation",
+        "status": "start"
+      },
+      "sequence": 34,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 16,
+      "time": 5111.332000000402,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 5111.332000000402,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-1"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 35,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 5111.409999997704,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 2,
+        "operation": "push",
+        "route": "/items/:id",
+        "spanId": 8,
+        "id": 17,
+        "routerId": "router-1",
+        "time": 5111.409999997704,
+        "phase": "queue",
+        "status": "start"
+      },
+      "sequence": 36,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 17,
+      "time": 5111.452000001009,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 5111.452000001009,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-1"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 37,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 5111.537000000681,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 2,
+        "operation": "push",
+        "route": "/items/:id",
+        "spanId": 8,
+        "duration": 0.1249999986612238,
+        "outcome": "success",
+        "id": 18,
+        "routerId": "router-1",
+        "time": 5111.537000000681,
+        "phase": "queue",
+        "status": "end"
+      },
+      "sequence": 38,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 18,
+      "time": 5111.574999998993,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 5111.574999998993,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-1"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 39,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 5111.680999998498,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 2,
+        "operation": "push",
+        "route": "/items/:id",
+        "detail": "beforeEach",
+        "spanId": 9,
+        "id": 19,
+        "routerId": "router-1",
+        "time": 5111.680999998498,
+        "phase": "guard",
+        "status": "start"
+      },
+      "sequence": 40,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 19,
+      "time": 5111.714999999094,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 5111.714999999094,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-1"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 41,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 5111.757999999099,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 2,
+        "operation": "push",
+        "route": "/items/:id",
+        "detail": "beforeEach",
+        "spanId": 9,
+        "duration": 0.07700000060140155,
+        "outcome": "success",
+        "id": 20,
+        "routerId": "router-1",
+        "time": 5111.757999999099,
+        "phase": "guard",
+        "status": "end"
+      },
+      "sequence": 42,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 20,
+      "time": 5111.786999998003,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 5111.786999998003,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-1"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 43,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 5111.837000000378,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 2,
+        "operation": "push",
+        "route": "/items/:id",
+        "detail": "component",
+        "spanId": 10,
+        "id": 21,
+        "routerId": "router-1",
+        "time": 5111.837000000378,
+        "phase": "load",
+        "status": "start"
+      },
+      "sequence": 44,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 21,
+      "time": 5111.864999998943,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 5111.864999998943,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-1"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 45,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 5111.925000001065,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 2,
+        "operation": "push",
+        "route": "/items/:id",
+        "detail": "component",
+        "spanId": 10,
+        "duration": 0.09000000136438757,
+        "outcome": "success",
+        "id": 22,
+        "routerId": "router-1",
+        "time": 5111.925000001065,
+        "phase": "load",
+        "status": "end"
+      },
+      "sequence": 46,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 22,
+      "time": 5111.956000000646,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 5111.956000000646,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-1"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 47,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 5112.347999998747,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 2,
+        "operation": "push",
+        "route": "/items/:id",
+        "spanId": 11,
+        "id": 23,
+        "routerId": "router-1",
+        "time": 5112.347999998747,
+        "phase": "transition",
+        "status": "start"
+      },
+      "sequence": 48,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 23,
+      "time": 5112.397000000783,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 5112.397000000783,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-1"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 49,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 5112.709000000905,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 2,
+        "operation": "push",
+        "route": "/items/:id",
+        "detail": "page",
+        "spanId": 12,
+        "id": 24,
+        "routerId": "router-1",
+        "time": 5112.709000000905,
+        "phase": "mount",
+        "status": "start"
+      },
+      "sequence": 50,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 24,
+      "time": 5112.751000000571,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 5112.751000000571,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-1"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 51,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 5113.929999999527,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "entryId": "router-1:entry-2",
+        "route": "/items/:id",
+        "detail": "link",
+        "id": 25,
+        "routerId": "router-1",
+        "time": 5113.929999999527,
+        "phase": "page",
+        "status": "event"
+      },
+      "sequence": 52,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 25,
+      "time": 5113.977999997587,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 5113.977999997587,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-1"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 53,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "reconcile-before",
+      "time": 5647.269999997661,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 5647.269999997661,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1", "router-1:entry-2"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-2"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 54,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 5647.710999997798,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "detail": "completion",
+        "id": 26,
+        "routerId": "router-1",
+        "time": 5647.710999997798,
+        "phase": "native",
+        "status": "event"
+      },
+      "sequence": 55,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 26,
+      "time": 5647.772000000259,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 5647.772000000259,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": false,
+                "awaitingResult": false
+              },
+              {
+                "id": "router-1:entry-2",
+                "route": "/items/:id",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1", "router-1:entry-2"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-2"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 56,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "reconcile-after",
+      "time": 5647.93699999791,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 5647.93699999791,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": false,
+                "awaitingResult": false
+              },
+              {
+                "id": "router-1:entry-2",
+                "route": "/items/:id",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1", "router-1:entry-2"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-2"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 57,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 5648.466999999073,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 2,
+        "operation": "push",
+        "route": "/items/:id",
+        "detail": "page",
+        "spanId": 12,
+        "duration": 535.7509999994363,
+        "outcome": "success",
+        "id": 27,
+        "routerId": "router-1",
+        "time": 5648.466999999073,
+        "phase": "mount",
+        "status": "end"
+      },
+      "sequence": 58,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 27,
+      "time": 5648.573999998916,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 5648.573999998916,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": false,
+                "awaitingResult": false
+              },
+              {
+                "id": "router-1:entry-2",
+                "route": "/items/:id",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1", "router-1:entry-2"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-2"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 59,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 5648.676000000705,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 2,
+        "operation": "push",
+        "route": "/items/:id",
+        "spanId": 11,
+        "duration": 536.3290000022971,
+        "outcome": "success",
+        "id": 28,
+        "routerId": "router-1",
+        "time": 5648.676000000705,
+        "phase": "transition",
+        "status": "end"
+      },
+      "sequence": 60,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 28,
+      "time": 5648.723999998765,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 5648.723999998765,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": false,
+                "awaitingResult": false
+              },
+              {
+                "id": "router-1:entry-2",
+                "route": "/items/:id",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1", "router-1:entry-2"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-2"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 61,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 5648.849999997765,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 2,
+        "operation": "push",
+        "route": "/items/:id",
+        "spanId": 7,
+        "duration": 537.612000000081,
+        "outcome": "success",
+        "id": 29,
+        "routerId": "router-1",
+        "time": 5648.849999997765,
+        "phase": "navigation",
+        "status": "end"
+      },
+      "sequence": 62,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 29,
+      "time": 5648.913000000903,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 5648.913000000903,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": false,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": false,
+                "awaitingResult": false
+              },
+              {
+                "id": "router-1:entry-2",
+                "route": "/items/:id",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1", "router-1:entry-2"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-2"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 63,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 7893.301000000065,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 3,
+        "operation": "push",
+        "route": "/blocked",
+        "spanId": 13,
+        "id": 30,
+        "routerId": "router-1",
+        "time": 7893.301000000065,
+        "phase": "navigation",
+        "status": "start"
+      },
+      "sequence": 64,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 30,
+      "time": 7893.363999999565,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 7893.363999999565,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": false,
+                "awaitingResult": false
+              },
+              {
+                "id": "router-1:entry-2",
+                "route": "/items/:id",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1", "router-1:entry-2"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-2"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 65,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 7893.422999997711,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 3,
+        "operation": "push",
+        "route": "/blocked",
+        "spanId": 14,
+        "id": 31,
+        "routerId": "router-1",
+        "time": 7893.422999997711,
+        "phase": "queue",
+        "status": "start"
+      },
+      "sequence": 66,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 31,
+      "time": 7893.45499999763,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 7893.45499999763,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": false,
+                "awaitingResult": false
+              },
+              {
+                "id": "router-1:entry-2",
+                "route": "/items/:id",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1", "router-1:entry-2"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-2"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 67,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 7893.511999998736,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 3,
+        "operation": "push",
+        "route": "/blocked",
+        "spanId": 14,
+        "duration": 0.08899999738787301,
+        "outcome": "success",
+        "id": 32,
+        "routerId": "router-1",
+        "time": 7893.511999998736,
+        "phase": "queue",
+        "status": "end"
+      },
+      "sequence": 68,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 32,
+      "time": 7893.536999999924,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 7893.536999999924,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": false,
+                "awaitingResult": false
+              },
+              {
+                "id": "router-1:entry-2",
+                "route": "/items/:id",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1", "router-1:entry-2"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-2"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 69,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 7893.583000000945,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 3,
+        "operation": "push",
+        "route": "/blocked",
+        "detail": "beforeEach",
+        "spanId": 15,
+        "id": 33,
+        "routerId": "router-1",
+        "time": 7893.583000000945,
+        "phase": "guard",
+        "status": "start"
+      },
+      "sequence": 70,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 33,
+      "time": 7893.607999998494,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 7893.607999998494,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": false,
+                "awaitingResult": false
+              },
+              {
+                "id": "router-1:entry-2",
+                "route": "/items/:id",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1", "router-1:entry-2"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-2"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 71,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 7893.6460000004445,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 3,
+        "operation": "push",
+        "route": "/blocked",
+        "detail": "beforeEach",
+        "spanId": 15,
+        "duration": 0.06299999949987978,
+        "outcome": "success",
+        "id": 34,
+        "routerId": "router-1",
+        "time": 7893.6460000004445,
+        "phase": "guard",
+        "status": "end"
+      },
+      "sequence": 72,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 34,
+      "time": 7893.668000000616,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 7893.668000000616,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": false,
+                "awaitingResult": false
+              },
+              {
+                "id": "router-1:entry-2",
+                "route": "/items/:id",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1", "router-1:entry-2"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-2"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 73,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 7893.707999999606,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 3,
+        "operation": "push",
+        "route": "/blocked",
+        "detail": "beforeEnter",
+        "spanId": 16,
+        "id": 35,
+        "routerId": "router-1",
+        "time": 7893.707999999606,
+        "phase": "guard",
+        "status": "start"
+      },
+      "sequence": 74,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 35,
+      "time": 7893.727999999101,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 7893.727999999101,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": false,
+                "awaitingResult": false
+              },
+              {
+                "id": "router-1:entry-2",
+                "route": "/items/:id",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1", "router-1:entry-2"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-2"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 75,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 7893.789999998262,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 3,
+        "operation": "push",
+        "route": "/blocked",
+        "detail": "beforeEnter",
+        "spanId": 16,
+        "duration": 0.08199999865610152,
+        "outcome": "aborted",
+        "id": 36,
+        "routerId": "router-1",
+        "time": 7893.789999998262,
+        "phase": "guard",
+        "status": "end"
+      },
+      "sequence": 76,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 36,
+      "time": 7893.817000000126,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 7893.817000000126,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": true,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": false,
+                "awaitingResult": false
+              },
+              {
+                "id": "router-1:entry-2",
+                "route": "/items/:id",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1", "router-1:entry-2"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-2"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 77,
+      "epoch": 0
+    },
+    {
+      "kind": "event",
+      "time": 7894.177999998647,
+      "event": {
+        "stackId": "router-1:stack-1",
+        "windowId": "window-1",
+        "navigationId": 3,
+        "operation": "push",
+        "route": "/blocked",
+        "spanId": 13,
+        "duration": 0.8820000002742745,
+        "outcome": "aborted",
+        "id": 37,
+        "routerId": "router-1",
+        "time": 7894.177999998647,
+        "phase": "navigation",
+        "status": "end"
+      },
+      "sequence": 78,
+      "epoch": 0
+    },
+    {
+      "kind": "checkpoint",
+      "boundary": "event",
+      "eventId": 37,
+      "time": 7894.212999999581,
+      "snapshot": {
+        "routerId": "router-1",
+        "time": 7894.212999999581,
+        "stopped": false,
+        "stacks": [
+          {
+            "id": "router-1:stack-1",
+            "name": "default",
+            "modal": false,
+            "busy": false,
+            "logical": [
+              {
+                "id": "router-1:entry-1",
+                "route": "/",
+                "active": false,
+                "awaitingResult": false
+              },
+              {
+                "id": "router-1:entry-2",
+                "route": "/items/:id",
+                "active": true,
+                "awaitingResult": false
+              }
+            ],
+            "native": [
+              {
+                "id": "router-1:host-2",
+                "role": "main",
+                "loaded": true,
+                "windowId": "window-1",
+                "entries": ["router-1:entry-1", "router-1:entry-2"]
+              }
+            ]
+          }
+        ],
+        "issues": []
+      },
+      "observations": [
+        {
+          "stackId": "router-1:stack-1",
+          "closed": false,
+          "selected": null,
+          "routerFocused": true,
+          "hostVisible": ["router-1:entry-2"],
+          "tab": null,
+          "inputFocused": null
+        }
+      ],
+      "sequence": 79,
+      "epoch": 0
+    }
+  ]
+}

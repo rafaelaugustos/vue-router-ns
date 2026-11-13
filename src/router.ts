@@ -445,6 +445,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
             hosts: hostParts(stack.host),
           })),
         (page) => entriesByPage.get(page),
+        () => focused(),
       )
     : undefined
 
@@ -577,6 +578,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       stack.pending = undefined
       for (const wake of stack.endWaiters) wake()
       stack.endWaiters.clear()
+      diagnostics?.checkpoint('reconcile-after')
     }
   }
 
@@ -586,11 +588,13 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     if (!host || stack.closed) return
 
     const pages = host.pages()
+    diagnostics?.checkpoint('reconcile-before')
     const mounting = stack.pending?.entry
     // A native completion can precede Vue's mounted hooks. Keep the previous
     // stack and pending navigation until the destination Page has been linked.
     if (mounting && (!mounting.page || !pages.includes(mounting.page))) {
       stack.pending!.nativeCompleted = true
+      diagnostics?.checkpoint('reconcile-after')
       return
     }
 
@@ -618,6 +622,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     if (stack.pending) {
       stack.pending.resolve()
       stack.pending = undefined
+      diagnostics?.checkpoint('reconcile-after')
       diagnostics?.audit()
       return
     }
@@ -629,6 +634,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       lastFrame.value = stack
       notifyAfter(to.route, from.route)
     }
+    diagnostics?.checkpoint('reconcile-after')
     diagnostics?.audit()
   }
 

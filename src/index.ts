@@ -55,6 +55,13 @@ export type {
   DiagnosticPhase,
   DiagnosticOutcome,
 } from './diagnostics.js'
+export type {
+  DiagnosticRecordingOptions,
+  DiagnosticsRecording,
+  DiagnosticRecord,
+  DiagnosticBoundary,
+  DiagnosticObservation,
+} from './diagnostic-recording.js'
 export { getWindowRoute } from './windows.js'
 export type { RouterWindow, OpenWindowOptions } from './windows.js'
 
