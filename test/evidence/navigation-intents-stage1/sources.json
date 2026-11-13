@@ -1,0 +1,9 @@
+{
+  "src/intents.ts": "61f6b2e2ec5d4e4b99051a1d406e0a633a1356d703a5ac5bec225d87271749c8",
+  "src/router.ts": "e0db6fe49d53d208332c02790d0d6d97a73ce41e5b8a6b329b64e8ed49bc1d8d",
+  "src/index.ts": "ae09aa9b33ed729bff9ceb7cb9c8dd0ae785a93a98859410fcd6be6510090047",
+  "demo/src/testing/intents-app.ts": "92d8e9aa1f9912f8c9396e9666f4db123480d39f7c4ff4d9a74b91a5727315ca",
+  "scripts/native/intents/ios.mjs": "277db4b9b2cf7a665fe23440c2b84831252bcf0946f61842881c301e66520663",
+  "scripts/native/intents/IntentsUITests.swift": "3477d5b4bda42e00a6d28b12dba84653e68731bb4ad9b1188b7f30043295b054",
+  "docs/public/media/navigation-intents.mp4": "061d8cf40212bba1215dfca55b3734b48377eaf53d28749ab80c20de8fbd0a42"
+}

@@ -75,6 +75,49 @@ result.ignored // 'scheme', 'host', 'unmatched', 'malformed' or 'repeat'
 
 `resolveLink(url)` 只解析 URL 的目标，不执行导航；`onLink` 则接收所有交给路由器的链接，无论是否成功导航。要在登录后恢复链接，可以采用演示应用的做法：守卫重定向到登录页，并将目标保存在 `query.next` 中，登录页随后用该目标替换自身。也可以使用 `onLink`：当 `failure` 或当前路由表明登录拦截了导航时，保存 `result.location`，登录后再用 `push` 打开它。
 
+## 导航 Intent（实验性） {#navigation-intents}
+
+当应用的不同入口需要共享目标请求时，可以使用带版本号的 `NavigationIntent`。`resolveIntent` 只进行验证和解析，不导航、不执行守卫、不加载组件，也不选择标签页。`openIntent` 会再次验证，并复用现有链接的就绪等待与守卫执行流程。映射和路由重定向回调应保持纯函数行为。
+
+```ts
+import type { NavigationIntent } from 'vue-router-ns'
+
+const request = {
+  version: 1,
+  source: 'internal',
+  destination: { route: { name: 'message', params: { id: '42' } } },
+  target: { frame: 'inbox' },
+  delivery: { scope: 'account-session-17', id: 'tap-123' },
+  expiresAt: Date.now() + 60_000,
+} satisfies NavigationIntent
+
+const preview = router.resolveIntent(request)
+if (preview.status === 'resolved') {
+  const result = await router.openIntent(request)
+  if (result.status === 'handled') {
+    console.log(result.location.fullPath, result.failure)
+  } else {
+    console.log(result.reason)
+  }
+}
+```
+
+`destination` 可以是 `{ route: ... }` 或 `{ url: 'myapp://messages/42' }`。路由使用绝对路径或字符串名称，以及可序列化的 params、query 和 hash。URL 复用现有 scheme/host 筛选与映射，其链接来源为 `'app'`。Intent 的 `source` 是应用定义的标签，并不能证明来源或权限。通知、搜索与拖放适配器仍由应用负责。
+
+仅接受普通 JSON 数据：不允许原生/Vue 对象、函数、访问器、symbol 或未知字段。请求会被复制并递归冻结。限制为紧凑 UTF-8 JSON 16 KiB、每个字符串 8,192 个字符、每个对象 32 个字段、每个数组 64 项、深度 7 和 1,024 个值。来源标签最多 128 个字符；投递和目标标识符最多 256 个字符。请先解析外部 JSON 并验证应用特定内容，再交给 router。结构验证不代表授权；正常守卫仍需检查权限。
+
+接收请求的 router 负责执行。`target.windowId` 断言该窗口的身份，不会查找或打开其他窗口。`target.frame` 选择其具名栈。省略时，URL 请求先使用现有链接的 frame 策略，再回退到默认栈；路由请求使用默认栈。不会通过全局当前 Frame 来选择窗口。`options` 接受 `replace`、`withParents` 和 `clearHistory`，默认包含父级历史。先应用 URL 策略选项，再由 intent 的显式选项覆盖。解析过程不调用 frame 或 options 回调。
+
+导航会等待就绪和历史恢复；尚未挂载的具名栈沿用十秒挂载期限。请求保留重叠导航的正常取消行为，不提供 FIFO 队列。`expiresAt` 会在接收时及就绪/栈等待后、进入导航前检查；它不会取消已经进入守卫的导航。等待后也会重新检查路由是否已删除以及窗口是否已关闭。执行错误仍会使 Promise 拒绝。
+
+`delivery` 通过 `scope` 和 `id` 在同一 router 生命周期内跨来源标签去重。应用应管理账户/会话范围，为每次有意操作生成新 id，也可以省略该字段。最多保留 256 个进行中的请求，超出时返回 `busy`。最近 256 个已结束投递的 id 保留在内存中，包括被守卫拒绝或在等待中失效的尝试。重复请求返回 `repeat`；这是有界去重，并非持久化的恰好一次投递保证。现有链接的投递 id 保留独立的兼容命名空间。Intent 不触发 `onLink`；现有链接保持监听器及 launch/resume 去重行为。
+
+预览返回 `resolved` 或 `ignored`。执行返回 `handled`，包含请求的 `location` 和可选的 `failure`，或返回带 `reason` 的 `ignored`。Handled 表示正常流程已经结束：守卫可能重定向、中止或取消，请求的页面不一定出现。忽略原因包括 `invalid`、`version`、`expired`、`unmatched`、`scheme`、`host`、`repeat`、`busy`、`wrong-window`、`owner-closed` 和 `target-unavailable`。不会把 payload 或投递标识符加入诊断数据。
+
+本阶段不持久化请求、不暂停/恢复认证，也不选择新窗口。现有登录流程仍由应用负责。[原生测试应用](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/intents) 检查真实 Frame、守卫及系统 URL 投递；[验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-navigation-intents-stage1.md) 区分原生证据与单元测试覆盖。
+
+<Clip name="navigation-intents" :width="640" aspect="3 / 4" caption="真实 iPad 模拟器：无导航预览、名称/URL 目标、重复投递和守卫结果、模态销毁及系统 URL 投递。应用标签为英文。" />
+
 ## 主屏幕快捷方式 {#home-screen-shortcuts}
 
 <Clip name="ios-shortcuts" caption="长按演示图标并选择新消息以通过原生快速操作打开其路线。 iOS 26模拟器。" />

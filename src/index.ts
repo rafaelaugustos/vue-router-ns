@@ -25,6 +25,14 @@ export { useBackHistoryMenu } from './history-menu.js'
 export type { BackHistoryMenu, BackHistoryMenuOptions } from './history-menu.js'
 export type { Router, RouterOptions, SystemBackClaimant } from './router.js'
 export type {
+  NavigationIntent,
+  IntentRoute,
+  IntentResolution,
+  IntentResult,
+  IntentIgnoredReason,
+  IgnoredIntent,
+} from './intents.js'
+export type {
   NavigationHistory,
   NavigationHistoryScope,
   NavigationHistoryEntry,
