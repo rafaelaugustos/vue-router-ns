@@ -31,6 +31,7 @@ it.each(['return', 'discard'] as const)(
       { diagnostics: true },
     )
     await router.push('/above')
+    const retainedHistory = router.history.value!.entries[0]!
     const covered = frame().backStack[0]!.resolvedPage
     const top = frame().currentPage
     // NativeScript-Vue owns this callback. The router must wait until the
@@ -51,11 +52,14 @@ it.each(['return', 'discard'] as const)(
         .map((event) => event.detail),
     ).toEqual(['requested', 'deferred', 'requested'])
     expect(paths(router.stack.value)).toEqual(['/', '/above'])
+    expect(router.history.value!.entries[0]).toBe(retainedHistory)
     if (action === 'return') await router.back()
     else await router.push('/fresh', { clearHistory: true })
     await settle()
     expect(reload).toHaveBeenCalledTimes(action === 'return' ? 1 : 0)
     expect(paths(router.stack.value)).toEqual([action === 'return' ? '/' : '/fresh'])
+    if (action === 'return')
+      expect(router.history.value!.entries[0]).toBe(retainedHistory)
     expect(
       router.diagnostics!.events.filter(
         (event) => event.phase === 'hmr' && event.detail === 'applied',

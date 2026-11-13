@@ -46,6 +46,12 @@ Instale uma vez com `createApp(App).use(router).start()`. Isso registra os compo
 
 `push`, `replace`, `back`, `go`, `backTo`, `backToRoot` e `setStack` resolvem para `NavigationFailure | undefined`. Erros inesperados rejeitam a promise; veja [falhas](./navigating#falhas-e-erros). Os métodos de voltar seguem a [semântica do split view](./split-view#historico-e-voltar) quando chamados em uma pilha dividida.
 
+### Histórico retido
+
+`history` é uma ref somente leitura de `NavigationHistory | undefined`. `getHistory(options?: HistoryOptions)` lê um snapshot congelado; `HistoryOptions.frame` seleciona uma pilha nomeada sem navegar. O snapshot expõe dados de `NavigationHistoryScope` e `NavigationHistoryEntry`, com uma `NavigationHistoryRoute` independente.
+
+`backToEntry(target: NavigationHistoryTarget, options?: BackToEntryOptions)` seleciona uma entrada exata da instância atual. Passe diretamente uma entrada do snapshot. `BackToEntryOptions` aceita `animated` e `result`, sem substituir o frame. Resolve para `NavigationFailure | undefined`; endereços indisponíveis e históricos cobertos por modais rejeitam. Veja [histórico retido](./stack#selecionando-uma-entrada-retida-exata) para regras de escopo, restauração e concorrência.
+
 ### Opções de navegação
 
 `push`, `replace` e `pushForResult` aceitam `NavigationOptions`:

@@ -11,6 +11,15 @@ import type { RouteLocation } from './types.js'
 
 export { createRouter, START_LOCATION } from './router.js'
 export type { Router, RouterOptions, SystemBackClaimant } from './router.js'
+export type {
+  NavigationHistory,
+  NavigationHistoryScope,
+  NavigationHistoryEntry,
+  NavigationHistoryRoute,
+  NavigationHistoryTarget,
+  HistoryOptions,
+  BackToEntryOptions,
+} from './history.js'
 export { defineRouteMiddleware } from './middleware.js'
 export type {
   RouteMiddleware,

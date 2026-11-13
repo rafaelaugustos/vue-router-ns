@@ -68,6 +68,13 @@ import {
 } from './diagnostics.js'
 import type { BackPreview } from './back-preview.js'
 import {
+  createHistory,
+  type NavigationHistory,
+  type NavigationHistoryTarget,
+  type HistoryOptions,
+  type BackToEntryOptions,
+} from './history.js'
+import {
   assertHostVersion,
   unsupportedOperation,
   type NativeHost,
@@ -202,6 +209,15 @@ export interface Router<M extends RouteMapLike = RouteMapGeneric> {
   readonly currentRoute: Readonly<Ref<RouteLocation>>
   /** Routes of the stack this router navigates in, bottom to top. */
   readonly stack: Readonly<Ref<readonly RouteLocation[]>>
+  /** Frozen retained history of the caller's stack; undefined after owner closure. */
+  readonly history: Readonly<Ref<NavigationHistory | undefined>>
+  /** Read a snapshot without revealing a tab or navigating. Safe inside a computed. */
+  getHistory(options?: HistoryOptions): NavigationHistory | undefined
+  /** Return to this exact live entry in its owning stack, within this router/window. */
+  backToEntry(
+    target: NavigationHistoryTarget,
+    options?: BackToEntryOptions,
+  ): Promise<NavigationFailure | undefined>
   readonly window: Readonly<Ref<RouterWindow | undefined>>
   /** Ask the OS to open a new window; its content resolver uses getWindowRoute(data). */
   openWindow(to: RouteLocationRawOf<M>, options?: OpenWindowOptions): void
@@ -328,6 +344,9 @@ interface Request {
   onEntry?: (entry: Entry) => void
   /** Restoring: the identity and state the page had before, if it comes back at the same path. */
   saved?: { path: string; key: string; state?: Record<string, SavedState> }
+  restored?: boolean
+  /** Exact-entry navigation must still own the same target and guarded top page. */
+  validate?: () => boolean
   redirects: number
 }
 
@@ -341,6 +360,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   if (options.window && !hasNativeWindows())
     throw new Error('Window-scoped routers require NativeScript core 9.1 or later')
   const owner = {}
+  const history = createHistory()
   const nativeWindow = shallowRef<RouterWindow>()
   let windowKey: string | undefined
   const attached = shallowRef(true)
@@ -604,10 +624,12 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     saved?: Request['saved'],
     layout?: EntryLayout,
     from: RouteLocation = topOf(stack)?.route ?? START_LOCATION,
+    restored = false,
   ) {
     const entry: Entry = {
       id: ++entryId,
       key: saved?.key ?? `${keySeed}-${entryId}`,
+      restored,
       route,
       stack,
       component: components.get(route.matched.at(-1)!)!,
@@ -750,6 +772,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     targets: readonly RouteLocation[],
     options: Pick<SetStackOptions, 'animated' | 'transition'>,
     saved?: readonly SavedEntry[],
+    restored = false,
   ): Promise<NavigationFailure | undefined> {
     if (stack.host?.capabilities.pinnedRoot) {
       const root =
@@ -787,6 +810,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         },
         force: true,
         saved: memory && to ? { path: to.fullPath, ...memory } : undefined,
+        restored,
         redirects: 0,
       })
     }
@@ -954,6 +978,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     const isCancelled = () =>
       stack.closed ||
       stack.attempt !== attempt ||
+      request.validate?.() === false ||
       (keepPreview !== undefined && !keepPreview.active)
     const release = () => {
       if (stack.attempt === attempt) stack.attempt = undefined
@@ -1088,6 +1113,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
           type: type === 'replace' || flags.replace ? 'replace' : 'push',
           to: { ...resolveTarget(raw, from), redirectedFrom: to.redirectedFrom ?? to },
           pick: undefined,
+          validate: undefined,
+          restored: false,
           force: flags.force,
           redirects: request.redirects + 1,
         },
@@ -1188,6 +1215,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       zoom,
       request.saved?.path === to.fullPath ? request.saved : undefined,
       request.layout,
+      undefined,
+      request.restored,
     )
     request.onEntry?.(entry)
 
@@ -1782,6 +1811,50 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   function navigation(origin?: Stack): Router {
     const scope = () => stackFor(origin)
 
+    function getHistory(options: HistoryOptions = {}): NavigationHistory | undefined {
+      const stack =
+        options.frame !== undefined ? frames.get(options.frame) : (origin ?? focused())
+      if (stopped || !stack || stack.closed) return undefined
+      return history.snapshot(stack, nativeWindow.value?.id)
+    }
+
+    async function backToEntry(
+      address: NavigationHistoryTarget,
+      options: BackToEntryOptions = {},
+    ): Promise<NavigationFailure | undefined> {
+      // Copy the address before any asynchronous work; callers may pass plain data.
+      const { scopeId, id } = address
+      const stack = [...frames.values(), ...modals.value].find(
+        (stack) => history.scopeId(stack) === scopeId,
+      )
+      const target = stack?.entries.value.find((entry) => history.entryId(entry) === id)
+      if (stopped || !stack || stack.closed || !target)
+        throw new Error(`History entry "${id}" is no longer available in this router`)
+      const uncovered = () => !modals.value.length || modals.value.at(-1) === stack
+      if (!uncovered()) throw new Error('Cannot navigate history beneath an open modal')
+      const top = topOf(stack)!
+      if (target === top) {
+        const failure = createNavigationFailure(
+          NavigationFailureType.duplicated,
+          target.route,
+          top.route,
+        )
+        notifyAfter(target.route, top.route, failure)
+        return failure
+      }
+      stack.reveal?.()
+      return run({
+        type: 'back',
+        stack,
+        pick: () => target,
+        validate: () =>
+          uncovered() && topOf(stack) === top && stack.entries.value.includes(target),
+        options: { animated: options.animated },
+        result: options.result,
+        redirects: 0,
+      })
+    }
+
     async function navigate(
       type: 'push' | 'replace',
       raw: RouteLocationRaw,
@@ -1874,6 +1947,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     }
 
     const methods: Partial<Router> = {
+      history: computed(() => getHistory()),
+      getHistory,
+      backToEntry,
       openWindow(raw, options) {
         if (stopped) throw new Error('The router window is closed')
         const from =
@@ -1990,6 +2066,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
             saved?.targets ?? [resolveTarget(initial, START_LOCATION)],
             { animated: false },
             saved?.entries,
+            !!saved,
           )
         } finally {
           restoring = false

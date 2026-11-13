@@ -67,6 +67,39 @@ afterEach(() => {
 })
 
 describe('NativeWindow ownership', () => {
+  it('scopes retained history to its window and invalidates pending selections on close', async () => {
+    const a = new NativeWindow('history-a')
+    const b = new NativeWindow('history-b')
+    const first = await mountWindow(a)
+    const second = await mountWindow(b)
+    const target = first.router.history.value!.entries[0]!
+    expect(first.router.history.value!.scope.windowId).toBe('history-a')
+    expect(second.router.history.value!.scope.windowId).toBe('history-b')
+    await second.router.push('/items/2')
+    const survivor = second.router.history.value!
+    await expect(second.router.backToEntry(target)).rejects.toThrow(/no longer available/)
+    await first.router.push('/items/1')
+    const retained = first.router.history.value!.entries[1]!
+    a.detach()
+    a.attach(new Activity())
+    expect(first.router.history.value!.entries[1]).toBe(retained)
+    let release!: () => void
+    first.router.beforeEach(
+      () =>
+        new Promise<void>((resolve) => {
+          release = resolve
+        }),
+    )
+    const navigation = first.router.backToEntry(target)
+    await settle()
+    a.close()
+    release()
+    expect((await navigation)?.type).toBe(NavigationFailureType.cancelled)
+    expect(first.router.history.value).toBeUndefined()
+    expect(second.router.history.value!.entries).toEqual(survivor.entries)
+    await expect(first.router.backToEntry(target)).rejects.toThrow(/no longer available/)
+  })
+
   it('preserves existing single-window restores when the inferred primary ID changes', async () => {
     let saved: SavedStacks | null = null
     async function boot(id: string) {

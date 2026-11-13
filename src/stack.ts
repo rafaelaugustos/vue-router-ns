@@ -53,6 +53,8 @@ export interface Entry {
   readonly id: number
   /** Stable identity, kept across process death by `restore`. */
   readonly key: string
+  /** This live page was reconstructed from a persisted stack. */
+  readonly restored: boolean
   readonly route: RouteLocation
   readonly stack: Stack
   readonly component: RouteComponent
