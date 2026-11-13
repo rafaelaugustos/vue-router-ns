@@ -3,10 +3,14 @@ import { execFile, spawn } from 'node:child_process'
 import { access, mkdir, readFile, readdir, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { promisify } from 'node:util'
+import { startDataServer } from './data-server.mjs'
 const exec = promisify(execFile)
 const sim = process.env.IOS_SIMULATOR
 assert(sim, 'Use a dedicated iPad simulator')
-const out = resolve(process.env.OUT ?? 'scripts/native/out/preload')
+const data = process.env.PRELOAD_DATA_TEST === '1'
+const out = resolve(
+  process.env.OUT ?? `scripts/native/out/${data ? 'preloaddata' : 'preload'}`,
+)
 const project = resolve(process.env.XCTEST_PROJECT ?? '/tmp/preload-checks')
 const pkg = 'org.nativescript.vuerouterns'
 const run = (cmd, args, extra = {}) =>
@@ -26,6 +30,7 @@ await run('xcrun', ['simctl', 'install', sim, resolve(built, apps[0])], {
   timeout: 180000,
 })
 let recorder, recorded
+const server = data ? await startDataServer() : undefined
 if (process.env.RECORD_VIDEO === '1') {
   recorder = spawn(
     'xcrun',
@@ -44,7 +49,9 @@ try {
       `${project}/PreloadChecks.xcodeproj`,
       '-scheme',
       'PreloadChecks',
-      '-only-testing:PreloadChecks/PreloadUITests/testCodePreparation',
+      data
+        ? '-only-testing:PreloadChecks/DataPreloadUITests/testDataPreparation'
+        : '-only-testing:PreloadChecks/PreloadUITests/testCodePreparation',
       '-destination',
       `platform=iOS Simulator,id=${sim}`,
       '-derivedDataPath',
@@ -68,32 +75,70 @@ try {
     recorder.kill('SIGINT')
     await recorded
   }
+  await server?.close()
 }
 const container = (
   await run('xcrun', ['simctl', 'get_app_container', sim, pkg, 'data'])
 ).stdout.trim()
 const reports = []
-for (const name of [
-  'cold',
-  'prepared-before',
-  'prepared',
-  'abandon',
-  'blocked-before',
-  'blocked',
-  'dispose',
-]) {
-  const raw = await readFile(`${container}/Documents/preload-${name}.json`, 'utf8').catch(
-    () => undefined,
-  )
+const names = data
+  ? [
+      'cold-presented',
+      'cold',
+      'prepared-before',
+      'prepared',
+      'abandon',
+      'denied',
+      'blocked-before',
+      'blocked',
+      'account-stale',
+      'account-before',
+      'account',
+      'dispose',
+    ]
+  : [
+      'cold',
+      'prepared-before',
+      'prepared',
+      'abandon',
+      'blocked-before',
+      'blocked',
+      'dispose',
+    ]
+for (const name of names) {
+  const raw = await readFile(
+    `${container}/Documents/${data ? 'preloaddata' : 'preload'}-${name}.json`,
+    'utf8',
+  ).catch(() => undefined)
   if (raw) {
     await writeFile(`${out}/${name}.json`, raw)
     reports.push(JSON.parse(raw))
   }
 }
 await run('xcrun', ['simctl', 'io', sim, 'screenshot', `${out}/final.png`])
+if (server)
+  await writeFile(`${out}/http.json`, JSON.stringify(server.requests, null, 2) + '\n')
 assert(!failure, `Native preload test failed: ${out}/xcodebuild.log`)
-assert.equal(reports.length, 7)
+assert.equal(reports.length, names.length)
 for (const report of reports) assert(report.ok, report.error)
+if (server) {
+  assert.deepEqual(
+    server.requests.map(({ account, id }) => `${account}/${id}`),
+    [
+      'A/cold',
+      'A/prepared',
+      'A/abandon',
+      'A/blocked',
+      'A/account',
+      'B/account',
+      'A/dispose',
+    ],
+  )
+  assert(
+    server.requests.every((request) => request.completed),
+    'Even abandoned requests complete at transport level',
+  )
+}
 console.log(
-  'Code preloading: cold/prepared touch, zero speculative allocations, abandoned import, guard refusal and disposal passed',
+  `${data ? 'Data' : 'Code'} preloading: ${reports.length} native reports passed`,
 )

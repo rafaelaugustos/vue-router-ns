@@ -6,6 +6,8 @@ A lazy `component: () => import('./Product.vue')` loads **page code**. A route l
 
 To prepare code before navigation without starting data requests, use [experimental code preloading](./preloading). Normal navigation still runs guards before data loaders.
 
+The lifecycle below describes normal entry loading. A loader can separately opt into [data preparation before navigation](./data-preloading), with explicit session/permission checks; actual navigation still runs every normal guard. `RouteLoaderContext.preloading` identifies speculative invocations. Existing loaders remain normal-only unless explicitly opted in.
+
 ## Define a typed loader
 
 Keep the definition in a module shared by the route table and the page:

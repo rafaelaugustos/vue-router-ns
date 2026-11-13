@@ -1,5 +1,6 @@
 export { defineRouteLoader, useRouteData } from './route-data.js'
-export { useRoutePreload } from './use-route-preload.js'
+export { useRoutePreload, useRouteDataPreload } from './use-route-preload.js'
+export type { RouteDataPreloadOptions } from './data-preload.js'
 export type {
   RoutePreload,
   RoutePreloadOptions,
@@ -10,6 +11,8 @@ export type {
 export type {
   RouteLoader,
   RouteLoaderContext,
+  RouteLoaderPreload,
+  RouteLoaderOptions,
   RouteLoaderReference,
   RouteData,
   RouteDataStatus,

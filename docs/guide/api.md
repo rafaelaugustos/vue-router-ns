@@ -139,6 +139,12 @@ The handle exposes readonly `state`, `ready: Promise<RoutePreloadResult>` and `c
 
 `RouterOptions.preload?: RoutePreloadOptions` configures `concurrency` (2), `maxEntries` (16) and `ttl` (30,000 ms). See [code preloading](./preloading) for budgets, ownership, cancellation and authorization limits.
 
+## Route data preloading {#route-data-preloading}
+
+Experimental `router.preloadData(to, loader): RoutePreload` prepares one declared loader; `useRouteDataPreload()` captures its page-owned counterpart. `defineRouteLoader(load, { preload })` opts a definition in using `RouteLoaderOptions` / `RouteLoaderPreload`: a stable object-returning `scope()` and synchronous `authorize({ to, from })`. No scope or denied permission produces `unauthorized` cancellation. Navigation still runs every normal guard.
+
+`RouterOptions.preloadData?: RouteDataPreloadOptions` supplies separate concurrency, count and TTL budgets. `RouteLoaderContext.preloading` identifies speculative work. Matching entry creation can reuse data without blocking presentation; `reload()` uses ordinary loading. `clearPreloads()` also invalidates data preparation, but does not erase results already consumed by entries or app caches. See [data preparation](./data-preloading) for scope changes, independent consumers, transport cancellation and limits.
+
 ## Composables
 
 | Function                               | Contract                                                                                                                                                                                                                                                        |

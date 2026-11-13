@@ -25,6 +25,7 @@ module.exports = (env) => {
       'tabsvisibility',
       'loaders',
       'preload',
+      'preloaddata',
       'suspense',
       'windows',
       'entrypoints',

@@ -113,7 +113,7 @@ O limite controla referências especulativas retidas pelo router e contagem de t
 
 ## Autorização e evidência nativa {#authorization-and-native-evidence}
 
-Pré-carregar código executa a fábrica lazy e a inicialização do módulo antes dos guards de navegação. Não coloque buscas protegidas, credenciais ou efeitos de navegação ali. Mantenha dados protegidos nos [loaders autorizados da rota](./data-loading). A navegação real sempre executa seus guards; um redirect de guard pode escolher outro destino. Esta etapa não tem API de dados especulativos nem exige framework de cache.
+Pré-carregar código executa a fábrica lazy e a inicialização do módulo antes dos guards de navegação. Não coloque buscas protegidas, credenciais ou efeitos de navegação ali. Mantenha dados protegidos nos [loaders autorizados da rota](./data-loading). A navegação real sempre executa seus guards; um redirect de guard pode escolher outro destino. Para dados, use a API separada de [preparação explicitamente autorizada](./data-preloading). Nenhuma exige framework de cache.
 
 <Clip name="route-code-preload" :width="480" aspect="3 / 4" caption="Toque frio/preparado, arrasto abandonado, recusa do guard e descarte do dono. A fábrica inclui atraso controlado de 900 ms; os tempos não são benchmark de importação. Simulador iOS 18.6; rótulos em inglês." />
 

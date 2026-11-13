@@ -2,6 +2,7 @@
   "extends": "../../../demo/tsconfig.json",
   "include": [
     "../../../demo/src/testing/preload-app.ts",
+    "../../../demo/src/testing/preloaddata-app.ts",
     "../../../demo/src/testing/preload",
     "../../../demo/types"
   ]

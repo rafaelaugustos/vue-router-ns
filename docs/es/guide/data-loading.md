@@ -6,6 +6,8 @@ Un `component: () => import('./Product.vue')` perezoso carga el código de pági
 
 Para preparar código antes de navegar sin iniciar solicitudes de datos, usa la [precarga experimental de código](./preloading). La navegación normal sigue ejecutando guards antes de los loaders de datos.
 
+El ciclo siguiente describe la carga normal de entradas. Un loader puede permitir por separado la [preparación de datos antes de navegar](./data-preloading), con comprobaciones explícitas de sesión/permisos; la navegación real sigue ejecutando todos sus guards normales. `RouteLoaderContext.preloading` identifica invocaciones especulativas. Los loaders existentes solo siguen el flujo normal hasta permitir explícitamente la anticipación.
+
 ## Definir un cargador escrito {#define-a-typed-loader}
 
 Mantener la definición en un módulo compartido por la tabla de rutas y la página:

@@ -1,0 +1,408 @@
+{
+  "guides": {
+    "reports": [
+      {
+        "guide": "data-preloading",
+        "locale": "en",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/zh-CN/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/pt-BR/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/es/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/zh-CN/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/pt-BR/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/guide/data-preloading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/guide/data-preloading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true,
+        "video": {
+          "duration": 48.5,
+          "width": 1032,
+          "height": 1376,
+          "caption": "Cold/prepared real HTTP, abandoned drag, denied speculation, guard refusal, account change during HTTP and owner disposal. Controlled 900 ms server delay; not a network benchmark. iOS 18.6 simulator; English fixture labels."
+        }
+      },
+      {
+        "guide": "data-preloading",
+        "locale": "pt-BR/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/zh-CN/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/es/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/zh-CN/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/pt-BR/guide/data-preloading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/pt-BR/guide/data-preloading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true,
+        "video": {
+          "duration": 48.5,
+          "width": 1032,
+          "height": 1376,
+          "caption": "HTTP real frio/preparado, arrasto abandonado, especulação negada, recusa do guard, troca de conta durante HTTP e descarte do dono. Atraso controlado de 900 ms no servidor; não é benchmark de rede. Simulador iOS 18.6; rótulos em inglês."
+        }
+      },
+      {
+        "guide": "data-preloading",
+        "locale": "es/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/zh-CN/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/pt-BR/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/zh-CN/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/pt-BR/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/es/guide/data-preloading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/es/guide/data-preloading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true,
+        "video": {
+          "duration": 48.5,
+          "width": 1032,
+          "height": 1376,
+          "caption": "HTTP real frío/preparado, arrastre abandonado, especulación denegada, rechazo del guard, cambio de cuenta durante HTTP y eliminación del propietario. Retraso controlado de 900 ms en el servidor; no es un benchmark de red. Simulador iOS 18.6; etiquetas en inglés."
+        }
+      },
+      {
+        "guide": "data-preloading",
+        "locale": "zh-CN/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/pt-BR/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/es/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/pt-BR/guide/data-preloading#budgets-cancellation-and-account-changes",
+          "/zh-CN/guide/data-preloading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/zh-CN/guide/data-preloading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true,
+        "video": {
+          "duration": 48.5,
+          "width": 1032,
+          "height": 1376,
+          "caption": "真实 HTTP 的冷/已准备导航、放弃拖动、拒绝推测性请求、守卫拒绝、HTTP 期间切换账户及释放所有者。服务端受控延迟 900 ms；不是网络基准。iOS 18.6 模拟器；fixture 标签为英文。"
+        }
+      },
+      {
+        "guide": "preloading",
+        "locale": "en",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/preloading",
+          "/zh-CN/guide/preloading",
+          "/pt-BR/guide/preloading",
+          "/es/guide/preloading",
+          "/zh-CN/guide/preloading",
+          "/pt-BR/guide/preloading",
+          "/guide/preloading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/guide/preloading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "preloading",
+        "locale": "pt-BR/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/preloading",
+          "/zh-CN/guide/preloading",
+          "/guide/preloading",
+          "/es/guide/preloading",
+          "/zh-CN/guide/preloading",
+          "/guide/preloading",
+          "/pt-BR/guide/preloading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/pt-BR/guide/preloading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "preloading",
+        "locale": "es/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/zh-CN/guide/preloading",
+          "/guide/preloading",
+          "/pt-BR/guide/preloading",
+          "/zh-CN/guide/preloading",
+          "/guide/preloading",
+          "/pt-BR/guide/preloading",
+          "/es/guide/preloading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/es/guide/preloading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "preloading",
+        "locale": "zh-CN/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/preloading",
+          "/guide/preloading",
+          "/pt-BR/guide/preloading",
+          "/es/guide/preloading",
+          "/guide/preloading",
+          "/pt-BR/guide/preloading",
+          "/zh-CN/guide/preloading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/zh-CN/guide/preloading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "api",
+        "locale": "en",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/guide/api",
+          "/es/guide/api#route-data-preloading",
+          "/zh-CN/guide/api#route-data-preloading",
+          "/pt-BR/guide/api#route-data-preloading",
+          "/es/guide/api#route-data-preloading",
+          "/zh-CN/guide/api#route-data-preloading",
+          "/pt-BR/guide/api#route-data-preloading",
+          "/guide/api",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/guide/api.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "api",
+        "locale": "pt-BR/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/pt-BR/guide/api",
+          "/es/guide/api#route-data-preloading",
+          "/zh-CN/guide/api#route-data-preloading",
+          "/guide/api#route-data-preloading",
+          "/es/guide/api#route-data-preloading",
+          "/zh-CN/guide/api#route-data-preloading",
+          "/guide/api#route-data-preloading",
+          "/pt-BR/guide/api",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/pt-BR/guide/api.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "api",
+        "locale": "es/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/api",
+          "/zh-CN/guide/api#route-data-preloading",
+          "/guide/api#route-data-preloading",
+          "/pt-BR/guide/api#route-data-preloading",
+          "/zh-CN/guide/api#route-data-preloading",
+          "/guide/api#route-data-preloading",
+          "/pt-BR/guide/api#route-data-preloading",
+          "/es/guide/api",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/es/guide/api.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "api",
+        "locale": "zh-CN/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/zh-CN/guide/api",
+          "/es/guide/api#route-data-preloading",
+          "/guide/api#route-data-preloading",
+          "/pt-BR/guide/api#route-data-preloading",
+          "/es/guide/api#route-data-preloading",
+          "/guide/api#route-data-preloading",
+          "/pt-BR/guide/api#route-data-preloading",
+          "/zh-CN/guide/api",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/zh-CN/guide/api.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "data-loading",
+        "locale": "en",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/data-loading",
+          "/zh-CN/guide/data-loading",
+          "/pt-BR/guide/data-loading",
+          "/es/guide/data-loading",
+          "/zh-CN/guide/data-loading",
+          "/pt-BR/guide/data-loading",
+          "/guide/data-loading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/guide/data-loading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "data-loading",
+        "locale": "pt-BR/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/data-loading",
+          "/zh-CN/guide/data-loading",
+          "/guide/data-loading",
+          "/es/guide/data-loading",
+          "/zh-CN/guide/data-loading",
+          "/guide/data-loading",
+          "/pt-BR/guide/data-loading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/pt-BR/guide/data-loading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "data-loading",
+        "locale": "es/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/zh-CN/guide/data-loading",
+          "/guide/data-loading",
+          "/pt-BR/guide/data-loading",
+          "/zh-CN/guide/data-loading",
+          "/guide/data-loading",
+          "/pt-BR/guide/data-loading",
+          "/es/guide/data-loading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/es/guide/data-loading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "data-loading",
+        "locale": "zh-CN/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/data-loading",
+          "/guide/data-loading",
+          "/pt-BR/guide/data-loading",
+          "/es/guide/data-loading",
+          "/guide/data-loading",
+          "/pt-BR/guide/data-loading",
+          "/zh-CN/guide/data-loading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/zh-CN/guide/data-loading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "compatibility",
+        "locale": "en",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/compatibility",
+          "/zh-CN/guide/compatibility",
+          "/pt-BR/guide/compatibility",
+          "/es/guide/compatibility",
+          "/zh-CN/guide/compatibility",
+          "/pt-BR/guide/compatibility",
+          "/guide/compatibility",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/guide/compatibility.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "compatibility",
+        "locale": "pt-BR/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/compatibility",
+          "/zh-CN/guide/compatibility",
+          "/guide/compatibility",
+          "/es/guide/compatibility",
+          "/zh-CN/guide/compatibility",
+          "/guide/compatibility",
+          "/pt-BR/guide/compatibility",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/pt-BR/guide/compatibility.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "compatibility",
+        "locale": "es/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/zh-CN/guide/compatibility",
+          "/guide/compatibility",
+          "/pt-BR/guide/compatibility",
+          "/zh-CN/guide/compatibility",
+          "/guide/compatibility",
+          "/pt-BR/guide/compatibility",
+          "/es/guide/compatibility",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/es/guide/compatibility.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "compatibility",
+        "locale": "zh-CN/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/compatibility",
+          "/guide/compatibility",
+          "/pt-BR/guide/compatibility",
+          "/es/guide/compatibility",
+          "/guide/compatibility",
+          "/pt-BR/guide/compatibility",
+          "/zh-CN/guide/compatibility",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/zh-CN/guide/compatibility.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      }
+    ],
+    "search": "passed",
+    "videoPlayback": "passed in four locales",
+    "reducedMotion": "paused until manual play",
+    "errors": []
+  },
+  "experience": {
+    "base": "http://127.0.0.1:4174",
+    "reports": [
+      "Push, retained search, modal result, cancellation and keyboard Escape passed.",
+      "Four localized homes and 320–1440px layouts passed.",
+      "Reduced motion settles animation and prevents automatic video playback.",
+      "Server-rendered content and guide navigation work without JavaScript."
+    ],
+    "errors": []
+  }
+}

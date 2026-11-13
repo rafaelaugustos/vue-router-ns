@@ -1,0 +1,363 @@
+{
+  "platform": "ios",
+  "os": "18.6",
+  "device": "iPad Pro 13-inch (M4) simulator",
+  "core": "9.1.4",
+  "nativescriptVue": "3.1.3",
+  "runtime": "9.1.0",
+  "xcode": "27.0 (27A266a)",
+  "xctestSeconds": 47.879,
+  "serverDelayMilliseconds": 900,
+  "timingScope": "Controlled real HTTP delay, not a network benchmark",
+  "transportCancellation": "Unsupported by fixture adapter; requests finish and late publication is rejected",
+  "http": [
+    {
+      "account": "A",
+      "id": "cold",
+      "completed": true
+    },
+    {
+      "account": "A",
+      "id": "prepared",
+      "completed": true
+    },
+    {
+      "account": "A",
+      "id": "abandon",
+      "completed": true
+    },
+    {
+      "account": "A",
+      "id": "blocked",
+      "completed": true
+    },
+    {
+      "account": "A",
+      "id": "account",
+      "completed": true
+    },
+    {
+      "account": "B",
+      "id": "account",
+      "completed": true
+    },
+    {
+      "account": "A",
+      "id": "dispose",
+      "completed": true
+    }
+  ],
+  "reports": [
+    {
+      "command": "cold-presented",
+      "ok": true,
+      "delta": {
+        "pages": 1,
+        "frames": 0,
+        "controllers": 1,
+        "vueApps": 2,
+        "detailSetups": 1,
+        "detailUnmounts": 0,
+        "factories": 1,
+        "factorySettlements": 0,
+        "data": 1,
+        "guards": 1
+      },
+      "cancellations": 0,
+      "history": ["mwfb9q1k-enmmpo8753-1:1", "mwfb9q1k-enmmpo8753-1:2"],
+      "beforeHistory": ["mwfb9q1k-enmmpo8753-1:1"],
+      "account": "A",
+      "errors": [],
+      "presentedMilliseconds": 17
+    },
+    {
+      "command": "cold",
+      "ok": true,
+      "delta": {
+        "pages": 1,
+        "frames": 0,
+        "controllers": 1,
+        "vueApps": 2,
+        "detailSetups": 1,
+        "detailUnmounts": 0,
+        "factories": 1,
+        "factorySettlements": 0,
+        "data": 1,
+        "guards": 1
+      },
+      "cancellations": 0,
+      "history": ["mwfb9q1k-enmmpo8753-1:1", "mwfb9q1k-enmmpo8753-1:2"],
+      "beforeHistory": ["mwfb9q1k-enmmpo8753-1:1"],
+      "account": "A",
+      "data": {
+        "account": "A",
+        "id": "cold",
+        "title": "Product for account A"
+      },
+      "errors": [],
+      "presentedMilliseconds": 17,
+      "dataMilliseconds": 952,
+      "serverDelayMilliseconds": 900
+    },
+    {
+      "command": "prepared-before",
+      "ok": true,
+      "delta": {
+        "pages": 0,
+        "frames": 0,
+        "controllers": 0,
+        "vueApps": 0,
+        "detailSetups": 0,
+        "detailUnmounts": 0,
+        "factories": 0,
+        "factorySettlements": 0,
+        "data": 1,
+        "guards": 0
+      },
+      "cancellations": 0,
+      "history": ["mwfb9q1k-enmmpo8753-1:1"],
+      "beforeHistory": ["mwfb9q1k-enmmpo8753-1:1"],
+      "account": "A",
+      "lease": {
+        "status": "ready"
+      },
+      "errors": []
+    },
+    {
+      "command": "prepared",
+      "ok": true,
+      "delta": {
+        "pages": 1,
+        "frames": 0,
+        "controllers": 1,
+        "vueApps": 2,
+        "detailSetups": 1,
+        "detailUnmounts": 0,
+        "factories": 1,
+        "factorySettlements": 0,
+        "data": 1,
+        "guards": 1
+      },
+      "cancellations": 0,
+      "history": ["mwfb9q1k-enmmpo8753-1:1", "mwfb9q1k-enmmpo8753-1:3"],
+      "beforeHistory": ["mwfb9q1k-enmmpo8753-1:1"],
+      "account": "A",
+      "lease": {
+        "status": "ready"
+      },
+      "data": {
+        "account": "A",
+        "id": "prepared",
+        "title": "Product for account A"
+      },
+      "errors": [],
+      "presentedMilliseconds": 14,
+      "dataMilliseconds": 14,
+      "serverDelayMilliseconds": 900
+    },
+    {
+      "command": "abandon",
+      "ok": true,
+      "delta": {
+        "pages": 0,
+        "frames": 0,
+        "controllers": 0,
+        "vueApps": 0,
+        "detailSetups": 0,
+        "detailUnmounts": 0,
+        "factories": 0,
+        "factorySettlements": 0,
+        "data": 1,
+        "guards": 0
+      },
+      "cancellations": 1,
+      "history": ["mwfb9q1k-enmmpo8753-1:1"],
+      "beforeHistory": ["mwfb9q1k-enmmpo8753-1:1"],
+      "account": "A",
+      "lease": {
+        "status": "cancelled",
+        "reason": "cancelled"
+      },
+      "errors": []
+    },
+    {
+      "command": "denied",
+      "ok": true,
+      "delta": {
+        "pages": 0,
+        "frames": 0,
+        "controllers": 0,
+        "vueApps": 0,
+        "detailSetups": 0,
+        "detailUnmounts": 0,
+        "factories": 0,
+        "factorySettlements": 0,
+        "data": 0,
+        "guards": 0
+      },
+      "cancellations": 0,
+      "history": ["mwfb9q1k-enmmpo8753-1:1"],
+      "beforeHistory": ["mwfb9q1k-enmmpo8753-1:1"],
+      "account": "A",
+      "lease": {
+        "status": "cancelled",
+        "reason": "unauthorized"
+      },
+      "errors": []
+    },
+    {
+      "command": "blocked-before",
+      "ok": true,
+      "delta": {
+        "pages": 0,
+        "frames": 0,
+        "controllers": 0,
+        "vueApps": 0,
+        "detailSetups": 0,
+        "detailUnmounts": 0,
+        "factories": 0,
+        "factorySettlements": 0,
+        "data": 1,
+        "guards": 0
+      },
+      "cancellations": 0,
+      "history": ["mwfb9q1k-enmmpo8753-1:1"],
+      "beforeHistory": ["mwfb9q1k-enmmpo8753-1:1"],
+      "account": "A",
+      "lease": {
+        "status": "ready"
+      },
+      "errors": []
+    },
+    {
+      "command": "blocked",
+      "ok": true,
+      "delta": {
+        "pages": 0,
+        "frames": 0,
+        "controllers": 0,
+        "vueApps": 0,
+        "detailSetups": 0,
+        "detailUnmounts": 0,
+        "factories": 0,
+        "factorySettlements": 0,
+        "data": 1,
+        "guards": 1
+      },
+      "cancellations": 0,
+      "history": ["mwfb9q1k-enmmpo8753-1:1"],
+      "beforeHistory": ["mwfb9q1k-enmmpo8753-1:1"],
+      "account": "A",
+      "lease": {
+        "status": "ready"
+      },
+      "errors": []
+    },
+    {
+      "command": "account-stale",
+      "ok": true,
+      "delta": {
+        "pages": 0,
+        "frames": 0,
+        "controllers": 0,
+        "vueApps": 0,
+        "detailSetups": 0,
+        "detailUnmounts": 0,
+        "factories": 0,
+        "factorySettlements": 0,
+        "data": 1,
+        "guards": 0
+      },
+      "cancellations": 1,
+      "history": ["mwfb9q1k-enmmpo8753-1:1"],
+      "beforeHistory": ["mwfb9q1k-enmmpo8753-1:1"],
+      "account": "B",
+      "lease": {
+        "status": "cancelled",
+        "reason": "invalidated"
+      },
+      "errors": []
+    },
+    {
+      "command": "account-before",
+      "ok": true,
+      "delta": {
+        "pages": 0,
+        "frames": 0,
+        "controllers": 0,
+        "vueApps": 0,
+        "detailSetups": 0,
+        "detailUnmounts": 0,
+        "factories": 0,
+        "factorySettlements": 0,
+        "data": 1,
+        "guards": 0
+      },
+      "cancellations": 0,
+      "history": ["mwfb9q1k-enmmpo8753-1:1"],
+      "beforeHistory": ["mwfb9q1k-enmmpo8753-1:1"],
+      "account": "B",
+      "lease": {
+        "status": "ready"
+      },
+      "errors": []
+    },
+    {
+      "command": "account",
+      "ok": true,
+      "delta": {
+        "pages": 1,
+        "frames": 0,
+        "controllers": 1,
+        "vueApps": 2,
+        "detailSetups": 1,
+        "detailUnmounts": 0,
+        "factories": 1,
+        "factorySettlements": 0,
+        "data": 1,
+        "guards": 1
+      },
+      "cancellations": 0,
+      "history": ["mwfb9q1k-enmmpo8753-1:1", "mwfb9q1k-enmmpo8753-1:4"],
+      "beforeHistory": ["mwfb9q1k-enmmpo8753-1:1"],
+      "account": "B",
+      "lease": {
+        "status": "ready"
+      },
+      "data": {
+        "account": "B",
+        "id": "account",
+        "title": "Product for account B"
+      },
+      "errors": [],
+      "presentedMilliseconds": 11,
+      "dataMilliseconds": 11,
+      "serverDelayMilliseconds": 900
+    },
+    {
+      "command": "dispose",
+      "ok": true,
+      "delta": {
+        "pages": 0,
+        "frames": 0,
+        "controllers": 0,
+        "vueApps": 0,
+        "detailSetups": 0,
+        "detailUnmounts": 0,
+        "factories": 0,
+        "factorySettlements": 0,
+        "data": 1,
+        "guards": 0
+      },
+      "cancellations": 1,
+      "history": [],
+      "beforeHistory": ["mwfb9q1k-enmmpo8753-1:1"],
+      "account": "A",
+      "lease": {
+        "status": "cancelled",
+        "reason": "disposed"
+      },
+      "errors": []
+    }
+  ]
+}

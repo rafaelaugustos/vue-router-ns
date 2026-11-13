@@ -33,7 +33,7 @@ These remain **experimental and opt-in**:
 
 - [Multiple native windows](./windows): one router per window, independent task/scene restoration and same-process reconnection on the documented platform baseline.
 - [Native Suspense composition](./suspense): explicit renderer compatibility registration and async content inside a stable Page.
-- [Route code preloading](./preloading): bounded code-only preparation; speculative data is outside this stage.
+- [Route code preloading](./preloading): bounded code-only preparation. [Data preparation](./data-preloading) requires its own explicit loader/session permission.
 - [Route data loading](./data-loading): per-entry state and cancellation without blocking native presentation.
 - [File routing](./file-routing), including its generation/build-tool contract. Existing explicit routes do not depend on it.
 - [Custom native hosts](./native-hosts) and [native controller/Fragment destinations](./native-destinations). The host version must change for incompatible contract changes.

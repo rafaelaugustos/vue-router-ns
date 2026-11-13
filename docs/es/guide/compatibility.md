@@ -33,7 +33,7 @@ Estas funciones siguen siendo **experimentales y opcionales**:
 
 - [Múltiples ventanas nativas](./windows): un enrutador por ventana, restauración de tareas/escenas independientes y reconexión del mismo proceso en la línea base de plataforma documentada.
 - [Composición nativa de Suspense](./suspense): registro de compatibilidad de renderizador explícito y contenido asíncrono dentro de un Page estable.
-- [Precarga de código](./preloading): preparación de código con límites; los datos especulativos quedan fuera de esta etapa.
+- [Precarga de código](./preloading): preparación de código con límites. La [preparación de datos](./data-preloading) exige permiso explícito del loader/sesión.
 - [Carga de datos de ruta](./data-loading): estado por entrada y cancelación sin bloquear presentación nativa.
 - [Enrutamiento de archivos](./file-routing), incluido su contrato de herramienta de generación/compilación. Las rutas explícitas existentes no dependen de ello.
 - [Hosts nativos personalizados](./native-hosts) y [Destinos de fragmento/controlador nativo](./native-destinations). La versión del contrato del host debe cambiar en caso de cambios de contrato incompatibles.

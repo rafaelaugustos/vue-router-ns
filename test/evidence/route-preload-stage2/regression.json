@@ -1,0 +1,14 @@
+{
+  "case": "does not let an invalidated old prepared attempt cancel a newer ordinary reload",
+  "control": "Restore shared mutable cancellation callback instead of the captured callback for each attempt",
+  "controlResult": "failed as expected",
+  "expectedStatus": "pending",
+  "actualControlStatus": "cancelled",
+  "fixedResult": "passed",
+  "fullSuite": {
+    "passed": 772,
+    "skipped": 10,
+    "files": 63,
+    "typeErrors": 0
+  }
+}

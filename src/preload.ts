@@ -11,7 +11,7 @@ export interface RoutePreloadOptions {
   ttl?: number
 }
 export type RoutePreloadCancelReason =
-  'cancelled' | 'expired' | 'invalidated' | 'disposed' | 'capacity'
+  'cancelled' | 'expired' | 'invalidated' | 'disposed' | 'capacity' | 'unauthorized'
 export type RoutePreloadResult =
   | { readonly status: 'ready' }
   | { readonly status: 'error'; readonly error: unknown }
@@ -23,11 +23,11 @@ export interface RoutePreload {
   readonly state: ComputedRef<RoutePreloadState>
   /** First ready/error/cancelled outcome; never rejects and never navigates. */
   readonly ready: Promise<RoutePreloadResult>
-  /** Release this consumer, including ready code. Cannot abort an executing JS import. */
+  /** Release this consumer. Imports cannot abort; data transport cancellation is cooperative. */
   cancel(): void
 }
 
-function lease(initial: RoutePreloadState) {
+export function lease(initial: RoutePreloadState) {
   const state = shallowRef<RoutePreloadState>(Object.freeze(initial))
   let resolve!: (result: RoutePreloadResult) => void
   let settled = false
