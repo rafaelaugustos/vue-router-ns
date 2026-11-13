@@ -4,6 +4,8 @@ Declara la carga de datos en una ruta y renderiza los estados de pendiente, éxi
 
 Un `component: () => import('./Product.vue')` perezoso carga el código de página . Un cargador de rutas recupera**datos**. La carga de datos no bloquea la presentación nativa: `router.push()` se establece cuando finaliza la navegación, independientemente de la solicitud.
 
+Para preparar código antes de navegar sin iniciar solicitudes de datos, usa la [precarga experimental de código](./preloading). La navegación normal sigue ejecutando guards antes de los loaders de datos.
+
 ## Definir un cargador escrito {#define-a-typed-loader}
 
 Mantener la definición en un módulo compartido por la tabla de rutas y la página:

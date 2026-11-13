@@ -1,0 +1,237 @@
+{
+  "platform": "ios",
+  "os": "18.6",
+  "device": "iPad Pro 13-inch (M4) simulator",
+  "core": "9.1.4",
+  "nativescriptVue": "3.1.3",
+  "runtime": "9.1.0",
+  "xcode": "27.0 (27A266a)",
+  "xctestSeconds": 32.935,
+  "factoryDelayMilliseconds": 900,
+  "timingScope": "Controlled factory delay, not an import benchmark",
+  "reports": [
+    {
+      "command": "cold",
+      "ok": true,
+      "delta": {
+        "pages": 1,
+        "frames": 0,
+        "controllers": 1,
+        "vueApps": 2,
+        "detailSetups": 1,
+        "detailUnmounts": 0,
+        "factories": 1,
+        "factorySettlements": 1,
+        "data": 1,
+        "guards": 1
+      },
+      "counts": {
+        "pages": 2,
+        "frames": 1,
+        "controllers": 3,
+        "vueApps": 5,
+        "detailSetups": 1,
+        "detailUnmounts": 0,
+        "factories": 1,
+        "factorySettlements": 1,
+        "data": 1,
+        "guards": 1
+      },
+      "history": ["mwf88riv-m5va824bwo-1:1", "mwf88riv-m5va824bwo-1:2"],
+      "beforeHistory": ["mwf88riv-m5va824bwo-1:1"],
+      "errors": [],
+      "navigationMilliseconds": 923,
+      "factoryDelayMilliseconds": 900
+    },
+    {
+      "command": "prepared-before",
+      "ok": true,
+      "delta": {
+        "pages": 0,
+        "frames": 0,
+        "controllers": 0,
+        "vueApps": 0,
+        "detailSetups": 0,
+        "detailUnmounts": 0,
+        "factories": 1,
+        "factorySettlements": 1,
+        "data": 0,
+        "guards": 0
+      },
+      "counts": {
+        "pages": 2,
+        "frames": 1,
+        "controllers": 3,
+        "vueApps": 5,
+        "detailSetups": 1,
+        "detailUnmounts": 1,
+        "factories": 2,
+        "factorySettlements": 2,
+        "data": 1,
+        "guards": 1
+      },
+      "history": ["mwf88riv-m5va824bwo-1:1"],
+      "beforeHistory": ["mwf88riv-m5va824bwo-1:1"],
+      "errors": []
+    },
+    {
+      "command": "prepared",
+      "ok": true,
+      "delta": {
+        "pages": 1,
+        "frames": 0,
+        "controllers": 1,
+        "vueApps": 2,
+        "detailSetups": 1,
+        "detailUnmounts": 0,
+        "factories": 1,
+        "factorySettlements": 1,
+        "data": 1,
+        "guards": 1
+      },
+      "counts": {
+        "pages": 3,
+        "frames": 1,
+        "controllers": 4,
+        "vueApps": 7,
+        "detailSetups": 2,
+        "detailUnmounts": 1,
+        "factories": 2,
+        "factorySettlements": 2,
+        "data": 2,
+        "guards": 2
+      },
+      "history": ["mwf88riv-m5va824bwo-1:1", "mwf88riv-m5va824bwo-1:3"],
+      "beforeHistory": ["mwf88riv-m5va824bwo-1:1"],
+      "errors": [],
+      "navigationMilliseconds": 12,
+      "factoryDelayMilliseconds": 900
+    },
+    {
+      "command": "abandon",
+      "ok": true,
+      "delta": {
+        "pages": 0,
+        "frames": 0,
+        "controllers": 0,
+        "vueApps": 0,
+        "detailSetups": 0,
+        "detailUnmounts": 0,
+        "factories": 1,
+        "factorySettlements": 1,
+        "data": 0,
+        "guards": 0
+      },
+      "counts": {
+        "pages": 3,
+        "frames": 1,
+        "controllers": 4,
+        "vueApps": 7,
+        "detailSetups": 2,
+        "detailUnmounts": 2,
+        "factories": 3,
+        "factorySettlements": 3,
+        "data": 2,
+        "guards": 2
+      },
+      "history": ["mwf88riv-m5va824bwo-1:1"],
+      "beforeHistory": ["mwf88riv-m5va824bwo-1:1"],
+      "errors": []
+    },
+    {
+      "command": "blocked-before",
+      "ok": true,
+      "delta": {
+        "pages": 0,
+        "frames": 0,
+        "controllers": 0,
+        "vueApps": 0,
+        "detailSetups": 0,
+        "detailUnmounts": 0,
+        "factories": 1,
+        "factorySettlements": 1,
+        "data": 0,
+        "guards": 0
+      },
+      "counts": {
+        "pages": 3,
+        "frames": 1,
+        "controllers": 4,
+        "vueApps": 7,
+        "detailSetups": 2,
+        "detailUnmounts": 2,
+        "factories": 4,
+        "factorySettlements": 4,
+        "data": 2,
+        "guards": 2
+      },
+      "history": ["mwf88riv-m5va824bwo-1:1"],
+      "beforeHistory": ["mwf88riv-m5va824bwo-1:1"],
+      "errors": []
+    },
+    {
+      "command": "blocked",
+      "ok": true,
+      "delta": {
+        "pages": 0,
+        "frames": 0,
+        "controllers": 0,
+        "vueApps": 0,
+        "detailSetups": 0,
+        "detailUnmounts": 0,
+        "factories": 1,
+        "factorySettlements": 1,
+        "data": 0,
+        "guards": 1
+      },
+      "counts": {
+        "pages": 3,
+        "frames": 1,
+        "controllers": 4,
+        "vueApps": 7,
+        "detailSetups": 2,
+        "detailUnmounts": 2,
+        "factories": 4,
+        "factorySettlements": 4,
+        "data": 2,
+        "guards": 3
+      },
+      "history": ["mwf88riv-m5va824bwo-1:1"],
+      "beforeHistory": ["mwf88riv-m5va824bwo-1:1"],
+      "errors": [],
+      "navigationMilliseconds": 1,
+      "factoryDelayMilliseconds": 900
+    },
+    {
+      "command": "dispose",
+      "ok": true,
+      "delta": {
+        "pages": 0,
+        "frames": 0,
+        "controllers": 0,
+        "vueApps": 0,
+        "detailSetups": 0,
+        "detailUnmounts": 0,
+        "factories": 1,
+        "factorySettlements": 1,
+        "data": 0,
+        "guards": 0
+      },
+      "counts": {
+        "pages": 3,
+        "frames": 1,
+        "controllers": 4,
+        "vueApps": 7,
+        "detailSetups": 2,
+        "detailUnmounts": 2,
+        "factories": 5,
+        "factorySettlements": 5,
+        "data": 2,
+        "guards": 3
+      },
+      "history": [],
+      "beforeHistory": ["mwf88riv-m5va824bwo-1:1"],
+      "errors": []
+    }
+  ]
+}

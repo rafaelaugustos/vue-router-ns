@@ -4,6 +4,8 @@ Declare data loading on a route and render pending, success and error states ins
 
 A lazy `component: () => import('./Product.vue')` loads **page code**. A route loader fetches **data**. Data loading does not block native presentation: `router.push()` settles when navigation finishes, independently of the request.
 
+To prepare code before navigation without starting data requests, use [experimental code preloading](./preloading). Normal navigation still runs guards before data loaders.
+
 ## Define a typed loader
 
 Keep the definition in a module shared by the route table and the page:

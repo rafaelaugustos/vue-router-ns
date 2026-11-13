@@ -131,6 +131,14 @@ Paths aceitam parâmetros nomeados, opcionais/repetidos e padrões personalizado
 
 Tipos exportados: `RouteLoader<T>`, `RouteLoaderContext`, `RouteLoaderReference`, `RouteData<T>`, `RouteDataStatus`.
 
+## Pré-carregamento de código de rotas {#route-code-preloading}
+
+A API experimental `router.preload(to): RoutePreload` prepara apenas o código do componente final resolvido. `useRoutePreload()` captura no setup uma função tipada de preparação vinculada à página. Nenhuma delas executa guards, loaders de dados, layouts ou alocações nativas. A navegação real mantém a autorização normal e pode reaproveitar código preparado/em andamento.
+
+O handle expõe `state` somente leitura, `ready: Promise<RoutePreloadResult>` e `cancel()`. `RoutePreloadState` distingue fila/carregamento/prontidão/erro/cancelamento; `RoutePreloadCancelReason` descreve o cancelamento. A promise mantém o primeiro resultado mesmo que um interesse pronto expire depois. `router.clearPreloads()` invalida interesses especulativos sem descarregar módulos importados ou o cache normal de navegação.
+
+`RouterOptions.preload?: RoutePreloadOptions` configura `concurrency` (2), `maxEntries` (16) e `ttl` (30.000 ms). Veja [pré-carregamento de código](./preloading) para limites, propriedade, cancelamento e autorização.
+
 ## Composables
 
 | Função                                 | Contrato                                                                                                                                                                                                                                                             |

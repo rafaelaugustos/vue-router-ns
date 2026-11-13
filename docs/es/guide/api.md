@@ -131,6 +131,14 @@ Exportaciones `vue-router-ns/file-routing/generator` de solo nodo `generateFileR
 
 Tipos exportados: `RouteLoader<T>`, `RouteLoaderContext`, `RouteLoaderReference`, `RouteData<T>`, `RouteDataStatus`.
 
+## Precarga de código de rutas {#route-code-preloading}
+
+La API experimental `router.preload(to): RoutePreload` prepara solo el código del componente final resuelto. `useRoutePreload()` captura en setup una función tipada de preparación propiedad de la página. Ninguna ejecuta guards, loaders de datos, layouts ni asignaciones nativas. La navegación real conserva su autorización normal y puede reutilizar código preparado/en curso.
+
+El handle expone `state` de solo lectura, `ready: Promise<RoutePreloadResult>` y `cancel()`. `RoutePreloadState` distingue cola/carga/listo/error/cancelado; `RoutePreloadCancelReason` describe la cancelación. La promesa conserva su primer resultado aunque un interés listo caduque después. `router.clearPreloads()` invalida intereses especulativos sin descargar módulos importados ni la caché normal de navegación.
+
+`RouterOptions.preload?: RoutePreloadOptions` configura `concurrency` (2), `maxEntries` (16) y `ttl` (30.000 ms). Consulta [precarga de código](./preloading) para límites, propiedad, cancelación y autorización.
+
 ## Componibles {#composables}
 
 | Función                                | Contrato                                                                                                                                                                                                                                                                                    |

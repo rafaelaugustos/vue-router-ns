@@ -4,6 +4,8 @@ Declare o carregamento na rota e mostre os estados de espera, sucesso e erro den
 
 Um `component: () => import('./Product.vue')` carrega **o código da página**. Um loader de rota busca **dados**. A busca não bloqueia a apresentação nativa: `router.push()` termina quando a navegação termina, independentemente da requisição.
 
+Para preparar código antes da navegação sem iniciar buscas de dados, use o [pré-carregamento experimental de código](./preloading). A navegação normal continua executando guards antes dos loaders de dados.
+
 ## Defina um loader tipado
 
 Mantenha a definição em um módulo compartilhado pela tabela de rotas e pela página:

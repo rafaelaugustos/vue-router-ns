@@ -131,6 +131,14 @@ const router = createRouter({ routes, restore, backPreview: true })
 
 导出类型：`RouteLoader<T>`、`RouteLoaderContext`、`RouteLoaderReference`、`RouteData<T>`、`RouteDataStatus`。
 
+## 路由代码预加载 {#route-code-preloading}
+
+实验性 `router.preload(to): RoutePreload` 仅准备最终解析组件的代码。`useRoutePreload()` 在 setup 中获取带类型的页面所有准备函数。两者都不会运行守卫、数据加载器、布局或原生分配。实际导航仍按正常流程授权，并可复用已准备或正在加载的代码。
+
+handle 提供只读 `state`、`ready: Promise<RoutePreloadResult>` 和 `cancel()`。`RoutePreloadState` 区分排队、加载、就绪、错误和取消；`RoutePreloadCancelReason` 描述取消原因。即使已就绪的需求后来过期，Promise 仍保留首次结果。`router.clearPreloads()` 使推测性需求失效，不会卸载导入的模块或普通导航缓存。
+
+`RouterOptions.preload?: RoutePreloadOptions` 配置 `concurrency`（2）、`maxEntries`（16）和 `ttl`（30,000 ms）。限额、所有权、取消和授权边界见[代码预加载](./preloading)。
+
 ## 可组合项 {#composables}
 
 | 函数                                   | 合约                                                                                                                                                                                                                             |

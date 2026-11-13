@@ -1,5 +1,11 @@
 import { createRouteData, disposeRouteData, type RouteLoader } from './route-data.js'
 import {
+  createRoutePreloader,
+  settledPreload,
+  type RoutePreload,
+  type RoutePreloadOptions,
+} from './preload.js'
+import {
   Application,
   isAndroid,
   isIOS,
@@ -178,6 +184,8 @@ export interface RouterOptions<
   routes: R
   /** Experimental named data loaders, referenced by meta.loaders (including file routes). */
   loaders?: Readonly<Record<string, RouteLoader>>
+  /** Experimental code-only preparation budgets. Work starts only through preload(). */
+  preload?: RoutePreloadOptions
   /** One router per NativeWindow. Otherwise inferred from the first mounted view. */
   window?: RouterWindow
   /** Optional native layouts. Each owns a Page and renders its destination through a slot. */
@@ -257,6 +265,10 @@ export interface Router<M extends RouteMapLike = RouteMapGeneric> {
     options?: SetStackOptions,
   ): Promise<NavigationFailure | undefined>
   resolve(to: RouteLocationRawOf<M>): RouteLocation
+  /** Experimental. Prepare the matched leaf's code without guards, data loaders or native allocation. */
+  preload(to: RouteLocationRawOf<M>): RoutePreload
+  /** Invalidate speculative leases, for example on sign-out or explicit code changes. */
+  clearPreloads(): void
 
   addRoute(route: RouteRecordRaw): () => void
   addRoute(parentName: RouteRecordName, route: RouteRecordRaw): () => void
@@ -392,6 +404,23 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   const previews = new Map<Stack, BackPreview>()
   const modalOrigins = new WeakMap<Stack, Entry>()
   const components = new WeakMap<RouteRecord, RouteComponent>()
+  const componentLoadingStopped = Symbol('router closed during component loading')
+  const componentSources = new WeakMap<RouteRecord, RawRouteComponent>()
+  const componentLoads = new WeakMap<
+    RouteRecord,
+    { raw: RouteRecord['component']; promise: Promise<RouteComponent> }
+  >()
+  const cachedComponent = (record: RouteRecord) =>
+    componentSources.get(record) === record.component ? components.get(record) : undefined
+  const preloads = createRoutePreloader(options.preload, {
+    load: readComponent,
+    cached: cachedComponent,
+    pending(record) {
+      const pending = componentLoads.get(record)
+      return pending?.raw === record.component ? pending?.promise : undefined
+    },
+    current: (record) => matcher.getRoutes().includes(record),
+  })
   const shouldReduceMotion = (stack?: Stack) =>
     reduceMotion(options.motion, hostView(stack))
   const diagnostics = options.diagnostics
@@ -509,6 +538,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     diagnostics?.event('host', stack, 'dispose')
     previews.get(stack)?.dispose()
     stack.closed = true
+    preloads.cancelOwner(stack)
     presentations.get(stack)?.(undefined)
     presentations.delete(stack)
     windowWaiters.get(stack)?.()
@@ -1077,7 +1107,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
         if (!outcome) {
           const loading = trace?.span(
             'load',
-            components.has(to.matched.at(-1)!) ? 'cached' : 'component',
+            cachedComponent(to.matched.at(-1)!) ? 'cached' : 'component',
           )
           try {
             await loadComponent(to.matched.at(-1)!)
@@ -1093,6 +1123,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       outcome ??= await check(resolveGuards.list(), 'beforeResolve')
     } catch (error) {
       release()
+      if (error === componentLoadingStopped && isCancelled()) return fail('cancelled')
       reportError(error, to, from)
       throw error
     }
@@ -1416,13 +1447,40 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   }
 
   async function loadComponent(record: RouteRecord): Promise<RouteComponent> {
-    const cached = components.get(record)
+    const cached = cachedComponent(record)
     if (cached) {
       assertNativeDestination(cached)
       return cached
     }
 
     const raw = record.component
+    const pending = componentLoads.get(record)
+    if (pending && pending.raw === raw) return pending.promise
+    const prepared = preloads.consume(record)
+    const promise = Promise.resolve()
+      .then(async () => {
+        const reusable = await prepared
+        if (stopped) throw componentLoadingStopped
+        const component = reusable ?? (await readComponent(record, raw))
+        // A replaced factory must not publish old code into the current route record.
+        if (record.component !== raw) return loadComponent(record)
+        if (!stopped) {
+          components.set(record, component)
+          componentSources.set(record, raw!)
+        }
+        return component
+      })
+      .finally(() => {
+        if (componentLoads.get(record)?.promise === promise) componentLoads.delete(record)
+      })
+    componentLoads.set(record, { raw, promise })
+    return promise
+  }
+
+  async function readComponent(
+    record: RouteRecord,
+    raw = record.component,
+  ): Promise<RouteComponent> {
     if (!raw) throw new Error(`Route "${record.path}" has no component`)
 
     let component: RouteComponent = raw
@@ -1433,8 +1491,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
           ? loaded.default
           : loaded
     }
+    if (!component || (typeof component !== 'object' && typeof component !== 'function'))
+      throw new Error(`Route "${record.path}" did not load a component`)
     assertNativeDestination(component)
-    components.set(record, component)
     return component
   }
 
@@ -1614,6 +1673,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   function shutdown() {
     if (stopped) return
     stopped = true
+    preloads.dispose()
     for (const wake of windowWaiters.values()) wake()
     attached.value = false
     stopPlatform?.()
@@ -1950,6 +2010,17 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       history: computed(() => getHistory()),
       getHistory,
       backToEntry,
+      preload(to) {
+        if (stopped || origin?.closed)
+          return settledPreload({ status: 'cancelled', reason: 'disposed' })
+        try {
+          const from = topOf(origin ?? focused())?.route ?? START_LOCATION
+          const target = resolveTarget(to, from)
+          return preloads.preload(target.matched.at(-1)!, origin ?? owner)
+        } catch (error) {
+          return settledPreload({ status: 'error', error })
+        }
+      },
       openWindow(raw, options) {
         if (stopped) throw new Error('The router window is closed')
         const from =
@@ -2114,13 +2185,22 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     window: nativeWindow,
     diagnostics: diagnostics?.api,
     options: options as RouterOptions,
+    clearPreloads: () => preloads.clear(),
 
     addRoute(parentOrRoute: RouteRecordName | RouteRecordRaw, route?: RouteRecordRaw) {
-      return route
+      const remove = route
         ? matcher.addRoute(route, parentOrRoute as RouteRecordName)
         : matcher.addRoute(parentOrRoute as RouteRecordRaw)
+      preloads.invalidate()
+      return () => {
+        remove()
+        preloads.invalidate()
+      }
     },
-    removeRoute: matcher.removeRoute,
+    removeRoute(name: RouteRecordName) {
+      matcher.removeRoute(name)
+      preloads.invalidate()
+    },
     hasRoute: matcher.hasRoute,
     getRoutes: matcher.getRoutes,
 

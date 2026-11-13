@@ -1,0 +1,336 @@
+{
+  "guides": {
+    "reports": [
+      {
+        "guide": "preloading",
+        "locale": "en",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/preloading#budgets-and-invalidation",
+          "/zh-CN/guide/preloading#budgets-and-invalidation",
+          "/pt-BR/guide/preloading#budgets-and-invalidation",
+          "/es/guide/preloading#budgets-and-invalidation",
+          "/zh-CN/guide/preloading#budgets-and-invalidation",
+          "/pt-BR/guide/preloading#budgets-and-invalidation",
+          "/guide/preloading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/guide/preloading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true,
+        "video": {
+          "duration": 33.466667,
+          "width": 1032,
+          "height": 1376,
+          "caption": "Cold/prepared touch, abandoned drag, guard refusal and owner disposal. The factory includes a controlled 900 ms delay; timings are not an import benchmark. iOS 18.6 simulator; English fixture labels."
+        }
+      },
+      {
+        "guide": "preloading",
+        "locale": "pt-BR/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/preloading#budgets-and-invalidation",
+          "/zh-CN/guide/preloading#budgets-and-invalidation",
+          "/guide/preloading#budgets-and-invalidation",
+          "/es/guide/preloading#budgets-and-invalidation",
+          "/zh-CN/guide/preloading#budgets-and-invalidation",
+          "/guide/preloading#budgets-and-invalidation",
+          "/pt-BR/guide/preloading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/pt-BR/guide/preloading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true,
+        "video": {
+          "duration": 33.466667,
+          "width": 1032,
+          "height": 1376,
+          "caption": "Toque frio/preparado, arrasto abandonado, recusa do guard e descarte do dono. A fábrica inclui atraso controlado de 900 ms; os tempos não são benchmark de importação. Simulador iOS 18.6; rótulos em inglês."
+        }
+      },
+      {
+        "guide": "preloading",
+        "locale": "es/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/zh-CN/guide/preloading#budgets-and-invalidation",
+          "/guide/preloading#budgets-and-invalidation",
+          "/pt-BR/guide/preloading#budgets-and-invalidation",
+          "/zh-CN/guide/preloading#budgets-and-invalidation",
+          "/guide/preloading#budgets-and-invalidation",
+          "/pt-BR/guide/preloading#budgets-and-invalidation",
+          "/es/guide/preloading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/es/guide/preloading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true,
+        "video": {
+          "duration": 33.466667,
+          "width": 1032,
+          "height": 1376,
+          "caption": "Toque frío/preparado, arrastre abandonado, rechazo del guard y eliminación del propietario. La fábrica incluye un retraso controlado de 900 ms; los tiempos no son un benchmark de importación. Simulador iOS 18.6; etiquetas en inglés."
+        }
+      },
+      {
+        "guide": "preloading",
+        "locale": "zh-CN/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/preloading#budgets-and-invalidation",
+          "/guide/preloading#budgets-and-invalidation",
+          "/pt-BR/guide/preloading#budgets-and-invalidation",
+          "/es/guide/preloading#budgets-and-invalidation",
+          "/guide/preloading#budgets-and-invalidation",
+          "/pt-BR/guide/preloading#budgets-and-invalidation",
+          "/zh-CN/guide/preloading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/zh-CN/guide/preloading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true,
+        "video": {
+          "duration": 33.466667,
+          "width": 1032,
+          "height": 1376,
+          "caption": "冷启动/已准备触摸导航、放弃拖动、守卫拒绝及所有者释放。工厂包含受控的 900 ms 延迟；这些时间不是导入性能基准。iOS 18.6 模拟器；演示标签为英文。"
+        }
+      },
+      {
+        "guide": "api",
+        "locale": "en",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/guide/api",
+          "/es/guide/api#route-code-preloading",
+          "/zh-CN/guide/api#route-code-preloading",
+          "/pt-BR/guide/api#route-code-preloading",
+          "/es/guide/api#route-code-preloading",
+          "/zh-CN/guide/api#route-code-preloading",
+          "/pt-BR/guide/api#route-code-preloading",
+          "/guide/api",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/guide/api.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "api",
+        "locale": "pt-BR/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/pt-BR/guide/api",
+          "/es/guide/api#route-code-preloading",
+          "/zh-CN/guide/api#route-code-preloading",
+          "/guide/api#route-code-preloading",
+          "/es/guide/api#route-code-preloading",
+          "/zh-CN/guide/api#route-code-preloading",
+          "/guide/api#route-code-preloading",
+          "/pt-BR/guide/api",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/pt-BR/guide/api.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "api",
+        "locale": "es/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/api",
+          "/zh-CN/guide/api#route-code-preloading",
+          "/guide/api#route-code-preloading",
+          "/pt-BR/guide/api#route-code-preloading",
+          "/zh-CN/guide/api#route-code-preloading",
+          "/guide/api#route-code-preloading",
+          "/pt-BR/guide/api#route-code-preloading",
+          "/es/guide/api",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/es/guide/api.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "api",
+        "locale": "zh-CN/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/zh-CN/guide/api",
+          "/es/guide/api#route-code-preloading",
+          "/guide/api#route-code-preloading",
+          "/pt-BR/guide/api#route-code-preloading",
+          "/es/guide/api#route-code-preloading",
+          "/guide/api#route-code-preloading",
+          "/pt-BR/guide/api#route-code-preloading",
+          "/zh-CN/guide/api",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/zh-CN/guide/api.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "data-loading",
+        "locale": "en",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/data-loading",
+          "/zh-CN/guide/data-loading",
+          "/pt-BR/guide/data-loading",
+          "/es/guide/data-loading",
+          "/zh-CN/guide/data-loading",
+          "/pt-BR/guide/data-loading",
+          "/guide/data-loading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/guide/data-loading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "data-loading",
+        "locale": "pt-BR/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/data-loading",
+          "/zh-CN/guide/data-loading",
+          "/guide/data-loading",
+          "/es/guide/data-loading",
+          "/zh-CN/guide/data-loading",
+          "/guide/data-loading",
+          "/pt-BR/guide/data-loading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/pt-BR/guide/data-loading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "data-loading",
+        "locale": "es/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/zh-CN/guide/data-loading",
+          "/guide/data-loading",
+          "/pt-BR/guide/data-loading",
+          "/zh-CN/guide/data-loading",
+          "/guide/data-loading",
+          "/pt-BR/guide/data-loading",
+          "/es/guide/data-loading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/es/guide/data-loading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "data-loading",
+        "locale": "zh-CN/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/data-loading",
+          "/guide/data-loading",
+          "/pt-BR/guide/data-loading",
+          "/es/guide/data-loading",
+          "/guide/data-loading",
+          "/pt-BR/guide/data-loading",
+          "/zh-CN/guide/data-loading",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/zh-CN/guide/data-loading.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "compatibility",
+        "locale": "en",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/compatibility",
+          "/zh-CN/guide/compatibility",
+          "/pt-BR/guide/compatibility",
+          "/es/guide/compatibility",
+          "/zh-CN/guide/compatibility",
+          "/pt-BR/guide/compatibility",
+          "/guide/compatibility",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/guide/compatibility.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "compatibility",
+        "locale": "pt-BR/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/compatibility",
+          "/zh-CN/guide/compatibility",
+          "/guide/compatibility",
+          "/es/guide/compatibility",
+          "/zh-CN/guide/compatibility",
+          "/guide/compatibility",
+          "/pt-BR/guide/compatibility",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/pt-BR/guide/compatibility.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "compatibility",
+        "locale": "es/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/zh-CN/guide/compatibility",
+          "/guide/compatibility",
+          "/pt-BR/guide/compatibility",
+          "/zh-CN/guide/compatibility",
+          "/guide/compatibility",
+          "/pt-BR/guide/compatibility",
+          "/es/guide/compatibility",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/es/guide/compatibility.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      },
+      {
+        "guide": "compatibility",
+        "locale": "zh-CN/",
+        "width": 390,
+        "content": 390,
+        "languageLinks": [
+          "/es/guide/compatibility",
+          "/guide/compatibility",
+          "/pt-BR/guide/compatibility",
+          "/es/guide/compatibility",
+          "/guide/compatibility",
+          "/pt-BR/guide/compatibility",
+          "/zh-CN/guide/compatibility",
+          "https://github.com/rafaelaugustos/vue-router-ns/edit/main/docs/zh-CN/guide/compatibility.md"
+        ],
+        "anchor": true,
+        "preloadLink": true
+      }
+    ],
+    "search": "passed",
+    "videoPlayback": "passed in four locales",
+    "reducedMotion": "paused until manual play",
+    "errors": []
+  },
+  "experience": {
+    "base": "http://127.0.0.1:4174",
+    "reports": [
+      "Push, retained search, modal result, cancellation and keyboard Escape passed.",
+      "Four localized homes and 320–1440px layouts passed.",
+      "Reduced motion settles animation and prevents automatic video playback.",
+      "Server-rendered content and guide navigation work without JavaScript."
+    ],
+    "errors": []
+  }
+}
