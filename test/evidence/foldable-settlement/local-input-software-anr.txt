@@ -76,4 +76,3 @@ ACTIVITY MANAGER LAST ANR (dumpsys activity lastanr)
     mDismissalRequested=false
 
 -------------------------------------------------------------------------------
-
