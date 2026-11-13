@@ -6,14 +6,14 @@ hosts, and publishes an optional conformance runner. It does not promote Android
 adapters, arbitrary native containers or transition observation/control to stable.
 
 Runtime, adapter, harness and native fixture source:
-`72a1bbd194977daf96b4bf6fcf2ec8247c3d65ab`. The evidence/documentation commit adds
+`359fcdb58c1f9dd9f3641c130cc11ac6d57e7fb2`. The evidence/documentation commit adds
 the recording and reports without changing that tested implementation.
 
 ## Router corrections and control
 
-The [15 lifecycle tests](./host-lifecycle.spec.ts) run against the previous source
-`54013746c55d6771140424dcdbbb7e8e46edfa12` fail **13 cases** and pass the two existing
-completion-order checks. The same tests pass all 15 cases with this change. The
+The [17 lifecycle tests](./host-lifecycle.spec.ts) run against the previous source
+`54013746c55d6771140424dcdbbb7e8e46edfa12` fail **15 cases** and pass the two existing
+completion-order checks. The same tests pass all 17 cases with this change. The
 [control summary](./evidence/native-host-conformance-v1/regressions.json) identifies
 every case; a fresh archived source tree uses the same tests and installed tools.
 
@@ -22,7 +22,9 @@ external root closure and held dismissal; named-host capability selection;
 rollback of failed Back results; cancellation of pending adapter promises on
 owner closure; partial attach and throwing-dispose cleanup; external-close
 afterEach notification; and required methods for declared capabilities. Owner
-teardown never delivers an uncommitted Back result. Lifecycle waiters are removed
+teardown never delivers an uncommitted Back result. A native owner-close callback
+during page Back cancels its tentative result; acknowledgement of a requested
+whole-host close still delivers the result. Lifecycle waiters are removed
 after each navigation, so a long-lived host does not accumulate promise reactions.
 
 Navigation waits for native acknowledgement and the returned method promise.
@@ -53,7 +55,7 @@ Published dependencies: Core **9.1.4**, NativeScript-Vue **3.1.3**, Vue runtime
 18.6**, Xcode **27.0 (27A266a)** on Apple silicon. No dependency was patched.
 Native packaging/build ran with Node 20.19.4; repository tests used Node 22.23.3.
 
-XCTest passed in **39.907 seconds**, zero failures. All **nine native command
+XCTest passed in **39.920 seconds**, zero failures. All **nine native command
 reports passed**. The public harness passed **13 checks** and explicitly skipped
 held dismissal because this reference adapter does not declare that capability.
 
@@ -69,7 +71,7 @@ held dismissal because this reference adapter does not declare that capability.
 | Late callbacks and repeated unmount | No resurrected stack, duplicate result, Vue lifecycle error or reconciliation issue.                                                                 |
 
 [Actual simulator recording](../docs/public/media/native-host-conformance.mp4):
-42.43 seconds at original speed, H.264, 1032 × 1376. It shows the harness, reversed
+43.42 seconds at original speed, H.264, 1032 × 1376. It shows the harness, reversed
 swipe, guard-blocked swipe, committed Back, temporary unload/reload and final
 disposal. The video starts on the dedicated simulator's launcher. No UI or native
 transition is composited; counters and recognizer measurements are in the JSON
@@ -113,10 +115,14 @@ builds XCTest before boot, with a separate three-minute preparation budget. The
 native execution budgets and assertions are unchanged. Its prepared-project path
 also passed locally in **39.823 seconds**, with all nine command reports passing.
 The [hosted retry](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43416569975)
-records the remote result separately; it runs the same runtime and application
-fixture as the original local acceptance.
+passed XCTest preparation, then exceeded the 30-second app-installation budget
+before running tests. Commit `2ef25cd` allows three minutes for that setup step,
+without changing navigation timeouts or assertions. The
+[following run](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43420069788)
+tracks hosted acceptance separately. The final local run above tests source
+`359fcdb` and the prepared-project path.
 
-- **683 tests passed**, 10 existing skips, across 55 files; no type errors.
+- **685 tests passed**, 10 existing skips, across 55 files; no type errors.
 - Root types/build, independent adapter build and packed consumer typecheck passed.
 - Formatting, patch whitespace, native shell helpers and driver syntax passed.
 - Four-locale documentation build passed; [browser evidence](./evidence/native-host-conformance-v1/documentation.json)

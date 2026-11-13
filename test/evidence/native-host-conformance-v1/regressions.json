@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "controlCommit": "54013746c55d6771140424dcdbbb7e8e46edfa12",
-  "candidateCommit": "72a1bbd194977daf96b4bf6fcf2ec8247c3d65ab",
+  "candidateCommit": "359fcdb58c1f9dd9f3641c130cc11ac6d57e7fb2",
   "control": {
     "passed": 2,
-    "failed": 13,
+    "failed": 15,
     "tests": [
       {
         "name": "an old unmount never closes a replacement under the same name",
@@ -55,8 +55,16 @@
         "status": "failed"
       },
       {
+        "name": "cancels a pending page Back result when the platform closes the entire host",
+        "status": "failed"
+      },
+      {
         "name": "waits for the method promise after native completion has arrived",
         "status": "passed"
+      },
+      {
+        "name": "delivers the result when the platform acknowledges a requested owner close",
+        "status": "failed"
       },
       {
         "name": "rejects cancellableDismissal without its required method before attaching",
@@ -69,11 +77,11 @@
     ]
   },
   "candidate": {
-    "passed": 15,
+    "passed": 17,
     "failed": 0
   },
   "fullSuite": {
-    "passed": 683,
+    "passed": 685,
     "skipped": 10,
     "files": 55
   }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "72a1bbd194977daf96b4bf6fcf2ec8247c3d65ab",
+  "sourceCommit": "359fcdb58c1f9dd9f3641c130cc11ac6d57e7fb2",
   "date": "2026-11-13",
   "target": {
     "device": "iPad Pro 13-inch (M4), simulator",
@@ -14,14 +14,14 @@
   "xctest": {
     "tests": 1,
     "failures": 0,
-    "seconds": 39.907
+    "seconds": 39.92
   },
   "packages": {
     "router": {
       "filename": "vue-router-ns-0.1.0-rc.4.tgz",
-      "shasum": "b253586fa34e252b2729ad024399a24871724bd6",
-      "integrity": "sha512-Dq7+VhDywFjbh6c2w2xJ56jNi6/3yOhOHV2OKydcsv0xCwEPD1iP7jA6Ks9HETrvkaEPSYxSdtsPAgwzrU/w2Q==",
-      "size": 392649
+      "shasum": "095bc9b3c5ce239993193d295c38deb51de7cf3f",
+      "integrity": "sha512-L0dheQPQuJ3iIzjygYm2g7aFin6xWGKMpJdw1w+V1vZSMXOICVMlMisvUJFVvqenjWT2GkvFg9N0F2nD+FH4Bw==",
+      "size": 392908
     },
     "adapter": {
       "filename": "vue-router-ns-example-frame-host-1.0.0.tgz",
