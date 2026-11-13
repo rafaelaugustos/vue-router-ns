@@ -75,6 +75,49 @@ result.ignored // 'scheme', 'host', 'unmatched', 'malformed' or 'repeat'
 
 `resolveLink(url)` indica dónde iría una URL sin ir allí, y `onLink` escucha cada enlace que se entregó al enrutador, se tomó o no. Para reanudar un enlace después de iniciar sesión, haga lo que hace la demostración: guard redirige al inicio de sesión con `query.next` y la página de inicio de sesión se reemplaza con él. `onLink` también funciona: mantenga `result.location` cuando `failure` o la ruta actual indique que un inicio de sesión se interpuso en el camino, y `push` después de iniciar sesión.
 
+## Intents de navegación (experimental) {#navigation-intents}
+
+Usa un `NavigationIntent` versionado cuando diferentes entradas de la aplicación necesiten compartir una solicitud de destino. `resolveIntent` valida y resuelve sin navegar, ejecutar guards, cargar componentes ni seleccionar pestañas. `openIntent` vuelve a validar y utiliza la misma espera y ejecución con guards de los enlaces existentes. Los callbacks de mapeo y redirección de rutas deben ser puros.
+
+```ts
+import type { NavigationIntent } from 'vue-router-ns'
+
+const request = {
+  version: 1,
+  source: 'internal',
+  destination: { route: { name: 'message', params: { id: '42' } } },
+  target: { frame: 'inbox' },
+  delivery: { scope: 'account-session-17', id: 'tap-123' },
+  expiresAt: Date.now() + 60_000,
+} satisfies NavigationIntent
+
+const preview = router.resolveIntent(request)
+if (preview.status === 'resolved') {
+  const result = await router.openIntent(request)
+  if (result.status === 'handled') {
+    console.log(result.location.fullPath, result.failure)
+  } else {
+    console.log(result.reason)
+  }
+}
+```
+
+El `destination` contiene `{ route: ... }` o `{ url: 'myapp://messages/42' }`. Una ruta utiliza una ruta absoluta o un nombre string con params, query y hash serializables. Una URL utiliza el filtrado de scheme/host y el mapeo existentes; su origen de enlace es `'app'`. El `source` del intent es una etiqueta definida por la aplicación, sin acreditar origen ni permisos. Los adaptadores de notificaciones, búsqueda y drag/drop siguen siendo responsabilidad de la aplicación.
+
+Solo se aceptan datos JSON simples: sin objetos nativos/Vue, funciones, accessors, symbols ni campos desconocidos. Las solicitudes se copian y congelan recursivamente. Los límites son 16 KiB de JSON UTF-8 compacto, 8.192 caracteres por string, 32 campos por objeto, 64 elementos por array, profundidad 7 y 1.024 valores. Las etiquetas de origen permiten 128 caracteres; los identificadores de entrega y destino, 256. Analiza el JSON externo y valida su contenido específico antes de entregarlo al router. Validar la estructura no autoriza acceso; los guards normales siguen comprobando permisos.
+
+El router receptor es responsable de la ejecución. `target.windowId` comprueba la identidad de esa ventana; nunca busca ni abre otra. `target.frame` elige su stack con nombre. Si se omite, las solicitudes URL usan la política de frame de los enlaces y después el stack predeterminado; las solicitudes de ruta usan el stack predeterminado. Ningún Frame global elige la ventana. `options` acepta `replace`, `withParents` y `clearHistory`; el historial de padres está habilitado por defecto. Las opciones de la política URL se aplican primero y las opciones explícitas del intent las sobrescriben. La resolución no invoca callbacks de frame ni options.
+
+La disponibilidad y la restauración del historial preceden a la navegación; un stack con nombre ausente tiene el plazo existente de diez segundos para montarse. Las solicitudes conservan la cancelación normal entre navegaciones superpuestas, sin cola FIFO. `expiresAt` se comprueba al recibir y después de esperar disponibilidad/stack, inmediatamente antes de la admisión; no cancela una navegación que ya entró en los guards. Se vuelven a comprobar las rutas eliminadas y el cierre de la ventana después de las esperas. Los errores de ejecución siguen rechazando la promesa.
+
+El par `delivery` utiliza `scope` e `id` entre etiquetas de origen durante la vida de un router. Usa un ámbito de cuenta/sesión gestionado por la aplicación y un id nuevo por acción intencional, u omite el par. Se retienen hasta 256 solicitudes en curso; otra devuelve `busy`. Los últimos 256 ids de entregas finalizadas permanecen en memoria, incluidos los intentos rechazados por guards o invalidados durante una espera. Una repetición devuelve `repeat`; es deduplicación limitada, sin garantía persistente de entrega única. Los ids de enlaces existentes conservan su espacio de nombres separado por compatibilidad. Los intents no emiten `onLink`; los enlaces existentes mantienen listeners y deduplicación de launch/resume.
+
+La vista previa devuelve `resolved` o `ignored`. La ejecución devuelve `handled` con el destino solicitado en `location` y un posible `failure`, o `ignored` con `reason`. Handled significa que terminó el flujo normal: los guards pueden redirigir, abortar o cancelar y la página solicitada puede no aparecer. Los motivos ignorados incluyen `invalid`, `version`, `expired`, `unmatched`, `scheme`, `host`, `repeat`, `busy`, `wrong-window`, `owner-closed` y `target-unavailable`. Los payloads y los identificadores de entrega no se añaden a los diagnósticos.
+
+Esta primera etapa no persiste solicitudes, suspende/reanuda autenticación ni selecciona nuevas ventanas. El login existente sigue siendo responsabilidad de la aplicación. La [fixture nativa](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/intents) comprueba Frames reales, guards y entrega de URL del sistema; el [informe de aceptación](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-navigation-intents-stage1.md) distingue evidencia nativa de cobertura unitaria.
+
+<Clip name="navigation-intents" :width="640" aspect="3 / 4" caption="Simulador real de iPad: vista previa sin navegación, destinos por nombre/URL, repeticiones y guards, cierre de modal y entrega de URL del sistema. Las etiquetas de la app están en inglés." />
+
 ## Atajos de la pantalla de inicio {#home-screen-shortcuts}
 
 <Clip name="ios-shortcuts" caption="Mantenga presionado el ícono de demostración y elija Nuevo mensaje para abrir su ruta a través de una acción rápida nativa. Simulador iOS 26." />

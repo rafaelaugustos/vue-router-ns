@@ -75,6 +75,49 @@ result.ignored // 'scheme', 'host', 'unmatched', 'malformed' or 'repeat'
 
 `resolveLink(url)` tells where a URL would go without going there, and `onLink` hears every link the router was handed, taken or not. To resume a link after a login, do what the demo does: the guard redirects to the login with `query.next`, and the login page replaces itself with it. `onLink` works too: keep `result.location` when `failure` or the current route says a login got in the way, and `push` it after signing in.
 
+## Navigation intents (experimental) {#navigation-intents}
+
+Use a versioned `NavigationIntent` when different application entrypoints need a shared destination request. `resolveIntent` validates and resolves without navigation, guards, component loading or tab selection. `openIntent` validates again and enters the same readiness and guarded execution used by existing links. Mapping and route-redirect callbacks should be pure.
+
+```ts
+import type { NavigationIntent } from 'vue-router-ns'
+
+const request = {
+  version: 1,
+  source: 'internal',
+  destination: { route: { name: 'message', params: { id: '42' } } },
+  target: { frame: 'inbox' },
+  delivery: { scope: 'account-session-17', id: 'tap-123' },
+  expiresAt: Date.now() + 60_000,
+} satisfies NavigationIntent
+
+const preview = router.resolveIntent(request)
+if (preview.status === 'resolved') {
+  const result = await router.openIntent(request)
+  if (result.status === 'handled') {
+    console.log(result.location.fullPath, result.failure)
+  } else {
+    console.log(result.reason)
+  }
+}
+```
+
+The `destination` is either `{ route: ... }` or `{ url: 'myapp://messages/42' }`. A route uses an absolute path or a string name with serializable params, query and hash. A URL uses the existing scheme/host screening and mapping; its link source is `'app'`. The intent's `source` is an application-defined label, not proof of origin or permission. Notifications, search and drag/drop adapters remain application-owned.
+
+Only plain JSON data is accepted: no native/Vue objects, functions, accessors, symbols or unknown fields. Requests are copied and recursively frozen. Limits are 16 KiB of compact UTF-8 JSON, 8,192 characters per string, 32 object fields, 64 array items, depth 7 and 1,024 values. Source labels allow 128 characters; delivery and target identifiers allow 256. Parse external JSON and validate its application-specific content before handing it to the router. Shape validation never authorizes access; normal guards still enforce permissions.
+
+The receiving router owns execution. `target.windowId` asserts that owner's identity; it never searches for or opens another window. `target.frame` chooses its named stack. Without it, URL requests use the existing link frame policy, then the default stack; route requests use the default stack. No global current Frame selects the owner. `options` accepts `replace`, `withParents` and `clearHistory`; parent history defaults to enabled. URL policy options apply first, with explicit intent options overriding them. Resolution does not invoke frame or options callbacks.
+
+Readiness and restored history precede navigation; an absent named stack has the existing ten-second mount deadline. Requests retain normal overlapping-navigation cancellation, not a FIFO queue. `expiresAt` is checked on receipt and again after readiness/stack waits, immediately before admission; it does not cancel navigation already inside guards. Removed routes and owner closure are rechecked after waits. Execution errors still reject the promise.
+
+A `delivery` pair uses `scope` and `id` across source labels within one router lifetime. Use an app-owned account/session scope and a fresh id for each intentional action, or omit the pair. Up to 256 in-flight requests are retained; another returns `busy`. The latest 256 settled delivery ids remain in memory, including attempts refused by guards or invalidated during a wait. A repeat returns `repeat`; this is bounded deduplication, not durable exactly-once delivery. Existing link delivery ids keep their separate compatibility namespace. Intent calls do not emit `onLink`; existing links retain their listeners and launch/resume deduplication.
+
+A preview returns `resolved` or `ignored`. Execution returns `handled` with the requested `location` and optional `failure`, or `ignored` with `reason`. Handled means the normal pipeline settled: guards may redirect, abort or cancel, and the requested page may never appear. Ignored reasons include `invalid`, `version`, `expired`, `unmatched`, `scheme`, `host`, `repeat`, `busy`, `wrong-window`, `owner-closed` and `target-unavailable`. Payloads and delivery identifiers are not added to diagnostics.
+
+This first stage does not persist requests, suspend/resume authentication or select new windows. Existing login handling remains app-owned. The [native fixture](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/intents) checks real Frames, guards and OS URL delivery; its [acceptance report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-navigation-intents-stage1.md) separates native evidence from unit coverage.
+
+<Clip name="navigation-intents" :width="640" aspect="3 / 4" caption="Real iPad simulator: preview without navigation, named/URL destinations, duplicate and guard outcomes, modal disposal and OS URL delivery. App labels are in English." />
+
 ## Home-screen shortcuts
 
 <Clip name="ios-shortcuts" caption="Long-press the demo icon and choose New message to open its route through a native quick action. iOS 26 simulator." />

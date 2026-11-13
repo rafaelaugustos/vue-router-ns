@@ -1,4 +1,10 @@
 import { createRouteData, disposeRouteData, type RouteLoader } from './route-data.js'
+import {
+  parseIntent,
+  type IntentIgnoredReason,
+  type IntentResolution,
+  type IntentResult,
+} from './intents.js'
 import { createDataPreloader, type RouteDataPreloadOptions } from './data-preload.js'
 import {
   createRoutePreloader,
@@ -307,6 +313,10 @@ export interface Router<M extends RouteMapLike = RouteMapGeneric> {
   resolveLink(href: string): RouteLocation | undefined
   /** Hears every link the router was handed, taken or not. */
   onLink(listener: LinkListener): () => void
+  /** Experimental. Validate and resolve a bounded request without navigation or tab selection. */
+  resolveIntent(request: unknown): IntentResolution
+  /** Experimental. Deliver a request to this router through normal readiness and guards. */
+  openIntent(request: unknown): Promise<IntentResult>
   /**
    * Lets a native container take the Android system back while it owns it, a
    * drawer that is open for example, before any page pops. Returns what
@@ -1703,6 +1713,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     stopWindow = undefined
     stopLinks?.()
     stopLinks = undefined
+    intentPending.clear()
+    intentDelivered.clear()
     for (const waiter of mountWaiters.values())
       waiter.reject(new Error('The router window is closed'))
     mountWaiters.clear()
@@ -1784,6 +1796,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
   const mountWaiters = new Map<string, Pending<void>>()
   let lastLaunchLink: { href: string; at: number } | undefined
   const deliveries = new Set<string>()
+  const intentPending = new Set<string>()
+  const intentDelivered = new Set<string>()
 
   interface EvaluatedLink {
     link: IncomingLink
@@ -1872,19 +1886,143 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     }
     const frame = options.frame ?? linkPolicy.frame?.(location, link) ?? policy?.frame
     const settings = { withParents: true, ...policy, ...options, frame }
-    if (!isReady) await ready.promise
-    if (frame !== undefined) await stackMounted(frame)
+    const result = await executeDestination(location, () => settings)
+    return done({ link, location, failure: result.failure })
+  }
+
+  // Both legacy OS/app links and versioned intents enter the same guarded navigation.
+  async function executeDestination(
+    location: RouteLocation,
+    settingsFor: () => LinkOptions,
+    check?: () => IntentIgnoredReason | undefined,
+  ): Promise<{ failure?: NavigationFailure; ignored?: IntentIgnoredReason }> {
+    try {
+      if (!isReady) await ready.promise
+    } catch (error) {
+      if (check && stopped) return { ignored: 'owner-closed' }
+      throw error
+    }
+    let ignored = check?.()
+    if (ignored) return { ignored }
+    const settings = settingsFor()
+    ignored = check?.()
+    if (ignored) return { ignored }
+    try {
+      if (settings.frame !== undefined) await stackMounted(settings.frame)
+    } catch (error) {
+      if (check) return { ignored: stopped ? 'owner-closed' : 'target-unavailable' }
+      throw error
+    }
+    ignored = check?.()
+    if (ignored) return { ignored }
     const target = { path: location.path, query: location.query, hash: location.hash }
     const navigation: NavigationOptions = {
       withParents: settings.withParents,
       clearHistory: settings.clearHistory,
-      frame,
+      frame: settings.frame,
     }
     const failure = settings.replace
       ? await router.replace(target, navigation)
       : await router.push(target, navigation)
-    return done({ link, location, failure })
+    return { failure }
   }
+
+  function evaluateIntent(request: unknown): {
+    resolution: IntentResolution
+    link?: IncomingLink
+  } {
+    const intent = parseIntent(request)
+    if ('status' in intent) return { resolution: intent }
+    if (intent.expiresAt !== undefined && intent.expiresAt <= Date.now())
+      return { resolution: { status: 'ignored', reason: 'expired' } }
+    let location: RouteLocation | undefined
+    let link: IncomingLink | undefined
+    if ('url' in intent.destination) {
+      const evaluated = evaluateLink(intent.destination.url, 'app')
+      location = evaluated.location
+      link = evaluated.link
+      if (!location)
+        return {
+          resolution: {
+            status: 'ignored',
+            reason:
+              evaluated.ignored === 'malformed'
+                ? 'invalid'
+                : (evaluated.ignored ?? 'unmatched'),
+          },
+        }
+    } else {
+      try {
+        location = resolveTarget(intent.destination.route, START_LOCATION)
+      } catch {
+        return { resolution: { status: 'ignored', reason: 'unmatched' } }
+      }
+    }
+    return { resolution: { status: 'resolved', intent, location }, link }
+  }
+
+  async function openIntent(request: unknown): Promise<IntentResult> {
+    const { resolution, link } = evaluateIntent(request)
+    if (resolution.status === 'ignored') return resolution
+    const { intent, location } = resolution
+    const check = (): IntentIgnoredReason | undefined => {
+      if (stopped) return 'owner-closed'
+      if (intent.expiresAt !== undefined && intent.expiresAt <= Date.now())
+        return 'expired'
+      if (
+        intent.target?.windowId !== undefined &&
+        (nativeWindow.value ? nativeWindow.value.id !== intent.target.windowId : isReady)
+      )
+        return 'wrong-window'
+      if (!location.matched.every((record) => matcher.getRoutes().includes(record)))
+        return 'unmatched'
+    }
+    const ignored = check()
+    if (ignored) return { status: 'ignored', reason: ignored }
+    const id =
+      intent.delivery && JSON.stringify([intent.delivery.scope, intent.delivery.id])
+    if (id && (intentPending.has(id) || intentDelivered.has(id)))
+      return { status: 'ignored', reason: 'repeat' }
+    if (intentPending.size >= 256) return { status: 'ignored', reason: 'busy' }
+    // Track even requests without a provider id, so in-flight retention stays bounded.
+    const key = id ?? `local:${++intentSequence}`
+    intentPending.add(key)
+    try {
+      const result = await executeDestination(
+        location,
+        () => {
+          const policy = link
+            ? typeof linkPolicy.options === 'function'
+              ? linkPolicy.options(location, link)
+              : linkPolicy.options
+            : undefined
+          return {
+            withParents: true,
+            ...policy,
+            ...intent.options,
+            frame:
+              intent.target?.frame ??
+              (link
+                ? (linkPolicy.frame?.(location, link) ?? policy?.frame)
+                : undefined) ??
+              'default',
+          }
+        },
+        check,
+      )
+      if (result.ignored) return { status: 'ignored', reason: result.ignored }
+      return { status: 'handled', intent, location, failure: result.failure }
+    } finally {
+      intentPending.delete(key)
+      if (id && !stopped) {
+        intentDelivered.add(id)
+        if (intentDelivered.size > 256)
+          intentDelivered.delete(intentDelivered.values().next().value!)
+      }
+    }
+  }
+
+  let intentSequence = 0
 
   // -- public API -------------------------------------------------------------
 
@@ -2257,6 +2395,8 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
       takeLink(evaluateLink(href, options.source ?? 'app'), options),
     resolveLink: (href: string) => evaluateLink(href, 'app').location,
     onLink: linkListeners.add,
+    resolveIntent: (request: unknown) => evaluateIntent(request).resolution,
+    openIntent,
     claimSystemBack: backClaimants.add,
     shortcutURL: (id: string, to: RouteLocationRaw) =>
       shortcutURL(id, resolveTarget(to, START_LOCATION)),
