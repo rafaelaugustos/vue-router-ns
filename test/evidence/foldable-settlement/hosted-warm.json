@@ -1,0 +1,93 @@
+{
+  "run": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43384944338",
+  "source": "78e4245fbd5022ec87eacc1515fe5e20770169cf",
+  "conclusion": "success",
+  "jobSeconds": 517,
+  "steps": [
+    {
+      "name": "Set up job",
+      "seconds": 2,
+      "conclusion": "success"
+    },
+    {
+      "name": "Run actions/checkout@v7",
+      "seconds": 2,
+      "conclusion": "success"
+    },
+    {
+      "name": "Run actions/setup-node@v7",
+      "seconds": 2,
+      "conclusion": "success"
+    },
+    {
+      "name": "Run actions/setup-java@v4",
+      "seconds": 8,
+      "conclusion": "success"
+    },
+    {
+      "name": "Enable KVM",
+      "seconds": 0,
+      "conclusion": "success"
+    },
+    {
+      "name": "Run npm ci",
+      "seconds": 6,
+      "conclusion": "success"
+    },
+    {
+      "name": "Run npm run build",
+      "seconds": 1,
+      "conclusion": "success"
+    },
+    {
+      "name": "Run npm install --no-audit --no-fund",
+      "seconds": 16,
+      "conclusion": "success"
+    },
+    {
+      "name": "Run npm install -g nativescript",
+      "seconds": 11,
+      "conclusion": "success"
+    },
+    {
+      "name": "Prepare native fixture resources",
+      "seconds": 35,
+      "conclusion": "success"
+    },
+    {
+      "name": "Build the foldable fixture",
+      "seconds": 99,
+      "conclusion": "success"
+    },
+    {
+      "name": "Native fold/posture acceptance",
+      "seconds": 328,
+      "conclusion": "success"
+    },
+    {
+      "name": "Run actions/upload-artifact@v4",
+      "seconds": 2,
+      "conclusion": "success"
+    },
+    {
+      "name": "Post Run actions/setup-java@v4",
+      "seconds": 0,
+      "conclusion": "success"
+    },
+    {
+      "name": "Post Run actions/setup-node@v7",
+      "seconds": 0,
+      "conclusion": "success"
+    },
+    {
+      "name": "Post Run actions/checkout@v7",
+      "seconds": 0,
+      "conclusion": "success"
+    },
+    {
+      "name": "Complete job",
+      "seconds": 0,
+      "conclusion": "success"
+    }
+  ]
+}
