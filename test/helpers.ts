@@ -54,6 +54,7 @@ interface MountOptions {
   loaders?: import('../src/index.js').RouterOptions['loaders']
   layouts?: import('../src/index.js').RouterOptions['layouts']
   defaultLayout?: string | false
+  preload?: import('../src/index.js').RoutePreloadOptions
 }
 
 export async function mount(
@@ -69,6 +70,7 @@ export async function mount(
     loaders: options.loaders,
     layouts: options.layouts,
     defaultLayout: options.defaultLayout,
+    preload: options.preload,
     restore: options.restore,
     backPreview: options.backPreview,
     diagnostics: options.diagnostics,
