@@ -32,3 +32,30 @@ PLAYWRIGHT_MODULE=/tmp/router-viewer-browser/node_modules/playwright/index.mjs \
 The recording driver imports saved JSON fixtures, uses actual browser controls and retains a WebM, poster and `video-path.txt`. Encode the recording as H.264 MP4 for the guides and attach the same reviewed file to the PR so GitHub displays a player. Do not present these synthetic timings as device performance measurements.
 
 The existing fast CI check runs model tests and builds/typechecks the viewer through `docs:build`. Browser acceptance runs locally; no native/emulator job is added for this browser-only feature. See [validation and boundaries](../../test/diagnostics-viewer.md).
+
+## V2 offline replay
+
+```sh
+npm run diagnostics:build
+npm test -- test/diagnostics-viewer.spec.ts test/diagnostic-replay.spec.ts
+node scripts/diagnostics-viewer/replay.mjs
+OUT=scripts/diagnostics-viewer/out/replay-video \
+  node scripts/diagnostics-viewer/replay.mjs --record
+```
+
+Use the same optional `PLAYWRIGHT_MODULE` override as above. The driver opens the
+built standalone HTML with the browser offline, loads the unchanged committed
+iOS 18.6 captures from PR196, and clearly names mutated fixtures `SYNTHETIC`.
+It checks divergence/recovery, guard/cancelled event synchronization, modal
+lifetime, pre-reconciliation deferral, keyboard steps, play/pause, import/clear
+cancellation, gaps, corruption, v1 compatibility, v2 redirect parent selection,
+10,000 checkpoints with bounded DOM, four languages, narrow width, inert imported
+strings, and no outbound requests/storage. It does not rerun a native app.
+
+With `--record`, it records the actual browser controls for the native replay,
+clear/truncation, deliberately damaged order and v1 flow. It saves a WebM,
+poster, `video-path.txt` and `checks.json`. Encode the reviewed WebM at its original
+speed for the PR and four-locale guide. The extended corruption/scale/locale
+acceptance runs without `--record` to keep the demonstration focused.
+
+See [stage 2 validation and limits](../../test/diagnostic-replay-stage2.md).

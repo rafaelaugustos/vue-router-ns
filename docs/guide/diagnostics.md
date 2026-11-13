@@ -94,7 +94,7 @@ const recordingJSON = JSON.stringify(capture)
 const legacyJSON = inspector.export() // unchanged v1, for the current viewer
 ```
 
-This is the first stage of the recording contract. The [viewer](./diagnostics-viewer) still imports v1; v2 import validation, synchronized replay controls and first-divergence analysis are a subsequent stage. Reading a recording never runs guards, requests data, navigates the app or restores native objects.
+The [viewer](./diagnostics-viewer#replay-v2-observations) imports v1 and v2, validates recordings and provides synchronized offline replay and observed-divergence analysis. Reading a recording never runs guards, requests data, navigates the app or restores native objects.
 
 `recording: true` uses the defaults above. `maxRecords` accepts 1–10,000 and `maxBytes` accepts 1,024–8,388,608. Both limits apply to the separate v2 buffer; `maxEvents` continues to bound v1. `retainedBytes` counts the compact UTF-8 serialization of the records array, including brackets and commas. The small report envelope, pretty-print whitespace, exported copies and temporary snapshot allocations are outside that byte budget. This is a retention limit, not a heap limit.
 

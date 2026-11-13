@@ -12,4 +12,6 @@ When changing a guide:
 
 `docs:check` checks route coverage, local guide links/anchors, shared Spanish/Chinese code blocks and inline code, unresolved translation placeholders and UI dictionary key parity. It does not prove that prose conveys the correct meaning. Portuguese examples predate this check and intentionally translate some comments and strings, so exact code parity is enforced only for the two new locales.
 
+The viewer's replay controls keep their four translations together in `tools/diagnostics-viewer/replay-copy.ts`, in English/Portuguese/Spanish/Chinese order. Preserve all four entries when adding a message; raw report enum values and IDs remain untranslated evidence.
+
 Use translation tools only for a draft. Review ownership, cancellation, guards, results, disposal, experimental boundaries and negations against the source. Never translate an API name into an invented identifier. Never turn an unverified platform limit into a compatibility promise. Report native-speaker review separately from technical review; neither automated structural checks nor machine translation substitutes for it.

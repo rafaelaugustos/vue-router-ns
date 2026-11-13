@@ -7,7 +7,6 @@ import {
   MAX_BYTES,
   MAX_REPORTS,
   outcomes,
-  parseReport,
   phases,
   timeline,
   windowIds,
@@ -15,7 +14,16 @@ import {
   type TimelineRow,
 } from './model.js'
 import { examples } from './examples.js'
-import type { DiagnosticsExport } from '../../src/diagnostics.js'
+import type { DiagnosticSnapshot } from '../../src/diagnostics.js'
+import {
+  eventsOf,
+  importReport,
+  replay,
+  type ImportedReport,
+  type Checkpoint,
+  type Replay,
+} from './recording.js'
+import { replayText, type replayCopy } from './replay-copy.js'
 
 const baseCopy = {
   en: {
@@ -218,6 +226,7 @@ let locale: Locale =
     ? (requestedLocale as Locale)
     : 'en'
 const t = (key: keyof typeof copy.en) => copy[locale][key]
+const rt = (key: keyof typeof replayCopy) => replayText(locale, key)
 const format = (value: number) =>
   new Intl.NumberFormat(locale, { maximumFractionDigits: 2 }).format(value)
 const ms = (value: number | undefined) =>
@@ -225,7 +234,9 @@ const ms = (value: number | undefined) =>
 type Capture = {
   id: number
   name: string
-  report: DiagnosticsExport
+  report: ImportedReport
+  replay?: Replay
+  position: number
   sample: boolean
   rows: TimelineRow[]
 }
@@ -242,6 +253,21 @@ let timelinePage = 0,
   stackPage = 0
 const entryPages = new Map<string, number>()
 const app = document.querySelector<HTMLDivElement>('#app')!
+let playing: ReturnType<typeof setInterval> | undefined
+const pause = () => {
+  clearInterval(playing)
+  playing = undefined
+}
+const snapshotOf = (capture: Capture) =>
+  capture.report.version === 1
+    ? capture.report.snapshot
+    : capture.replay?.steps[capture.position]?.checkpoint?.snapshot
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    pause()
+    render()
+  }
+})
 
 type Child = Node | string | undefined | false
 function el<K extends keyof HTMLElementTagNameMap>(
@@ -273,6 +299,7 @@ function selectControl(
   for (const [key, text] of choices) select.append(el('option', { value: key }, text))
   select.value = value
   select.onchange = () => {
+    pause()
     update(select.value)
     detail = undefined
     timelinePage = stackPage = 0
@@ -280,12 +307,30 @@ function selectControl(
   }
   return el('label', { class: 'select-control' }, el('span', {}, label), select)
 }
-function addCapture(name: string, report: DiagnosticsExport, sample = false) {
-  const capture = { id: ++sequence, name, report, sample, rows: timeline(report) }
+function addCapture(name: string, report: ImportedReport, sample = false) {
+  const playback = report.version === 2 ? replay(report) : undefined
+  const events = eventsOf(report)
+  const capture: Capture = {
+    id: ++sequence,
+    name,
+    report,
+    sample,
+    rows: playback?.ambiguous
+      ? events.map((event, index) => ({
+          key: index + 1,
+          event,
+          start: event.time,
+          completeness: 'ambiguous',
+        }))
+      : timeline({ events }),
+    replay: playback,
+    position: 0,
+  }
   captures.push(capture)
   selected = capture.id
 }
 async function importFiles(files: File[]) {
+  pause()
   if (importing) return
   errors = []
   if (files.length + captures.length > MAX_REPORTS) {
@@ -301,7 +346,7 @@ async function importFiles(files: File[]) {
       if (file.size > MAX_BYTES) throw new Error('Report exceeds the 10 MiB limit')
       const text = await file.text()
       if (request !== generation) return
-      addCapture(file.name, parseReport(text))
+      addCapture(file.name, importReport(text))
     } catch (error) {
       if (request !== generation) return
       errors.push(
@@ -318,6 +363,7 @@ async function importFiles(files: File[]) {
   render()
 }
 function loadExamples() {
+  pause()
   generation++
   importing = false
   errors = []
@@ -331,6 +377,7 @@ function loadExamples() {
   render()
 }
 function clear() {
+  pause()
   generation++
   importing = false
   captures = []
@@ -410,6 +457,7 @@ function render() {
     const item = button(
       '',
       () => {
+        pause()
         selected = capture.id
         filter = {}
         detail = undefined
@@ -429,7 +477,9 @@ function render() {
       el(
         'small',
         {},
-        `${capture.report.events.length} ${t('events').toLowerCase()} · ${capture.report.snapshot.issues.length} issues`,
+        capture.report.version === 1
+          ? `${capture.report.events.length} ${t('events').toLowerCase()} · ${capture.report.snapshot.issues.length} issues`
+          : `v2 · ${capture.report.records.length} ${rt('records')}`,
       ),
     )
     sidebar.append(item)
@@ -480,7 +530,7 @@ function render() {
         ),
         button(t('open'), () => file.click(), { class: 'primary' }),
         button(t('example'), loadExamples, { class: 'secondary' }),
-        note(t('format')),
+        note(rt('format')),
         el('code', {}, 'router.diagnostics.export()'),
         note(t('privacy')),
       ),
@@ -492,6 +542,9 @@ function render() {
 
 function renderCapture(main: HTMLElement, capture: Capture) {
   const { report, rows } = capture
+  if (capture.replay) main.classList.add('has-replay')
+  const snapshot = snapshotOf(capture)
+  const events = eventsOf(report)
   const incomplete = rows.filter(
     (row) => !['complete', 'event'].includes(row.completeness),
   ).length
@@ -514,29 +567,35 @@ function renderCapture(main: HTMLElement, capture: Capture) {
         'div',
         { class: 'eyebrow' },
         t(capture.sample ? 'sample' : 'imported'),
-        ' / VERSION 1',
+        ` / VERSION ${report.version}`,
       ),
       el('h1', {}, t('title')),
-      el('p', { class: 'intro' }, t('subtitle')),
+      !capture.replay && el('p', { class: 'intro' }, t('subtitle')),
       el(
         'div',
         { class: 'capture-meta' },
         badge(report.routerId),
-        badge(`${t('at')} ${ms(report.snapshot.time)}`),
-        badge(t(report.snapshot.stopped ? 'stopped' : 'captured')),
+        badge(`${t('at')} ${ms(snapshot?.time)}`),
+        badge(
+          t(
+            (report.version === 1 ? report.snapshot.stopped : report.stopped)
+              ? 'stopped'
+              : 'captured',
+          ),
+        ),
       ),
       capture.sample && note(t('exampleNote'), 'sample-note'),
     ),
   )
   const metrics = el('section', { class: 'metrics', 'aria-label': t('reports') })
   for (const [label, value, kind] of [
-    [t('events'), String(report.events.length), ''],
+    [t('events'), String(events.length), ''],
     [t('guard'), ms(longest('guard')), ''],
     [t('mount'), ms(longest('mount')), ''],
     [
       t('issues'),
-      String(report.snapshot.issues.length),
-      report.snapshot.issues.length ? 'danger' : '',
+      snapshot ? String(snapshot.issues.length) : '—',
+      snapshot?.issues.length ? 'danger' : '',
     ],
   ] as const)
     metrics.append(
@@ -547,11 +606,12 @@ function renderCapture(main: HTMLElement, capture: Capture) {
         el('strong', {}, value),
       ),
     )
-  main.append(metrics)
-  if (report.droppedEvents || incomplete)
+  if (!capture.replay) main.append(metrics)
+  const droppedEvents = report.version === 1 ? report.droppedEvents : 0
+  if (droppedEvents || incomplete)
     main.append(
       note(
-        `${format(report.droppedEvents)} ${t('dropped')} · ${incomplete} ${t('incomplete')}. ${t('partial')}`,
+        `${report.version === 1 ? `${format(droppedEvents)} ${t('dropped')} · ` : ''}${incomplete} ${t('incomplete')}. ${t('partial')}`,
         'warning',
       ),
     )
@@ -565,6 +625,7 @@ function renderCapture(main: HTMLElement, capture: Capture) {
         button(
           t(value),
           () => {
+            pause()
             tab = value
             detail = undefined
             render()
@@ -582,10 +643,9 @@ function renderCapture(main: HTMLElement, capture: Capture) {
       filter.window ?? '',
       [
         ['', t('allWindows')],
-        ...windowIds(report).map((id): [string, string] => [
-          id,
-          id === '(unknown)' ? t('unknown') : id,
-        ]),
+        ...(report.version === 1 ? windowIds(report) : capture.replay!.windows).map(
+          (id): [string, string] => [id, id === '(unknown)' ? t('unknown') : id],
+        ),
       ],
       (value) => {
         filter.window = value
@@ -594,8 +654,13 @@ function renderCapture(main: HTMLElement, capture: Capture) {
     ),
   )
   main.append(tabs)
-  if (tab === 'snapshot') renderSnapshot(main, report)
-  else renderTimeline(main, capture)
+  if (capture.replay) renderReplay(main, capture)
+  if (tab === 'snapshot' || capture.replay) {
+    if (snapshot)
+      renderSnapshot(main, snapshot, capture.replay?.steps[capture.position]?.checkpoint)
+    else main.append(note(rt('unknown'), 'warning state-unknown'))
+  }
+  if (tab === 'timeline') renderTimeline(main, capture)
   main.append(
     el(
       'footer',
@@ -606,35 +671,172 @@ function renderCapture(main: HTMLElement, capture: Capture) {
   )
 }
 
-function renderSnapshot(main: HTMLElement, report: DiagnosticsExport) {
+function move(capture: Capture, position: number) {
+  capture.position = Math.max(0, Math.min(capture.replay!.steps.length - 1, position))
+  const event = capture.replay!.steps[capture.position]?.event
+  detail = event && capture.rows.find((row) => row.event.id === event.id)?.key
+  stackPage = 0
+  entryPages.clear()
+  render()
+}
+
+function renderReplay(main: HTMLElement, capture: Capture) {
+  if (capture.report.version !== 2 || !capture.replay) return
+  const recording = capture.report,
+    model = capture.replay,
+    step = model.steps[capture.position]!
+  const section = el(
+    'section',
+    { id: 'replay', class: 'replay', 'aria-label': rt('title') },
+    el('h2', {}, rt('title')),
+  )
+  const previous = button(
+    rt('previous'),
+    () => {
+      pause()
+      move(capture, capture.position - 1)
+    },
+    { id: 'replay-previous' },
+  )
+  const next = button(
+    rt('next'),
+    () => {
+      pause()
+      move(capture, capture.position + 1)
+    },
+    { id: 'replay-next' },
+  )
+  previous.disabled = capture.position === 0
+  next.disabled = capture.position === model.steps.length - 1
+  const play = button(
+    rt(playing ? 'pause' : 'play'),
+    () => {
+      if (playing) {
+        pause()
+        render()
+        return
+      }
+      if (capture.position === model.steps.length - 1) capture.position = 0
+      playing = setInterval(() => {
+        if (selected !== capture.id || importing) {
+          pause()
+          render()
+          return
+        }
+        const position = capture.position + 1
+        if (position >= model.steps.length - 1) pause()
+        move(capture, position)
+      }, 1000)
+      render()
+    },
+    { id: 'replay-play', class: 'primary', 'aria-pressed': String(!!playing) },
+  )
+  play.disabled = model.steps.length < 2
+  const slider = el('input', {
+    id: 'replay-position',
+    type: 'range',
+    min: '0',
+    max: String(model.steps.length - 1),
+    value: String(capture.position),
+    'aria-label': rt('position'),
+    'aria-valuetext': `${capture.position + 1} / ${model.steps.length}`,
+  })
+  slider.onchange = () => {
+    pause()
+    move(capture, Number(slider.value))
+  }
+  section.append(
+    el('div', { class: 'replay-controls' }, previous, play, next),
+    el(
+      'label',
+      { class: 'replay-position' },
+      el(
+        'span',
+        {},
+        `${rt('position')} · ${capture.position + 1} / ${model.steps.length}`,
+      ),
+      slider,
+    ),
+    note(rt('pace')),
+    note(
+      `${recording.records.length} ${rt('records')} · ${format(recording.retainedBytes)} bytes · ${recording.droppedRecords} ${rt('dropped')} · ${recording.clearedRecords} ${rt('cleared')} · epoch ${recording.epoch}`,
+    ),
+  )
+  const current = el(
+    'div',
+    { class: 'replay-current', 'aria-live': playing ? 'off' : 'polite' },
+    badge(
+      `${step.sequence === undefined ? '—' : `#${step.sequence}`} · ${ms(step.time)}`,
+    ),
+    step.checkpoint && badge(`${rt('checkpoint')}: ${step.checkpoint.boundary}`),
+    step.event &&
+      badge(
+        `${step.event.phase} · ${step.event.status} · E${step.event.id}${step.event.navigationId === undefined ? '' : ` / N${step.event.navigationId}`}`,
+      ),
+  )
+  if (step.gap)
+    current.append(
+      note(
+        `${rt('gap')}: ${rt(step.gap === 'cleared' ? 'clearGap' : step.gap)}`,
+        'warning',
+      ),
+    )
+  section.append(current)
+  if (model.divergence) {
+    const divergence = model.divergence,
+      target = model.steps[divergence.step]!
+    section.append(
+      button(
+        `${rt('jump')} · #${target.sequence} · ${ms(target.time)}`,
+        () => {
+          pause()
+          move(capture, divergence.step)
+        },
+        { id: 'replay-divergence', class: 'secondary' },
+      ),
+      note(
+        `${rt('prior')}: ${divergence.previous === undefined ? rt('notKnown') : ms(model.steps[divergence.previous]!.time)}. ${rt('uncertain')}`,
+      ),
+    )
+  } else section.append(note(rt(model.comparable ? 'noDivergence' : 'noComparable')))
+  main.append(section)
+}
+
+function renderSnapshot(
+  main: HTMLElement,
+  snapshot: DiagnosticSnapshot,
+  checkpoint?: Checkpoint,
+) {
   main.append(note(t('focused')))
+  const deferred = checkpoint?.boundary === 'reconcile-before'
+  if (deferred) main.append(note(rt('deferred'), 'warning'))
   const issues = el(
     'section',
     {
-      class: `issues ${report.snapshot.issues.length ? 'has-issues' : ''}`,
+      class: `issues ${snapshot.issues.length ? 'has-issues' : ''}`,
       'aria-label': t('issues'),
     },
     el('h2', {}, t('issues')),
   )
-  if (!report.snapshot.issues.length) issues.append(note(t('noIssue')))
-  for (const issue of report.snapshot.issues)
+  if (!snapshot.issues.length) issues.append(note(t('noIssue')))
+  for (const issue of snapshot.issues)
     issues.append(
       el(
         'div',
         { class: 'issue-row' },
-        badge(issue.code, 'danger'),
-        el('code', {}, issue.stackId ?? report.routerId),
+        badge(issue.code, deferred ? 'warning' : 'danger'),
+        el('code', {}, issue.stackId ?? snapshot.routerId),
         issue.hostId && el('code', {}, issue.hostId),
       ),
     )
   main.append(issues)
-  const stacks = report.snapshot.stacks.filter(
+  const stacks = snapshot.stacks.filter(
     (stack) =>
       !filter.window ||
       stack.native.some((host) => (host.windowId ?? '(unknown)') === filter.window),
   )
   if (!stacks.length)
-    main.append(note(report.snapshot.stacks.length ? t('emptyFilter') : t('noStack')))
+    main.append(note(snapshot.stacks.length ? t('emptyFilter') : t('noStack')))
   stackPage = Math.min(stackPage, Math.max(0, Math.ceil(stacks.length / 20) - 1))
   if (stacks.length > 20)
     main.append(
@@ -665,7 +867,10 @@ function renderSnapshot(main: HTMLElement, report: DiagnosticsExport) {
         el(
           'div',
           { class: 'badges' },
-          badge(t(stack.busy ? 'busy' : 'idle'), stack.busy ? 'warning' : 'good'),
+          badge(
+            deferred ? rt('comparisonDeferred') : t(stack.busy ? 'busy' : 'idle'),
+            deferred || stack.busy ? 'warning' : 'good',
+          ),
           stack.modal && badge(t('modal')),
         ),
       ),
@@ -683,8 +888,31 @@ function renderSnapshot(main: HTMLElement, report: DiagnosticsExport) {
       )
     if (!stack.native.length) hosts.append(note(t('noHost')))
     section.append(hosts)
+    const observation = checkpoint?.observations.find(
+      (value) => value.stackId === stack.id,
+    )
+    if (observation) {
+      const state = (value: boolean | null) =>
+        rt(value === null ? 'notKnown' : value ? 'yes' : 'no')
+      section.append(
+        el(
+          'details',
+          { class: 'observation' },
+          el('summary', {}, rt('observation')),
+          badge(`${rt('selected')}: ${state(observation.selected)}`),
+          badge(`${rt('routing')}: ${state(observation.routerFocused)}`),
+          note(
+            `${rt('visible')}: ${observation.hostVisible === null ? rt('notKnown') : observation.hostVisible.map((id) => id ?? t('unmanaged')).join(', ') || '—'}`,
+          ),
+          note(
+            `${rt('tab')}: ${observation.tab ? `${observation.tab.id} · ${observation.tab.index} / ${observation.tab.selectedIndex}` : rt('notKnown')}`,
+          ),
+          note(rt('focus')),
+        ),
+      )
+    }
     const body = el('tbody')
-    const entries = compareStack(stack),
+    const entries = compareStack(deferred ? { ...stack, busy: true } : stack),
       page = entryPages.get(stack.id) ?? 0
     for (const row of entries.slice(page * 100, (page + 1) * 100)) {
       const logical = el(
@@ -789,7 +1017,7 @@ function renderTimeline(main: HTMLElement, capture: Capture) {
   const { report, rows } = capture
   const ids = [
     ...new Set(
-      report.events.flatMap((event) =>
+      eventsOf(report).flatMap((event) =>
         [event.navigationId, event.parentNavigationId].filter(
           (id): id is number => id !== undefined,
         ),
@@ -883,6 +1111,7 @@ function renderTimeline(main: HTMLElement, capture: Capture) {
         button(
           `← N${event.parentNavigationId}`,
           () => {
+            pause()
             filter.navigation = String(event.parentNavigationId)
             timelinePage = 0
             render()
@@ -900,8 +1129,16 @@ function renderTimeline(main: HTMLElement, capture: Capture) {
           button(
             title,
             () => {
+              pause()
+              if (capture.replay) {
+                capture.position = capture.replay.eventSteps.get(row.event.id) ?? 0
+                entryPages.clear()
+                stackPage = 0
+              }
               detail = row.key
               render()
+              if (capture.replay)
+                document.getElementById('replay')?.scrollIntoView({ block: 'start' })
             },
             {
               class: 'row-button',

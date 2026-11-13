@@ -2,7 +2,7 @@
 
 [Open the report viewer](/diagnostics-viewer/index.html). Import a JSON report from `router.diagnostics.export()` to compare logical and native history, inspect navigation spans and follow redirects. It works without connecting to an application.
 
-<Clip name="diagnostics-viewer" :width="780" aspect="1440 / 1050" caption="The actual browser tool: importing example reports, comparing a native mismatch, filtering a rejected guard and inspecting a truncated buffer. Synthetic data, not device benchmarks." />
+<Clip name="diagnostic-replay" :width="780" aspect="1440 / 1100" caption="Actual offline viewer using native iOS 18.6 captures: observed divergence and recovery, guard/cancellation selection, modal lifetime, play/pause, clear/truncated gaps and v1 compatibility. Damaged-order files are explicitly synthetic; this is not a new native run." />
 
 ## Collect and open a report
 
@@ -18,9 +18,34 @@ const router = createRouter({
 const report = router.diagnostics?.export()
 ```
 
-Open the viewer and choose **Open JSON reports**. You can retain up to eight independent captures, each up to 10 MiB and 10,000 events. Version 1 reports are supported; invalid JSON, unsupported versions and malformed fields produce a file-specific error without replacing already opened reports. Unknown extra fields are discarded, not displayed as arbitrary payloads.
+Open the viewer and choose **Open JSON reports**. Up to eight independent files are retained, each at most 10 MiB. V1 accepts up to 10,000 events; v2 also enforces its declared record/byte budgets, capped at 10,000 records and 8 MiB of compact record data. Invalid JSON, unsupported versions and malformed fields produce a file-specific error without replacing opened reports. Unknown extra fields are discarded rather than displayed as arbitrary payloads.
 
 **Explore example reports** replaces the open files with three explicitly synthetic teaching reports: a navigation investigation, a truncated buffer and an independent window. The 350 ms guard and 80 ms mount illustrate the timeline; they are not a performance threshold or benchmark.
+
+## Replay v2 observations
+
+Enable the [experimental recording contract](./diagnostics#experimental-recording-contract) to retain intermediate states. Existing v1 files remain final-snapshot reports and have no replay controls.
+
+```ts
+const router = createRouter({
+  routes,
+  diagnostics: { recording: { maxRecords: 500, maxBytes: 1024 * 1024 } },
+})
+const recordingJSON = JSON.stringify(router.diagnostics!.recording())
+// Save with the app's own file-sharing mechanism, then open it in the viewer.
+```
+
+**Recorded observations** adds play/pause, previous/next and a keyboard-accessible position slider. Playback advances one retained observation per second; it does not reproduce original timing. It never navigates an app, executes guards or requests data. Playback starts only when requested and pauses on import, capture/filter/language changes, clearing or hiding the tab.
+
+Each position displays only its own recorded checkpoint. The native and logical stacks, issue codes, timestamp and visibility/selection details update together. In **Timeline**, selecting a row pauses playback and selects its explicitly linked checkpoint; a paired span row selects its end event. Redirect parent links retain request filtering, and overlapping requests stay separate. The full retained timeline remains visible: later events are not evidence of the selected state's future. Filters do not redefine playback order or the first-divergence analysis.
+
+An event without a retained linked checkpoint shows an observation gap. The viewer never chooses a nearby snapshot, carries old state through a gap, interpolates state or reconstructs it from operation names. Evicted prefixes, clear epochs, oversized/failed inspections, missing interior records and inconsistent retention metadata remain visible. Duplicate identities, reversed sequences or clocks, and mixed epochs disable stack replay for the affected file. Invalid shapes and exceeded budgets reject the file without replacing existing captures. A later independent valid checkpoint can still be inspected after a missing-record gap.
+
+**First observed divergence** jumps to the first retained comparable mismatch. Busy stacks and observations before reconciliation defer comparison. The preceding comparable observation, when available, bounds an uncertainty interval; neither an exact onset nor a cause is claimed. The result covers the whole file, even when filters hide some stacks. Absence of observed divergence does not certify missing history.
+
+Expand **Visibility, selection and focus** to distinguish entry activity from host-local visibility, selected tab/index and the router's destination stack. OS input focus and unavailable observations stay unknown. Separate imported files are never merged, even when their capture or local IDs match. A gap is not an empty stack.
+
+The video uses real iOS 18.6 recordings from the preceding capture stage; deliberately damaged files are named **SYNTHETIC**. This stage validates the offline browser tool, not a new native run or a performance benchmark. See the [validation report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/diagnostic-replay-stage2.md).
 
 ## Compare the snapshot
 
@@ -54,7 +79,7 @@ Buffer drops, missing boundaries and empty captures are explicit. `clear()` can 
 
 The viewer reads files in memory in the browser tab. It has no upload endpoint, live transport, analytics, browser storage or runtime connection. Reloading or choosing **Clear reports** removes the open captures. It is a separate standalone page from the documentation shell; the built HTML blocks network connections through Content Security Policy and contains its own script/styles.
 
-Choose **Download offline viewer** to save that HTML. Open the downloaded file in a browser and import reports without a network connection. The toolbar supports English and Portuguese. If a managed browser forbids local-file scripting, serve the built directory on localhost instead.
+Choose **Download offline viewer** to save that HTML. Open the downloaded file in a browser and import reports without a network connection. The toolbar supports English, Portuguese, Spanish and Simplified Chinese. If a managed browser forbids local-file scripting, serve the built directory on localhost instead.
 
 To build or develop it from a repository checkout:
 

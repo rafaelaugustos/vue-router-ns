@@ -1,0 +1,19 @@
+{
+  "result": "passed",
+  "browser": "156.0.8078.4",
+  "nativeEvidence": "Committed iOS18.6 captures from PR196; not rerun natively for this browser-only stage",
+  "cases": [
+    "native mismatch, uncertain prior bound and recovered stacks",
+    "aborted and overlapping cancelled event selection synchronizes checkpoint",
+    "modal lifetime and pre-reconciliation comparison deferred",
+    "play/pause/keyboard stepping; imports cancel playback; clear gap has no invented state",
+    "truncated native capture remains independent; synthetic ambiguous order disables state replay",
+    "native v1 compatibility",
+    "missing interior records and untrusted text",
+    "four locales, mobile width, reduced motion and keyboard focus",
+    "v2 redirect parent selection and 10000-checkpoint bounded DOM",
+    "clear/reload discards data and cancels playback; offline, no persistence"
+  ],
+  "network": [],
+  "errors": []
+}
