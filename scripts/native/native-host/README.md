@@ -34,6 +34,12 @@ nine JSON reports, the XCTest log/result bundle, a final screenshot and optional
 the actual app recording. Every report must pass. A missing or failed command
 fails the run. The app writes the full public harness report in conformance.json.
 
+CI generates and builds the XCTest project before booting the simulator, then
+uses `XCTEST_PREPARED=1` to reuse that project. This keeps Ruby/gem startup and
+Swift compilation away from the simulator's cold-start workload. The driver
+checks that the prepared project exists; native assertions and execution budgets
+are unchanged. Local runs prepare the project automatically by default.
+
 The reversing touch path uses the existing XCTest-only ContractTouch helper.
 It is never compiled into the router or consumer. A fixture-only UIKit observer
 requires measured movement for cancellation and commitment, and no movement for

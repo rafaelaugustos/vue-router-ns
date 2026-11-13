@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { execFile, spawn } from 'node:child_process'
-import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises'
+import { access, mkdir, readFile, readdir, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { promisify } from 'node:util'
 const exec = promisify(execFile)
@@ -12,7 +12,11 @@ const pkg = 'org.nativescript.hostcontract176'
 const run = (cmd, args, extra = {}) =>
   exec(cmd, args, { timeout: 30000, maxBuffer: 16 * 1024 * 1024, ...extra })
 await mkdir(out, { recursive: true })
-await run('ruby', ['scripts/native/native-host/project.rb', project])
+if (process.env.XCTEST_PREPARED === '1') {
+  await access(`${project}/HostChecks.xcodeproj/project.pbxproj`)
+} else {
+  await run('ruby', ['scripts/native/native-host/project.rb', project])
+}
 await run('xcrun', ['simctl', 'uninstall', sim, pkg]).catch(() => {})
 const built = resolve(
   'examples/native-host-app/platforms/ios/build/Debug-iphonesimulator',
