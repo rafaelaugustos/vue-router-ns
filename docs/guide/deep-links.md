@@ -408,3 +408,33 @@ For production HTTPS links, verify both native registration and the server files
 ```
 
 Add `com.apple.developer.associated-domains` with `applinks:example.com` to the signed app's entitlements. Serve valid JSON over HTTPS without redirects. Confirm the host, bundle/package id, certificate/team id and path match what you installed. Use `adb shell pm verify-app-links --re-verify com.example.app`, inspect `adb shell pm get-app-links com.example.app`, then open an HTTPS URL **without an explicit component**. On iOS, install the correctly signed app and open the link from another app, testing a cold and a running app. A custom-scheme test or an Android intent with `-n` proves router delivery, not website association. Follow [Android's verification procedure](https://developer.android.com/training/app-links/verify-android-applinks) and [Apple's Universal Links setup](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app) for platform diagnostics. The router's allowlist is an additional check after OS delivery, not proof of domain ownership.
+
+## Native scene intents {#native-scene-intents}
+
+The [application recipe](https://github.com/rafaelaugustos/vue-router-ns/tree/main/examples/intent-entrypoints) receives real iOS quick actions, Spotlight activities and scene URLs as versioned intents. It is copyable app code using NativeScript Core 9.1.4 scene events, not a new package API. Configure participating routers with `links: { system: false }` while retaining their URL allowlists/mapping, then install the adapter once before starting the app. The application supplies the explicit window/account registry, public search adapter, action ids and receipt handler below.
+
+```ts
+// Copy examples/intent-entrypoints/ios.ts into your application.
+import { installSceneIntentIngress } from './ios'
+
+const stop = installSceneIntentIngress({
+  owner: (windowId) => accountOwners.get(windowId),
+  activity: publicSearch.url,
+  nextId: () => createActionId(),
+  receive: handleEntryIntent,
+  error: reportIngressError,
+})
+
+// Before disposing the account/window registry:
+stop()
+```
+
+Core 9.1.4 forwards cold connection payloads through the same scene events as warm delivery. Also reading `sceneWillConnect`, process-wide delegate forwarding or automatic system links would process the action again. The native window id selects the registered owner and is asserted in the resulting intent; no global focus fallback is used. The queue holds at most 16 receipts with a 15-second readiness deadline. Account replacement, closed owners and disposal invalidate pending handoffs. Quick-action completion acknowledges enqueueing immediately, independently of mounting or login.
+
+In `handleEntryIntent`, inspect ignored outcomes, revalidate the request with `resolveIntent`, then use `openIntent` or the explicit `suspendIntent` login flow. The app owns login presentation, frame mounting and authorization. This recipe sets `replace: true` so resuming replaces the login Page; choose your history policy deliberately. Native payloads supply destinations, never account/window/history authority. Stop ingress and clean pending login handles when replacing an account; already-running application callbacks are not rolled back.
+
+A content or shortcut id identifies a destination, not a user action. Generate a new delivery id for each intentional native tap; replaying the same captured intent returns `repeat`. This is not a guarantee against arbitrary OS duplicate callbacks assigned new ids. Named shortcuts survive path changes; removed routes and content ids yield `unmatched`. Index only selected public metadata with `createSystemSearch`, and return `null` for stale or unauthorized content. Native indexing success does not guarantee search ranking.
+
+The [native report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-scene-intents-stage5.md) includes actual SpringBoard actions, native Spotlight result taps, terminated-process delivery, login/resume, intentional repeat, stale destinations and a real custom-scheme URL. Internal and notification comparisons are app controls; native notifications were validated in the preceding stage. The fixture preserves an independent Page/draft within each process. It does not persist login or drafts across processes and does not certify Android, physical devices or a full multi-window lifecycle.
+
+<Clip name="scene-intents" :width="640" aspect="3 / 4" caption="Real iPad simulator: tap native quick actions and Spotlight results, resume after sign-in with warm and terminated apps, reject stale destinations and preserve an independent draft within each process. Controlled authentication; labels are in English." />

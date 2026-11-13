@@ -2,6 +2,8 @@ const { resolve } = require('path')
 const webpack = require('@nativescript/webpack')
 
 module.exports = (env) => {
+  if (env.intententriesTest && !env.ios)
+    throw new Error('The scene intent entrypoint fixture supports iOS only')
   if (env.intentwindowsTest && !env.ios)
     throw new Error('The intent window policy fixture supports iOS only')
   if (env.historyTest && !env.ios)
@@ -33,6 +35,7 @@ module.exports = (env) => {
       'intentresume',
       'notifications',
       'intentwindows',
+      'intententries',
       'suspense',
       'windows',
       'entrypoints',

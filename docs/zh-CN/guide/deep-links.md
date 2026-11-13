@@ -408,3 +408,33 @@ iOS，在 `App_Resources/iOS/Info.plist` 中用于自定义方案，以及 `App_
 ```
 
 将 `com.apple.developer.associated-domains` 和 `applinks:example.com` 添加到签名应用程序的权利中。通过 HTTPS 提供有效的 JSON，无需重定向。确认主机、捆绑包/包 ID、证书/团队 ID 和路径与您安装的内容匹配。使用 `adb shell pm verify-app-links --re-verify com.example.app`，检查 `adb shell pm get-app-links com.example.app`，然后在没有显式组件 **的情况下打开 HTTPS URL**。在 iOS 上，安装正确签名的应用程序并打开另一个应用程序的链接，测试冷应用程序和正在运行的应用程序。自定义方案测试或 Android 意图与 `-n` 证明路由器交付，而不是网站关联。按照 [Android 的验证程序](https://developer.android.com/training/app-links/verify-android-applinks) 和 [Apple 的通用链接设置](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app) 进行平台诊断。路由器的白名单是操作系统交付后的额外检查，而不是域所有权的证明。
+
+## 原生场景 intents {#native-scene-intents}
+
+[应用示例](https://github.com/rafaelaugustos/vue-router-ns/tree/main/examples/intent-entrypoints) 将真实 iOS 快捷操作、Spotlight 活动和场景 URL 转换为版本化 intent。这是使用 NativeScript Core 9.1.4 场景事件的可复制应用代码，并非新增包 API。为参与的 router 设置 `links: { system: false }`，保留 URL 允许列表和映射，并在启动应用前安装一次适配器。应用提供下面的明确窗口/账户注册表、公开搜索适配器、操作 id 和接收处理器。
+
+```ts
+// Copy examples/intent-entrypoints/ios.ts into your application.
+import { installSceneIntentIngress } from './ios'
+
+const stop = installSceneIntentIngress({
+  owner: (windowId) => accountOwners.get(windowId),
+  activity: publicSearch.url,
+  nextId: () => createActionId(),
+  receive: handleEntryIntent,
+  error: reportIngressError,
+})
+
+// Before disposing the account/window registry:
+stop()
+```
+
+Core 9.1.4 将冷启动连接数据转发到与热启动相同的场景事件。若同时读取 `sceneWillConnect`、进程级 delegate 转发或自动系统链接，就会重复处理操作。原生 id 用于选择已注册窗口，并写入 intent 的身份断言；不会回退到全局焦点。队列最多保留 16 个请求，就绪等待期限为 15 秒。更换账户、关闭窗口或释放适配器会使等待中的交接失效。快捷操作完成回调立即确认入队，无需等待挂载或登录。
+
+在 `handleEntryIntent` 中处理忽略结果，使用 `resolveIntent` 重新验证请求，然后调用 `openIntent` 或显式的 `suspendIntent` 登录流程。登录界面、栈挂载及授权由应用控制。本示例使用 `replace: true`，恢复时替换登录 Page；请明确选择历史策略。原生数据仅提供目标，不授予账户、窗口或历史控制权。更换账户时停止接收并清理登录 handle；已执行中的应用回调不会被回滚。
+
+内容或快捷方式 id 标识目标，而非一次用户操作。每次有意的原生点击都应生成新的投递 id；重放同一个已捕获 intent 返回 `repeat`。这不保证去重被赋予新 id 的任意系统重复回调。命名快捷方式在 path 更改后仍可解析；已删除路由或内容返回 `unmatched`。仅使用 `createSystemSearch` 索引明确选择的公开元数据，对过时或未授权内容返回 `null`。索引完成不保证搜索排名。
+
+[原生报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-scene-intents-stage5.md) 涵盖真实 SpringBoard 操作、Spotlight 结果点击、进程终止后的投递、登录与恢复、有意重复、过时目标及真实自定义 scheme URL。内部与通知比较属于应用控制测试；原生通知已在上一阶段验证。测试在每个进程内保留独立 Page 和草稿，不跨进程保存登录或草稿，也不证明 Android、实体设备或完整多窗口生命周期。
+
+<Clip name="scene-intents" :width="640" aspect="3 / 4" caption="真实 iPad 模拟器：点击快捷操作和 Spotlight 结果，在应用运行或终止后登录并恢复，拒绝过时目标，并在每个进程内保留独立草稿。受控认证；界面为英文。" />

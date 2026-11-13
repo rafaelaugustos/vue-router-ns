@@ -408,3 +408,33 @@ Para links HTTPS em produção, confira o registro nativo e os arquivos do servi
 ```
 
 Adicione `com.apple.developer.associated-domains` com `applinks:example.com` nos entitlements do app assinado. Sirva JSON válido por HTTPS, sem redirecionamentos. Confira host, bundle/package id, certificado/team id e path da versão instalada. Execute `adb shell pm verify-app-links --re-verify com.example.app`, confira `adb shell pm get-app-links com.example.app` e abra uma URL HTTPS **sem componente explícito**. No iOS, instale o app assinado corretamente e abra o link de outro app, com o app fechado e aberto. Um scheme próprio ou intent Android com `-n` prova a entrega ao router, não a associação ao site. Consulte a [verificação do Android](https://developer.android.com/training/app-links/verify-android-applinks) e a [configuração de Universal Links da Apple](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app). A allowlist do router é uma checagem adicional após a entrega pelo sistema, não uma prova de posse do domínio.
+
+## Intents de cenas nativas {#native-scene-intents}
+
+O [exemplo de aplicativo](https://github.com/rafaelaugustos/vue-router-ns/tree/main/examples/intent-entrypoints) recebe ações rápidas reais do iOS, atividades do Spotlight e URLs de cenas como intents versionados. É código para copiar para o app usando eventos de cena do NativeScript Core 9.1.4, sem criar outra API do pacote. Configure os routers participantes com `links: { system: false }`, mantendo as listas permitidas e o mapeamento de URLs, e instale o adaptador uma vez antes de iniciar o app. O aplicativo fornece o registro explícito por janela/conta, o adaptador de busca pública, os ids de ações e o handler abaixo.
+
+```ts
+// Copy examples/intent-entrypoints/ios.ts into your application.
+import { installSceneIntentIngress } from './ios'
+
+const stop = installSceneIntentIngress({
+  owner: (windowId) => accountOwners.get(windowId),
+  activity: publicSearch.url,
+  nextId: () => createActionId(),
+  receive: handleEntryIntent,
+  error: reportIngressError,
+})
+
+// Before disposing the account/window registry:
+stop()
+```
+
+O Core 9.1.4 encaminha os dados de conexão a frio pelos mesmos eventos de cena usados com o app aberto. Ler também `sceneWillConnect`, o encaminhamento pelo delegate global ou links automáticos processaria a ação novamente. O id nativo seleciona o owner registrado e é afirmado no intent; não há fallback para o foco global. A fila mantém até 16 entregas, com prazo de 15 segundos para prontidão. Troca de conta, fechamento do owner e descarte invalidam entregas pendentes. A conclusão da ação rápida confirma a entrada na fila imediatamente, sem esperar montagem ou login.
+
+Em `handleEntryIntent`, trate resultados ignorados, revalide o pedido com `resolveIntent` e use `openIntent` ou o fluxo explícito de login com `suspendIntent`. O app controla a apresentação do login, a montagem da pilha e a autorização. O exemplo usa `replace: true` para que a retomada substitua a Page de login; escolha a política de histórico conscientemente. Dados nativos fornecem destinos, nunca autoridade sobre conta/janela/histórico. Pare a entrada e limpe os handles de login ao trocar de conta; callbacks do aplicativo já em execução não são revertidos.
+
+Um id de conteúdo ou atalho identifica um destino, não uma ação do usuário. Gere um id de entrega novo por toque nativo intencional; repetir o mesmo intent capturado retorna `repeat`. Isso não garante deduplicação de callbacks arbitrários do sistema que receberam ids novos. Atalhos nomeados sobrevivem a mudanças de path; rotas e conteúdos removidos retornam `unmatched`. Indexe apenas metadados públicos selecionados com `createSystemSearch` e retorne `null` para conteúdo obsoleto ou não autorizado. A conclusão da indexação não garante posição na busca.
+
+O [relatório nativo](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-scene-intents-stage5.md) inclui ações reais do SpringBoard, toques em resultados do Spotlight, entrega após encerrar o processo, login/retomada, repetição intencional, destinos obsoletos e uma URL real de esquema próprio. As comparações internas e de notificação são controles do app; notificações nativas foram validadas na etapa anterior. O teste preserva uma Page e um rascunho independentes dentro de cada processo. Não persiste login ou rascunhos entre processos nem certifica Android, aparelhos físicos ou o ciclo completo de múltiplas janelas.
+
+<Clip name="scene-intents" :width="640" aspect="3 / 4" caption="Simulador real de iPad: aciona atalhos e resultados do Spotlight, retoma após login com o app aberto ou encerrado, rejeita destinos obsoletos e preserva um rascunho independente em cada processo. Autenticação controlada; textos em inglês." />

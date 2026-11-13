@@ -408,3 +408,33 @@ Para enlaces HTTPS de producción, verifique tanto el registro nativo como los a
 ```
 
 Agregue `com.apple.developer.associated-domains` con `applinks:example.com` a los derechos de la aplicación firmada. Sirve JSON válido a través de HTTPS sin redirecciones. Confirme que el host, el ID del paquete/paquete, el ID del certificado/equipo y la ruta coincidan con lo que instaló. Utilice `adb shell pm verify-app-links --re-verify com.example.app`, inspeccione `adb shell pm get-app-links com.example.app` y luego abra una URL HTTPS **sin un componente explícito**. En iOS, instale la aplicación firmada correctamente y abra el enlace desde otra aplicación, probando una aplicación en frío y en ejecución. Una prueba de esquema personalizado o una intención de Android con `-n` demuestra la entrega del enrutador, no la asociación del sitio web. Siga el procedimiento de verificación [Android](https://developer.android.com/training/app-links/verify-android-applinks) y [Configuración de enlaces universales de Apple](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app) para diagnósticos de plataforma. La lista de permitidos del enrutador es una verificación adicional después de la entrega del sistema operativo, no una prueba de propiedad del dominio.
+
+## Intents de escenas nativas {#native-scene-intents}
+
+La [receta de aplicación](https://github.com/rafaelaugustos/vue-router-ns/tree/main/examples/intent-entrypoints) recibe acciones rápidas reales de iOS, actividades de Spotlight y URL de escenas como intents versionados. Es código para copiar a la aplicación usando eventos de escena de NativeScript Core 9.1.4, no una nueva API del paquete. Configura los routers participantes con `links: { system: false }`, conservando sus listas permitidas y mapeo de URL, e instala el adaptador una vez antes de iniciar la aplicación. La aplicación proporciona el registro explícito por ventana/cuenta, el adaptador de búsqueda pública, los ids de acciones y el handler siguiente.
+
+```ts
+// Copy examples/intent-entrypoints/ios.ts into your application.
+import { installSceneIntentIngress } from './ios'
+
+const stop = installSceneIntentIngress({
+  owner: (windowId) => accountOwners.get(windowId),
+  activity: publicSearch.url,
+  nextId: () => createActionId(),
+  receive: handleEntryIntent,
+  error: reportIngressError,
+})
+
+// Before disposing the account/window registry:
+stop()
+```
+
+Core 9.1.4 reenvía los datos de conexión en frío mediante los mismos eventos de escena que usa con la aplicación abierta. Leer también `sceneWillConnect`, el reenvío del delegate global o los enlaces automáticos procesaría la acción otra vez. El id nativo selecciona el propietario registrado y se afirma en el intent; no se usa el foco global como alternativa. La cola admite hasta 16 entregas con un plazo de 15 segundos para estar lista. Cambiar de cuenta, cerrar propietarios o eliminar el adaptador invalida las entregas pendientes. La finalización de la acción rápida confirma inmediatamente su entrada en cola, sin esperar el montaje ni el login.
+
+En `handleEntryIntent`, procesa los resultados ignorados, revalida la solicitud con `resolveIntent` y usa `openIntent` o el flujo explícito de login con `suspendIntent`. La aplicación controla la presentación del login, el montaje del stack y la autorización. La receta usa `replace: true` para sustituir la Page de login al reanudar; elige deliberadamente tu política de historial. Los datos nativos proporcionan destinos, nunca autoridad sobre cuenta/ventana/historial. Detén la entrada y limpia los handles de login al cambiar de cuenta; los callbacks de aplicación ya iniciados no se revierten.
+
+Un id de contenido o atajo identifica un destino, no una acción del usuario. Genera un id de entrega nuevo para cada toque nativo intencional; reprocesar el mismo intent capturado devuelve `repeat`. Esto no garantiza deduplicar callbacks arbitrarios del sistema con ids nuevos. Los atajos con nombre sobreviven a cambios de path; rutas y contenidos eliminados devuelven `unmatched`. Indexa solo metadatos públicos seleccionados con `createSystemSearch` y devuelve `null` para contenido obsoleto o no autorizado. Completar la indexación no garantiza la posición en la búsqueda.
+
+El [informe nativo](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-scene-intents-stage5.md) incluye acciones reales de SpringBoard, toques en resultados de Spotlight, entrega tras terminar el proceso, login/reanudación, repetición intencional, destinos obsoletos y una URL real de esquema propio. Las comparaciones internas y de notificaciones son controles de aplicación; las notificaciones nativas se validaron en la etapa anterior. La prueba conserva una Page y un borrador independientes dentro de cada proceso. No persiste login ni borradores entre procesos ni certifica Android, dispositivos físicos o el ciclo completo de múltiples ventanas.
+
+<Clip name="scene-intents" :width="640" aspect="3 / 4" caption="Simulador real de iPad: toca acciones rápidas y resultados de Spotlight, reanuda tras login con la aplicación abierta o terminada, rechaza destinos obsoletos y conserva un borrador independiente en cada proceso. Autenticación controlada; textos en inglés." />
