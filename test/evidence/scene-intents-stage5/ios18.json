@@ -1,0 +1,502 @@
+[
+  {
+    "command": "publish",
+    "ok": true,
+    "process": "6BC79B92-DF27-4CC4-A3A7-74A1E539009F",
+    "sequence": 1,
+    "nativeCallbacks": 0,
+    "guarded": 0,
+    "result": ["message"],
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/"],
+        "native": ["/"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 1
+  },
+  {
+    "command": "rename",
+    "ok": true,
+    "process": "6BC79B92-DF27-4CC4-A3A7-74A1E539009F",
+    "sequence": 2,
+    "nativeCallbacks": 0,
+    "guarded": 0,
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/"],
+        "native": ["/"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 1
+  },
+  {
+    "command": "received-shortcut-warm-1",
+    "ok": true,
+    "process": "6BC79B92-DF27-4CC4-A3A7-74A1E539009F",
+    "sequence": 3,
+    "nativeCallbacks": 1,
+    "guarded": 0,
+    "result": {
+      "status": "suspended",
+      "source": "shortcut",
+      "delivery": {
+        "scope": "fixture-account:a:6BC79B92-DF27-4CC4-A3A7-74A1E539009F",
+        "id": "6BC79B92-DF27-4CC4-A3A7-74A1E539009F:1"
+      }
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/login"],
+        "native": ["/", "/login"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 1
+  },
+  {
+    "command": "login-shortcut-warm-1",
+    "ok": true,
+    "process": "6BC79B92-DF27-4CC4-A3A7-74A1E539009F",
+    "sequence": 4,
+    "nativeCallbacks": 1,
+    "guarded": 1,
+    "result": {
+      "status": "handled",
+      "source": "shortcut"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 1
+  },
+  {
+    "command": "replay",
+    "ok": true,
+    "process": "6BC79B92-DF27-4CC4-A3A7-74A1E539009F",
+    "sequence": 5,
+    "nativeCallbacks": 1,
+    "guarded": 1,
+    "result": {
+      "status": "ignored",
+      "reason": "repeat"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 1
+  },
+  {
+    "command": "received-shortcut-warm-2",
+    "ok": true,
+    "process": "6BC79B92-DF27-4CC4-A3A7-74A1E539009F",
+    "sequence": 6,
+    "nativeCallbacks": 2,
+    "guarded": 1,
+    "result": {
+      "status": "handled",
+      "failure": 16,
+      "source": "shortcut",
+      "delivery": {
+        "scope": "fixture-account:a:6BC79B92-DF27-4CC4-A3A7-74A1E539009F",
+        "id": "6BC79B92-DF27-4CC4-A3A7-74A1E539009F:2"
+      }
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 1
+  },
+  {
+    "command": "prepare-cold",
+    "ok": true,
+    "process": "6BC79B92-DF27-4CC4-A3A7-74A1E539009F",
+    "sequence": 7,
+    "nativeCallbacks": 2,
+    "guarded": 1,
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 1
+  },
+  {
+    "command": "received-shortcut-cold-1",
+    "ok": true,
+    "process": "1DBFFE60-F76E-4874-8B39-C70FFB0A4EE3",
+    "sequence": 1,
+    "nativeCallbacks": 1,
+    "guarded": 0,
+    "result": {
+      "status": "suspended",
+      "source": "shortcut",
+      "delivery": {
+        "scope": "fixture-account:a:1DBFFE60-F76E-4874-8B39-C70FFB0A4EE3",
+        "id": "1DBFFE60-F76E-4874-8B39-C70FFB0A4EE3:1"
+      }
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/login"],
+        "native": ["/", "/login"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 1
+  },
+  {
+    "command": "login-shortcut-cold-1",
+    "ok": true,
+    "process": "1DBFFE60-F76E-4874-8B39-C70FFB0A4EE3",
+    "sequence": 2,
+    "nativeCallbacks": 1,
+    "guarded": 1,
+    "result": {
+      "status": "handled",
+      "source": "shortcut"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 1
+  },
+  {
+    "command": "index",
+    "ok": true,
+    "process": "1DBFFE60-F76E-4874-8B39-C70FFB0A4EE3",
+    "sequence": 3,
+    "nativeCallbacks": 1,
+    "guarded": 1,
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 1
+  },
+  {
+    "command": "received-spotlight-search-1",
+    "ok": true,
+    "process": "0B699D0B-75EB-4F54-9199-40B235C71400",
+    "sequence": 1,
+    "nativeCallbacks": 1,
+    "guarded": 0,
+    "result": {
+      "status": "suspended",
+      "source": "spotlight",
+      "delivery": {
+        "scope": "fixture-account:a:0B699D0B-75EB-4F54-9199-40B235C71400",
+        "id": "0B699D0B-75EB-4F54-9199-40B235C71400:1"
+      }
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/login"],
+        "native": ["/", "/login"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 1
+  },
+  {
+    "command": "login-spotlight-search-1",
+    "ok": true,
+    "process": "0B699D0B-75EB-4F54-9199-40B235C71400",
+    "sequence": 2,
+    "nativeCallbacks": 1,
+    "guarded": 1,
+    "result": {
+      "status": "handled",
+      "source": "spotlight"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 1
+  },
+  {
+    "command": "received-spotlight-search-2",
+    "ok": true,
+    "process": "0B699D0B-75EB-4F54-9199-40B235C71400",
+    "sequence": 3,
+    "nativeCallbacks": 2,
+    "guarded": 1,
+    "result": {
+      "status": "handled",
+      "failure": 16,
+      "source": "spotlight",
+      "delivery": {
+        "scope": "fixture-account:a:0B699D0B-75EB-4F54-9199-40B235C71400",
+        "id": "0B699D0B-75EB-4F54-9199-40B235C71400:2"
+      }
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 1
+  },
+  {
+    "command": "revoke-search",
+    "ok": true,
+    "process": "0B699D0B-75EB-4F54-9199-40B235C71400",
+    "sequence": 4,
+    "nativeCallbacks": 2,
+    "guarded": 1,
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 1
+  },
+  {
+    "command": "received-spotlight-search-3",
+    "ok": true,
+    "process": "0B699D0B-75EB-4F54-9199-40B235C71400",
+    "sequence": 5,
+    "nativeCallbacks": 3,
+    "guarded": 1,
+    "result": {
+      "status": "ignored",
+      "reason": "unmatched"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 1
+  },
+  {
+    "command": "received-url-search-4",
+    "ok": true,
+    "process": "0B699D0B-75EB-4F54-9199-40B235C71400",
+    "sequence": 6,
+    "nativeCallbacks": 4,
+    "guarded": 1,
+    "result": {
+      "status": "handled",
+      "failure": 16,
+      "source": "url",
+      "delivery": {
+        "scope": "fixture-account:a:0B699D0B-75EB-4F54-9199-40B235C71400",
+        "id": "0B699D0B-75EB-4F54-9199-40B235C71400:4"
+      }
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 1
+  },
+  {
+    "command": "compare",
+    "ok": true,
+    "process": "0B699D0B-75EB-4F54-9199-40B235C71400",
+    "sequence": 7,
+    "nativeCallbacks": 4,
+    "guarded": 1,
+    "result": {
+      "sources": ["internal", "notification"],
+      "path": "/articles/7"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 1
+  },
+  {
+    "command": "remove-route",
+    "ok": true,
+    "process": "0B699D0B-75EB-4F54-9199-40B235C71400",
+    "sequence": 8,
+    "nativeCallbacks": 4,
+    "guarded": 1,
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 1
+  },
+  {
+    "command": "received-shortcut-search-5",
+    "ok": true,
+    "process": "0B699D0B-75EB-4F54-9199-40B235C71400",
+    "sequence": 9,
+    "nativeCallbacks": 5,
+    "guarded": 1,
+    "result": {
+      "status": "ignored",
+      "reason": "unmatched"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 1
+  },
+  {
+    "command": "clear",
+    "ok": true,
+    "process": "0B699D0B-75EB-4F54-9199-40B235C71400",
+    "sequence": 10,
+    "nativeCallbacks": 5,
+    "guarded": 1,
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+    "sourceDraft": "Unsent source draft",
+    "quickActions": 0
+  }
+]
