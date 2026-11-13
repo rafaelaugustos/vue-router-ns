@@ -2,6 +2,8 @@
 
 La versión candidata `0.1.0-rc.4` congela la API no experimental documentada mientras la validamos para la versión estable. Las tablas de rutas explícitas JavaScript/TypeScript siguen siendo las predeterminadas. Las convenciones de archivos son opcionales; ambos usan navegación nativa, sin un Vue Router o tiempo de ejecución de Nuxt.
 
+El [contrato de ciclo de vida de ventanas](./windows#lifecycle-support-decision-2026-11-13) del 2026-11-13 selecciona Core 9.1.4 / Vue 3.1.3 publicados y mantiene el estado experimental. Las mediciones de limpieza repetida en Android no certifican dispositivos físicos, Stage Manager, cambios de tamaño en uso ni retención de recursos en ciclos repetidos de iPad. Consulte el informe versionado del guía antes de elegir el alcance de despliegue.
+
 ## Línea base admitida {#supported-baseline}
 
 | Dependencia        | Requisito RC                                   | Línea base de aceptación                                                 |

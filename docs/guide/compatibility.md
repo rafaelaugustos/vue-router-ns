@@ -2,6 +2,8 @@
 
 The `0.1.0-rc.4` release candidate freezes the documented, non-experimental API while we validate it for the stable release. Explicit JavaScript/TypeScript route tables remain the default. File conventions are optional; both use native navigation, without a Vue Router or Nuxt runtime.
 
+The 2026-11-13 [window lifecycle contract](./windows#lifecycle-support-decision-2026-11-13) selects published Core 9.1.4 / Vue 3.1.3 and retains experimental status. Repeated Android cleanup measurements do not certify physical devices, Stage Manager, live resizing or repeated iPad resource retention. See the versioned report linked from that guide before choosing a deployment scope.
+
 ## Supported baseline
 
 | Dependency         | RC requirement                            | Acceptance baseline                                          |

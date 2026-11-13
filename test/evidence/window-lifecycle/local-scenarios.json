@@ -1,0 +1,2111 @@
+{
+  "source": "7e4c558f65180e98a35a14dd48f103c2b134f0fc",
+  "dependencies": {
+    "core": "9.1.4",
+    "vue": "3.1.3",
+    "android": "9.1.1",
+    "ios": "9.1.0"
+  },
+  "environments": [
+    "Android 14/API34 ARM64 Pixel7 emulator",
+    "iPad Pro13 M4/iPadOS18.6 ARM64 simulator"
+  ],
+  "note": "Native JSON fields retained; large diagnostics-export strings omitted. Failed attempts are not included in these passing scenarios.",
+  "runs": [
+    {
+      "mode": "record",
+      "reports": [
+        {
+          "command": "prepare",
+          "pid": 6953,
+          "checks": [
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope b",
+            "A history isolated",
+            "B history isolated",
+            "two native windows",
+            "B guard blocks back",
+            "snapshot scope b",
+            "B back leaves A unchanged",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope a",
+            "snapshot scope b",
+            "A modal result does not close B",
+            "B modal result"
+          ],
+          "sceneEvents": [],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit", "/edit"],
+              "drafts": ["", "draft A first", "draft A second", ""],
+              "unmounted": 1,
+              "entryKeys": ["mwep27u54pep-1", "mwep27u54pep-2", "mwep27u54pep-3"],
+              "window": "window-ab0caa4e-32ea-45f4-9e1d-86b24030f4eb",
+              "state": "attached",
+              "task": 22,
+              "activity": 245629756,
+              "loaded": false,
+              "nativePages": 3
+            },
+            {
+              "key": "b",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft B", "", ""],
+              "unmounted": 2,
+              "entryKeys": ["mwep29t3j6qw-1", "mwep29t3j6qw-2"],
+              "window": "window-54e1bf23-8bef-4254-858e-93568b750103",
+              "state": "attached",
+              "task": 23,
+              "activity": 137099477,
+              "loaded": true,
+              "nativePages": 2
+            }
+          ]
+        },
+        {
+          "command": "restore",
+          "pid": 7118,
+          "checks": [
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope b",
+            "A duplicate history restored",
+            "B history restored",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope a",
+            "A previous duplicate draft restored",
+            "B state remains independent"
+          ],
+          "sceneEvents": [],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft A first", "draft A second"],
+              "unmounted": 1,
+              "entryKeys": ["mwep27u54pep-1", "mwep27u54pep-2"],
+              "window": "window-6e2dd4b7-bfdb-49b5-8432-77d5dcc5d941",
+              "state": "attached",
+              "task": 24,
+              "activity": 141181710,
+              "loaded": true,
+              "nativePages": 2
+            },
+            {
+              "key": "b",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft B"],
+              "unmounted": 0,
+              "entryKeys": ["mwep29t3j6qw-1", "mwep29t3j6qw-2"],
+              "window": "window-736f22d7-3af8-4bcd-b4f3-37cd3df38c01",
+              "state": "attached",
+              "task": 25,
+              "activity": 243405997,
+              "loaded": true,
+              "nativePages": 2
+            }
+          ]
+        },
+        {
+          "command": "link",
+          "pid": 7118,
+          "checks": [
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope b",
+            "A duplicate history restored",
+            "B history restored",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope a",
+            "A previous duplicate draft restored",
+            "B state remains independent",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "OS link leaves A unchanged",
+            "snapshot scope b"
+          ],
+          "sceneEvents": [],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft A first", "draft A second"],
+              "unmounted": 1,
+              "entryKeys": ["mwep27u54pep-1", "mwep27u54pep-2"],
+              "window": "window-6e2dd4b7-bfdb-49b5-8432-77d5dcc5d941",
+              "state": "attached",
+              "task": 24,
+              "activity": 141181710,
+              "loaded": false,
+              "nativePages": 2
+            },
+            {
+              "key": "b",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft B", ""],
+              "unmounted": 1,
+              "entryKeys": ["mwep29t3j6qw-1", "mwep29t3j6qw-2"],
+              "window": "window-736f22d7-3af8-4bcd-b4f3-37cd3df38c01",
+              "state": "attached",
+              "task": 25,
+              "activity": 243405997,
+              "loaded": true,
+              "nativePages": 2
+            }
+          ]
+        },
+        {
+          "command": "recreate",
+          "pid": 7118,
+          "checks": [
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope b",
+            "A duplicate history restored",
+            "B history restored",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope a",
+            "A previous duplicate draft restored",
+            "B state remains independent",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "OS link leaves A unchanged",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "Activity was replaced in the same JS process",
+            "Activity recreation retains all Vue pages",
+            "snapshot scope b",
+            "logical history after recreation",
+            "native history after recreation",
+            "retained Vue page remains reactive",
+            "snapshot scope b",
+            "other window survives recreation"
+          ],
+          "sceneEvents": [],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft A first", "draft A second"],
+              "unmounted": 1,
+              "entryKeys": ["mwep27u54pep-1", "mwep27u54pep-2"],
+              "window": "window-6e2dd4b7-bfdb-49b5-8432-77d5dcc5d941",
+              "state": "attached",
+              "task": 24,
+              "activity": 141181710,
+              "loaded": false,
+              "nativePages": 2
+            },
+            {
+              "key": "b",
+              "paths": ["/", "/edit", "/items/10"],
+              "drafts": ["", "reactive after recreate", "", "", ""],
+              "unmounted": 2,
+              "entryKeys": ["mwep29t3j6qw-1", "mwep29t3j6qw-2", "mwep2i3bpygs-5"],
+              "window": "window-736f22d7-3af8-4bcd-b4f3-37cd3df38c01",
+              "state": "attached",
+              "task": 25,
+              "activity": 219077067,
+              "loaded": true,
+              "nativePages": 3
+            }
+          ]
+        },
+        {
+          "command": "hmr",
+          "pid": 7118,
+          "checks": [
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope b",
+            "A duplicate history restored",
+            "B history restored",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope a",
+            "A previous duplicate draft restored",
+            "B state remains independent",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "OS link leaves A unchanged",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "Activity was replaced in the same JS process",
+            "Activity recreation retains all Vue pages",
+            "snapshot scope b",
+            "logical history after recreation",
+            "native history after recreation",
+            "retained Vue page remains reactive",
+            "snapshot scope b",
+            "other window survives recreation",
+            "Vue HMR runtime available",
+            "snapshot scope b",
+            "B script HMR preserves history",
+            "B script HMR applies new setup",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope a",
+            "A script HMR preserves history",
+            "A script HMR applies new setup",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope b",
+            "navigation after multi-window HMR"
+          ],
+          "sceneEvents": [],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft A first", "draft A second", ""],
+              "unmounted": 2,
+              "entryKeys": ["mwep27u54pep-1", "mwep27u54pep-2"],
+              "window": "window-6e2dd4b7-bfdb-49b5-8432-77d5dcc5d941",
+              "state": "attached",
+              "task": 24,
+              "activity": 141181710,
+              "loaded": true,
+              "nativePages": 2
+            },
+            {
+              "key": "b",
+              "paths": ["/", "/edit", "/items/10"],
+              "drafts": ["", "reactive after recreate", "", "", "", "", ""],
+              "unmounted": 4,
+              "entryKeys": ["mwep29t3j6qw-1", "mwep29t3j6qw-2", "mwep2i3bpygs-5"],
+              "window": "window-736f22d7-3af8-4bcd-b4f3-37cd3df38c01",
+              "state": "attached",
+              "task": 25,
+              "activity": 219077067,
+              "loaded": true,
+              "nativePages": 3
+            }
+          ]
+        },
+        {
+          "command": "close",
+          "pid": 7118,
+          "checks": [
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope b",
+            "A duplicate history restored",
+            "B history restored",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope a",
+            "A previous duplicate draft restored",
+            "B state remains independent",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "OS link leaves A unchanged",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "Activity was replaced in the same JS process",
+            "Activity recreation retains all Vue pages",
+            "snapshot scope b",
+            "logical history after recreation",
+            "native history after recreation",
+            "retained Vue page remains reactive",
+            "snapshot scope b",
+            "other window survives recreation",
+            "Vue HMR runtime available",
+            "snapshot scope b",
+            "B script HMR preserves history",
+            "B script HMR applies new setup",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope a",
+            "A script HMR preserves history",
+            "A script HMR applies new setup",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope b",
+            "navigation after multi-window HMR",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "closed window releases all Vue page apps",
+            "closed B snapshot cleared",
+            "A snapshot retained"
+          ],
+          "sceneEvents": [],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft A first", "draft A second", ""],
+              "unmounted": 2,
+              "entryKeys": ["mwep27u54pep-1", "mwep27u54pep-2"],
+              "window": "window-6e2dd4b7-bfdb-49b5-8432-77d5dcc5d941",
+              "state": "attached",
+              "task": 24,
+              "activity": 141181710,
+              "loaded": false,
+              "nativePages": 2
+            }
+          ]
+        },
+        {
+          "command": "lifecycle-2",
+          "pid": 7118,
+          "checks": [
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope b",
+            "A duplicate history restored",
+            "B history restored",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope a",
+            "A previous duplicate draft restored",
+            "B state remains independent",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "OS link leaves A unchanged",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "Activity was replaced in the same JS process",
+            "Activity recreation retains all Vue pages",
+            "snapshot scope b",
+            "logical history after recreation",
+            "native history after recreation",
+            "retained Vue page remains reactive",
+            "snapshot scope b",
+            "other window survives recreation",
+            "Vue HMR runtime available",
+            "snapshot scope b",
+            "B script HMR preserves history",
+            "B script HMR applies new setup",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope a",
+            "A script HMR preserves history",
+            "A script HMR applies new setup",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope b",
+            "navigation after multi-window HMR",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "closed window releases all Vue page apps",
+            "closed B snapshot cleared",
+            "A snapshot retained",
+            "Repeated Activity lifecycle requires Android",
+            "Core global observer registry available",
+            "snapshot scope a",
+            "snapshot scope lifecycle-0-0",
+            "snapshot scope lifecycle-0-0",
+            "snapshot scope a",
+            "snapshot scope lifecycle-0-0",
+            "snapshot scope lifecycle-0-0",
+            "lifecycle-0-0: retained page identities 0",
+            "lifecycle-0-0: retained apps and result 0",
+            "snapshot scope a",
+            "snapshot scope lifecycle-0-0",
+            "snapshot scope lifecycle-0-0",
+            "lifecycle-0-0: retained page identities 1",
+            "lifecycle-0-0: retained apps and result 1",
+            "lifecycle-0-0: three distinct Activities",
+            "lifecycle-0-0: two complete lifecycle pairs",
+            "snapshot scope a",
+            "snapshot scope lifecycle-0-0",
+            "snapshot scope lifecycle-0-0",
+            "lifecycle-0-0: result settles once on close",
+            "lifecycle-0-0: late guard cannot commit",
+            "lifecycle-0-0: exactly two page apps disposed",
+            "lifecycle-0-0: closed session removed",
+            "lifecycle-0-0: scoped snapshot cleared",
+            "lifecycle-0-0: surviving history unchanged",
+            "Core global observer registry available",
+            "lifecycle-0-0: global listeners return to baseline",
+            "Core global observer registry available",
+            "Core global observer registry available",
+            "snapshot scope a",
+            "snapshot scope lifecycle-0-1",
+            "snapshot scope lifecycle-0-1",
+            "snapshot scope a",
+            "snapshot scope lifecycle-0-1",
+            "snapshot scope lifecycle-0-1",
+            "lifecycle-0-1: retained page identities 0",
+            "lifecycle-0-1: retained apps and result 0",
+            "snapshot scope a",
+            "snapshot scope lifecycle-0-1",
+            "snapshot scope lifecycle-0-1",
+            "lifecycle-0-1: retained page identities 1",
+            "lifecycle-0-1: retained apps and result 1",
+            "lifecycle-0-1: three distinct Activities",
+            "lifecycle-0-1: two complete lifecycle pairs",
+            "snapshot scope a",
+            "snapshot scope lifecycle-0-1",
+            "snapshot scope lifecycle-0-1",
+            "lifecycle-0-1: result settles once on close",
+            "lifecycle-0-1: late guard cannot commit",
+            "lifecycle-0-1: exactly two page apps disposed",
+            "lifecycle-0-1: closed session removed",
+            "lifecycle-0-1: scoped snapshot cleared",
+            "lifecycle-0-1: surviving history unchanged",
+            "Core global observer registry available",
+            "lifecycle-0-1: global listeners return to baseline",
+            "Core global observer registry available",
+            "lifecycle-0: bounded retired Pages",
+            "lifecycle-0: bounded retired Activities",
+            "Repeated Activity lifecycle requires Android",
+            "Core global observer registry available",
+            "snapshot scope a",
+            "snapshot scope lifecycle-1-0",
+            "snapshot scope lifecycle-1-0",
+            "snapshot scope a",
+            "snapshot scope lifecycle-1-0",
+            "snapshot scope lifecycle-1-0",
+            "lifecycle-1-0: retained page identities 0",
+            "lifecycle-1-0: retained apps and result 0",
+            "snapshot scope a",
+            "snapshot scope lifecycle-1-0",
+            "snapshot scope lifecycle-1-0",
+            "lifecycle-1-0: retained page identities 1",
+            "lifecycle-1-0: retained apps and result 1",
+            "lifecycle-1-0: three distinct Activities",
+            "lifecycle-1-0: two complete lifecycle pairs",
+            "snapshot scope a",
+            "snapshot scope lifecycle-1-0",
+            "snapshot scope lifecycle-1-0",
+            "lifecycle-1-0: result settles once on close",
+            "lifecycle-1-0: late guard cannot commit",
+            "lifecycle-1-0: exactly two page apps disposed",
+            "lifecycle-1-0: closed session removed",
+            "lifecycle-1-0: scoped snapshot cleared",
+            "lifecycle-1-0: surviving history unchanged",
+            "Core global observer registry available",
+            "lifecycle-1-0: global listeners return to baseline",
+            "Core global observer registry available",
+            "Core global observer registry available",
+            "snapshot scope a",
+            "snapshot scope lifecycle-1-1",
+            "snapshot scope lifecycle-1-1",
+            "snapshot scope a",
+            "snapshot scope lifecycle-1-1",
+            "snapshot scope lifecycle-1-1",
+            "lifecycle-1-1: retained page identities 0",
+            "lifecycle-1-1: retained apps and result 0",
+            "snapshot scope a",
+            "snapshot scope lifecycle-1-1",
+            "snapshot scope lifecycle-1-1",
+            "lifecycle-1-1: retained page identities 1",
+            "lifecycle-1-1: retained apps and result 1",
+            "lifecycle-1-1: three distinct Activities",
+            "lifecycle-1-1: two complete lifecycle pairs",
+            "snapshot scope a",
+            "snapshot scope lifecycle-1-1",
+            "snapshot scope lifecycle-1-1",
+            "lifecycle-1-1: result settles once on close",
+            "lifecycle-1-1: late guard cannot commit",
+            "lifecycle-1-1: exactly two page apps disposed",
+            "lifecycle-1-1: closed session removed",
+            "lifecycle-1-1: scoped snapshot cleared",
+            "lifecycle-1-1: surviving history unchanged",
+            "Core global observer registry available",
+            "lifecycle-1-1: global listeners return to baseline",
+            "Core global observer registry available",
+            "lifecycle-1: bounded retired Pages",
+            "lifecycle-1: bounded retired Activities",
+            "Repeated Activity lifecycle requires Android",
+            "Core global observer registry available",
+            "snapshot scope a",
+            "snapshot scope lifecycle-2-0",
+            "snapshot scope lifecycle-2-0",
+            "snapshot scope a",
+            "snapshot scope lifecycle-2-0",
+            "snapshot scope lifecycle-2-0",
+            "lifecycle-2-0: retained page identities 0",
+            "lifecycle-2-0: retained apps and result 0",
+            "snapshot scope a",
+            "snapshot scope lifecycle-2-0",
+            "snapshot scope lifecycle-2-0",
+            "lifecycle-2-0: retained page identities 1",
+            "lifecycle-2-0: retained apps and result 1",
+            "lifecycle-2-0: three distinct Activities",
+            "lifecycle-2-0: two complete lifecycle pairs",
+            "snapshot scope a",
+            "snapshot scope lifecycle-2-0",
+            "snapshot scope lifecycle-2-0",
+            "lifecycle-2-0: result settles once on close",
+            "lifecycle-2-0: late guard cannot commit",
+            "lifecycle-2-0: exactly two page apps disposed",
+            "lifecycle-2-0: closed session removed",
+            "lifecycle-2-0: scoped snapshot cleared",
+            "lifecycle-2-0: surviving history unchanged",
+            "Core global observer registry available",
+            "lifecycle-2-0: global listeners return to baseline",
+            "Core global observer registry available",
+            "Core global observer registry available",
+            "snapshot scope a",
+            "snapshot scope lifecycle-2-1",
+            "snapshot scope lifecycle-2-1",
+            "snapshot scope a",
+            "snapshot scope lifecycle-2-1",
+            "snapshot scope lifecycle-2-1",
+            "lifecycle-2-1: retained page identities 0",
+            "lifecycle-2-1: retained apps and result 0",
+            "snapshot scope a",
+            "snapshot scope lifecycle-2-1",
+            "snapshot scope lifecycle-2-1",
+            "lifecycle-2-1: retained page identities 1",
+            "lifecycle-2-1: retained apps and result 1",
+            "lifecycle-2-1: three distinct Activities",
+            "lifecycle-2-1: two complete lifecycle pairs",
+            "snapshot scope a",
+            "snapshot scope lifecycle-2-1",
+            "snapshot scope lifecycle-2-1",
+            "lifecycle-2-1: result settles once on close",
+            "lifecycle-2-1: late guard cannot commit",
+            "lifecycle-2-1: exactly two page apps disposed",
+            "lifecycle-2-1: closed session removed",
+            "lifecycle-2-1: scoped snapshot cleared",
+            "lifecycle-2-1: surviving history unchanged",
+            "Core global observer registry available",
+            "lifecycle-2-1: global listeners return to baseline",
+            "Core global observer registry available",
+            "lifecycle-2: bounded retired Pages",
+            "lifecycle-2: bounded retired Activities"
+          ],
+          "sceneEvents": [],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft A first", "draft A second", ""],
+              "unmounted": 2,
+              "entryKeys": ["mwep27u54pep-1", "mwep27u54pep-2"],
+              "window": "window-6e2dd4b7-bfdb-49b5-8432-77d5dcc5d941",
+              "state": "attached",
+              "task": 24,
+              "activity": 141181710,
+              "loaded": true,
+              "nativePages": 2
+            }
+          ]
+        },
+        {
+          "command": "launcher",
+          "pid": 7118,
+          "checks": [
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope b",
+            "A duplicate history restored",
+            "B history restored",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope a",
+            "A previous duplicate draft restored",
+            "B state remains independent",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "OS link leaves A unchanged",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "Activity was replaced in the same JS process",
+            "Activity recreation retains all Vue pages",
+            "snapshot scope b",
+            "logical history after recreation",
+            "native history after recreation",
+            "retained Vue page remains reactive",
+            "snapshot scope b",
+            "other window survives recreation",
+            "Vue HMR runtime available",
+            "snapshot scope b",
+            "B script HMR preserves history",
+            "B script HMR applies new setup",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope a",
+            "A script HMR preserves history",
+            "A script HMR applies new setup",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope b",
+            "navigation after multi-window HMR",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "closed window releases all Vue page apps",
+            "closed B snapshot cleared",
+            "A snapshot retained",
+            "Repeated Activity lifecycle requires Android",
+            "Core global observer registry available",
+            "snapshot scope a",
+            "snapshot scope lifecycle-0-0",
+            "snapshot scope lifecycle-0-0",
+            "snapshot scope a",
+            "snapshot scope lifecycle-0-0",
+            "snapshot scope lifecycle-0-0",
+            "lifecycle-0-0: retained page identities 0",
+            "lifecycle-0-0: retained apps and result 0",
+            "snapshot scope a",
+            "snapshot scope lifecycle-0-0",
+            "snapshot scope lifecycle-0-0",
+            "lifecycle-0-0: retained page identities 1",
+            "lifecycle-0-0: retained apps and result 1",
+            "lifecycle-0-0: three distinct Activities",
+            "lifecycle-0-0: two complete lifecycle pairs",
+            "snapshot scope a",
+            "snapshot scope lifecycle-0-0",
+            "snapshot scope lifecycle-0-0",
+            "lifecycle-0-0: result settles once on close",
+            "lifecycle-0-0: late guard cannot commit",
+            "lifecycle-0-0: exactly two page apps disposed",
+            "lifecycle-0-0: closed session removed",
+            "lifecycle-0-0: scoped snapshot cleared",
+            "lifecycle-0-0: surviving history unchanged",
+            "Core global observer registry available",
+            "lifecycle-0-0: global listeners return to baseline",
+            "Core global observer registry available",
+            "Core global observer registry available",
+            "snapshot scope a",
+            "snapshot scope lifecycle-0-1",
+            "snapshot scope lifecycle-0-1",
+            "snapshot scope a",
+            "snapshot scope lifecycle-0-1",
+            "snapshot scope lifecycle-0-1",
+            "lifecycle-0-1: retained page identities 0",
+            "lifecycle-0-1: retained apps and result 0",
+            "snapshot scope a",
+            "snapshot scope lifecycle-0-1",
+            "snapshot scope lifecycle-0-1",
+            "lifecycle-0-1: retained page identities 1",
+            "lifecycle-0-1: retained apps and result 1",
+            "lifecycle-0-1: three distinct Activities",
+            "lifecycle-0-1: two complete lifecycle pairs",
+            "snapshot scope a",
+            "snapshot scope lifecycle-0-1",
+            "snapshot scope lifecycle-0-1",
+            "lifecycle-0-1: result settles once on close",
+            "lifecycle-0-1: late guard cannot commit",
+            "lifecycle-0-1: exactly two page apps disposed",
+            "lifecycle-0-1: closed session removed",
+            "lifecycle-0-1: scoped snapshot cleared",
+            "lifecycle-0-1: surviving history unchanged",
+            "Core global observer registry available",
+            "lifecycle-0-1: global listeners return to baseline",
+            "Core global observer registry available",
+            "lifecycle-0: bounded retired Pages",
+            "lifecycle-0: bounded retired Activities",
+            "Repeated Activity lifecycle requires Android",
+            "Core global observer registry available",
+            "snapshot scope a",
+            "snapshot scope lifecycle-1-0",
+            "snapshot scope lifecycle-1-0",
+            "snapshot scope a",
+            "snapshot scope lifecycle-1-0",
+            "snapshot scope lifecycle-1-0",
+            "lifecycle-1-0: retained page identities 0",
+            "lifecycle-1-0: retained apps and result 0",
+            "snapshot scope a",
+            "snapshot scope lifecycle-1-0",
+            "snapshot scope lifecycle-1-0",
+            "lifecycle-1-0: retained page identities 1",
+            "lifecycle-1-0: retained apps and result 1",
+            "lifecycle-1-0: three distinct Activities",
+            "lifecycle-1-0: two complete lifecycle pairs",
+            "snapshot scope a",
+            "snapshot scope lifecycle-1-0",
+            "snapshot scope lifecycle-1-0",
+            "lifecycle-1-0: result settles once on close",
+            "lifecycle-1-0: late guard cannot commit",
+            "lifecycle-1-0: exactly two page apps disposed",
+            "lifecycle-1-0: closed session removed",
+            "lifecycle-1-0: scoped snapshot cleared",
+            "lifecycle-1-0: surviving history unchanged",
+            "Core global observer registry available",
+            "lifecycle-1-0: global listeners return to baseline",
+            "Core global observer registry available",
+            "Core global observer registry available",
+            "snapshot scope a",
+            "snapshot scope lifecycle-1-1",
+            "snapshot scope lifecycle-1-1",
+            "snapshot scope a",
+            "snapshot scope lifecycle-1-1",
+            "snapshot scope lifecycle-1-1",
+            "lifecycle-1-1: retained page identities 0",
+            "lifecycle-1-1: retained apps and result 0",
+            "snapshot scope a",
+            "snapshot scope lifecycle-1-1",
+            "snapshot scope lifecycle-1-1",
+            "lifecycle-1-1: retained page identities 1",
+            "lifecycle-1-1: retained apps and result 1",
+            "lifecycle-1-1: three distinct Activities",
+            "lifecycle-1-1: two complete lifecycle pairs",
+            "snapshot scope a",
+            "snapshot scope lifecycle-1-1",
+            "snapshot scope lifecycle-1-1",
+            "lifecycle-1-1: result settles once on close",
+            "lifecycle-1-1: late guard cannot commit",
+            "lifecycle-1-1: exactly two page apps disposed",
+            "lifecycle-1-1: closed session removed",
+            "lifecycle-1-1: scoped snapshot cleared",
+            "lifecycle-1-1: surviving history unchanged",
+            "Core global observer registry available",
+            "lifecycle-1-1: global listeners return to baseline",
+            "Core global observer registry available",
+            "lifecycle-1: bounded retired Pages",
+            "lifecycle-1: bounded retired Activities",
+            "Repeated Activity lifecycle requires Android",
+            "Core global observer registry available",
+            "snapshot scope a",
+            "snapshot scope lifecycle-2-0",
+            "snapshot scope lifecycle-2-0",
+            "snapshot scope a",
+            "snapshot scope lifecycle-2-0",
+            "snapshot scope lifecycle-2-0",
+            "lifecycle-2-0: retained page identities 0",
+            "lifecycle-2-0: retained apps and result 0",
+            "snapshot scope a",
+            "snapshot scope lifecycle-2-0",
+            "snapshot scope lifecycle-2-0",
+            "lifecycle-2-0: retained page identities 1",
+            "lifecycle-2-0: retained apps and result 1",
+            "lifecycle-2-0: three distinct Activities",
+            "lifecycle-2-0: two complete lifecycle pairs",
+            "snapshot scope a",
+            "snapshot scope lifecycle-2-0",
+            "snapshot scope lifecycle-2-0",
+            "lifecycle-2-0: result settles once on close",
+            "lifecycle-2-0: late guard cannot commit",
+            "lifecycle-2-0: exactly two page apps disposed",
+            "lifecycle-2-0: closed session removed",
+            "lifecycle-2-0: scoped snapshot cleared",
+            "lifecycle-2-0: surviving history unchanged",
+            "Core global observer registry available",
+            "lifecycle-2-0: global listeners return to baseline",
+            "Core global observer registry available",
+            "Core global observer registry available",
+            "snapshot scope a",
+            "snapshot scope lifecycle-2-1",
+            "snapshot scope lifecycle-2-1",
+            "snapshot scope a",
+            "snapshot scope lifecycle-2-1",
+            "snapshot scope lifecycle-2-1",
+            "lifecycle-2-1: retained page identities 0",
+            "lifecycle-2-1: retained apps and result 0",
+            "snapshot scope a",
+            "snapshot scope lifecycle-2-1",
+            "snapshot scope lifecycle-2-1",
+            "lifecycle-2-1: retained page identities 1",
+            "lifecycle-2-1: retained apps and result 1",
+            "lifecycle-2-1: three distinct Activities",
+            "lifecycle-2-1: two complete lifecycle pairs",
+            "snapshot scope a",
+            "snapshot scope lifecycle-2-1",
+            "snapshot scope lifecycle-2-1",
+            "lifecycle-2-1: result settles once on close",
+            "lifecycle-2-1: late guard cannot commit",
+            "lifecycle-2-1: exactly two page apps disposed",
+            "lifecycle-2-1: closed session removed",
+            "lifecycle-2-1: scoped snapshot cleared",
+            "lifecycle-2-1: surviving history unchanged",
+            "Core global observer registry available",
+            "lifecycle-2-1: global listeners return to baseline",
+            "Core global observer registry available",
+            "lifecycle-2: bounded retired Pages",
+            "lifecycle-2: bounded retired Activities",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope c",
+            "surviving window history unchanged",
+            "new native window after original Activity closes",
+            "typed handoff after original Activity closes"
+          ],
+          "sceneEvents": [],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": [],
+              "drafts": ["", "draft A first", "draft A second", ""],
+              "unmounted": 4,
+              "window": "window-6e2dd4b7-bfdb-49b5-8432-77d5dcc5d941",
+              "state": "closed",
+              "loaded": false,
+              "nativePages": 2
+            },
+            {
+              "key": "b",
+              "paths": ["/items/11"],
+              "drafts": [""],
+              "unmounted": 0,
+              "entryKeys": ["mwep3igc345a-1"],
+              "window": "window-21dd96c4-59a5-4fa9-9f69-9d485c82156e",
+              "state": "attached",
+              "task": 32,
+              "activity": 213318490,
+              "loaded": true,
+              "nativePages": 1
+            },
+            {
+              "key": "c",
+              "paths": ["/items/12"],
+              "drafts": [""],
+              "unmounted": 0,
+              "entryKeys": ["mwep3j5513ql-1"],
+              "window": "window-a0a095ee-b601-4349-a1d2-d796d7f44fe9",
+              "state": "attached",
+              "task": 33,
+              "activity": 139586573,
+              "loaded": true,
+              "nativePages": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "final-ios",
+      "reports": [
+        {
+          "command": "prepare",
+          "pid": 19789,
+          "checks": [
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope b",
+            "A history isolated",
+            "B history isolated",
+            "two native windows",
+            "B guard blocks back",
+            "snapshot scope b",
+            "B back leaves A unchanged",
+            "A modal result does not close B",
+            "B modal result"
+          ],
+          "sceneEvents": [
+            {
+              "event": "sceneWillConnect",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneWillConnect",
+              "window": "37B7BBFE-7A8B-4B82-95A1-24F55B9E21B0"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "37B7BBFE-7A8B-4B82-95A1-24F55B9E21B0"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            }
+          ],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit", "/edit"],
+              "drafts": ["", "draft A first", "draft A second", ""],
+              "unmounted": 1,
+              "entryKeys": ["mwep3sdeh23i-1", "mwep3sdeh23i-2", "mwep3sdeh23i-3"],
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 3,
+              "controllers": 3
+            },
+            {
+              "key": "b",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft B", "", ""],
+              "unmounted": 2,
+              "entryKeys": ["mwep3ubn42tv-1", "mwep3ubn42tv-2"],
+              "window": "37B7BBFE-7A8B-4B82-95A1-24F55B9E21B0",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 2,
+              "controllers": 2
+            }
+          ]
+        },
+        {
+          "command": "resume",
+          "pid": 19789,
+          "checks": [
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope b",
+            "A history isolated",
+            "B history isolated",
+            "two native windows",
+            "B guard blocks back",
+            "snapshot scope b",
+            "B back leaves A unchanged",
+            "A modal result does not close B",
+            "B modal result",
+            "snapshot scope a",
+            "snapshot scope b",
+            "A history after scene resume",
+            "B history after scene resume",
+            "B draft after scene resume",
+            "snapshot scope b",
+            "snapshot scope b",
+            "B reactivity after scene resume",
+            "snapshot scope a"
+          ],
+          "sceneEvents": [
+            {
+              "event": "sceneWillConnect",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneWillConnect",
+              "window": "37B7BBFE-7A8B-4B82-95A1-24F55B9E21B0"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "37B7BBFE-7A8B-4B82-95A1-24F55B9E21B0"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidEnterBackground",
+              "window": "37B7BBFE-7A8B-4B82-95A1-24F55B9E21B0"
+            },
+            {
+              "event": "sceneDidEnterBackground",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "37B7BBFE-7A8B-4B82-95A1-24F55B9E21B0"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            }
+          ],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft A first", "draft A second", ""],
+              "unmounted": 2,
+              "entryKeys": ["mwep3sdeh23i-1", "mwep3sdeh23i-2"],
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 2,
+              "controllers": 2
+            },
+            {
+              "key": "b",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "reactive after scene resume", "", "", ""],
+              "unmounted": 3,
+              "entryKeys": ["mwep3ubn42tv-1", "mwep3ubn42tv-2"],
+              "window": "37B7BBFE-7A8B-4B82-95A1-24F55B9E21B0",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 2,
+              "controllers": 2
+            }
+          ]
+        },
+        {
+          "command": "hmr",
+          "pid": 19789,
+          "checks": [
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope b",
+            "A history isolated",
+            "B history isolated",
+            "two native windows",
+            "B guard blocks back",
+            "snapshot scope b",
+            "B back leaves A unchanged",
+            "A modal result does not close B",
+            "B modal result",
+            "snapshot scope a",
+            "snapshot scope b",
+            "A history after scene resume",
+            "B history after scene resume",
+            "B draft after scene resume",
+            "snapshot scope b",
+            "snapshot scope b",
+            "B reactivity after scene resume",
+            "snapshot scope a",
+            "Vue HMR runtime available",
+            "snapshot scope a",
+            "snapshot scope b",
+            "B script HMR preserves history",
+            "B script HMR applies new setup",
+            "A script HMR preserves history",
+            "A script HMR applies new setup",
+            "snapshot scope b",
+            "snapshot scope b",
+            "navigation after multi-window HMR"
+          ],
+          "sceneEvents": [
+            {
+              "event": "sceneWillConnect",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneWillConnect",
+              "window": "37B7BBFE-7A8B-4B82-95A1-24F55B9E21B0"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "37B7BBFE-7A8B-4B82-95A1-24F55B9E21B0"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidEnterBackground",
+              "window": "37B7BBFE-7A8B-4B82-95A1-24F55B9E21B0"
+            },
+            {
+              "event": "sceneDidEnterBackground",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "37B7BBFE-7A8B-4B82-95A1-24F55B9E21B0"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            }
+          ],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft A first", "draft A second", "", ""],
+              "unmounted": 3,
+              "entryKeys": ["mwep3sdeh23i-1", "mwep3sdeh23i-2"],
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 2,
+              "controllers": 2
+            },
+            {
+              "key": "b",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "reactive after scene resume", "", "", "", "", ""],
+              "unmounted": 5,
+              "entryKeys": ["mwep3ubn42tv-1", "mwep3ubn42tv-2"],
+              "window": "37B7BBFE-7A8B-4B82-95A1-24F55B9E21B0",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 2,
+              "controllers": 2
+            }
+          ]
+        },
+        {
+          "command": "close",
+          "pid": 19789,
+          "checks": [
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope b",
+            "A history isolated",
+            "B history isolated",
+            "two native windows",
+            "B guard blocks back",
+            "snapshot scope b",
+            "B back leaves A unchanged",
+            "A modal result does not close B",
+            "B modal result",
+            "snapshot scope a",
+            "snapshot scope b",
+            "A history after scene resume",
+            "B history after scene resume",
+            "B draft after scene resume",
+            "snapshot scope b",
+            "snapshot scope b",
+            "B reactivity after scene resume",
+            "snapshot scope a",
+            "Vue HMR runtime available",
+            "snapshot scope a",
+            "snapshot scope b",
+            "B script HMR preserves history",
+            "B script HMR applies new setup",
+            "A script HMR preserves history",
+            "A script HMR applies new setup",
+            "snapshot scope b",
+            "snapshot scope b",
+            "navigation after multi-window HMR",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "closed window releases all Vue page apps",
+            "closed B snapshot cleared",
+            "A snapshot retained"
+          ],
+          "sceneEvents": [
+            {
+              "event": "sceneWillConnect",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneWillConnect",
+              "window": "37B7BBFE-7A8B-4B82-95A1-24F55B9E21B0"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "37B7BBFE-7A8B-4B82-95A1-24F55B9E21B0"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidEnterBackground",
+              "window": "37B7BBFE-7A8B-4B82-95A1-24F55B9E21B0"
+            },
+            {
+              "event": "sceneDidEnterBackground",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "37B7BBFE-7A8B-4B82-95A1-24F55B9E21B0"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidEnterBackground",
+              "window": "37B7BBFE-7A8B-4B82-95A1-24F55B9E21B0"
+            },
+            {
+              "event": "sceneDidDisconnect",
+              "window": "37B7BBFE-7A8B-4B82-95A1-24F55B9E21B0"
+            }
+          ],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft A first", "draft A second", "", ""],
+              "unmounted": 3,
+              "entryKeys": ["mwep3sdeh23i-1", "mwep3sdeh23i-2"],
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 2,
+              "controllers": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "final-reconnect",
+      "reports": [
+        {
+          "command": "prepare",
+          "pid": 26485,
+          "checks": [
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope b",
+            "A history isolated",
+            "B history isolated",
+            "two native windows",
+            "B guard blocks back",
+            "snapshot scope b",
+            "B back leaves A unchanged",
+            "A modal result does not close B",
+            "B modal result"
+          ],
+          "sceneEvents": [
+            {
+              "event": "sceneWillConnect",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneWillConnect",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            }
+          ],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit", "/edit"],
+              "drafts": ["", "draft A first", "draft A second", ""],
+              "unmounted": 1,
+              "entryKeys": ["mwep63su03w7-1", "mwep63su03w7-2", "mwep63su03w7-3"],
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 3,
+              "controllers": 3
+            },
+            {
+              "key": "b",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft B", "", ""],
+              "unmounted": 2,
+              "entryKeys": ["mwep65qq7dfa-1", "mwep65qq7dfa-2"],
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 2,
+              "controllers": 2
+            }
+          ]
+        },
+        {
+          "command": "detached",
+          "pid": 26485,
+          "checks": [
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope b",
+            "A history isolated",
+            "B history isolated",
+            "two native windows",
+            "B guard blocks back",
+            "snapshot scope b",
+            "B back leaves A unchanged",
+            "A modal result does not close B",
+            "B modal result",
+            "UIKit reconnect requires iOS",
+            "Scene disconnection driver runs only in a simulator",
+            "snapshot scope b",
+            "snapshot scope a",
+            "snapshot scope b",
+            "Loaded simulator-only scene driver",
+            "snapshot scope b",
+            "Native disconnection request: {\n    status = \"response received\";\n}",
+            "Session remains open during disconnect"
+          ],
+          "sceneEvents": [
+            {
+              "event": "sceneWillConnect",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneWillConnect",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidEnterBackground",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidEnterBackground",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidDisconnect",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            }
+          ],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit", "/edit"],
+              "drafts": ["", "draft A first", "draft A second", ""],
+              "unmounted": 1,
+              "entryKeys": ["mwep63su03w7-1", "mwep63su03w7-2", "mwep63su03w7-3"],
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54",
+              "state": "attached",
+              "loaded": false,
+              "nativePages": 3,
+              "controllers": 3
+            },
+            {
+              "key": "b",
+              "paths": ["/", "/edit", "/items/reconnect"],
+              "drafts": ["", "draft B", "", "", ""],
+              "unmounted": 2,
+              "entryKeys": ["mwep65qq7dfa-1", "mwep65qq7dfa-2", "mwep65qq7dfa-5"],
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467",
+              "state": "detached",
+              "loaded": false,
+              "nativePages": 3
+            }
+          ]
+        },
+        {
+          "command": "reconnect",
+          "pid": 26485,
+          "checks": [
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope b",
+            "A history isolated",
+            "B history isolated",
+            "two native windows",
+            "B guard blocks back",
+            "snapshot scope b",
+            "B back leaves A unchanged",
+            "A modal result does not close B",
+            "B modal result",
+            "UIKit reconnect requires iOS",
+            "Scene disconnection driver runs only in a simulator",
+            "snapshot scope b",
+            "snapshot scope a",
+            "snapshot scope b",
+            "Loaded simulator-only scene driver",
+            "snapshot scope b",
+            "Native disconnection request: {\n    status = \"response received\";\n}",
+            "Session remains open during disconnect",
+            "B history after scene reconnect",
+            "B draft after scene reconnect",
+            "UIKit controller stack matches retained routes",
+            "Scene reconnect retains Page identities",
+            "Scene reconnect retains Vue page apps",
+            "Scene disconnect does not settle a pending result",
+            "Guard still blocks back after reconnect",
+            "snapshot scope b",
+            "Retained page result completes once after reconnect",
+            "Retained Vue state updates the recreated native text field",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope a"
+          ],
+          "sceneEvents": [
+            {
+              "event": "sceneWillConnect",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneWillConnect",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidEnterBackground",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidEnterBackground",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidDisconnect",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneWillConnect",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            }
+          ],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft A first", "draft A second", ""],
+              "unmounted": 2,
+              "entryKeys": ["mwep63su03w7-1", "mwep63su03w7-2"],
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 2,
+              "controllers": 2
+            },
+            {
+              "key": "b",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "reactive after reconnect", "", "", "", ""],
+              "unmounted": 4,
+              "entryKeys": ["mwep65qq7dfa-1", "mwep65qq7dfa-2"],
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 2,
+              "controllers": 2
+            }
+          ]
+        },
+        {
+          "command": "hmr",
+          "pid": 26485,
+          "checks": [
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope b",
+            "A history isolated",
+            "B history isolated",
+            "two native windows",
+            "B guard blocks back",
+            "snapshot scope b",
+            "B back leaves A unchanged",
+            "A modal result does not close B",
+            "B modal result",
+            "UIKit reconnect requires iOS",
+            "Scene disconnection driver runs only in a simulator",
+            "snapshot scope b",
+            "snapshot scope a",
+            "snapshot scope b",
+            "Loaded simulator-only scene driver",
+            "snapshot scope b",
+            "Native disconnection request: {\n    status = \"response received\";\n}",
+            "Session remains open during disconnect",
+            "B history after scene reconnect",
+            "B draft after scene reconnect",
+            "UIKit controller stack matches retained routes",
+            "Scene reconnect retains Page identities",
+            "Scene reconnect retains Vue page apps",
+            "Scene disconnect does not settle a pending result",
+            "Guard still blocks back after reconnect",
+            "snapshot scope b",
+            "Retained page result completes once after reconnect",
+            "Retained Vue state updates the recreated native text field",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope a",
+            "Vue HMR runtime available",
+            "snapshot scope b",
+            "snapshot scope a",
+            "B script HMR preserves history",
+            "B script HMR applies new setup",
+            "A script HMR preserves history",
+            "A script HMR applies new setup",
+            "snapshot scope b",
+            "snapshot scope b",
+            "navigation after multi-window HMR"
+          ],
+          "sceneEvents": [
+            {
+              "event": "sceneWillConnect",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneWillConnect",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidEnterBackground",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidEnterBackground",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidDisconnect",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneWillConnect",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            }
+          ],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft A first", "draft A second", "", ""],
+              "unmounted": 3,
+              "entryKeys": ["mwep63su03w7-1", "mwep63su03w7-2"],
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 2,
+              "controllers": 2
+            },
+            {
+              "key": "b",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "reactive after reconnect", "", "", "", "", "", ""],
+              "unmounted": 6,
+              "entryKeys": ["mwep65qq7dfa-1", "mwep65qq7dfa-2"],
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 2,
+              "controllers": 2
+            }
+          ]
+        },
+        {
+          "command": "close",
+          "pid": 26485,
+          "checks": [
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope b",
+            "A history isolated",
+            "B history isolated",
+            "two native windows",
+            "B guard blocks back",
+            "snapshot scope b",
+            "B back leaves A unchanged",
+            "A modal result does not close B",
+            "B modal result",
+            "UIKit reconnect requires iOS",
+            "Scene disconnection driver runs only in a simulator",
+            "snapshot scope b",
+            "snapshot scope a",
+            "snapshot scope b",
+            "Loaded simulator-only scene driver",
+            "snapshot scope b",
+            "Native disconnection request: {\n    status = \"response received\";\n}",
+            "Session remains open during disconnect",
+            "B history after scene reconnect",
+            "B draft after scene reconnect",
+            "UIKit controller stack matches retained routes",
+            "Scene reconnect retains Page identities",
+            "Scene reconnect retains Vue page apps",
+            "Scene disconnect does not settle a pending result",
+            "Guard still blocks back after reconnect",
+            "snapshot scope b",
+            "Retained page result completes once after reconnect",
+            "Retained Vue state updates the recreated native text field",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope a",
+            "Vue HMR runtime available",
+            "snapshot scope b",
+            "snapshot scope a",
+            "B script HMR preserves history",
+            "B script HMR applies new setup",
+            "A script HMR preserves history",
+            "A script HMR applies new setup",
+            "snapshot scope b",
+            "snapshot scope b",
+            "navigation after multi-window HMR",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "closed window releases all Vue page apps",
+            "closed B snapshot cleared",
+            "A snapshot retained"
+          ],
+          "sceneEvents": [
+            {
+              "event": "sceneWillConnect",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneWillConnect",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidEnterBackground",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidEnterBackground",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidDisconnect",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneWillConnect",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidEnterBackground",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            },
+            {
+              "event": "sceneDidDisconnect",
+              "window": "9A868826-0AAC-433C-A611-8C2D3DA62467"
+            }
+          ],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft A first", "draft A second", "", ""],
+              "unmounted": 3,
+              "entryKeys": ["mwep63su03w7-1", "mwep63su03w7-2"],
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 2,
+              "controllers": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "final-restore-ios",
+      "reports": [
+        {
+          "command": "prepare",
+          "pid": 33759,
+          "checks": [
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "snapshot scope b",
+            "A history isolated",
+            "B history isolated",
+            "two native windows",
+            "B guard blocks back",
+            "snapshot scope b",
+            "B back leaves A unchanged",
+            "A modal result does not close B",
+            "B modal result"
+          ],
+          "sceneEvents": [
+            {
+              "event": "sceneWillConnect",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneWillConnect",
+              "window": "D6817F8E-BE64-4A43-BDC4-E21FB0F93DF4"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "D6817F8E-BE64-4A43-BDC4-E21FB0F93DF4"
+            }
+          ],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit", "/edit"],
+              "drafts": ["", "draft A first", "draft A second", ""],
+              "unmounted": 1,
+              "entryKeys": ["mwep9ds63hqr-1", "mwep9ds63hqr-2", "mwep9ds63hqr-3"],
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 3,
+              "controllers": 3
+            },
+            {
+              "key": "b",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft B", "", ""],
+              "unmounted": 2,
+              "entryKeys": ["mwep9fqa6j41-1", "mwep9fqa6j41-2"],
+              "window": "D6817F8E-BE64-4A43-BDC4-E21FB0F93DF4",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 2,
+              "controllers": 2
+            }
+          ]
+        },
+        {
+          "command": "restore-scenes",
+          "pid": 34272,
+          "checks": [
+            "snapshot scope b",
+            "snapshot scope a",
+            "UIKit scene restoration requires iOS",
+            "UIKit retained original a session",
+            "UIKit retained original b session",
+            "UIKit restored both scene sessions",
+            "A duplicate history restored",
+            "B history restored",
+            "snapshot scope a",
+            "A previous duplicate draft restored",
+            "B state remains independent"
+          ],
+          "sceneEvents": [
+            {
+              "event": "sceneWillConnect",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneWillConnect",
+              "window": "D6817F8E-BE64-4A43-BDC4-E21FB0F93DF4"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "D6817F8E-BE64-4A43-BDC4-E21FB0F93DF4"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            }
+          ],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft A first", "draft A second"],
+              "unmounted": 1,
+              "entryKeys": ["mwep9ds63hqr-1", "mwep9ds63hqr-2"],
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 2,
+              "controllers": 2
+            },
+            {
+              "key": "b",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft B"],
+              "unmounted": 0,
+              "entryKeys": ["mwep9fqa6j41-1", "mwep9fqa6j41-2"],
+              "window": "D6817F8E-BE64-4A43-BDC4-E21FB0F93DF4",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 2,
+              "controllers": 2
+            }
+          ]
+        },
+        {
+          "command": "hmr",
+          "pid": 34272,
+          "checks": [
+            "snapshot scope b",
+            "snapshot scope a",
+            "UIKit scene restoration requires iOS",
+            "UIKit retained original a session",
+            "UIKit retained original b session",
+            "UIKit restored both scene sessions",
+            "A duplicate history restored",
+            "B history restored",
+            "snapshot scope a",
+            "A previous duplicate draft restored",
+            "B state remains independent",
+            "Vue HMR runtime available",
+            "snapshot scope b",
+            "snapshot scope a",
+            "B script HMR preserves history",
+            "B script HMR applies new setup",
+            "A script HMR preserves history",
+            "A script HMR applies new setup",
+            "snapshot scope b",
+            "snapshot scope b",
+            "navigation after multi-window HMR"
+          ],
+          "sceneEvents": [
+            {
+              "event": "sceneWillConnect",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneWillConnect",
+              "window": "D6817F8E-BE64-4A43-BDC4-E21FB0F93DF4"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "D6817F8E-BE64-4A43-BDC4-E21FB0F93DF4"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            }
+          ],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft A first", "draft A second", ""],
+              "unmounted": 2,
+              "entryKeys": ["mwep9ds63hqr-1", "mwep9ds63hqr-2"],
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 2,
+              "controllers": 2
+            },
+            {
+              "key": "b",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft B", "", ""],
+              "unmounted": 2,
+              "entryKeys": ["mwep9fqa6j41-1", "mwep9fqa6j41-2"],
+              "window": "D6817F8E-BE64-4A43-BDC4-E21FB0F93DF4",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 2,
+              "controllers": 2
+            }
+          ]
+        },
+        {
+          "command": "close",
+          "pid": 34272,
+          "checks": [
+            "snapshot scope b",
+            "snapshot scope a",
+            "UIKit scene restoration requires iOS",
+            "UIKit retained original a session",
+            "UIKit retained original b session",
+            "UIKit restored both scene sessions",
+            "A duplicate history restored",
+            "B history restored",
+            "snapshot scope a",
+            "A previous duplicate draft restored",
+            "B state remains independent",
+            "Vue HMR runtime available",
+            "snapshot scope b",
+            "snapshot scope a",
+            "B script HMR preserves history",
+            "B script HMR applies new setup",
+            "A script HMR preserves history",
+            "A script HMR applies new setup",
+            "snapshot scope b",
+            "snapshot scope b",
+            "navigation after multi-window HMR",
+            "snapshot scope a",
+            "snapshot scope b",
+            "snapshot scope b",
+            "closed window releases all Vue page apps",
+            "closed B snapshot cleared",
+            "A snapshot retained"
+          ],
+          "sceneEvents": [
+            {
+              "event": "sceneWillConnect",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneWillConnect",
+              "window": "D6817F8E-BE64-4A43-BDC4-E21FB0F93DF4"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "D6817F8E-BE64-4A43-BDC4-E21FB0F93DF4"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidActivate",
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54"
+            },
+            {
+              "event": "sceneDidEnterBackground",
+              "window": "D6817F8E-BE64-4A43-BDC4-E21FB0F93DF4"
+            },
+            {
+              "event": "sceneDidDisconnect",
+              "window": "D6817F8E-BE64-4A43-BDC4-E21FB0F93DF4"
+            }
+          ],
+          "sessions": [
+            {
+              "key": "a",
+              "paths": ["/", "/edit"],
+              "drafts": ["", "draft A first", "draft A second", ""],
+              "unmounted": 2,
+              "entryKeys": ["mwep9ds63hqr-1", "mwep9ds63hqr-2"],
+              "window": "B5023362-E3D9-42CC-8873-21E63DBD9D54",
+              "state": "attached",
+              "loaded": true,
+              "nativePages": 2,
+              "controllers": 2
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

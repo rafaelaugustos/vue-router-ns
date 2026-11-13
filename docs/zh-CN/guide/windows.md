@@ -6,6 +6,23 @@
 
 演示应用现使用 Core 9.1.4 / NativeScript-Vue 3.1.3。[9.1.4 报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) 记录本次窗口测试；[3.1.3 报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vue-3.1.3.md) 保留此前 Core 9.1.3 的证据。上游修复不替代路由器自身的页面生命周期和恢复适配器。多窗口仍是实验性功能；[#175](https://github.com/rafaelaugustos/vue-router-ns/issues/175) 跟踪支持矩阵、重复生命周期/资源测试和稳定性决策。
 
+## 生命周期支持决定（2026-11-13） {#lifecycle-support-decision-2026-11-13}
+
+多窗口仍为**实验性**功能。本契约覆盖每个应用窗口一个 router、由 router 管理的 Frame Page、隔离的历史和结果、临时替换原生界面以及永久关闭。它不代表任意插件、容器或设备组合都已获得认证。
+
+| 范围           | 选定基线                                                                          | 证据边界                                                                                         |
+| -------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Android        | Core 9.1.4、NativeScript-Vue 3.1.3、Android runtime 9.1.1                         | API 34/36 模拟器验收；重建原始任务需要 API 29+。这一最低要求并不表示 API 29–33 已通过认证。      |
+| iPad           | Core 9.1.4、NativeScript-Vue 3.1.3、iOS runtime 9.1.0                             | iPadOS 18.6 模拟器：后台恢复、原始场景重建，以及一次同进程断开/重连。                            |
+| 重复资源清理   | Android 测试应用，固定回收预算                                                    | 六个次要窗口，每个窗口替换两次 Activity；验证待定结果/guard、监听器基线和 Page/Activity 弱引用。 |
+| 已验证子集之外 | Android/iPad 真机、Stage Manager、外接显示器、导航期间调整大小/旋转、自然内存压力 | 不作新的验收保证。iPad 重复断开/关闭的资源测量仍有缺口。                                         |
+
+[带版本的生命周期报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-window-lifecycle.md)记录了源码修订、确切环境、结果、限制及真实应用录像。在模拟器中重建 Activity 不能证明真机旋转或自然内存压力场景。iPad 重连驱动通过仅限模拟器的故障注入，请求操作系统真正断开场景。
+
+临时断开保留现有 Page、Vue 状态和待定结果。永久关闭会释放所属窗口的页面，并将其结果完成一次；延迟返回的 guard 无法向已关闭的栈提交导航。进程死亡后会启动新的 JavaScript 进程：只重建明确持久化的路由/页面状态，不会恢复旧 Promise 或任意原生对象。应用仍须释放自身的订阅和外部引用。
+
+[#188](https://github.com/rafaelaugustos/vue-router-ns/issues/188) 跟踪未来提升为稳定功能前所需的 iPad 重复循环与真机验证证据。
+
 ## 每个窗口一个路由器 {#one-router-per-window}
 
 每台`NativeWindow`拥有一台路由器。其命名视图、模态 导航栈、导航队列、导航守卫 和结果是独立的。两个窗口都可以有一个名为 `inbox` 的视图​​。
