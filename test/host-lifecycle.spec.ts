@@ -279,6 +279,23 @@ describe('external NativeHost lifecycle', () => {
     stopOther()
   })
 
+  it('cancels a pending page Back result when the platform closes the entire host', async () => {
+    const f = fixture(true)
+    const stop = f.mount()
+    await f.router.isReady()
+    const result = f.router.pushForResult('/item')
+    await settle()
+    f.host.back = () => new Promise<void>(() => {})
+    const back = f.router.back({ result: 'not committed' })
+    await settle()
+    f.delegate().closed()
+    expect(await bounded(result)).toBeUndefined()
+    expect(
+      isNavigationFailure(await bounded(back), NavigationFailureType.cancelled),
+    ).toBe(true)
+    stop()
+  })
+
   it('waits for the method promise after native completion has arrived', async () => {
     const f = fixture()
     const stop = f.mount()
@@ -300,6 +317,17 @@ describe('external NativeHost lifecycle', () => {
     expect(done).toBe(false)
     release()
     await navigation
+    stop()
+  })
+
+  it('delivers the result when the platform acknowledges a requested owner close', async () => {
+    const f = fixture(true)
+    const stop = f.mount()
+    await f.router.isReady()
+    const result = f.router.pushForResult('/item', { clearHistory: true })
+    await settle()
+    expect(await f.router.back({ result: 'picked' })).toBeUndefined()
+    expect(await bounded(result)).toBe('picked')
     stop()
   })
 

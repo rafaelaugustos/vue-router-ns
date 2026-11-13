@@ -574,7 +574,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     const from = topOf(stack)?.route
     const initiated = !!stack.pending
     modals.value = modals.value.filter((modal) => modal !== stack)
-    close(stack, true)
+    close(stack, stack.pending?.closing === true)
     settleNavigationFocus(modalOrigins.get(stack), true)
 
     // swiped down, tapped outside or closed by the Android back button
@@ -1352,6 +1352,9 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
 
     if (top && result !== undefined) top.result = result
     const done = expect(stack)
+    // A native close only acknowledges this result when closing was requested.
+    // An unrelated owner close during a page pop cancels its tentative result.
+    stack.pending!.closing = target === null
     try {
       const leaving = host.back(target?.page ?? null, { animated })
       await awaitHost(stack, Promise.all([leaving, done]))
@@ -1657,7 +1660,7 @@ export function createRouter<const R extends readonly RouteRecordRaw[]>(
     const initiated = !!stack.pending
     frames.delete(stack.name)
     try {
-      close(stack, true)
+      close(stack, stack.pending?.closing === true)
     } finally {
       if (lastFrame.value === stack) lastFrame.value = undefined
     }
