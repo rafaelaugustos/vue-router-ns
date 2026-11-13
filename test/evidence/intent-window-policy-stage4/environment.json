@@ -1,0 +1,23 @@
+{
+  "commit": "8ed5bb4534fb081551049ae74dbf539808e3c4ff",
+  "dirty": true,
+  "host": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64",
+    "cpus": 16,
+    "cpu": "Apple M4 Max"
+  },
+  "node": "v20.19.4",
+  "runner": "local",
+  "packages": {
+    "@nativescript/core": "9.1.4",
+    "nativescript-vue": "3.1.3",
+    "@nativescript/android": "9.1.1",
+    "@nativescript/ios": "9.1.0"
+  },
+  "device": {
+    "simulator": "E936B605-F14F-4B62-9624-421572D81FDF",
+    "xcode": "Xcode 27.2\nBuild version 27B52"
+  }
+}

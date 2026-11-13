@@ -334,6 +334,8 @@ Application.setWindowContentResolver((request) => {
 
 默认策略**重用OS**选择的窗口；接收链接不会聚焦到另一个窗口或创建一个窗口。对于通知，应用程序可以选择现有会话，聚焦其原生场景/任务，然后调用该会话的 `router.openLink`。创建窗口，调用`Application.openWindow({ data: { href } })`；在内容解析器中，在挂载之前将 `request.data.href` 交给新路由器的 `openLink`。请勿同时经过与初始路线相同的目的地。 `openLink` 等待挂载。选择目标显式地将通知和文档窗口策略保留在应用程序中，而不是从当前聚焦的全局 Frame 中进行猜测。创建多个 Activity 的 Android 应用程序需要兼容的启动模式（例如 `standard`）以及有意任务重用/新任务的显式标志；下面的普通单窗口示例使用 `singleTask`。
 
+有关复用、聚焦和创建窗口并明确选择恢复历史的可执行示例，请参阅 [intent 窗口策略](./windows#intent-window-policy)。
+
 ### 平台设置 {#platform-setup}
 
 路由器读取平台下发的内容；注册它是应用程序的。该包无法验证域所有权或发布关联文件。
