@@ -91,6 +91,8 @@ En iPadOS 26.0, el mismo entorno de prueba también conservó un estado coherent
 
 El deslizamiento desde el borde del contenido de la barra lateral permanente no inició una navegación interactiva con el controlador de pruebas actual. Esa dirección sigue siendo una carencia explícita de cobertura. Esta ejecución no valida iPads físicos ni Stage Manager. Consulta el [informe de aceptación de la rotación](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-rotation.md) para conocer los escenarios, la secuencia observada y los límites pendientes.
 
+Estos resultados de rotación usaron Core 9.1.3. Core 9.1.4 incluye #11590 para Back en el contenido con la navegación Frame predeterminada; el [nuevo informe](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) distingue el borde de pantalla de iPadOS 18 de la navegación por contenido de iPadOS 26. La corrección por sí sola no completa la cobertura de rotación activa de [#167](https://github.com/rafaelaugustos/vue-router-ns/issues/167)/[#168](https://github.com/rafaelaugustos/vue-router-ns/issues/168). Mantén una acción explícita de Back disponible.
+
 ## Estilismos y plataformas {#styling-and-platforms}
 
 El panel es un `GridLayout` con la clase `router-drawer` y fondo blanco; Dale a la raíz de tu slot su propio fondo y relleno. `width` está en píxeles independientes del dispositivo. `DrawerLayout` viene con AppCompat, por lo que no se agrega nada a la compilación; el Material opcional `NavigationView` no se utiliza, sus propias vistas son el menú.

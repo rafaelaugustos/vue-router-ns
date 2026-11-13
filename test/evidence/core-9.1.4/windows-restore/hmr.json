@@ -1,0 +1,73 @@
+{
+  "command": "hmr",
+  "stage": "hmr",
+  "ok": true,
+  "pid": 93166,
+  "sceneEvents": [
+    {
+      "event": "sceneWillConnect",
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77"
+    },
+    {
+      "event": "sceneWillConnect",
+      "window": "E76385B3-966F-4815-84C9-062EB7E74977"
+    },
+    {
+      "event": "sceneDidActivate",
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77"
+    },
+    {
+      "event": "sceneDidActivate",
+      "window": "E76385B3-966F-4815-84C9-062EB7E74977"
+    }
+  ],
+  "checks": [
+    "snapshot scope b",
+    "snapshot scope a",
+    "UIKit scene restoration requires iOS",
+    "UIKit retained original a session",
+    "UIKit retained original b session",
+    "UIKit restored both scene sessions",
+    "A duplicate history restored",
+    "B history restored",
+    "snapshot scope a",
+    "A previous duplicate draft restored",
+    "B state remains independent",
+    "Vue HMR runtime available",
+    "snapshot scope b",
+    "snapshot scope a",
+    "B script HMR preserves history",
+    "B script HMR applies new setup",
+    "A script HMR preserves history",
+    "A script HMR applies new setup",
+    "snapshot scope b",
+    "snapshot scope b",
+    "navigation after multi-window HMR"
+  ],
+  "sessions": [
+    {
+      "key": "a",
+      "paths": ["/", "/edit"],
+      "drafts": ["", "draft A first", "draft A second", ""],
+      "unmounted": 2,
+      "entryKeys": ["mwejqf70ez91-1", "mwejqf70ez91-2"],
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77",
+      "state": "attached",
+      "loaded": true,
+      "nativePages": 2,
+      "controllers": 2
+    },
+    {
+      "key": "b",
+      "paths": ["/", "/edit"],
+      "drafts": ["", "draft B", "", ""],
+      "unmounted": 2,
+      "entryKeys": ["mwejqhegw510-1", "mwejqhegw510-2"],
+      "window": "E76385B3-966F-4815-84C9-062EB7E74977",
+      "state": "attached",
+      "loaded": true,
+      "nativePages": 2,
+      "controllers": 2
+    }
+  ]
+}

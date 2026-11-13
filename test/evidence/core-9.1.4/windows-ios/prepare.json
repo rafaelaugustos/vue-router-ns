@@ -1,0 +1,71 @@
+{
+  "command": "prepare",
+  "stage": "prepare",
+  "ok": true,
+  "pid": 804,
+  "sceneEvents": [
+    {
+      "event": "sceneWillConnect",
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77"
+    },
+    {
+      "event": "sceneDidActivate",
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77"
+    },
+    {
+      "event": "sceneWillConnect",
+      "window": "FC8B372F-71D2-4598-BFDD-40102258CBCA"
+    },
+    {
+      "event": "sceneDidActivate",
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77"
+    },
+    {
+      "event": "sceneDidActivate",
+      "window": "FC8B372F-71D2-4598-BFDD-40102258CBCA"
+    }
+  ],
+  "checks": [
+    "snapshot scope a",
+    "snapshot scope a",
+    "snapshot scope a",
+    "snapshot scope a",
+    "snapshot scope b",
+    "snapshot scope b",
+    "snapshot scope b",
+    "A history isolated",
+    "B history isolated",
+    "two native windows",
+    "B guard blocks back",
+    "snapshot scope b",
+    "B back leaves A unchanged",
+    "A modal result does not close B",
+    "B modal result"
+  ],
+  "sessions": [
+    {
+      "key": "a",
+      "paths": ["/", "/edit", "/edit"],
+      "drafts": ["", "draft A first", "draft A second", ""],
+      "unmounted": 1,
+      "entryKeys": ["mwejukb1hop5-1", "mwejukb1hop5-2", "mwejukb1hop5-3"],
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77",
+      "state": "attached",
+      "loaded": true,
+      "nativePages": 3,
+      "controllers": 3
+    },
+    {
+      "key": "b",
+      "paths": ["/", "/edit"],
+      "drafts": ["", "draft B", "", ""],
+      "unmounted": 2,
+      "entryKeys": ["mwejumg88fw9-1", "mwejumg88fw9-2"],
+      "window": "FC8B372F-71D2-4598-BFDD-40102258CBCA",
+      "state": "attached",
+      "loaded": true,
+      "nativePages": 2,
+      "controllers": 2
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "command": "link",
+  "stage": "link",
+  "ok": true,
+  "pid": 6111,
+  "sceneEvents": [],
+  "checks": [
+    "snapshot scope a",
+    "snapshot scope a",
+    "snapshot scope b",
+    "A duplicate history restored",
+    "B history restored",
+    "snapshot scope a",
+    "snapshot scope b",
+    "snapshot scope a",
+    "A previous duplicate draft restored",
+    "B state remains independent",
+    "snapshot scope a",
+    "snapshot scope b",
+    "snapshot scope a",
+    "snapshot scope b",
+    "snapshot scope b",
+    "OS link leaves A unchanged",
+    "snapshot scope b"
+  ],
+  "sessions": [
+    {
+      "key": "a",
+      "paths": ["/", "/edit"],
+      "drafts": ["", "draft A first", "draft A second"],
+      "unmounted": 1,
+      "entryKeys": ["mwejw4eq9bb6-1", "mwejw4eq9bb6-2"],
+      "window": "window-555064e9-15fd-4b0e-b9ab-c25fb757bcf5",
+      "state": "attached",
+      "task": 225,
+      "activity": 137799784,
+      "loaded": false,
+      "nativePages": 2
+    },
+    {
+      "key": "b",
+      "paths": ["/", "/edit"],
+      "drafts": ["", "draft B", ""],
+      "unmounted": 1,
+      "entryKeys": ["mwejw5run6d9-1", "mwejw5run6d9-2"],
+      "window": "window-ff804465-2dcd-4afc-907b-97941db76a1d",
+      "state": "attached",
+      "task": 226,
+      "activity": 151125067,
+      "loaded": true,
+      "nativePages": 2
+    }
+  ]
+}

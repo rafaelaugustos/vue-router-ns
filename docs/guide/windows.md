@@ -1,10 +1,10 @@
 # Navigation in multiple native windows
 
-This feature is experimental and requires the supported Core 9.1.3+ / NativeScript-Vue 3.1.2+ dependencies plus the platform's multi-window configuration.
+This feature is experimental and requires the supported Core 9.1.4+ / NativeScript-Vue 3.1.2+ dependencies plus the platform's multi-window configuration.
 
 The router owns the Vue apps behind Frame pages, retaining them while their routes remain in native history. Android Activity recreation is validated with published Core 9.1.3 and NativeScript-Vue 3.1.2; no dependency patch is required. Page and layout HMR still use native Page replacement. Restoration of original Android tasks and UIKit scene sessions after process death is validated. iPad scene disconnect/reconnect within the same running process is also validated: the original Pages, Vue state, guards and pending navigation results survive. The native suite requests a real UIKit scene disconnection using a simulator-only driver; this is separate from background resume and cold restoration.
 
-The demo now uses NativeScript-Vue 3.1.3. Its upstream `$navigateTo` fix does not replace the router-owned page lifecycle described above. The [3.1.3 validation report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vue-3.1.3.md) separates the new acceptance results from the earlier 3.1.2 evidence and records the platform limits.
+The demo now uses Core 9.1.4 / NativeScript-Vue 3.1.3. The [9.1.4 report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) records the new window checks; the [3.1.3 report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vue-3.1.3.md) retains the earlier Core 9.1.3 evidence. The upstream fixes do not replace the router-owned page lifecycle and restoration adapters. Multi-window remains experimental; [#175](https://github.com/rafaelaugustos/vue-router-ns/issues/175) tracks the support matrix, repeated lifecycle/resource checks and stability decision.
 
 ## One router per window
 
@@ -66,7 +66,7 @@ On Android, the launch Activity must support multiple instances: the usual templ
 
 Use the [NativeScript multi-window guide](https://docs.nativescript.org/guide/multi-window) for complete native setup. `openWindow` forwards the request; it cannot change the installed manifest, entitlements or device capabilities. Offer an ordinary `push()` action when multi-window UI is unavailable in your app.
 
-The bound Android router uses its surviving Activity class when opening another window, including after the original Activity finishes. This avoids the Core launcher limitation in [NativeScript #11526](https://github.com/NativeScript/NativeScript/issues/11526) for `router.openWindow()`; direct calls to `Application.openWindow()` retain Core’s behavior.
+The bound Android router uses its surviving Activity class when opening another window, including after the original Activity finishes. Core 9.1.4 also fixes the direct `Application.openWindow()` launcher path through upstream #11552, addressing [#11526](https://github.com/NativeScript/NativeScript/issues/11526). The router retains its existing window-scoped request path; its acceptance is recorded in the [9.1.4 report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md).
 
 ## Detach, reconnect and close
 

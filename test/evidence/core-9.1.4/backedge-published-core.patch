@@ -1,0 +1,23 @@
+diff --git a/demo/package.json b/demo/package.json
+index 4565e47..83dbf50 100644
+--- a/demo/package.json
++++ b/demo/package.json
+@@ -20,2 +20,2 @@
+-    "@nativescript/core": "9.1.3",
+-    "nativescript-vue": "3.1.2"
++    "@nativescript/core": "9.1.4",
++    "nativescript-vue": "3.1.3"
+diff --git a/scripts/native/backedge/BackEdgeUITests.swift b/scripts/native/backedge/BackEdgeUITests.swift
+index 4216f28..c67c57c 100644
+--- a/scripts/native/backedge/BackEdgeUITests.swift
++++ b/scripts/native/backedge/BackEdgeUITests.swift
+@@ -49 +49 @@ final class BackEdgeUITests: XCTestCase {
+-            check(bundle: "org.nativescript.vuerouterns", mode: "core", inset: inset, expectedPop: !inset)
++            check(bundle: "org.nativescript.vuerouterns", mode: "core", inset: inset, expectedPop: !inset || ProcessInfo.processInfo.operatingSystemVersion.majorVersion >= 26)
+diff --git a/scripts/native/backedge/run.mjs b/scripts/native/backedge/run.mjs
+index 53a6ce8..52f2c64 100644
+--- a/scripts/native/backedge/run.mjs
++++ b/scripts/native/backedge/run.mjs
+@@ -53 +53 @@ for (const [bundle, path] of [
+-  await exec('xcrun', ['simctl', 'uninstall', sim, bundle])
++  await exec('xcrun', ['simctl', 'uninstall', sim, bundle]).catch(() => {})

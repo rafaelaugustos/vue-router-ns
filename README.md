@@ -99,7 +99,7 @@ So this is not a wrapper around Vue Router. The frame's back stack is the source
 npm install vue-router-ns@next
 ```
 
-The release candidate is published under `next`. Requires `nativescript-vue` 3.1.2+ (3.x), `@nativescript/core` 9.1.3+ (9.x), and Node 20.19.4+. See the [RC scope and compatibility](https://vue-router-ns.rafaelaugusto.dev/guide/compatibility) for tested versions and experimental features.
+The release candidate is published under `next`. Requires `nativescript-vue` 3.1.2+ (3.x), `@nativescript/core` 9.1.4+ (9.x) for this checkout, and Node 20.19.4+. See the [RC scope and compatibility](https://vue-router-ns.rafaelaugusto.dev/guide/compatibility) for tested versions and experimental features.
 
 ## Getting started
 
@@ -593,7 +593,7 @@ npm authenticates the workflow through [trusted publishing](https://docs.npmjs.c
 
 ## Native windows
 
-On NativeScript Core 9.1.3+ and NativeScript-Vue 3.1.2+, create one router per `NativeWindow` with `createRouter({ routes, window })`. Stacks, modals, results and Android back handling stay within that window. `router.openWindow(to, { data })` sends a typed destination to the OS; the app's window content resolver reads it with `getWindowRoute(request.data)` and mounts a new root/router.
+On NativeScript Core 9.1.4+ and NativeScript-Vue 3.1.2+, create one router per `NativeWindow` with `createRouter({ routes, window })`. Stacks, modals, results and Android back handling stay within that window. `router.openWindow(to, { data })` sends a typed destination to the OS; the app's window content resolver reads it with `getWindowRoute(request.data)` and mounts a new root/router.
 
 This integration is experimental and requires native multi-window configuration. Android Activity recreation, restoration of original Android tasks and UIKit scene sessions after process death, and retained iPad scene reconnection are validated on the published dependencies. No dependency patch is required. Restoration callbacks receive a window context so app storage can separate snapshots; the app owns stable document identity. See [native windows](https://vue-router-ns.rafaelaugusto.dev/guide/windows) for platform limits and simulator/emulator evidence.
 

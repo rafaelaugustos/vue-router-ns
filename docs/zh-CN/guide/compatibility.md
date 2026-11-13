@@ -19,6 +19,8 @@ RC 将 beta 的 Core `>=8.9.0` 和 NativeScript-Vue `^3.0.0` 声明缩小到经�
 
 开发环境和演示应用现已使用 [NativeScript-Vue 3.1.3](https://github.com/nativescript-vue/nativescript-vue/releases/tag/v3.1.3)；上表中的已发布 RC.4 验收基线仍为 3.1.2，peer 依赖要求仍为 `^3.1.2`。3.1.3 修复了 `$navigateTo` 在原生窗口重建时保留页面 Vue 应用、并在窗口永久关闭时卸载它们的行为。路由器的 Frame 页面已通过 `createNativeView()` 自行管理生命周期。[3.1.3 验证报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vue-3.1.3.md) 记录了本次窗口专项测试；本次更新不代表路由器的新版本，也不代表重新完成了整个发布测试矩阵。
 
+上表记录已发布 RC.4 的验收基线。当前 checkout 要求 Core `^9.1.4`，演示应用固定使用 9.1.4 和 NativeScript-Vue 3.1.3。[Core 9.1.4](https://github.com/NativeScript/NativeScript/releases/tag/9.1.4-core) 包含控制器延迟加载、内容区域返回手势以及原始 Activity 关闭后创建窗口的修复。固定使用 9.1.3 的应用应先更新 Core 和 lockfile，再采用当前 checkout。[9.1.4 验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) 区分了本次专项测试与历史证据；本次变更不发布新的 router 版本，也不替代完整发布矩阵。
+
 ## API 范围 {#api-scope}
 
 RC 冻结显式路由和带类型的导航位置；推/替换/返回和结果； 导航守卫和导航生命周期； RouterView、RouterLink、选项卡、抽屉导航 和 Frame 分割导航；模态路由；可选的页面状态恢复；以及下面实验列表之外记录的原生集成。缺陷修复仍然是可能的。在稳定之前不可避免的不兼容修正必须记录在新候选中的迁移说明中。
@@ -36,7 +38,7 @@ RC 冻结显式路由和带类型的导航位置；推/替换/返回和结果；
 
 ## 已知限制 {#known-limits}
 
-- 围绕通用原生导航继承的 NativeScript CSS `direction` 可能会在 iOS 18.6 上触发手势图崩溃。 `RouterDrawer` 使用自己的 `direction` 属性和有界 UIKit 处理；通用布局仍在 [#139](https://github.com/rafaelaugustos/vue-router-ns/issues/139) 中进行跟踪。 Core 复现用例在 `Application.run()` 之前隔离了 `requestLayout()` 内过早的控制器视图加载。使用 `viewIfLoaded` 的候选 Core 校正通过了 iOS/iPadOS 18.6 键盘和交互式 Back 案例，包括 Vue 和路由器对照用例。它还不是已发布依赖项的一部分；这仍然是应用程序的限制。推迟方向和选择加入研究补丁都不是经过认证的应用程序解决方法。
+- 在 Core 9.1.3 中，原生导航外围继承 CSS `direction` 可能导致崩溃，因为 `requestLayout()` 会在应用启动前加载控制器视图。Core 9.1.4 包含上游修复（#11587）；应使用已发布的软件包，而非历史研究补丁。[验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) 记录了已测试的键盘/返回导航组合及 [#139](https://github.com/rafaelaugustos/vue-router-ns/issues/139) 的适用边界。
 - 自动原生可访问性标志、标签和焦点声明不保证语音 VoiceOver/TalkBack 遍历。 [展示验收](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-showcase.md)和单独的功能报告确定了剩余的手动检查。
 
 - 原生 Vite HMR 使用 `.route.json` 元数据。 `definePageMeta` 可与 webpack 和捆绑的 Vite 配合使用，但在原生 Vite HMR 期间不受支持。添加/删除布局或中间件注册需要重新启动应用程序；脚本修改可能重新挂载页面。请参见 [文件路由](./file-routing)。

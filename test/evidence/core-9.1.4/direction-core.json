@@ -1,0 +1,37 @@
+{
+  "devicesAndConfigurations": [
+    {
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "EB33A613-6722-45E7-9CBD-182EEB487363",
+        "deviceName": "Router-Core914-iPad18",
+        "modelName": "iPad Pro 11-inch (M4)",
+        "osBuildNumber": "22G86",
+        "osVersion": "18.6",
+        "platform": "iOS Simulator"
+      },
+      "expectedFailures": 0,
+      "failedTests": 0,
+      "passedTests": 3,
+      "skippedTests": 0,
+      "testPlanConfiguration": {
+        "configurationId": "1",
+        "configurationName": "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription": "DirectionChecks · Built with macOS 26.6.2",
+  "expectedFailures": 0,
+  "failedTests": 0,
+  "finishTime": 1794548636.902,
+  "passedTests": 3,
+  "result": "Passed",
+  "runtimeWarnings": [],
+  "skippedTests": 0,
+  "startTime": 1794548580.273,
+  "statistics": [],
+  "testFailures": [],
+  "title": "Test - DirectionChecks",
+  "topInsights": [],
+  "totalTestCount": 3
+}

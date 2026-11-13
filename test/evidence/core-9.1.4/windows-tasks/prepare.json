@@ -1,0 +1,56 @@
+{
+  "command": "prepare",
+  "stage": "prepare",
+  "ok": true,
+  "pid": 6004,
+  "sceneEvents": [],
+  "checks": [
+    "snapshot scope a",
+    "snapshot scope a",
+    "snapshot scope a",
+    "snapshot scope a",
+    "snapshot scope b",
+    "snapshot scope b",
+    "snapshot scope b",
+    "A history isolated",
+    "B history isolated",
+    "two native windows",
+    "B guard blocks back",
+    "snapshot scope b",
+    "B back leaves A unchanged",
+    "snapshot scope a",
+    "snapshot scope b",
+    "snapshot scope a",
+    "snapshot scope b",
+    "A modal result does not close B",
+    "B modal result"
+  ],
+  "sessions": [
+    {
+      "key": "a",
+      "paths": ["/", "/edit", "/edit"],
+      "drafts": ["", "draft A first", "draft A second", ""],
+      "unmounted": 1,
+      "entryKeys": ["mwejw4eq9bb6-1", "mwejw4eq9bb6-2", "mwejw4eq9bb6-3"],
+      "window": "window-84620e23-e6e5-40bd-b8a3-60289ef21991",
+      "state": "attached",
+      "task": 225,
+      "activity": 90552614,
+      "loaded": true,
+      "nativePages": 3
+    },
+    {
+      "key": "b",
+      "paths": ["/", "/edit"],
+      "drafts": ["", "draft B", "", ""],
+      "unmounted": 2,
+      "entryKeys": ["mwejw5run6d9-1", "mwejw5run6d9-2"],
+      "window": "window-ff804465-2dcd-4afc-907b-97941db76a1d",
+      "state": "attached",
+      "task": 226,
+      "activity": 176295439,
+      "loaded": true,
+      "nativePages": 2
+    }
+  ]
+}

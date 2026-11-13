@@ -1,0 +1,71 @@
+{
+  "command": "prepare",
+  "stage": "prepare",
+  "ok": true,
+  "pid": 86059,
+  "sceneEvents": [
+    {
+      "event": "sceneWillConnect",
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77"
+    },
+    {
+      "event": "sceneDidActivate",
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77"
+    },
+    {
+      "event": "sceneWillConnect",
+      "window": "D581860B-038B-4877-A5E1-85DF686AB6A8"
+    },
+    {
+      "event": "sceneDidActivate",
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77"
+    },
+    {
+      "event": "sceneDidActivate",
+      "window": "D581860B-038B-4877-A5E1-85DF686AB6A8"
+    }
+  ],
+  "checks": [
+    "snapshot scope a",
+    "snapshot scope a",
+    "snapshot scope a",
+    "snapshot scope a",
+    "snapshot scope b",
+    "snapshot scope b",
+    "snapshot scope b",
+    "A history isolated",
+    "B history isolated",
+    "two native windows",
+    "B guard blocks back",
+    "snapshot scope b",
+    "B back leaves A unchanged",
+    "A modal result does not close B",
+    "B modal result"
+  ],
+  "sessions": [
+    {
+      "key": "a",
+      "paths": ["/", "/edit", "/edit"],
+      "drafts": ["", "draft A first", "draft A second", ""],
+      "unmounted": 1,
+      "entryKeys": ["mwejnv7b6kt0-1", "mwejnv7b6kt0-2", "mwejnv7b6kt0-3"],
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77",
+      "state": "attached",
+      "loaded": true,
+      "nativePages": 3,
+      "controllers": 3
+    },
+    {
+      "key": "b",
+      "paths": ["/", "/edit"],
+      "drafts": ["", "draft B", "", ""],
+      "unmounted": 2,
+      "entryKeys": ["mwejnxfg4sjv-1", "mwejnxfg4sjv-2"],
+      "window": "D581860B-038B-4877-A5E1-85DF686AB6A8",
+      "state": "attached",
+      "loaded": true,
+      "nativePages": 2,
+      "controllers": 2
+    }
+  ]
+}

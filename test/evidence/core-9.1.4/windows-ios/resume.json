@@ -1,0 +1,96 @@
+{
+  "command": "resume",
+  "stage": "resume",
+  "ok": true,
+  "pid": 804,
+  "sceneEvents": [
+    {
+      "event": "sceneWillConnect",
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77"
+    },
+    {
+      "event": "sceneDidActivate",
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77"
+    },
+    {
+      "event": "sceneWillConnect",
+      "window": "FC8B372F-71D2-4598-BFDD-40102258CBCA"
+    },
+    {
+      "event": "sceneDidActivate",
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77"
+    },
+    {
+      "event": "sceneDidActivate",
+      "window": "FC8B372F-71D2-4598-BFDD-40102258CBCA"
+    },
+    {
+      "event": "sceneDidEnterBackground",
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77"
+    },
+    {
+      "event": "sceneDidEnterBackground",
+      "window": "FC8B372F-71D2-4598-BFDD-40102258CBCA"
+    },
+    {
+      "event": "sceneDidActivate",
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77"
+    },
+    {
+      "event": "sceneDidActivate",
+      "window": "FC8B372F-71D2-4598-BFDD-40102258CBCA"
+    }
+  ],
+  "checks": [
+    "snapshot scope a",
+    "snapshot scope a",
+    "snapshot scope a",
+    "snapshot scope a",
+    "snapshot scope b",
+    "snapshot scope b",
+    "snapshot scope b",
+    "A history isolated",
+    "B history isolated",
+    "two native windows",
+    "B guard blocks back",
+    "snapshot scope b",
+    "B back leaves A unchanged",
+    "A modal result does not close B",
+    "B modal result",
+    "snapshot scope a",
+    "snapshot scope b",
+    "A history after scene resume",
+    "B history after scene resume",
+    "B draft after scene resume",
+    "snapshot scope b",
+    "snapshot scope b",
+    "B reactivity after scene resume",
+    "snapshot scope a"
+  ],
+  "sessions": [
+    {
+      "key": "a",
+      "paths": ["/", "/edit"],
+      "drafts": ["", "draft A first", "draft A second", ""],
+      "unmounted": 2,
+      "entryKeys": ["mwejukb1hop5-1", "mwejukb1hop5-2"],
+      "window": "51092421-F2AC-43DE-85E3-38F2E8421E77",
+      "state": "attached",
+      "loaded": true,
+      "nativePages": 2,
+      "controllers": 2
+    },
+    {
+      "key": "b",
+      "paths": ["/", "/edit"],
+      "drafts": ["", "reactive after scene resume", "", "", ""],
+      "unmounted": 3,
+      "entryKeys": ["mwejumg88fw9-1", "mwejumg88fw9-2"],
+      "window": "FC8B372F-71D2-4598-BFDD-40102258CBCA",
+      "state": "attached",
+      "loaded": true,
+      "nativePages": 2,
+      "controllers": 2
+    }
+  ]
+}

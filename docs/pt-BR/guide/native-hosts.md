@@ -4,6 +4,8 @@
 O contrato de host é novo e pode mudar entre versões beta. Mudanças incrementam `NATIVE_HOST_VERSION` e aparecem no changelog. Veja a [política de versionamento](#politica-de-versionamento).
 :::
 
+A revisão de estabilidade e a validação de um adaptador independente estão na [#176](https://github.com/rafaelaugustos/vue-router-ns/issues/176). Atualizar as dependências do NativeScript não retira o status experimental deste contrato público.
+
 Um **host** é o contêiner nativo em que o router conduz uma pilha. O `<RouterView>` entrega ao router um `Frame` do NativeScript; o `<RouterSplitView>` entrega dois; uma rota modal recebe um frame dentro de um modal nativo. Todos passam pelo mesmo contrato, então o router mantém uma única implementação de matching, guards, resultados, histórico e reconciliação, enquanto o host cuida da apresentação, dos gestos e dos handles nativos.
 
 O contrato existe para que drawers nativos, sheets e controllers de plataforma possam ser adicionados sem bifurcar o router nem reimplementar guards dentro de cada adaptador. Os hosts embutidos são os primeiros a usá-lo: `createFrameHost(frame)`, `createFrameHost(frame, { modal: true })` e `createSplitFrameHost(list, detail, options)`.
