@@ -1,8 +1,22 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { useDocsLocale } from './locale'
+import { useSiteMotion } from './experience/motion'
+const root = ref<HTMLElement>()
+const { run } = useSiteMotion(root, () => {})
 const { t, localize } = useDocsLocale()
 const step = ref(0)
+watch(step, async () => {
+  await nextTick()
+  const pages = [...root.value!.querySelectorAll<HTMLElement>('.stack-model-page')]
+  run((motion) =>
+    motion.animate(
+      pages,
+      { y: [12, 0], opacity: [0.5, 1] },
+      { duration: 350, ease: 'easeOut' },
+    ),
+  )
+})
 const descriptions = computed(() =>
   localize(
     [
@@ -31,7 +45,7 @@ const actions = [
 </script>
 
 <template>
-  <figure class="stack-model">
+  <figure ref="root" class="stack-model">
     <figcaption>
       {{
         t(

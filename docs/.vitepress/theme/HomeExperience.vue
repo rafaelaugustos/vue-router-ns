@@ -1,565 +1,350 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useDocsLocale } from './locale'
+import { ref } from 'vue'
 import Clip from './Clip.vue'
-const { link, localize } = useDocsLocale()
-const copy = computed(() =>
-  localize(
-    {
-      eyebrow: 'NATIVESCRIPT-VUE 3 · iOS + ANDROID',
-      title: 'Native navigation.',
-      tail: 'With the API you know.',
-      intro:
-        'Build apps with independent stacks, native gestures and adaptive navigation. Keep routes, guards and page-owned state in your hands.',
-      start: 'Build your first app',
-      examples: 'Explore the examples',
-      note: 'Release candidate · See compatibility and limits',
-      caption:
-        'Fieldnotes on iOS 26: drawer, search, actions and return to the same page. Actual simulator recording.',
-      featureTitle: 'From the first push to a complete app',
-      featureIntro:
-        'Choose what your app needs. Each guide explains usage, composition and platform limits.',
-      features: [
-        [
-          '01',
-          'History belongs to the page',
-          'Return to the same list with the same state. Each tab can keep its own navigation stack.',
-          'mental-model',
-          'Understand pages and stacks',
-        ],
-        [
-          '02',
-          'Navigation that adapts',
-          'Compose tabs, drawers and list/detail. Switch the drawer between overlay and pane without recreating pages.',
-          'capabilities',
-          'Choose your containers',
-        ],
-        [
-          '03',
-          'Controls from the platform',
-          'Use native headers, search and menus, with shared actions across supported surfaces.',
-          'page-actions',
-          'Explore page actions',
-        ],
-        [
-          '04',
-          'Flows with a way back',
-          'Open a modal, receive a result and protect an edit before the page is removed.',
-          'modals',
-          'Work with modals',
-        ],
-        [
-          '05',
-          'Entry points and recovery',
-          'Handle deep links and shortcuts, build the destination stack and restore app-persisted state.',
-          'deep-links',
-          'Connect to the system',
-        ],
-        [
-          '06',
-          'Navigation you can inspect',
-          'Export a diagnostic report and compare logical history with native history in the report viewer.',
-          'diagnostics-viewer',
-          'Investigate a navigation',
-        ],
-      ],
-      learn: 'A path through the docs',
-      learnIntro: 'Start small and build on the same concepts.',
-      steps: [
-        [
-          '01',
-          'Install and run',
-          'Prepare a NativeScript-Vue project and open the first page.',
-          'install',
-        ],
-        [
-          '02',
-          'Build a complete flow',
-          'List, detail, guarded editing and a modal result, with every file included.',
-          'first-app',
-        ],
-        [
-          '03',
-          'Bring the features together',
-          'Follow Fieldnotes to add a drawer, search and shared actions.',
-          'native-showcase',
-        ],
-      ],
-      existing: 'Already building an app?',
-      existingText: 'Find a recipe by task or compare the behavior with Vue Router.',
-      recipes: 'Common tasks',
-      differences: 'Coming from Vue Router',
-    },
-    {
-      eyebrow: 'NATIVESCRIPT-VUE 3 · iOS + ANDROID',
-      title: 'Navegação nativa.',
-      tail: 'Com a API que você conhece.',
-      intro:
-        'Crie apps com pilhas independentes, gestos nativos e navegação adaptativa. Rotas, guards e estado de cada página continuam nas suas mãos.',
-      start: 'Crie seu primeiro app',
-      examples: 'Explore os exemplos',
-      note: 'Release candidate · Veja compatibilidade e limites',
-      caption:
-        'Fieldnotes no iOS 26: drawer, busca, ações e retorno à mesma página. Gravação real de simulador.',
-      featureTitle: 'Do primeiro push ao app completo',
-      featureIntro:
-        'Escolha o que seu app precisa. Cada guia mostra o uso, a composição e os limites de cada plataforma.',
-      features: [
-        [
-          '01',
-          'Histórico que pertence à página',
-          'Volte para a mesma lista, com o mesmo estado. Cada aba pode manter sua própria pilha.',
-          'mental-model',
-          'Entenda páginas e pilhas',
-        ],
-        [
-          '02',
-          'Navegação que se adapta',
-          'Combine abas, drawer e lista/detalhe. Alterne o drawer entre overlay e painel sem recriar as páginas.',
-          'capabilities',
-          'Escolha os containers',
-        ],
-        [
-          '03',
-          'Controles da plataforma',
-          'Use headers, busca e menus nativos, com ações compartilhadas entre as superfícies suportadas.',
-          'page-actions',
-          'Explore ações por página',
-        ],
-        [
-          '04',
-          'Fluxos com começo e volta',
-          'Abra um modal, receba um resultado e proteja uma edição antes de sair.',
-          'modals',
-          'Trabalhe com modais',
-        ],
-        [
-          '05',
-          'Entradas e retomadas',
-          'Receba deep links e atalhos, organize a pilha de destino e restaure estado persistido pelo app.',
-          'deep-links',
-          'Conecte o app ao sistema',
-        ],
-        [
-          '06',
-          'Navegação observável',
-          'Exporte um diagnóstico e compare o histórico lógico com o nativo no visualizador de relatórios.',
-          'diagnostics-viewer',
-          'Investigue uma navegação',
-        ],
-      ],
-      learn: 'Um caminho para aprender',
-      learnIntro: 'Comece pequeno e avance usando os mesmos conceitos.',
-      steps: [
-        [
-          '01',
-          'Instale e execute',
-          'Prepare um projeto NativeScript-Vue e abra a primeira página.',
-          'install',
-        ],
-        [
-          '02',
-          'Construa um fluxo',
-          'Lista, detalhe, edição protegida e resultado de modal, com todos os arquivos.',
-          'first-app',
-        ],
-        [
-          '03',
-          'Combine os recursos',
-          'Siga o Fieldnotes para adicionar drawer, busca e ações compartilhadas.',
-          'native-showcase',
-        ],
-      ],
-      existing: 'Já tem um app?',
-      existingText:
-        'Encontre uma receita por tarefa ou compare o comportamento com o Vue Router.',
-      recipes: 'Tarefas comuns',
-      differences: 'Vindo do Vue Router',
-    },
-  ),
-)
+import NavigationScene from './experience/NavigationScene.vue'
+import { useHomeCopy } from './experience/home-copy'
+import { useWords } from './experience/words'
+import { useSiteMotion } from './experience/motion'
+const root = ref<HTMLElement>()
+const copy = useHomeCopy()
+const { word, link } = useWords()
+const copied = ref(false)
+const copyFailed = ref(false)
+const command = 'npm install vue-router-ns@next'
+useSiteMotion(root, (motion, element) => {
+  motion.animate(
+    [...element.querySelectorAll<HTMLElement>('.hero-title > span')],
+    { y: [30, 0], opacity: [0, 1] },
+    { duration: 780, stagger: 110, ease: 'easeOut' },
+  )
+  element
+    .querySelectorAll<HTMLElement>('.hero-title > span')
+    .forEach((line) => motion.observeGeometry(line))
+  const reveals = [...element.querySelectorAll<HTMLElement>('[data-reveal]')]
+  motion.set(reveals, { y: 0 })
+  reveals.forEach((item) => motion.observeGeometry(item))
+  motion.viewportEnter(reveals, {
+    keyframes: { y: [20, 0], opacity: [0, 1] },
+    transition: { duration: 600, ease: 'easeOut' },
+    once: true,
+    threshold: 0.12,
+  })
+  element.querySelectorAll<HTMLElement>('.route-button').forEach((button) => {
+    motion.press(button, { scale: 0.97 }, { transition: 'snappy' })
+    motion.observeGeometry(button)
+  })
+})
+async function copyInstall() {
+  try {
+    await navigator.clipboard.writeText(command)
+    copied.value = true
+    copyFailed.value = false
+  } catch {
+    copyFailed.value = true
+  }
+}
 </script>
 
 <template>
-  <div class="navigation-home">
-    <section class="navigation-hero" aria-labelledby="navigation-title">
-      <div class="navigation-pitch">
-        <p class="navigation-eyebrow">{{ copy.eyebrow }}</p>
-        <h1 id="navigation-title">
-          {{ copy.title }} <span>{{ copy.tail }}</span>
+  <div ref="root" class="router-experience vp-raw">
+    <section class="route-hero route-shell" aria-labelledby="navigation-title">
+      <div class="hero-pitch">
+        <a class="route-eyebrow hero-edition" :href="link('compatibility')"
+          ><span class="edition-dot" aria-hidden="true"></span> NATIVESCRIPT-VUE 3
+          <span aria-hidden="true">/</span> iOS + ANDROID
+          <span aria-hidden="true">↗</span></a
+        >
+        <h1 id="navigation-title" class="hero-title">
+          <span>{{
+            word(['Go somewhere.', 'Vá mais longe.', 'Ve más lejos.', '去往新处。'])
+          }}</span>
+          <span class="hero-title-accent">{{
+            word([
+              'Keep your place.',
+              'Guarde seu lugar.',
+              'Guarda tu lugar.',
+              '记住来路。',
+            ])
+          }}</span>
         </h1>
-        <p class="navigation-intro">{{ copy.intro }}</p>
-        <div class="navigation-actions">
-          <a class="navigation-button primary" :href="link('first-app')"
+        <p class="hero-description">{{ copy.intro }}</p>
+        <div class="route-actions">
+          <a class="route-button" :href="link('first-app')"
             >{{ copy.start }} <span aria-hidden="true">↗</span></a
+          ><a class="route-text-link" href="#navigation-model"
+            >{{
+              word([
+                'Try the stack',
+                'Experimente a pilha',
+                'Prueba la pila',
+                '体验导航栈',
+              ])
+            }}
+            <span aria-hidden="true">↓</span></a
           >
-          <a class="navigation-button" :href="link('examples')">{{ copy.examples }}</a>
         </div>
-        <pre
-          class="navigation-code"
-          aria-label="TypeScript"
-        ><code><span>await</span> router.push('/notes/coast')
-<span>await</span> router.back()</code></pre>
-        <a class="navigation-status" :href="link('compatibility')"
-          >{{ copy.note }} <span aria-hidden="true">→</span></a
+        <div class="hero-install">
+          <code>{{ command }}</code
+          ><button
+            type="button"
+            @click="copyInstall"
+            :aria-label="
+              word([
+                'Copy install command',
+                'Copiar comando de instalação',
+                'Copiar comando de instalación',
+                '复制安装命令',
+              ])
+            "
+          >
+            {{ copied ? '✓' : '⧉' }}
+          </button>
+        </div>
+        <p v-if="copied || copyFailed" class="copy-status" role="status">
+          {{
+            copyFailed
+              ? word([
+                  'Select the command to copy it.',
+                  'Selecione o comando para copiar.',
+                  'Selecciona el comando para copiarlo.',
+                  '请选择并复制命令。',
+                ])
+              : word(['Copied.', 'Copiado.', 'Copiado.', '已复制。'])
+          }}
+        </p>
+        <a class="hero-compatibility" :href="link('compatibility')"
+          >{{ copy.note }} <span aria-hidden="true">↗</span></a
         >
       </div>
-      <div class="navigation-preview">
-        <div class="navigation-preview-label">
-          <span aria-hidden="true"></span> FIELDNOTES
-        </div>
-        <Clip name="native-showcase-preview" :width="248" :caption="copy.caption" />
-      </div>
+      <div id="navigation-model" class="hero-model"><NavigationScene /></div>
     </section>
-    <section class="navigation-section" aria-labelledby="navigation-features">
-      <div class="navigation-section-heading">
-        <h2 id="navigation-features">{{ copy.featureTitle }}</h2>
-        <p>{{ copy.featureIntro }}</p>
+    <div class="route-platforms route-shell">
+      <span>{{
+        word([
+          'FAMILIAR API. NATIVE AT HEART.',
+          'API FAMILIAR. ESSÊNCIA NATIVA.',
+          'API FAMILIAR. ESENCIA NATIVA.',
+          '熟悉的 API，原生的体验。',
+        ])
+      }}</span>
+      <div>
+        <b>Vue 3</b><i aria-hidden="true">↳</i><b>NativeScript</b
+        ><i aria-hidden="true">↳</i><b>iOS + Android</b>
       </div>
-      <div class="navigation-feature-grid">
-        <a
-          v-for="feature in copy.features"
-          :key="feature[0]"
-          class="navigation-feature"
-          :href="link(feature[3])"
+      <a href="https://github.com/rafaelaugustos/vue-router-ns">MIT / GitHub ↗</a>
+    </div>
+    <section class="route-proof route-shell route-section" aria-labelledby="proof-title">
+      <div class="proof-copy" data-reveal>
+        <span class="route-eyebrow"
+          >01 /
+          {{
+            word([
+              'THE NATIVE FEELING',
+              'A SENSAÇÃO NATIVA',
+              'LA SENSACIÓN NATIVA',
+              '原生体验',
+            ])
+          }}</span
         >
-          <span class="navigation-number">{{ feature[0] }}</span>
-          <h3>{{ feature[1] }}</h3>
-          <p>{{ feature[2] }}</p>
-          <span class="navigation-card-link"
-            >{{ feature[4] }} <span aria-hidden="true">→</span></span
-          >
-        </a>
+        <h2 id="proof-title">
+          {{ word(['Every gesture.', 'Cada gesto.', 'Cada gesto.', '每个手势。'])
+          }}<br /><em>{{
+            word(['Right at home.', 'No seu lugar.', 'En su lugar.', '恰到好处。'])
+          }}</em>
+        </h2>
+        <p>
+          {{
+            word([
+              'The header, the Back gesture, the page waiting underneath. Let the platform do what it does best, while your app keeps its own story.',
+              'O header, o gesto de voltar, a página esperando logo abaixo. Deixe a plataforma fazer o que sabe, enquanto seu app guarda a própria história.',
+              'La barra, el gesto de volver, la página que espera debajo. Deja que la plataforma haga lo que sabe mientras tu app conserva su historia.',
+              '导航栏、返回手势、下方等待的页面。让平台发挥所长，让应用保留自己的故事。',
+            ])
+          }}
+        </p>
+        <a class="route-text-link" :href="link('native-showcase')"
+          >{{
+            word([
+              'Inside Fieldnotes',
+              'Por dentro do Fieldnotes',
+              'Dentro de Fieldnotes',
+              '探索 Fieldnotes',
+            ])
+          }}
+          ↗</a
+        >
+        <div class="proof-code">
+          <span>FAMILIAR, BY DESIGN</span>
+          <pre><code><b>await</b> router.push('/notes/coast')
+<b>await</b> router.back()
+<i>// {{ word(['Same page. Same state.', 'Mesma página. Mesmo estado.', 'Misma página. Mismo estado.', '同一页面，同一状态。']) }}</i></code></pre>
+        </div>
+      </div>
+      <div class="proof-media" data-reveal>
+        <div class="proof-media-heading">
+          <span class="edition-dot" aria-hidden="true"></span
+          >{{
+            word([
+              'REAL NATIVE RECORDINGS',
+              'GRAVAÇÕES NATIVAS REAIS',
+              'GRABACIONES NATIVAS REALES',
+              '真实原生录屏',
+            ])
+          }}
+        </div>
+        <div class="proof-devices">
+          <Clip
+            name="native-showcase-preview"
+            :width="210"
+            :caption="copy.caption"
+          /><Clip
+            name="android-drawer"
+            :width="185"
+            :caption="
+              word([
+                'Android drawer. Actual emulator recording.',
+                'Drawer Android. Gravação real de emulador.',
+                'Drawer Android. Grabación real de emulador.',
+                'Android 抽屉导航，真实模拟器录屏。',
+              ])
+            "
+          />
+        </div>
+        <a class="route-text-link" :href="link('examples')"
+          >{{ copy.examples }} <span aria-hidden="true">↗</span></a
+        >
       </div>
     </section>
     <section
-      class="navigation-section navigation-learning"
-      aria-labelledby="navigation-learn"
+      class="route-capabilities route-shell route-section"
+      aria-labelledby="navigation-features"
     >
-      <div class="navigation-section-heading">
-        <h2 id="navigation-learn">{{ copy.learn }}</h2>
-        <p>{{ copy.learnIntro }}</p>
+      <div class="route-section-heading" data-reveal>
+        <div>
+          <span class="route-eyebrow"
+            >02 /
+            {{
+              word([
+                'ROOM TO GROW',
+                'ESPAÇO PARA CRESCER',
+                'ESPACIO PARA CRECER',
+                '为成长留出空间',
+              ])
+            }}</span
+          >
+          <h2 id="navigation-features">{{ copy.featureTitle }}</h2>
+        </div>
+        <p>{{ copy.featureIntro }}</p>
       </div>
-      <div class="navigation-steps">
-        <a v-for="step in copy.steps" :key="step[0]" :href="link(step[3])"
-          ><span class="navigation-number">{{ step[0] }}</span>
-          <h3>{{ step[1] }}</h3>
-          <p>{{ step[2] }}</p>
-          <span aria-hidden="true">↗</span></a
+      <div class="route-feature-grid">
+        <a
+          v-for="feature in copy.features"
+          :key="feature[0]"
+          class="route-feature"
+          :href="link(feature[3])"
+          data-reveal
+          ><span class="feature-number">{{ feature[0] }}</span>
+          <div>
+            <h3>{{ feature[1] }}</h3>
+            <p>{{ feature[2] }}</p>
+            <span class="route-text-link">{{ feature[4] }}</span>
+          </div>
+          <span class="feature-arrow" aria-hidden="true">↗</span></a
         >
       </div>
     </section>
-    <aside class="navigation-existing">
-      <div>
-        <h2>{{ copy.existing }}</h2>
-        <p>{{ copy.existingText }}</p>
+    <section
+      class="route-learning route-shell route-section"
+      aria-labelledby="navigation-learn"
+    >
+      <div class="route-section-heading" data-reveal>
+        <div>
+          <span class="route-eyebrow"
+            >03 /
+            {{
+              word([
+                'YOUR NEXT DESTINATION',
+                'SEU PRÓXIMO DESTINO',
+                'TU PRÓXIMO DESTINO',
+                '你的下一站',
+              ])
+            }}</span
+          >
+          <h2 id="navigation-learn">{{ copy.learn }}</h2>
+        </div>
+        <p>{{ copy.learnIntro }}</p>
       </div>
-      <div class="navigation-actions">
-        <a class="navigation-button" :href="link('recipes')">{{ copy.recipes }}</a
-        ><a class="navigation-card-link" :href="link('vue-router')"
-          >{{ copy.differences }} →</a
+      <div class="route-steps">
+        <a v-for="step in copy.steps" :key="step[0]" :href="link(step[3])" data-reveal
+          ><span class="step-index">{{ step[0] }} <span aria-hidden="true">↗</span></span>
+          <h3>{{ step[1] }}</h3>
+          <p>{{ step[2] }}</p></a
         >
       </div>
-    </aside>
+    </section>
+    <section class="route-ecosystem route-shell" aria-labelledby="ecosystem-title">
+      <div data-reveal>
+        <span class="route-eyebrow">{{
+          word(['GOOD COMPANY', 'BOA COMPANHIA', 'BUENA COMPAÑÍA', '一路同行'])
+        }}</span>
+        <h2 id="ecosystem-title">
+          {{
+            word([
+              'Made to work together.',
+              'Feitos para trabalhar juntos.',
+              'Hechos para trabajar juntos.',
+              '为协作而生。',
+            ])
+          }}
+        </h2>
+        <p>
+          {{
+            word([
+              'Add your own visual language and motion. The navigation stays yours.',
+              'Adicione sua linguagem visual e movimento. A navegação continua sua.',
+              'Añade tu lenguaje visual y movimiento. La navegación sigue siendo tuya.',
+              '加入自己的视觉语言与动效，导航依然由你掌控。',
+            ])
+          }}
+        </p>
+      </div>
+      <a href="https://jolt.rafaelaugusto.dev/" class="ecosystem-link"
+        ><b>jolt.</b
+        ><span>{{
+          word([
+            'Motion, with feeling.',
+            'Movimento com sensação.',
+            'Movimiento que se siente.',
+            '有温度的动效。',
+          ])
+        }}</span
+        ><i aria-hidden="true">↗</i></a
+      ><a href="https://mavis-ui.getcortexlabs.com/" class="ecosystem-link"
+        ><b>mavis.</b
+        ><span>{{
+          word([
+            'Interfaces with character.',
+            'Interfaces com personalidade.',
+            'Interfaces con personalidad.',
+            '有个性的界面。',
+          ])
+        }}</span
+        ><i aria-hidden="true">↗</i></a
+      >
+    </section>
+    <section class="route-finale route-shell" aria-labelledby="finale-title">
+      <span class="route-eyebrow">{{ copy.existing }}</span>
+      <h2 id="finale-title">
+        {{ word(['The next page', 'A próxima página', 'La próxima página', '下一页，'])
+        }}<br /><em>{{ word(['is yours.', 'é sua.', 'es tuya.', '由你书写。']) }}</em>
+      </h2>
+      <p>{{ copy.existingText }}</p>
+      <div class="route-actions">
+        <a class="route-button" :href="link('recipes')">{{ copy.recipes }} ↗</a
+        ><a class="route-text-link" :href="link('vue-router')"
+          >{{ copy.differences }} ↗</a
+        >
+      </div>
+    </section>
   </div>
 </template>
-
-<style scoped>
-.navigation-pitch {
-  min-width: 0;
-}
-.navigation-home a {
-  text-decoration: none;
-}
-.navigation-home .navigation-feature,
-.navigation-home .navigation-steps a {
-  color: var(--vp-c-text-1);
-}
-.navigation-home .navigation-button {
-  text-decoration: none;
-}
-.navigation-home h2 {
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-.navigation-home .navigation-section-heading p {
-  margin: 0;
-}
-.navigation-home .navigation-status {
-  text-decoration: underline;
-}
-.navigation-home h3 {
-  margin: 12px 0 10px;
-}
-
-.navigation-home {
-  max-width: 1184px;
-  margin: 0 auto;
-  padding: 36px 32px 80px;
-}
-.navigation-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
-  align-items: center;
-  gap: 64px;
-  padding: 24px 0 72px;
-}
-.navigation-eyebrow {
-  color: var(--vp-c-brand-1);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.13em;
-  margin-bottom: 26px;
-}
-h1 {
-  font-size: clamp(40px, 4.8vw, 64px);
-  font-weight: 700;
-  line-height: 1.06;
-  letter-spacing: -0.045em;
-}
-h1 span {
-  display: block;
-  color: var(--vp-c-brand-1);
-}
-.navigation-intro {
-  max-width: 520px;
-  color: var(--vp-c-text-2);
-  font-size: 18px;
-  line-height: 1.65;
-  margin: 24px 0 28px;
-}
-.navigation-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.navigation-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  min-height: 46px;
-  padding: 10px 18px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 9px;
-  font-size: 14px;
-  font-weight: 600;
-  background: var(--vp-c-bg-soft);
-}
-.navigation-button.primary {
-  background: var(--vp-c-brand-3);
-  border-color: var(--vp-c-brand-3);
-  color: #071b12;
-}
-.navigation-button:hover {
-  border-color: var(--vp-c-brand-1);
-}
-a:focus-visible {
-  outline: 3px solid var(--vp-c-brand-1);
-  outline-offset: 5px;
-}
-.navigation-code {
-  padding: 18px 22px;
-  margin: 28px 0 16px;
-  border: 1px solid var(--vp-c-divider);
-  border-left: 3px solid var(--vp-c-brand-1);
-  border-radius: 8px;
-  background: var(--vp-code-block-bg);
-  font-size: 14px;
-  line-height: 1.9;
-  overflow: auto;
-  max-width: 475px;
-}
-.navigation-code span {
-  color: var(--vp-c-brand-1);
-}
-.navigation-status {
-  color: var(--vp-c-text-2);
-  font-size: 12px;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-.navigation-preview {
-  position: relative;
-  padding: 20px 16px 0;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 28px;
-  background:
-    radial-gradient(ellipse at top, var(--vp-c-brand-soft), transparent 70%),
-    var(--vp-c-bg-soft);
-}
-.navigation-preview-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: var(--vp-c-text-2);
-}
-.navigation-preview-label span {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--vp-c-brand-1);
-}
-.navigation-preview :deep(.clip) {
-  margin: 16px auto 20px;
-}
-.navigation-preview :deep(figcaption) {
-  font-size: 11px;
-  line-height: 1.5;
-}
-.navigation-section {
-  padding: 44px 0;
-  border-top: 1px solid var(--vp-c-divider);
-}
-.navigation-section-heading {
-  display: flex;
-  align-items: start;
-  gap: 36px;
-  justify-content: space-between;
-  margin-bottom: 28px;
-}
-h2 {
-  font-size: 28px;
-  font-weight: 650;
-  letter-spacing: -0.025em;
-  line-height: 1.25;
-}
-.navigation-section-heading p {
-  max-width: 420px;
-  color: var(--vp-c-text-2);
-  font-size: 15px;
-  line-height: 1.65;
-}
-.navigation-feature-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-.navigation-feature {
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 14px;
-}
-.navigation-feature:hover {
-  background: var(--vp-c-bg-soft);
-  border-color: var(--vp-c-brand-1);
-}
-.navigation-number {
-  color: var(--vp-c-brand-1);
-  font-size: 12px;
-  font-weight: 650;
-  font-family: var(--vp-font-family-mono);
-}
-h3 {
-  font-size: 18px;
-  line-height: 1.4;
-  font-weight: 650;
-  margin: 12px 0 10px;
-  letter-spacing: -0.02em;
-}
-.navigation-feature p,
-.navigation-steps p {
-  color: var(--vp-c-text-2);
-  font-size: 14px;
-  line-height: 1.7;
-  margin-bottom: 24px;
-}
-.navigation-card-link {
-  font-size: 13px;
-  color: var(--vp-c-brand-1);
-  font-weight: 600;
-  margin-top: auto;
-}
-.navigation-steps {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-.navigation-steps a {
-  padding: 24px;
-  background: var(--vp-c-bg-soft);
-  border: 1px solid transparent;
-  border-radius: 14px;
-}
-.navigation-steps a:hover {
-  border-color: var(--vp-c-brand-1);
-}
-.navigation-existing {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 28px;
-  padding: 32px 0 0;
-  border-top: 1px solid var(--vp-c-divider);
-}
-.navigation-existing h2 {
-  font-size: 21px;
-}
-.navigation-existing p {
-  color: var(--vp-c-text-2);
-  font-size: 14px;
-  max-width: 440px;
-  line-height: 1.6;
-  margin-top: 10px;
-}
-@media (max-width: 959px) {
-  .navigation-hero {
-    gap: 28px;
-  }
-  .navigation-feature-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .navigation-section-heading,
-  .navigation-existing {
-    flex-direction: column;
-  }
-  .navigation-steps {
-    gap: 10px;
-  }
-}
-@media (max-width: 639px) {
-  .navigation-home {
-    padding: 20px 24px 48px;
-  }
-  .navigation-hero {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 32px;
-    padding-bottom: 40px;
-  }
-  h1 {
-    font-size: 43px;
-  }
-  .navigation-eyebrow {
-    font-size: 10px;
-  }
-  .navigation-preview {
-    max-width: 360px;
-    width: 100%;
-    margin: 0 auto;
-  }
-  .navigation-intro {
-    font-size: 17px;
-  }
-  .navigation-feature-grid,
-  .navigation-steps {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .navigation-section {
-    padding: 32px 0;
-  }
-  .navigation-section-heading {
-    gap: 14px;
-  }
-  h2 {
-    font-size: 26px;
-  }
-}
-</style>
