@@ -77,6 +77,10 @@ Activity, not natural memory pressure or a full Activity-recreation matrix.
 - Runtime/fixture typechecks, package/native builds, driver syntax and formatting
   pass. No package runtime changed; packed-consumer checks from earlier stages
   are not rerun or claimed here.
+- A clean-checkout check exposed the example's runtime public import resolving to
+  missing build output. Vitest now maps the exact package entry to source, matching
+  the root typecheck's existing mapping. Typecheck and all 889 tests pass with
+  `dist` absent; native fixture compilation still uses built public declarations.
 - Four-locale guide parity/build and browser checks cover the anchor, language
   links, narrow layout, search, video playback and reduced motion. The existing
   documentation browser suite also passes.

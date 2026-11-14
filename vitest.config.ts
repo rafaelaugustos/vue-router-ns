@@ -9,10 +9,15 @@ export default defineConfig({
     __DEV__: 'true',
   },
   resolve: {
-    alias: {
-      'nativescript-vue': shim('nativescript-vue'),
-      '@nativescript/core': shim('core'),
-    },
+    alias: [
+      // Copyable examples import the public entry even before the package is built.
+      {
+        find: /^vue-router-ns$/,
+        replacement: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
+      },
+      { find: 'nativescript-vue', replacement: shim('nativescript-vue') },
+      { find: '@nativescript/core', replacement: shim('core') },
+    ],
   },
   test: {
     include: ['test/**/*.spec.ts'],

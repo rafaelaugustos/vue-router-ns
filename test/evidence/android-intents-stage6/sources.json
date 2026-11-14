@@ -8,5 +8,6 @@
   "scripts/native/android-intents/prepare.py": "0efc079fdde9d2edea1c59f8cc3c683c7c2a6b177b90e61a4c936f30046bd05b",
   "scripts/native/android-intents/tsconfig.json": "ea6f3fa52326ac0ac661cb72564b33d27497665af78a44069f9c68ee95bb160f",
   "docs/public/media/android-intents.mp4": "72848f07233eb8a05a1b6ad4fc90ee09fc34ab14d8cf4687e55322d25ce43860",
-  "docs/public/media/android-intents.jpg": "2c74f01723816e0b17c01fefc69a76d2c90f36e650096e3dbf5c237573e7731c"
+  "docs/public/media/android-intents.jpg": "2c74f01723816e0b17c01fefc69a76d2c90f36e650096e3dbf5c237573e7731c",
+  "vitest.config.ts": "7230fd405d97cc3d349708e9eec306a51372b9317d13be639e06cea45a713297"
 }
