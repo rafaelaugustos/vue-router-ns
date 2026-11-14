@@ -37,4 +37,5 @@ export async function recordEnvironment(out, device, project = 'demo') {
     device,
   }
   await writeFile(`${out}/environment.json`, JSON.stringify(report, null, 2))
+  return report
 }
