@@ -1,0 +1,81 @@
+{
+  "commit": "ff06e39cd0ae761150e8423c11d35f6209f05c7b",
+  "dirty": false,
+  "host": {
+    "platform": "darwin",
+    "release": "24.6.0",
+    "arch": "arm64",
+    "cpus": 3,
+    "cpu": "Apple M1 (Virtual)"
+  },
+  "node": "v22.23.4",
+  "runner": "macOS",
+  "runnerImage": "20261104.0514.1",
+  "run": "43558005810",
+  "attempt": "1",
+  "packages": {
+    "@nativescript/core": "9.1.4",
+    "nativescript-vue": "3.1.2",
+    "@nativescript/android": "9.1.1",
+    "@nativescript/ios": "9.1.0"
+  },
+  "device": {
+    "simulator": "6783902C-478D-4638-A321-A2761DB4EBC0",
+    "runtime": null,
+    "xcode": null,
+    "cli": null,
+    "metadata": {
+      "complete": false,
+      "errors": [
+        {
+          "field": "xcode",
+          "error": {
+            "message": "Error: Command failed: xcodebuild -version\n",
+            "code": null,
+            "signal": "SIGKILL",
+            "killed": true,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        {
+          "field": "cli",
+          "error": {
+            "message": "Error: Command failed: ns --version\n",
+            "code": null,
+            "signal": "SIGKILL",
+            "killed": true,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        {
+          "field": "devices",
+          "error": {
+            "message": "Error: Command failed: xcrun simctl list devices --json\n",
+            "code": null,
+            "signal": "SIGKILL",
+            "killed": true,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        {
+          "field": "runtimes",
+          "error": {
+            "message": "Error: Command failed: xcrun simctl list runtimes --json\n",
+            "code": null,
+            "signal": "SIGKILL",
+            "killed": true,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      ]
+    },
+    "bundler": "vite",
+    "vite": "8.3.4",
+    "nativeVite": "8.0.20",
+    "launchOwner": "NativeScript CLI"
+  }
+}

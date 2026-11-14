@@ -50,7 +50,8 @@ Core 9.1.4, NativeScript-Vue 3.1.2, iOS runtime 9.1.0, native Vite 8.0.20 and
 Vite 8.3.4. Nine Node tests pass, including real subprocess failure, waiting for
 other outstanding command journals, malformed simulator metadata, missing selected
 runtime, timeout details, launch ownership and independent cleanup. The ordinary
-native shell/helper checks pass.
+native shell/helper checks, 987 library tests (ten existing skips), root types and
+formatting pass.
 
 [Actual application video](../docs/public/media/ios-vite-environment.mp4) records
 the controlled corrected run: startup, page/modal navigation, live template,
@@ -63,8 +64,24 @@ journal, rather than being hidden by the successful native result.
 
 ## Hosted validation and remaining scope
 
-Focused hosted validation is being collected for the unchanged runtime source at
-`ff06e39`; its result is required before this follow-up is ready for review.
+[Focused hosted run 43558005810](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43558005810)
+passed on `ff06e39cd0ae761150e8423c11d35f6209f05c7b`: 24 native checks, all seven
+template invariants and cleanup. The [retained hosted evidence](./evidence/ios-vite-environment-183/hosted/provenance.json)
+includes the complete original artifact, command journals and job/CLI logs.
+
+All four environment commands hit their unchanged deadlines in this hosted run.
+Their SIGKILL failures were preserved and every journal settled; native acceptance
+then ran successfully. The report correctly marks metadata incomplete, with
+Xcode/CLI/runtime fields null. This naturally exercises the correction beyond the
+local injected control. The reason for the command stalls remains undiagnosed.
+
+Verified hosted metadata: macOS ARM64, Apple M1 virtual host, Node 22.23.4, runner
+image `20261104.0514.1`, Core 9.1.4, NativeScript-Vue 3.1.2, NativeScript iOS 9.1.0,
+native Vite 8.0.20 and Vite 8.3.4. The workflow requests iPhone 16 Pro / iOS 18.6,
+but no exact simulator runtime build, Xcode version or CLI version is inferred from
+that configuration. Complete hosted toolchain provenance remains outstanding.
+Later commits only add the evidence/report, test shim and a Node test ordering
+correction; acceptance runner and observer source hashes match the hosted commit.
 
 This stage keeps #183 open. The Android foldable drawer mismatch, the historical
 hosted launch cause and a complete required native matrix on one acceptance commit

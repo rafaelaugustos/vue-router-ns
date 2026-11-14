@@ -1,0 +1,22 @@
+{
+  "command": "xcrun",
+  "args": [
+    "simctl",
+    "spawn",
+    "6783902C-478D-4638-A321-A2761DB4EBC0",
+    "log",
+    "show",
+    "--last",
+    "10m",
+    "--style",
+    "compact",
+    "--predicate",
+    "eventMessage CONTAINS \"CONVENTIONS_\""
+  ],
+  "startedAt": "2026-11-14T04:50:19.466Z",
+  "timeoutMs": 20000,
+  "status": "passed",
+  "stdout": "Timestamp               Ty Process[PID:TID]\n2026-11-14 04:50:21.976 Df log[14164:0] [com.apple.log:] log run noninteractively, parent: 2822 (launchd_sim), args: 'log' 'show' '--last' '10m' '--style' 'compact' '--predicate' 'eventMessage CONTAINS \"CONVENTIONS_\"'\n",
+  "stderr": "getpwuid_r did not find a match for uid 501\n",
+  "durationMs": 14841
+}

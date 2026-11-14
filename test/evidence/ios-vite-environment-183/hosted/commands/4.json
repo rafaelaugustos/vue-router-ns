@@ -1,0 +1,16 @@
+{
+  "command": "xcrun",
+  "args": ["simctl", "list", "runtimes", "--json"],
+  "startedAt": "2026-11-14T04:45:55.184Z",
+  "timeoutMs": 20000,
+  "status": "failed",
+  "error": {
+    "message": "Error: Command failed: xcrun simctl list runtimes --json\n",
+    "code": null,
+    "signal": "SIGKILL",
+    "killed": true,
+    "stdout": "",
+    "stderr": ""
+  },
+  "durationMs": 22554
+}

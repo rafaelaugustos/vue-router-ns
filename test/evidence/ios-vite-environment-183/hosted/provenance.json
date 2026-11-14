@@ -1,0 +1,20 @@
+{
+  "run": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43558005810",
+  "source": "ff06e39cd0ae761150e8423c11d35f6209f05c7b",
+  "job": 132335138220,
+  "artifact": 14100000503,
+  "artifactSha256": "0279ef75f785afca28505870a4c1bb7dcc9f2d1faf7e950880482431d2c83e4c",
+  "jobLogSha256": "f412bd584e6862b560248f1add6f660e1a34c43aaf425b9e8e9b9ffd7c4d8956",
+  "result": "Passed24 native checks,7 template invariants and cleanup; all4 metadata probes timed out, errors retained. Hosted environment metadata incomplete.",
+  "files": {
+    "native-vite-ios.zip": "0279ef75f785afca28505870a4c1bb7dcc9f2d1faf7e950880482431d2c83e4c",
+    "outcome.json": "66f5239ac3a47a066eaa495400043debef9d6f9cca6de348e72acb92e7db395a",
+    "results.json": "cb8e374aec3634cc36b4ce78538dc764c2d150e7948c4afd09a0692ad2946f77",
+    "template-probe.log": "93189a47451ff66272eb7260fa83fe06579014920085adbebfddf1f0bb4451d8",
+    "cli.log.gz": "2de4ef2ab31e72d2a888398d1a92ca5f83b28fd12d55a9e763533bc7ecd8d118",
+    "job.log.gz": "d78c638b71689518352edf4248c99f4bfe3c75491307e1bead3744894233ed2a",
+    "recording.log.gz": "6c90d5cde6275d2311a2c28dc6c4a0168974178f778199c28113d0eea37cbaf8",
+    "environment.json": "02d5fc176f801e7cbac7a4c404b0c363733233a929aaa246373eff3adb5f9db0"
+  },
+  "extractedJson": "Whitespace formatted for repository style; original byte-identical files remain in the retained archive."
+}
