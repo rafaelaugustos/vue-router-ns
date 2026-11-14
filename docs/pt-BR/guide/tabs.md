@@ -192,4 +192,14 @@ Um botão nativo comum e Control–O usam a mesma política com origem `internal
 
 <Clip name="drag-drop-tabs" :width="480" aspect="3 / 4" caption="Nove arrastes reais do UIKit e alternativas por botão e teclado entre abas retidas. Simulador iPad iOS 18.6." />
 
-O [relatório de aceitação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drag-drop-stage1.md) cobre uma janela no simulador de iPad. Drops entre janelas, Stage Manager, VoiceOver em aparelho físico e gestos Android ficam para etapas posteriores da #181. Apps Android podem criar um comando alternativo com a política compartilhada; esta etapa não o valida nativamente.
+O [relatório de aceitação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drag-drop-stage1.md) cobre uma janela no simulador de iPad. Stage Manager, VoiceOver em aparelho físico e gestos Android ficam para etapas posteriores da #181. Apps Android podem criar um comando alternativo com a política compartilhada; esta etapa não o valida nativamente.
+
+### Entre janelas do app {#cross-window-drag-drop}
+
+A [receita entre janelas](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/drag-drop/windows.md) vincula cada alvo de drop ao seu próprio router e registro de conta. As duas janelas podem chamar seu Frame de `main`: a janela receptora escolhe o destino. A origem da sessão local de arraste serve para diagnóstico, nunca como permissão ou autoridade de navegação.
+
+O exemplo nativo abre uma segunda cena com o posicionamento padrão público do UIKit antes de arrastar. Sete gestos reais atravessam as janelas visíveis ou são cancelados na origem. Recusa de guard, troca de conta, remoção do documento e fechamento do destino durante o carregamento assíncrono preservam a origem. Um botão comum chega ao mesmo destino sem arrastar.
+
+<Clip name="drag-drop-windows" :width="480" aspect="3 / 4" caption="Arraste entre duas janelas reais do app e fechamento do destino enquanto o provider ainda está pendente. Simulador iPad iOS 18.6." />
+
+As [evidências e instruções da etapa 2](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-window-drop-stage2.md) cobrem janelas do mesmo processo em Split View. O posicionamento continua sendo uma preferência controlada pelo sistema; criar janelas arrastando, alvos na barra lateral, Stage Manager e aceitação em aparelho físico ou leitor de tela ficam fora desta etapa.

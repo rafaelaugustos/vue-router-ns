@@ -32,8 +32,8 @@ function item(json = payload(), type = destinationType) {
     load = vi.fn(() => ({ value: Promise.resolve(json), cancel }))
   return { type, load, cancel }
 }
-function setup(ready = true) {
-  const window = new NativeWindow('target')
+function setup(ready = true, windowId = 'target') {
+  const window = new NativeWindow(windowId)
   const router = createRouter({
     window,
     routes: [
@@ -45,7 +45,7 @@ function setup(ready = true) {
   const owner: DropOwner = {
     router,
     scope: 'account:a',
-    windowId: 'target',
+    windowId,
     frame: 'default',
   }
   let current: DropOwner | undefined = owner
@@ -264,4 +264,82 @@ it('waits for router readiness and disposes before a delayed host can navigate',
   s.start()
   await s.router.isReady()
   expect(paths(s.router.stack.value)).toEqual(['/'])
+})
+
+it('isolates identical Frame names and delivery ids in separate receiving windows', async () => {
+  const a = setup(true, 'a'),
+    b = setup(true, 'b')
+  await Promise.all([a.router.isReady(), b.router.isReady()])
+  // B mounted last; delivery to A must not follow the current global Frame.
+  const guardA = vi.fn(),
+    guardB = vi.fn()
+  a.router.beforeEach(guardA)
+  b.router.beforeEach(guardB)
+  const resultA = await a.policy.drop('same-drag', [item()])
+  expect(resultA).toMatchObject({
+    intent: { target: { windowId: 'a', frame: 'default' } },
+  })
+  expect(paths(a.router.stack.value)).toEqual(['/', '/documents/7'])
+  expect(paths(b.router.stack.value)).toEqual(['/'])
+  expect(guardA).toHaveBeenCalledOnce()
+  expect(guardB).not.toHaveBeenCalled()
+  expect(await b.policy.drop('same-drag', [item()])).toMatchObject({
+    intent: { target: { windowId: 'b', frame: 'default' } },
+    navigation: { status: 'handled' },
+  })
+  expect(guardB).toHaveBeenCalledOnce()
+  expect(
+    await b.router.openIntent(resultA.status === 'settled' ? resultA.intent : undefined),
+  ).toMatchObject({ status: 'ignored', reason: 'wrong-window' })
+  expect(paths(b.router.stack.value)).toEqual(['/', '/documents/7'])
+})
+
+it('does not redirect a waiting delivery to another live window when its receiver closes', async () => {
+  const source = setup(true, 'source'),
+    target = setup(true, 'target')
+  await Promise.all([source.router.isReady(), target.router.isReady()])
+  let deliver!: (value: string) => void
+  const cancel = vi.fn()
+  const pending = target.policy.drop('cross-window', [
+    {
+      type: destinationType,
+      load: () => ({
+        value: new Promise((resolve) => {
+          deliver = resolve
+        }),
+        cancel,
+      }),
+    },
+  ])
+  target.window.close()
+  deliver(payload())
+  expect(await pending).toEqual({ status: 'ignored', reason: 'owner-closed' })
+  expect(target.authorize).not.toHaveBeenCalled()
+  expect(source.authorize).not.toHaveBeenCalled()
+  expect(paths(source.router.stack.value)).toEqual(['/'])
+  expect(cancel).toHaveBeenCalledOnce()
+})
+
+it('rechecks document permission after an asynchronous cross-window transfer', async () => {
+  const source = setup(true, 'source'),
+    target = setup(true, 'target')
+  await Promise.all([source.router.isReady(), target.router.isReady()])
+  let deliver!: (value: string) => void
+  const pending = target.policy.drop('removed-document', [
+    {
+      type: destinationType,
+      load: () => ({
+        value: new Promise((resolve) => {
+          deliver = resolve
+        }),
+        cancel() {},
+      }),
+    },
+  ])
+  target.authorize.mockReturnValue(false)
+  deliver(payload())
+  expect(await pending).toEqual({ status: 'ignored', reason: 'unauthorized' })
+  expect(target.router.hasRoute('document')).toBe(true)
+  expect(paths(source.router.stack.value)).toEqual(['/'])
+  expect(paths(target.router.stack.value)).toEqual(['/'])
 })

@@ -1,0 +1,12 @@
+{
+  "durationSeconds": 92.493333,
+  "sizeBytes": 1991071,
+  "sourceFrames": 2784,
+  "publishedFrames": 2784,
+  "maxRelativeTimestampDeltaSeconds": 0.0,
+  "width": 1032,
+  "height": 1376,
+  "processing": "H.264 scale to 1032x1376, no B frames, passthrough frame timestamps, faststart; all source frames retained without cuts or speed changes.",
+  "sourceSha256": "1d1598acb56dcfb510164ff994f2ff962e11c62823941261ff7d6f3e04674cc5",
+  "publishedSha256": "9f42b85bbb37afc5bf2705009f0e2f5e760cf071d3c338a945df4b141b7cbdbe"
+}

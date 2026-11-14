@@ -1,0 +1,18 @@
+{
+  "demo/src/testing/windowdrop-app.ts": "2e25020b840a840b302718fee116e233d42d3a9e03ce6e8ad0ed481396a6ec66",
+  "demo/webpack.config.js": "f1260b50d1ae355f8bd1b6bc29d9bd7f54df67b59c8ed6e86c0ab6ca09a03b56",
+  "docs/public/media/drag-drop-windows.jpg": "eed31fecc20eea5dad695dfaf327a541d952e2ef50982aa44dfd0d00e2d33869",
+  "docs/public/media/drag-drop-windows.mp4": "9f42b85bbb37afc5bf2705009f0e2f5e760cf071d3c338a945df4b141b7cbdbe",
+  "examples/drag-drop/README.md": "f1e6d9f24a6ee03e78d9e0ee9449d906c28df2a88923309543719544ce9e5037",
+  "examples/drag-drop/ios.ts": "3f551a2dac8ccbc5370aa3038aa412884bbad25f4ad009684587a45232695929",
+  "examples/drag-drop/policy.ts": "65a16ea1e791ff0306d39df0dd27bf988ea404a2f75a0d9241ace02ac72317f4",
+  "examples/drag-drop/windows.ios.ts": "764404a2f65685c735daea519917d45668ae850b8b7239b8085b9077d28cb5fa",
+  "examples/drag-drop/windows.md": "94575501cb808eca2a90ee6652185d572ff9bc666f2a44b6658224607c48cf33",
+  "scripts/native/drag-drop/prepare.py": "70976d2cc5aa736892cd34427a46397e7bf137dc6e4255bb313f2080afa7e360",
+  "scripts/native/window-drop/README.md": "9885ab78445f755922c4469e7de54161dba3a7e7774876fa2c2a4507c6cad085",
+  "scripts/native/window-drop/WindowDropUITests.swift": "29ccdf2b038f5fc2d09fddd31e30bd9fc754b45168da027a6781789132d09c43",
+  "scripts/native/window-drop/ios.mjs": "b74b470dabad58acc38356b5551fb2971e745bb66d66aab98f1215012af2e968",
+  "scripts/native/window-drop/project.rb": "3f638340d2a75ff28a6f6e0c78a0df828d54e4ffdfba73efe4a9ee5f7e86a8bd",
+  "scripts/native/window-drop/tsconfig.json": "428dbf52cfc600567e5945ac2564659f885c7ad84758dc11bdceaaaacf93c527",
+  "test/drop-intents.spec.ts": "72b5d8540e33d41053a73c91bcc3a121c8912808af76909e3549b2d982c08ca9"
+}

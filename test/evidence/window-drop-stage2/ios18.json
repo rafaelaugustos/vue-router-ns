@@ -1,0 +1,1139 @@
+[
+  {
+    "command": "ready",
+    "ok": true,
+    "sequence": 1,
+    "process": "23105AD1-1BBF-466A-AFCB-E772F321AB52",
+    "mode": "valid",
+    "drags": 0,
+    "accepted": 0,
+    "loaded": 0,
+    "collections": 0,
+    "allocations": 0,
+    "owners": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "guarded": 0,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Independent draft A"
+      }
+    }
+  },
+  {
+    "command": "create-target",
+    "ok": true,
+    "sequence": 2,
+    "process": "23105AD1-1BBF-466A-AFCB-E772F321AB52",
+    "mode": "valid",
+    "drags": 0,
+    "accepted": 0,
+    "loaded": 0,
+    "collections": 0,
+    "allocations": 1,
+    "target": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "closed": false
+    },
+    "owners": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "guarded": 0,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Independent draft A"
+      },
+      "b": {
+        "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "guarded": 0,
+        "logical": ["/inbox"],
+        "native": ["/inbox"],
+        "draft": "Independent draft B"
+      }
+    }
+  },
+  {
+    "command": "drop-valid",
+    "ok": true,
+    "sequence": 3,
+    "process": "23105AD1-1BBF-466A-AFCB-E772F321AB52",
+    "mode": "valid",
+    "drags": 1,
+    "accepted": 1,
+    "loaded": 1,
+    "collections": 2,
+    "allocations": 1,
+    "origin": {
+      "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+      "frame": "main"
+    },
+    "target": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "closed": false
+    },
+    "owners": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "guarded": 0,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Independent draft A"
+      },
+      "b": {
+        "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "guarded": 1,
+        "logical": ["/inbox", "/documents/7"],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "Independent draft B"
+      }
+    },
+    "result": {
+      "status": "settled",
+      "intent": {
+        "version": 1,
+        "destination": {
+          "route": {
+            "name": "document",
+            "params": {
+              "id": 7
+            }
+          }
+        },
+        "source": "drag-drop",
+        "delivery": {
+          "scope": "account:a:23105AD1-1BBF-466A-AFCB-E772F321AB52",
+          "id": "23105AD1-1BBF-466A-AFCB-E772F321AB52:1"
+        },
+        "target": {
+          "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+          "frame": "main"
+        }
+      },
+      "navigation": {
+        "status": "handled",
+        "intent": {
+          "version": 1,
+          "destination": {
+            "route": {
+              "name": "document",
+              "params": {
+                "id": 7
+              }
+            }
+          },
+          "source": "drag-drop",
+          "delivery": {
+            "scope": "account:a:23105AD1-1BBF-466A-AFCB-E772F321AB52",
+            "id": "23105AD1-1BBF-466A-AFCB-E772F321AB52:1"
+          },
+          "target": {
+            "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+            "frame": "main"
+          }
+        },
+        "location": {
+          "path": "/documents/7",
+          "fullPath": "/documents/7",
+          "name": "document",
+          "params": {
+            "id": "7"
+          },
+          "query": {},
+          "hash": "",
+          "meta": {},
+          "matched": [
+            {
+              "path": "/documents/:id",
+              "name": "document",
+              "component": {},
+              "meta": {},
+              "beforeEnter": [],
+              "modal": false,
+              "children": []
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "command": "prepare-replay",
+    "ok": true,
+    "sequence": 4,
+    "process": "23105AD1-1BBF-466A-AFCB-E772F321AB52",
+    "mode": "valid",
+    "drags": 1,
+    "accepted": 1,
+    "loaded": 1,
+    "collections": 2,
+    "allocations": 1,
+    "target": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "closed": false
+    },
+    "owners": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "guarded": 0,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Independent draft A"
+      },
+      "b": {
+        "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "guarded": 1,
+        "logical": ["/inbox", "/documents/7"],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "Independent draft B"
+      }
+    },
+    "result": {
+      "status": "ignored",
+      "reason": "repeat"
+    }
+  },
+  {
+    "command": "prepare-repeat",
+    "ok": true,
+    "sequence": 5,
+    "process": "23105AD1-1BBF-466A-AFCB-E772F321AB52",
+    "mode": "repeat",
+    "drags": 1,
+    "accepted": 1,
+    "loaded": 1,
+    "collections": 2,
+    "allocations": 1,
+    "target": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "closed": false
+    },
+    "owners": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "guarded": 0,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Independent draft A"
+      },
+      "b": {
+        "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "guarded": 1,
+        "logical": ["/inbox", "/documents/7"],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "Independent draft B"
+      }
+    }
+  },
+  {
+    "command": "drop-repeat",
+    "ok": true,
+    "sequence": 6,
+    "process": "23105AD1-1BBF-466A-AFCB-E772F321AB52",
+    "mode": "repeat",
+    "drags": 2,
+    "accepted": 2,
+    "loaded": 2,
+    "collections": 4,
+    "allocations": 1,
+    "origin": {
+      "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+      "frame": "main"
+    },
+    "target": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "closed": false
+    },
+    "owners": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "guarded": 0,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Independent draft A"
+      },
+      "b": {
+        "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "guarded": 1,
+        "logical": ["/inbox", "/documents/7"],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "Independent draft B"
+      }
+    },
+    "result": {
+      "status": "settled",
+      "intent": {
+        "version": 1,
+        "destination": {
+          "route": {
+            "name": "document",
+            "params": {
+              "id": 7
+            }
+          }
+        },
+        "source": "drag-drop",
+        "delivery": {
+          "scope": "account:a:23105AD1-1BBF-466A-AFCB-E772F321AB52",
+          "id": "23105AD1-1BBF-466A-AFCB-E772F321AB52:2"
+        },
+        "target": {
+          "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+          "frame": "main"
+        }
+      },
+      "navigation": {
+        "status": "handled",
+        "intent": {
+          "version": 1,
+          "destination": {
+            "route": {
+              "name": "document",
+              "params": {
+                "id": 7
+              }
+            }
+          },
+          "source": "drag-drop",
+          "delivery": {
+            "scope": "account:a:23105AD1-1BBF-466A-AFCB-E772F321AB52",
+            "id": "23105AD1-1BBF-466A-AFCB-E772F321AB52:2"
+          },
+          "target": {
+            "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+            "frame": "main"
+          }
+        },
+        "location": {
+          "path": "/documents/7",
+          "fullPath": "/documents/7",
+          "name": "document",
+          "params": {
+            "id": "7"
+          },
+          "query": {},
+          "hash": "",
+          "meta": {},
+          "matched": [
+            {
+              "path": "/documents/:id",
+              "name": "document",
+              "component": {},
+              "meta": {},
+              "beforeEnter": [],
+              "modal": false,
+              "children": []
+            }
+          ]
+        },
+        "failure": {
+          "name": "NavigationFailure",
+          "type": 16,
+          "to": {
+            "path": "/documents/7",
+            "fullPath": "/documents/7",
+            "name": "document",
+            "params": {
+              "id": "7"
+            },
+            "query": {},
+            "hash": "",
+            "meta": {},
+            "matched": [
+              {
+                "path": "/documents/:id",
+                "name": "document",
+                "component": {},
+                "meta": {},
+                "beforeEnter": [],
+                "modal": false,
+                "children": []
+              }
+            ]
+          },
+          "from": {
+            "path": "/documents/7",
+            "fullPath": "/documents/7",
+            "name": "document",
+            "params": {
+              "id": "7"
+            },
+            "query": {},
+            "hash": "",
+            "meta": {},
+            "matched": [
+              {
+                "path": "/documents/:id",
+                "name": "document",
+                "component": {},
+                "meta": {},
+                "beforeEnter": [],
+                "modal": false,
+                "children": []
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "command": "prepare-guard",
+    "ok": true,
+    "sequence": 7,
+    "process": "23105AD1-1BBF-466A-AFCB-E772F321AB52",
+    "mode": "guard",
+    "drags": 2,
+    "accepted": 2,
+    "loaded": 2,
+    "collections": 4,
+    "allocations": 1,
+    "target": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "closed": false
+    },
+    "owners": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "guarded": 0,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Independent draft A"
+      },
+      "b": {
+        "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "guarded": 1,
+        "logical": ["/inbox"],
+        "native": ["/inbox"],
+        "draft": "Independent draft B"
+      }
+    }
+  },
+  {
+    "command": "drop-guard",
+    "ok": true,
+    "sequence": 8,
+    "process": "23105AD1-1BBF-466A-AFCB-E772F321AB52",
+    "mode": "guard",
+    "drags": 3,
+    "accepted": 3,
+    "loaded": 3,
+    "collections": 6,
+    "allocations": 1,
+    "origin": {
+      "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+      "frame": "main"
+    },
+    "target": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "closed": false
+    },
+    "owners": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "guarded": 0,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Independent draft A"
+      },
+      "b": {
+        "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "guarded": 2,
+        "logical": ["/inbox"],
+        "native": ["/inbox"],
+        "draft": "Independent draft B"
+      }
+    },
+    "result": {
+      "status": "settled",
+      "intent": {
+        "version": 1,
+        "destination": {
+          "route": {
+            "name": "document",
+            "params": {
+              "id": 7
+            }
+          }
+        },
+        "source": "drag-drop",
+        "delivery": {
+          "scope": "account:a:23105AD1-1BBF-466A-AFCB-E772F321AB52",
+          "id": "23105AD1-1BBF-466A-AFCB-E772F321AB52:3"
+        },
+        "target": {
+          "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+          "frame": "main"
+        }
+      },
+      "navigation": {
+        "status": "handled",
+        "intent": {
+          "version": 1,
+          "destination": {
+            "route": {
+              "name": "document",
+              "params": {
+                "id": 7
+              }
+            }
+          },
+          "source": "drag-drop",
+          "delivery": {
+            "scope": "account:a:23105AD1-1BBF-466A-AFCB-E772F321AB52",
+            "id": "23105AD1-1BBF-466A-AFCB-E772F321AB52:3"
+          },
+          "target": {
+            "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+            "frame": "main"
+          }
+        },
+        "location": {
+          "path": "/documents/7",
+          "fullPath": "/documents/7",
+          "name": "document",
+          "params": {
+            "id": "7"
+          },
+          "query": {},
+          "hash": "",
+          "meta": {},
+          "matched": [
+            {
+              "path": "/documents/:id",
+              "name": "document",
+              "component": {},
+              "meta": {},
+              "beforeEnter": [],
+              "modal": false,
+              "children": []
+            }
+          ]
+        },
+        "failure": {
+          "name": "NavigationFailure",
+          "type": 4,
+          "to": {
+            "path": "/documents/7",
+            "fullPath": "/documents/7",
+            "name": "document",
+            "params": {
+              "id": "7"
+            },
+            "query": {},
+            "hash": "",
+            "meta": {},
+            "matched": [
+              {
+                "path": "/documents/:id",
+                "name": "document",
+                "component": {},
+                "meta": {},
+                "beforeEnter": [],
+                "modal": false,
+                "children": []
+              }
+            ]
+          },
+          "from": {
+            "path": "/inbox",
+            "fullPath": "/inbox",
+            "params": {},
+            "query": {},
+            "hash": "",
+            "meta": {},
+            "matched": [
+              {
+                "path": "/inbox",
+                "component": {},
+                "meta": {},
+                "beforeEnter": [],
+                "modal": false,
+                "children": []
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  {
+    "command": "prepare-account",
+    "ok": true,
+    "sequence": 9,
+    "process": "23105AD1-1BBF-466A-AFCB-E772F321AB52",
+    "mode": "account",
+    "drags": 3,
+    "accepted": 3,
+    "loaded": 3,
+    "collections": 6,
+    "allocations": 1,
+    "target": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "closed": false
+    },
+    "owners": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "guarded": 0,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Independent draft A"
+      },
+      "b": {
+        "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "guarded": 2,
+        "logical": ["/inbox"],
+        "native": ["/inbox"],
+        "draft": "Independent draft B"
+      }
+    }
+  },
+  {
+    "command": "drop-account",
+    "ok": true,
+    "sequence": 10,
+    "process": "23105AD1-1BBF-466A-AFCB-E772F321AB52",
+    "mode": "account",
+    "drags": 4,
+    "accepted": 4,
+    "loaded": 3,
+    "collections": 8,
+    "allocations": 1,
+    "origin": {
+      "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+      "frame": "main"
+    },
+    "target": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "closed": false
+    },
+    "owners": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "guarded": 0,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Independent draft A"
+      },
+      "b": {
+        "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "guarded": 2,
+        "logical": ["/inbox"],
+        "native": ["/inbox"],
+        "draft": "Independent draft B"
+      }
+    },
+    "result": {
+      "status": "ignored",
+      "reason": "owner-changed"
+    }
+  },
+  {
+    "command": "prepare-removed",
+    "ok": true,
+    "sequence": 11,
+    "process": "23105AD1-1BBF-466A-AFCB-E772F321AB52",
+    "mode": "removed",
+    "drags": 4,
+    "accepted": 4,
+    "loaded": 3,
+    "collections": 8,
+    "allocations": 1,
+    "target": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "closed": false
+    },
+    "owners": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "guarded": 0,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Independent draft A"
+      },
+      "b": {
+        "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "guarded": 2,
+        "logical": ["/inbox"],
+        "native": ["/inbox"],
+        "draft": "Independent draft B"
+      }
+    }
+  },
+  {
+    "command": "drop-removed",
+    "ok": true,
+    "sequence": 12,
+    "process": "23105AD1-1BBF-466A-AFCB-E772F321AB52",
+    "mode": "removed",
+    "drags": 5,
+    "accepted": 5,
+    "loaded": 4,
+    "collections": 10,
+    "allocations": 1,
+    "origin": {
+      "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+      "frame": "main"
+    },
+    "target": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "closed": false
+    },
+    "owners": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "guarded": 0,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Independent draft A"
+      },
+      "b": {
+        "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "guarded": 2,
+        "logical": ["/inbox"],
+        "native": ["/inbox"],
+        "draft": "Independent draft B"
+      }
+    },
+    "result": {
+      "status": "ignored",
+      "reason": "unauthorized"
+    }
+  },
+  {
+    "command": "prepare-cancel",
+    "ok": true,
+    "sequence": 13,
+    "process": "23105AD1-1BBF-466A-AFCB-E772F321AB52",
+    "mode": "cancel",
+    "drags": 5,
+    "accepted": 5,
+    "loaded": 4,
+    "collections": 10,
+    "allocations": 1,
+    "target": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "closed": false
+    },
+    "owners": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "guarded": 0,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Independent draft A"
+      },
+      "b": {
+        "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "guarded": 2,
+        "logical": ["/inbox"],
+        "native": ["/inbox"],
+        "draft": "Independent draft B"
+      }
+    }
+  },
+  {
+    "command": "cancel-cancel",
+    "ok": true,
+    "sequence": 14,
+    "process": "23105AD1-1BBF-466A-AFCB-E772F321AB52",
+    "mode": "cancel",
+    "drags": 6,
+    "accepted": 5,
+    "loaded": 4,
+    "collections": 12,
+    "allocations": 1,
+    "target": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "closed": false
+    },
+    "owners": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "guarded": 0,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Independent draft A"
+      },
+      "b": {
+        "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "guarded": 2,
+        "logical": ["/inbox"],
+        "native": ["/inbox"],
+        "draft": "Independent draft B"
+      }
+    },
+    "result": {
+      "operation": 0
+    }
+  },
+  {
+    "command": "prepare-accessible",
+    "ok": true,
+    "sequence": 15,
+    "process": "23105AD1-1BBF-466A-AFCB-E772F321AB52",
+    "mode": "accessible",
+    "drags": 6,
+    "accepted": 5,
+    "loaded": 4,
+    "collections": 12,
+    "allocations": 1,
+    "target": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "closed": false
+    },
+    "owners": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "guarded": 0,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Independent draft A"
+      },
+      "b": {
+        "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "guarded": 2,
+        "logical": ["/inbox"],
+        "native": ["/inbox"],
+        "draft": "Independent draft B"
+      }
+    }
+  },
+  {
+    "command": "command-accessible",
+    "ok": true,
+    "sequence": 16,
+    "process": "23105AD1-1BBF-466A-AFCB-E772F321AB52",
+    "mode": "accessible",
+    "drags": 6,
+    "accepted": 6,
+    "loaded": 5,
+    "collections": 12,
+    "allocations": 1,
+    "origin": {
+      "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+      "frame": "main"
+    },
+    "target": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "closed": false
+    },
+    "owners": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "guarded": 0,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Independent draft A"
+      },
+      "b": {
+        "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "guarded": 3,
+        "logical": ["/inbox", "/documents/7"],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "Independent draft B"
+      }
+    },
+    "result": {
+      "status": "settled",
+      "intent": {
+        "version": 1,
+        "destination": {
+          "route": {
+            "name": "document",
+            "params": {
+              "id": 7
+            }
+          }
+        },
+        "source": "internal",
+        "delivery": {
+          "scope": "account:a:23105AD1-1BBF-466A-AFCB-E772F321AB52",
+          "id": "23105AD1-1BBF-466A-AFCB-E772F321AB52:6"
+        },
+        "target": {
+          "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+          "frame": "main"
+        }
+      },
+      "navigation": {
+        "status": "handled",
+        "intent": {
+          "version": 1,
+          "destination": {
+            "route": {
+              "name": "document",
+              "params": {
+                "id": 7
+              }
+            }
+          },
+          "source": "internal",
+          "delivery": {
+            "scope": "account:a:23105AD1-1BBF-466A-AFCB-E772F321AB52",
+            "id": "23105AD1-1BBF-466A-AFCB-E772F321AB52:6"
+          },
+          "target": {
+            "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+            "frame": "main"
+          }
+        },
+        "location": {
+          "path": "/documents/7",
+          "fullPath": "/documents/7",
+          "name": "document",
+          "params": {
+            "id": "7"
+          },
+          "query": {},
+          "hash": "",
+          "meta": {},
+          "matched": [
+            {
+              "path": "/documents/:id",
+              "name": "document",
+              "component": {},
+              "meta": {},
+              "beforeEnter": [],
+              "modal": false,
+              "children": []
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "command": "prepare-close",
+    "ok": true,
+    "sequence": 17,
+    "process": "23105AD1-1BBF-466A-AFCB-E772F321AB52",
+    "mode": "close",
+    "drags": 6,
+    "accepted": 6,
+    "loaded": 5,
+    "collections": 12,
+    "allocations": 1,
+    "target": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "closed": false
+    },
+    "owners": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "guarded": 0,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Independent draft A"
+      },
+      "b": {
+        "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+        "guarded": 3,
+        "logical": ["/inbox"],
+        "native": ["/inbox"],
+        "draft": "Independent draft B"
+      }
+    }
+  },
+  {
+    "command": "drop-close",
+    "ok": true,
+    "sequence": 18,
+    "process": "23105AD1-1BBF-466A-AFCB-E772F321AB52",
+    "mode": "close",
+    "drags": 7,
+    "accepted": 7,
+    "loaded": 5,
+    "collections": 14,
+    "allocations": 1,
+    "origin": {
+      "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+      "frame": "main"
+    },
+    "target": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "closed": true
+    },
+    "owners": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "guarded": 0,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Independent draft A"
+      }
+    },
+    "closedTarget": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "state": "attached",
+      "sceneId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "guarded": 3,
+      "logical": ["/inbox"],
+      "native": ["/inbox"],
+      "draft": "Independent draft B"
+    },
+    "result": {
+      "status": "ignored",
+      "reason": "disposed"
+    }
+  },
+  {
+    "command": "prepare-clear",
+    "ok": true,
+    "sequence": 19,
+    "process": "23105AD1-1BBF-466A-AFCB-E772F321AB52",
+    "mode": "close",
+    "drags": 7,
+    "accepted": 7,
+    "loaded": 5,
+    "collections": 14,
+    "allocations": 1,
+    "target": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "closed": true
+    },
+    "owners": {
+      "a": {
+        "windowId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "frame": "main",
+        "state": "attached",
+        "sceneId": "0D463F82-457F-4B41-9713-553AF4ECBA80",
+        "guarded": 0,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Independent draft A"
+      }
+    },
+    "closedTarget": {
+      "windowId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "frame": "main",
+      "state": "attached",
+      "sceneId": "754CA907-5C63-4CFE-ADF0-7721291F9CC5",
+      "guarded": 3,
+      "logical": ["/inbox"],
+      "native": ["/inbox"],
+      "draft": "Independent draft B"
+    }
+  }
+]

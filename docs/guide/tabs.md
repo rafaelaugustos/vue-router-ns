@@ -211,4 +211,14 @@ An ordinary native button and Control–O use the same policy with source `inter
 
 <Clip name="drag-drop-tabs" :width="480" aspect="3 / 4" caption="Nine real UIKit drags and button/keyboard alternatives between retained tabs. iPad iOS 18.6 simulator." />
 
-The [acceptance report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drag-drop-stage1.md) covers one iPad simulator window. Cross-window drops, Stage Manager, physical-device VoiceOver and Android gestures remain later stages of #181. Android apps can build an explicit command fallback on the shared policy; this stage does not validate it natively.
+The [acceptance report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drag-drop-stage1.md) covers one iPad simulator window. Stage Manager, physical-device VoiceOver and Android gestures remain later stages of #181. Android apps can build an explicit command fallback on the shared policy; this stage does not validate it natively.
+
+### Between app windows {#cross-window-drag-drop}
+
+The [window recipe](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/drag-drop/windows.md) binds each drop view to its own router and account registration. Both windows can name their Frame `main`: the receiving window selects the destination. The local drag-session origin is diagnostic context, never permission or routing authority.
+
+The native example opens a second scene with public UIKit standard placement before dragging. Seven real gestures cross the visible windows or cancel in the source. Guard refusal, account changes, document removal and closing the receiver during asynchronous loading preserve the source. An ordinary button reaches the same destination without dragging.
+
+<Clip name="drag-drop-windows" :width="480" aspect="3 / 4" caption="Dragging between two real app windows, then closing the receiver while its provider is pending. iPad iOS 18.6 simulator." />
+
+[Stage 2 evidence and reproduction](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-window-drop-stage2.md) cover same-process windows in Split View. Placement remains an OS preference; creating a window by dragging, sidebar targets, Stage Manager and physical-device/screen-reader acceptance remain outside this stage.
