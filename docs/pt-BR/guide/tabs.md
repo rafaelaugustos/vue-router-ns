@@ -181,3 +181,15 @@ No iOS, o router escuta na frente do delegate da barra de abas, que de outro mod
 No iOS, um `TabView` só carrega a aba selecionada. Um `<RouterView>` em outra aba espera a primeira página até aquela aba ser aberta, e uma navegação para dentro dele (um deep link, por exemplo) espera junto. As navegações nas outras pilhas não ficam presas.
 
 Dentro de `<RouterTabs>`, selecionar `{ frame: 'settings' }` traz a aba para frente antes de mostrar a página. Com um `TabView` comum, atualize o `selectedIndex` por conta própria e então aguarde `router.push(to, { frame: 'settings' })`. Os nomes devem ser únicos entre `RouterView` e `RouterSplitView`.
+
+## Arrastar e soltar nativo no iPad {#native-drag-drop}
+
+A [receita opcional de arrastar e soltar](https://github.com/rafaelaugustos/vue-router-ns/tree/main/examples/drag-drop) abre um documento em outra aba retida com interações UIKit e o fluxo existente de intents de navegação. O app registra explicitamente o router, a janela e o Frame de destino. Passar sobre o alvo apenas o destaca; soltar carrega e valida o item assíncrono antes de chamar `openIntent` pelos guards normais.
+
+A receita aceita um destino JSON versionado e oferece apenas copiar/abrir. Rejeita itens incompatíveis ou múltiplos, dados grandes demais ou inválidos, expiração, rotas removidas e mudanças de proprietário. O descarte cancela o trabalho pendente do provider. Transferência aceita e navegação concluída são resultados separados: um guard pode recusar a navegação após a transferência, e a aba de destino já pode estar visível. O conteúdo de origem nunca é excluído ou movido.
+
+Um botão nativo comum e Control–O usam a mesma política com origem `internal`. As duas Pages retidas e seus rascunhos independentes são preservados. O [exemplo executável e as instruções de reprodução](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/drag-drop) incluem arrastes reais, cancelamento, repetição, provider lento, recusa de guard e comandos sem arrastar.
+
+<Clip name="drag-drop-tabs" :width="480" aspect="3 / 4" caption="Nove arrastes reais do UIKit e alternativas por botão e teclado entre abas retidas. Simulador iPad iOS 18.6." />
+
+O [relatório de aceitação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drag-drop-stage1.md) cobre uma janela no simulador de iPad. Drops entre janelas, Stage Manager, VoiceOver em aparelho físico e gestos Android ficam para etapas posteriores da #181. Apps Android podem criar um comando alternativo com a política compartilhada; esta etapa não o valida nativamente.

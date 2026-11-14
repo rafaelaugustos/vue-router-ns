@@ -200,3 +200,15 @@ dependencies {
 在iOS上，`TabView`仅加载选定的选项卡。另一个选项卡中的 `<RouterView>` 会等待其第一页，直到该选项卡打开，并且导航到该选项卡（例如深层链接）也会随之等待。其他 导航栈 中的导航不会被阻止。
 
 在 `<RouterTabs>` 内，定位 `{ frame: 'settings' }` 会选择页面显示之前的选项卡。对于普通的 `TabView`，请自行更新其 `selectedIndex`，然后等待 `router.push(to, { frame: 'settings' })`。 `RouterView` 和 `RouterSplitView` 中的名称必须是唯一的。
+
+## iPad 原生拖放 {#native-drag-drop}
+
+可选的[拖放示例](https://github.com/rafaelaugustos/vue-router-ns/tree/main/examples/drag-drop)通过 UIKit 交互和现有导航 intent 流程，在另一个保留状态的标签页中打开文档。应用显式注册接收方的 router、窗口和 Frame。悬停只突出显示目标；放下后才加载并验证异步数据，再通过常规守卫调用 `openIntent`。
+
+此示例接受一个带版本号的 JSON 目标，仅提供复制/打开操作。它会拒绝不支持的类型、多个项目、过大或无效的数据、过期请求、已移除的路由以及归属变更。销毁注册会取消等待中的 provider 工作。接受数据传输与完成导航是不同的结果：守卫可以在传输后拒绝导航，此时目标标签页可能已经显示。源内容不会被删除或移动。
+
+普通原生按钮和 Control–O 使用同一策略，并将来源设为 `internal`。两个保留的 Page 及其独立草稿均保持不变。[可运行示例和复现步骤](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/drag-drop)涵盖真实拖放、取消、重复请求、慢速 provider、守卫拒绝以及无需拖放的命令。
+
+<Clip name="drag-drop-tabs" :width="480" aspect="3 / 4" caption="保留标签页之间的九次真实 UIKit 拖放，以及按钮和键盘替代操作。iPad iOS 18.6 模拟器。" />
+
+[验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drag-drop-stage1.md)覆盖 iPad 模拟器中的一个窗口。跨窗口拖放、Stage Manager、实体设备上的 VoiceOver 和 Android 手势属于 #181 的后续阶段。Android 应用可基于共享策略实现显式命令替代方案；本阶段未对其进行原生验证。

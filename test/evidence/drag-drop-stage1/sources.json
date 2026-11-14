@@ -1,0 +1,16 @@
+{
+  "demo/src/testing/dragdrop-app.ts": "240f0c9df6be8dc84434440565f19fc2c871ce4d282a9adc793222b91c05a892",
+  "demo/webpack.config.js": "8f39f69391628f7568357a5c01b93f439dd91f852673fee837437d262f45b20a",
+  "docs/public/media/drag-drop-tabs.jpg": "c0653eabae2d4ac8183a0f92794a0e3d3dea34c2e4422212aa3509e55b21c38d",
+  "docs/public/media/drag-drop-tabs.mp4": "8b1bd4dd5ab9e65d3b9d9e17370a9568b35c3d037997c9eeb7fa458fc16aa7b5",
+  "examples/drag-drop/README.md": "c56e42eb96a626469f3ec478e3c91abb769c1bcf84c5b8c0809b11b0164c1bdc",
+  "examples/drag-drop/ios.ts": "3f551a2dac8ccbc5370aa3038aa412884bbad25f4ad009684587a45232695929",
+  "examples/drag-drop/policy.ts": "65a16ea1e791ff0306d39df0dd27bf988ea404a2f75a0d9241ace02ac72317f4",
+  "scripts/native/drag-drop/DragDropUITests.swift": "ed2075a5f56e55e2cefd9847e5f3615bff984e78ac053affc40b3a67dc235b87",
+  "scripts/native/drag-drop/README.md": "a5b97f96a3aa2ad56651bcfbc7e6bf274665b01ad0d2626de287cbba5b2a86a6",
+  "scripts/native/drag-drop/ios.mjs": "e8e60ad6b3e0775f4b5423644a8963b0fe0c671dc3c1c7832826cba013498735",
+  "scripts/native/drag-drop/prepare.py": "70976d2cc5aa736892cd34427a46397e7bf137dc6e4255bb313f2080afa7e360",
+  "scripts/native/drag-drop/project.rb": "4eaa53d3c6d71f4315f3a702332fb9aa83bd2d8496747f0896c7447f62be7caf",
+  "scripts/native/drag-drop/tsconfig.json": "11f71fe2d2fc35d98f7e46ec8a4d2af180185f0855349d869b540cfc07181564",
+  "test/drop-intents.spec.ts": "fdaf75cb47a6fa7618cbf648bed7328bcb5294bbc3b2828da11954508fe4fb80"
+}

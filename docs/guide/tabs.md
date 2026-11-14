@@ -200,3 +200,15 @@ On iOS, the router listens in front of the tab bar's delegate, which otherwise a
 On iOS, a `TabView` only loads the selected tab. A `<RouterView>` in another tab waits for its first page until that tab is opened, and a navigation into it (a deep link, for example) waits with it. Navigations in the other stacks aren't held up.
 
 Inside `<RouterTabs>`, targeting `{ frame: 'settings' }` selects the tab before the page shows. With a plain `TabView`, update its `selectedIndex` yourself, then await `router.push(to, { frame: 'settings' })`. Names must be unique across `RouterView` and `RouterSplitView`.
+
+## Native iPad drag/drop {#native-drag-drop}
+
+The optional [drag/drop recipe](https://github.com/rafaelaugustos/vue-router-ns/tree/main/examples/drag-drop) opens a document in another retained tab using UIKit interactions and the existing navigation-intent pipeline. The app explicitly registers the receiving router, window and Frame. Hover highlights the target; only dropping loads and validates the asynchronous item before calling `openIntent` through normal guards.
+
+This recipe accepts one versioned JSON destination and offers copy/open only. It rejects unsupported or multiple items, oversized or invalid data, expiry, removed routes and changed owners. Disposal cancels pending provider work. Accepted transfer and completed navigation are separate outcomes; a guard can refuse navigation after transfer, and the target tab may already be visible. Source content is never deleted or moved.
+
+An ordinary native button and Control–O use the same policy with source `internal`. Both retained Pages and their independent drafts survive. The [runnable fixture and reproduction steps](https://github.com/rafaelaugustos/vue-router-ns/tree/main/scripts/native/drag-drop) include actual drags, cancellation, replay, a slow provider, guard refusal and the non-drag commands.
+
+<Clip name="drag-drop-tabs" :width="480" aspect="3 / 4" caption="Nine real UIKit drags and button/keyboard alternatives between retained tabs. iPad iOS 18.6 simulator." />
+
+The [acceptance report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drag-drop-stage1.md) covers one iPad simulator window. Cross-window drops, Stage Manager, physical-device VoiceOver and Android gestures remain later stages of #181. Android apps can build an explicit command fallback on the shared policy; this stage does not validate it natively.
