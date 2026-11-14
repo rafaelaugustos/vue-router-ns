@@ -192,7 +192,7 @@ Um botão nativo comum e Control–O usam a mesma política com origem `internal
 
 <Clip name="drag-drop-tabs" :width="480" aspect="3 / 4" caption="Nove arrastes reais do UIKit e alternativas por botão e teclado entre abas retidas. Simulador iPad iOS 18.6." />
 
-O [relatório de aceitação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drag-drop-stage1.md) cobre uma janela no simulador de iPad. Stage Manager, VoiceOver em aparelho físico e gestos Android ficam para etapas posteriores da #181. Apps Android podem criar um comando alternativo com a política compartilhada; esta etapa não o valida nativamente.
+O [relatório de aceitação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drag-drop-stage1.md) cobre uma janela no simulador de iPad. Stage Manager e VoiceOver em aparelho físico ficam para etapas posteriores da #181. A cobertura Android está documentada abaixo.
 
 ### Entre janelas do app {#cross-window-drag-drop}
 
@@ -203,3 +203,13 @@ O exemplo nativo abre uma segunda cena com o posicionamento padrão público do 
 <Clip name="drag-drop-windows" :width="480" aspect="3 / 4" caption="Arraste entre duas janelas reais do app e fechamento do destino enquanto o provider ainda está pendente. Simulador iPad iOS 18.6." />
 
 As [evidências e instruções da etapa 2](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-window-drop-stage2.md) cobrem janelas do mesmo processo em Split View. O posicionamento continua sendo uma preferência controlada pelo sistema; criar janelas arrastando, alvos na barra lateral, Stage Manager e aceitação em aparelho físico ou leitor de tela ficam fora desta etapa.
+
+## Arrastar e soltar no Android {#android-drag-drop}
+
+A [receita opcional para Android](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/drag-drop/android.md) usa texto local em `ClipData`, dentro da mesma Activity, e uma aba receptora explícita. Passar sobre o alvo não navega; soltar valida um destino JSON pela política compartilhada e pelos guards normais. Oferece apenas copiar/abrir, sem permissões de URI, transferências entre apps ou provider assíncrono do sistema.
+
+Um botão comum e Control–O chamam a mesma política com origem `internal`. A aceitação nativa no emulador Android 14 também ativa o TalkBack, verifica o foco por exploração por toque no botão e o aciona com toque duplo. As duas Pages e seus rascunhos independentes continuam retidos.
+
+<Clip name="android-drag-drop" aspect="9 / 20" caption="Dez arrastes nativos, recusa de guard e alternativas por botão, teclado e TalkBack. Emulador Android 14." />
+
+As [evidências e instruções da etapa 3](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-android-drop-stage3.md) cobrem uma Activity, entradas reais e foco/ativação pelo TalkBack. Aparelhos físicos, gravação de fala, arrastes globais ou entre Activities e novas janelas ficam fora desta etapa.

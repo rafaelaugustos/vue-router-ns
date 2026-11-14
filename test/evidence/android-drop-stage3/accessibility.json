@@ -1,0 +1,14 @@
+{
+  "original": {
+    "enabled_accessibility_services": "null",
+    "accessibility_enabled": "0"
+  },
+  "restored": {
+    "enabled_accessibility_services": "null",
+    "accessibility_enabled": "0"
+  },
+  "service": "com.google.android.marvin.talkback/com.google.android.marvin.talkback.TalkBackService",
+  "inspection": "public UiAutomation FLAG_DONT_SUPPRESS_ACCESSIBILITY_SERVICES; read-only",
+  "activation": "emulator console touchscreen (device 0): touch exploration focus + double tap",
+  "speechAudioRecorded": false
+}

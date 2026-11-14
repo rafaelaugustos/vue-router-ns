@@ -211,7 +211,7 @@ An ordinary native button and Control–O use the same policy with source `inter
 
 <Clip name="drag-drop-tabs" :width="480" aspect="3 / 4" caption="Nine real UIKit drags and button/keyboard alternatives between retained tabs. iPad iOS 18.6 simulator." />
 
-The [acceptance report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drag-drop-stage1.md) covers one iPad simulator window. Stage Manager, physical-device VoiceOver and Android gestures remain later stages of #181. Android apps can build an explicit command fallback on the shared policy; this stage does not validate it natively.
+The [acceptance report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drag-drop-stage1.md) covers one iPad simulator window. Stage Manager and physical-device VoiceOver remain later stages of #181. Android coverage is documented below.
 
 ### Between app windows {#cross-window-drag-drop}
 
@@ -222,3 +222,13 @@ The native example opens a second scene with public UIKit standard placement bef
 <Clip name="drag-drop-windows" :width="480" aspect="3 / 4" caption="Dragging between two real app windows, then closing the receiver while its provider is pending. iPad iOS 18.6 simulator." />
 
 [Stage 2 evidence and reproduction](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-window-drop-stage2.md) cover same-process windows in Split View. Placement remains an OS preference; creating a window by dragging, sidebar targets, Stage Manager and physical-device/screen-reader acceptance remain outside this stage.
+
+## Android drag/drop {#android-drag-drop}
+
+The optional [Android recipe](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/drag-drop/android.md) uses local, same-Activity text `ClipData` and an explicit receiving tab. Hover does not navigate; dropping validates one JSON destination through the shared policy and normal guards. It offers copy/open only, without URI grants, external-app transfers or an asynchronous OS provider.
+
+An ordinary button and Control–O call the same policy with source `internal`. Native Android 14 emulator acceptance also enables TalkBack, verifies touch-exploration focus on the button and activates it with a double tap. Both Pages and their independent drafts stay retained.
+
+<Clip name="android-drag-drop" aspect="9 / 20" caption="Ten native Android drags, guard refusal and button/keyboard/TalkBack alternatives. Android 14 emulator." />
+
+[Stage 3 evidence and reproduction](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-android-drop-stage3.md) cover one Activity, real input and TalkBack focus/activation. Physical devices, recorded speech, cross-Activity/global drags and new windows remain outside this stage.
