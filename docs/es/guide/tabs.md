@@ -211,4 +211,14 @@ Un botón nativo normal y Control–O usan la misma política con origen `intern
 
 <Clip name="drag-drop-tabs" :width="480" aspect="3 / 4" caption="Nueve arrastres reales de UIKit y alternativas por botón y teclado entre pestañas retenidas. Simulador iPad iOS 18.6." />
 
-El [informe de aceptación](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drag-drop-stage1.md) cubre una ventana del simulador de iPad. Los drops entre ventanas, Stage Manager, VoiceOver en dispositivos físicos y los gestos Android quedan para etapas posteriores de #181. Las apps Android pueden crear un comando alternativo sobre la política compartida; esta etapa no lo valida de forma nativa.
+El [informe de aceptación](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drag-drop-stage1.md) cubre una ventana del simulador de iPad. Stage Manager, VoiceOver en dispositivos físicos y los gestos Android quedan para etapas posteriores de #181. Las apps Android pueden crear un comando alternativo sobre la política compartida; esta etapa no lo valida de forma nativa.
+
+### Entre ventanas de la app {#cross-window-drag-drop}
+
+La [receta entre ventanas](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/drag-drop/windows.md) vincula cada destino de drop a su propio router y registro de cuenta. Ambas ventanas pueden llamar a su Frame `main`: la ventana receptora elige el destino. El origen de la sesión local de arrastre sirve para diagnóstico, nunca como permiso ni autoridad de navegación.
+
+El ejemplo nativo abre una segunda escena con la colocación estándar pública de UIKit antes de arrastrar. Siete gestos reales cruzan las ventanas visibles o se cancelan en el origen. El rechazo de guards, los cambios de cuenta, la eliminación del documento y el cierre del receptor durante la carga asíncrona conservan el origen. Un botón normal llega al mismo destino sin arrastrar.
+
+<Clip name="drag-drop-windows" :width="480" aspect="3 / 4" caption="Arrastre entre dos ventanas reales de la app y cierre del receptor mientras su proveedor sigue pendiente. Simulador iPad iOS 18.6." />
+
+Las [evidencias e instrucciones de la etapa 2](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-window-drop-stage2.md) cubren ventanas del mismo proceso en Split View. La colocación sigue siendo una preferencia controlada por el sistema; crear ventanas arrastrando, destinos en la barra lateral, Stage Manager y la aceptación en dispositivos físicos o lectores de pantalla quedan fuera de esta etapa.

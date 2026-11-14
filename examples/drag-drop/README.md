@@ -1,10 +1,11 @@
-# Optional iPad drag/drop into a retained tab
+# Optional iPad drag/drop navigation
 
 This copyable application recipe uses UIKit `UIDragInteraction`, `NSItemProvider`
 and `UIDropInteraction`, then the existing navigation-intent pipeline. It introduces
 no router API, native-host contract or drag-library dependency. Stage 1 targets a
-single iPad app window with retained tabs. Cross-window and new-window drops are
-later #181 stages, not implied by this recipe.
+single iPad app window with retained tabs. The [window recipe](./windows.md) extends
+the same receiver policy to two existing app windows in stage 2. Creating a new
+window by dragging remains a later #181 stage.
 
 Copy [policy.ts](./policy.ts) and [ios.ts](./ios.ts). Install native interactions on
 loaded views, retain their registrations (UIKit's delegates are weak) and dispose
@@ -105,4 +106,4 @@ See Apple's [data-delivery guide](https://developer.apple.com/documentation/uiki
 and [item-provider threading rules](https://developer.apple.com/documentation/foundation/nsitemprovider).
 The [native report](../../test/native-drag-drop-stage1.md) distinguishes actual
 simulator drags, provider transfer and app-level replay from unsupported hardware,
-Stage Manager, cross-window and external-app claims.
+Stage Manager and external-app claims. The [stage 2 report](../../test/native-window-drop-stage2.md) separately covers actual cross-window drags.

@@ -211,4 +211,14 @@ dependencies {
 
 <Clip name="drag-drop-tabs" :width="480" aspect="3 / 4" caption="保留标签页之间的九次真实 UIKit 拖放，以及按钮和键盘替代操作。iPad iOS 18.6 模拟器。" />
 
-[验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drag-drop-stage1.md)覆盖 iPad 模拟器中的一个窗口。跨窗口拖放、Stage Manager、实体设备上的 VoiceOver 和 Android 手势属于 #181 的后续阶段。Android 应用可基于共享策略实现显式命令替代方案；本阶段未对其进行原生验证。
+[验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drag-drop-stage1.md)覆盖 iPad 模拟器中的一个窗口。Stage Manager、实体设备上的 VoiceOver 和 Android 手势属于 #181 的后续阶段。Android 应用可基于共享策略实现显式命令替代方案；本阶段未对其进行原生验证。
+
+### 在应用窗口之间拖放 {#cross-window-drag-drop}
+
+[跨窗口示例](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/drag-drop/windows.md)将每个放置目标绑定到自己的 router 和账户注册。两个窗口都可以将 Frame 命名为 `main`：由接收窗口选择导航目标。本地拖动会话的来源仅用于诊断，不能作为权限或导航授权。
+
+原生示例先通过 UIKit 的公共标准放置 API 打开第二个场景，再执行拖动。七次真实手势在可见窗口之间移动项目，或在源窗口中取消。守卫拒绝、账户变更、文档移除，以及异步加载期间关闭接收窗口，均不会改变源窗口。普通按钮可在无需拖动的情况下打开相同目标。
+
+<Clip name="drag-drop-windows" :width="480" aspect="3 / 4" caption="在两个真实应用窗口之间拖动，并在 provider 等待期间关闭接收窗口。iPad iOS 18.6 模拟器。" />
+
+[第二阶段的证据与复现步骤](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-window-drop-stage2.md)覆盖同一进程中以 Split View 显示的窗口。窗口放置仍由系统决定；通过拖动创建窗口、侧边栏目标、Stage Manager，以及实体设备或屏幕阅读器验收不属于本阶段范围。

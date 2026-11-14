@@ -2,6 +2,8 @@ const { resolve } = require('path')
 const webpack = require('@nativescript/webpack')
 
 module.exports = (env) => {
+  if (env.windowdropTest && !env.ios)
+    throw new Error('The cross-window drop fixture supports iOS only')
   if (env.dragdropTest && !env.ios)
     throw new Error('The drag/drop fixture supports iOS only')
   if (env.androidintentsTest && !env.android)
@@ -42,6 +44,7 @@ module.exports = (env) => {
       'intententries',
       'androidintents',
       'dragdrop',
+      'windowdrop',
       'suspense',
       'windows',
       'entrypoints',
