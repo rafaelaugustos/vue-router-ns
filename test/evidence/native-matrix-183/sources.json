@@ -1,0 +1,36 @@
+{
+  "base": "35f772733b68519ed18e783079c37b03daa1610b",
+  "localDirty": true,
+  "sources": [
+    {
+      "path": "scripts/native/uikit-split/SplitUITests.swift",
+      "beforeSha256": "fe660f195f580e4a1cc560a03638536014cc863fd57403c1d3080559b0be9af5",
+      "afterSha256": "aa1e7fee7ca436f0bf048daad4d813e2b74be5ad3da996e981c75b97226c349e",
+      "changed": true
+    },
+    {
+      "path": "scripts/native/uikit-split/ios.mjs",
+      "beforeSha256": "c51c80bd69b6415b6fbfaff960114be67509bdc9a07e90c65cf7e135261c351c",
+      "afterSha256": "c51c80bd69b6415b6fbfaff960114be67509bdc9a07e90c65cf7e135261c351c",
+      "changed": false
+    },
+    {
+      "path": "src/guarded-back.ts",
+      "beforeSha256": "b27aec3588ca3c14b31f59034aef6d9593cac2100b39d359f5e5c546fdac08f7",
+      "afterSha256": "b27aec3588ca3c14b31f59034aef6d9593cac2100b39d359f5e5c546fdac08f7",
+      "changed": false
+    },
+    {
+      "path": "demo/src/testing/uikitsplit-app.ts",
+      "beforeSha256": "222166a62b12fcb3aaf572916d021a8671ab8b957fbfc36c3b80d9a2e20f676c",
+      "afterSha256": "222166a62b12fcb3aaf572916d021a8671ab8b957fbfc36c3b80d9a2e20f676c",
+      "changed": false
+    },
+    {
+      "path": ".github/workflows/native-contracts.yml",
+      "beforeSha256": "0a71062f846ad0f7344ee522c9e52074ba08e7bab668c6f5a5e309b841449e64",
+      "afterSha256": "0a71062f846ad0f7344ee522c9e52074ba08e7bab668c6f5a5e309b841449e64",
+      "changed": false
+    }
+  ]
+}

@@ -19,9 +19,13 @@ and diagnostics. An aborted gesture must have reported native progress.
 | -------------------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | Contract Android     | API 34 and 36, Pixel 7 profile, x86_64 Google APIs | JSON per command, screenshots (including held gesture), UI XML, logcat, PIDs                                           |
 | Contract iOS         | macOS 15 ARM, iOS 18.6, iPhone 16 Pro              | XCTest result bundle and screenshots, JSON per command, unified log, PIDs                                              |
-| Native integration   | Android API 34 and foldable API 35                 | Existing tabs, drawer, sheets, deep links, shortcuts, state, conventions and fold/hinge suites                         |
+| Native integration   | Android API 34, foldable API 35 and iOS Vite 18.6  | Tabs, drawer, sheets, links, state, conventions, HMR and fold/hinge suites                                             |
 | Native flows         | Android API 35 and iOS 18.6                        | System pickers, cancellation, results and lifecycle                                                                    |
 | Predictive prototype | Android API 34/35/36, pinned candidate Core        | Legacy/Core comparison, native gestures and bitmap collection, Activity recreation and published-Core negative control |
+| UIKit split          | iOS 18.6 iPhone 16 Pro and iPad Pro 13             | Resizable native composition; iPad incoming scene destinations                                                         |
+| Native page actions  | Android and iOS                                    | Page-owned native action behavior                                                                                      |
+| Native iOS drawer    | iOS 18.6 iPhone 16 and iPad Pro 11                 | Native drawer input, presentations and iPad rotation                                                                   |
+| Native windows       | Android API 34/36 and iPad iOS 18.6                | Experimental window isolation, lifecycle and restoration                                                               |
 
 The active [Native navigation acceptance rule](https://github.com/rafaelaugustos/vue-router-ns/rules/25469946)
 requires `native-contracts` from the GitHub Actions app on `main`, with the branch
@@ -29,10 +33,16 @@ up to date and no bypass actors. A check with the same name from another
 integration does not satisfy it.
 
 The aggregate runs on every PR, including documentation-only PRs, so a required
-check never disappears due to workflow path filtering. It accepts skipped native
-jobs only when change detection confirms that no relevant code changed. Source,
-fixtures, native scripts, workflows and dependencies all require the native lanes.
-Workflow dispatch and the weekly schedule run every lane.
+check never disappears due to workflow path filtering. The current workflow skips
+all device lanes on every PR and accepts those skips; change detection alone does
+not enable them. A green PR aggregate therefore does not prove native acceptance.
+Workflow dispatch and the weekly schedule enable all nine required groups (20
+device jobs after matrix expansion). For these runs the aggregate requires every
+group to succeed. Preserve the run's exact source and per-job results when using
+it as acceptance evidence.
+
+The [2026-11-14 matrix investigation](./native-matrix-183.md) records a run on one
+merged commit and the guarded UIKit Split test-selector correction it exposed.
 
 Rafael Augusto owns the fixture and baseline review. A platform failure stays red
 until its evidence distinguishes a fixture defect, router regression, upstream
