@@ -1,0 +1,2901 @@
+[
+  {
+    "command": "ready",
+    "sequence": 1,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "valid",
+    "drags": 0,
+    "collections": 0,
+    "copyEnds": 0,
+    "cancelEnds": 0,
+    "allocations": 0,
+    "explicitRequests": 0,
+    "pending": 0,
+    "connections": [],
+    "closed": [],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"]
+  },
+  {
+    "command": "drop-valid",
+    "sequence": 2,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "valid",
+    "drags": 1,
+    "collections": 2,
+    "copyEnds": 1,
+    "cancelEnds": 0,
+    "allocations": 1,
+    "explicitRequests": 0,
+    "pending": 0,
+    "origin": {
+      "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+      "frame": "main"
+    },
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      }
+    ],
+    "closed": [],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      },
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": ["/inbox", "/documents/7"],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      }
+    ],
+    "nativeWindowIds": [
+      "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+      "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2"
+    ],
+    "result": {
+      "status": "handled",
+      "intent": {
+        "version": 1,
+        "source": "drag-drop",
+        "destination": {
+          "route": {
+            "name": "document",
+            "params": {
+              "id": 7
+            }
+          }
+        },
+        "delivery": {
+          "scope": "account:a:C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+          "id": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        },
+        "expiresAt": 1794628538052,
+        "target": {
+          "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+          "frame": "main"
+        }
+      },
+      "location": "/documents/7"
+    }
+  },
+  {
+    "command": "prepare-replay",
+    "sequence": 3,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "valid",
+    "drags": 1,
+    "collections": 2,
+    "copyEnds": 1,
+    "cancelEnds": 0,
+    "allocations": 1,
+    "explicitRequests": 0,
+    "pending": 0,
+    "origin": {
+      "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+      "frame": "main"
+    },
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      }
+    ],
+    "closed": [],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      },
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": ["/inbox", "/documents/7"],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      }
+    ],
+    "nativeWindowIds": [
+      "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+      "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2"
+    ],
+    "result": {
+      "status": "ignored",
+      "reason": "repeat"
+    }
+  },
+  {
+    "command": "prepare-cancel",
+    "sequence": 4,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "cancel",
+    "drags": 1,
+    "collections": 2,
+    "copyEnds": 1,
+    "cancelEnds": 0,
+    "allocations": 1,
+    "explicitRequests": 0,
+    "pending": 0,
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"]
+  },
+  {
+    "command": "cancel-cancel",
+    "sequence": 5,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "cancel",
+    "drags": 2,
+    "collections": 4,
+    "copyEnds": 1,
+    "cancelEnds": 1,
+    "allocations": 1,
+    "explicitRequests": 0,
+    "pending": 0,
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"],
+    "result": {
+      "operation": 0
+    }
+  },
+  {
+    "command": "prepare-guard",
+    "sequence": 6,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "guard",
+    "drags": 2,
+    "collections": 4,
+    "copyEnds": 1,
+    "cancelEnds": 1,
+    "allocations": 1,
+    "explicitRequests": 0,
+    "pending": 0,
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"]
+  },
+  {
+    "command": "drop-guard",
+    "sequence": 7,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "guard",
+    "drags": 3,
+    "collections": 6,
+    "copyEnds": 2,
+    "cancelEnds": 1,
+    "allocations": 2,
+    "explicitRequests": 0,
+    "pending": 0,
+    "origin": {
+      "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+      "frame": "main"
+    },
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      },
+      {
+        "id": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-2",
+        "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "sceneId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"],
+    "result": {
+      "status": "handled",
+      "intent": {
+        "version": 1,
+        "source": "drag-drop",
+        "destination": {
+          "route": {
+            "name": "document",
+            "params": {
+              "id": 7
+            }
+          }
+        },
+        "delivery": {
+          "scope": "account:a:C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+          "id": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        },
+        "expiresAt": 1794628562211,
+        "target": {
+          "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+          "frame": "main"
+        }
+      },
+      "location": "/documents/7",
+      "failure": {
+        "type": 4
+      }
+    }
+  },
+  {
+    "command": "prepare-account",
+    "sequence": 8,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "account",
+    "drags": 3,
+    "collections": 6,
+    "copyEnds": 2,
+    "cancelEnds": 1,
+    "allocations": 2,
+    "explicitRequests": 0,
+    "pending": 0,
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      },
+      {
+        "id": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-2",
+        "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "sceneId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"]
+  },
+  {
+    "command": "drop-account",
+    "sequence": 9,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "account",
+    "drags": 4,
+    "collections": 8,
+    "copyEnds": 3,
+    "cancelEnds": 1,
+    "allocations": 2,
+    "explicitRequests": 0,
+    "pending": 0,
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      },
+      {
+        "id": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        }
+      },
+      {
+        "id": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DE0D20AA-F93D-44B9-98EF-29580E805EFA"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-2",
+        "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "sceneId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "windowId": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "rejected": true
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"],
+    "result": {
+      "status": "ignored",
+      "reason": "scope-changed"
+    }
+  },
+  {
+    "command": "prepare-permission",
+    "sequence": 10,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "permission",
+    "drags": 4,
+    "collections": 8,
+    "copyEnds": 3,
+    "cancelEnds": 1,
+    "allocations": 2,
+    "explicitRequests": 0,
+    "pending": 0,
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      },
+      {
+        "id": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        }
+      },
+      {
+        "id": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DE0D20AA-F93D-44B9-98EF-29580E805EFA"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-2",
+        "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "sceneId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "windowId": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "rejected": true
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"]
+  },
+  {
+    "command": "drop-permission",
+    "sequence": 11,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "permission",
+    "drags": 5,
+    "collections": 10,
+    "copyEnds": 4,
+    "cancelEnds": 1,
+    "allocations": 2,
+    "explicitRequests": 0,
+    "pending": 0,
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      },
+      {
+        "id": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        }
+      },
+      {
+        "id": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DE0D20AA-F93D-44B9-98EF-29580E805EFA"
+        }
+      },
+      {
+        "id": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "66121FA7-0F51-4625-9316-4D20493D8F4E"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-2",
+        "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "sceneId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "windowId": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "rejected": true
+      },
+      {
+        "windowId": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "rejected": true
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"],
+    "result": {
+      "status": "ignored",
+      "reason": "unauthorized"
+    }
+  },
+  {
+    "command": "prepare-removed",
+    "sequence": 12,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "removed",
+    "drags": 5,
+    "collections": 10,
+    "copyEnds": 4,
+    "cancelEnds": 1,
+    "allocations": 2,
+    "explicitRequests": 0,
+    "pending": 0,
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      },
+      {
+        "id": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        }
+      },
+      {
+        "id": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DE0D20AA-F93D-44B9-98EF-29580E805EFA"
+        }
+      },
+      {
+        "id": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "66121FA7-0F51-4625-9316-4D20493D8F4E"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-2",
+        "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "sceneId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "windowId": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "rejected": true
+      },
+      {
+        "windowId": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "rejected": true
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"]
+  },
+  {
+    "command": "drop-removed",
+    "sequence": 13,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "removed",
+    "drags": 6,
+    "collections": 12,
+    "copyEnds": 5,
+    "cancelEnds": 1,
+    "allocations": 2,
+    "explicitRequests": 0,
+    "pending": 0,
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      },
+      {
+        "id": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        }
+      },
+      {
+        "id": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DE0D20AA-F93D-44B9-98EF-29580E805EFA"
+        }
+      },
+      {
+        "id": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "66121FA7-0F51-4625-9316-4D20493D8F4E"
+        }
+      },
+      {
+        "id": "23145461-F705-482D-AD76-16FF1DA04530",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "0097D5AB-69D6-4497-A4E7-4014460CDA1C"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-2",
+        "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "sceneId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "windowId": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "rejected": true
+      },
+      {
+        "windowId": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "rejected": true
+      },
+      {
+        "windowId": "23145461-F705-482D-AD76-16FF1DA04530",
+        "rejected": true
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"],
+    "result": {
+      "status": "ignored",
+      "reason": "unmatched"
+    }
+  },
+  {
+    "command": "prepare-expired",
+    "sequence": 14,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "expired",
+    "drags": 6,
+    "collections": 12,
+    "copyEnds": 5,
+    "cancelEnds": 1,
+    "allocations": 2,
+    "explicitRequests": 0,
+    "pending": 0,
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      },
+      {
+        "id": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        }
+      },
+      {
+        "id": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DE0D20AA-F93D-44B9-98EF-29580E805EFA"
+        }
+      },
+      {
+        "id": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "66121FA7-0F51-4625-9316-4D20493D8F4E"
+        }
+      },
+      {
+        "id": "23145461-F705-482D-AD76-16FF1DA04530",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "0097D5AB-69D6-4497-A4E7-4014460CDA1C"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-2",
+        "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "sceneId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "windowId": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "rejected": true
+      },
+      {
+        "windowId": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "rejected": true
+      },
+      {
+        "windowId": "23145461-F705-482D-AD76-16FF1DA04530",
+        "rejected": true
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"]
+  },
+  {
+    "command": "drop-expired",
+    "sequence": 15,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "expired",
+    "drags": 7,
+    "collections": 14,
+    "copyEnds": 6,
+    "cancelEnds": 1,
+    "allocations": 2,
+    "explicitRequests": 0,
+    "pending": 0,
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      },
+      {
+        "id": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        }
+      },
+      {
+        "id": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DE0D20AA-F93D-44B9-98EF-29580E805EFA"
+        }
+      },
+      {
+        "id": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "66121FA7-0F51-4625-9316-4D20493D8F4E"
+        }
+      },
+      {
+        "id": "23145461-F705-482D-AD76-16FF1DA04530",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "0097D5AB-69D6-4497-A4E7-4014460CDA1C"
+        }
+      },
+      {
+        "id": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "357035E4-DBC0-45E6-A2A6-A88CD1A5AECF"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-2",
+        "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "sceneId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "windowId": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "rejected": true
+      },
+      {
+        "windowId": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "rejected": true
+      },
+      {
+        "windowId": "23145461-F705-482D-AD76-16FF1DA04530",
+        "rejected": true
+      },
+      {
+        "windowId": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "rejected": true
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"],
+    "result": {
+      "status": "ignored",
+      "reason": "expired"
+    }
+  },
+  {
+    "command": "prepare-close",
+    "sequence": 16,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "close",
+    "drags": 7,
+    "collections": 14,
+    "copyEnds": 6,
+    "cancelEnds": 1,
+    "allocations": 2,
+    "explicitRequests": 0,
+    "pending": 0,
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      },
+      {
+        "id": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        }
+      },
+      {
+        "id": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DE0D20AA-F93D-44B9-98EF-29580E805EFA"
+        }
+      },
+      {
+        "id": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "66121FA7-0F51-4625-9316-4D20493D8F4E"
+        }
+      },
+      {
+        "id": "23145461-F705-482D-AD76-16FF1DA04530",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "0097D5AB-69D6-4497-A4E7-4014460CDA1C"
+        }
+      },
+      {
+        "id": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "357035E4-DBC0-45E6-A2A6-A88CD1A5AECF"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-2",
+        "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "sceneId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "windowId": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "rejected": true
+      },
+      {
+        "windowId": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "rejected": true
+      },
+      {
+        "windowId": "23145461-F705-482D-AD76-16FF1DA04530",
+        "rejected": true
+      },
+      {
+        "windowId": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "rejected": true
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"]
+  },
+  {
+    "command": "drop-close",
+    "sequence": 17,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "close",
+    "drags": 8,
+    "collections": 16,
+    "copyEnds": 7,
+    "cancelEnds": 1,
+    "allocations": 3,
+    "explicitRequests": 0,
+    "pending": 0,
+    "origin": {
+      "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+      "frame": "main"
+    },
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      },
+      {
+        "id": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        }
+      },
+      {
+        "id": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DE0D20AA-F93D-44B9-98EF-29580E805EFA"
+        }
+      },
+      {
+        "id": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "66121FA7-0F51-4625-9316-4D20493D8F4E"
+        }
+      },
+      {
+        "id": "23145461-F705-482D-AD76-16FF1DA04530",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "0097D5AB-69D6-4497-A4E7-4014460CDA1C"
+        }
+      },
+      {
+        "id": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "357035E4-DBC0-45E6-A2A6-A88CD1A5AECF"
+        }
+      },
+      {
+        "id": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "25A39569-6AC2-4271-85EB-86CA45112E94"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-2",
+        "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "sceneId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "windowId": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "rejected": true
+      },
+      {
+        "windowId": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "rejected": true
+      },
+      {
+        "windowId": "23145461-F705-482D-AD76-16FF1DA04530",
+        "rejected": true
+      },
+      {
+        "windowId": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "rejected": true
+      },
+      {
+        "key": "created-3",
+        "windowId": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "sceneId": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": [],
+        "native": []
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"],
+    "result": {
+      "status": "ignored",
+      "reason": "cancelled"
+    }
+  },
+  {
+    "command": "prepare-race",
+    "sequence": 18,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "race",
+    "drags": 8,
+    "collections": 16,
+    "copyEnds": 7,
+    "cancelEnds": 1,
+    "allocations": 3,
+    "explicitRequests": 0,
+    "pending": 0,
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      },
+      {
+        "id": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        }
+      },
+      {
+        "id": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DE0D20AA-F93D-44B9-98EF-29580E805EFA"
+        }
+      },
+      {
+        "id": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "66121FA7-0F51-4625-9316-4D20493D8F4E"
+        }
+      },
+      {
+        "id": "23145461-F705-482D-AD76-16FF1DA04530",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "0097D5AB-69D6-4497-A4E7-4014460CDA1C"
+        }
+      },
+      {
+        "id": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "357035E4-DBC0-45E6-A2A6-A88CD1A5AECF"
+        }
+      },
+      {
+        "id": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "25A39569-6AC2-4271-85EB-86CA45112E94"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-2",
+        "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "sceneId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "windowId": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "rejected": true
+      },
+      {
+        "windowId": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "rejected": true
+      },
+      {
+        "windowId": "23145461-F705-482D-AD76-16FF1DA04530",
+        "rejected": true
+      },
+      {
+        "windowId": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "rejected": true
+      },
+      {
+        "key": "created-3",
+        "windowId": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "sceneId": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": [],
+        "native": []
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"]
+  },
+  {
+    "command": "guard-waiting",
+    "sequence": 19,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "race",
+    "drags": 9,
+    "collections": 18,
+    "copyEnds": 8,
+    "cancelEnds": 1,
+    "allocations": 4,
+    "explicitRequests": 0,
+    "pending": 1,
+    "origin": {
+      "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+      "frame": "main"
+    },
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      },
+      {
+        "id": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        }
+      },
+      {
+        "id": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DE0D20AA-F93D-44B9-98EF-29580E805EFA"
+        }
+      },
+      {
+        "id": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "66121FA7-0F51-4625-9316-4D20493D8F4E"
+        }
+      },
+      {
+        "id": "23145461-F705-482D-AD76-16FF1DA04530",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "0097D5AB-69D6-4497-A4E7-4014460CDA1C"
+        }
+      },
+      {
+        "id": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "357035E4-DBC0-45E6-A2A6-A88CD1A5AECF"
+        }
+      },
+      {
+        "id": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "25A39569-6AC2-4271-85EB-86CA45112E94"
+        }
+      },
+      {
+        "id": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "D4E4173E-1087-4066-BA8C-62127D706302"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-2",
+        "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "sceneId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "windowId": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "rejected": true
+      },
+      {
+        "windowId": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "rejected": true
+      },
+      {
+        "windowId": "23145461-F705-482D-AD76-16FF1DA04530",
+        "rejected": true
+      },
+      {
+        "windowId": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "rejected": true
+      },
+      {
+        "key": "created-3",
+        "windowId": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "sceneId": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": [],
+        "native": []
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      },
+      {
+        "key": "created-4",
+        "windowId": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "sceneId": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": ["/inbox"],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      }
+    ],
+    "nativeWindowIds": [
+      "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+      "7B96BAAD-45E1-4930-A997-14E40072BAF4"
+    ]
+  },
+  {
+    "command": "drop-race",
+    "sequence": 20,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "race",
+    "drags": 9,
+    "collections": 18,
+    "copyEnds": 8,
+    "cancelEnds": 1,
+    "allocations": 4,
+    "explicitRequests": 0,
+    "pending": 0,
+    "origin": {
+      "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+      "frame": "main"
+    },
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      },
+      {
+        "id": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        }
+      },
+      {
+        "id": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DE0D20AA-F93D-44B9-98EF-29580E805EFA"
+        }
+      },
+      {
+        "id": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "66121FA7-0F51-4625-9316-4D20493D8F4E"
+        }
+      },
+      {
+        "id": "23145461-F705-482D-AD76-16FF1DA04530",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "0097D5AB-69D6-4497-A4E7-4014460CDA1C"
+        }
+      },
+      {
+        "id": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "357035E4-DBC0-45E6-A2A6-A88CD1A5AECF"
+        }
+      },
+      {
+        "id": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "25A39569-6AC2-4271-85EB-86CA45112E94"
+        }
+      },
+      {
+        "id": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "D4E4173E-1087-4066-BA8C-62127D706302"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-2",
+        "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "sceneId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "windowId": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "rejected": true
+      },
+      {
+        "windowId": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "rejected": true
+      },
+      {
+        "windowId": "23145461-F705-482D-AD76-16FF1DA04530",
+        "rejected": true
+      },
+      {
+        "windowId": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "rejected": true
+      },
+      {
+        "key": "created-3",
+        "windowId": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "sceneId": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": [],
+        "native": []
+      },
+      {
+        "key": "created-4",
+        "windowId": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "sceneId": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"],
+    "result": {
+      "status": "handled",
+      "intent": {
+        "version": 1,
+        "source": "drag-drop",
+        "destination": {
+          "route": {
+            "name": "document",
+            "params": {
+              "id": 7
+            }
+          }
+        },
+        "delivery": {
+          "scope": "account:a:C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+          "id": "D4E4173E-1087-4066-BA8C-62127D706302"
+        },
+        "expiresAt": 1794628625485,
+        "target": {
+          "windowId": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+          "frame": "main"
+        }
+      },
+      "location": "/documents/7",
+      "failure": {
+        "type": 8
+      }
+    }
+  },
+  {
+    "command": "prepare-button",
+    "sequence": 21,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "button",
+    "drags": 9,
+    "collections": 18,
+    "copyEnds": 8,
+    "cancelEnds": 1,
+    "allocations": 4,
+    "explicitRequests": 0,
+    "pending": 0,
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      },
+      {
+        "id": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        }
+      },
+      {
+        "id": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DE0D20AA-F93D-44B9-98EF-29580E805EFA"
+        }
+      },
+      {
+        "id": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "66121FA7-0F51-4625-9316-4D20493D8F4E"
+        }
+      },
+      {
+        "id": "23145461-F705-482D-AD76-16FF1DA04530",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "0097D5AB-69D6-4497-A4E7-4014460CDA1C"
+        }
+      },
+      {
+        "id": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "357035E4-DBC0-45E6-A2A6-A88CD1A5AECF"
+        }
+      },
+      {
+        "id": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "25A39569-6AC2-4271-85EB-86CA45112E94"
+        }
+      },
+      {
+        "id": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "D4E4173E-1087-4066-BA8C-62127D706302"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-2",
+        "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "sceneId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "windowId": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "rejected": true
+      },
+      {
+        "windowId": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "rejected": true
+      },
+      {
+        "windowId": "23145461-F705-482D-AD76-16FF1DA04530",
+        "rejected": true
+      },
+      {
+        "windowId": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "rejected": true
+      },
+      {
+        "key": "created-3",
+        "windowId": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "sceneId": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": [],
+        "native": []
+      },
+      {
+        "key": "created-4",
+        "windowId": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "sceneId": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"]
+  },
+  {
+    "command": "command-button",
+    "sequence": 22,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "button",
+    "drags": 9,
+    "collections": 18,
+    "copyEnds": 8,
+    "cancelEnds": 1,
+    "allocations": 5,
+    "explicitRequests": 1,
+    "pending": 0,
+    "origin": {
+      "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+      "frame": "main"
+    },
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      },
+      {
+        "id": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        }
+      },
+      {
+        "id": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DE0D20AA-F93D-44B9-98EF-29580E805EFA"
+        }
+      },
+      {
+        "id": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "66121FA7-0F51-4625-9316-4D20493D8F4E"
+        }
+      },
+      {
+        "id": "23145461-F705-482D-AD76-16FF1DA04530",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "0097D5AB-69D6-4497-A4E7-4014460CDA1C"
+        }
+      },
+      {
+        "id": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "357035E4-DBC0-45E6-A2A6-A88CD1A5AECF"
+        }
+      },
+      {
+        "id": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "25A39569-6AC2-4271-85EB-86CA45112E94"
+        }
+      },
+      {
+        "id": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "D4E4173E-1087-4066-BA8C-62127D706302"
+        }
+      },
+      {
+        "id": "12BFA2CC-2250-4877-92FC-04E1BF16696E",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "8E696470-FBC4-4C9A-A6C0-28821DB86705"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-2",
+        "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "sceneId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "windowId": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "rejected": true
+      },
+      {
+        "windowId": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "rejected": true
+      },
+      {
+        "windowId": "23145461-F705-482D-AD76-16FF1DA04530",
+        "rejected": true
+      },
+      {
+        "windowId": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "rejected": true
+      },
+      {
+        "key": "created-3",
+        "windowId": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "sceneId": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": [],
+        "native": []
+      },
+      {
+        "key": "created-4",
+        "windowId": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "sceneId": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      },
+      {
+        "key": "created-5",
+        "windowId": "12BFA2CC-2250-4877-92FC-04E1BF16696E",
+        "sceneId": "12BFA2CC-2250-4877-92FC-04E1BF16696E",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": ["/inbox", "/documents/7"],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      }
+    ],
+    "nativeWindowIds": [
+      "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+      "12BFA2CC-2250-4877-92FC-04E1BF16696E"
+    ],
+    "result": {
+      "status": "handled",
+      "intent": {
+        "version": 1,
+        "source": "internal",
+        "destination": {
+          "route": {
+            "name": "document",
+            "params": {
+              "id": 7
+            }
+          }
+        },
+        "delivery": {
+          "scope": "account:a:C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+          "id": "8E696470-FBC4-4C9A-A6C0-28821DB86705"
+        },
+        "expiresAt": 1794628637269,
+        "target": {
+          "windowId": "12BFA2CC-2250-4877-92FC-04E1BF16696E",
+          "frame": "main"
+        }
+      },
+      "location": "/documents/7"
+    }
+  },
+  {
+    "command": "prepare-keyboard",
+    "sequence": 23,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "keyboard",
+    "drags": 9,
+    "collections": 18,
+    "copyEnds": 8,
+    "cancelEnds": 1,
+    "allocations": 5,
+    "explicitRequests": 1,
+    "pending": 0,
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      },
+      {
+        "id": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        }
+      },
+      {
+        "id": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DE0D20AA-F93D-44B9-98EF-29580E805EFA"
+        }
+      },
+      {
+        "id": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "66121FA7-0F51-4625-9316-4D20493D8F4E"
+        }
+      },
+      {
+        "id": "23145461-F705-482D-AD76-16FF1DA04530",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "0097D5AB-69D6-4497-A4E7-4014460CDA1C"
+        }
+      },
+      {
+        "id": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "357035E4-DBC0-45E6-A2A6-A88CD1A5AECF"
+        }
+      },
+      {
+        "id": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "25A39569-6AC2-4271-85EB-86CA45112E94"
+        }
+      },
+      {
+        "id": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "D4E4173E-1087-4066-BA8C-62127D706302"
+        }
+      },
+      {
+        "id": "12BFA2CC-2250-4877-92FC-04E1BF16696E",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "8E696470-FBC4-4C9A-A6C0-28821DB86705"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-2",
+        "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "sceneId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "windowId": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "rejected": true
+      },
+      {
+        "windowId": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "rejected": true
+      },
+      {
+        "windowId": "23145461-F705-482D-AD76-16FF1DA04530",
+        "rejected": true
+      },
+      {
+        "windowId": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "rejected": true
+      },
+      {
+        "key": "created-3",
+        "windowId": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "sceneId": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": [],
+        "native": []
+      },
+      {
+        "key": "created-4",
+        "windowId": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "sceneId": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-5",
+        "windowId": "12BFA2CC-2250-4877-92FC-04E1BF16696E",
+        "sceneId": "12BFA2CC-2250-4877-92FC-04E1BF16696E",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"]
+  },
+  {
+    "command": "command-keyboard",
+    "sequence": 24,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "keyboard",
+    "drags": 9,
+    "collections": 18,
+    "copyEnds": 8,
+    "cancelEnds": 1,
+    "allocations": 6,
+    "explicitRequests": 2,
+    "pending": 0,
+    "origin": {
+      "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+      "frame": "main"
+    },
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      },
+      {
+        "id": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        }
+      },
+      {
+        "id": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DE0D20AA-F93D-44B9-98EF-29580E805EFA"
+        }
+      },
+      {
+        "id": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "66121FA7-0F51-4625-9316-4D20493D8F4E"
+        }
+      },
+      {
+        "id": "23145461-F705-482D-AD76-16FF1DA04530",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "0097D5AB-69D6-4497-A4E7-4014460CDA1C"
+        }
+      },
+      {
+        "id": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "357035E4-DBC0-45E6-A2A6-A88CD1A5AECF"
+        }
+      },
+      {
+        "id": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "25A39569-6AC2-4271-85EB-86CA45112E94"
+        }
+      },
+      {
+        "id": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "D4E4173E-1087-4066-BA8C-62127D706302"
+        }
+      },
+      {
+        "id": "12BFA2CC-2250-4877-92FC-04E1BF16696E",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "8E696470-FBC4-4C9A-A6C0-28821DB86705"
+        }
+      },
+      {
+        "id": "6C06FE5A-2212-4BDD-BBC9-39A2F7EF6DC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "33AD54FE-DB14-4985-8AF8-BC6201BFF295"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-2",
+        "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "sceneId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "windowId": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "rejected": true
+      },
+      {
+        "windowId": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "rejected": true
+      },
+      {
+        "windowId": "23145461-F705-482D-AD76-16FF1DA04530",
+        "rejected": true
+      },
+      {
+        "windowId": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "rejected": true
+      },
+      {
+        "key": "created-3",
+        "windowId": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "sceneId": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": [],
+        "native": []
+      },
+      {
+        "key": "created-4",
+        "windowId": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "sceneId": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-5",
+        "windowId": "12BFA2CC-2250-4877-92FC-04E1BF16696E",
+        "sceneId": "12BFA2CC-2250-4877-92FC-04E1BF16696E",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      },
+      {
+        "key": "created-6",
+        "windowId": "6C06FE5A-2212-4BDD-BBC9-39A2F7EF6DC2",
+        "sceneId": "6C06FE5A-2212-4BDD-BBC9-39A2F7EF6DC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": ["/inbox", "/documents/7"],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      }
+    ],
+    "nativeWindowIds": [
+      "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+      "6C06FE5A-2212-4BDD-BBC9-39A2F7EF6DC2"
+    ],
+    "result": {
+      "status": "handled",
+      "intent": {
+        "version": 1,
+        "source": "internal",
+        "destination": {
+          "route": {
+            "name": "document",
+            "params": {
+              "id": 7
+            }
+          }
+        },
+        "delivery": {
+          "scope": "account:a:C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+          "id": "33AD54FE-DB14-4985-8AF8-BC6201BFF295"
+        },
+        "expiresAt": 1794628642848,
+        "target": {
+          "windowId": "6C06FE5A-2212-4BDD-BBC9-39A2F7EF6DC2",
+          "frame": "main"
+        }
+      },
+      "location": "/documents/7"
+    }
+  },
+  {
+    "command": "prepare-clear",
+    "sequence": 25,
+    "ok": true,
+    "process": "C27E4DBB-21DF-4E90-A3BA-B6C8409D0216",
+    "mode": "clear",
+    "drags": 9,
+    "collections": 18,
+    "copyEnds": 8,
+    "cancelEnds": 1,
+    "allocations": 6,
+    "explicitRequests": 2,
+    "pending": 0,
+    "connections": [
+      {
+        "id": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "63E04A8C-8B84-4ED5-B91A-124CA9CA13EF"
+        }
+      },
+      {
+        "id": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DC269F1B-864B-413D-A0C1-7AA381ACE70D"
+        }
+      },
+      {
+        "id": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "DE0D20AA-F93D-44B9-98EF-29580E805EFA"
+        }
+      },
+      {
+        "id": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "66121FA7-0F51-4625-9316-4D20493D8F4E"
+        }
+      },
+      {
+        "id": "23145461-F705-482D-AD76-16FF1DA04530",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "0097D5AB-69D6-4497-A4E7-4014460CDA1C"
+        }
+      },
+      {
+        "id": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "357035E4-DBC0-45E6-A2A6-A88CD1A5AECF"
+        }
+      },
+      {
+        "id": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "25A39569-6AC2-4271-85EB-86CA45112E94"
+        }
+      },
+      {
+        "id": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "D4E4173E-1087-4066-BA8C-62127D706302"
+        }
+      },
+      {
+        "id": "12BFA2CC-2250-4877-92FC-04E1BF16696E",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "8E696470-FBC4-4C9A-A6C0-28821DB86705"
+        }
+      },
+      {
+        "id": "6C06FE5A-2212-4BDD-BBC9-39A2F7EF6DC2",
+        "type": "org.nativescript.vuerouterns.window-drag",
+        "data": {
+          "version": 1,
+          "windowDrag": "33AD54FE-DB14-4985-8AF8-BC6201BFF295"
+        }
+      }
+    ],
+    "closed": [
+      {
+        "key": "created-1",
+        "windowId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "sceneId": "C3A7BC5D-6EA4-40A1-8E44-01EF95257CC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-2",
+        "windowId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "sceneId": "AF0BD395-8112-4EEF-81ED-EB61BD741086",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "windowId": "2131E2E5-2283-447C-AA30-E6FE2FE8DCCC",
+        "rejected": true
+      },
+      {
+        "windowId": "48D6570A-E58B-4EB9-82ED-489EB94CC5F1",
+        "rejected": true
+      },
+      {
+        "windowId": "23145461-F705-482D-AD76-16FF1DA04530",
+        "rejected": true
+      },
+      {
+        "windowId": "86C6B570-D638-4B48-B43F-C7B187989EB1",
+        "rejected": true
+      },
+      {
+        "key": "created-3",
+        "windowId": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "sceneId": "33C27FA5-3B2F-4362-B1BE-55F8011DF291",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": [],
+        "native": []
+      },
+      {
+        "key": "created-4",
+        "windowId": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "sceneId": "7B96BAAD-45E1-4930-A997-14E40072BAF4",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-5",
+        "windowId": "12BFA2CC-2250-4877-92FC-04E1BF16696E",
+        "sceneId": "12BFA2CC-2250-4877-92FC-04E1BF16696E",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      },
+      {
+        "key": "created-6",
+        "windowId": "6C06FE5A-2212-4BDD-BBC9-39A2F7EF6DC2",
+        "sceneId": "6C06FE5A-2212-4BDD-BBC9-39A2F7EF6DC2",
+        "frame": "main",
+        "guarded": 1,
+        "closed": false,
+        "logical": [],
+        "native": ["/inbox", "/documents/7"],
+        "draft": "New window draft"
+      }
+    ],
+    "owners": [
+      {
+        "key": "source",
+        "windowId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "sceneId": "F72A4BC1-68FC-429C-996F-AA96F0971A9B",
+        "frame": "main",
+        "guarded": 0,
+        "closed": false,
+        "logical": ["/library"],
+        "native": ["/library"],
+        "draft": "Library draft"
+      }
+    ],
+    "nativeWindowIds": ["F72A4BC1-68FC-429C-996F-AA96F0971A9B"]
+  }
+]

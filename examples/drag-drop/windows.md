@@ -84,3 +84,5 @@ Manager, physical iPad/VoiceOver speech, cross-process/external-app transfer,
 Android gestures, sidebar targets and creating a new window by dragging remain
 outside this stage. Its ordinary button is a native accessibility-tree/tap check;
 stage 1 separately records the keyboard alternative.
+
+For actual screen-edge creation, use the separate [stage 6 recipe](./new-window.md).

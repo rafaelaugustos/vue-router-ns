@@ -233,3 +233,13 @@ Ao soltar, o fluxo normal de `openIntent` revela a pilha receptora e executa seu
 <Clip name="sidebar-drop" aspect="3 / 4" caption="Dez arrastes reais no iPad para dois destinos da barra lateral, cancelamento, invalidação e alternativas por botão/teclado. Simulador iOS 18.6." />
 
 O [relatório da etapa 5](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-sidebar-drop-stage5.md) verifica as três Pages raiz exatas, rascunhos independentes e históricos nativos/lógicos, incluindo remoção durante o hover e conclusão tardia do provider. Isso valida a barra lateral permanente em uma janela do simulador; abertura pela borda em overlay, transições adaptativas, VoiceOver físico, Stage Manager e criação de janelas por arraste continuam como validações separadas.
+
+### Arrastar para criar uma janela {#new-window-drop}
+
+A [receita de nova janela](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/drag-drop/new-window.md) registra uma `NSUserActivity` no item nativo arrastado. Arrastar o cartão até uma borda compatível do iPad permite que o sistema crie uma cena. O callback real de conexão consome uma oferta local de curta duração e vincula a navegação ao router e ao Frame explícito dessa nova janela.
+
+Somente a versão e um token novo de correlação entram na atividade; destino, identidade da conta e autoridade de navegação permanecem locais. As ofertas expiram em até 30 segundos, permitem um único consumo e verificam novamente proprietário, sessão, rota e permissão durante a preparação e os guards. A continuação existente de `suspendIntent` retoma imediatamente com a autorização atual; esta receita não tem página de Login. A conclusão da cópia pode anteceder a conexão da cena e não significa que a navegação terminou. Janelas novas recusadas são fechadas, preservando a página e o rascunho originais.
+
+<Clip name="window-create" aspect="3 / 4" caption="Nove gestos reais no iPad, janelas criadas pelo sistema, limpeza das janelas recusadas e alternativas por botão/teclado. Simulador iOS 18.6." />
+
+O [relatório e a reprodução da etapa 6](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-window-create-stage6.md) verificam gestos reais na borda, cancelamento, expiração, mudanças de sessão/permissão, rotas removidas, guards e fechamento durante a preparação. Apenas o botão comum e Control–O chamam uma API de ativação de cena. A evidência cobre Split View no mesmo processo e no simulador gravado; iPad físico/VoiceOver, Stage Manager, transferências externas e inicialização de um processo novo ficam fora desse escopo.

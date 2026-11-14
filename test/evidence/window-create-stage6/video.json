@@ -1,0 +1,12 @@
+{
+  "durationSeconds": 119.19,
+  "sizeBytes": 93908347,
+  "sourceFrames": 4054,
+  "publishedFrames": 4054,
+  "maxRelativeTimestampDeltaSeconds": 0.0,
+  "width": 2064,
+  "height": 2752,
+  "processing": "Lossless H.264 video remux with faststart; all frames and timestamps retained, no cuts or speed changes. No audio.",
+  "sourceSha256": "a836117795e836ed16f9b9f20fa4241a45f9a76976b446aee36329599176dfde",
+  "publishedSha256": "6ec4040129d9b4bd1473f2dad5263180810c62b1c3798776b7eba07643b65209"
+}
