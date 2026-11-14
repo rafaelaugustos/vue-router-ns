@@ -242,3 +242,13 @@ La identidad de entrega permanece reservada durante el login. Solo la continuaci
 <Clip name="drop-login" aspect="9 / 20" caption="Once arrastres reales en Android con login controlado, Atrás nativo y revocación durante un guard. Emulador Android 14." />
 
 El [informe de la etapa 4](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drop-login-stage4.md) distingue transferencia nativa aceptada, autenticación pendiente y navegación completada. El ejemplo controla la autenticación y conserva ambas Pages y sus borradores, sin proveedor externo de identidad. El flujo combinado se grabó en una Activity del emulador Android, sin ampliar las afirmaciones sobre iPad, dispositivos físicos o lectores de pantalla.
+
+### Soltar en un destino de la barra lateral {#sidebar-drop}
+
+La [receta de barra lateral](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/drag-drop/sidebar.md) asigna a cada fila un `DropOwner` estable y su propia política de drop. Un `RouterDrawer` permanente aparece junto a `RouterTabs` retenidas; Inbox y Archive vinculan explícitamente el `frame` receptor. El hover solo resalta la fila, sin cargar datos, seleccionar una pestaña ni navegar.
+
+Al soltar, el flujo normal de `openIntent` revela la pila receptora y ejecuta sus guards. Un rechazo puede revelar esa pila conservando todos los historiales. Eliminar o reasignar una fila mientras llegan los datos no puede redirigir la entrega a otro destino. Los botones de la barra lateral y la alternativa de teclado usan el origen `internal` con un nuevo identificador de acción.
+
+<Clip name="sidebar-drop" aspect="3 / 4" caption="Diez arrastres reales en iPad hacia dos destinos de la barra lateral, cancelación, invalidación y alternativas por botón/teclado. Simulador iOS 18.6." />
+
+El [informe de la etapa 5](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-sidebar-drop-stage5.md) verifica las tres Pages raíz exactas, borradores independientes e historiales nativos/lógicos, incluida la eliminación durante el hover y la finalización tardía del provider. Esto valida la barra lateral permanente en una ventana del simulador; apertura desde el borde en overlay, transiciones adaptativas, VoiceOver físico, Stage Manager y creación de ventanas arrastrando siguen siendo validaciones separadas.

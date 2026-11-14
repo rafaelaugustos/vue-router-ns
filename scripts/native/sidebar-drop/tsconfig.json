@@ -1,0 +1,4 @@
+{
+  "extends": "../../../demo/tsconfig.json",
+  "include": ["../../../demo/src/testing/sidebardrop-app.ts", "../../../demo/types"]
+}
