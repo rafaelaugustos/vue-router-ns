@@ -79,12 +79,16 @@ Verified hosted metadata: macOS ARM64, Apple M1 virtual host, Node 22.23.4, runn
 image `20261104.0514.1`, Core 9.1.4, NativeScript-Vue 3.1.2, NativeScript iOS 9.1.0,
 native Vite 8.0.20 and Vite 8.3.4. The workflow requests iPhone 16 Pro / iOS 18.6,
 but no exact simulator runtime build, Xcode version or CLI version is inferred from
-that configuration. Complete hosted toolchain provenance remains outstanding.
+that configuration. The [stage 3 follow-up](./native-ios-vite-provenance-183.md) subsequently captured
+complete toolchain provenance on a run that failed native startup; it preserves
+that failure separately.
 Later commits only add the evidence/report, test shim and a Node test ordering
 correction; acceptance runner and observer source hashes match the hosted commit.
 
-This stage keeps #183 open. The Android foldable drawer mismatch, the historical
-hosted launch cause and a complete required native matrix on one acceptance commit
-remain separate work. A passing focused lane does not certify the full matrix,
+The Android foldable mismatch was already fixed by PRs #186/#187, with two
+[complete focused hosted passes](./native-foldable-drawer-settlement.md).
+This stage keeps #183 open. The historical hosted launch cause and a complete
+required native matrix on one acceptance commit remain separate work.
+A passing focused lane does not certify the full matrix,
 physical devices or release readiness. Reproduce the control using the
 [runner instructions](../scripts/native/conventions/README.md#controlled-environment-failure).

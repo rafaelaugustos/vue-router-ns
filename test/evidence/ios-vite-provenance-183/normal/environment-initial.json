@@ -1,0 +1,34 @@
+{
+  "commit": "75accbeb5c5b3152a8fae2e968b421ad887ba602",
+  "dirty": false,
+  "host": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64",
+    "cpus": 16,
+    "cpu": "Apple M4 Max"
+  },
+  "node": "v20.19.4",
+  "runner": "local",
+  "packages": {
+    "@nativescript/core": "9.1.4",
+    "nativescript-vue": "3.1.2",
+    "@nativescript/android": "9.1.1",
+    "@nativescript/ios": "9.1.0"
+  },
+  "device": {
+    "simulator": "89AC758A-DAC7-4507-B1B5-488729789512",
+    "runtime": null,
+    "xcode": null,
+    "cli": null,
+    "metadata": {
+      "complete": false,
+      "phase": "pending",
+      "errors": []
+    },
+    "bundler": "vite",
+    "vite": "8.3.4",
+    "nativeVite": "8.0.20",
+    "launchOwner": "NativeScript CLI"
+  }
+}

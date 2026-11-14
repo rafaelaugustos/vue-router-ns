@@ -1,0 +1,10 @@
+{
+  "command": "xcodebuild",
+  "args": ["-version"],
+  "startedAt": "2026-11-14T05:21:02.099Z",
+  "timeoutMs": 20000,
+  "status": "passed",
+  "stdout": "Xcode 16.4\nBuild version 16F6\n",
+  "stderr": "",
+  "durationMs": 574
+}

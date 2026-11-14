@@ -1,0 +1,10 @@
+{
+  "command": "xcodebuild",
+  "args": ["-version"],
+  "startedAt": "2026-11-14T05:03:13.862Z",
+  "timeoutMs": 20000,
+  "status": "passed",
+  "stdout": "Xcode 27.2\nBuild version 27B52\n",
+  "stderr": "",
+  "durationMs": 86
+}

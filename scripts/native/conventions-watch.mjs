@@ -58,17 +58,18 @@ const original = await readFile(product, 'utf8')
 assert(/"revision"\s*:\s*1/.test(original), 'The fixture starts with metadata revision 1')
 const live = (meta = '') =>
   `<script setup lang="ts">const label = "Added while the app is running"; ${meta}</script><template><StackLayout padding="24"><Label id="page-heading"  :text="label" /></StackLayout></template>\n`
+let initialEnvironment
 if (platform === 'ios') {
-  const environment = await iosEnvironment({ serial, run: exec })
-  if (!environment.metadata.complete)
-    console.error(
-      'Incomplete environment metadata:',
-      JSON.stringify(environment.metadata.errors),
-    )
-  await recordEnvironment(
+  // Preserve the starting source/package snapshot before the fixture edits files.
+  // Query native tools once, after acceptance and owned-process cleanup settle.
+  initialEnvironment = await recordEnvironment(
     out,
     {
-      ...environment,
+      simulator: serial,
+      runtime: null,
+      xcode: null,
+      cli: null,
+      metadata: { complete: false, phase: 'pending', errors: [] },
       bundler,
       vite: JSON.parse(
         await readFile(resolve(project, 'node_modules/vite/package.json'), 'utf8'),
@@ -414,6 +415,31 @@ try {
             serial,
             'org.nativescript.routerfiles',
           ]).catch(() => {})
+      },
+    ],
+    [
+      'environment',
+      async () => {
+        if (platform !== 'ios') return
+        const environment = await iosEnvironment({ serial, run: exec })
+        environment.metadata.phase = 'after-cleanup'
+        environment.metadata.collectedAt = new Date().toISOString()
+        if (!environment.metadata.complete)
+          console.error(
+            'Incomplete environment metadata:',
+            JSON.stringify(environment.metadata.errors),
+          )
+        await writeFile(
+          resolve(out, 'environment.json'),
+          JSON.stringify(
+            {
+              ...initialEnvironment,
+              device: { ...initialEnvironment.device, ...environment },
+            },
+            null,
+            2,
+          ) + '\n',
+        )
       },
     ],
   ])

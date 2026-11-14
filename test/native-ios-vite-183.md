@@ -90,8 +90,9 @@ Its original artifact and full job log are retained with hashes in the
 [follow-up evidence](./evidence/ios-vite-environment-183/original/provenance.json).
 The [environment follow-up](./native-ios-vite-environment-183.md) isolates
 diagnostic failures and records subsequent validation separately.
-This stage keeps #183 open: the Android foldable correction and complete required
-native matrix on one release acceptance commit remain outstanding. A passing
+The Android foldable correction was already delivered by PRs #186/#187; see its
+[settlement evidence](./native-foldable-drawer-settlement.md). This stage keeps
+#183 open for the complete required native matrix on one release acceptance commit. A passing
 focused lane does not certify the full matrix, physical devices or a release.
 
 See [reproduction](../scripts/native/conventions/README.md). The previous

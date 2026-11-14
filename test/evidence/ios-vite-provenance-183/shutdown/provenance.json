@@ -1,0 +1,13 @@
+{
+  "ciFailure": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43565466554",
+  "formerSource": "c0507bf6ae857a620bf61e42a843aaf28b65374f",
+  "fixedSource": "f7ff40b",
+  "observed": "ENOTEMPTY removing generated/router after the Vite server closed",
+  "control": "Real Vite watcher generation held by a promise: former server.close resolves before release; fixed close waits. Recovery/watcher test also exercises server.restart.",
+  "verification": "14 focused Vite tests and988 full tests pass;10 existing skips",
+  "files": {
+    "regression-before.log.gz": "2374e3af1052925144af4a5c7947bf86aaf379e6253e511a18c7f3550fddacb6",
+    "ci-before.log.gz": "5b8c06ee637751d47a5bbd07481c6c9f92f4b88b06de59470882996799646b47",
+    "regression-after.log.gz": "9203c677d96f24088d396e2cc736d0bbd6bbeb9030802307d4cbbe3ff87f3b2e"
+  }
+}

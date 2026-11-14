@@ -1,0 +1,31 @@
+{
+  "run": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43566154743",
+  "source": "f7ff40b816cb1b0044378c5136aa6bca188e626e",
+  "job": 132360351103,
+  "artifact": 14102936755,
+  "artifactSha256": "e2e6d1db7cf7b01d6d56fb6e566615771232c7fd73d158db80e2e057e574bf15",
+  "jobLogSha256": "ca5be26371c7b6153edfad4fa8f59cafc956495293c2a42238b80ab97631844b",
+  "nativeAcceptance": "passed:24 native checks,7 HMR invariants,cleanup",
+  "metadataAcceptance": "complete:four probes passed once after app-stop completion",
+  "files": {
+    "native-vite-ios.zip": "e2e6d1db7cf7b01d6d56fb6e566615771232c7fd73d158db80e2e057e574bf15",
+    "probe-order.json": "7919bcdc7596f307b7cc58821d971a471704318de7a4acef54d8101d797f0c71",
+    "outcome.json": "2b84d9cf98a7e1a684b17b2d9dcdd3de262fbf82b804c0778ec714866d39acfa",
+    "results.json": "5ecfd5cd83536e097bdbe93f30a88b41ba09a5142b3051843eb6d9d5e79c776f",
+    "template-probe.log": "54f95abada4aec7e997f3da38508b764e1dcd3efbd3bf83c11c9809ef9b0755c",
+    "cli.log.gz": "f274499034ba0d657cab0c8f092931d12485f0012738ff8f3b8496b1224999ed",
+    "job.log.gz": "3d15878b29454a973c1f345f016fc8d85be505685b262b30b5266fe265261f00",
+    "recording.log.gz": "6c90d5cde6275d2311a2c28dc6c4a0168974178f778199c28113d0eea37cbaf8",
+    "environment.json": "9d2f2ed99063a384d536f4e0fc4f224adfe0f1ab239702baa780aa185b1118db",
+    "commands/6.json": "f3fc7c3d7f9d32b7a2e5b6409cc4a26bf6d7b81c027869cca09b93a76886a544",
+    "commands/7.json": "81f8e1c0872bdcdcefe79e94104a33e7c52b0fb5cde0d51b6c3afae926e0f328",
+    "commands/1.json": "c76b8f8352c95c64216e9e5f1f86e80b1279b68f54c39eaaebef1317f52c06d1",
+    "commands/2.json": "513cba51abe2debc98aef47fe44396559a9621e0aa07f44d4b9e516925fc1a10",
+    "commands/3.json": "8b1fe2ac3c6c82a1402c90d322b5521fd067aaefdb3850b21d79f394aa372490",
+    "commands/8.json": "e9aa175c37546040056d09cb733ba7ccd089a91a049c59f358af046f043ca132",
+    "commands/4.json": "297effb2b4f8f32cab2a44926adcb7033776a135fd3f34c151dc806524ad0e50",
+    "commands/5.json": "d5e001cf08da2bac535eb6d6fd70fd258e600deddd2174915524fcc709c79ae5",
+    "commands/9.json": "d1122e73238dad674e6a9f711508cb1d44d76fded4b757c30c49e14503d21548"
+  },
+  "extractedJson": "Formatted whitespace; original byte-identical files remain in retained native-vite-ios.zip."
+}

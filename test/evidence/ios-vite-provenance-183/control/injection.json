@@ -1,0 +1,8 @@
+[
+  {
+    "command": "xcodebuild",
+    "args": ["-version"],
+    "parent": "node scripts/native/conventions-watch.mjs ios",
+    "injectedExitCode": 7
+  }
+]

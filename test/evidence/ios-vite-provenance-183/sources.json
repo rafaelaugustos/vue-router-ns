@@ -1,0 +1,14 @@
+{
+  "scripts/native/conventions-watch.mjs": "45a9205d1cc2477ce95401e3e3f6691208086ec29d5c1e7519dc979656d3781c",
+  "scripts/native/contracts/environment.mjs": "e9c0080de8a72c97e56c9f35e6ecfa0f6347481fd2c44e12d619c9e775b7d30d",
+  "scripts/native/conventions/observer.mjs": "89a1ff0e95a7d0ea43b70a685adb45b1b12dd65503f6aa167d98eedb76dbd287",
+  "scripts/native/conventions/observer.test.mjs": "57f64288f171dc6b904c09b950c7802adb44c2513e4689ea039f3f80a62903be",
+  "scripts/native/conventions/fail-environment.py": "a2e7ac02fae3451d8b5613e295751bf28a7de10fb9abb8d608b78fd31921df89",
+  ".github/workflows/native.yml": "1fc11779619daaea465aa39c6a11c2bf5629c369fdb8b1f340a9d84c7c257b32",
+  "examples/file-routing/package.json": "2b8655eeadb3caa886ff675e56e5b8d0c91c85749f0f5ab8a556cf267afa8243",
+  "examples/file-routing/package-lock.json": "82397bc0b3b612a73b60a3790b15602b8e85d04a30211540e883a0418bff4630",
+  "examples/file-routing/src/acceptance.ts": "d00542dba9029efbf72b3453959a29c0c522793a3c3bc47d50a0e105ca122a41",
+  "docs/public/media/ios-vite-provenance.mp4": "4fee0352fe3a39f913f9840ccfcddcc941ae58996c5f71aae6c6c6403ebb4503",
+  "src/file-routing/vite.ts": "8cdf95b506690c864dbe63bb5e43d4b40a10a2dbdf036d097a28f1570fe837ef",
+  "test/file-routing-vite.spec.ts": "dffa3f60767a1bc7c89087869b983a83c6c53cef14b3a8c8b5e8034b173db535"
+}

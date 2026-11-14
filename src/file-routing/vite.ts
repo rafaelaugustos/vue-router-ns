@@ -20,6 +20,8 @@ export function nativeFileRoutes(options: NativeFileRoutesOptions): Plugin {
   let pending = Promise.resolve()
   let directories: string[] = []
   let development = false
+  let closing = false
+  let stopWatching = () => {}
   const inside = (file: string) =>
     directories.some((dir) => file === dir || file.startsWith(dir + sep))
   const pageSource = (source: string, file: string) => {
@@ -34,11 +36,12 @@ export function nativeFileRoutes(options: NativeFileRoutesOptions): Plugin {
   // Serialize watcher callbacks: atomic renames can arrive while another build
   // is still reading pages. A failed generation leaves the last good files intact.
   const generate = () => {
+    if (closing) return pending
     const run = async () => {
       try {
         prepared = await prepareFileRouting(config)
         failure = undefined
-        server?.watcher.add([...directories, ...prepared.dependencies])
+        if (!closing) server?.watcher.add([...directories, ...prepared.dependencies])
       } catch (error) {
         failure = error instanceof Error ? error : new Error(String(error))
         throw failure
@@ -63,6 +66,9 @@ export function nativeFileRoutes(options: NativeFileRoutesOptions): Plugin {
       }
     },
     async configResolved(resolved) {
+      // Vite can reuse an inline plugin instance when restarting the server.
+      closing = false
+      server = undefined
       development = resolved.command === 'serve'
       config = {
         ...options,
@@ -102,9 +108,21 @@ export function nativeFileRoutes(options: NativeFileRoutesOptions): Plugin {
         })
       }
       server.watcher.on('add', structural).on('unlink', structural)
-      server.httpServer?.once('close', () => {
+      stopWatching = () => {
         devServer.watcher.off('add', structural).off('unlink', structural)
-      })
+      }
+      server.httpServer?.once('close', stopWatching)
+    },
+    async closeBundle() {
+      if (!server) return
+      // A restart initializes the replacement before closing the old server.
+      if (!Object.values(server.environments).some((env) => env === this.environment))
+        return
+      closing = true
+      stopWatching()
+      // Structural callbacks run outside Vite's tracked plugin hooks. Drain their
+      // queue before server.close resolves and callers remove generated files.
+      await pending
     },
     async handleHotUpdate(context) {
       if (!inside(context.file)) return
