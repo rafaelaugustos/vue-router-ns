@@ -14,6 +14,7 @@ import {
   iosRuntimeReader,
   cleanupAll,
   errorRecord,
+  iosEnvironment,
 } from './conventions/observer.mjs'
 import { recordEnvironment } from './contracts/environment.mjs'
 const platform = process.argv[2]
@@ -58,22 +59,16 @@ assert(/"revision"\s*:\s*1/.test(original), 'The fixture starts with metadata re
 const live = (meta = '') =>
   `<script setup lang="ts">const label = "Added while the app is running"; ${meta}</script><template><StackLayout padding="24"><Label id="page-heading"  :text="label" /></StackLayout></template>\n`
 if (platform === 'ios') {
-  const [xcode, cli, devices, runtimes] = await Promise.all([
-    exec('xcodebuild', ['-version']),
-    exec('ns', ['--version']),
-    exec('xcrun', ['simctl', 'list', 'devices', '--json']),
-    exec('xcrun', ['simctl', 'list', 'runtimes', '--json']),
-  ])
-  const runtime = Object.entries(JSON.parse(devices.stdout).devices).find(([, list]) =>
-    list.some((d) => d.udid === serial),
-  )?.[0]
+  const environment = await iosEnvironment({ serial, run: exec })
+  if (!environment.metadata.complete)
+    console.error(
+      'Incomplete environment metadata:',
+      JSON.stringify(environment.metadata.errors),
+    )
   await recordEnvironment(
     out,
     {
-      simulator: serial,
-      runtime: JSON.parse(runtimes.stdout).runtimes.find((r) => r.identifier === runtime),
-      xcode: xcode.stdout.trim(),
-      cli: stripVTControlCharacters(cli.stdout).trim(),
+      ...environment,
       bundler,
       vite: JSON.parse(
         await readFile(resolve(project, 'node_modules/vite/package.json'), 'utf8'),

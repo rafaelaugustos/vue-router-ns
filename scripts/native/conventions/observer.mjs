@@ -2,6 +2,7 @@ import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
+import { stripVTControlCharacters } from 'node:util'
 
 export function errorRecord(error) {
   return {
@@ -45,6 +46,50 @@ export function commandLog(directory, execute = promisify(execFile)) {
       record.durationMs = Math.round(performance.now() - start)
       await writeFile(path, JSON.stringify(record, null, 2) + '\n')
     }
+  }
+}
+
+/** Environment probes are diagnostics, not permission to start native acceptance. */
+export async function iosEnvironment({ serial, run }) {
+  const probes = {
+    xcode: async () => (await run('xcodebuild', ['-version'])).stdout.trim(),
+    cli: async () =>
+      stripVTControlCharacters((await run('ns', ['--version'])).stdout).trim(),
+    devices: async () =>
+      JSON.parse((await run('xcrun', ['simctl', 'list', 'devices', '--json'])).stdout)
+        .devices,
+    runtimes: async () =>
+      JSON.parse((await run('xcrun', ['simctl', 'list', 'runtimes', '--json'])).stdout)
+        .runtimes,
+  }
+  // Settle every bounded command so one failure cannot leave other journals unfinished.
+  const settled = await Promise.allSettled(Object.values(probes).map((probe) => probe()))
+  const values = {},
+    errors = []
+  Object.keys(probes).forEach((field, index) => {
+    const result = settled[index]
+    if (result.status === 'fulfilled') values[field] = result.value
+    else errors.push({ field, error: errorRecord(result.reason) })
+  })
+  let runtime = null
+  if ('devices' in values && 'runtimes' in values) {
+    try {
+      const identifier = Object.entries(values.devices).find(([, list]) =>
+        list.some((device) => device.udid === serial),
+      )?.[0]
+      runtime = values.runtimes.find((item) => item.identifier === identifier) ?? null
+      if (!runtime)
+        throw new Error(`Runtime metadata unavailable for simulator ${serial}`)
+    } catch (error) {
+      errors.push({ field: 'runtime', error: errorRecord(error) })
+    }
+  }
+  return {
+    simulator: serial,
+    runtime,
+    xcode: values.xcode ?? null,
+    cli: values.cli ?? null,
+    metadata: { complete: errors.length === 0, errors },
   }
 }
 
