@@ -1,0 +1,146 @@
+{
+  "former": {
+    "runnerLaunches": 1,
+    "cliLaunches": 2,
+    "calls": [
+      {
+        "time": 1794629923.859861,
+        "pid": 19771,
+        "parent": 19283,
+        "parentCommand": "node scripts/native/conventions-watch.mjs ios",
+        "delaySeconds": 0,
+        "args": [
+          "simctl",
+          "launch",
+          "89AC758A-DAC7-4507-B1B5-488729789512",
+          "org.nativescript.routerfiles"
+        ]
+      },
+      {
+        "time": 1794629924.443785,
+        "pid": 19819,
+        "parent": 19299,
+        "parentCommand": "node /Users/rafaelaugusto/.nvm/versions/node/v20.19.4/bin/ns run ios --clean --device 89AC758A-DAC7-4507-B1B5-488729789512 --env.conventionsTest --env.conventionsWatch --env.conventionsRun=1794629903034",
+        "delaySeconds": 3,
+        "args": [
+          "simctl",
+          "launch",
+          "89AC758A-DAC7-4507-B1B5-488729789512",
+          "org.nativescript.routerfiles"
+        ]
+      },
+      {
+        "time": 1794629928.140116,
+        "pid": 19844,
+        "parent": 19299,
+        "parentCommand": "node /Users/rafaelaugusto/.nvm/versions/node/v20.19.4/bin/ns run ios --clean --device 89AC758A-DAC7-4507-B1B5-488729789512 --env.conventionsTest --env.conventionsWatch --env.conventionsRun=1794629903034",
+        "delaySeconds": 3,
+        "args": [
+          "simctl",
+          "launch",
+          "89AC758A-DAC7-4507-B1B5-488729789512",
+          "org.nativescript.routerfiles"
+        ]
+      }
+    ],
+    "result": {
+      "id": "1794629903034",
+      "ok": true,
+      "checks": [
+        "generated-root-and-native-layout",
+        "discovered-global-middleware",
+        "typed-params-and-native-push",
+        "layout-focus-owner-and-target",
+        "metadata-native-modal",
+        "covered-page-hidden-from-accessibility",
+        "typed-modal-result",
+        "return-restores-native-page-and-visibility",
+        "discovered-middleware-cancels-before-mount",
+        "auth-redirects-to-native-login",
+        "auth-session-allows-destination",
+        "back-retains-product-draft",
+        "explicit-route-coexists",
+        "unrelated-stack-retained",
+        "watch-middleware-updates-registered-guard",
+        "watch-middleware-keeps-pages-and-other-stack",
+        "watch-add-and-metadata-retain-open-page",
+        "watch-rename-retains-native-page",
+        "watch-removal-retains-native-page",
+        "back-returns-to-renamed-away-entry",
+        "watch-keeps-original-product-and-other-stack",
+        "watch-recovers-after-invalid-source",
+        "future-visit-uses-updated-metadata",
+        "back-retains-home-page-and-draft"
+      ],
+      "watch": true,
+      "platform": "ios"
+    },
+    "allNativeChecksPassed": true
+  },
+  "fixed": {
+    "runnerLaunches": 0,
+    "cliLaunches": 2,
+    "calls": [
+      {
+        "time": 1794630102.213802,
+        "pid": 20831,
+        "parent": 20436,
+        "parentCommand": "node /Users/rafaelaugusto/.nvm/versions/node/v20.19.4/bin/ns run ios --clean --device 89AC758A-DAC7-4507-B1B5-488729789512 --env.conventionsTest --env.conventionsWatch --env.conventionsRun=1794630080181",
+        "delaySeconds": 3,
+        "args": [
+          "simctl",
+          "launch",
+          "89AC758A-DAC7-4507-B1B5-488729789512",
+          "org.nativescript.routerfiles"
+        ]
+      },
+      {
+        "time": 1794630105.98266,
+        "pid": 20874,
+        "parent": 20436,
+        "parentCommand": "node /Users/rafaelaugusto/.nvm/versions/node/v20.19.4/bin/ns run ios --clean --device 89AC758A-DAC7-4507-B1B5-488729789512 --env.conventionsTest --env.conventionsWatch --env.conventionsRun=1794630080181",
+        "delaySeconds": 3,
+        "args": [
+          "simctl",
+          "launch",
+          "89AC758A-DAC7-4507-B1B5-488729789512",
+          "org.nativescript.routerfiles"
+        ]
+      }
+    ],
+    "result": {
+      "id": "1794630080181",
+      "ok": true,
+      "checks": [
+        "generated-root-and-native-layout",
+        "discovered-global-middleware",
+        "typed-params-and-native-push",
+        "layout-focus-owner-and-target",
+        "metadata-native-modal",
+        "covered-page-hidden-from-accessibility",
+        "typed-modal-result",
+        "return-restores-native-page-and-visibility",
+        "discovered-middleware-cancels-before-mount",
+        "auth-redirects-to-native-login",
+        "auth-session-allows-destination",
+        "back-retains-product-draft",
+        "explicit-route-coexists",
+        "unrelated-stack-retained",
+        "watch-middleware-updates-registered-guard",
+        "watch-middleware-keeps-pages-and-other-stack",
+        "watch-add-and-metadata-retain-open-page",
+        "watch-rename-retains-native-page",
+        "watch-removal-retains-native-page",
+        "back-returns-to-renamed-away-entry",
+        "watch-keeps-original-product-and-other-stack",
+        "watch-recovers-after-invalid-source",
+        "future-visit-uses-updated-metadata",
+        "back-retains-home-page-and-draft"
+      ],
+      "watch": true,
+      "platform": "ios"
+    },
+    "allNativeChecksPassed": true
+  },
+  "control": "Simulator-only fault injection: delay CLI-owned simctl launch by 3 seconds. Both real native runs retain all navigation/HMR assertions. The former runner starts a competing launch; the fixed runner does not. The unchanged CLI itself issues two launches under this delay; these are reported, not hidden."
+}

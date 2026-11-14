@@ -127,3 +127,12 @@ never terminates/restarts an existing process or retries navigation assertions.
 Bootstrap logs and a screenshot are retained even if the app never reports a
 CONVENTIONS marker. The hosted simulator also uses the supported loopback Vite
 host override. All 24 checks and the template-retention assertions remain required.
+
+## iOS launch ownership — #183
+
+The [stage 1 investigation](./native-ios-vite-183.md) preserves the November 9
+hosted failure and reproduces a competing launch in the acceptance runner. The
+corrected runner leaves iOS startup to the CLI, retains command failures and
+restores fixtures independently of diagnostics. Current native checks and the
+full recording are linked there. This does not establish the historical timeout's
+cause or close the separate foldable/full-matrix work.

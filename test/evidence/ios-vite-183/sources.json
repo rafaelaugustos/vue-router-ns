@@ -1,0 +1,15 @@
+{
+  "scripts/native/conventions-watch.mjs": "9022fc72ca28f6cfec63d5413120908f4ad8fbca13248969177b2b52fd757e5b",
+  "scripts/native/contracts/environment.mjs": "e789aae8ae26abef21595e7d84f86dd3e5c3e44abccafcef204da8f598da8f2c",
+  ".github/workflows/native.yml": "1fc11779619daaea465aa39c6a11c2bf5629c369fdb8b1f340a9d84c7c257b32",
+  "scripts/native/test-ui.sh": "529f6015812d891a78801974e71d6ba40d8f07fc83a2a8d9f0884a70234df73a",
+  "scripts/native/conventions/observer.mjs": "841c4afe1893fed35102be01f39498bd885b02d90c67fa0b0b5cd9068b0a95d0",
+  "scripts/native/conventions/README.md": "dd16526fbd159ad0ec338467f92af5e950d1577a28863422c1a5b99508bd509b",
+  "scripts/native/conventions/observer.test.mjs": "33690f05f588ac4ba9c3e734051b2b0cff9fe0851178b99528fdfa4fef44f34d",
+  "scripts/native/conventions/trace-xcrun.py": "82ac16880640c131eb1abb7d0bd12a91aac0b1bbaa340ca0d4f0b13f7e973f4b",
+  "examples/file-routing/package.json": "2b8655eeadb3caa886ff675e56e5b8d0c91c85749f0f5ab8a556cf267afa8243",
+  "examples/file-routing/package-lock.json": "82397bc0b3b612a73b60a3790b15602b8e85d04a30211540e883a0418bff4630",
+  "examples/file-routing/src/acceptance.ts": "d00542dba9029efbf72b3453959a29c0c522793a3c3bc47d50a0e105ca122a41",
+  "docs/public/media/ios-vite-launch.mp4": "493dfbcfb656e94102d8fcfc9ad8e8fc1cafd901a0cd5eb564f29399680cabc9",
+  "docs/public/media/ios-vite-launch.jpg": "89865d688cf693ee50a9817c58085161a61a14bebd33ec7a0420fd85fdb9e945"
+}

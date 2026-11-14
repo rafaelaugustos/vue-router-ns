@@ -272,3 +272,9 @@ The updater rejects conflicts with explicit destinations and externally changed 
 Generated file IDs and route names are separate from each native entry's restoration key. Renaming a file can change its route name; use an explicit stable name when needed. Saved paths, migrations and unavailable destinations remain governed by [restoration](./restore). Generating a new table does not migrate saved application data.
 
 The repository's `--env.filesTest` fixture continues to test low-level generated output on iOS/Android. The separate conventions example exercises the public plugin and live filesystem-to-device HMR described above.
+
+### iOS startup acceptance {#ios-vite-acceptance}
+
+The native acceptance runner lets the NativeScript CLI own application startup, preserving all navigation and live-update assertions. A controlled slow launch exposed a competing launch in the previous runner; the correction also retains failed-command details and independently restores edited files. The [iOS investigation and reproduction](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-ios-vite-183.md) records current package versions and separates this reproduced race from the unexplained original hosted timeout. It does not establish full release acceptance or resolve the separate Android foldable failure.
+
+<Clip name="ios-vite-launch" :width="420" aspect="1206 / 2622" caption="Native Vite startup, retained pages and live route/middleware edits. iOS 18.6 simulator." />

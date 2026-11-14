@@ -1,0 +1,38 @@
+{
+  "run": 42628023178,
+  "source": "b142ff6e8ceded3ae4fd7c27f947be34429e832c",
+  "runUrl": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/42628023178",
+  "preservedAt": "2026-11-14T04:22:20.662457+00:00",
+  "artifacts": {
+    "native-vite-ios.zip": 13678904832,
+    "native-foldable-android.zip": 13680087218
+  },
+  "files": {
+    "native-vite-ios.zip": {
+      "bytes": 260957,
+      "sha256": "6699445a88946b8b199befbba296aa68b7c9a57682995e2763eeeb1db5d5c72c"
+    },
+    "native-foldable-android.zip": {
+      "bytes": 5333310,
+      "sha256": "01fe304469282dab83175c158a070fe7573fa86b0be9e25189184cd3a21675a0"
+    },
+    "ios-job.log.gz": {
+      "bytes": 9863,
+      "sha256": "ebd84b076cec118fd1b1adccc066ce8a1922e0eb99ab9dafc0ff51279f321f65",
+      "uncompressed": {
+        "bytes": 57344,
+        "sha256": "ad66993be7c1f123dc153636029067837d023b04eb7d9517187074bba222d736"
+      },
+      "processing": "gzip only; original log bytes retained unchanged"
+    },
+    "foldable-job.log.gz": {
+      "bytes": 17301,
+      "sha256": "f3af9e159b71ae2f90260a4c8a2836aa6164618da7ef4bbc639e0589e76f4927",
+      "uncompressed": {
+        "bytes": 102182,
+        "sha256": "e0823fe82fb212c7af75937e091e4e7615df946ba620b28b838c7d2c6ba83c05"
+      },
+      "processing": "gzip only; original log bytes retained unchanged"
+    }
+  }
+}
