@@ -272,3 +272,9 @@ Conflitos com destinos explícitos e registros alterados externamente são rejei
 IDs de arquivos e nomes de rotas são separados da chave de restauração de cada entrada nativa. Renomear um arquivo pode mudar o nome da rota; declare um nome estável quando necessário. Caminhos salvos, migrações e destinos indisponíveis seguem a [restauração](./restore) existente. Gerar outra tabela não migra dados salvos do app.
 
 A fixture `--env.filesTest` continua validando a saída de baixo nível no iOS/Android. O exemplo separado de convenções exercita o plugin público e o HMR entre filesystem e dispositivo descrito acima.
+
+### Validação da inicialização no iOS {#ios-vite-acceptance}
+
+O teste nativo deixa a inicialização do aplicativo sob responsabilidade do CLI do NativeScript, preservando todas as verificações de navegação e atualização ao vivo. Uma inicialização lenta controlada revelou um lançamento concorrente no teste anterior; a correção também preserva detalhes dos comandos que falham e restaura cada arquivo editado. A [investigação e reprodução no iOS](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-ios-vite-183.md) registra as versões utilizadas e distingue essa disputa reproduzida do timeout original no CI, cuja causa não foi estabelecida. Isso não comprova a validação completa da release nem resolve a falha separada no Android dobrável.
+
+<Clip name="ios-vite-launch" :width="420" aspect="1206 / 2622" caption="Inicialização nativa com Vite, páginas preservadas e alterações ao vivo em rotas e middleware. Simulador iOS 18.6." />

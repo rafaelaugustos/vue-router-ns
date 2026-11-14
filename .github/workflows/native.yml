@@ -8,15 +8,15 @@ on:
   workflow_dispatch:
     inputs:
       lane:
-        description: Run the full integration suite or only the foldable regression
+        description: Select the full integration suite or one focused native lane
         type: choice
-        options: [all, foldable]
+        options: [all, foldable, ios-vite]
         default: all
   workflow_call:
 
 jobs:
   android:
-    if: github.event_name != 'workflow_dispatch' || inputs.lane != 'foldable'
+    if: github.event_name != 'workflow_dispatch' || (inputs.lane != 'foldable' && inputs.lane != 'ios-vite')
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -162,6 +162,7 @@ jobs:
           path: scripts/native/out
 
   foldable:
+    if: github.event_name != 'workflow_dispatch' || inputs.lane != 'ios-vite'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     concurrency:
@@ -266,6 +267,7 @@ jobs:
           ROUTER_BUNDLER: vite
           # This simulator shares the runner; avoid its isolated LAN interface.
           NS_HMR_HOST: 127.0.0.1
+          RECORD_VIDEO: '1'
         run: node scripts/native/conventions-watch.mjs ios
       - name: Clean up dedicated simulator
         if: always() && env.IOS_SIMULATOR != ''

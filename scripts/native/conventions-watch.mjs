@@ -1,7 +1,7 @@
 // Actual bundler -> NativeScript CLI -> native navigation/HMR acceptance. Edits are restored in finally.
 import assert from 'node:assert/strict'
-import { spawn, execFile } from 'node:child_process'
-import { promisify, stripVTControlCharacters } from 'node:util'
+import { spawn } from 'node:child_process'
+import { stripVTControlCharacters } from 'node:util'
 import { createWriteStream } from 'node:fs'
 import { access, mkdir, readFile, writeFile, rename, rm } from 'node:fs/promises'
 import { resolve } from 'node:path'
@@ -9,7 +9,13 @@ import { fileURLToPath } from 'node:url'
 import options from '../../examples/file-routing/file-routing.config.js'
 import { prepareFileRouting } from '../../dist/file-routing/setup.js'
 
-const exec = promisify(execFile)
+import {
+  commandLog,
+  iosRuntimeReader,
+  cleanupAll,
+  errorRecord,
+} from './conventions/observer.mjs'
+import { recordEnvironment } from './contracts/environment.mjs'
 const platform = process.argv[2]
 const bundler = process.env.ROUTER_BUNDLER ?? 'webpack'
 const watch = process.env.NATIVE_HMR !== '0'
@@ -28,6 +34,7 @@ const out = resolve(
   process.env.OUT ?? `scripts/native/out/conventions-${bundler}-${platform}`,
 )
 await mkdir(out, { recursive: true })
+const exec = commandLog(resolve(out, 'commands'))
 const id = String(Date.now())
 const product = resolve(pages, 'products/[id].route.json')
 const productView = resolve(pages, 'products/[id].vue')
@@ -50,6 +57,38 @@ const original = await readFile(product, 'utf8')
 assert(/"revision"\s*:\s*1/.test(original), 'The fixture starts with metadata revision 1')
 const live = (meta = '') =>
   `<script setup lang="ts">const label = "Added while the app is running"; ${meta}</script><template><StackLayout padding="24"><Label id="page-heading"  :text="label" /></StackLayout></template>\n`
+if (platform === 'ios') {
+  const [xcode, cli, devices, runtimes] = await Promise.all([
+    exec('xcodebuild', ['-version']),
+    exec('ns', ['--version']),
+    exec('xcrun', ['simctl', 'list', 'devices', '--json']),
+    exec('xcrun', ['simctl', 'list', 'runtimes', '--json']),
+  ])
+  const runtime = Object.entries(JSON.parse(devices.stdout).devices).find(([, list]) =>
+    list.some((d) => d.udid === serial),
+  )?.[0]
+  await recordEnvironment(
+    out,
+    {
+      simulator: serial,
+      runtime: JSON.parse(runtimes.stdout).runtimes.find((r) => r.identifier === runtime),
+      xcode: xcode.stdout.trim(),
+      cli: stripVTControlCharacters(cli.stdout).trim(),
+      bundler,
+      vite: JSON.parse(
+        await readFile(resolve(project, 'node_modules/vite/package.json'), 'utf8'),
+      ).version,
+      nativeVite: JSON.parse(
+        await readFile(
+          resolve(project, 'node_modules/@nativescript/vite/package.json'),
+          'utf8',
+        ),
+      ).version,
+      launchOwner: 'NativeScript CLI',
+    },
+    project,
+  )
+}
 const logFile = createWriteStream(resolve(out, 'cli.log'))
 let cliOutput = '',
   processExited = false
@@ -71,6 +110,34 @@ const args = [
   ...(watch ? ['--env.conventionsWatch'] : ['--no-hmr']),
   `--env.conventionsRun=${id}`,
 ]
+let recorder, recording, recordingError
+if (platform === 'ios' && process.env.RECORD_VIDEO === '1') {
+  recorder = spawn(
+    'xcrun',
+    [
+      'simctl',
+      'io',
+      serial,
+      'recordVideo',
+      '--codec=h264',
+      resolve(out, 'native-vite.mp4'),
+    ],
+    { stdio: ['ignore', 'ignore', 'pipe'] },
+  )
+  const log = createWriteStream(resolve(out, 'recording.log'))
+  recorder.stderr.pipe(log)
+  recording = new Promise((resolve) => {
+    recorder.on('error', (error) => {
+      recordingError = error
+      resolve()
+    })
+    recorder.on('close', (code, signal) => {
+      if (code !== 0) recordingError = new Error(`Recorder exited: ${code}/${signal}`)
+      log.end()
+      resolve()
+    })
+  })
+}
 const child = spawn('ns', args, {
   cwd: project,
   env: process.env,
@@ -82,6 +149,7 @@ for (const stream of [child.stdout, child.stderr])
     logFile.write(data)
     cliOutput += stripVTControlCharacters(data.toString())
   })
+const childClosed = new Promise((resolve) => child.once('close', () => resolve(true)))
 child.on('error', (error) => {
   cliOutput += String(error)
   processExited = true
@@ -92,45 +160,22 @@ child.on('exit', () => {
 const pause = () => new Promise((resolve) => setTimeout(resolve, 1000))
 let runtime = ''
 let launchedAndroid = false
-let checkedIosLaunch = false
+const readIos = iosRuntimeReader({ serial, id, run: exec })
 async function readRuntime() {
-  const command = platform === 'android' ? 'adb' : 'xcrun'
-  const args =
-    platform === 'android'
-      ? ['-s', serial, 'logcat', '-d', '-v', 'brief', '-s', 'JS', 'AndroidRuntime']
-      : [
-          'simctl',
-          'spawn',
-          serial,
-          'log',
-          'show',
-          '--last',
-          '10m',
-          '--style',
-          'compact',
-          '--predicate',
-          'eventMessage CONTAINS "CONVENTIONS_"',
-        ]
-  if (
+  if (platform === 'ios') runtime = await readIos(cliOutput)
+  else if (
     cliOutput.includes(`CONVENTIONS_PHASE ${id} `) ||
     cliOutput.includes(`CONVENTIONS_RESULT {"id":"${id}"`)
-  ) {
-    // NativeScript forwards native console output on both platforms. Use it
-    // once this run is identified, including failures before the ready phase.
+  )
     runtime = cliOutput
-  } else {
-    try {
-      const result = await exec(command, args, {
-        maxBuffer: 8 * 1024 * 1024,
-        timeout: 20000,
-      })
-      runtime = result.stdout
-    } catch (error) {
-      if (platform !== 'ios' || !error.killed) throw error
-      console.log('Simulator log query timed out; using native CLI output for this poll')
-      runtime = cliOutput
-    }
-  }
+  else
+    runtime = (
+      await exec(
+        'adb',
+        ['-s', serial, 'logcat', '-d', '-v', 'brief', '-s', 'JS', 'AndroidRuntime'],
+        { maxBuffer: 8 * 1024 * 1024, timeout: 20000 },
+      )
+    ).stdout
   await writeFile(resolve(out, 'runtime.log'), runtime)
   for (const line of runtime
     .split('\n')
@@ -183,40 +228,7 @@ async function waitFor(test, description, timeout = 180000) {
         console.log('Launched the synced Android fixture through adb')
       }
     }
-    // The CLI can also stop at "Restarting application" after an iOS sync.
-    // Inspect the simulator before launching once; never restart a running app
-    // or retry a navigation/HMR assertion.
-    if (
-      platform === 'ios' &&
-      !checkedIosLaunch &&
-      cliOutput.includes('Restarting application')
-    ) {
-      checkedIosLaunch = true
-      const state = await exec(
-        'xcrun',
-        ['simctl', 'spawn', serial, 'launchctl', 'list'],
-        {
-          timeout: 20000,
-          maxBuffer: 4 * 1024 * 1024,
-        },
-      )
-      await writeFile(resolve(out, 'launch-state.txt'), state.stdout)
-      const running = state.stdout
-        .split('\n')
-        .some(
-          (line) =>
-            /^\s*\d+\s/.test(line) && line.includes('org.nativescript.routerfiles'),
-        )
-      if (!running) {
-        const launched = await exec(
-          'xcrun',
-          ['simctl', 'launch', serial, 'org.nativescript.routerfiles'],
-          { timeout: 30000 },
-        )
-        await writeFile(resolve(out, 'launch.txt'), launched.stdout + launched.stderr)
-        console.log('Launched the synced iOS fixture through simctl')
-      }
-    }
+    // The CLI owns iOS stop/start. A restart message or absent PID is not a completed launch.
     await readRuntime()
     if (test()) return
     await pause()
@@ -229,6 +241,8 @@ const phase = (name, timeout = 60000) =>
     `waiting for ${name}`,
     timeout,
   )
+let failure,
+  cleanupFailures = []
 try {
   if (watch) {
     // A clean checkout can still be downloading/building its native runtime.
@@ -303,70 +317,126 @@ try {
   assert.equal(new Set(result.checks).size, watch ? 24 : 15)
   await writeFile(resolve(out, 'results.json'), JSON.stringify(result, null, 2) + '\n')
   console.log(`Passed ${result.checks.length} native setup/watch checks on ${platform}`)
+} catch (error) {
+  failure = error
 } finally {
-  if (platform === 'ios') {
-    // Preserve bootstrap diagnostics even when no CONVENTIONS marker appeared.
-    const captured = await Promise.allSettled([
-      exec(
-        'xcrun',
-        [
-          'simctl',
-          'spawn',
-          serial,
-          'log',
-          'show',
-          '--last',
-          '10m',
-          '--style',
-          'compact',
-          '--predicate',
-          'process == "filerouting" OR eventMessage CONTAINS "CONVENTIONS_"',
-        ],
-        { timeout: 20000, maxBuffer: 16 * 1024 * 1024 },
-      ),
-      exec('xcrun', ['simctl', 'io', serial, 'screenshot', resolve(out, 'final.png')], {
-        timeout: 20000,
-      }),
-    ])
-    await writeFile(
-      resolve(out, 'bootstrap.log'),
-      captured[0].status === 'fulfilled'
-        ? captured[0].value.stdout + captured[0].value.stderr
-        : String(captured[0].reason),
-    )
-  }
-  if (!processExited) {
-    try {
-      process.kill(-child.pid, 'SIGINT')
-    } catch {}
-    for (let i = 0; i < 5 && !processExited; i++) await pause()
-    if (!processExited)
-      try {
-        process.kill(-child.pid, 'SIGTERM')
-      } catch {}
-  }
-  logFile.end()
-  await writeFile(product, original)
-  await writeFile(productView, originalView)
-  await writeFile(audit, originalAudit)
-  await rm(addedMetadata, { force: true })
-  await rm(added, { force: true })
-  await rm(renamed, { force: true })
-  await prepareFileRouting(options(platform))
-  if (platform === 'android')
-    await exec('adb', [
-      '-s',
-      serial,
-      'shell',
-      'am',
-      'force-stop',
-      'org.nativescript.routerfiles',
-    ])
-  else
-    await exec('xcrun', [
-      'simctl',
-      'terminate',
-      serial,
-      'org.nativescript.routerfiles',
-    ]).catch(() => {})
+  cleanupFailures = await cleanupAll([
+    [
+      'diagnostics',
+      async () => {
+        if (platform !== 'ios') return
+        await Promise.allSettled([
+          exec('xcrun', [
+            'simctl',
+            'spawn',
+            serial,
+            'log',
+            'show',
+            '--last',
+            '10m',
+            '--style',
+            'compact',
+            '--predicate',
+            'process == "filerouting" OR eventMessage CONTAINS "CONVENTIONS_"',
+          ]),
+          exec('xcrun', ['simctl', 'spawn', serial, 'launchctl', 'list']),
+          exec('xcrun', [
+            'simctl',
+            'io',
+            serial,
+            'screenshot',
+            resolve(out, 'final.png'),
+          ]),
+        ])
+      },
+    ],
+    [
+      'recording',
+      async () => {
+        if (!recorder) return
+        if (recorder.exitCode !== null || recorder.signalCode !== null)
+          throw recordingError ?? new Error('Recorder ended before acceptance')
+        recorder.kill('SIGINT')
+        const timer = setTimeout(() => recorder.kill('SIGKILL'), 10000)
+        try {
+          await recording
+        } finally {
+          clearTimeout(timer)
+        }
+        if (recordingError) throw recordingError
+      },
+    ],
+    [
+      'stop CLI',
+      async () => {
+        try {
+          process.kill(-child.pid, 'SIGINT')
+        } catch {}
+        for (let i = 0; i < 5 && !processExited; i++) await pause()
+        // Include any descendants left by a CLI that already exited.
+        try {
+          process.kill(-child.pid, 'SIGKILL')
+        } catch {}
+        let timer
+        const closed = await Promise.race([
+          childClosed,
+          new Promise((resolve) => {
+            timer = setTimeout(() => resolve(false), 5000)
+          }),
+        ])
+        clearTimeout(timer)
+        if (!closed) {
+          child.stdout.destroy()
+          child.stderr.destroy()
+        }
+        logFile.end()
+        assert(closed, 'CLI output pipes must close before their log is released')
+      },
+    ],
+    ['restore metadata', () => writeFile(product, original)],
+    ['restore template', () => writeFile(productView, originalView)],
+    ['restore middleware', () => writeFile(audit, originalAudit)],
+    ['remove temporary metadata', () => rm(addedMetadata, { force: true })],
+    ['remove added page', () => rm(added, { force: true })],
+    ['remove renamed page', () => rm(renamed, { force: true })],
+    ['regenerate routes', () => prepareFileRouting(options(platform))],
+    [
+      'stop app',
+      async () => {
+        if (platform === 'android')
+          await exec('adb', [
+            '-s',
+            serial,
+            'shell',
+            'am',
+            'force-stop',
+            'org.nativescript.routerfiles',
+          ])
+        else
+          await exec('xcrun', [
+            'simctl',
+            'terminate',
+            serial,
+            'org.nativescript.routerfiles',
+          ]).catch(() => {})
+      },
+    ],
+  ])
+  await writeFile(
+    resolve(out, 'outcome.json'),
+    JSON.stringify(
+      {
+        id,
+        ok: !failure && !cleanupFailures.length,
+        failure: failure ? errorRecord(failure) : undefined,
+        cleanupFailures,
+        launchOwner:
+          platform === 'ios' ? 'NativeScript CLI' : 'CLI with Android fallback',
+      },
+      null,
+      2,
+    ) + '\n',
+  )
 }
+if (failure) throw failure
+assert.equal(cleanupFailures.length, 0, JSON.stringify(cleanupFailures))

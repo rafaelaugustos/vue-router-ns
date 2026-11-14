@@ -272,3 +272,9 @@ fileRoutes.update(nextModule.routes)
 生成的文件 ID 和路由名称与每个原生条目的恢复密钥分开。重命名文件可以改变其路由名称；需要时使用明确的稳定名称。已保存的路径、迁移和不可用目的地仍受 [restoration](./restore) 管理。生成新表不会迁移已保存的应用程序数据。
 
 存储库的 `--env.filesTest` 夹具继续测试 iOS/Android 上的低级生成输出。单独的约定示例练习了上述公共插件和实时文件系统到设备 HMR。
+
+### iOS 启动验证 {#ios-vite-acceptance}
+
+原生验收程序将应用启动交给 NativeScript CLI，并保留全部导航与实时更新断言。受控的慢启动实验复现了旧测试程序中的并发启动；修正还会保留失败命令的详情，并分别恢复已编辑的文件。[iOS 调查与复现步骤](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-ios-vite-183.md)记录了实际依赖版本，并将已复现的竞争条件与原因尚未确定的原始 CI 超时区分开来。这不代表完整的发布验收，也不解决独立的 Android 折叠屏故障。
+
+<Clip name="ios-vite-launch" :width="420" aspect="1206 / 2622" caption="原生 Vite 启动、页面保留以及路由和中间件实时更新。iOS 18.6 模拟器。" />

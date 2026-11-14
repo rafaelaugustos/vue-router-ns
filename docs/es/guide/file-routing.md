@@ -272,3 +272,9 @@ El actualizador rechaza los conflictos con destinos explícitos y registros modi
 Los ID de archivos generados y los nombres de rutas están separados de la clave de restauración de cada entrada nativa. Cambiar el nombre de un archivo puede cambiar el nombre de su ruta; utilice un nombre estable explícito cuando sea necesario. Las rutas guardadas, las migraciones y los destinos no disponibles siguen regidos por [restoration](./restore). La generación de una nueva tabla no migra los datos guardados de la aplicación.
 
 El dispositivo `--env.filesTest` del repositorio continúa probando la salida generada de bajo nivel en iOS/Android. El ejemplo de convenciones separadas ejercita el complemento público y el HMR de sistema de archivos en vivo al dispositivo descrito anteriormente.
+
+### Validación del inicio en iOS {#ios-vite-acceptance}
+
+La prueba nativa deja el inicio de la aplicación a cargo del CLI de NativeScript y conserva todas las comprobaciones de navegación y actualización en vivo. Un inicio lento controlado reveló un lanzamiento concurrente en la prueba anterior; la corrección también conserva los detalles de los comandos fallidos y restaura cada archivo editado. La [investigación y reproducción en iOS](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-ios-vite-183.md) registra las versiones utilizadas y distingue esta condición reproducida del timeout original del CI, cuya causa no se ha establecido. No demuestra la validación completa de la versión ni resuelve el fallo separado en Android plegable.
+
+<Clip name="ios-vite-launch" :width="420" aspect="1206 / 2622" caption="Inicio nativo con Vite, páginas conservadas y cambios en vivo en rutas y middleware. Simulador iOS 18.6." />

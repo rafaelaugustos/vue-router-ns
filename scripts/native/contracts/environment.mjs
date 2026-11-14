@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process'
 import { readFile, writeFile } from 'node:fs/promises'
 import os from 'node:os'
 
-export async function recordEnvironment(out, device) {
+export async function recordEnvironment(out, device, project = 'demo') {
   const packages = {}
   for (const name of [
     '@nativescript/core',
@@ -12,7 +12,7 @@ export async function recordEnvironment(out, device) {
   ]) {
     try {
       packages[name] = JSON.parse(
-        await readFile(`demo/node_modules/${name}/package.json`, 'utf8'),
+        await readFile(`${project}/node_modules/${name}/package.json`, 'utf8'),
       ).version
     } catch {
       // Only the platform being built is necessarily installed.
