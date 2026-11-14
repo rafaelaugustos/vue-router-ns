@@ -1,0 +1,16 @@
+{
+  "command": "ns",
+  "args": ["--version"],
+  "startedAt": "2026-11-14T04:45:55.184Z",
+  "timeoutMs": 20000,
+  "status": "failed",
+  "error": {
+    "message": "Error: Command failed: ns --version\n",
+    "code": null,
+    "signal": "SIGKILL",
+    "killed": true,
+    "stdout": "",
+    "stderr": ""
+  },
+  "durationMs": 21510
+}

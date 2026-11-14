@@ -1,0 +1,13 @@
+{
+  "run": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43557043051",
+  "source": "d621ad90da5111ef3a6a3ad83a0f66e2c7d47cab",
+  "job": 132332151222,
+  "artifact": 14098683793,
+  "artifactSha256": "35275a2dfd1f74858cc121e60240a7f6402551137e40fa8f96c292bc3bc43272",
+  "jobLogSha256": "5062d8da7094b482cc010133cb29742f5c96629595cb62a50f7079e793d2d38a",
+  "files": {
+    "native-vite-ios.zip": "35275a2dfd1f74858cc121e60240a7f6402551137e40fa8f96c292bc3bc43272",
+    "ios-job.log.gz": "a2efa817bcbdffc9217e3775870553afde65b98a952dc596c509e294e9944e75"
+  },
+  "result": "Environment xcodebuild -version killed after its 20000ms deadline; acceptance CLI never spawned. Other command records remained running after fail-fast rejection."
+}

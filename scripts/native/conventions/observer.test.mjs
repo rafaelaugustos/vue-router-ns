@@ -3,7 +3,110 @@ import { test } from 'node:test'
 import { mkdtemp, readFile, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { commandLog, iosRuntimeReader, cleanupAll } from './observer.mjs'
+import { commandLog, iosRuntimeReader, cleanupAll, iosEnvironment } from './observer.mjs'
+
+test('failed environment probe retains its error and waits for every other command journal', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'conventions-environment-'))
+  try {
+    const logged = commandLog(dir)
+    const device = await iosEnvironment({
+      serial: 'test',
+      run: (command, args) => {
+        if (command === 'xcodebuild')
+          return logged(process.execPath, [
+            '-e',
+            'process.stderr.write("version unavailable"); process.exit(7)',
+          ])
+        const stdout =
+          command === 'ns'
+            ? '9.1.2'
+            : JSON.stringify(
+                args.includes('devices')
+                  ? { devices: { 'ios-test': [{ udid: 'test' }] } }
+                  : { runtimes: [{ identifier: 'ios-test', version: '18.6' }] },
+              )
+        return logged(process.execPath, [
+          '-e',
+          `setTimeout(() => process.stdout.write(${JSON.stringify(stdout)}), 100)`,
+        ])
+      },
+    })
+    assert.equal(device.metadata.complete, false)
+    assert.equal(device.xcode, null)
+    assert.equal(device.cli, '9.1.2')
+    assert.equal(device.runtime.version, '18.6')
+    assert.deepEqual(
+      device.metadata.errors.map(({ field }) => field),
+      ['xcode'],
+    )
+    assert.equal(device.metadata.errors[0].error.code, 7)
+    assert.equal(device.metadata.errors[0].error.stderr, 'version unavailable')
+    const statuses = []
+    for (let index = 1; index <= 4; index++) {
+      const record = JSON.parse(await readFile(join(dir, `${index}.json`), 'utf8'))
+      statuses.push(record.status)
+      assert.equal(record.timeoutMs, 20000)
+    }
+    // Concurrent directory creation does not guarantee command journal numbering.
+    assert.deepEqual(statuses.sort(), ['failed', 'passed', 'passed', 'passed'])
+  } finally {
+    await rm(dir, { recursive: true, force: true })
+  }
+})
+
+test('environment timeout and malformed simulator output remain explicit without invented versions', async () => {
+  const device = await iosEnvironment({
+    serial: 'test',
+    run: async (command, args) => {
+      if (command === 'xcodebuild')
+        throw Object.assign(new Error('deadline'), {
+          killed: true,
+          signal: 'SIGKILL',
+          stdout: '',
+          stderr: '',
+        })
+      if (command === 'ns') return { stdout: '\u001b[32m9.1.2\u001b[0m\n' }
+      return { stdout: args.includes('devices') ? 'invalid JSON' : '{"runtimes":[]}' }
+    },
+  })
+  assert.equal(device.metadata.complete, false)
+  assert.equal(device.runtime, null)
+  assert.equal(device.xcode, null)
+  assert.equal(device.cli, '9.1.2')
+  assert.deepEqual(
+    device.metadata.errors.map(({ field }) => field),
+    ['xcode', 'devices'],
+  )
+  assert.equal(device.metadata.errors[0].error.signal, 'SIGKILL')
+  assert.equal(device.metadata.errors[0].error.killed, true)
+})
+
+test('environment identifies the selected simulator and reports a missing runtime', async () => {
+  const probe = (serial) =>
+    iosEnvironment({
+      serial,
+      run: async (command, args) => ({
+        stdout:
+          command === 'xcodebuild'
+            ? 'Xcode 27.2\n'
+            : command === 'ns'
+              ? '9.1.2\n'
+              : JSON.stringify(
+                  args.includes('devices')
+                    ? { devices: { 'ios-test': [{ udid: 'test' }] } }
+                    : { runtimes: [{ identifier: 'ios-test', version: '18.6' }] },
+                ),
+      }),
+    })
+  const known = await probe('test')
+  assert.equal(known.metadata.complete, true)
+  assert.deepEqual(known.metadata.errors, [])
+  assert.equal(known.runtime.version, '18.6')
+  const missing = await probe('absent')
+  assert.equal(missing.metadata.complete, false)
+  assert.equal(missing.runtime, null)
+  assert.equal(missing.metadata.errors[0].field, 'runtime')
+})
 
 const synced =
   'Successfully synced application org.nativescript.routerfiles on device test'

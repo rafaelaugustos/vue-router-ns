@@ -1,0 +1,12 @@
+{
+  "scripts/native/conventions-watch.mjs": "6c59b602ac721f50c39f1f1a17c4ab4e92d8a2fb06b69dc2c5c0d4ddd54f9347",
+  "scripts/native/conventions/observer.mjs": "89a1ff0e95a7d0ea43b70a685adb45b1b12dd65503f6aa167d98eedb76dbd287",
+  "scripts/native/conventions/observer.test.mjs": "57f64288f171dc6b904c09b950c7802adb44c2513e4689ea039f3f80a62903be",
+  "scripts/native/conventions/fail-environment.py": "a2e7ac02fae3451d8b5613e295751bf28a7de10fb9abb8d608b78fd31921df89",
+  "scripts/native/contracts/environment.mjs": "e789aae8ae26abef21595e7d84f86dd3e5c3e44abccafcef204da8f598da8f2c",
+  ".github/workflows/native.yml": "1fc11779619daaea465aa39c6a11c2bf5629c369fdb8b1f340a9d84c7c257b32",
+  "examples/file-routing/package.json": "2b8655eeadb3caa886ff675e56e5b8d0c91c85749f0f5ab8a556cf267afa8243",
+  "examples/file-routing/package-lock.json": "82397bc0b3b612a73b60a3790b15602b8e85d04a30211540e883a0418bff4630",
+  "examples/file-routing/src/acceptance.ts": "d00542dba9029efbf72b3453959a29c0c522793a3c3bc47d50a0e105ca122a41",
+  "docs/public/media/ios-vite-environment.mp4": "17cee3873af9d48b46290ac6788aa38133d89b7db00af91572a09842c1d8f7e2"
+}

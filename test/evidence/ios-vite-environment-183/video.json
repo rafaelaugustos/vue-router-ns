@@ -1,0 +1,25 @@
+{
+  "sourceSha256": "1df64a8b0bb7532097d9d6f52cb34bddd3d498c0779abd95294616ec80333d99",
+  "publishedSha256": "17cee3873af9d48b46290ac6788aa38133d89b7db00af91572a09842c1d8f7e2",
+  "path": "docs/public/media/ios-vite-environment.mp4",
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1206,
+        "height": 2622,
+        "nb_read_frames": "870"
+      }
+    ],
+    "format": {
+      "duration": "40.233333",
+      "size": "27988277"
+    }
+  },
+  "relativeTimestampMaxDeltaSeconds": 0.0,
+  "transform": "H.264 stream copy and faststart only; no frames removed",
+  "run": "1794631314033",
+  "demonstrates": "Actual app navigation, template/middleware/route HMR and final24 passing screen after injected metadata failure."
+}

@@ -1,0 +1,16 @@
+{
+  "command": "xcodebuild",
+  "args": ["-version"],
+  "startedAt": "2026-11-14T04:45:55.126Z",
+  "timeoutMs": 20000,
+  "status": "failed",
+  "error": {
+    "message": "Error: Command failed: xcodebuild -version\n",
+    "code": null,
+    "signal": "SIGKILL",
+    "killed": true,
+    "stdout": "",
+    "stderr": ""
+  },
+  "durationMs": 21571
+}

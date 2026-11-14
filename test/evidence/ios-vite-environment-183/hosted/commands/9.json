@@ -1,0 +1,15 @@
+{
+  "command": "xcrun",
+  "args": [
+    "simctl",
+    "terminate",
+    "6783902C-478D-4638-A321-A2761DB4EBC0",
+    "org.nativescript.routerfiles"
+  ],
+  "startedAt": "2026-11-14T04:51:06.312Z",
+  "timeoutMs": 20000,
+  "status": "passed",
+  "stdout": "",
+  "stderr": "",
+  "durationMs": 1344
+}

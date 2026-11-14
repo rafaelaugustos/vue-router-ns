@@ -1,0 +1,28 @@
+{
+  "before": {
+    "runnerSource": "3fc652ef32d0bd62395959b6e60faa37894e5739",
+    "exitCode": 1,
+    "appSpawned": false,
+    "trace": [
+      {
+        "command": "xcodebuild",
+        "args": ["-version"],
+        "parent": "node scripts/native/conventions-environment-control.mjs ios",
+        "injectedExitCode": 7
+      }
+    ]
+  },
+  "after": {
+    "runtimeSource": "ff06e39",
+    "exitCode": 0,
+    "trace": [
+      {
+        "command": "xcodebuild",
+        "args": ["-version"],
+        "parent": "node scripts/native/conventions-watch.mjs ios",
+        "injectedExitCode": 7
+      }
+    ]
+  },
+  "injection": "Only runner-owned xcodebuild -version exits 7. Real native build and assertions unchanged. This is not a reproduction of the hosted OS timeout."
+}

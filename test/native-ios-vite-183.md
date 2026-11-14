@@ -80,7 +80,16 @@ four-locale documentation build pass.
 
 ## Hosted scope
 
-The focused hosted iOS Vite run will be recorded here after candidate validation.
+The focused [hosted run 43557043051](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43557043051)
+at `d621ad90da5111ef3a6a3ad83a0f66e2c7d47cab` failed before the app started:
+the new `xcodebuild -version` environment probe reached its 20-second deadline
+and was killed with SIGKILL, without output. The fail-fast metadata collection
+exited before the NativeScript CLI was spawned; this run did not exercise native
+navigation or HMR. PR #210 had already merged when the result arrived.
+Its original artifact and full job log are retained with hashes in the
+[follow-up evidence](./evidence/ios-vite-environment-183/original/provenance.json).
+The [environment follow-up](./native-ios-vite-environment-183.md) isolates
+diagnostic failures and records subsequent validation separately.
 This stage keeps #183 open: the Android foldable correction and complete required
 native matrix on one release acceptance commit remain outstanding. A passing
 focused lane does not certify the full matrix, physical devices or a release.
