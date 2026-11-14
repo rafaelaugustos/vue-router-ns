@@ -1,0 +1,16 @@
+{
+  "command": "xcrun",
+  "args": [
+    "simctl",
+    "io",
+    "37C655F6-2EFA-44D5-8BC7-7AD54A374810",
+    "screenshot",
+    "/Users/runner/work/vue-router-ns/vue-router-ns/scripts/native/out/conventions-vite-ios/final.png"
+  ],
+  "startedAt": "2026-11-14T06:34:05.594Z",
+  "timeoutMs": 20000,
+  "status": "passed",
+  "stdout": "",
+  "stderr": "Detected file type 'PNG' from extension\nWrote screenshot to: /Users/runner/work/vue-router-ns/vue-router-ns/scripts/native/out/conventions-vite-ios/final.png\n",
+  "durationMs": 2305
+}

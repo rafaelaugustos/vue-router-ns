@@ -83,9 +83,8 @@ The rebuilt consumer was then run on iOS at
 `f7ff40b816cb1b0044378c5136aa6bca188e626e`: [24 native checks](./evidence/ios-vite-provenance-183/final-local/results.json),
 seven HMR invariants and cleanup passed, with complete metadata and an unchanged
 initial source/package snapshot. The video above records this final local run.
-The ordinary CI checks on that code revision also passed. A fresh hosted run was
-started for this changed plugin source; this is separate from the retained failed
-provenance run below.
+The ordinary CI checks on that code revision also passed. The changed plugin source also passed final hosted revalidation, recorded below
+separately from the preceding failed provenance run.
 
 ## Hosted validation
 
@@ -115,7 +114,21 @@ failure path; it does not establish passing hosted navigation/HMR or diagnose
 the HTTP failure. The runner and environment helper source still match this hosted commit. The
 subsequent Vite shutdown correction is identified separately above.
 
-Final hosted revalidation of the changed plugin is pending.
+### Final hosted revalidation
+
+[Run 43566154743](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43566154743)
+passed on `f7ff40b816cb1b0044378c5136aa6bca188e626e`: all **24 native checks**,
+**seven template invariants** and **cleanup** passed. All four metadata probes ran
+once after app-stop completion, with unchanged deadlines and no errors. Verified
+versions are Xcode **16.4 / 16F6**, CLI **9.1.2**, iOS **18.6 / 22G86**, Core
+**9.1.4**, NativeScript-Vue **3.1.2** and NativeScript iOS **9.1.0**.
+
+The [complete final artifact and provenance](./evidence/ios-vite-provenance-183/final-hosted/provenance.json),
+command journals, exact environment, native result, template probe and cleanup
+outcome are retained. Acceptance runner, environment helper and Vite plugin source
+match the final checked source; later commits only add documentation/evidence.
+This successful revalidation does not establish why the earlier HTTP imports
+failed or show that the shutdown correction fixed startup networking.
 
 ## Remaining #183 scope
 
