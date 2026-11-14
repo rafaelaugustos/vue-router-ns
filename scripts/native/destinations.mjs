@@ -4,6 +4,7 @@ import { promisify } from 'node:util'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { recordEnvironment } from './contracts/environment.mjs'
+import { loggedCommand } from './logged-command.mjs'
 
 const exec = promisify(execFile)
 const ios = process.argv[2] === 'ios'
@@ -80,7 +81,7 @@ try {
     const project = `/tmp/router-native-destinations-${device}`
     await run('ruby', ['scripts/native/destinations/project.rb', project])
     let failure
-    const result = await run(
+    await loggedCommand(
       'xcodebuild',
       [
         'test',
@@ -95,12 +96,14 @@ try {
         '-collect-test-diagnostics',
         'never',
       ],
-      { timeout: 180000 },
+      {
+        timeout: 180000,
+        maxBuffer: 32 * 1024 * 1024,
+        logFile: `${out}/xcodebuild.log`,
+      },
     ).catch((error) => {
       failure = error
-      return { stdout: error.stdout, stderr: error.stderr }
     })
-    await writeFile(`${out}/xcodebuild.log`, result.stdout + result.stderr)
     assert(!failure, `Native back gesture XCTest failed: ${out}/xcodebuild.log`)
   } else {
     await adb('shell', 'input', 'keyevent', 'KEYCODE_BACK')

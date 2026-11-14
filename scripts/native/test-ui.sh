@@ -50,3 +50,4 @@ fi
 echo 'Hierarchy deadlines passed: inspection time counted and stalled command terminated.'
 
 node --test scripts/native/conventions/observer.test.mjs
+node --test scripts/native/logged-command.test.mjs

@@ -36,10 +36,17 @@ The aggregate runs on every PR, including documentation-only PRs, so a required
 check never disappears due to workflow path filtering. The current workflow skips
 all device lanes on every PR and accepts those skips; change detection alone does
 not enable them. A green PR aggregate therefore does not prove native acceptance.
-Workflow dispatch and the weekly schedule enable all nine required groups (20
+Workflow dispatch and the weekly schedule enable all nine required groups (21
 device jobs after matrix expansion). For these runs the aggregate requires every
 group to succeed. Preserve the run's exact source and per-job results when using
 it as acceptance evidence.
+
+The iOS group runs two independent jobs on the same iPhone/iOS profile. One keeps
+the positive contracts, HMR negative control, budgets and native destinations
+together; the other runs tabs, HTTP data and Suspense. Each job has a 30-minute
+limit, its own simulator and artifact, and unchanged per-scenario deadlines. Both
+must pass. Destination XCTest output is written as it arrives so an outer job
+cancellation retains the output already produced.
 
 The [2026-11-14 matrix investigation](./native-matrix-183.md) records a run on one
 merged commit and the guarded UIKit Split test-selector correction it exposed.
