@@ -1,0 +1,16 @@
+{
+  "id": "1794633013268",
+  "ok": false,
+  "failure": {
+    "message": "Error: Timed out waiting for ready. See /Users/runner/work/vue-router-ns/vue-router-ns/scripts/native/out/conventions-vite-ios"
+  },
+  "cleanupFailures": [
+    {
+      "name": "recording",
+      "error": {
+        "message": "Error: Recorder exited: null/SIGKILL"
+      }
+    }
+  ],
+  "launchOwner": "NativeScript CLI"
+}

@@ -62,14 +62,38 @@ checks pass. The 987 library tests pass, with ten existing skips.
 
 ## Hosted validation
 
-The focused iOS Vite run on the acceptance source above is pending. Its actual
-versions, journals and result will be retained before this stage is submitted.
+[Hosted run 43559694354](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43559694354)
+on `75accbeb5c5b3152a8fae2e968b421ad887ba602` completed all four metadata probes
+after cleanup attempts, without retries. Exact observed versions: Xcode **16.4 /
+16F6**, NativeScript CLI **9.1.2**, iOS **18.6 / 22G86** on the dedicated iPhone
+16 Pro simulator. The host is macOS ARM64 / Apple M1 Virtual, Node 22.23.4, runner
+image `20261104.0514.1`. The installed package versions match the local list above.
+The initial source snapshot is clean; metadata is complete with no probe errors.
+[The command ordering](./evidence/ios-vite-provenance-183/hosted/probe-order.json)
+records 574 ms for Xcode, 5,791 ms for the CLI, and 1,463/1,424 ms for simulator
+devices/runtimes, within the unchanged 20-second deadlines.
+
+**Native acceptance failed in this run.** Build, installation and bundle transfer
+completed, but the app reported HTTP import network errors for
+`/ns/core/debugger/devtools-elements.common` and `/ns/m/src/app.ts` from the Vite
+server. The runtime reported a fatal main-module instantiation error and never
+produced a ready phase or native results. The runner subsequently exhausted its
+existing readiness deadline. Recorder cleanup also required SIGKILL; that secondary
+failure is retained, and the unsuccessful run remains unsuccessful.
+
+The [full original artifact and job/CLI logs](./evidence/ios-vite-provenance-183/hosted/provenance.json),
+including the failed recording, diagnostics and complete environment report, are
+preserved with hashes. Completing provenance on this failed run demonstrates the
+failure path; it does not establish passing hosted navigation/HMR or diagnose
+the HTTP failure. Later commits only add documentation/evidence; runner and helper
+source hashes match this hosted commit.
 
 ## Remaining #183 scope
 
 The Android foldable drawer mismatch was already corrected by merged PRs #186/#187,
 with two complete hosted focused passes; see [the settlement report](./native-foldable-drawer-settlement.md).
 This stage corrects earlier reports that mistakenly described that fix as pending.
+The newly observed HTTP-import startup failure needs a separate investigation.
 Revalidation in the complete required native matrix on one acceptance commit is
 still outstanding. A successful focused lane does not certify that matrix or a
 release. The exact cause of the historical November 9 iOS launch timeout remains

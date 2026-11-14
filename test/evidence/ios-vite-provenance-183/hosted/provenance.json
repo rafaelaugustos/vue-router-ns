@@ -1,0 +1,30 @@
+{
+  "run": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43559694354",
+  "source": "75accbeb5c5b3152a8fae2e968b421ad887ba602",
+  "job": 132340393438,
+  "artifact": 14099064965,
+  "artifactSha256": "193ebb00a6f03830d8dd76f664b1a108b168715e2de9d627687ac1d592d1b0c6",
+  "jobLogSha256": "aa3bd94a7dac2fb3f51aff830e1c0c7da7166bd3ff9e9f7e49c18137b33a4cd9",
+  "nativeAcceptance": "failed: HTTP imports from Vite return network error; ready timeout follows",
+  "metadataAcceptance": "complete: all four probes passed once after cleanup attempts",
+  "secondaryFailure": "Recorder forced to stop with SIGKILL; retained in cleanupFailures",
+  "files": {
+    "native-vite-ios.zip": "193ebb00a6f03830d8dd76f664b1a108b168715e2de9d627687ac1d592d1b0c6",
+    "probe-order.json": "01eab79b1abc4e7ef9e5faf9e7e84e623972b086c505405cbc8c86e666ac9475",
+    "outcome.json": "988186b12cb327982916822845457896b49ff99bd00b0202fc401892e0e95172",
+    "runtime.log.gz": "8822ccaf9ed7d3fae47b66b8503a5ec58e8a9414c739a948f49b303fb551ebc1",
+    "cli.log.gz": "5dff29dce0e5084bb5a469384ea40817bca164c935c255dec6c8ce22e243c72e",
+    "job.log.gz": "85d22107a99e5c84fd91075173623618a4a1cff3652d2d35dafb99eac0acdb6c",
+    "recording.log.gz": "6c90d5cde6275d2311a2c28dc6c4a0168974178f778199c28113d0eea37cbaf8",
+    "environment.json": "35cae21629b219ff2402c46db6034fdee656a70626a27138f45bbc7ede96390e",
+    "commands/6.json": "b75d6489252f5d1fb77a20cfff20e8985cd250361b53178bcdfe1e5fcfd90367",
+    "commands/7.json": "db4aae58ddddb2b82e04221629f949ee80977603798e02f1cbbb0eec33e3e472",
+    "commands/1.json": "1e1b8a33760ac8cfa1a7ed3ba243716341f47b32e5612094f13ceef16f76318a",
+    "commands/2.json": "6a21f92779365a7757b271929efd5e76636319a6c8fe017fd2af9a643861207f",
+    "commands/3.json": "31375424f8c3ef7098f026eb35014bc358a70eb27063ad2212f2f9e695a3c1f2",
+    "commands/8.json": "2e9c0bedea1c3190f43de47b0338f9a694e69cd521f2e65e685f826a03491885",
+    "commands/4.json": "9a441286df01aecb43c682894428757c29574f6691c59e7636dbb39616885abb",
+    "commands/5.json": "450ea57dfbac2b09262023c2405533c96fbc607ce690e14a5af6f914dacbcfc0"
+  },
+  "extractedJson": "Whitespace formatted for repository style; byte-identical originals remain in the retained artifact."
+}

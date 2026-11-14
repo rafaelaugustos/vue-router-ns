@@ -1,0 +1,28 @@
+{
+  "command": "xcrun",
+  "args": [
+    "simctl",
+    "spawn",
+    "141E2FA3-742C-4281-9EA9-D985534E32F7",
+    "log",
+    "show",
+    "--last",
+    "10m",
+    "--style",
+    "compact",
+    "--predicate",
+    "process == \"filerouting\" OR eventMessage CONTAINS \"CONVENTIONS_\""
+  ],
+  "startedAt": "2026-11-14T05:20:25.906Z",
+  "timeoutMs": 20000,
+  "status": "failed",
+  "error": {
+    "message": "Error: Command failed: xcrun simctl spawn 141E2FA3-742C-4281-9EA9-D985534E32F7 log show --last 10m --style compact --predicate process == \"filerouting\" OR eventMessage CONTAINS \"CONVENTIONS_\"\ngetpwuid_r did not find a match for uid 501\n",
+    "code": null,
+    "signal": "SIGKILL",
+    "killed": true,
+    "stdout": "",
+    "stderr": "getpwuid_r did not find a match for uid 501\n"
+  },
+  "durationMs": 21588
+}
