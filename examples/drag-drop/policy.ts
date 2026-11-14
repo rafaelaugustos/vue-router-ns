@@ -11,9 +11,9 @@ export interface DropItem {
   type: string
   load(): { value: Promise<string>; cancel(): void }
 }
-export type DropResult =
+export type DropResult<T = IntentResult> =
   | { status: 'ignored'; reason: string }
-  | { status: 'settled'; intent: NavigationIntent; navigation: IntentResult }
+  | { status: 'settled'; intent: NavigationIntent; navigation: T }
 export interface DropOptions {
   /** Stable app-owned registration for this target, not the focused Frame. */
   owner(): DropOwner | undefined
@@ -21,13 +21,30 @@ export interface DropOptions {
   authorize(location: RouteLocation): boolean
   stage?(stage: 'accepted' | 'loaded', id: string): void
 }
+export interface DropPolicy<T = IntentResult> {
+  accepts(types: readonly string[]): boolean
+  drop(
+    id: string,
+    items: readonly DropItem[],
+    source?: 'drag-drop' | 'internal',
+  ): Promise<DropResult<T>>
+  dispose(): void
+}
+export interface DropHandoffOptions<T> extends DropOptions {
+  /** App-owned delivery after validation; must preserve ownership through its own waits. */
+  handoff(intent: NavigationIntent, owner: DropOwner): Promise<T>
+}
 
 /** Optional application policy. One pending copy/open per target; no moves. */
-export function createDropPolicy(options: DropOptions) {
+export function createDropPolicy<T>(options: DropHandoffOptions<T>): DropPolicy<T>
+export function createDropPolicy(options: DropOptions): DropPolicy
+export function createDropPolicy(
+  options: DropOptions & Partial<DropHandoffOptions<unknown>>,
+): DropPolicy<unknown> {
   let disposed = false
   let pending: (() => void) | undefined
   const recent = new Set<string>()
-  const ignored = (reason: string): DropResult => ({ status: 'ignored', reason })
+  const ignored = (reason: string): DropResult<unknown> => ({ status: 'ignored', reason })
   function accepts(types: readonly string[]) {
     if (disposed) return false
     const owner = options.owner(),
@@ -46,12 +63,13 @@ export function createDropPolicy(options: DropOptions) {
     id: string,
     items: readonly DropItem[],
     source: 'drag-drop' | 'internal' = 'drag-drop',
-  ): Promise<DropResult> {
+  ): Promise<DropResult<unknown>> {
     if (disposed) return ignored('disposed')
     const owner = options.owner()
     if (!owner) return ignored('target-unavailable')
     if (typeof id !== 'string' || !id.trim() || id.length > 128) return ignored('invalid')
-    const scope = owner.scope,
+    const router = owner.router,
+      scope = owner.scope,
       windowId = owner.windowId,
       frame = owner.frame
     const key = JSON.stringify([scope, id])
@@ -76,12 +94,13 @@ export function createDropPolicy(options: DropOptions) {
       if (disposed) return 'disposed'
       if (
         options.owner() !== owner ||
+        owner.router !== router ||
         owner.scope !== scope ||
         owner.windowId !== windowId ||
         owner.frame !== frame
       )
         return 'owner-changed'
-      const window = owner.router.window.value
+      const window = router.window.value
       if (!window || window.id !== windowId || window.state === 'closed')
         return 'owner-closed'
     }
@@ -122,11 +141,11 @@ export function createDropPolicy(options: DropOptions) {
       } catch {
         return ignored('invalid')
       }
-      const ready = await Promise.race([owner.router.isReady().then(() => true), aborted])
+      const ready = await Promise.race([router.isReady().then(() => true), aborted])
       if (!ready) return ignored(current() ?? interrupted)
       invalidated = current()
       if (invalidated) return ignored(invalidated)
-      const resolution = owner.router.resolveIntent({
+      const resolution = router.resolveIntent({
         ...payload,
         source,
         delivery: { scope, id },
@@ -138,7 +157,9 @@ export function createDropPolicy(options: DropOptions) {
       if (invalidated) return ignored(invalidated)
       // Provider/readiness timeout does not pretend to cancel an executing guard.
       clearTimeout(timer)
-      const navigation = await owner.router.openIntent(resolution.intent)
+      const navigation = await (options.handoff
+        ? options.handoff(resolution.intent, owner)
+        : router.openIntent(resolution.intent))
       return { status: 'settled', intent: resolution.intent, navigation }
     } finally {
       clearTimeout(timer)

@@ -2,6 +2,8 @@ const { resolve } = require('path')
 const webpack = require('@nativescript/webpack')
 
 module.exports = (env) => {
+  if (env.droploginTest && !env.android)
+    throw new Error('The drop login fixture supports Android only')
   if (env.androiddropTest && !env.android)
     throw new Error('The Android drag/drop fixture supports Android only')
   if (env.windowdropTest && !env.ios)
@@ -48,6 +50,7 @@ module.exports = (env) => {
       'dragdrop',
       'windowdrop',
       'androiddrop',
+      'droplogin',
       'suspense',
       'windows',
       'entrypoints',

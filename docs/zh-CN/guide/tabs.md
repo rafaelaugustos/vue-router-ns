@@ -232,3 +232,13 @@ dependencies {
 <Clip name="android-drag-drop" aspect="9 / 20" caption="十次原生拖放、守卫拒绝，以及按钮、键盘和 TalkBack 替代操作。Android 14 模拟器。" />
 
 [第三阶段的证据与复现步骤](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-android-drop-stage3.md)覆盖一个 Activity、真实输入以及 TalkBack 焦点和激活。实体设备、语音录制、全局或跨 Activity 拖放以及新窗口不在本阶段范围内。
+
+### 放下后的登录流程 {#drop-login}
+
+[登录示例](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/drag-drop/login.md)在验证 drop 后提供可选的类型化 `handoff`。默认行为仍调用 `openIntent`。对于受保护的目标，应用使用 `suspendIntent`，在接收标签页中显示 Login，只有完成身份验证并检查当前权限后才继续导航。
+
+登录期间保留原始投递标识。只有登录后的继续导航使用 `replace: true`；已登录请求保留原有历史策略。取消或原生返回操作会使等待中的请求失效。账户变更、过期、路由移除以及守卫等待期间的权限撤销都不能打开失效的目标。按钮和键盘替代操作使用 `internal` 来源。
+
+<Clip name="drop-login" aspect="9 / 20" caption="Android 上的十一次真实拖放，涵盖受控登录、原生返回以及守卫等待期间的权限撤销。Android 14 模拟器。" />
+
+[第四阶段报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drop-login-stage4.md)区分已接受的原生传输、等待中的身份验证和已完成的导航。示例控制身份验证状态，保留两个 Page 及其草稿，不使用外部身份提供商。此组合流程仅在 Android 模拟器的一个 Activity 中录制，不扩展 iPad、实体设备或屏幕阅读器方面的验证声明。

@@ -75,3 +75,7 @@ Control–O and has no required dragging step. Its [native acceptance](../../tes
 covers actual Android 14 emulator gestures, button activation, keyboard input and
 TalkBack touch exploration plus double-tap activation. This is not physical-device,
 cross-Activity, external-app or speech/audio acceptance.
+
+For protected destinations, the [login recipe](./login.md) adds an optional typed
+handoff, explicit sign-in resumption and cancellation on native Back. Native
+transfer acceptance and authentication/navigation outcomes stay separate.

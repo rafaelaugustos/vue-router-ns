@@ -232,3 +232,13 @@ An ordinary button and Control–O call the same policy with source `internal`. 
 <Clip name="android-drag-drop" aspect="9 / 20" caption="Ten native Android drags, guard refusal and button/keyboard/TalkBack alternatives. Android 14 emulator." />
 
 [Stage 3 evidence and reproduction](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-android-drop-stage3.md) cover one Activity, real input and TalkBack focus/activation. Physical devices, recorded speech, cross-Activity/global drags and new windows remain outside this stage.
+
+### Login after dropping {#drop-login}
+
+The [login recipe](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/drag-drop/login.md) adds an optional typed `handoff` after drop validation. The default still calls `openIntent`. For a protected destination, the app uses `suspendIntent`, presents Login in the receiving tab and resumes only after authentication and current permission checks.
+
+The delivery identity stays reserved through login. Only the login continuation uses `replace: true`; already authenticated requests preserve their history policy. Cancel and native Back invalidate the pending request. Account changes, expiry, removed routes and permission revocation during a waiting guard cannot open a stale destination. Button and keyboard alternatives use source `internal`.
+
+<Clip name="drop-login" aspect="9 / 20" caption="Eleven real Android drags through controlled sign-in, native Back and revocation during a guard. Android 14 emulator." />
+
+The [stage 4 report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drop-login-stage4.md) separates accepted native transfer, pending authentication and completed navigation. The fixture controls authentication state and preserves both Pages and drafts; it uses no external identity provider. This combined flow is recorded on one Android emulator Activity, without additional iPad, physical-device or screen-reader claims.
