@@ -438,3 +438,29 @@ A content or shortcut id identifies a destination, not a user action. Generate a
 The [native report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-scene-intents-stage5.md) includes actual SpringBoard actions, native Spotlight result taps, terminated-process delivery, login/resume, intentional repeat, stale destinations and a real custom-scheme URL. Internal and notification comparisons are app controls; native notifications were validated in the preceding stage. The fixture preserves an independent Page/draft within each process. It does not persist login or drafts across processes and does not certify Android, physical devices or a full multi-window lifecycle.
 
 <Clip name="scene-intents" :width="640" aspect="3 / 4" caption="Real iPad simulator: tap native quick actions and Spotlight results, resume after sign-in with warm and terminated apps, reject stale destinations and preserve an independent draft within each process. Controlled authentication; labels are in English." />
+
+## Native Android intents {#native-android-intents}
+
+The [Android application recipe](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/intent-entrypoints/android.md) adapts ACTION_VIEW URLs, launcher shortcuts and notification taps to the same versioned contract. Copy `android.ts`, disable automatic system links with `links: { system: false }`, retain URL allowlists and install the adapter once before `app.start()`. Supply the receiving window's stable account-owned `{ router, scope, frame }` registration and your existing receipt handler. This cold path uses the standard NativeScript-Vue launch bridge; custom window-content resolvers need their own integration.
+
+```ts
+import { installAndroidIntentIngress } from './android'
+
+const stop = installAndroidIntentIngress({
+  owner: (windowId) => accountOwners.get(windowId),
+  notification: { action: 'com.example.OPEN_NOTIFICATION', extra: 'navigation' },
+  nextId: () => createActionId(),
+  receive: handleEntryIntent,
+  error: reportIngressError,
+})
+```
+
+Core 9.1.4 forwards a synthetic new-intent during Activity creation. The adapter carries that exact receiving window id into the synchronous launch event, consumes the cold request once, and handles warm actions through `activityNewIntent`. Saved-state recreation and history launches do not replay the old destination. It retains canonical request data while waiting for readiness, with at most 16 handoffs and a 15-second deadline. Changed account/registration, closure and disposal invalidate waiting work.
+
+Notifications use the app's explicit open action and a bounded JSON extra containing only version, destination and optional expiry. The app supplies delivery identity, target and history policy; the payload cannot override them. Create an immutable activity PendingIntent and request notification permission on Android 13+. Choose task/Back behavior for your application; the fixture's single-task Activity is one explicit policy. Posting a notification alone never navigates. Follow [Android's permission guide](https://developer.android.com/develop/ui/compose/notifications/notification-permission).
+
+In the receipt handler, inspect ignored outcomes, resolve again, then open or suspend for login. Mount the selected Frame, authorize current content and resume/cancel explicitly. This recipe uses replacement so resume removes login. A new native tap gets a new delivery id; replay of the same captured request returns `repeat`. Suspended requests and credentials are not persisted across process death.
+
+The [Android report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-android-intents-stage6.md) covers real launcher/drawer taps, cold URL delivery, three processes, login/resume, rejected notifications and Recents. It also maps all #182 acceptance items to the six completed stages. This is emulator evidence with controlled authentication, not physical-device, push-provider or full multi-window certification.
+
+<Clip name="android-intents" :width="360" aspect="9 / 20" caption="Android API 34 emulator: real launcher and notification taps, cold URL opening, sign-in/resume across three processes, explicit rejection and a retained draft. Controlled authentication; labels are in English." />

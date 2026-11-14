@@ -1,4 +1,7 @@
-# Scene entrypoints into navigation intents
+# Native entrypoints into navigation intents
+
+For Android, use the [Android recipe](./android.md) and [android.ts](./android.ts).
+The following section covers iOS scene events.
 
 Copy [ios.ts](./ios.ts) into an iOS application using NativeScript Core 9.1.4 and
 scene lifecycle. This is application integration code, not a new package API.

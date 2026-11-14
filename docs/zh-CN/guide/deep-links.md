@@ -438,3 +438,29 @@ Core 9.1.4 将冷启动连接数据转发到与热启动相同的场景事件。
 [原生报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-scene-intents-stage5.md) 涵盖真实 SpringBoard 操作、Spotlight 结果点击、进程终止后的投递、登录与恢复、有意重复、过时目标及真实自定义 scheme URL。内部与通知比较属于应用控制测试；原生通知已在上一阶段验证。测试在每个进程内保留独立 Page 和草稿，不跨进程保存登录或草稿，也不证明 Android、实体设备或完整多窗口生命周期。
 
 <Clip name="scene-intents" :width="640" aspect="3 / 4" caption="真实 iPad 模拟器：点击快捷操作和 Spotlight 结果，在应用运行或终止后登录并恢复，拒绝过时目标，并在每个进程内保留独立草稿。受控认证；界面为英文。" />
+
+## Android 原生意图 {#native-android-intents}
+
+[Android 应用示例](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/intent-entrypoints/android.md) 将 ACTION_VIEW URL、启动器快捷方式和通知点击转换为同一个版本化契约。复制 `android.ts`，通过 `links: { system: false }` 禁用自动系统链接导航，保留 URL 允许列表，并在 `app.start()` 前安装一次适配器。提供接收窗口与账号对应的稳定 `{ router, scope, frame }` 注册对象以及现有的接收处理函数。 此冷启动路径依赖 NativeScript-Vue 的标准启动桥接；自定义窗口内容解析器需要单独集成。
+
+```ts
+import { installAndroidIntentIngress } from './android'
+
+const stop = installAndroidIntentIngress({
+  owner: (windowId) => accountOwners.get(windowId),
+  notification: { action: 'com.example.OPEN_NOTIFICATION', extra: 'navigation' },
+  nextId: () => createActionId(),
+  receive: handleEntryIntent,
+  error: reportIngressError,
+})
+```
+
+Core 9.1.4 在创建 Activity 时发出合成的 new-intent。适配器将确切的接收窗口 id 传入同步启动事件，只消费一次冷启动请求，再通过 `activityNewIntent` 接收后续操作。保存状态后的重建和历史启动不会重放旧目标。等待路由器就绪时只保留规范化数据，最多等待 16 个请求，期限为 15 秒。更换账号或注册对象、关闭窗口或释放适配器会使等待中的工作失效。
+
+通知使用应用指定的显式打开动作，以及只包含版本、目标和可选过期时间的有界 JSON extra。投递身份、目标窗口和历史策略由应用提供，payload 无权覆盖。为 Activity 创建不可变 PendingIntent，并在 Android 13+ 请求通知权限。任务和返回键行为由应用决定；测试应用的单任务 Activity 只是其中一种显式策略。仅发布通知不会触发导航。参见 [Android 通知权限指南](https://developer.android.com/develop/ui/compose/notifications/notification-permission)。
+
+接收处理函数应处理被忽略的结果、重新解析，再执行导航或为登录挂起请求。挂载选定的 Frame，验证当前内容权限，并显式恢复或取消。该示例使用替换策略，使恢复后的目标替换登录页。每次新点击获得新的投递 id；重放同一已捕获请求返回 `repeat`。进程终止后不保留挂起请求或凭据。
+
+[Android 验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-android-intents-stage6.md) 覆盖真实启动器及通知面板点击、URL 冷启动、三个进程、登录恢复、通知拒绝和最近任务，并将 #182 的所有验收条目映射到六个已完成阶段。这是使用受控身份状态的模拟器证据，不代表真机、推送服务商或完整多窗口生命周期认证。
+
+<Clip name="android-intents" :width="360" aspect="9 / 20" caption="Android API 34 模拟器：真实启动器及通知点击、URL 冷启动、三个进程中的登录恢复、明确拒绝以及保留的草稿。身份验证为受控状态，界面标签为英文。" />

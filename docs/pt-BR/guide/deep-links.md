@@ -438,3 +438,29 @@ Um id de conteúdo ou atalho identifica um destino, não uma ação do usuário.
 O [relatório nativo](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-scene-intents-stage5.md) inclui ações reais do SpringBoard, toques em resultados do Spotlight, entrega após encerrar o processo, login/retomada, repetição intencional, destinos obsoletos e uma URL real de esquema próprio. As comparações internas e de notificação são controles do app; notificações nativas foram validadas na etapa anterior. O teste preserva uma Page e um rascunho independentes dentro de cada processo. Não persiste login ou rascunhos entre processos nem certifica Android, aparelhos físicos ou o ciclo completo de múltiplas janelas.
 
 <Clip name="scene-intents" :width="640" aspect="3 / 4" caption="Simulador real de iPad: aciona atalhos e resultados do Spotlight, retoma após login com o app aberto ou encerrado, rejeita destinos obsoletos e preserva um rascunho independente em cada processo. Autenticação controlada; textos em inglês." />
+
+## Intents nativos no Android {#native-android-intents}
+
+A [receita Android da aplicação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/intent-entrypoints/android.md) adapta URLs ACTION_VIEW, atalhos do launcher e toques em notificações ao mesmo contrato versionado. Copie `android.ts`, desative os links automáticos com `links: { system: false }`, mantenha as listas de URLs permitidas e instale o adaptador uma vez antes de `app.start()`. Forneça o registro estável `{ router, scope, frame }` da conta e da janela receptora, além do seu handler de recebimento. Essa abertura a frio usa a ponte padrão de lançamento do NativeScript-Vue; resolvers personalizados de conteúdo de janela precisam de integração própria.
+
+```ts
+import { installAndroidIntentIngress } from './android'
+
+const stop = installAndroidIntentIngress({
+  owner: (windowId) => accountOwners.get(windowId),
+  notification: { action: 'com.example.OPEN_NOTIFICATION', extra: 'navigation' },
+  nextId: () => createActionId(),
+  receive: handleEntryIntent,
+  error: reportIngressError,
+})
+```
+
+O Core 9.1.4 emite um new-intent sintético durante a criação da Activity. O adaptador leva o id exato da janela receptora ao evento síncrono de lançamento, consome a abertura a frio uma vez e recebe novas ações por `activityNewIntent`. Recriação com estado salvo e abertura pelo histórico não repetem o destino antigo. A espera pela prontidão retém dados canônicos, com até 16 encaminhamentos e prazo de 15 segundos. Troca de conta/registro, fechamento e descarte invalidam o trabalho pendente.
+
+Notificações usam a ação explícita de abertura escolhida pelo app e um extra JSON limitado, contendo apenas versão, destino e validade opcional. O app fornece identidade de entrega, alvo e política de histórico; o payload não pode sobrescrevê-los. Crie um PendingIntent imutável para a Activity e solicite permissão no Android 13+. Escolha o comportamento de tarefas/Voltar para seu app; a Activity de tarefa única da fixture é uma política explícita. Publicar uma notificação, por si só, nunca navega. Consulte o [guia de permissão do Android](https://developer.android.com/develop/ui/compose/notifications/notification-permission).
+
+No handler, trate resultados ignorados, resolva novamente e abra ou suspenda para login. Monte o Frame escolhido, autorize o conteúdo atual e retome/cancele explicitamente. A receita usa substituição para remover o login ao retomar. Um novo toque recebe um novo id de entrega; repetir a mesma requisição capturada retorna `repeat`. Requisições suspensas e credenciais não persistem após o encerramento do processo.
+
+O [relatório Android](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-android-intents-stage6.md) cobre toques reais no launcher e na gaveta de notificações, URL a frio, três processos, login/retomada, notificações rejeitadas e Recentes. Também relaciona todos os critérios da #182 às seis etapas concluídas. É evidência de emulador com autenticação controlada; não certifica aparelhos físicos, provedores push ou todo o ciclo de múltiplas janelas.
+
+<Clip name="android-intents" :width="360" aspect="9 / 20" caption="Emulador Android API 34: toques reais no launcher e nas notificações, URL a frio, login/retomada em três processos, rejeição explícita e rascunho preservado. Autenticação controlada; rótulos em inglês." />
