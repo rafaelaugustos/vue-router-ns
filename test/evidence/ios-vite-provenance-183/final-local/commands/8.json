@@ -1,0 +1,10 @@
+{
+  "command": "ns",
+  "args": ["--version"],
+  "startedAt": "2026-11-14T06:24:37.011Z",
+  "timeoutMs": 20000,
+  "status": "passed",
+  "stdout": "9.1.2\n- Checking for updates...\n✔ Up to date.\n",
+  "stderr": "",
+  "durationMs": 1296
+}

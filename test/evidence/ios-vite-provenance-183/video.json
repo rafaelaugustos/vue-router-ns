@@ -1,9 +1,10 @@
 {
-  "run": "1794632548012",
-  "sourceSha256": "5f32139b271c54fd32d6cee202103eace1ecb75af37930cc2e3c626c4330b1be",
-  "publishedSha256": "80e8690779cdb74f815072c17a757b7e165e85d71de7fc7d88cb7dcf9707a794",
+  "run": "1794637430156",
+  "source": "f7ff40b816cb1b0044378c5136aa6bca188e626e",
+  "sourceSha256": "0058e2fd4b54f2cc68f5f06df70a0cbb483b796864c9bf56cb77ac340280fe82",
+  "publishedSha256": "4fee0352fe3a39f913f9840ccfcddcc941ae58996c5f71aae6c6c6403ebb4503",
   "path": "docs/public/media/ios-vite-provenance.mp4",
-  "frames": 835,
+  "frames": 820,
   "relativeTimestampMaxDeltaSeconds": 0.0,
   "probe": {
     "programs": [],
@@ -16,8 +17,8 @@
       }
     ],
     "format": {
-      "duration": "43.310000",
-      "size": "27271540"
+      "duration": "44.435000",
+      "size": "26807725"
     }
   },
   "transform": "H.264 stream copy with faststart; all frames/timestamps retained"

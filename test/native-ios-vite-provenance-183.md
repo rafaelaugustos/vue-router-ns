@@ -1,4 +1,4 @@
-# Complete iOS toolchain provenance — #183 stage 3
+# iOS provenance and Vite shutdown — #183 stage 3
 
 The iOS Vite runner now measures native tool versions once after acceptance and
 owned-process cleanup. Source commit, initial dirty state, host and installed
@@ -51,14 +51,41 @@ failure-isolation behavior; it does not reproduce a hosted OS stall.
 
 [Actual application recording](../docs/public/media/ios-vite-provenance.mp4) shows
 startup, native page/modal navigation, live template/middleware/route edits,
-invalid-metadata recovery and the final 24-check screen of the normal run. The
-complete 43.31-second H.264 video retains all 835 frames and relative timestamps;
+invalid-metadata recovery and the final 24-check screen of the final local run after the Vite shutdown correction. The
+complete 44.44-second H.264 video retains all 820 frames and relative timestamps;
 only its MP4 container was remuxed for streaming. The recording ends before the
 cleanup-time probes, whose ordering and results are established by the journals.
 [Video metadata](./evidence/ios-vite-provenance-183/video.json) includes hashes.
 
 The nine existing observer/subprocess/metadata/cleanup tests and native helper
-checks pass. The 987 library tests pass, with ten existing skips.
+checks pass. The initial 987 library tests passed, with ten existing skips. The final suite
+contains 988 passing tests after adding the shutdown regression below.
+
+## Vite shutdown regression found by PR CI
+
+[The first ordinary PR CI run](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43565466554)
+failed with `ENOTEMPTY` while removing the real-watcher test's generated directory.
+The Vite server had closed while the file-route plugin still had queued generation
+work. A real-server control holds an active generation behind a promise: the
+former server closes before it is released; the corrected server waits. The
+[before/after test evidence](./evidence/ios-vite-provenance-183/shutdown/provenance.json)
+preserves both observations and the original CI failure.
+
+The plugin now detaches structural listeners, prevents new generation/watcher
+registration during shutdown and drains its pending queue in `closeBundle`.
+Vite creates a replacement server before closing the former one during restart;
+the cleanup hook therefore checks its environment identity before closing the
+current instance. The watcher integration also verifies that generation continues
+after `server.restart()`. No filesystem cleanup retry or longer test timeout was added.
+
+All 14 focused Vite tests and the full 988-test suite pass, with ten existing skips.
+The rebuilt consumer was then run on iOS at
+`f7ff40b816cb1b0044378c5136aa6bca188e626e`: [24 native checks](./evidence/ios-vite-provenance-183/final-local/results.json),
+seven HMR invariants and cleanup passed, with complete metadata and an unchanged
+initial source/package snapshot. The video above records this final local run.
+The ordinary CI checks on that code revision also passed. A fresh hosted run was
+started for this changed plugin source; this is separate from the retained failed
+provenance run below.
 
 ## Hosted validation
 
@@ -85,8 +112,10 @@ The [full original artifact and job/CLI logs](./evidence/ios-vite-provenance-183
 including the failed recording, diagnostics and complete environment report, are
 preserved with hashes. Completing provenance on this failed run demonstrates the
 failure path; it does not establish passing hosted navigation/HMR or diagnose
-the HTTP failure. Later commits only add documentation/evidence; runner and helper
-source hashes match this hosted commit.
+the HTTP failure. The runner and environment helper source still match this hosted commit. The
+subsequent Vite shutdown correction is identified separately above.
+
+Final hosted revalidation of the changed plugin is pending.
 
 ## Remaining #183 scope
 

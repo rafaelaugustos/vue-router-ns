@@ -1,0 +1,32 @@
+{
+  "id": "1794637430156",
+  "ok": true,
+  "checks": [
+    "generated-root-and-native-layout",
+    "discovered-global-middleware",
+    "typed-params-and-native-push",
+    "layout-focus-owner-and-target",
+    "metadata-native-modal",
+    "covered-page-hidden-from-accessibility",
+    "typed-modal-result",
+    "return-restores-native-page-and-visibility",
+    "discovered-middleware-cancels-before-mount",
+    "auth-redirects-to-native-login",
+    "auth-session-allows-destination",
+    "back-retains-product-draft",
+    "explicit-route-coexists",
+    "unrelated-stack-retained",
+    "watch-middleware-updates-registered-guard",
+    "watch-middleware-keeps-pages-and-other-stack",
+    "watch-add-and-metadata-retain-open-page",
+    "watch-rename-retains-native-page",
+    "watch-removal-retains-native-page",
+    "back-returns-to-renamed-away-entry",
+    "watch-keeps-original-product-and-other-stack",
+    "watch-recovers-after-invalid-source",
+    "future-visit-uses-updated-metadata",
+    "back-retains-home-page-and-draft"
+  ],
+  "watch": true,
+  "platform": "ios"
+}

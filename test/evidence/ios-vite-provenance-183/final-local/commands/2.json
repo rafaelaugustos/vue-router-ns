@@ -1,0 +1,22 @@
+{
+  "command": "xcrun",
+  "args": [
+    "simctl",
+    "spawn",
+    "89AC758A-DAC7-4507-B1B5-488729789512",
+    "log",
+    "show",
+    "--last",
+    "10m",
+    "--style",
+    "compact",
+    "--predicate",
+    "eventMessage CONTAINS \"CONVENTIONS_\""
+  ],
+  "startedAt": "2026-11-14T06:24:22.819Z",
+  "timeoutMs": 20000,
+  "status": "passed",
+  "stdout": "Timestamp               Ty Process[PID:TID]\n2026-11-14 03:24:18.964 Df filerouting[45596:23147f] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK generated-root-and-native-layout\n2026-11-14 03:24:18.964 Df filerouting[45596:23147f] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK discovered-global-middleware\n2026-11-14 03:24:19.575 Df filerouting[45596:23147f] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK typed-params-and-native-push\n2026-11-14 03:24:19.575 Df filerouting[45596:23147f] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK layout-focus-owner-and-target\n2026-11-14 03:24:20.196 Df filerouting[45596:23147f] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK metadata-native-modal\n2026-11-14 03:24:20.196 Df filerouting[45596:23147f] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK covered-page-hidden-from-accessibility\n2026-11-14 03:24:20.608 Df log[45727:0] [com.apple.log:] log run noninteractively, parent: 44007 (launchd_sim), args: 'log' 'show' '--last' '10m' '--style' 'compact' '--predicate' 'eventMessage CONTAINS \"CONVENTIONS_\"'\n2026-11-14 03:24:20.725 Df filerouting[45596:23147f] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK typed-modal-result\n2026-11-14 03:24:20.725 Df filerouting[45596:23147f] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK return-restores-native-page-and-visibility\n2026-11-14 03:24:20.725 Df filerouting[45596:23147f] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK discovered-middleware-cancels-before-mount\n2026-11-14 03:24:21.298 Df filerouting[45596:23147f] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK auth-redirects-to-native-login\n2026-11-14 03:24:21.853 Df filerouting[45596:23147f] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK auth-session-allows-destination\n2026-11-14 03:24:22.379 Df filerouting[45596:23147f] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK back-retains-product-draft\n2026-11-14 03:24:22.964 Df filerouting[45596:23147f] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK explicit-route-coexists\n2026-11-14 03:24:23.151 Df log[45772:0] [com.apple.log:] log run noninteractively, parent: 44007 (launchd_sim), args: 'log' 'show' '--last' '10m' '--style' 'compact' '--predicate' 'eventMessage CONTAINS \"CONVENTIONS_\"'\n2026-11-14 03:24:23.484 Df filerouting[45596:23147f] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK unrelated-stack-retained\n2026-11-14 03:24:23.485 Df filerouting[45596:23147f] (NativeScript) CONSOLE LOG: CONVENTIONS_PHASE 1794637430156 ready\n",
+  "stderr": "getpwuid_r did not find a match for uid 501\n",
+  "durationMs": 1338
+}
