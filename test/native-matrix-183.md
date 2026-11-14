@@ -9,7 +9,20 @@ device jobs. No matrix retry or timeout/budget change is part of this stage.
 The two original #183 lanes passed together on that source: Android foldable and
 iOS Vite. The complete matrix nevertheless exposed other failures. A focused
 success, including the Split correction below, does not turn the original full
-run green or satisfy release acceptance.
+run green or satisfy release acceptance. The completed run has **16 successful
+device jobs, three failures and one cancellation**. Its required aggregate failed.
+
+| Required group       | Device jobs                       | Original run result                                             |
+| -------------------- | --------------------------------- | --------------------------------------------------------------- |
+| Android contracts    | API 34, 36                        | Both passed                                                     |
+| iOS contracts        | iPhone 16 Pro / iOS 18.6          | Cancelled at the 40-minute job limit during native destinations |
+| UIKit Split          | iPhone 16 Pro, iPad Pro 13 M4     | Both failed the selector described below                        |
+| Integration          | Android 34, foldable 35, iOS Vite | All three passed                                                |
+| Page actions         | Android, iOS                      | Both passed                                                     |
+| iOS drawer           | iPhone 16, iPad Pro 11 M4         | Both passed; rotation coverage limit below                      |
+| Native flows         | Android, iOS                      | Both passed                                                     |
+| Predictive prototype | API 34, 35, 36                    | 34/35 passed; 36 failed zero-progress assertion                 |
+| Native windows       | Android 34/36, iPad               | All three passed                                                |
 
 ## Guarded Back selector correction
 
@@ -30,6 +43,20 @@ process restoration, deadlines and runtime code are unchanged.
 
 ## Other observations
 
+- **iOS job cancellation:** GitHub's [retained annotation](./evidence/native-matrix-183/ios-annotations.json)
+  explicitly reports the 40-minute job limit. The final destination scenario
+  began at 14:11:07 UTC and was cancelled at 14:12:36 UTC. Its retained
+  `before-system-back.json` contains 17 initial checks and no diagnostic issues,
+  but there is no final system-Back/restoration result or completed XCTest log.
+  Those remaining checks are **unverified**. The full original iOS archive was
+  uploaded during cleanup and is retained; the cancellation is not converted to
+  success. This needs a separate investigation of serial build/test duration and
+  evidence capture, without assuming that a larger timeout fixes it.
+  Earlier iOS contracts passed 19 positive reports, process restoration and the
+  specific fault-build HMR control. The timing verdict has 40 samples at
+  286.14/352.54 ms median/p95, zero live JS Pages and one retained native
+  controller per batch, within the existing profile. This partial success does
+  not cover the unfinished destination scenario.
 - **Android predictive API 36:** the candidate-Core `cancel-check` failed
   `real progress received`. All 26 reported gesture samples had progress zero;
   input injection returned `CONTRACT_TOUCH_OK` with delivery lag 42 ms. The route
@@ -56,6 +83,9 @@ process restoration, deadlines and runtime code are unchanged.
   CLI 9.1.2, iOS 18.6/22G86 ARM64, Core 9.1.4, Vue 3.1.2, iOS runtime 9.1.0,
   Vite 8.3.4 and native Vite 8.0.20. This does not establish the cause of the
   earlier HTTP-import failure or the historical November 9 launch timeout.
+- **iPad drawer rotation:** the job passed its existing gate with eight exercised
+  rotation cases. Its report explicitly says two gesture cases were **not
+  reproduced**; those cases are not additional passing coverage.
 
 ## Local Split revalidation and video
 
@@ -90,7 +120,8 @@ contains the original/review hashes and media metadata.
 the complete job log compressed without changing its bytes. [Artifact records](./evidence/native-matrix-183/artifacts.json)
 retain GitHub artifact IDs, original archive hashes, expiry dates and individual
 retained-file hashes. The original archives for the Split and predictive failures
-are committed in full, including screenshots, XCTest bundles and native logs.
+and cancelled iOS job are committed in full, including screenshots, XCTest
+bundles and native logs.
 For passing jobs the committed archives retain JSON/text/XML/log files byte for
 byte, excluding binary XCTest attachments and videos; those complete originals
 remain at the linked GitHub artifacts until expiry. The manifest explicitly marks
@@ -98,9 +129,14 @@ these subsets with `completeOriginal: false`.
 
 ## Remaining acceptance
 
-The original matrix is still running. Its final disposition will be recorded
-before this stage is completed. The Split selector requires hosted revalidation,
-and the predictive API 36 zero-progress failure needs its own investigation.
+The original matrix failed. The Split selector requires hosted revalidation;
+the predictive API 36 zero-progress failure and iOS job timeout need separate
+investigation, followed by a complete passing matrix on one acceptance commit.
 #183 remains open until its complete acceptance criteria are met. No published
 package, experimental API promotion or physical-device acceptance follows from
 these simulator results.
+
+The [ordinary PR CI](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43602836845)
+passed 988 unit tests (ten existing skips), native shell-helper checks, formatting,
+types, package build and documentation build on the selector correction. Device
+jobs were skipped by the PR workflow, as documented above.

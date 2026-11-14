@@ -55,10 +55,10 @@
   {
     "id": 132463291850,
     "name": "ios",
-    "status": "in_progress",
-    "conclusion": null,
+    "status": "completed",
+    "conclusion": "cancelled",
     "started_at": "2026-11-14T13:32:24Z",
-    "completed_at": null,
+    "completed_at": "2026-11-14T14:12:59Z",
     "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43600236191/job/132463291850",
     "steps": [
       {
@@ -183,93 +183,103 @@
       },
       {
         "name": "Validate route data with real HTTP",
-        "status": "in_progress",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "number": 16,
         "started_at": "2026-11-14T13:59:05Z",
-        "completed_at": null
+        "completed_at": "2026-11-14T14:00:52Z"
       },
       {
         "name": "Validate native Suspense composition and gestures",
-        "status": "pending",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "number": 17,
-        "started_at": null,
-        "completed_at": null
+        "started_at": "2026-11-14T14:00:52Z",
+        "completed_at": "2026-11-14T14:05:19Z"
       },
       {
         "name": "Build former HMR fixture",
-        "status": "pending",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "number": 18,
-        "started_at": null,
-        "completed_at": null
+        "started_at": "2026-11-14T14:05:19Z",
+        "completed_at": "2026-11-14T14:07:51Z"
       },
       {
         "name": "Negative control",
-        "status": "pending",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "number": 19,
-        "started_at": null,
-        "completed_at": null
+        "started_at": "2026-11-14T14:07:51Z",
+        "completed_at": "2026-11-14T14:09:16Z"
       },
       {
         "name": "Enforce timing and retention budgets",
-        "status": "pending",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "number": 20,
-        "started_at": null,
-        "completed_at": null
+        "started_at": "2026-11-14T14:09:16Z",
+        "completed_at": "2026-11-14T14:09:16Z"
       },
       {
         "name": "Build native controller destination fixture",
-        "status": "pending",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "number": 21,
-        "started_at": null,
-        "completed_at": null
+        "started_at": "2026-11-14T14:09:16Z",
+        "completed_at": "2026-11-14T14:11:07Z"
       },
       {
         "name": "Native controller results, disposal and restoration",
-        "status": "pending",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "cancelled",
         "number": 22,
-        "started_at": null,
-        "completed_at": null
+        "started_at": "2026-11-14T14:11:07Z",
+        "completed_at": "2026-11-14T14:12:36Z"
       },
       {
         "name": "Clean up dedicated simulator",
-        "status": "pending",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "number": 23,
-        "started_at": null,
-        "completed_at": null
+        "started_at": "2026-11-14T14:12:36Z",
+        "completed_at": "2026-11-14T14:12:48Z"
       },
       {
         "name": "Run actions/upload-artifact@v4",
-        "status": "pending",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "number": 24,
-        "started_at": null,
-        "completed_at": null
+        "started_at": "2026-11-14T14:12:48Z",
+        "completed_at": "2026-11-14T14:12:52Z"
       },
       {
         "name": "Post Run actions/setup-node@v7",
-        "status": "pending",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "skipped",
         "number": 47,
-        "started_at": null,
-        "completed_at": null
+        "started_at": "2026-11-14T14:12:52Z",
+        "completed_at": "2026-11-14T14:12:52Z"
       },
       {
         "name": "Post Run actions/checkout@v7",
-        "status": "pending",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "number": 48,
-        "started_at": null,
-        "completed_at": null
+        "started_at": "2026-11-14T14:12:52Z",
+        "completed_at": "2026-11-14T14:12:53Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 49,
+        "started_at": "2026-11-14T14:12:53Z",
+        "completed_at": "2026-11-14T14:12:56Z"
       }
-    ]
+    ],
+    "log": "jobs/132463291850.log.gz",
+    "logSha256": "9d40952af8733b119f74dd0105babf89ad7c9ca9f8cc18cbbf643858079d4e45"
   },
   {
     "id": 132463291872,
@@ -1618,10 +1628,10 @@
   {
     "id": 132463291953,
     "name": "drawer-ios / drawer (iPad-Pro-11-inch-M4-8GB)",
-    "status": "in_progress",
-    "conclusion": null,
+    "status": "completed",
+    "conclusion": "success",
     "started_at": "2026-11-14T13:42:25Z",
-    "completed_at": null,
+    "completed_at": "2026-11-14T14:01:33Z",
     "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43600236191/job/132463291953",
     "steps": [
       {
@@ -1770,53 +1780,63 @@
       },
       {
         "name": "iPad rotation requested during active navigation",
-        "status": "in_progress",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "number": 19,
         "started_at": "2026-11-14T13:58:47Z",
-        "completed_at": null
+        "completed_at": "2026-11-14T14:01:10Z"
       },
       {
         "name": "Clean up dedicated simulator",
-        "status": "pending",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "number": 20,
-        "started_at": null,
-        "completed_at": null
+        "started_at": "2026-11-14T14:01:11Z",
+        "completed_at": "2026-11-14T14:01:19Z"
       },
       {
         "name": "Run actions/upload-artifact@v4",
-        "status": "pending",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "number": 21,
-        "started_at": null,
-        "completed_at": null
+        "started_at": "2026-11-14T14:01:19Z",
+        "completed_at": "2026-11-14T14:01:21Z"
       },
       {
         "name": "Post Run actions/setup-node@v7",
-        "status": "pending",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "number": 41,
-        "started_at": null,
-        "completed_at": null
+        "started_at": "2026-11-14T14:01:21Z",
+        "completed_at": "2026-11-14T14:01:28Z"
       },
       {
         "name": "Post Run actions/checkout@v7",
-        "status": "pending",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "number": 42,
-        "started_at": null,
-        "completed_at": null
+        "started_at": "2026-11-14T14:01:28Z",
+        "completed_at": "2026-11-14T14:01:29Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 43,
+        "started_at": "2026-11-14T14:01:29Z",
+        "completed_at": "2026-11-14T14:01:31Z"
       }
-    ]
+    ],
+    "log": "jobs/132463291953.log.gz",
+    "logSha256": "f921108483e84031077c94b513c3434324d4a9f5664a08abfe25588e2e6fd41d"
   },
   {
     "id": 132463291986,
     "name": "integration / android",
-    "status": "in_progress",
-    "conclusion": null,
+    "status": "completed",
+    "conclusion": "success",
     "started_at": "2026-11-14T13:32:23Z",
-    "completed_at": null,
+    "completed_at": "2026-11-14T14:03:53Z",
     "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43600236191/job/132463291986",
     "steps": [
       {
@@ -1949,45 +1969,55 @@
       },
       {
         "name": "Smoke test on an emulator",
-        "status": "in_progress",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "number": 17,
         "started_at": "2026-11-14T13:42:42Z",
-        "completed_at": null
+        "completed_at": "2026-11-14T14:03:47Z"
       },
       {
         "name": "Run actions/upload-artifact@v4",
-        "status": "pending",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "number": 18,
-        "started_at": null,
-        "completed_at": null
+        "started_at": "2026-11-14T14:03:47Z",
+        "completed_at": "2026-11-14T14:03:50Z"
       },
       {
         "name": "Post Run actions/setup-java@v4",
-        "status": "pending",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "number": 34,
-        "started_at": null,
-        "completed_at": null
+        "started_at": "2026-11-14T14:03:50Z",
+        "completed_at": "2026-11-14T14:03:50Z"
       },
       {
         "name": "Post Run actions/setup-node@v7",
-        "status": "pending",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "number": 35,
-        "started_at": null,
-        "completed_at": null
+        "started_at": "2026-11-14T14:03:50Z",
+        "completed_at": "2026-11-14T14:03:50Z"
       },
       {
         "name": "Post Run actions/checkout@v7",
-        "status": "pending",
-        "conclusion": null,
+        "status": "completed",
+        "conclusion": "success",
         "number": 36,
-        "started_at": null,
-        "completed_at": null
+        "started_at": "2026-11-14T14:03:50Z",
+        "completed_at": "2026-11-14T14:03:51Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 37,
+        "started_at": "2026-11-14T14:03:51Z",
+        "completed_at": "2026-11-14T14:03:51Z"
       }
-    ]
+    ],
+    "log": "jobs/132463291986.log.gz",
+    "logSha256": "e81dae8cf4c99882d8a6041dda7798e2b86e296a556532506fc640e02a31f402"
   },
   {
     "id": 132463292024,
@@ -3449,5 +3479,42 @@
     ],
     "log": "jobs/132463292265.log.gz",
     "logSha256": "c0df854fd6e50b8de4ad63309727a9fe7adea562ab8941e60f57d8c385452f5e"
+  },
+  {
+    "id": 132473660482,
+    "name": "native-contracts",
+    "status": "completed",
+    "conclusion": "failure",
+    "started_at": "2026-11-14T14:13:02Z",
+    "completed_at": "2026-11-14T14:13:05Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43600236191/job/132473660482",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T14:13:03Z",
+        "completed_at": "2026-11-14T14:13:03Z"
+      },
+      {
+        "name": "Require every applicable native lane",
+        "status": "completed",
+        "conclusion": "failure",
+        "number": 2,
+        "started_at": "2026-11-14T14:13:03Z",
+        "completed_at": "2026-11-14T14:13:03Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T14:13:03Z",
+        "completed_at": "2026-11-14T14:13:03Z"
+      }
+    ],
+    "log": "jobs/132473660482.log.gz",
+    "logSha256": "1219e3ea238bd0daad4d4353f279a9a0a13867172464224495047db22ebdc523"
   }
 ]
