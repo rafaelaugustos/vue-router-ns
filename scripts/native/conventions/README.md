@@ -25,6 +25,13 @@ Cleanup attempts each restoration even if a diagnostic fails. It stops only its
 own CLI process group and the selected fixture application. Environment metadata
 reads the example's actual packages, not the demo's different Vue version.
 
+Environment command probes retain their 20-second deadlines and settle independently.
+A failed probe leaves its value `null` and details in `environment.json` under
+`device.metadata.errors`; `device.metadata.complete` is then false. Successful
+fields and all command journals remain available. These diagnostics do not prevent
+the CLI from building/running the app. An incomplete environment report is not
+evidence of an exact toolchain version; native assertion failures still fail the run.
+
 Acceptance still requires 24 distinct native navigation/watch assertions plus seven
 template-retention invariants. `results.json` is the app result; `outcome.json`
 also requires successful cleanup. `commands/*.json` records command arguments,
@@ -63,3 +70,27 @@ none. Both versions complete all native assertions in this controlled experiment
 The unchanged CLI itself may issue multiple launches under the injected delay;
 the retained trace reports them. This proves the runner race, not the cause of the
 original hosted timeout. See [the report](../../../test/native-ios-vite-183.md).
+
+## Controlled environment failure
+
+[fail-environment.py](./fail-environment.py) is a test-only `xcodebuild` shim.
+It fails only the convention runner's `-version` subprocess with exit code 7;
+the CLI's commands and actual native builds are forwarded unchanged. It records
+the parent command and injected failure. Install it under the executable name:
+
+```sh
+VITE183_ENV_BIN=$(mktemp -d)
+cp scripts/native/conventions/fail-environment.py "$VITE183_ENV_BIN/xcodebuild"
+chmod +x "$VITE183_ENV_BIN/xcodebuild"
+PATH="$VITE183_ENV_BIN:$PATH" VITE183_ENV_TRACE=/tmp/router-environment-trace.jsonl \
+  ROUTER_BUNDLER=vite NS_HMR_HOST=127.0.0.1 \
+  IOS_SIMULATOR=<dedicated-UUID> RECORD_VIDEO=1 \
+  OUT=/tmp/router-environment-control node scripts/native/conventions-watch.mjs ios
+```
+
+The runner at `3fc652ef32d0bd62395959b6e60faa37894e5739` exits before spawning
+the CLI. The corrected runner preserves the error and completes all native checks.
+Run comparisons sequentially in prepared checkouts and fresh output directories.
+Final ordinary acceptance uses the normal PATH with no shim. This control proves
+failure isolation; it does not diagnose why a hosted version query timed out.
+See [the follow-up report](../../../test/native-ios-vite-environment-183.md).

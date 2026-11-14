@@ -1,0 +1,16 @@
+{
+  "command": "xcodebuild",
+  "args": ["-version"],
+  "startedAt": "2026-11-14T04:41:54.035Z",
+  "timeoutMs": 20000,
+  "status": "failed",
+  "error": {
+    "message": "Error: Command failed: xcodebuild -version\nControlled environment probe failure; actual native build remains enabled\n",
+    "code": 7,
+    "signal": null,
+    "killed": false,
+    "stdout": "",
+    "stderr": "Controlled environment probe failure; actual native build remains enabled\n"
+  },
+  "durationMs": 321
+}

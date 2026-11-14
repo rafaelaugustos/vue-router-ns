@@ -41,11 +41,14 @@ test('failed environment probe retains its error and waits for every other comma
     )
     assert.equal(device.metadata.errors[0].error.code, 7)
     assert.equal(device.metadata.errors[0].error.stderr, 'version unavailable')
+    const statuses = []
     for (let index = 1; index <= 4; index++) {
       const record = JSON.parse(await readFile(join(dir, `${index}.json`), 'utf8'))
-      assert.equal(record.status, index === 1 ? 'failed' : 'passed')
+      statuses.push(record.status)
       assert.equal(record.timeoutMs, 20000)
     }
+    // Concurrent directory creation does not guarantee command journal numbering.
+    assert.deepEqual(statuses.sort(), ['failed', 'passed', 'passed', 'passed'])
   } finally {
     await rm(dir, { recursive: true, force: true })
   }
