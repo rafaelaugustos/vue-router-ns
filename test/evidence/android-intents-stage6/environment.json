@@ -1,0 +1,23 @@
+{
+  "commit": "6a59c986834289adef9e2c4e0a8da3cd48c82e47",
+  "dirty": true,
+  "host": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64",
+    "cpus": 16,
+    "cpu": "Apple M4 Max"
+  },
+  "node": "v20.19.4",
+  "runner": "local",
+  "packages": {
+    "@nativescript/core": "9.1.4",
+    "nativescript-vue": "3.1.3",
+    "@nativescript/android": "9.1.1",
+    "@nativescript/ios": "9.1.0"
+  },
+  "device": {
+    "serial": "emulator-5580",
+    "sdk": "34"
+  }
+}

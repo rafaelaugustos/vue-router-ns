@@ -1,0 +1,12 @@
+{
+  "examples/intent-entrypoints/android.ts": "daddf9e3921ee1a91268ee96116a508957fbcfa9c8a02765041f901b65594f69",
+  "examples/intent-entrypoints/android.md": "ab4fbf2357c9c58e5ce6a7fa9bc966c607ef2d8af925b7a4ef8c324b182361d0",
+  "test/android-intent-ingress.spec.ts": "fcf9b107583458498afd52d0de09a135343a645f484f337700c6f7de419c6c87",
+  "demo/src/testing/androidintents-app.ts": "06e91608ba9050c14e65b0f5fc5f32801bdb0146d81f7161033a7576356ad126",
+  "demo/webpack.config.js": "32fb5c4100b53cc1848c715dac463dad12cc46bb171a1d382b8f27be7e3277d4",
+  "scripts/native/android-intents/android.mjs": "f3fb48bbfb758c323d10b150ebc30a84a1d08c270d0f3b48ded59db481376581",
+  "scripts/native/android-intents/prepare.py": "0efc079fdde9d2edea1c59f8cc3c683c7c2a6b177b90e61a4c936f30046bd05b",
+  "scripts/native/android-intents/tsconfig.json": "ea6f3fa52326ac0ac661cb72564b33d27497665af78a44069f9c68ee95bb160f",
+  "docs/public/media/android-intents.mp4": "72848f07233eb8a05a1b6ad4fc90ee09fc34ab14d8cf4687e55322d25ce43860",
+  "docs/public/media/android-intents.jpg": "2c74f01723816e0b17c01fefc69a76d2c90f36e650096e3dbf5c237573e7731c"
+}

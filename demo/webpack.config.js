@@ -2,6 +2,8 @@ const { resolve } = require('path')
 const webpack = require('@nativescript/webpack')
 
 module.exports = (env) => {
+  if (env.androidintentsTest && !env.android)
+    throw new Error('The Android intent fixture supports Android only')
   if (env.intententriesTest && !env.ios)
     throw new Error('The scene intent entrypoint fixture supports iOS only')
   if (env.intentwindowsTest && !env.ios)
@@ -36,6 +38,7 @@ module.exports = (env) => {
       'notifications',
       'intentwindows',
       'intententries',
+      'androidintents',
       'suspense',
       'windows',
       'entrypoints',

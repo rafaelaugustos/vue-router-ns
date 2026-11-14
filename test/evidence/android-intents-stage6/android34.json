@@ -1,0 +1,812 @@
+[
+  {
+    "command": "received-url-warm-1",
+    "ok": true,
+    "process": "1e644c4b-80a7-4f22-8fe7-8d5d6cdabd50",
+    "sequence": 1,
+    "nativeCallbacks": 1,
+    "guarded": 0,
+    "result": {
+      "status": "suspended",
+      "source": "url",
+      "delivery": {
+        "scope": "fixture-account:a:1e644c4b-80a7-4f22-8fe7-8d5d6cdabd50",
+        "id": "1e644c4b-80a7-4f22-8fe7-8d5d6cdabd50:1"
+      }
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/login"],
+        "native": ["/", "/login"]
+      }
+    },
+    "windowId": "window-053b9b52-f1cb-47a6-a18e-3444ecaa2c44",
+    "sourceDraft": "Unsent source draft",
+    "pid": 21721,
+    "check": "cold-url"
+  },
+  {
+    "command": "login-url-warm-1",
+    "ok": true,
+    "process": "1e644c4b-80a7-4f22-8fe7-8d5d6cdabd50",
+    "sequence": 2,
+    "nativeCallbacks": 1,
+    "guarded": 1,
+    "result": {
+      "status": "handled",
+      "source": "url"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/messages/7"],
+        "native": ["/", "/messages/7"]
+      }
+    },
+    "windowId": "window-053b9b52-f1cb-47a6-a18e-3444ecaa2c44",
+    "sourceDraft": "Unsent source draft",
+    "pid": 21721,
+    "check": "cold-url-login"
+  },
+  {
+    "command": "permission",
+    "ok": true,
+    "process": "1e644c4b-80a7-4f22-8fe7-8d5d6cdabd50",
+    "sequence": 3,
+    "nativeCallbacks": 1,
+    "guarded": 1,
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/messages/7"],
+        "native": ["/", "/messages/7"]
+      }
+    },
+    "windowId": "window-053b9b52-f1cb-47a6-a18e-3444ecaa2c44",
+    "sourceDraft": "Unsent source draft",
+    "pid": 21721,
+    "check": "permission"
+  },
+  {
+    "command": "publish",
+    "ok": true,
+    "process": "1e644c4b-80a7-4f22-8fe7-8d5d6cdabd50",
+    "sequence": 4,
+    "nativeCallbacks": 1,
+    "guarded": 1,
+    "result": ["message"],
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/messages/7"],
+        "native": ["/", "/messages/7"]
+      }
+    },
+    "windowId": "window-053b9b52-f1cb-47a6-a18e-3444ecaa2c44",
+    "sourceDraft": "Unsent source draft",
+    "pid": 21721,
+    "check": "publish"
+  },
+  {
+    "command": "rename",
+    "ok": true,
+    "process": "1e644c4b-80a7-4f22-8fe7-8d5d6cdabd50",
+    "sequence": 5,
+    "nativeCallbacks": 1,
+    "guarded": 1,
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/messages/7"],
+        "native": ["/", "/messages/7"]
+      }
+    },
+    "windowId": "window-053b9b52-f1cb-47a6-a18e-3444ecaa2c44",
+    "sourceDraft": "Unsent source draft",
+    "pid": 21721,
+    "check": "rename"
+  },
+  {
+    "command": "received-shortcut-warm-2",
+    "ok": true,
+    "process": "1e644c4b-80a7-4f22-8fe7-8d5d6cdabd50",
+    "sequence": 6,
+    "nativeCallbacks": 2,
+    "guarded": 2,
+    "result": {
+      "status": "handled",
+      "source": "shortcut",
+      "delivery": {
+        "scope": "fixture-account:a:1e644c4b-80a7-4f22-8fe7-8d5d6cdabd50",
+        "id": "1e644c4b-80a7-4f22-8fe7-8d5d6cdabd50:2"
+      }
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-053b9b52-f1cb-47a6-a18e-3444ecaa2c44",
+    "sourceDraft": "Unsent source draft",
+    "pid": 21721,
+    "check": "warm-shortcut"
+  },
+  {
+    "command": "replay",
+    "ok": true,
+    "process": "1e644c4b-80a7-4f22-8fe7-8d5d6cdabd50",
+    "sequence": 7,
+    "nativeCallbacks": 2,
+    "guarded": 2,
+    "result": {
+      "status": "ignored",
+      "reason": "repeat"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-053b9b52-f1cb-47a6-a18e-3444ecaa2c44",
+    "sourceDraft": "Unsent source draft",
+    "pid": 21721,
+    "check": "replay"
+  },
+  {
+    "command": "received-shortcut-warm-3",
+    "ok": true,
+    "process": "1e644c4b-80a7-4f22-8fe7-8d5d6cdabd50",
+    "sequence": 8,
+    "nativeCallbacks": 3,
+    "guarded": 2,
+    "result": {
+      "status": "handled",
+      "failure": 16,
+      "source": "shortcut",
+      "delivery": {
+        "scope": "fixture-account:a:1e644c4b-80a7-4f22-8fe7-8d5d6cdabd50",
+        "id": "1e644c4b-80a7-4f22-8fe7-8d5d6cdabd50:3"
+      }
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-053b9b52-f1cb-47a6-a18e-3444ecaa2c44",
+    "sourceDraft": "Unsent source draft",
+    "pid": 21721,
+    "check": "warm-shortcut"
+  },
+  {
+    "command": "prepare-cold",
+    "ok": true,
+    "process": "1e644c4b-80a7-4f22-8fe7-8d5d6cdabd50",
+    "sequence": 9,
+    "nativeCallbacks": 3,
+    "guarded": 2,
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-053b9b52-f1cb-47a6-a18e-3444ecaa2c44",
+    "sourceDraft": "Unsent source draft",
+    "pid": 21721,
+    "check": "prepare-cold"
+  },
+  {
+    "command": "received-shortcut-cold-1",
+    "ok": true,
+    "process": "dba77692-30d6-4412-97f0-c1cf937942d6",
+    "sequence": 1,
+    "nativeCallbacks": 1,
+    "guarded": 0,
+    "result": {
+      "status": "suspended",
+      "source": "shortcut",
+      "delivery": {
+        "scope": "fixture-account:a:dba77692-30d6-4412-97f0-c1cf937942d6",
+        "id": "dba77692-30d6-4412-97f0-c1cf937942d6:1"
+      }
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/login"],
+        "native": ["/", "/login"]
+      }
+    },
+    "windowId": "window-7b18a1de-d824-4e47-b072-048d5b62a5e7",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24013,
+    "check": "cold-shortcut"
+  },
+  {
+    "command": "login-shortcut-cold-1",
+    "ok": true,
+    "process": "dba77692-30d6-4412-97f0-c1cf937942d6",
+    "sequence": 2,
+    "nativeCallbacks": 1,
+    "guarded": 1,
+    "result": {
+      "status": "handled",
+      "source": "shortcut"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-7b18a1de-d824-4e47-b072-048d5b62a5e7",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24013,
+    "check": "login-resume"
+  },
+  {
+    "command": "notify-valid",
+    "ok": true,
+    "process": "dba77692-30d6-4412-97f0-c1cf937942d6",
+    "sequence": 3,
+    "nativeCallbacks": 1,
+    "guarded": 1,
+    "result": {
+      "posted": "valid",
+      "notificationId": 1821
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-7b18a1de-d824-4e47-b072-048d5b62a5e7",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24013,
+    "check": "notify-valid"
+  },
+  {
+    "command": "received-notification-cold-2",
+    "ok": true,
+    "process": "dba77692-30d6-4412-97f0-c1cf937942d6",
+    "sequence": 4,
+    "nativeCallbacks": 2,
+    "guarded": 1,
+    "result": {
+      "status": "handled",
+      "failure": 16,
+      "source": "notification",
+      "delivery": {
+        "scope": "fixture-account:a:dba77692-30d6-4412-97f0-c1cf937942d6",
+        "id": "dba77692-30d6-4412-97f0-c1cf937942d6:2"
+      }
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-7b18a1de-d824-4e47-b072-048d5b62a5e7",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24013,
+    "check": "warm-notification"
+  },
+  {
+    "command": "notify-valid",
+    "ok": true,
+    "process": "dba77692-30d6-4412-97f0-c1cf937942d6",
+    "sequence": 5,
+    "nativeCallbacks": 2,
+    "guarded": 1,
+    "result": {
+      "posted": "valid",
+      "notificationId": 1822
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-7b18a1de-d824-4e47-b072-048d5b62a5e7",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24013,
+    "check": "notify-valid"
+  },
+  {
+    "command": "received-notification-cold-1",
+    "ok": true,
+    "process": "29eadec2-0ecc-40df-8d72-93f343e7a266",
+    "sequence": 1,
+    "nativeCallbacks": 1,
+    "guarded": 0,
+    "result": {
+      "status": "suspended",
+      "source": "notification",
+      "delivery": {
+        "scope": "fixture-account:a:29eadec2-0ecc-40df-8d72-93f343e7a266",
+        "id": "29eadec2-0ecc-40df-8d72-93f343e7a266:1"
+      }
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/login"],
+        "native": ["/", "/login"]
+      }
+    },
+    "windowId": "window-ec8378e4-8873-4507-9c77-a62dbd4dc996",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24920,
+    "check": "cold-notification"
+  },
+  {
+    "command": "login-notification-cold-1",
+    "ok": true,
+    "process": "29eadec2-0ecc-40df-8d72-93f343e7a266",
+    "sequence": 2,
+    "nativeCallbacks": 1,
+    "guarded": 1,
+    "result": {
+      "status": "handled",
+      "source": "notification"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-ec8378e4-8873-4507-9c77-a62dbd4dc996",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24920,
+    "check": "login-resume"
+  },
+  {
+    "command": "replay",
+    "ok": true,
+    "process": "29eadec2-0ecc-40df-8d72-93f343e7a266",
+    "sequence": 3,
+    "nativeCallbacks": 1,
+    "guarded": 1,
+    "result": {
+      "status": "ignored",
+      "reason": "repeat"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-ec8378e4-8873-4507-9c77-a62dbd4dc996",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24920,
+    "check": "replay"
+  },
+  {
+    "command": "notify-invalid",
+    "ok": true,
+    "process": "29eadec2-0ecc-40df-8d72-93f343e7a266",
+    "sequence": 4,
+    "nativeCallbacks": 1,
+    "guarded": 1,
+    "result": {
+      "posted": "invalid",
+      "notificationId": 1821
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-ec8378e4-8873-4507-9c77-a62dbd4dc996",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24920,
+    "check": "notify-invalid"
+  },
+  {
+    "command": "received-notification-cold-2",
+    "ok": true,
+    "process": "29eadec2-0ecc-40df-8d72-93f343e7a266",
+    "sequence": 5,
+    "nativeCallbacks": 2,
+    "guarded": 1,
+    "result": {
+      "status": "ignored",
+      "reason": "invalid"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-ec8378e4-8873-4507-9c77-a62dbd4dc996",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24920,
+    "check": "warm-notification-invalid"
+  },
+  {
+    "command": "notify-expired",
+    "ok": true,
+    "process": "29eadec2-0ecc-40df-8d72-93f343e7a266",
+    "sequence": 6,
+    "nativeCallbacks": 2,
+    "guarded": 1,
+    "result": {
+      "posted": "expired",
+      "notificationId": 1822
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-ec8378e4-8873-4507-9c77-a62dbd4dc996",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24920,
+    "check": "notify-expired"
+  },
+  {
+    "command": "received-notification-cold-3",
+    "ok": true,
+    "process": "29eadec2-0ecc-40df-8d72-93f343e7a266",
+    "sequence": 7,
+    "nativeCallbacks": 3,
+    "guarded": 1,
+    "result": {
+      "status": "ignored",
+      "reason": "expired"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-ec8378e4-8873-4507-9c77-a62dbd4dc996",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24920,
+    "check": "warm-notification-expired"
+  },
+  {
+    "command": "notify-version",
+    "ok": true,
+    "process": "29eadec2-0ecc-40df-8d72-93f343e7a266",
+    "sequence": 8,
+    "nativeCallbacks": 3,
+    "guarded": 1,
+    "result": {
+      "posted": "version",
+      "notificationId": 1823
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-ec8378e4-8873-4507-9c77-a62dbd4dc996",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24920,
+    "check": "notify-version"
+  },
+  {
+    "command": "received-notification-cold-4",
+    "ok": true,
+    "process": "29eadec2-0ecc-40df-8d72-93f343e7a266",
+    "sequence": 9,
+    "nativeCallbacks": 4,
+    "guarded": 1,
+    "result": {
+      "status": "ignored",
+      "reason": "version"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-ec8378e4-8873-4507-9c77-a62dbd4dc996",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24920,
+    "check": "warm-notification-version"
+  },
+  {
+    "command": "notify-unknown",
+    "ok": true,
+    "process": "29eadec2-0ecc-40df-8d72-93f343e7a266",
+    "sequence": 10,
+    "nativeCallbacks": 4,
+    "guarded": 1,
+    "result": {
+      "posted": "unknown",
+      "notificationId": 1824
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-ec8378e4-8873-4507-9c77-a62dbd4dc996",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24920,
+    "check": "notify-unknown"
+  },
+  {
+    "command": "received-notification-cold-5",
+    "ok": true,
+    "process": "29eadec2-0ecc-40df-8d72-93f343e7a266",
+    "sequence": 11,
+    "nativeCallbacks": 5,
+    "guarded": 1,
+    "result": {
+      "status": "ignored",
+      "reason": "unmatched"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-ec8378e4-8873-4507-9c77-a62dbd4dc996",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24920,
+    "check": "warm-notification-unmatched"
+  },
+  {
+    "command": "received-url-cold-6",
+    "ok": true,
+    "process": "29eadec2-0ecc-40df-8d72-93f343e7a266",
+    "sequence": 12,
+    "nativeCallbacks": 6,
+    "guarded": 1,
+    "result": {
+      "status": "handled",
+      "failure": 16,
+      "source": "url",
+      "delivery": {
+        "scope": "fixture-account:a:29eadec2-0ecc-40df-8d72-93f343e7a266",
+        "id": "29eadec2-0ecc-40df-8d72-93f343e7a266:6"
+      }
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-ec8378e4-8873-4507-9c77-a62dbd4dc996",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24920,
+    "check": "warm-url"
+  },
+  {
+    "command": "compare",
+    "ok": true,
+    "process": "29eadec2-0ecc-40df-8d72-93f343e7a266",
+    "sequence": 13,
+    "nativeCallbacks": 6,
+    "guarded": 1,
+    "result": {
+      "sources": ["internal", "notification"],
+      "path": "/articles/7"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-ec8378e4-8873-4507-9c77-a62dbd4dc996",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24920,
+    "check": "compare"
+  },
+  {
+    "command": "capture",
+    "ok": true,
+    "process": "29eadec2-0ecc-40df-8d72-93f343e7a266",
+    "sequence": 14,
+    "nativeCallbacks": 6,
+    "guarded": 1,
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-ec8378e4-8873-4507-9c77-a62dbd4dc996",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24920,
+    "check": "capture"
+  },
+  {
+    "command": "remove-route",
+    "ok": true,
+    "process": "29eadec2-0ecc-40df-8d72-93f343e7a266",
+    "sequence": 15,
+    "nativeCallbacks": 6,
+    "guarded": 1,
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-ec8378e4-8873-4507-9c77-a62dbd4dc996",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24920,
+    "check": "remove-route"
+  },
+  {
+    "command": "received-shortcut-cold-7",
+    "ok": true,
+    "process": "29eadec2-0ecc-40df-8d72-93f343e7a266",
+    "sequence": 16,
+    "nativeCallbacks": 7,
+    "guarded": 1,
+    "result": {
+      "status": "ignored",
+      "reason": "unmatched"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-ec8378e4-8873-4507-9c77-a62dbd4dc996",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24920,
+    "check": "warm-shortcut-unmatched"
+  },
+  {
+    "command": "clear",
+    "ok": true,
+    "process": "29eadec2-0ecc-40df-8d72-93f343e7a266",
+    "sequence": 17,
+    "nativeCallbacks": 7,
+    "guarded": 1,
+    "stacks": {
+      "source": {
+        "logical": ["/"],
+        "native": ["/"]
+      },
+      "target": {
+        "logical": ["/", "/articles/7"],
+        "native": ["/", "/articles/7"]
+      }
+    },
+    "windowId": "window-ec8378e4-8873-4507-9c77-a62dbd4dc996",
+    "sourceDraft": "Unsent source draft",
+    "pid": 24920,
+    "check": "clear"
+  }
+]
