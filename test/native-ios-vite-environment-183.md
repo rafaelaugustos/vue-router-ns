@@ -83,8 +83,10 @@ that configuration. Complete hosted toolchain provenance remains outstanding.
 Later commits only add the evidence/report, test shim and a Node test ordering
 correction; acceptance runner and observer source hashes match the hosted commit.
 
-This stage keeps #183 open. The Android foldable drawer mismatch, the historical
-hosted launch cause and a complete required native matrix on one acceptance commit
-remain separate work. A passing focused lane does not certify the full matrix,
+The Android foldable mismatch was already fixed by PRs #186/#187, with two
+[complete focused hosted passes](./native-foldable-drawer-settlement.md).
+This stage keeps #183 open. The historical hosted launch cause and a complete
+required native matrix on one acceptance commit remain separate work.
+A passing focused lane does not certify the full matrix,
 physical devices or release readiness. Reproduce the control using the
 [runner instructions](../scripts/native/conventions/README.md#controlled-environment-failure).

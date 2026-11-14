@@ -1,0 +1,24 @@
+{
+  "run": "1794632548012",
+  "sourceSha256": "5f32139b271c54fd32d6cee202103eace1ecb75af37930cc2e3c626c4330b1be",
+  "publishedSha256": "80e8690779cdb74f815072c17a757b7e165e85d71de7fc7d88cb7dcf9707a794",
+  "path": "docs/public/media/ios-vite-provenance.mp4",
+  "frames": 835,
+  "relativeTimestampMaxDeltaSeconds": 0.0,
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1206,
+        "height": 2622
+      }
+    ],
+    "format": {
+      "duration": "43.310000",
+      "size": "27271540"
+    }
+  },
+  "transform": "H.264 stream copy with faststart; all frames/timestamps retained"
+}

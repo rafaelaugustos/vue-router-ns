@@ -1,0 +1,22 @@
+{
+  "command": "xcrun",
+  "args": [
+    "simctl",
+    "spawn",
+    "89AC758A-DAC7-4507-B1B5-488729789512",
+    "log",
+    "show",
+    "--last",
+    "10m",
+    "--style",
+    "compact",
+    "--predicate",
+    "eventMessage CONTAINS \"CONVENTIONS_\""
+  ],
+  "startedAt": "2026-11-14T05:02:57.099Z",
+  "timeoutMs": 20000,
+  "status": "passed",
+  "stdout": "Timestamp               Ty Process[PID:TID]\n2026-11-14 02:02:55.173 Df filerouting[39634:221b02] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK generated-root-and-native-layout\n2026-11-14 02:02:55.173 Df filerouting[39634:221b02] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK discovered-global-middleware\n2026-11-14 02:02:55.774 Df filerouting[39634:221b02] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK typed-params-and-native-push\n2026-11-14 02:02:55.775 Df filerouting[39634:221b02] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK layout-focus-owner-and-target\n2026-11-14 02:02:56.387 Df filerouting[39634:221b02] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK metadata-native-modal\n2026-11-14 02:02:56.387 Df filerouting[39634:221b02] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK covered-page-hidden-from-accessibility\n2026-11-14 02:02:56.918 Df filerouting[39634:221b02] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK typed-modal-result\n2026-11-14 02:02:56.918 Df filerouting[39634:221b02] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK return-restores-native-page-and-visibility\n2026-11-14 02:02:56.918 Df filerouting[39634:221b02] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK discovered-middleware-cancels-before-mount\n2026-11-14 02:02:57.362 Df log[39727:0] [com.apple.log:] log run noninteractively, parent: 38668 (launchd_sim), args: 'log' 'show' '--last' '10m' '--style' 'compact' '--predicate' 'eventMessage CONTAINS \"CONVENTIONS_\"'\n2026-11-14 02:02:57.508 Df filerouting[39634:221b02] (NativeScript) CONSOLE LOG: CONVENTIONS_CHECK auth-redirects-to-native-login\n",
+  "stderr": "getpwuid_r did not find a match for uid 501\n",
+  "durationMs": 1534
+}

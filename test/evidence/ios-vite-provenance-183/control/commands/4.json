@@ -1,0 +1,16 @@
+{
+  "command": "xcrun",
+  "args": [
+    "simctl",
+    "io",
+    "89AC758A-DAC7-4507-B1B5-488729789512",
+    "screenshot",
+    "/tmp/vite183-provenance-control/final.png"
+  ],
+  "startedAt": "2026-11-14T05:04:26.202Z",
+  "timeoutMs": 20000,
+  "status": "passed",
+  "stdout": "",
+  "stderr": "Detected file type from extension: PNG\nNote: No display specified. Defaulting to display: 1947DAEA-C61D-43F1-86B2-912C40AA57E8 (screenID: 1, name: LCD)\nWrote screenshot to: /tmp/vite183-provenance-control/final.png\n",
+  "durationMs": 407
+}

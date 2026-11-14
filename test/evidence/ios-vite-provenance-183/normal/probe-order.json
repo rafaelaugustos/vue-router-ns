@@ -1,0 +1,35 @@
+{
+  "appStopStartedAt": "2026-11-14T05:03:13.734Z",
+  "appStopDurationMs": 128,
+  "oneAttemptPerProbe": true,
+  "probes": [
+    {
+      "command": "xcodebuild",
+      "args": ["-version"],
+      "startedAt": "2026-11-14T05:03:13.862Z",
+      "durationMs": 86,
+      "status": "passed"
+    },
+    {
+      "command": "xcrun",
+      "args": ["simctl", "list", "runtimes", "--json"],
+      "startedAt": "2026-11-14T05:03:13.862Z",
+      "durationMs": 123,
+      "status": "passed"
+    },
+    {
+      "command": "ns",
+      "args": ["--version"],
+      "startedAt": "2026-11-14T05:03:13.862Z",
+      "durationMs": 1288,
+      "status": "passed"
+    },
+    {
+      "command": "xcrun",
+      "args": ["simctl", "list", "devices", "--json"],
+      "startedAt": "2026-11-14T05:03:13.862Z",
+      "durationMs": 123,
+      "status": "passed"
+    }
+  ]
+}

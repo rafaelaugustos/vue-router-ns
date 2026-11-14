@@ -25,12 +25,19 @@ Cleanup attempts each restoration even if a diagnostic fails. It stops only its
 own CLI process group and the selected fixture application. Environment metadata
 reads the example's actual packages, not the demo's different Vue version.
 
+The initial environment report captures the source commit, dirty state and installed
+packages before fixture edits, with `device.metadata.phase: "pending"`. After native
+acceptance and all CLI/source/app cleanup attempts, four native tool probes run once.
+The final report preserves the initial snapshot and records observations with
+`device.metadata.phase: "after-cleanup"` and `collectedAt`. This avoids querying
+versions during freshly booted simulator startup; no probe is retried.
 Environment command probes retain their 20-second deadlines and settle independently.
 A failed probe leaves its value `null` and details in `environment.json` under
 `device.metadata.errors`; `device.metadata.complete` is then false. Successful
 fields and all command journals remain available. These diagnostics do not prevent
 the CLI from building/running the app. An incomplete environment report is not
 evidence of an exact toolchain version; native assertion failures still fail the run.
+See [the provenance acceptance report](../../../test/native-ios-vite-provenance-183.md).
 
 Acceptance still requires 24 distinct native navigation/watch assertions plus seven
 template-retention invariants. `results.json` is the app result; `outcome.json`
