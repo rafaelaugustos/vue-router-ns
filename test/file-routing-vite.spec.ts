@@ -284,6 +284,9 @@ it('regenerates with the real Vite watcher and recovers after invalid metadata',
     await rm(join(rootDir, 'src/pages/renamed.vue'))
     await until(async () => !(await table()).includes('"edited"'))
     expect((await prepareFileRouting(options)).changed).toEqual([])
+    await server.restart()
+    await put('src/pages/restarted.vue', sfc('restarted'))
+    await until(async () => (await table()).includes('"restarted"'))
   } finally {
     await server.close()
   }
@@ -408,5 +411,50 @@ it('waits for recovery to finish before serving a generated module', async () =>
     resume()
     preparation.pause = undefined
     await server.close()
+  }
+}, 10000)
+
+it('keeps server close pending until an active generation finishes', async () => {
+  const { rootDir, put, options } = await fixture(true)
+  const server = await createServer({
+    configFile: false,
+    root: rootDir,
+    logLevel: 'silent',
+    plugins: [nativeFileRoutes(options), components],
+    server: { host: '127.0.0.1', port: 0 },
+    optimizeDeps: { noDiscovery: true },
+  })
+  let resume = () => {}
+  let closing: Promise<void> | undefined
+  try {
+    await server.listen()
+    let started = () => {}
+    const active = new Promise<void>((resolve) => {
+      started = resolve
+    })
+    const gate = new Promise<void>((resolve) => {
+      resume = resolve
+    })
+    preparation.pause = async () => {
+      preparation.pause = undefined
+      started()
+      await gate
+    }
+    await put('src/pages/closing.vue', sfc('closing'))
+    await active
+    let closed = false
+    closing = server.close().then(() => {
+      closed = true
+    })
+    await new Promise((resolve) => setTimeout(resolve, 50))
+    expect(closed, 'server.close must drain pending route generation').toBe(false)
+    resume()
+    await closing
+    // No generator may recreate files after server.close resolves.
+    await rm(rootDir, { recursive: true, force: true })
+  } finally {
+    resume()
+    preparation.pause = undefined
+    await (closing ?? server.close())
   }
 }, 10000)
