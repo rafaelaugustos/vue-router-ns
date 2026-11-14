@@ -213,3 +213,13 @@ Um botão comum e Control–O chamam a mesma política com origem `internal`. A 
 <Clip name="android-drag-drop" aspect="9 / 20" caption="Dez arrastes nativos, recusa de guard e alternativas por botão, teclado e TalkBack. Emulador Android 14." />
 
 As [evidências e instruções da etapa 3](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-android-drop-stage3.md) cobrem uma Activity, entradas reais e foco/ativação pelo TalkBack. Aparelhos físicos, gravação de fala, arrastes globais ou entre Activities e novas janelas ficam fora desta etapa.
+
+### Login depois de soltar {#drop-login}
+
+A [receita de login](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/drag-drop/login.md) acrescenta um `handoff` tipado opcional depois da validação do drop. O padrão continua chamando `openIntent`. Para um destino protegido, o app usa `suspendIntent`, apresenta o Login na aba receptora e retoma apenas após autenticação e verificação da permissão atual.
+
+A identidade da entrega permanece reservada durante o login. Somente a continuação do login usa `replace: true`; solicitações já autenticadas preservam sua política de histórico. Cancelar e usar o Voltar nativo invalidam a solicitação pendente. Troca de conta, expiração, rota removida e revogação de acesso durante um guard em espera não podem abrir um destino obsoleto. As alternativas por botão e teclado usam origem `internal`.
+
+<Clip name="drop-login" aspect="9 / 20" caption="Onze arrastes reais no Android com login controlado, Voltar nativo e revogação durante um guard. Emulador Android 14." />
+
+O [relatório da etapa 4](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drop-login-stage4.md) distingue transferência nativa aceita, autenticação pendente e navegação concluída. O exemplo controla o estado de autenticação e preserva as duas Pages e os rascunhos, sem provedor externo de identidade. O fluxo combinado foi gravado em uma Activity no emulador Android, sem ampliar as alegações sobre iPad, aparelho físico ou leitor de tela.

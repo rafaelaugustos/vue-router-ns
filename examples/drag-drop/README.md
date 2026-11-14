@@ -71,9 +71,9 @@ source and history authority cannot come from the payload. Canonical intent limi
 apply again. Unknown versions, expired requests and removed routes return explicit
 ignored outcomes. Application permission is checked after loading/readiness, then
 normal router guards authorize navigation. Guards must recheck current account and
-content permission through asynchronous application work. This stage does not add
-an authentication UI; apps can compose the existing explicit login-resumption API
-in a later integration.
+content permission through asynchronous application work. The [login recipe](./login.md) composes this policy with explicit suspension and
+app-owned Login Pages. Stage 4 records the combined flow on Android; the iPad
+recordings remain scoped to their original guard/provider scenarios.
 
 Only one provider/readiness handoff may be pending per target, with a 10-second
 deadline. Owner, frame, account and window are rechecked after waits. Disposal

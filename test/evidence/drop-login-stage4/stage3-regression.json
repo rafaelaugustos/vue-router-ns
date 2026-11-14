@@ -1,0 +1,1552 @@
+[
+  {
+    "command": "ready",
+    "ok": true,
+    "sequence": 1,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "valid",
+    "selected": "source",
+    "drags": 0,
+    "drops": 0,
+    "accepted": 0,
+    "loaded": 0,
+    "guarded": 0,
+    "collections": 0,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "prepare-valid",
+    "ok": true,
+    "sequence": 2,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "valid",
+    "selected": "source",
+    "drags": 0,
+    "drops": 0,
+    "accepted": 0,
+    "loaded": 0,
+    "guarded": 0,
+    "collections": 0,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "drop-valid",
+    "ok": true,
+    "sequence": 3,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "valid",
+    "selected": "target",
+    "drags": 1,
+    "drops": 1,
+    "accepted": 1,
+    "loaded": 1,
+    "guarded": 1,
+    "collections": 2,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "result": {
+      "status": "settled",
+      "intent": {
+        "version": 1,
+        "destination": {
+          "route": {
+            "name": "document",
+            "params": {
+              "id": 7
+            }
+          }
+        },
+        "source": "drag-drop",
+        "delivery": {
+          "scope": "account:a:4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+          "id": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3:1"
+        },
+        "target": {
+          "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+          "frame": "target"
+        }
+      },
+      "navigation": {
+        "status": "handled",
+        "intent": {
+          "version": 1,
+          "destination": {
+            "route": {
+              "name": "document",
+              "params": {
+                "id": 7
+              }
+            }
+          },
+          "source": "drag-drop",
+          "delivery": {
+            "scope": "account:a:4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+            "id": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3:1"
+          },
+          "target": {
+            "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+            "frame": "target"
+          }
+        },
+        "location": {
+          "path": "/documents/7",
+          "fullPath": "/documents/7",
+          "name": "document",
+          "params": {
+            "id": "7"
+          },
+          "query": {},
+          "hash": "",
+          "meta": {},
+          "matched": [
+            {
+              "path": "/documents/:id",
+              "name": "document",
+              "component": {},
+              "meta": {},
+              "beforeEnter": [],
+              "modal": false,
+              "children": []
+            }
+          ]
+        }
+      }
+    },
+    "origin": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "source"
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox", "/documents/7"],
+        "native": ["/inbox", "/documents/7"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "prepare-repeat",
+    "ok": true,
+    "sequence": 4,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "repeat",
+    "selected": "source",
+    "drags": 1,
+    "drops": 1,
+    "accepted": 1,
+    "loaded": 1,
+    "guarded": 1,
+    "collections": 2,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox", "/documents/7"],
+        "native": ["/inbox", "/documents/7"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "drop-repeat",
+    "ok": true,
+    "sequence": 5,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "repeat",
+    "selected": "target",
+    "drags": 2,
+    "drops": 2,
+    "accepted": 2,
+    "loaded": 2,
+    "guarded": 1,
+    "collections": 4,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "result": {
+      "status": "settled",
+      "intent": {
+        "version": 1,
+        "destination": {
+          "route": {
+            "name": "document",
+            "params": {
+              "id": 7
+            }
+          }
+        },
+        "source": "drag-drop",
+        "delivery": {
+          "scope": "account:a:4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+          "id": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3:2"
+        },
+        "target": {
+          "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+          "frame": "target"
+        }
+      },
+      "navigation": {
+        "status": "handled",
+        "intent": {
+          "version": 1,
+          "destination": {
+            "route": {
+              "name": "document",
+              "params": {
+                "id": 7
+              }
+            }
+          },
+          "source": "drag-drop",
+          "delivery": {
+            "scope": "account:a:4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+            "id": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3:2"
+          },
+          "target": {
+            "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+            "frame": "target"
+          }
+        },
+        "location": {
+          "path": "/documents/7",
+          "fullPath": "/documents/7",
+          "name": "document",
+          "params": {
+            "id": "7"
+          },
+          "query": {},
+          "hash": "",
+          "meta": {},
+          "matched": [
+            {
+              "path": "/documents/:id",
+              "name": "document",
+              "component": {},
+              "meta": {},
+              "beforeEnter": [],
+              "modal": false,
+              "children": []
+            }
+          ]
+        },
+        "failure": {
+          "name": "NavigationFailure",
+          "type": 16,
+          "to": {
+            "path": "/documents/7",
+            "fullPath": "/documents/7",
+            "name": "document",
+            "params": {
+              "id": "7"
+            },
+            "query": {},
+            "hash": "",
+            "meta": {},
+            "matched": [
+              {
+                "path": "/documents/:id",
+                "name": "document",
+                "component": {},
+                "meta": {},
+                "beforeEnter": [],
+                "modal": false,
+                "children": []
+              }
+            ]
+          },
+          "from": {
+            "path": "/documents/7",
+            "fullPath": "/documents/7",
+            "name": "document",
+            "params": {
+              "id": "7"
+            },
+            "query": {},
+            "hash": "",
+            "meta": {},
+            "matched": [
+              {
+                "path": "/documents/:id",
+                "name": "document",
+                "component": {},
+                "meta": {},
+                "beforeEnter": [],
+                "modal": false,
+                "children": []
+              }
+            ]
+          }
+        }
+      }
+    },
+    "origin": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "source"
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox", "/documents/7"],
+        "native": ["/inbox", "/documents/7"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "prepare-replay",
+    "ok": true,
+    "sequence": 6,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "repeat",
+    "selected": "target",
+    "drags": 2,
+    "drops": 2,
+    "accepted": 2,
+    "loaded": 2,
+    "guarded": 1,
+    "collections": 4,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "result": {
+      "status": "ignored",
+      "reason": "repeat"
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox", "/documents/7"],
+        "native": ["/inbox", "/documents/7"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "prepare-cancel",
+    "ok": true,
+    "sequence": 7,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "cancel",
+    "selected": "source",
+    "drags": 2,
+    "drops": 2,
+    "accepted": 2,
+    "loaded": 2,
+    "guarded": 1,
+    "collections": 4,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "cancel-cancel",
+    "ok": true,
+    "sequence": 8,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "cancel",
+    "selected": "source",
+    "drags": 3,
+    "drops": 2,
+    "accepted": 2,
+    "loaded": 2,
+    "guarded": 1,
+    "collections": 6,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "result": {
+      "operation": false
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "prepare-multiple",
+    "ok": true,
+    "sequence": 9,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "multiple",
+    "selected": "source",
+    "drags": 3,
+    "drops": 2,
+    "accepted": 2,
+    "loaded": 2,
+    "guarded": 1,
+    "collections": 6,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "cancel-multiple",
+    "ok": true,
+    "sequence": 10,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "multiple",
+    "selected": "source",
+    "drags": 4,
+    "drops": 2,
+    "accepted": 2,
+    "loaded": 2,
+    "guarded": 1,
+    "collections": 8,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "result": {
+      "operation": false
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "prepare-unsupported",
+    "ok": true,
+    "sequence": 11,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "unsupported",
+    "selected": "source",
+    "drags": 4,
+    "drops": 2,
+    "accepted": 2,
+    "loaded": 2,
+    "guarded": 1,
+    "collections": 8,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "cancel-unsupported",
+    "ok": true,
+    "sequence": 12,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "unsupported",
+    "selected": "source",
+    "drags": 5,
+    "drops": 2,
+    "accepted": 2,
+    "loaded": 2,
+    "guarded": 1,
+    "collections": 10,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "result": {
+      "operation": false
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "prepare-invalid",
+    "ok": true,
+    "sequence": 13,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "invalid",
+    "selected": "source",
+    "drags": 5,
+    "drops": 2,
+    "accepted": 2,
+    "loaded": 2,
+    "guarded": 1,
+    "collections": 10,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "drop-invalid",
+    "ok": true,
+    "sequence": 14,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "invalid",
+    "selected": "source",
+    "drags": 6,
+    "drops": 3,
+    "accepted": 3,
+    "loaded": 3,
+    "guarded": 1,
+    "collections": 12,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "result": {
+      "status": "ignored",
+      "reason": "invalid"
+    },
+    "origin": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "source"
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "prepare-expired",
+    "ok": true,
+    "sequence": 15,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "expired",
+    "selected": "source",
+    "drags": 6,
+    "drops": 3,
+    "accepted": 3,
+    "loaded": 3,
+    "guarded": 1,
+    "collections": 12,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "drop-expired",
+    "ok": true,
+    "sequence": 16,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "expired",
+    "selected": "source",
+    "drags": 7,
+    "drops": 4,
+    "accepted": 4,
+    "loaded": 4,
+    "guarded": 1,
+    "collections": 14,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "result": {
+      "status": "ignored",
+      "reason": "expired"
+    },
+    "origin": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "source"
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "prepare-removed",
+    "ok": true,
+    "sequence": 17,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "removed",
+    "selected": "source",
+    "drags": 7,
+    "drops": 4,
+    "accepted": 4,
+    "loaded": 4,
+    "guarded": 1,
+    "collections": 14,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "drop-removed",
+    "ok": true,
+    "sequence": 18,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "removed",
+    "selected": "source",
+    "drags": 8,
+    "drops": 5,
+    "accepted": 5,
+    "loaded": 5,
+    "guarded": 1,
+    "collections": 16,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "result": {
+      "status": "ignored",
+      "reason": "unmatched"
+    },
+    "origin": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "source"
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "prepare-guard",
+    "ok": true,
+    "sequence": 19,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "guard",
+    "selected": "source",
+    "drags": 8,
+    "drops": 5,
+    "accepted": 5,
+    "loaded": 5,
+    "guarded": 1,
+    "collections": 16,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "drop-guard",
+    "ok": true,
+    "sequence": 20,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "guard",
+    "selected": "target",
+    "drags": 9,
+    "drops": 6,
+    "accepted": 6,
+    "loaded": 6,
+    "guarded": 2,
+    "collections": 18,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "result": {
+      "status": "settled",
+      "intent": {
+        "version": 1,
+        "destination": {
+          "route": {
+            "name": "document",
+            "params": {
+              "id": 7
+            }
+          }
+        },
+        "source": "drag-drop",
+        "delivery": {
+          "scope": "account:a:4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+          "id": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3:6"
+        },
+        "target": {
+          "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+          "frame": "target"
+        }
+      },
+      "navigation": {
+        "status": "handled",
+        "intent": {
+          "version": 1,
+          "destination": {
+            "route": {
+              "name": "document",
+              "params": {
+                "id": 7
+              }
+            }
+          },
+          "source": "drag-drop",
+          "delivery": {
+            "scope": "account:a:4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+            "id": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3:6"
+          },
+          "target": {
+            "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+            "frame": "target"
+          }
+        },
+        "location": {
+          "path": "/documents/7",
+          "fullPath": "/documents/7",
+          "name": "document",
+          "params": {
+            "id": "7"
+          },
+          "query": {},
+          "hash": "",
+          "meta": {},
+          "matched": [
+            {
+              "path": "/documents/:id",
+              "name": "document",
+              "component": {},
+              "meta": {},
+              "beforeEnter": [],
+              "modal": false,
+              "children": []
+            }
+          ]
+        },
+        "failure": {
+          "name": "NavigationFailure",
+          "type": 4,
+          "to": {
+            "path": "/documents/7",
+            "fullPath": "/documents/7",
+            "name": "document",
+            "params": {
+              "id": "7"
+            },
+            "query": {},
+            "hash": "",
+            "meta": {},
+            "matched": [
+              {
+                "path": "/documents/:id",
+                "name": "document",
+                "component": {},
+                "meta": {},
+                "beforeEnter": [],
+                "modal": false,
+                "children": []
+              }
+            ]
+          },
+          "from": {
+            "path": "/inbox",
+            "fullPath": "/inbox",
+            "params": {},
+            "query": {},
+            "hash": "",
+            "meta": {},
+            "matched": [
+              {
+                "path": "/inbox",
+                "component": {},
+                "meta": {},
+                "beforeEnter": [],
+                "modal": false,
+                "children": []
+              }
+            ]
+          }
+        }
+      }
+    },
+    "origin": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "source"
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "prepare-disposed",
+    "ok": true,
+    "sequence": 21,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "disposed",
+    "selected": "source",
+    "drags": 9,
+    "drops": 6,
+    "accepted": 6,
+    "loaded": 6,
+    "guarded": 2,
+    "collections": 18,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "cancel-disposed",
+    "ok": true,
+    "sequence": 22,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "disposed",
+    "selected": "source",
+    "drags": 10,
+    "drops": 6,
+    "accepted": 6,
+    "loaded": 6,
+    "guarded": 2,
+    "collections": 20,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "result": {
+      "operation": false
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "prepare-accessible",
+    "ok": true,
+    "sequence": 23,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "accessible",
+    "selected": "source",
+    "drags": 10,
+    "drops": 6,
+    "accepted": 6,
+    "loaded": 6,
+    "guarded": 2,
+    "collections": 20,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "command-accessible",
+    "ok": true,
+    "sequence": 24,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "accessible",
+    "selected": "target",
+    "drags": 10,
+    "drops": 6,
+    "accepted": 7,
+    "loaded": 7,
+    "guarded": 3,
+    "collections": 20,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "result": {
+      "status": "settled",
+      "intent": {
+        "version": 1,
+        "destination": {
+          "route": {
+            "name": "document",
+            "params": {
+              "id": 7
+            }
+          }
+        },
+        "source": "internal",
+        "delivery": {
+          "scope": "account:a:4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+          "id": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3:7"
+        },
+        "target": {
+          "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+          "frame": "target"
+        }
+      },
+      "navigation": {
+        "status": "handled",
+        "intent": {
+          "version": 1,
+          "destination": {
+            "route": {
+              "name": "document",
+              "params": {
+                "id": 7
+              }
+            }
+          },
+          "source": "internal",
+          "delivery": {
+            "scope": "account:a:4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+            "id": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3:7"
+          },
+          "target": {
+            "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+            "frame": "target"
+          }
+        },
+        "location": {
+          "path": "/documents/7",
+          "fullPath": "/documents/7",
+          "name": "document",
+          "params": {
+            "id": "7"
+          },
+          "query": {},
+          "hash": "",
+          "meta": {},
+          "matched": [
+            {
+              "path": "/documents/:id",
+              "name": "document",
+              "component": {},
+              "meta": {},
+              "beforeEnter": [],
+              "modal": false,
+              "children": []
+            }
+          ]
+        }
+      }
+    },
+    "origin": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "source"
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox", "/documents/7"],
+        "native": ["/inbox", "/documents/7"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "prepare-keyboard",
+    "ok": true,
+    "sequence": 25,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "keyboard",
+    "selected": "source",
+    "drags": 10,
+    "drops": 6,
+    "accepted": 7,
+    "loaded": 7,
+    "guarded": 3,
+    "collections": 20,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "command-keyboard",
+    "ok": true,
+    "sequence": 26,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "keyboard",
+    "selected": "target",
+    "drags": 10,
+    "drops": 6,
+    "accepted": 8,
+    "loaded": 8,
+    "guarded": 4,
+    "collections": 20,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "result": {
+      "status": "settled",
+      "intent": {
+        "version": 1,
+        "destination": {
+          "route": {
+            "name": "document",
+            "params": {
+              "id": 7
+            }
+          }
+        },
+        "source": "internal",
+        "delivery": {
+          "scope": "account:a:4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+          "id": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3:8"
+        },
+        "target": {
+          "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+          "frame": "target"
+        }
+      },
+      "navigation": {
+        "status": "handled",
+        "intent": {
+          "version": 1,
+          "destination": {
+            "route": {
+              "name": "document",
+              "params": {
+                "id": 7
+              }
+            }
+          },
+          "source": "internal",
+          "delivery": {
+            "scope": "account:a:4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+            "id": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3:8"
+          },
+          "target": {
+            "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+            "frame": "target"
+          }
+        },
+        "location": {
+          "path": "/documents/7",
+          "fullPath": "/documents/7",
+          "name": "document",
+          "params": {
+            "id": "7"
+          },
+          "query": {},
+          "hash": "",
+          "meta": {},
+          "matched": [
+            {
+              "path": "/documents/:id",
+              "name": "document",
+              "component": {},
+              "meta": {},
+              "beforeEnter": [],
+              "modal": false,
+              "children": []
+            }
+          ]
+        }
+      }
+    },
+    "origin": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "source"
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox", "/documents/7"],
+        "native": ["/inbox", "/documents/7"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "prepare-talkback",
+    "ok": true,
+    "sequence": 27,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "talkback",
+    "selected": "source",
+    "drags": 10,
+    "drops": 6,
+    "accepted": 8,
+    "loaded": 8,
+    "guarded": 4,
+    "collections": 20,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox"],
+        "native": ["/inbox"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "command-talkback",
+    "ok": true,
+    "sequence": 28,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "talkback",
+    "selected": "target",
+    "drags": 10,
+    "drops": 6,
+    "accepted": 9,
+    "loaded": 9,
+    "guarded": 5,
+    "collections": 20,
+    "accessibility": {
+      "touchExploration": true,
+      "services": ["com.google.android.marvin.talkback/.TalkBackService"]
+    },
+    "result": {
+      "status": "settled",
+      "intent": {
+        "version": 1,
+        "destination": {
+          "route": {
+            "name": "document",
+            "params": {
+              "id": 7
+            }
+          }
+        },
+        "source": "internal",
+        "delivery": {
+          "scope": "account:a:4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+          "id": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3:9"
+        },
+        "target": {
+          "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+          "frame": "target"
+        }
+      },
+      "navigation": {
+        "status": "handled",
+        "intent": {
+          "version": 1,
+          "destination": {
+            "route": {
+              "name": "document",
+              "params": {
+                "id": 7
+              }
+            }
+          },
+          "source": "internal",
+          "delivery": {
+            "scope": "account:a:4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+            "id": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3:9"
+          },
+          "target": {
+            "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+            "frame": "target"
+          }
+        },
+        "location": {
+          "path": "/documents/7",
+          "fullPath": "/documents/7",
+          "name": "document",
+          "params": {
+            "id": "7"
+          },
+          "query": {},
+          "hash": "",
+          "meta": {},
+          "matched": [
+            {
+              "path": "/documents/:id",
+              "name": "document",
+              "component": {},
+              "meta": {},
+              "beforeEnter": [],
+              "modal": false,
+              "children": []
+            }
+          ]
+        }
+      }
+    },
+    "origin": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "source"
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox", "/documents/7"],
+        "native": ["/inbox", "/documents/7"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  },
+  {
+    "command": "prepare-clear",
+    "ok": true,
+    "sequence": 29,
+    "process": "4fe44f66-2ea9-4292-a0d6-f941d0a649e3",
+    "mode": "talkback",
+    "selected": "target",
+    "drags": 10,
+    "drops": 6,
+    "accepted": 9,
+    "loaded": 9,
+    "guarded": 5,
+    "collections": 20,
+    "accessibility": {
+      "touchExploration": false,
+      "services": []
+    },
+    "target": {
+      "windowId": "window-2e93d9bf-67f1-443e-bcc5-796eead90366",
+      "frame": "target"
+    },
+    "stacks": {
+      "source": {
+        "logical": ["/library"],
+        "native": ["/library"]
+      },
+      "target": {
+        "logical": ["/inbox", "/documents/7"],
+        "native": ["/inbox", "/documents/7"]
+      }
+    },
+    "sourceDraft": "Library draft",
+    "targetDraft": "Inbox draft"
+  }
+]

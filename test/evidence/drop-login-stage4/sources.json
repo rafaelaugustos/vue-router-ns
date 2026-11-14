@@ -1,0 +1,14 @@
+{
+  "examples/drag-drop/policy.ts": "0f2f9f62cb1fc6c5578d28d8a68a037bdf7b4d823f6685c50d56d3f57ea9465c",
+  "examples/drag-drop/login.ts": "a25b94ebd0f3dd322c085c521fa08e46d1554975cbbaa73f805dc7e2aa169d3c",
+  "examples/drag-drop/android.ts": "586a27bcb8ed94066265b9d36ca63963094831013b4604a8c40b7b9d27dce104",
+  "test/drop-login.spec.ts": "6074ecf51917746a8cc64056db6c18ca12cadd0edbf78172274eec6f4d4f6267",
+  "demo/src/testing/droplogin-app.ts": "536b0e2bf295268a3a5a11bd9ec6b48c76238aa0c21f004176e2b82c45973d05",
+  "demo/webpack.config.js": "979a0cdc7618259208ba93dbb7e63142928ebaf6928c6be5766fc75eba1403bc",
+  "scripts/native/android-drop/inspector/DropInspector.java": "074cb511fc94169de342ffbe63c17472e4605d862cd43c1156a38278853642cf",
+  "scripts/native/drop-login/acceptance.py": "0fc1dcf618b26861c92540eee4f1076820f5ef3ff5abf1a6f809671c0d8566de",
+  "scripts/native/drop-login/README.md": "c0c8d871a9f861c6c0727acb10f7aa51ffc9c92f6577149345ad3d4fe52d1f93",
+  "scripts/native/drop-login/tsconfig.json": "804555213d95db1d11b81d88135eddcc0080e1bf7c5ea4d80762f02736ccf76e",
+  "docs/public/media/drop-login.mp4": "2c119f788c82634e55544d620a2ff57d8e670e3ff5da28905c70fe51289ee83e",
+  "docs/public/media/drop-login.jpg": "dc5270823a052b503b1826cb1c71efa93bb7226afad2930f9dba851524084dd5"
+}

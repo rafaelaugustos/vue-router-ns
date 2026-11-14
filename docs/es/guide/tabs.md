@@ -232,3 +232,13 @@ Un botón normal y Control–O llaman a la misma política con origen `internal`
 <Clip name="android-drag-drop" aspect="9 / 20" caption="Diez arrastres nativos, rechazo de guard y alternativas por botón, teclado y TalkBack. Emulador Android 14." />
 
 Las [evidencias e instrucciones de la etapa 3](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-android-drop-stage3.md) cubren una Activity, entradas reales y foco/activación con TalkBack. Los dispositivos físicos, la grabación de voz, los arrastres globales o entre Activities y las nuevas ventanas quedan fuera de esta etapa.
+
+### Login después de soltar {#drop-login}
+
+La [receta de login](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/drag-drop/login.md) añade un `handoff` tipado opcional después de validar el drop. El comportamiento predeterminado sigue llamando a `openIntent`. Para un destino protegido, la app usa `suspendIntent`, presenta Login en la pestaña receptora y reanuda solo después de autenticar y comprobar el permiso actual.
+
+La identidad de entrega permanece reservada durante el login. Solo la continuación del login usa `replace: true`; las solicitudes ya autenticadas conservan su política de historial. Cancelar y usar Atrás nativo invalidan la solicitud pendiente. Los cambios de cuenta, la caducidad, las rutas eliminadas y la revocación durante un guard en espera no pueden abrir un destino obsoleto. Las alternativas por botón y teclado usan origen `internal`.
+
+<Clip name="drop-login" aspect="9 / 20" caption="Once arrastres reales en Android con login controlado, Atrás nativo y revocación durante un guard. Emulador Android 14." />
+
+El [informe de la etapa 4](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drop-login-stage4.md) distingue transferencia nativa aceptada, autenticación pendiente y navegación completada. El ejemplo controla la autenticación y conserva ambas Pages y sus borradores, sin proveedor externo de identidad. El flujo combinado se grabó en una Activity del emulador Android, sin ampliar las afirmaciones sobre iPad, dispositivos físicos o lectores de pantalla.
