@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.nativescript.dropinspector">
+    <uses-sdk android:minSdkVersion="34" android:targetSdkVersion="36" />
+    <application android:label="Drop acceptance inspector" android:debuggable="true" />
+    <instrumentation android:name=".DropInspector"
+        android:targetPackage="org.nativescript.dropinspector" />
+</manifest>

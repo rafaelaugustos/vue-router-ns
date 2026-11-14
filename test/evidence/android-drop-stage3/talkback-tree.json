@@ -1,0 +1,1557 @@
+[
+  {
+    "stage": "talkback-enabled",
+    "nodes": [
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 0, 1080, 2400],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 0, 1080, 2400],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 0, 1080, 2400],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 0, 1080, 2400],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 0, 1080, 2400],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 0, 1080, 2400],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 136, 1080, 347],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "PASS prepare-talkback",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [42, 157, 1038, 219],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": true
+      },
+      {
+        "text": "Ready: talkback. Drag the card to Inbox, or use its accessible command.",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [42, 240, 1038, 326],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [63, 347, 1017, 515],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Drop here \u2192 Inbox tab",
+        "description": "Drop target: open document in Inbox. Drop here \u2192 Inbox tab",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [63, 347, 540, 515],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Cancel area\nRelease here to keep both stacks",
+        "description": "Cancel area. Cancel area\nRelease here to keep both stacks",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [572, 347, 1017, 515],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [21, 536, 1059, 1064],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "valid",
+        "description": "androiddrop:mode-valid. valid",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [24, 539, 255, 665],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "repeat",
+        "description": "androiddrop:mode-repeat. repeat",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [261, 539, 492, 665],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "cancel",
+        "description": "androiddrop:mode-cancel. cancel",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [498, 539, 729, 665],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "multiple",
+        "description": "androiddrop:mode-multiple. multiple",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [735, 539, 966, 665],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "invalid",
+        "description": "androiddrop:mode-invalid. invalid",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [24, 671, 255, 797],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "expired",
+        "description": "androiddrop:mode-expired. expired",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [261, 671, 492, 797],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "removed",
+        "description": "androiddrop:mode-removed. removed",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [498, 671, 729, 797],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "unsupported",
+        "description": "androiddrop:mode-unsupported. unsupported",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [735, 671, 966, 797],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "disposed",
+        "description": "androiddrop:mode-disposed. disposed",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [24, 803, 255, 929],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "guard",
+        "description": "androiddrop:mode-guard. guard",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [261, 803, 492, 929],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "accessible",
+        "description": "androiddrop:mode-accessible. accessible",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [498, 803, 729, 929],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "keyboard",
+        "description": "androiddrop:mode-keyboard. keyboard",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [735, 803, 966, 929],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "talkback",
+        "description": "androiddrop:mode-talkback. talkback",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [24, 935, 255, 1061],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "replay",
+        "description": "androiddrop:mode-replay. replay",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [261, 935, 492, 1061],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "clear",
+        "description": "androiddrop:mode-clear. clear",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [498, 935, 729, 1061],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 1069, 1080, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 1069, 1080, 2190],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 1069, 1080, 2190],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 1069, 1080, 2190],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 1069, 1080, 2190],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [63, 1219, 1017, 2040],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Library \u00b7 retained source",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [63, 1219, 1017, 1292],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "/library",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [63, 1292, 1017, 1360],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Library draft",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [63, 1402, 1017, 1512],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "Document 7. Drag to Inbox, or use Open document in Inbox.",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [95, 1554, 985, 1803],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Document 7\nDrag this card",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [95, 1554, 985, 1803],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Open document in Inbox",
+        "description": "Open document in Inbox",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [66, 1848, 1014, 1974],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Keyboard: Control\u2013O. No document is moved or deleted.",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [63, 2003, 1017, 2040],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 2190, 1080, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [98, 2190, 982, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "Library",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [98, 2190, 540, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [287, 2211, 350, 2274],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [287, 2211, 350, 2274],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [265, 2277, 373, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Library",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [265, 2277, 373, 2320],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "Inbox",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [540, 2190, 982, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [729, 2211, 792, 2274],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [729, 2211, 792, 2274],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [718, 2277, 803, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Inbox",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [718, 2277, 803, 2320],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      }
+    ]
+  },
+  {
+    "stage": "talkback-focus",
+    "nodes": [
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 0, 1080, 2400],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 0, 1080, 2400],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 0, 1080, 2400],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 0, 1080, 2400],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 0, 1080, 2400],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 0, 1080, 2400],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 136, 1080, 347],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "PASS prepare-talkback",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [42, 157, 1038, 219],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Ready: talkback. Drag the card to Inbox, or use its accessible command.",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [42, 240, 1038, 326],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [63, 347, 1017, 515],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Drop here \u2192 Inbox tab",
+        "description": "Drop target: open document in Inbox. Drop here \u2192 Inbox tab",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [63, 347, 540, 515],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Cancel area\nRelease here to keep both stacks",
+        "description": "Cancel area. Cancel area\nRelease here to keep both stacks",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [572, 347, 1017, 515],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [21, 536, 1059, 1064],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "valid",
+        "description": "androiddrop:mode-valid. valid",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [24, 539, 255, 665],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "repeat",
+        "description": "androiddrop:mode-repeat. repeat",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [261, 539, 492, 665],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "cancel",
+        "description": "androiddrop:mode-cancel. cancel",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [498, 539, 729, 665],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "multiple",
+        "description": "androiddrop:mode-multiple. multiple",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [735, 539, 966, 665],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "invalid",
+        "description": "androiddrop:mode-invalid. invalid",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [24, 671, 255, 797],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "expired",
+        "description": "androiddrop:mode-expired. expired",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [261, 671, 492, 797],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "removed",
+        "description": "androiddrop:mode-removed. removed",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [498, 671, 729, 797],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "unsupported",
+        "description": "androiddrop:mode-unsupported. unsupported",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [735, 671, 966, 797],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "disposed",
+        "description": "androiddrop:mode-disposed. disposed",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [24, 803, 255, 929],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "guard",
+        "description": "androiddrop:mode-guard. guard",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [261, 803, 492, 929],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "accessible",
+        "description": "androiddrop:mode-accessible. accessible",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [498, 803, 729, 929],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "keyboard",
+        "description": "androiddrop:mode-keyboard. keyboard",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [735, 803, 966, 929],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "talkback",
+        "description": "androiddrop:mode-talkback. talkback",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [24, 935, 255, 1061],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "replay",
+        "description": "androiddrop:mode-replay. replay",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [261, 935, 492, 1061],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "clear",
+        "description": "androiddrop:mode-clear. clear",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [498, 935, 729, 1061],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 1069, 1080, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 1069, 1080, 2190],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 1069, 1080, 2190],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 1069, 1080, 2190],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 1069, 1080, 2190],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [63, 1219, 1017, 2040],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Library \u00b7 retained source",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [63, 1219, 1017, 1292],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "/library",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [63, 1292, 1017, 1360],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Library draft",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [63, 1402, 1017, 1512],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "Document 7. Drag to Inbox, or use Open document in Inbox.",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [95, 1554, 985, 1803],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Document 7\nDrag this card",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [95, 1554, 985, 1803],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Open document in Inbox",
+        "description": "Open document in Inbox",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [66, 1848, 1014, 1974],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": true
+      },
+      {
+        "text": "Keyboard: Control\u2013O. No document is moved or deleted.",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [63, 2003, 1017, 2040],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 2190, 1080, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [98, 2190, 982, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "Library",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [98, 2190, 540, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [287, 2211, 350, 2274],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [287, 2211, 350, 2274],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [265, 2277, 373, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Library",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [265, 2277, 373, 2320],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "Inbox",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [540, 2190, 982, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [729, 2211, 792, 2274],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [729, 2211, 792, 2274],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [718, 2277, 803, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Inbox",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [718, 2277, 803, 2320],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      }
+    ]
+  },
+  {
+    "stage": "talkback-navigated",
+    "nodes": [
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 0, 1080, 2400],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 0, 1080, 2400],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 0, 1080, 2400],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 0, 1080, 2400],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 0, 1080, 2400],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 0, 1080, 2400],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 136, 1080, 347],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "PASS command-talkback",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [42, 157, 1038, 219],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Document opened in the explicit Inbox stack. Library Page and both drafts remain intact.",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [42, 240, 1038, 326],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [63, 347, 1017, 515],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Drop here \u2192 Inbox tab",
+        "description": "Drop target: open document in Inbox. Drop here \u2192 Inbox tab",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [63, 347, 540, 515],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Cancel area\nRelease here to keep both stacks",
+        "description": "Cancel area. Cancel area\nRelease here to keep both stacks",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [572, 347, 1017, 515],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [21, 536, 1059, 1064],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "valid",
+        "description": "androiddrop:mode-valid. valid",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [24, 539, 255, 665],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "repeat",
+        "description": "androiddrop:mode-repeat. repeat",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [261, 539, 492, 665],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "cancel",
+        "description": "androiddrop:mode-cancel. cancel",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [498, 539, 729, 665],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "multiple",
+        "description": "androiddrop:mode-multiple. multiple",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [735, 539, 966, 665],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "invalid",
+        "description": "androiddrop:mode-invalid. invalid",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [24, 671, 255, 797],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "expired",
+        "description": "androiddrop:mode-expired. expired",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [261, 671, 492, 797],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "removed",
+        "description": "androiddrop:mode-removed. removed",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [498, 671, 729, 797],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "unsupported",
+        "description": "androiddrop:mode-unsupported. unsupported",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [735, 671, 966, 797],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "disposed",
+        "description": "androiddrop:mode-disposed. disposed",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [24, 803, 255, 929],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "guard",
+        "description": "androiddrop:mode-guard. guard",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [261, 803, 492, 929],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "accessible",
+        "description": "androiddrop:mode-accessible. accessible",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [498, 803, 729, 929],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "keyboard",
+        "description": "androiddrop:mode-keyboard. keyboard",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [735, 803, 966, 929],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "talkback",
+        "description": "androiddrop:mode-talkback. talkback",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [24, 935, 255, 1061],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "replay",
+        "description": "androiddrop:mode-replay. replay",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [261, 935, 492, 1061],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "clear",
+        "description": "androiddrop:mode-clear. clear",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [498, 935, 729, 1061],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 1069, 1080, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 1069, 1080, 2190],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 1069, 1080, 2190],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 1069, 1080, 2190],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 1407, 1080, 1852],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Document 7 \u00b7 Inbox",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [74, 1481, 1006, 1543],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "/documents/7",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [74, 1543, 1006, 1629],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": true
+      },
+      {
+        "text": "The source Library Page and both drafts remain retained.",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [74, 1692, 1006, 1778],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [0, 2190, 1080, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [98, 2190, 982, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "Library",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [98, 2190, 540, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": true,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [287, 2211, 350, 2274],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [287, 2211, 350, 2274],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [265, 2277, 373, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Library",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [266, 2277, 371, 2320],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "Inbox",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [540, 2190, 982, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [729, 2211, 792, 2274],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [729, 2211, 792, 2274],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [718, 2277, 803, 2337],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      },
+      {
+        "text": "Inbox",
+        "description": "",
+        "package": "org.nativescript.vuerouterns",
+        "bounds": [718, 2277, 803, 2320],
+        "visible": true,
+        "enabled": true,
+        "clickable": false,
+        "accessibilityFocused": false
+      }
+    ]
+  }
+]

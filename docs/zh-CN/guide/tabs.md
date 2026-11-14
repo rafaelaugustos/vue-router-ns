@@ -211,7 +211,7 @@ dependencies {
 
 <Clip name="drag-drop-tabs" :width="480" aspect="3 / 4" caption="保留标签页之间的九次真实 UIKit 拖放，以及按钮和键盘替代操作。iPad iOS 18.6 模拟器。" />
 
-[验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drag-drop-stage1.md)覆盖 iPad 模拟器中的一个窗口。Stage Manager、实体设备上的 VoiceOver 和 Android 手势属于 #181 的后续阶段。Android 应用可基于共享策略实现显式命令替代方案；本阶段未对其进行原生验证。
+[验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drag-drop-stage1.md)覆盖 iPad 模拟器中的一个窗口。Stage Manager 和实体设备上的 VoiceOver 属于 #181 的后续阶段。Android 覆盖范围见下文。
 
 ### 在应用窗口之间拖放 {#cross-window-drag-drop}
 
@@ -222,3 +222,13 @@ dependencies {
 <Clip name="drag-drop-windows" :width="480" aspect="3 / 4" caption="在两个真实应用窗口之间拖动，并在 provider 等待期间关闭接收窗口。iPad iOS 18.6 模拟器。" />
 
 [第二阶段的证据与复现步骤](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-window-drop-stage2.md)覆盖同一进程中以 Split View 显示的窗口。窗口放置仍由系统决定；通过拖动创建窗口、侧边栏目标、Stage Manager，以及实体设备或屏幕阅读器验收不属于本阶段范围。
+
+## Android 拖放 {#android-drag-drop}
+
+可选的 [Android 示例](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/drag-drop/android.md)在同一 Activity 内使用本地文本 `ClipData`，并显式指定接收标签页。悬停不会导航；放下后通过共享策略和常规守卫验证一个 JSON 目标。仅提供复制/打开，不涉及 URI 授权、跨应用传输或系统异步 provider。
+
+普通按钮和 Control–O 使用同一策略，来源为 `internal`。Android 14 模拟器的原生验收还启用 TalkBack，通过触摸探索确认按钮的无障碍焦点，再通过双击激活。两个 Page 及其独立草稿均保持保留状态。
+
+<Clip name="android-drag-drop" aspect="9 / 20" caption="十次原生拖放、守卫拒绝，以及按钮、键盘和 TalkBack 替代操作。Android 14 模拟器。" />
+
+[第三阶段的证据与复现步骤](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-android-drop-stage3.md)覆盖一个 Activity、真实输入以及 TalkBack 焦点和激活。实体设备、语音录制、全局或跨 Activity 拖放以及新窗口不在本阶段范围内。

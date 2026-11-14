@@ -1,0 +1,16 @@
+{
+  "examples/drag-drop/android.ts": "586a27bcb8ed94066265b9d36ca63963094831013b4604a8c40b7b9d27dce104",
+  "examples/drag-drop/policy.ts": "65a16ea1e791ff0306d39df0dd27bf988ea404a2f75a0d9241ace02ac72317f4",
+  "test/android-drop.spec.ts": "7d80dc2e3659a35132138bd147dec6cb5287ee5544db93ba493673062dd3ea93",
+  "demo/src/testing/androiddrop-app.ts": "4a92f99ff6fe98abcbf3ccda8c78c6a3758c1598e544ec5a8619b2ab5a3833ad",
+  "demo/webpack.config.js": "99752a1ddf8217aee85fe4d4466e48b6778e964f8048fe139739ff4d30472181",
+  "scripts/native/android-drop/build-inspector.mjs": "111724a506da433d489c5e19976de7f663a1e41df64e5868dd88acbc221177e8",
+  "scripts/native/android-drop/acceptance.py": "8fc95209c8efdb65a816eee9180dc9d9fd39557db597a3df20fde2f07e1996c5",
+  "scripts/native/android-drop/README.md": "47197d3f2afd428aa96eded119c262f022fdb4697099e19fc2a3973b8993b73e",
+  "scripts/native/android-drop/tsconfig.json": "250d91edc8813a88d7d26f5074b1e7304714029550f5ecd0f2bdb8819fe009f4",
+  "scripts/native/android-drop/prepare.py": "23e3bc3ad416eaeb00ce905dcfb6a98a05ed3d587bb3a6bcba3a62a100a57158",
+  "scripts/native/android-drop/inspector/DropInspector.java": "074cb511fc94169de342ffbe63c17472e4605d862cd43c1156a38278853642cf",
+  "scripts/native/android-drop/inspector/AndroidManifest.xml": "e849756615e03a92b7d2d47fe790aa2236cc8f1a3dd3aba5044e6d9692d22781",
+  "docs/public/media/android-drag-drop.mp4": "cfead39b12e05e672115730c475bdba69b54f5124dd25518c8a7c98ca9241ff0",
+  "docs/public/media/android-drag-drop.jpg": "ba1d2f0b24f159942bc921194eb30822c5f78089e72adb917b00f3456296b23e"
+}

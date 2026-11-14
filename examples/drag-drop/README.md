@@ -1,11 +1,12 @@
-# Optional iPad drag/drop navigation
+# Optional drag/drop navigation
 
 This copyable application recipe uses UIKit `UIDragInteraction`, `NSItemProvider`
 and `UIDropInteraction`, then the existing navigation-intent pipeline. It introduces
 no router API, native-host contract or drag-library dependency. Stage 1 targets a
 single iPad app window with retained tabs. The [window recipe](./windows.md) extends
 the same receiver policy to two existing app windows in stage 2. Creating a new
-window by dragging remains a later #181 stage.
+window by dragging remains a later #181 stage. The [Android recipe](./android.md)
+adds same-Activity local drag/drop and TalkBack/button/keyboard alternatives in stage 3.
 
 Copy [policy.ts](./policy.ts) and [ios.ts](./ios.ts). Install native interactions on
 loaded views, retain their registrations (UIKit's delegates are weak) and dispose
@@ -98,9 +99,9 @@ Expose an ordinary native button with a descriptive accessibility label and a
 page-owned keyboard command calling the same policy with source `internal` and a
 fresh action id. Users need not drag. The fixture tests the actual button and
 Control–O command and inspects its accessibility-tree label; this is not physical
-VoiceOver speech acceptance. Android has its own [native drag/drop framework](https://developer.android.com/develop/ui/views/touch-and-input/drag-drop),
-but the shared policy is only a basis for an explicit command fallback there.
-This stage supplies no Android gesture bridge or native Android acceptance.
+VoiceOver speech acceptance. Android uses its separate [optional bridge](./android.md)
+with the same policy; its stage 3 acceptance includes real emulator drags and
+TalkBack focus/activation, without claiming physical-device or speech acceptance.
 
 See Apple's [data-delivery guide](https://developer.apple.com/documentation/uikit/data-delivery-with-drag-and-drop)
 and [item-provider threading rules](https://developer.apple.com/documentation/foundation/nsitemprovider).
