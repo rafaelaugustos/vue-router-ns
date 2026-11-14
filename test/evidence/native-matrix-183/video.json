@@ -1,0 +1,41 @@
+{
+  "path": "docs/public/media/uikit-split-guarded-back.mp4",
+  "sha256": "4ed25cc32b16f4e2b183535a08cc18bd3b2c2d334df9638b40ad4e92c9def915",
+  "sourceSha256": "87e735945d2d16cf498d782add91ca05b16838b783e1c4ae8d012d2b77d85263",
+  "original": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1206,
+        "height": 2622,
+        "time_base": "1/600",
+        "nb_frames": "1379"
+      }
+    ],
+    "format": {
+      "duration": "83.205000",
+      "size": "26696227"
+    }
+  },
+  "reviewCopy": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 604,
+        "height": 1314,
+        "time_base": "1/600",
+        "nb_frames": "1379"
+      }
+    ],
+    "format": {
+      "duration": "83.040000",
+      "size": "1617817"
+    }
+  },
+  "allFramePresentationTimestampsPreserved": true,
+  "transformation": "Full iPhone recording scaled to 604px width and H.264 re-encoded; no cuts, retiming, overlays or replacement frames. MP4 faststart."
+}

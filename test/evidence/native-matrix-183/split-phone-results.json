@@ -1,0 +1,4765 @@
+[
+  {
+    "command": "ready",
+    "sequence": 1,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 1,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [],
+      "controllers": 0,
+      "parent": "null"
+    },
+    "paths": ["/"],
+    "blocked": false,
+    "guardAttempts": 0,
+    "modalResults": 0,
+    "drafts": {
+      "/": ""
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 936.6769999905955,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": []
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "capture",
+    "sequence": 2,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 1,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [],
+      "controllers": 0,
+      "parent": "null"
+    },
+    "paths": ["/"],
+    "blocked": false,
+    "guardAttempts": 0,
+    "modalResults": 0,
+    "drafts": {
+      "/": ""
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 4046.640999993542,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": []
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "push",
+    "sequence": 3,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/1",
+          "id": 3
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/1"],
+    "blocked": false,
+    "guardAttempts": 0,
+    "modalResults": 0,
+    "drafts": {
+      "/": "",
+      "/detail/1": ""
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 7834.86499999708,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-2",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-2"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "push",
+    "sequence": 4,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/1",
+          "id": 3
+        },
+        {
+          "path": "page:/detail/2",
+          "id": 4
+        }
+      ],
+      "controllers": 3,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/1", "/detail/2"],
+    "blocked": false,
+    "guardAttempts": 0,
+    "modalResults": 0,
+    "drafts": {
+      "/": "",
+      "/detail/1": "",
+      "/detail/2": ""
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 10115.492999990238,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-2",
+              "route": "/detail/:id",
+              "active": false,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-3",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-2", "router-1:entry-3"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "hold",
+    "sequence": 5,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/1",
+          "id": 3
+        },
+        {
+          "path": "page:/detail/2",
+          "id": 4
+        }
+      ],
+      "controllers": 3,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/1", "/detail/2"],
+    "blocked": false,
+    "guardAttempts": 0,
+    "modalResults": 0,
+    "drafts": {
+      "/": "",
+      "/detail/1": "",
+      "/detail/2": "retained draft"
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 12363.4999999922,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-2",
+              "route": "/detail/:id",
+              "active": false,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-3",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-2", "router-1:entry-3"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "identities",
+    "sequence": 6,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 874,
+    "height": 402,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/1",
+          "id": 3
+        },
+        {
+          "path": "page:/detail/2",
+          "id": 4
+        }
+      ],
+      "controllers": 3,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/1", "/detail/2"],
+    "blocked": false,
+    "guardAttempts": 0,
+    "modalResults": 0,
+    "drafts": {
+      "/": "",
+      "/detail/1": "",
+      "/detail/2": "retained draft"
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 15130.103999996209,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-2",
+              "route": "/detail/:id",
+              "active": false,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-3",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-2", "router-1:entry-3"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "identities",
+    "sequence": 7,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/1",
+          "id": 3
+        },
+        {
+          "path": "page:/detail/2",
+          "id": 4
+        }
+      ],
+      "controllers": 3,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/1", "/detail/2"],
+    "blocked": false,
+    "guardAttempts": 0,
+    "modalResults": 0,
+    "drafts": {
+      "/": "",
+      "/detail/1": "",
+      "/detail/2": "retained draft"
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 17980.727999994997,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-2",
+              "route": "/detail/:id",
+              "active": false,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-3",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-2", "router-1:entry-3"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "guard",
+    "sequence": 8,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/1",
+          "id": 3
+        },
+        {
+          "path": "page:/detail/2",
+          "id": 4
+        }
+      ],
+      "controllers": 3,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/1", "/detail/2"],
+    "blocked": true,
+    "guardAttempts": 0,
+    "modalResults": 0,
+    "drafts": {
+      "/": "",
+      "/detail/1": "",
+      "/detail/2": "retained draft"
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 20748.881999999867,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-2",
+              "route": "/detail/:id",
+              "active": false,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-3",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-2", "router-1:entry-3"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "guarded",
+    "sequence": 9,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/1",
+          "id": 3
+        },
+        {
+          "path": "page:/detail/2",
+          "id": 4
+        }
+      ],
+      "controllers": 3,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/1", "/detail/2"],
+    "blocked": true,
+    "guardAttempts": 1,
+    "modalResults": 0,
+    "drafts": {
+      "/": "",
+      "/detail/1": "",
+      "/detail/2": "retained draft"
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 25146.538999993936,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-2",
+              "route": "/detail/:id",
+              "active": false,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-3",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-2", "router-1:entry-3"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "guard",
+    "sequence": 10,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/1",
+          "id": 3
+        },
+        {
+          "path": "page:/detail/2",
+          "id": 4
+        }
+      ],
+      "controllers": 3,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/1", "/detail/2"],
+    "blocked": false,
+    "guardAttempts": 1,
+    "modalResults": 0,
+    "drafts": {
+      "/": "",
+      "/detail/1": "",
+      "/detail/2": "retained draft"
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 27865.9570000018,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-2",
+              "route": "/detail/:id",
+              "active": false,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-3",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-2", "router-1:entry-3"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "capture",
+    "sequence": 11,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/1",
+          "id": 3
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/1"],
+    "blocked": false,
+    "guardAttempts": 1,
+    "modalResults": 0,
+    "drafts": {
+      "/": "",
+      "/detail/1": "",
+      "/detail/2": "retained draft"
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 32296.99499999697,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-2",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-2"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "hold",
+    "sequence": 12,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/1",
+          "id": 3
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/1"],
+    "blocked": false,
+    "guardAttempts": 1,
+    "modalResults": 0,
+    "drafts": {
+      "/": "",
+      "/detail/1": "retained draft",
+      "/detail/2": "retained draft"
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 35014.07499999914,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-2",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-2"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "modal",
+    "sequence": 13,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal is presented",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/1",
+          "id": 3
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/1"],
+    "blocked": true,
+    "guardAttempts": 1,
+    "modalResults": 0,
+    "drafts": {
+      "/": "",
+      "/detail/1": "retained draft",
+      "/detail/2": "retained draft",
+      "/modal": ""
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 38298.90399999567,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": false,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-2",
+              "route": "/detail/:id",
+              "active": false,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-2"]
+            }
+          ]
+        },
+        {
+          "id": "router-1:stack-4",
+          "name": "modal-1",
+          "modal": true,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-4",
+              "route": "/modal",
+              "active": true,
+              "awaitingResult": true
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-5",
+              "role": "main",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-4"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "guarded",
+    "sequence": 14,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal is presented",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/1",
+          "id": 3
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/1"],
+    "blocked": true,
+    "guardAttempts": 2,
+    "modalResults": 0,
+    "drafts": {
+      "/": "",
+      "/detail/1": "retained draft",
+      "/detail/2": "retained draft",
+      "/modal": ""
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 43747.145999994245,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": false,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-2",
+              "route": "/detail/:id",
+              "active": false,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-2"]
+            }
+          ]
+        },
+        {
+          "id": "router-1:stack-4",
+          "name": "modal-1",
+          "modal": true,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-4",
+              "route": "/modal",
+              "active": true,
+              "awaitingResult": true
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-5",
+              "role": "main",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-4"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "close",
+    "sequence": 15,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal is presented",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal result settles once",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/1",
+          "id": 3
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/1"],
+    "blocked": false,
+    "guardAttempts": 2,
+    "modalResults": 1,
+    "drafts": {
+      "/": "",
+      "/detail/1": "retained draft",
+      "/detail/2": "retained draft",
+      "/modal": ""
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 47205.79999999609,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-2",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-2"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "identities",
+    "sequence": 16,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal is presented",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal result settles once",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/1",
+          "id": 3
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/1"],
+    "blocked": false,
+    "guardAttempts": 2,
+    "modalResults": 1,
+    "drafts": {
+      "/": "",
+      "/detail/1": "retained draft",
+      "/detail/2": "retained draft",
+      "/modal": ""
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 49381.228999991436,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-2",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-2"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "guard",
+    "sequence": 17,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal is presented",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal result settles once",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/1",
+          "id": 3
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/1"],
+    "blocked": true,
+    "guardAttempts": 2,
+    "modalResults": 1,
+    "drafts": {
+      "/": "",
+      "/detail/1": "retained draft",
+      "/detail/2": "retained draft",
+      "/modal": ""
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 52149.44799999648,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-2",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-2"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "guarded",
+    "sequence": 18,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal is presented",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal result settles once",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/1",
+          "id": 3
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/1"],
+    "blocked": true,
+    "guardAttempts": 3,
+    "modalResults": 1,
+    "drafts": {
+      "/": "",
+      "/detail/1": "retained draft",
+      "/detail/2": "retained draft",
+      "/modal": ""
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 56531.019999994896,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-2",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-2"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "guard",
+    "sequence": 19,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal is presented",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal result settles once",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/1",
+          "id": 3
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/1"],
+    "blocked": false,
+    "guardAttempts": 3,
+    "modalResults": 1,
+    "drafts": {
+      "/": "",
+      "/detail/1": "retained draft",
+      "/detail/2": "retained draft",
+      "/modal": ""
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 59249.52099999064,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-2",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-2"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "capture",
+    "sequence": 20,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal is presented",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal result settles once",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 1,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        }
+      ],
+      "controllers": 1,
+      "parent": "null"
+    },
+    "paths": ["/"],
+    "blocked": false,
+    "guardAttempts": 3,
+    "modalResults": 1,
+    "drafts": {
+      "/": "",
+      "/detail/1": "retained draft",
+      "/detail/2": "retained draft",
+      "/modal": ""
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 63714.04999999504,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": []
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "push",
+    "sequence": 21,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal is presented",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal result settles once",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/3",
+          "id": 5
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/3"],
+    "blocked": false,
+    "guardAttempts": 3,
+    "modalResults": 1,
+    "drafts": {
+      "/": "",
+      "/detail/1": "retained draft",
+      "/detail/2": "retained draft",
+      "/modal": "",
+      "/detail/3": ""
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 66964.16599999066,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-5",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-5"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "replace",
+    "sequence": 22,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal is presented",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal result settles once",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "replace removes the former detail",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/replaced",
+          "id": 6
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/replaced"],
+    "blocked": false,
+    "guardAttempts": 3,
+    "modalResults": 1,
+    "drafts": {
+      "/": "",
+      "/detail/1": "retained draft",
+      "/detail/2": "retained draft",
+      "/modal": "",
+      "/detail/3": "",
+      "/detail/replaced": ""
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 69706.11299999291,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-6",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-6"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "clear",
+    "sequence": 23,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal is presented",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal result settles once",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "replace removes the former detail",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "clearHistory retains only list and new detail",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/cleared",
+          "id": 7
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/cleared"],
+    "blocked": false,
+    "guardAttempts": 3,
+    "modalResults": 1,
+    "drafts": {
+      "/": "",
+      "/detail/1": "retained draft",
+      "/detail/2": "retained draft",
+      "/modal": "",
+      "/detail/3": "",
+      "/detail/replaced": "",
+      "/detail/cleared": ""
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 72485.58599999524,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-7",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-7"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "restore",
+    "sequence": 24,
+    "pid": 78081,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal is presented",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "modal result settles once",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "column adaptation preserves every Page identity",
+      "column adaptation preserves the draft",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "native dismissal reaches and is refused by the guard",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "replace removes the former detail",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "clearHistory retains only list and new detail",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x107f06bc0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/saved",
+          "id": 8
+        },
+        {
+          "path": "page:/detail/top",
+          "id": 9
+        }
+      ],
+      "controllers": 3,
+      "parent": "<UINavigationControllerImpl: 0x11700aa00>"
+    },
+    "paths": ["/", "/detail/saved", "/detail/top"],
+    "blocked": false,
+    "guardAttempts": 3,
+    "modalResults": 1,
+    "drafts": {
+      "/": "",
+      "/detail/1": "retained draft",
+      "/detail/2": "retained draft",
+      "/modal": "",
+      "/detail/3": "",
+      "/detail/replaced": "",
+      "/detail/cleared": "",
+      "/detail/saved": "saved draft",
+      "/detail/top": ""
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 75765.50499998848,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-8",
+              "route": "/detail/:id",
+              "active": false,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-9",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-8", "router-1:entry-9"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "ready",
+    "sequence": 1,
+    "pid": 78613,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x1065042a0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/saved",
+          "id": 3
+        },
+        {
+          "path": "page:/detail/top",
+          "id": 4
+        }
+      ],
+      "controllers": 3,
+      "parent": "<UINavigationControllerImpl: 0x12f008c00>"
+    },
+    "paths": ["/", "/detail/saved", "/detail/top"],
+    "blocked": false,
+    "guardAttempts": 0,
+    "modalResults": 0,
+    "drafts": {
+      "/": "",
+      "/detail/saved": "saved draft",
+      "/detail/top": ""
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 1463.579999996,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-2",
+              "route": "/detail/:id",
+              "active": false,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-3",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-2", "router-1:entry-3"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  {
+    "command": "restored",
+    "sequence": 2,
+    "pid": 78613,
+    "checks": [
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root",
+      "restoration runs in another process",
+      "restored history has exactly three Pages",
+      "restored Page draft is recovered",
+      "logical history matches the native Frames",
+      "native Pages are unique",
+      "the pinned list Page is retained",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "each Page stays in its owning UINavigationController",
+      "SplitView owns the window root"
+    ],
+    "collapsed": true,
+    "displayMode": 2,
+    "width": 402,
+    "height": 874,
+    "splitRoot": true,
+    "primary": {
+      "loaded": true,
+      "pages": [
+        {
+          "path": "page:/",
+          "id": 1
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UISplitViewController: 0x1065042a0>"
+    },
+    "secondary": {
+      "loaded": true,
+      "pages": [
+        {
+          "id": 2
+        },
+        {
+          "path": "page:/detail/saved",
+          "id": 3
+        }
+      ],
+      "controllers": 2,
+      "parent": "<UINavigationControllerImpl: 0x12f008c00>"
+    },
+    "paths": ["/", "/detail/saved"],
+    "blocked": false,
+    "guardAttempts": 0,
+    "modalResults": 0,
+    "drafts": {
+      "/": "",
+      "/detail/saved": "saved draft",
+      "/detail/top": ""
+    },
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 3938.841000010143,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-2",
+              "route": "/detail/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "list",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            },
+            {
+              "id": "router-1:host-3",
+              "role": "detail",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-2"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  }
+]

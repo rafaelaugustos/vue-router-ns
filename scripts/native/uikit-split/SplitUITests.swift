@@ -16,8 +16,9 @@ final class SplitUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["PASS \(name)"].firstMatch.waitForExistence(timeout: 20), app.debugDescription)
     }
     func back(_ route: String, previous: String = "Back") {
+        // Guarded Back uses its own identifier and the previous route's title.
         let button = app.navigationBars[route].buttons.matching(
-            NSPredicate(format: "identifier == 'BackButton' OR label == %@ OR label == 'Back'", previous)
+            NSPredicate(format: "identifier == 'router-guarded-back' OR identifier == 'BackButton' OR label == %@ OR label == 'Back'", previous)
         ).firstMatch
         XCTAssertTrue(button.waitForExistence(timeout: 10), app.debugDescription)
         button.tap()
