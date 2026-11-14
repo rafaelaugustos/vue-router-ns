@@ -1,0 +1,705 @@
+{
+  "recording": {
+    "source": "c953afe0766a1907920600cc5d5ee9d5452b87d0",
+    "initialStatus": "",
+    "simulator": "425E50B1-378C-4593-AD77-8B95D1A2DE74",
+    "node": "v20.19.4",
+    "xcode": "Xcode 27.2\nBuild version 27B52",
+    "startedAt": "2026-11-14T21:20:27Z",
+    "liveLog": {
+      "observedAt": "2026-11-14T21:20:43Z",
+      "runnerStillRunning": true,
+      "prefixBytes": 431,
+      "prefixSHA256": "0ccbf10134b4e8d051c78f630d0cd6f5c11f50f336adb76f5069355448619a90",
+      "finalBytes": 74026,
+      "prefixRetained": true
+    },
+    "runnerExit": 0,
+    "recorderExit": 0,
+    "finishedAt": "2026-11-14T21:20:58Z"
+  },
+  "environment": {
+    "commit": "c953afe0766a1907920600cc5d5ee9d5452b87d0",
+    "dirty": false,
+    "host": {
+      "platform": "darwin",
+      "release": "25.6.0",
+      "arch": "arm64",
+      "cpus": 16,
+      "cpu": "Apple M4 Max"
+    },
+    "node": "v20.19.4",
+    "runner": "local",
+    "packages": {
+      "@nativescript/core": "9.1.4",
+      "nativescript-vue": "3.1.3",
+      "@nativescript/android": "9.1.1",
+      "@nativescript/ios": "9.1.0"
+    },
+    "device": {
+      "platform": "ios",
+      "device": "425E50B1-378C-4593-AD77-8B95D1A2DE74"
+    }
+  },
+  "runtime": {
+    "name": "iOS 18.6",
+    "version": "18.6",
+    "buildversion": "22G86",
+    "identifier": "com.apple.CoreSimulator.SimRuntime.iOS-18-6"
+  },
+  "beforeRestart": {
+    "name": "restart-required",
+    "checks": [
+      "Complete/native/42",
+      "Cancel/native/42",
+      "Pop/native/42",
+      "Dismiss/native/42",
+      "Complete/modal/9",
+      "guard",
+      "cover-return",
+      "Cancel/native/0",
+      "Cancel/native/1",
+      "Cancel/native/2",
+      "Cancel/native/3",
+      "Cancel/native/4",
+      "Cancel/native/5",
+      "Cancel/native/6",
+      "Cancel/native/7",
+      "collected",
+      "system-back-required",
+      "system-back",
+      "restart-required"
+    ],
+    "created": 17,
+    "disposed": 16,
+    "collections": [0, 0, 0],
+    "pid": 6025,
+    "path": "/native/restore",
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 18041.832999995677,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": false,
+              "awaitingResult": false
+            },
+            {
+              "id": "router-1:entry-19",
+              "route": "/native/:id",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "main",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1", "router-1:entry-19"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  "restored": {
+    "name": "restored",
+    "checks": ["restored"],
+    "created": 1,
+    "disposed": 1,
+    "collections": [],
+    "pid": 6285,
+    "path": "/",
+    "diagnostics": {
+      "routerId": "router-1",
+      "time": 76.30400000198279,
+      "stopped": false,
+      "stacks": [
+        {
+          "id": "router-1:stack-1",
+          "name": "default",
+          "modal": false,
+          "busy": false,
+          "logical": [
+            {
+              "id": "router-1:entry-1",
+              "route": "/",
+              "active": true,
+              "awaitingResult": false
+            }
+          ],
+          "native": [
+            {
+              "id": "router-1:host-2",
+              "role": "main",
+              "loaded": true,
+              "windowId": "window-1",
+              "entries": ["router-1:entry-1"]
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  "retained": "local-destinations.zip",
+  "sha256": "9cf6d70f9a2fd98f5c00b9cc9a7ee2fc6c4916b708b4f468bf2bc5e49c990842",
+  "members": [
+    {
+      "path": "local/before-restart.json",
+      "bytes": 1507,
+      "sha256": "694aedeaf0d560153393db2f452917ae8281e2707100f0cd8c0c7a3be652a8a2"
+    },
+    {
+      "path": "local/before-system-back.json",
+      "bytes": 1471,
+      "sha256": "ea65e68821679c160e1c81f7561c75f0c4ae73d3974cf9703c8ffd1ad60da686"
+    },
+    {
+      "path": "local/environment.json",
+      "bytes": 505,
+      "sha256": "f66256188db5ac37af66f6495918919451bb2fd751558609b39dc869f7b6b324"
+    },
+    {
+      "path": "local/last-report.json",
+      "bytes": 850,
+      "sha256": "bb73bdd962c5b0c8f808da855767a38b1611462f0a6cc67bfc919686bb7b25d6"
+    },
+    {
+      "path": "local/native.png",
+      "bytes": 92361,
+      "sha256": "29cc2ca1e75686eb343ed66b0901d3290a1e43ed9b323e0197aed0e825265cc9"
+    },
+    {
+      "path": "local/restart.json",
+      "bytes": 69,
+      "sha256": "f046c9f5850ffe03d39eec82d5dc0aa38b39ae6971c0d4168a6c207f1651bee4"
+    },
+    {
+      "path": "local/restored.json",
+      "bytes": 850,
+      "sha256": "bb73bdd962c5b0c8f808da855767a38b1611462f0a6cc67bfc919686bb7b25d6"
+    },
+    {
+      "path": "local/runner.log",
+      "bytes": 131,
+      "sha256": "17a79665975b12fe1fd85138fe47f888296bc8c1e19f72e29b9dd90d83579b18"
+    },
+    {
+      "path": "local/runtime.log",
+      "bytes": 175440,
+      "sha256": "d68724095f16edddb992bd4544e2e5c7bab1ce2adeb06d253e3b5b593bddb546"
+    },
+    {
+      "path": "local/xcodebuild-live-prefix.log",
+      "bytes": 431,
+      "sha256": "0ccbf10134b4e8d051c78f630d0cd6f5c11f50f336adb76f5069355448619a90"
+    },
+    {
+      "path": "local/xcodebuild.log",
+      "bytes": 74026,
+      "sha256": "183c8abfd6083d6a5639b42592b2b86c39066a40985ee980cb394c9cf5a67ef1"
+    },
+    {
+      "path": "local-build.log",
+      "bytes": 4143,
+      "sha256": "2c9a667c54dc42400d99b0e49bb6d5fefcc936de25800aa43c8f19758e36a27e"
+    },
+    {
+      "path": "record.py",
+      "bytes": 2462,
+      "sha256": "40a47e4ba88d2fda58f1452028b28e2d2b451854d990e4ccd6b4e2a31762e86c"
+    },
+    {
+      "path": "recording-metadata.json",
+      "bytes": 582,
+      "sha256": "633f683f2dec9165b09df89a4c5d68655bdb9ac39119fe69d726fa1e7c090f10"
+    },
+    {
+      "path": "workflow-audit.json",
+      "bytes": 3835,
+      "sha256": "7abfa742893e74cd9890ac0bdebdf9c4b20e5759d878664d56f1ecbb9cd12246"
+    },
+    {
+      "path": "helpers-after.log",
+      "bytes": 2969,
+      "sha256": "bb189ea6b1091d211a9c281c65149a78ed77ac1f7706738edcdf00c5aef96d1f"
+    },
+    {
+      "path": "buffered-before.log",
+      "bytes": 2154,
+      "sha256": "166d5146691815c8b9768d9212f04140aaeb696eae300cbac7feeeaaa4572e36"
+    },
+    {
+      "path": "buffered-control/logged-command.test.mjs",
+      "bytes": 4255,
+      "sha256": "71d9af881dafaad706f71b7a5d437c3f724679428f25acca3798d1cfba0fb7ae"
+    },
+    {
+      "path": "buffered-control/logged-command.mjs",
+      "bytes": 461,
+      "sha256": "b02603b3b1250999bd3c7822e4e8a7a925ec9dfc416ae4570c9a8ada9489123d"
+    },
+    {
+      "path": "App_Resources/iOS/LaunchScreen.storyboard",
+      "bytes": 4139,
+      "sha256": "83248be677d03859403d9f0f1c182a03421537c8c499d38680c3fefd9ab50a2d"
+    },
+    {
+      "path": "App_Resources/iOS/build.xcconfig",
+      "bytes": 362,
+      "sha256": "488f394bfeb19a6dbd046f13b16f4ed6604b78290cc92c9e3ac5b33ec7d95968"
+    },
+    {
+      "path": "App_Resources/iOS/Info.plist",
+      "bytes": 1727,
+      "sha256": "c228674e971d23ef8a3781dd7126e5c5771c221965f06f41bc272fe659de1d65"
+    },
+    {
+      "path": "App_Resources/Android/app.gradle",
+      "bytes": 436,
+      "sha256": "4d9fc9048bcd0851ce38e4dbb0f281b30d1d3890473b1588906820e53ff2dbdc"
+    },
+    {
+      "path": "App_Resources/Android/before-plugins.gradle",
+      "bytes": 458,
+      "sha256": "944bd95d39bab10456a4015db1404fc92385453903ef1fab60c238406e59ef25"
+    },
+    {
+      "path": "App_Resources/Android/src/main/AndroidManifest.xml",
+      "bytes": 1589,
+      "sha256": "1aed4600e5001df7ca73dee24fa1d8c4bfc58ff3899f4692929a83fd212451e5"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/mipmap-mdpi/ic_launcher.png",
+      "bytes": 1956,
+      "sha256": "13c28fedafb06880b6a9c9bbdb5c0eb6f67cf5467387bbf63cf382414d73e623"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/values-v21/colors.xml",
+      "bytes": 196,
+      "sha256": "b97dbdfed2967cbd043dec289ab8adf3d3a0fea5225143d643346248cf72745e"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/values-v21/styles.xml",
+      "bytes": 1544,
+      "sha256": "dc6079ed1600dc3529b35e6461a5da6d5727dab1f6ab5bd82d8cfc12280d08f6"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/values-v29/styles.xml",
+      "bytes": 573,
+      "sha256": "85e785876a7e87bfadd493ebbd696731765592ea8305a082aa332c997c9614f6"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/mipmap-hdpi/ic_launcher.png",
+      "bytes": 3092,
+      "sha256": "ca76219db66a355db87a5dd22f94353b4f8492e59400f3df4043f007bc7df0bc"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/drawable/ic_launcher_foreground.xml",
+      "bytes": 1229,
+      "sha256": "ae4577fa18556a350ce11bee71ca9c1fbff5bb3e444b1b0c9e573af321ba9c8a"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+      "bytes": 10378,
+      "sha256": "ee3a4bd8db2ab3d6a6a11aafce9940bda97b1839eaf71eae285efa90e7ffd1a9"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+      "bytes": 7184,
+      "sha256": "0d25e14a02a945f3242d863b99fcebe2653e6f74db90da87773ec3e16b2f501a"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/values/colors.xml",
+      "bytes": 604,
+      "sha256": "013f508b9c9af43521481f67bb9643b4f758e01076193d7dbc1d66120b7ec710"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/values/styles.xml",
+      "bytes": 1710,
+      "sha256": "096e4238b20a426fec0f0eadd0c44d0b9ddc56483c08bd1ef2a24085fb4d1a0f"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/values/ic_launcher_background.xml",
+      "bytes": 120,
+      "sha256": "cd40bafe618ff506f4088778b135cb4faa15f25e0c9b475e22d730c74b7be115"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/drawable-xhdpi/background.png",
+      "bytes": 5473,
+      "sha256": "84059ea8e837fdacf26c9a59b0ebd221ed2e37f02a1f9954c943984d3723869a"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/drawable-xhdpi/logo.png",
+      "bytes": 6904,
+      "sha256": "860d212d0b142752580b438c856a2638c588f6e2d4a2eeaf0121af2083d4dc04"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/drawable-xxhdpi/background.png",
+      "bytes": 9949,
+      "sha256": "ea630ded2508d45b11177542f338b8755398607a8d13299735cf99f67985907e"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/drawable-xxhdpi/logo.png",
+      "bytes": 10319,
+      "sha256": "e1acc7a8ed145df35b59567fcee5dabeabf707b917046b6573211e479c001c5a"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/xml/network_security.xml",
+      "bytes": 508,
+      "sha256": "1926625e90205ef976ad1252e0fbbe520ae61458d6f3c71fcd8ac1f12a8cea52"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/drawable-nodpi/splash_screen.xml",
+      "bytes": 304,
+      "sha256": "ef54f9b6957ccf898616899b75c86216a17abf375dce148c45393dc2e8156d18"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/drawable-hdpi/background.png",
+      "bytes": 3661,
+      "sha256": "c9ff1a41982dbcad65c2dc90c4b76bb42662af1ff3c1d07d475e6ed8b36aa508"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/drawable-hdpi/logo.png",
+      "bytes": 5165,
+      "sha256": "40ca5cfe9eeca880184c4f3be06f78c7f42a8456a2f0c45b7659b7cde882c228"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/drawable-ldpi/background.png",
+      "bytes": 1609,
+      "sha256": "facd016870e072eda630661c8d146ec8ecbd5669f65bb258c49ff58089548d34"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/drawable-ldpi/logo.png",
+      "bytes": 2511,
+      "sha256": "bcdbae08acaf6e881dab7c7e6f31672dd8ec0fdcc70961c4bd5aa705e2a579b0"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/drawable-mdpi/background.png",
+      "bytes": 2218,
+      "sha256": "7aa434da59098a89a17206c14e279eff044662a1304561445b2bb8d301334d9f"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/drawable-mdpi/logo.png",
+      "bytes": 3432,
+      "sha256": "13da1afa6a09cd697230673ea3d541ea7ca2fae0635bb1ef388d32ac115cd48a"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/mipmap-xhdpi/ic_launcher.png",
+      "bytes": 4484,
+      "sha256": "7f9dfe5d96f965a73c096e18532ab71ec859636fc4bf1e70742f2787aa08e3ad"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/drawable-xxxhdpi/background.png",
+      "bytes": 15701,
+      "sha256": "4a67ff5341145dc8d639ac388d82679719ba88bd448ad817a1dd457fff72a17a"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/drawable-xxxhdpi/logo.png",
+      "bytes": 13941,
+      "sha256": "7efba00a714a532b8adc21a1f8bfd17f96fe86293d7463d9e6f8d491e4c3137c"
+    },
+    {
+      "path": "App_Resources/Android/src/main/res/mipmap-anydpi-v26/ic_launcher.xml",
+      "bytes": 267,
+      "sha256": "daf8d08484dc1c1d1f268c4e5a69f9a9597c6941dc199890008cffd29aae8c88"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/Contents.json",
+      "bytes": 62,
+      "sha256": "972ec1fd42325872438eb085ac29e94f51c10788ec18ec5549439950866c541d"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/LaunchScreen.Center.imageset/LaunchScreen-Center@3x.png",
+      "bytes": 20794,
+      "sha256": "dfd4b38061c183330381c392794f45314a7a3b2bfdde052ef81cea49afbfbc21"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/LaunchScreen.Center.imageset/LaunchScreen-Center.png",
+      "bytes": 6808,
+      "sha256": "b9939c625c086e351dcae3997591f83891468b9271181bbae830052df5a1a938"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/LaunchScreen.Center.imageset/LaunchScreen-Center@2x.png",
+      "bytes": 13502,
+      "sha256": "a9e3a864b5d783d5dd7a73298bb20abbc342b9ed9a1bfc8fb85b52d11b05cc29"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/LaunchScreen.Center.imageset/Contents.json",
+      "bytes": 414,
+      "sha256": "ace65297e913b94ab3a22f88c420f13db93a27a1b7485c074026235fa0d2859b"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/LaunchScreen.AspectFill.imageset/LaunchScreen-AspectFill.png",
+      "bytes": 4920,
+      "sha256": "25b1ff91ad7f19a8529970b60cdcec268b249d356beea1daf5d1021ede71f353"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/LaunchScreen.AspectFill.imageset/LaunchScreen-AspectFill@3x.png",
+      "bytes": 27892,
+      "sha256": "3e30de9ac3613a5dab4e9e346e7cbe5eeb61cb1e45af2d4e31c5f73819fb13e9"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/LaunchScreen.AspectFill.imageset/LaunchScreen-AspectFill@2x.png",
+      "bytes": 14165,
+      "sha256": "448a197176cfbf1d4ba3988750ac0e08b0febbc93732eba4999b1cd9fdbb7c44"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/LaunchScreen.AspectFill.imageset/Contents.json",
+      "bytes": 426,
+      "sha256": "06bd82fd85b0509a55edbd245a83c81ae95ce1bcb62b491d575d15a1929cd69f"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-29.png",
+      "bytes": 851,
+      "sha256": "d7075d160371e6312ef90c655cd5673b56fa3784e1fb65a6a366479f1dba36de"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-76@2x.png",
+      "bytes": 2633,
+      "sha256": "20129d1a3bc812ac0e02b0ea673de56f58475db8590166177078662af58c30e3"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-40@2x.png",
+      "bytes": 1504,
+      "sha256": "89ec59f727a1b44662fea8646433348345e89da14a6f05a81261537f693d0fcb"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-40@3x.png",
+      "bytes": 2121,
+      "sha256": "17184ef759339bd2560dbe2400b8cb2a54dd0ab5440c8421c14ac62fa371113f"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-83.5@2x.png",
+      "bytes": 2831,
+      "sha256": "0456fef1bbc18c7766808b0a8669c8e9274fb4474dd8a5135bdc97e5226369b2"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-60@3x.png",
+      "bytes": 3018,
+      "sha256": "cef911b750ec7474aab4f580caec7afad8c45072e1e982e69c13d1f26179488d"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-29@2x.png",
+      "bytes": 1232,
+      "sha256": "e2248aa03c1bf24b65430c343b636166111e6175cd8469d64539d21fce022005"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-76.png",
+      "bytes": 1482,
+      "sha256": "ac8b7d0f6901c09a579d713e773e1155a067b44b7f084b8a7e9a96044fda7c74"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-1024.png",
+      "bytes": 17868,
+      "sha256": "5fdebc7c0087aeab1785887a72971aeb9b2155def489a2cfb06b88649cfcf571"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-29@3x.png",
+      "bytes": 1668,
+      "sha256": "200f32e4522312ecce067bd20b62933ce1e11318ae30c438a2729edc18fad435"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-60@2x.png",
+      "bytes": 2121,
+      "sha256": "58fa8ec8a01cbf1e6668a6577300030231f3cb58baa1c921702545f41d155c06"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-20@3x.png",
+      "bytes": 1258,
+      "sha256": "799232cf0354e70147b06c86a69b2619cf158edbfe25613ce092ac29f9bfe47e"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-40.png",
+      "bytes": 995,
+      "sha256": "90127a63aacfc752e9e45dbcf795867fc512f134ad3169652db859518acba953"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/Contents.json",
+      "bytes": 2363,
+      "sha256": "78edaf41467898f8c330e54278c3e49ddbf3a6ab6c528a248551d5d54a93e3dc"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-20@2x.png",
+      "bytes": 995,
+      "sha256": "0ec87384ccd808288f3b7a66a89a06346f536469e894a8dbcf282e5cd98fa7d2"
+    },
+    {
+      "path": "App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-20.png",
+      "bytes": 745,
+      "sha256": "d93bd5971a9cd55dd2f796ce1c33fbc42c4119ca3f2dce1d20607ef90f24c032"
+    },
+    {
+      "path": "xcresults/LogStoreManifest.plist",
+      "bytes": 2168,
+      "sha256": "3cc1cd08ae29de1eabbf6783d3bfed494e31e2c45138ba12e0429ea7047e5399"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Info.plist",
+      "bytes": 776,
+      "sha256": "e5286130b5e1bf10f7fb0550eca3019fc3da156e9ef87cb8a8b5922b0c85f5f0"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/refs.0~n58tzo_QBpWmDQMYOX-plZRs_4KIU5DjyDELSsdYZRhiarFzx3XdCHrpbpmNL8mjPF_VjcOGFSNrq_rYo9jbEw==",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/data.0~3YgSOLn6Wqrs_W7Jt16yu3Htuu50j0nw26ImHGy_0RcEUSCfuKNeVWUA5LAEbv2XYKSaAVrf749QrO59lbCWSg==",
+      "bytes": 118,
+      "sha256": "e740fa32406e5408ef03b7b3eaac9b6405560123fd9cf961b21e080136ccedd3"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/refs.0~4VqMqsI5lOfxRppnud6-VDWcNsU8J7VgFCJfW2dXPwOcAkvU-I8Um5yp9n0Zv6nr3VmcxYggaVMDFfR0U_vjKw==",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/refs.0~QNEAn0n0uK12b7ZjW3eyI9yTBuFAFBO9pQaJCm2TlCit28Jw2FsNdbxRUtU_DSBhq6EvEEmU_ueN7vPO1euNWg==",
+      "bytes": 67,
+      "sha256": "87bc07ef19a62fb25dd5937480ec98763f720ec87d478bb31cc1a4b2c4d038bd"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/data.0~ynuLUsujnWay80PeTdl4tDLE2iKoCw56WO460KRxHcuwhGnFR78pXksbfLv-xy49Fbb8zlcaWTTYV2FxcOP4Nw==",
+      "bytes": 931,
+      "sha256": "633af4606a369a279770be34783c355bece3f5d6a984992c8007bc35ba1b0be7"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/refs.0~-KbKBtDQCgXhdnAi4q8uszT56e7Teq8Y_1ko7V5FqbwwIYhYzMg_TmbL2ZtF8BtiBsvZnUQKuxuXSSWF1f-ubw==",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/data.0~-KbKBtDQCgXhdnAi4q8uszT56e7Teq8Y_1ko7V5FqbwwIYhYzMg_TmbL2ZtF8BtiBsvZnUQKuxuXSSWF1f-ubw==",
+      "bytes": 14154,
+      "sha256": "379096b87e7af1c06681378686361126dd442c347d9ee23f15aae61b9e2589b1"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/refs.0~ynuLUsujnWay80PeTdl4tDLE2iKoCw56WO460KRxHcuwhGnFR78pXksbfLv-xy49Fbb8zlcaWTTYV2FxcOP4Nw==",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/data.0~QNEAn0n0uK12b7ZjW3eyI9yTBuFAFBO9pQaJCm2TlCit28Jw2FsNdbxRUtU_DSBhq6EvEEmU_ueN7vPO1euNWg==",
+      "bytes": 38,
+      "sha256": "0a3e38a7ee2f4a7971fb4853eb1fdbd6acbeae91d43fcf4a6e70f65e3371434d"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/refs.0~3YgSOLn6Wqrs_W7Jt16yu3Htuu50j0nw26ImHGy_0RcEUSCfuKNeVWUA5LAEbv2XYKSaAVrf749QrO59lbCWSg==",
+      "bytes": 133,
+      "sha256": "511b81ce01beb5187fbeefd163c5039901f4ba5d49eacc2ff4ccf6e8ecc331f3"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/data.0~4VqMqsI5lOfxRppnud6-VDWcNsU8J7VgFCJfW2dXPwOcAkvU-I8Um5yp9n0Zv6nr3VmcxYggaVMDFfR0U_vjKw==",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/data.0~n58tzo_QBpWmDQMYOX-plZRs_4KIU5DjyDELSsdYZRhiarFzx3XdCHrpbpmNL8mjPF_VjcOGFSNrq_rYo9jbEw==",
+      "bytes": 18463,
+      "sha256": "d4c044cf73545b35751b6cf5f561c08aa6d9a61158bc3e864d1e33929199b0fc"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/data.0~GxuUkwtXSOwZKsCwHfbNa9r0xLbLWI1d9WQUN8X2IYey63gFmppbz13lPkAFPMcheH_4Mkr9UVAn4E52ttGNhg==",
+      "bytes": 792,
+      "sha256": "5129da761f065858601a65a02767327ce00d3398ddaea97dcb9a3b639f232adb"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/refs.0~XSJpIhqtOEytJYgvGCu8L8q_Pd5iI643LPNQtGE5oWEvdXCITvJrsen2NFmllohuyHgHtHlfH9p0q0bda59Kyg==",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/data.0~eKDZmaIwq9wIRjAxoQI3fTcFbrH3pXrmF67j4tepmE-Zg4XmeNPbmoicQ8rLBJg9GgrmzWiYBIpk35tWkqVvZQ==",
+      "bytes": 1839,
+      "sha256": "cbab5487237519f8c59b84b5095f1c3c02eb385f1ae56381f111a10b0db4618a"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/refs.0~hK3gghJQNTLscZ6Gj39izRAIo29h_6nwqL6umRTHYVnsGwp-7t83y65Q7XFgjn2-stbUaal5tQVEWkn_eCzwHA==",
+      "bytes": 199,
+      "sha256": "5bbf154c5ffb0d0688b3d520383f82d7b8b362b36018358a6bb0aafc08e545af"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/data.0~wOoWuh5pQSgkCN8n-j3HOiKKTSL3qA9k4SJw26Zzv07pWAcfaRmgapH0YWhf8SNIizRJtuxRqMwFtd1GrVQwog==",
+      "bytes": 297,
+      "sha256": "ed3b646f2d2e9126ae5220df8049b7a2da22ff41a56d4c644acf0d7a000c86f2"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/refs.0~vv2bUpH8tC2fpRcU10FheKWT-KhyivuVVOqP891uKdL0dH4NEe-jrlyj5jnMmqDMsT74F5_7srOoBlFQluLpgA==",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/refs.0~tnNOEUSwPEgKTmgaz6sfjnFSspWBzSh1h8Th10u2aaw-pyQ52_6XaaaYYDH0OTfSMDa3ANX0ZwrYmg51OcPLrA==",
+      "bytes": 133,
+      "sha256": "8c46aed4405d7cb4f668500f03b654c7138a3749da1027eb4279cb4ebdb42a4e"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/refs.0~kfFBPjBuj9E5D_SfDzUkRx_823fDp3-aG6s_J_iEexDR6xuf8Arl33pQOYt5di2dtvDKIcm2O1rr5cZSP5i3rg==",
+      "bytes": 67,
+      "sha256": "7859d5c2fb727269b639059a4456641ec0adb8eef5f71ec916e6fd5311982b99"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/data.0~QpQySnElIx53wgq7BEbMiIl1r6R8lyQFZ1GGKjvZuCj5tAmB9jBRhglWhS8z4TsuJebuow4JDnIn4mWH_ncomQ==",
+      "bytes": 1835,
+      "sha256": "d503d2db7e36dd7393267b5ee343ac6e9e0f04c76d229544fd4d9db8951c60a0"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/data.0~kfFBPjBuj9E5D_SfDzUkRx_823fDp3-aG6s_J_iEexDR6xuf8Arl33pQOYt5di2dtvDKIcm2O1rr5cZSP5i3rg==",
+      "bytes": 929,
+      "sha256": "84743bd14c11dd948b5d76bd7ccb6dbdf33cbe0f9d83fefb5ed610caa6852fa7"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/refs.0~QpQySnElIx53wgq7BEbMiIl1r6R8lyQFZ1GGKjvZuCj5tAmB9jBRhglWhS8z4TsuJebuow4JDnIn4mWH_ncomQ==",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/data.0~tnNOEUSwPEgKTmgaz6sfjnFSspWBzSh1h8Th10u2aaw-pyQ52_6XaaaYYDH0OTfSMDa3ANX0ZwrYmg51OcPLrA==",
+      "bytes": 110,
+      "sha256": "dbbb0c2e8dcea11743709425ada4bc8022b135f60ee2458e524f02ad3740e8ed"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/refs.0~wOoWuh5pQSgkCN8n-j3HOiKKTSL3qA9k4SJw26Zzv07pWAcfaRmgapH0YWhf8SNIizRJtuxRqMwFtd1GrVQwog==",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/data.0~vv2bUpH8tC2fpRcU10FheKWT-KhyivuVVOqP891uKdL0dH4NEe-jrlyj5jnMmqDMsT74F5_7srOoBlFQluLpgA==",
+      "bytes": 3668,
+      "sha256": "235dcc1e8dcbc36b71cfc256005d7653587d652f32d2d6ddcd54bd285eff6929"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/refs.0~eKDZmaIwq9wIRjAxoQI3fTcFbrH3pXrmF67j4tepmE-Zg4XmeNPbmoicQ8rLBJg9GgrmzWiYBIpk35tWkqVvZQ==",
+      "bytes": 331,
+      "sha256": "3b1d20bc2cbcf79d8b90ea07eda13fff70d0e5fd627f36c4b271114b62a3d952"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/data.0~hK3gghJQNTLscZ6Gj39izRAIo29h_6nwqL6umRTHYVnsGwp-7t83y65Q7XFgjn2-stbUaal5tQVEWkn_eCzwHA==",
+      "bytes": 189,
+      "sha256": "057f5b837217901b0b1c0e9e7eb192d2f0797275ff8f2e32c7c5206e8b7e5d50"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/refs.0~GxuUkwtXSOwZKsCwHfbNa9r0xLbLWI1d9WQUN8X2IYey63gFmppbz13lPkAFPMcheH_4Mkr9UVAn4E52ttGNhg==",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+    },
+    {
+      "path": "xcresults/Test-DestinationChecks-2026.11.14_18-20-43--0300.xcresult/Data/data.0~XSJpIhqtOEytJYgvGCu8L8q_Pd5iI643LPNQtGE5oWEvdXCITvJrsen2NFmllohuyHgHtHlfH9p0q0bda59Kyg==",
+      "bytes": 316,
+      "sha256": "927d545c40b2e3d6763f132e7847fdfd13a2703a007482da87f6cf64b93ca117"
+    }
+  ]
+}
