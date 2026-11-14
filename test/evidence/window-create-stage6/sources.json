@@ -1,0 +1,16 @@
+{
+  "examples/drag-drop/new-window.ts": "928bd230e5020a0598438523d637c419504cb0211ddb312cf75122d43afa9603",
+  "examples/drag-drop/new-window-source.ios.ts": "e801ed3b97db64147a231b4c684b7068577e29535f0f2e44a309e9bde8d6abe5",
+  "examples/drag-drop/new-window.md": "9a6de120803d966b6faa696912669213c3292cab08301bddaf9061ab1cb00752",
+  "test/window-drop-offers.spec.ts": "bf8987320401f72c77cb40f4dede2ead54becf74fc48136917899bea259de1c2",
+  "demo/src/testing/windowcreate-app.ts": "8efd760b32b77d9e190425183eb26fe6f8db61646cffda197a0c960eec1b5583",
+  "demo/webpack.config.js": "92012935d90bf11d3823348614d8fb1b8985d6815c622b939036f6a234c81426",
+  "scripts/native/window-create/project.rb": "ceb2758f730fc96bb93d6bd350de23b1bb29670335bb8654460cb06a7ba77477",
+  "scripts/native/window-create/ios.mjs": "ab36debcb4811b26ee2e8bde954136ad58731063b75f3f09ab55ade17df18dcd",
+  "scripts/native/window-create/README.md": "a52bb536a4e930591fa304919cbefd108a15113caaa194ec0ae6a10607e46b0d",
+  "scripts/native/window-create/tsconfig.json": "73a0849a52e06efb8972be46c7db3f8a2a98ba834031623589740c3a0badb22b",
+  "scripts/native/window-create/WindowCreateUITests.swift": "d13ead82a39dd1bc0f35ce7a66e57139b9d3d4b2bf27548bbff9805c9ac5eefc",
+  "scripts/native/window-create/prepare.py": "46ca5097abb43a79c5e39cf6b2a310374af6b82f2139a82005276a29fc2b5abe",
+  "docs/public/media/window-create.mp4": "6ec4040129d9b4bd1473f2dad5263180810c62b1c3798776b7eba07643b65209",
+  "docs/public/media/window-create.jpg": "dce3c76360f344bd5197fc65801e862598193048d73a5a43116041f3a264a59f"
+}

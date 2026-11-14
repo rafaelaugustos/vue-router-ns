@@ -4,8 +4,8 @@ This copyable application recipe uses UIKit `UIDragInteraction`, `NSItemProvider
 and `UIDropInteraction`, then the existing navigation-intent pipeline. It introduces
 no router API, native-host contract or drag-library dependency. Stage 1 targets a
 single iPad app window with retained tabs. The [window recipe](./windows.md) extends
-the same receiver policy to two existing app windows in stage 2. Creating a new
-window by dragging remains a later #181 stage. The [Android recipe](./android.md)
+the same receiver policy to two existing app windows in stage 2. The [new-window recipe](./new-window.md) adds actual iPad screen-edge creation in
+stage 6. The [Android recipe](./android.md)
 adds same-Activity local drag/drop and TalkBack/button/keyboard alternatives in stage 3.
 The [sidebar recipe](./sidebar.md) binds separate Inbox/Archive rows to their own
 retained stacks in a permanent iPad sidebar (stage 5).

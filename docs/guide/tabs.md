@@ -252,3 +252,13 @@ On drop, the ordinary `openIntent` path reveals the receiving stack and runs its
 <Clip name="sidebar-drop" aspect="3 / 4" caption="Ten real iPad drags into two sidebar destinations, cancellation, invalidation and button/keyboard alternatives. iOS 18.6 simulator." />
 
 The [stage 5 report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-sidebar-drop-stage5.md) verifies three exact root Pages, independent drafts and native/logical histories, including removal during hover and late provider completion. This establishes a permanent sidebar in one simulator window; overlay edge reveal, adaptive transitions, physical VoiceOver, Stage Manager and new-window dragging remain separate acceptance work.
+
+### Drag to create a window {#new-window-drop}
+
+The [new-window recipe](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/drag-drop/new-window.md) registers an `NSUserActivity` on the native drag item. Dragging the card to a supported iPad screen edge lets the OS create a scene. Its actual connection callback claims a short-lived local offer and binds navigation to that new window's router and explicit Frame.
+
+Only a version and fresh correlation token enter the activity; destination, account identity and routing authority remain local. Offers expire within 30 seconds, allow one claim and recheck owner, session, route and permission through readiness and guards. The existing `suspendIntent` continuation resumes immediately with current authorization; this recipe has no Login Page. Copy completion can precede scene connection and does not mean navigation succeeded. Rejected new windows close while the original Page and draft remain intact.
+
+<Clip name="window-create" aspect="3 / 4" caption="Nine real iPad drags, OS-created windows, rejected-window cleanup and button/keyboard alternatives. iOS 18.6 simulator." />
+
+The [stage 6 report and reproduction](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-window-create-stage6.md) verify actual edge gestures, cancellation, expiry, session/permission changes, removed routes, guards and closure during readiness. Only the ordinary button and Control–O call a scene activation API. This establishes same-process Split View behavior on the recorded simulator; physical iPad/VoiceOver, Stage Manager, external transfers and cold process launch remain outside this evidence.

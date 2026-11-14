@@ -252,3 +252,13 @@ dependencies {
 <Clip name="sidebar-drop" aspect="3 / 4" caption="iPad 上向两个侧边栏目标执行十次真实拖放，涵盖取消、失效处理以及按钮和键盘替代操作。iOS 18.6 模拟器。" />
 
 [第五阶段报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-sidebar-drop-stage5.md)验证三个原始根 Page、独立草稿以及原生与逻辑历史记录，包括悬停期间移除目标和数据提供者延迟完成的情况。本阶段验证模拟器单窗口中的常驻侧边栏；从边缘展开浮层、自适应切换、实体设备 VoiceOver、Stage Manager 和拖动创建窗口仍需单独验收。
+
+### 拖动以创建窗口 {#new-window-drop}
+
+[新窗口示例](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/drag-drop/new-window.md)在原生拖动项上注册一个 `NSUserActivity`。将卡片拖到受支持的 iPad 屏幕边缘时，系统会创建场景。真实的场景连接回调领取一个短期本地请求，并将导航绑定到新窗口的路由器和明确指定的 Frame。
+
+活动中仅包含版本和新的关联令牌；目标、账户身份和导航权限保留在本地。请求最长有效期为 30 秒，只能领取一次，并在就绪等待和守卫执行期间重新检查所有者、会话、路由和权限。现有的 `suspendIntent` 续接机制会在当前授权下立即恢复；此示例没有登录页面。复制完成可能早于场景连接，并不表示导航成功。被拒绝的新窗口会关闭，原始页面和草稿保持不变。
+
+<Clip name="window-create" aspect="3 / 4" caption="九次真实 iPad 拖动、系统创建窗口、被拒窗口清理以及按钮和键盘替代操作。iOS 18.6 模拟器。" />
+
+[第 6 阶段报告与复现步骤](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-window-create-stage6.md)验证真实的屏幕边缘手势、取消、过期、会话和权限变更、路由删除、守卫以及就绪期间关闭窗口。仅普通按钮和 Control–O 调用场景激活 API。这些证据覆盖所录模拟器中的同进程 Split View 行为，不涵盖实体 iPad/VoiceOver、Stage Manager、外部传输或新进程冷启动。
