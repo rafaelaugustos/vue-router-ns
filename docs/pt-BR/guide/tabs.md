@@ -223,3 +223,13 @@ A identidade da entrega permanece reservada durante o login. Somente a continua�
 <Clip name="drop-login" aspect="9 / 20" caption="Onze arrastes reais no Android com login controlado, Voltar nativo e revogação durante um guard. Emulador Android 14." />
 
 O [relatório da etapa 4](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drop-login-stage4.md) distingue transferência nativa aceita, autenticação pendente e navegação concluída. O exemplo controla o estado de autenticação e preserva as duas Pages e os rascunhos, sem provedor externo de identidade. O fluxo combinado foi gravado em uma Activity no emulador Android, sem ampliar as alegações sobre iPad, aparelho físico ou leitor de tela.
+
+### Soltar em um destino da barra lateral {#sidebar-drop}
+
+A [receita de barra lateral](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/drag-drop/sidebar.md) dá a cada linha um `DropOwner` estável e sua própria política de drop. Um `RouterDrawer` permanente fica ao lado de `RouterTabs` retidas; Inbox e Archive vinculam explicitamente o `frame` receptor. O hover apenas destaca a linha, sem carregar dados, selecionar uma aba ou navegar.
+
+Ao soltar, o fluxo normal de `openIntent` revela a pilha receptora e executa seus guards. Uma recusa pode revelar essa pilha preservando todos os históricos. Remover ou reatribuir uma linha enquanto os dados chegam não pode redirecionar a entrega para outro destino. Botões na barra lateral e a alternativa pelo teclado usam a origem `internal` com um novo identificador de ação.
+
+<Clip name="sidebar-drop" aspect="3 / 4" caption="Dez arrastes reais no iPad para dois destinos da barra lateral, cancelamento, invalidação e alternativas por botão/teclado. Simulador iOS 18.6." />
+
+O [relatório da etapa 5](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-sidebar-drop-stage5.md) verifica as três Pages raiz exatas, rascunhos independentes e históricos nativos/lógicos, incluindo remoção durante o hover e conclusão tardia do provider. Isso valida a barra lateral permanente em uma janela do simulador; abertura pela borda em overlay, transições adaptativas, VoiceOver físico, Stage Manager e criação de janelas por arraste continuam como validações separadas.

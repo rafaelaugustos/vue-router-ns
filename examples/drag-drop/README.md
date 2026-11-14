@@ -7,6 +7,8 @@ single iPad app window with retained tabs. The [window recipe](./windows.md) ext
 the same receiver policy to two existing app windows in stage 2. Creating a new
 window by dragging remains a later #181 stage. The [Android recipe](./android.md)
 adds same-Activity local drag/drop and TalkBack/button/keyboard alternatives in stage 3.
+The [sidebar recipe](./sidebar.md) binds separate Inbox/Archive rows to their own
+retained stacks in a permanent iPad sidebar (stage 5).
 
 Copy [policy.ts](./policy.ts) and [ios.ts](./ios.ts). Install native interactions on
 loaded views, retain their registrations (UIKit's delegates are weak) and dispose

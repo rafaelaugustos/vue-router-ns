@@ -242,3 +242,13 @@ The delivery identity stays reserved through login. Only the login continuation 
 <Clip name="drop-login" aspect="9 / 20" caption="Eleven real Android drags through controlled sign-in, native Back and revocation during a guard. Android 14 emulator." />
 
 The [stage 4 report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drop-login-stage4.md) separates accepted native transfer, pending authentication and completed navigation. The fixture controls authentication state and preserves both Pages and drafts; it uses no external identity provider. This combined flow is recorded on one Android emulator Activity, without additional iPad, physical-device or screen-reader claims.
+
+### Drop into a sidebar destination {#sidebar-drop}
+
+The [sidebar recipe](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/drag-drop/sidebar.md) gives each row a stable `DropOwner` and its own drop policy. A permanent `RouterDrawer` sits beside retained `RouterTabs`; Inbox and Archive explicitly bind their receiving `frame`. Hover only highlights the row, without loading data, selecting a tab or navigating.
+
+On drop, the ordinary `openIntent` path reveals the receiving stack and runs its guards. Refusal may reveal that stack while preserving every history. Removing or reassigning a row while data is pending cannot redirect the delivery to another destination. Sidebar buttons and the keyboard alternative use source `internal` with a fresh action id.
+
+<Clip name="sidebar-drop" aspect="3 / 4" caption="Ten real iPad drags into two sidebar destinations, cancellation, invalidation and button/keyboard alternatives. iOS 18.6 simulator." />
+
+The [stage 5 report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-sidebar-drop-stage5.md) verifies three exact root Pages, independent drafts and native/logical histories, including removal during hover and late provider completion. This establishes a permanent sidebar in one simulator window; overlay edge reveal, adaptive transitions, physical VoiceOver, Stage Manager and new-window dragging remain separate acceptance work.

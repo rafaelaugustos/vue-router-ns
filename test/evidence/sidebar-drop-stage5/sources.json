@@ -1,0 +1,16 @@
+{
+  "examples/drag-drop/policy.ts": "0f2f9f62cb1fc6c5578d28d8a68a037bdf7b4d823f6685c50d56d3f57ea9465c",
+  "examples/drag-drop/ios.ts": "3f551a2dac8ccbc5370aa3038aa412884bbad25f4ad009684587a45232695929",
+  "examples/drag-drop/sidebar.md": "d0ede1125e86be8d7498802fbbaa21474ee1d346747f75230f4f458c0183c2f0",
+  "src/drawer.ts": "25d1d347bec695189a1d74d860d73aa0be9c29aa2b8509b3e79e89bd2d917dd8",
+  "test/sidebar-drop.spec.ts": "efdd836b53e56f0d30f4c9a4f1eca99fc9ddeaa14696ec344a74599722a9278a",
+  "demo/src/testing/sidebardrop-app.ts": "ecd634f5ee34a671d255fa8523cf9be99fe9520f2e975c4ce6b137384794ac1d",
+  "demo/webpack.config.js": "780e9635b4590c6275dd3fdb9331ec00747f1ae9a9e9377e9a9d02ebfb39f24a",
+  "scripts/native/sidebar-drop/project.rb": "ed0f3b67e99afd5e1e083ea4b206c642852929f26811d02abf6b0757c0503519",
+  "scripts/native/sidebar-drop/ios.mjs": "77282da308d961b53cde66c192b794796765835a9f5b84f7bc329945303b29d2",
+  "scripts/native/sidebar-drop/README.md": "dc10dd7f157d60c3574cca9c0e56a5d0aa7338a202d0b6b074b513d3fdf9ad21",
+  "scripts/native/sidebar-drop/tsconfig.json": "2db2941b7dc4af6715268ca65d7350af68e654871730c86aaa5fe7bd6ef3c90c",
+  "scripts/native/sidebar-drop/SidebarDropUITests.swift": "7a943fd7b5ed2e06efd13277295b7b6aa665ec9f7076031fcc7f04688f95b99c",
+  "docs/public/media/sidebar-drop.mp4": "9c75a757e5c2e3a19c8e76e346e830f8f34dff3bef5864d5e65eab1837cf9996",
+  "docs/public/media/sidebar-drop.jpg": "701a4a5400e1318db247cfc2e31eac525a83bfcca36cf1580b3e0ec48ec723fc"
+}

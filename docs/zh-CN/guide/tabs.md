@@ -242,3 +242,13 @@ dependencies {
 <Clip name="drop-login" aspect="9 / 20" caption="Android 上的十一次真实拖放，涵盖受控登录、原生返回以及守卫等待期间的权限撤销。Android 14 模拟器。" />
 
 [第四阶段报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drop-login-stage4.md)区分已接受的原生传输、等待中的身份验证和已完成的导航。示例控制身份验证状态，保留两个 Page 及其草稿，不使用外部身份提供商。此组合流程仅在 Android 模拟器的一个 Activity 中录制，不扩展 iPad、实体设备或屏幕阅读器方面的验证声明。
+
+### 放到侧边栏目标 {#sidebar-drop}
+
+[侧边栏方案](https://github.com/rafaelaugustos/vue-router-ns/blob/main/examples/drag-drop/sidebar.md)为每一行提供稳定的 `DropOwner` 和独立的放置策略。常驻的 `RouterDrawer` 位于保留状态的 `RouterTabs` 旁；Inbox 和 Archive 显式绑定各自接收的 `frame`。悬停只高亮目标行，不加载数据、不切换标签页，也不导航。
+
+放下后，正常的 `openIntent` 流程显示接收栈并运行其守卫。守卫拒绝时，该栈可能已显示，但所有历史记录保持不变。在等待数据期间移除或重新绑定目标行，不会把请求转交给其他目标。侧边栏按钮与键盘替代操作使用 `internal` 来源和新的操作标识。
+
+<Clip name="sidebar-drop" aspect="3 / 4" caption="iPad 上向两个侧边栏目标执行十次真实拖放，涵盖取消、失效处理以及按钮和键盘替代操作。iOS 18.6 模拟器。" />
+
+[第五阶段报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-sidebar-drop-stage5.md)验证三个原始根 Page、独立草稿以及原生与逻辑历史记录，包括悬停期间移除目标和数据提供者延迟完成的情况。本阶段验证模拟器单窗口中的常驻侧边栏；从边缘展开浮层、自适应切换、实体设备 VoiceOver、Stage Manager 和拖动创建窗口仍需单独验收。
