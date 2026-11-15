@@ -69,11 +69,20 @@ let modalResult: unknown
 let modalGuardAttempts = 0
 let gestureEvents = 0
 let gesturePeak = 0
+let gestureProbe = ''
+let gestureProbeSequence = 0
+let gestureActive = false
 let gesturePage: Page | undefined
 let revision = 1
 let reportSequence = 0
 let gestureObserver: NSObject | undefined
 const reportFile = File.fromPath(`${knownFolders.documents().path}/native-contracts.json`)
+const gestureFile = File.fromPath(
+  `${knownFolders.documents().path}/contract-gesture.json`,
+)
+function writeGestureProbe(ready: boolean) {
+  gestureFile.writeTextSync(JSON.stringify({ token: gestureProbe, ready }))
+}
 const report = (command: string, error?: unknown) => {
   const data = {
     version: 1,
@@ -86,7 +95,7 @@ const report = (command: string, error?: unknown) => {
     sdk: Device.sdkVersion,
     model: Device.model,
     fault: __CONTRACT_FAULT__,
-    gesture: { events: gestureEvents, peak: gesturePeak },
+    gesture: { events: gestureEvents, peak: gesturePeak, probe: gestureProbe },
     nativeFocus: isAndroid
       ? {
           frame: (frame as any)?._domId,
@@ -157,9 +166,21 @@ function pageComponent(title: string, version = 1) {
       watch(
         gesture,
         (value) => {
+          gestureActive = !!value
           if (value) {
             gestureEvents++
             gesturePeak = Math.max(gesturePeak, value.progress)
+            if (isAndroid && gestureEvents === 1) {
+              const token = gestureProbe
+              // Acknowledge on the next app turn, after Android's onBackStarted
+              // dispatch returns. The input driver can then continue moving
+              // while the platform's progress tracker is ready to observe it.
+              setTimeout(() => {
+                if (gestureActive && gestureProbe === token) writeGestureProbe(true)
+              }, 0)
+            }
+          } else if (isAndroid && gestureProbe) {
+            writeGestureProbe(false)
           }
         },
         { flush: 'sync' },
@@ -469,6 +490,11 @@ async function command(name: string) {
       gesturePage = frame.currentPage
       gestureEvents = 0
       gesturePeak = 0
+      gestureActive = false
+      if (isAndroid) {
+        gestureProbe = `${pid()}:${++gestureProbeSequence}`
+        writeGestureProbe(false)
+      }
     } else if (name === 'cancel-check') {
       history(['/', '/a'], 'cancelled gesture')
       check('cancelled gesture retains native Page', gesturePage === frame.currentPage)

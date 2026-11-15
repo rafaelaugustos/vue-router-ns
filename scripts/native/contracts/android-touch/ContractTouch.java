@@ -5,12 +5,16 @@ import android.app.Instrumentation;
 import android.app.UiAutomation;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.os.SystemClock;
 import android.view.InputDevice;
 import android.view.MotionEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import org.json.JSONObject;
 
 // A separate, self-instrumented APK. The NativeScript app stays in its original
 // process and receives real system input through the public UiAutomation API.
@@ -49,12 +53,45 @@ public final class ContractTouch extends Instrumentation {
     // The last step is delivered synchronously so the queue is drained before
     // the caller inspects the screen.
     private void move(float start, float end) {
-        for (int step = 1; step <= STEPS; step++) {
+        move(start, end, STEPS);
+    }
+
+    private void move(float start, float end, int steps) {
+        for (int step = 1; step <= steps; step++) {
             eventTime += STEP_MS;
             long wait = eventTime - SystemClock.uptimeMillis();
             if (wait > 0) SystemClock.sleep(wait);
-            input(MotionEvent.ACTION_MOVE, start + (end - start) * step / STEPS, step == STEPS);
+            input(MotionEvent.ACTION_MOVE, start + (end - start) * step / steps, step == steps);
         }
+    }
+
+    private void awaitGestureStart(String token, Bundle result) throws Exception {
+        long started = SystemClock.uptimeMillis();
+        while (SystemClock.uptimeMillis() - started < 5000) {
+            // This is the debug app's own observation of its public gesture
+            // stream. No callback or progress value is injected into the app.
+            ParcelFileDescriptor pipe = automation.executeShellCommand(
+                    "run-as org.nativescript.vuerouterns cat files/contract-gesture.json");
+            try (InputStream input = new ParcelFileDescriptor.AutoCloseInputStream(pipe);
+                    ByteArrayOutputStream output = new ByteArrayOutputStream()) {
+                byte[] buffer = new byte[512];
+                int count;
+                while ((count = input.read(buffer)) != -1) output.write(buffer, 0, count);
+                try {
+                    JSONObject probe = new JSONObject(output.toString("UTF-8"));
+                    long elapsed = SystemClock.uptimeMillis() - started;
+                    if (elapsed < 5000 && token.equals(probe.optString("token"))
+                            && probe.optBoolean("ready")) {
+                        result.putLong("gestureReadyMs", elapsed);
+                        return;
+                    }
+                } catch (org.json.JSONException ignored) {
+                    // A read can race the app replacing its small probe file.
+                }
+            }
+            SystemClock.sleep(20);
+        }
+        throw new IllegalStateException("App did not acknowledge native gesture start within 5000ms");
     }
 
     @Override public void onStart() {
@@ -73,7 +110,18 @@ public final class ContractTouch extends Instrumentation {
             eventTime = downTime;
             input(MotionEvent.ACTION_DOWN, 1, false);
             pointerDown = true;
-            move(1, width * 0.35f);
+            String probe = arguments.getString("gestureProbe");
+            if (probe != null) {
+                // Cross the edge recognizer's threshold within the original
+                // long-press budget, then hold while the app processes start.
+                float activation = width * 0.1f;
+                move(1, activation, 4);
+                awaitGestureStart(probe, result);
+                eventTime = SystemClock.uptimeMillis();
+                move(activation, width * 0.35f);
+            } else {
+                move(1, width * 0.35f);
+            }
             result.putLong("deliveryLagMs", SystemClock.uptimeMillis() - eventTime);
             Bitmap screenshot = automation.takeScreenshot();
             if (screenshot == null) throw new IllegalStateException("No native gesture screenshot");

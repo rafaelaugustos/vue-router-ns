@@ -185,7 +185,7 @@ async function launch() {
   lastSequence = 0
   await result('ready')
 }
-async function swipe(commit) {
+async function swipe(commit, gestureProbe) {
   const size = await adb('shell', 'wm', 'size')
   const match = [...size.matchAll(/(\d+)x(\d+)/g)].at(-1)
   const mode = commit ? 'commit' : 'cancel'
@@ -203,6 +203,7 @@ async function swipe(commit) {
     '-e',
     'height',
     match[2],
+    ...(gestureProbe ? ['-e', 'gestureProbe', gestureProbe] : []),
     `${touchPkg}/.ContractTouch`,
   )
   await writeFile(resolve(out, `gesture-${mode}-${reports.length}.txt`), output)
@@ -261,8 +262,10 @@ try {
     await capture('contract-suite')
     await command('hmr')
     await capture('covered-hmr')
-    await command('gesture-setup')
-    await swipe(false)
+    const setup = await command('gesture-setup')
+    assert.equal(typeof setup.gesture.probe, 'string')
+    assert(setup.gesture.probe.length > 0, 'Fresh gesture readiness token required')
+    await swipe(false, setup.gesture.probe)
     await command('cancel-check')
     await swipe(true)
     await command('commit-check')
