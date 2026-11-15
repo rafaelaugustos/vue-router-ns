@@ -38,15 +38,22 @@ final class RotationUITests: XCTestCase {
         XCTFail("Bridge command timed out: \(action)")
         return [:]
     }
-    func arm(_ operation: String, landscape: Bool) throws {
+    @discardableResult
+    func arm(_ operation: String, landscape: Bool) throws -> [String: Any] {
         try? FileManager.default.removeItem(at: directory.appendingPathComponent("rotation.json"))
         try command("rotation", ["operation": operation, "landscape": landscape], wait: false)
         let deadline = Date().addingTimeInterval(5)
         while Date() < deadline {
-            if let value = try? read("rotation.json"), value["operation"] as? String == operation { return }
+            if let value = try? read("rotation.json"), value["operation"] as? String == operation {
+                let events = value["events"] as? [[String: Any]] ?? []
+                if !operation.hasPrefix("gesture") || events.contains(where: { $0["kind"] as? String == "gesture-recognizer" }) {
+                    return value
+                }
+            }
             Thread.sleep(forTimeInterval: 0.005)
         }
         XCTFail("Rotation observer was not armed")
+        return [:]
     }
     func waitObserved() throws {
         let deadline = Date().addingTimeInterval(5)
@@ -58,7 +65,9 @@ final class RotationUITests: XCTestCase {
         throw NSError(domain: "RotationFixture", code: 1, userInfo: [NSLocalizedDescriptionKey: "No active native navigation observed"])
     }
     func requestRotation(_ label: String, landscape: Bool) throws {
-        try write("\(label)-driver.json", ["requestedAt": Date().timeIntervalSince1970 * 1000])
+        var driver = (try? read("\(label)-driver.json")) ?? [:]
+        driver["requestedAt"] = Date().timeIntervalSince1970 * 1000
+        try write("\(label)-driver.json", driver)
         XCUIDevice.shared.orientation = landscape ? .landscapeLeft : .portrait
     }
     @discardableResult
@@ -105,11 +114,33 @@ final class RotationUITests: XCTestCase {
         for landscape in [true, false] {
             XCUIDevice.shared.orientation = landscape ? .portrait : .landscapeLeft
             try command("push", "home")
-            let content = app.textFields["Retained draft"].firstMatch.frame
-            let start = app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: content.minX - 14, dy: content.midY + 120))
-            let end = start.withOffset(CGVector(dx: content.width * fraction, dy: 0))
+            let applicationFrame = app.frame
             let label = "\(name)-\(landscape ? "landscape" : "portrait")"
-            try arm("gesture-device", landscape: landscape)
+            let armed = try arm("gesture-device", landscape: landscape)
+            let events = try XCTUnwrap(armed["events"] as? [[String: Any]])
+            let recognizer = try XCTUnwrap(events.first { $0["kind"] as? String == "gesture-recognizer" })
+            XCTAssertEqual(recognizer["enabled"] as? Bool, true)
+            let bounds = CGRect(
+                x: try XCTUnwrap(recognizer["x"] as? Double),
+                y: try XCTUnwrap(recognizer["y"] as? Double),
+                width: try XCTUnwrap(recognizer["width"] as? Double),
+                height: try XCTUnwrap(recognizer["height"] as? Double))
+            XCTAssertGreaterThan(bounds.width, 0)
+            XCTAssertGreaterThan(bounds.height, 0)
+            // A text field's accessibility frame can still reflect the preceding
+            // push/rotation animation. Start at the actual recognizer's edge,
+            // reported by UIKit in screen coordinates, not at a child-view inset.
+            let point = CGPoint(x: bounds.minX + 2, y: bounds.midY)
+            XCTAssertTrue(applicationFrame.contains(point), "Native gesture edge must be inside the application")
+            let offset = CGVector(dx: point.x - applicationFrame.minX, dy: point.y - applicationFrame.minY)
+            let distance = bounds.width * fraction
+            let start = app.coordinate(withNormalizedOffset: .zero).withOffset(offset)
+            let end = start.withOffset(CGVector(dx: distance, dy: 0))
+            try write("\(label)-driver.json", [
+                "recognizer": recognizer,
+                "start": ["x": point.x, "y": point.y],
+                "end": ["x": point.x + distance, "y": point.y],
+            ])
             // Two real device actions overlap: the pointer stays down while the
             // background driver waits for UIKit's interactive coordinator.
             let rotated = expectation(description: label)
@@ -139,10 +170,10 @@ final class RotationUITests: XCTestCase {
                 continue
             }
             let report = try finish(label)
-            let events = report["events"] as! [[String: Any]]
-            let began = try XCTUnwrap(events.first { $0["kind"] as? String == "navigation-observed" })
+            let finishedEvents = report["events"] as! [[String: Any]]
+            let began = try XCTUnwrap(finishedEvents.first { $0["kind"] as? String == "navigation-observed" })
             XCTAssertEqual(began["interactive"] as? Bool, true)
-            let ended = try XCTUnwrap(events.first { $0["kind"] as? String == "navigation-ended" })
+            let ended = try XCTUnwrap(finishedEvents.first { $0["kind"] as? String == "navigation-ended" })
             if ended["cancelled"] as? Bool == true { try command("back") }
         }
     }
