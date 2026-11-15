@@ -1,0 +1,41 @@
+{
+  "jobs": [
+    {
+      "jobId": 132963613096,
+      "name": "drawer (iPhone-16, drawer)",
+      "conclusion": "success",
+      "startedAt": "2026-11-15T21:25:25Z",
+      "completedAt": "2026-11-15T21:36:12Z",
+      "durationSeconds": 647
+    },
+    {
+      "jobId": 132963613392,
+      "name": "drawer (iPad-Pro-11-inch-M4-8GB, adaptive)",
+      "conclusion": "failure",
+      "startedAt": "2026-11-15T21:25:25Z",
+      "completedAt": "2026-11-15T21:36:32Z",
+      "durationSeconds": 667,
+      "rotationStartAfterSeconds": 553,
+      "rotationDurationSeconds": 97
+    },
+    {
+      "jobId": 132963613402,
+      "name": "drawer (iPhone-16, adaptive)",
+      "conclusion": "success",
+      "startedAt": "2026-11-15T21:25:28Z",
+      "completedAt": "2026-11-15T21:37:34Z",
+      "durationSeconds": 726
+    },
+    {
+      "jobId": 132963613415,
+      "name": "drawer (iPad-Pro-11-inch-M4-8GB, drawer)",
+      "conclusion": "success",
+      "startedAt": "2026-11-15T21:25:25Z",
+      "completedAt": "2026-11-15T21:38:09Z",
+      "durationSeconds": 764
+    }
+  ],
+  "originalRotationStartAfterSeconds": 1134,
+  "originalRotationDurationBeforeCancellationSeconds": 80,
+  "queueWaitIncluded": false
+}

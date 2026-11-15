@@ -1,0 +1,66 @@
+{
+  "base": "fbfb7b6e399d125a7aaec39b1ded4f271250316b",
+  "source": "941d13bb377889e737d64b60a734d9f1e53e04cd",
+  "files": [
+    {
+      "path": ".github/workflows/native-drawer-ios.yml",
+      "baseSHA256": "04724661ff9b1988408a2df280fbc8cbf0d3d0049cc5ae29f339f14ee6f9758f",
+      "sourceSHA256": "569f407efb5cafef0e0908254042beaa6a137dde71640128a5cc3a9da844b613",
+      "changed": true
+    },
+    {
+      "path": ".github/workflows/native-contracts.yml",
+      "baseSHA256": "b77acce5b15fadf45c5235c1a073c61f3fc3e3e1e5978a0ef5fa31caaedf1984",
+      "sourceSHA256": "b77acce5b15fadf45c5235c1a073c61f3fc3e3e1e5978a0ef5fa31caaedf1984",
+      "changed": false
+    },
+    {
+      "path": "scripts/native/adaptive-drawer/rotation.mjs",
+      "baseSHA256": "b8e9df48b0a728e11f1b47b65036c952bd8e4295c9725f8f847c58bc52040053",
+      "sourceSHA256": "88af92af4a8dacdbc7a7b41e7bde3c7020abbee5197c5889a17b119b29cb4903",
+      "changed": true
+    },
+    {
+      "path": "scripts/native/logged-command.mjs",
+      "baseSHA256": "6a300a88ee940ba3beb6e115097ab23f80281ebac93b5d9c0f13b2e185d45be1",
+      "sourceSHA256": "6a300a88ee940ba3beb6e115097ab23f80281ebac93b5d9c0f13b2e185d45be1",
+      "changed": false
+    },
+    {
+      "path": "scripts/native/adaptive-drawer/RotationUITests.swift",
+      "baseSHA256": "77b3bcaca2070b0fb06874dcfdff11bd7bafcfa335bcd9824b0e03ea9c05a5e7",
+      "sourceSHA256": "77b3bcaca2070b0fb06874dcfdff11bd7bafcfa335bcd9824b0e03ea9c05a5e7",
+      "changed": false
+    },
+    {
+      "path": "scripts/native/adaptive-drawer/run.mjs",
+      "baseSHA256": "e9b7b845829dd5d38aa227478b2206df331d498d659f33e621de4e22a3bf8041",
+      "sourceSHA256": "e9b7b845829dd5d38aa227478b2206df331d498d659f33e621de4e22a3bf8041",
+      "changed": false
+    },
+    {
+      "path": "scripts/native/drawer-ios/run.mjs",
+      "baseSHA256": "25cd8f791d3154a0ebe8e965ab786ea016a62a935adbcd189251408e684d9bd7",
+      "sourceSHA256": "25cd8f791d3154a0ebe8e965ab786ea016a62a935adbcd189251408e684d9bd7",
+      "changed": false
+    },
+    {
+      "path": "demo/src/testing/adaptivedrawer-app.ts",
+      "baseSHA256": "436eb9ca6b4af311238f4cb70b0bf7b3bc434269e94c1217bb937f338603cc52",
+      "sourceSHA256": "436eb9ca6b4af311238f4cb70b0bf7b3bc434269e94c1217bb937f338603cc52",
+      "changed": false
+    },
+    {
+      "path": "demo/src/testing/adaptive-rotation.ios.ts",
+      "baseSHA256": "787c6ab7ec9a7cf5a14c1630b18c0e24f8dc9f2116fb693d9edd3e92159cfe3c",
+      "sourceSHA256": "787c6ab7ec9a7cf5a14c1630b18c0e24f8dc9f2116fb693d9edd3e92159cfe3c",
+      "changed": false
+    },
+    {
+      "path": "demo/package.json",
+      "baseSHA256": "cf9459ab8b43f95d2b4391b63e50a857f7e187b6157335972a119011a255b48d",
+      "sourceSHA256": "cf9459ab8b43f95d2b4391b63e50a857f7e187b6157335972a119011a255b48d",
+      "changed": false
+    }
+  ]
+}
