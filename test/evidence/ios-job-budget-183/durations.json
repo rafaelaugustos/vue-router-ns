@@ -1,0 +1,34 @@
+{
+  "note": "Durations start at runner allocation and exclude queue wait. Job duration includes cleanup. Two observations, not a performance benchmark.",
+  "jobs": [
+    {
+      "jobId": 132463291850,
+      "jobStart": "2026-11-14T13:32:24Z",
+      "jobEnd": "2026-11-14T14:12:59Z",
+      "jobDurationSeconds": 2435,
+      "destinationStart": "2026-11-14T14:11:07Z",
+      "destinationEnd": "2026-11-14T14:12:36Z",
+      "destinationStartAfterSeconds": 2323,
+      "destinationDurationSeconds": 89,
+      "destinationConclusion": "cancelled"
+    },
+    {
+      "jobId": 132591141771,
+      "jobStart": "2026-11-14T21:16:24Z",
+      "jobEnd": "2026-11-14T21:33:41Z",
+      "jobDurationSeconds": 1037,
+      "destinationStart": "2026-11-14T21:31:23Z",
+      "destinationEnd": "2026-11-14T21:33:16Z",
+      "destinationStartAfterSeconds": 899,
+      "destinationDurationSeconds": 113,
+      "destinationConclusion": "success"
+    }
+  ],
+  "composition": {
+    "jobId": 132591141762,
+    "jobStart": "2026-11-14T21:29:55Z",
+    "jobEnd": "2026-11-14T21:56:12Z",
+    "jobDurationSeconds": 1577,
+    "conclusion": "success"
+  }
+}

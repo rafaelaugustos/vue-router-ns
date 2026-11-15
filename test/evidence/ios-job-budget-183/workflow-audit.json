@@ -1,0 +1,137 @@
+{
+  "base": "ed58059f6688a4f747428c45c1ec3be3746722fc",
+  "source": "c953afe0766a1907920600cc5d5ee9d5452b87d0",
+  "oldJobLimitMinutes": 40,
+  "newJobLimitMinutes": 30,
+  "suites": ["contracts", "composition"],
+  "failFast": false,
+  "steps": [
+    {
+      "name": "actions/checkout@v7",
+      "suite": "shared",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "actions/setup-node@v7",
+      "suite": "shared",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "ruby/setup-ruby@v1",
+      "suite": "shared",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "gem install cocoapods xcodeproj --no-document",
+      "suite": "shared",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "npm ci && npm run build",
+      "suite": "shared",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "npm install --no-audit --no-fund",
+      "suite": "shared",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "npm install -g nativescript",
+      "suite": "shared",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "Prepare native resources",
+      "suite": "shared",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "Build fixed fixture",
+      "suite": "matrix.suite == 'contracts'",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "Create dedicated simulator",
+      "suite": "shared",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "Fixed native contracts",
+      "suite": "matrix.suite == 'contracts'",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "Build and validate real tab taps",
+      "suite": "matrix.suite == 'composition'",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "Validate public tab appearance",
+      "suite": "matrix.suite == 'composition'",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "Validate per-page tab visibility and cancelled gestures",
+      "suite": "matrix.suite == 'composition'",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "Validate route data with real HTTP",
+      "suite": "matrix.suite == 'composition'",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "Validate native Suspense composition and gestures",
+      "suite": "matrix.suite == 'composition'",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "Build former HMR fixture",
+      "suite": "matrix.suite == 'contracts'",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "Negative control",
+      "suite": "matrix.suite == 'contracts'",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "Enforce timing and retention budgets",
+      "suite": "matrix.suite == 'contracts'",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "Build native controller destination fixture",
+      "suite": "matrix.suite == 'contracts'",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "Native controller results, disposal and restoration",
+      "suite": "matrix.suite == 'contracts'",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "Clean up dedicated simulator",
+      "suite": "shared",
+      "equivalentAfterMatrixNormalization": true
+    },
+    {
+      "name": "actions/upload-artifact@v4",
+      "suite": "shared",
+      "equivalentAfterMatrixNormalization": true
+    }
+  ],
+  "requiredAggregateNeeds": [
+    "changes",
+    "android",
+    "ios",
+    "uikit-split",
+    "drawer-ios",
+    "page-actions",
+    "integration",
+    "flows",
+    "predictive",
+    "windows"
+  ]
+}
