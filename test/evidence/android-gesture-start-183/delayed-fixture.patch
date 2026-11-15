@@ -1,0 +1,13 @@
+diff --git a/demo/src/testing/contracts-app.ts b/demo/src/testing/contracts-app.ts
+index a74a28b..4b80426 100644
+--- a/demo/src/testing/contracts-app.ts
++++ b/demo/src/testing/contracts-app.ts
+@@ -159,6 +159,8 @@ function pageComponent(title: string, version = 1) {
+         (value) => {
+           if (value) {
+             gestureEvents++
++            // Diagnostic negative control only: delay the first app callback.
++            if (isAndroid && gestureEvents === 1) java.lang.Thread.sleep(650)
+             gesturePeak = Math.max(gesturePeak, value.progress)
+           }
+         },

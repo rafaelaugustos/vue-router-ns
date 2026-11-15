@@ -1,0 +1,32 @@
+{
+  "programs": [],
+  "stream_groups": [],
+  "streams": [
+    {
+      "codec_name": "h264",
+      "width": 1080,
+      "height": 2400,
+      "nb_frames": "1723"
+    },
+    {
+      "nb_frames": "1"
+    },
+    {
+      "nb_frames": "1"
+    }
+  ],
+  "format": {
+    "duration": "80.680867",
+    "size": "15389607"
+  },
+  "sourceCommit": "f7892f0254b78ec3589f30f1539faa1a56474d34",
+  "sourceRun": "local/ready-normal36r07.zip",
+  "unmodifiedOriginal": true,
+  "recording": "adb screenrecord of the actual dedicated Android36r07 emulator; no edits or generated frames",
+  "retained": "docs/public/media/android-gesture-start-evidence.mp4",
+  "sha256": "34c9ad339e087931f05db08cb096e26e16ee534961a8c3a35bf9d6616ecf9faa",
+  "visibleScenarios": {
+    "cancel": "approximately 7-12s",
+    "commit": "approximately 12-17s"
+  }
+}
