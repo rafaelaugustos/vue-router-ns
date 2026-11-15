@@ -1,0 +1,136 @@
+{
+  "run": 43768273343,
+  "sourceCommit": "9f8f0e2236fbe430b6d57496c13d46020ba6a983",
+  "fixtures": [
+    {
+      "artifact": "drawer-iPad-Pro-11-inch-M4-8GB-adaptive",
+      "fixture": "adaptive-ios",
+      "reports": 38,
+      "errors": 0,
+      "intentionalPopControlRetained": true
+    },
+    {
+      "artifact": "drawer-iPad-Pro-11-inch-M4-8GB-adaptive",
+      "fixture": "adaptive-reduced-motion",
+      "reports": 38,
+      "errors": 0,
+      "intentionalPopControlRetained": true
+    },
+    {
+      "artifact": "drawer-iPad-Pro-11-inch-M4-8GB-drawer",
+      "fixture": "drawer-ios",
+      "reports": 18,
+      "errors": 0,
+      "intentionalPopControlRetained": false
+    },
+    {
+      "artifact": "drawer-iPad-Pro-11-inch-M4-8GB-drawer",
+      "fixture": "drawer-reduced-motion",
+      "reports": 18,
+      "errors": 0,
+      "intentionalPopControlRetained": false
+    },
+    {
+      "artifact": "drawer-iPhone-16-adaptive",
+      "fixture": "adaptive-ios",
+      "reports": 38,
+      "errors": 0,
+      "intentionalPopControlRetained": true
+    },
+    {
+      "artifact": "drawer-iPhone-16-adaptive",
+      "fixture": "adaptive-reduced-motion",
+      "reports": 38,
+      "errors": 0,
+      "intentionalPopControlRetained": true
+    },
+    {
+      "artifact": "drawer-iPhone-16-drawer",
+      "fixture": "drawer-ios",
+      "reports": 18,
+      "errors": 0,
+      "intentionalPopControlRetained": false
+    },
+    {
+      "artifact": "drawer-iPhone-16-drawer",
+      "fixture": "drawer-reduced-motion",
+      "reports": 18,
+      "errors": 0,
+      "intentionalPopControlRetained": false
+    }
+  ],
+  "rotation": [
+    {
+      "case": "back-device-landscape",
+      "requestedDuringNavigation": true,
+      "visualOverlap": false,
+      "navigationCancelled": false,
+      "result": "rotation-deferred"
+    },
+    {
+      "case": "back-device-portrait",
+      "requestedDuringNavigation": true,
+      "visualOverlap": false,
+      "navigationCancelled": false,
+      "result": "rotation-deferred"
+    },
+    {
+      "case": "cancel-landscape",
+      "requestedDuringNavigation": true,
+      "visualOverlap": false,
+      "navigationCancelled": true,
+      "result": "rotation-deferred"
+    },
+    {
+      "case": "cancel-portrait",
+      "requestedDuringNavigation": false,
+      "visualOverlap": null,
+      "navigationCancelled": null,
+      "result": "gesture-not-reproduced"
+    },
+    {
+      "case": "commit-landscape",
+      "requestedDuringNavigation": true,
+      "visualOverlap": false,
+      "navigationCancelled": false,
+      "result": "rotation-deferred"
+    },
+    {
+      "case": "commit-portrait",
+      "requestedDuringNavigation": false,
+      "visualOverlap": null,
+      "navigationCancelled": null,
+      "result": "gesture-not-reproduced"
+    },
+    {
+      "case": "modal",
+      "requestedDuringNavigation": false,
+      "visualOverlap": false,
+      "navigationCancelled": null,
+      "result": "settled-control"
+    },
+    {
+      "case": "push-device-landscape",
+      "requestedDuringNavigation": true,
+      "visualOverlap": false,
+      "navigationCancelled": false,
+      "result": "rotation-deferred"
+    },
+    {
+      "case": "push-device-portrait",
+      "requestedDuringNavigation": true,
+      "visualOverlap": false,
+      "navigationCancelled": false,
+      "result": "rotation-deferred"
+    },
+    {
+      "case": "settled",
+      "requestedDuringNavigation": false,
+      "visualOverlap": false,
+      "navigationCancelled": null,
+      "result": "settled-control"
+    }
+  ],
+  "fullRunnerSucceeded": true,
+  "fourJobsPassedOnAttempt": 1
+}

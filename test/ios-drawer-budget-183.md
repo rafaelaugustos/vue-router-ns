@@ -1,5 +1,9 @@
 # iOS drawer job duration — #183 stage 6
 
+This report preserves the initial workflow split and its first failed rotation
+run. The subsequent [native-edge gesture correction and validation](./ios-drawer-native-edge-183.md)
+are documented separately.
+
 The [previous full matrix](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641)
 cancelled the iPad drawer job at its 20-minute job limit. The rotation scenario
 started at 21:43:21 UTC, **18m54s after the job began**, and was interrupted 80
@@ -90,9 +94,9 @@ it does not count the programmatic subset as a successful matrix. Gesture
 coordinates, observation deadlines and the existing distinction between
 exercised and not-reproduced gestures are unchanged in this stage.
 
-The workflow and logging changes are reviewable, but the PR remains a draft
-while this native acceptance failure is unresolved. A green ordinary PR CI must
-not be interpreted as a passing rotation scenario.
+After this first run, the workflow and logging changes were reviewable, but
+the PR remained a draft because native rotation acceptance had failed. A green
+ordinary PR CI alone must not be interpreted as a passing rotation scenario.
 
 ## Video and provenance
 

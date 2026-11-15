@@ -1,0 +1,24 @@
+{
+  "sourceRun": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43768273343",
+  "sourceCommit": "9f8f0e2236fbe430b6d57496c13d46020ba6a983",
+  "sourceJob": 132978193575,
+  "sourceArtifact": 14183891183,
+  "sourceMember": "adaptive-rotation/rotation.mp4",
+  "retained": "docs/public/media/ios-drawer-native-edge-evidence.mp4",
+  "unmodifiedOriginal": true,
+  "sha256": "8611fdc517e512f2a23edf67142cb0d4715d891005ba48182492348148bd1013",
+  "programs": [],
+  "stream_groups": [],
+  "streams": [
+    {
+      "codec_name": "h264",
+      "width": 1668,
+      "height": 2420,
+      "nb_frames": "985"
+    }
+  ],
+  "format": {
+    "duration": "97.650000",
+    "size": "13861539"
+  }
+}

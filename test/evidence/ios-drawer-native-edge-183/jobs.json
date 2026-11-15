@@ -1,0 +1,874 @@
+[
+  {
+    "id": 132978193289,
+    "run_id": 43768273343,
+    "workflow_name": "Native iOS drawer",
+    "head_branch": "fix/ios-drawer-job-budget-183",
+    "run_url": "https://api.github.com/repos/rafaelaugustos/vue-router-ns/actions/runs/43768273343",
+    "run_attempt": 1,
+    "node_id": "CR_kwDOFRK6dc8AAAAe9h4ziQ",
+    "head_sha": "9f8f0e2236fbe430b6d57496c13d46020ba6a983",
+    "url": "https://api.github.com/repos/rafaelaugustos/vue-router-ns/actions/jobs/132978193289",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43768273343/job/132978193289",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-15T22:15:33Z",
+    "started_at": "2026-11-15T22:15:35Z",
+    "completed_at": "2026-11-15T22:28:05Z",
+    "name": "drawer (iPhone-16, adaptive)",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-15T22:15:35Z",
+        "completed_at": "2026-11-15T22:15:37Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-15T22:15:37Z",
+        "completed_at": "2026-11-15T22:16:05Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-15T22:16:05Z",
+        "completed_at": "2026-11-15T22:16:12Z"
+      },
+      {
+        "name": "Run ruby/setup-ruby@v1",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-15T22:16:12Z",
+        "completed_at": "2026-11-15T22:16:12Z"
+      },
+      {
+        "name": "Run gem install cocoapods xcodeproj --no-document",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-15T22:16:12Z",
+        "completed_at": "2026-11-15T22:16:14Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-15T22:16:14Z",
+        "completed_at": "2026-11-15T22:16:20Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-15T22:16:20Z",
+        "completed_at": "2026-11-15T22:16:32Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-15T22:16:32Z",
+        "completed_at": "2026-11-15T22:16:44Z"
+      },
+      {
+        "name": "Prepare native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-15T22:16:44Z",
+        "completed_at": "2026-11-15T22:16:54Z"
+      },
+      {
+        "name": "Run ns build ios --for-device false --env.drawerTest",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 10,
+        "started_at": "2026-11-15T22:16:54Z",
+        "completed_at": "2026-11-15T22:16:54Z"
+      },
+      {
+        "name": "Build adaptive drawer fixture",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-15T22:16:54Z",
+        "completed_at": "2026-11-15T22:18:36Z"
+      },
+      {
+        "name": "Create dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-15T22:18:36Z",
+        "completed_at": "2026-11-15T22:19:45Z"
+      },
+      {
+        "name": "Binding, accessibility state and lifecycle contracts",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 13,
+        "started_at": "2026-11-15T22:19:45Z",
+        "completed_at": "2026-11-15T22:19:46Z"
+      },
+      {
+        "name": "Reduce Motion contracts",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 14,
+        "started_at": "2026-11-15T22:19:46Z",
+        "completed_at": "2026-11-15T22:19:46Z"
+      },
+      {
+        "name": "Real native input, navigation and rotation",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 15,
+        "started_at": "2026-11-15T22:19:46Z",
+        "completed_at": "2026-11-15T22:19:46Z"
+      },
+      {
+        "name": "Adaptive identity, state and modal contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 16,
+        "started_at": "2026-11-15T22:19:46Z",
+        "completed_at": "2026-11-15T22:25:15Z"
+      },
+      {
+        "name": "Adaptive Reduce Motion contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 17,
+        "started_at": "2026-11-15T22:25:15Z",
+        "completed_at": "2026-11-15T22:25:55Z"
+      },
+      {
+        "name": "Adaptive native input and rotation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 18,
+        "started_at": "2026-11-15T22:25:55Z",
+        "completed_at": "2026-11-15T22:27:52Z"
+      },
+      {
+        "name": "iPad rotation requested during active navigation",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 19,
+        "started_at": "2026-11-15T22:27:52Z",
+        "completed_at": "2026-11-15T22:27:52Z"
+      },
+      {
+        "name": "Clean up dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 20,
+        "started_at": "2026-11-15T22:27:52Z",
+        "completed_at": "2026-11-15T22:27:58Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 21,
+        "started_at": "2026-11-15T22:27:58Z",
+        "completed_at": "2026-11-15T22:28:00Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 41,
+        "started_at": "2026-11-15T22:28:00Z",
+        "completed_at": "2026-11-15T22:28:00Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 42,
+        "started_at": "2026-11-15T22:28:00Z",
+        "completed_at": "2026-11-15T22:28:01Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 43,
+        "started_at": "2026-11-15T22:28:01Z",
+        "completed_at": "2026-11-15T22:28:04Z"
+      }
+    ],
+    "check_run_url": "https://api.github.com/repos/rafaelaugustos/vue-router-ns/check-runs/132978193289",
+    "labels": ["macos-15"],
+    "runner_id": 1000005493,
+    "runner_name": "GitHub Actions 1000005493",
+    "runner_group_id": 0,
+    "runner_group_name": "GitHub Actions"
+  },
+  {
+    "id": 132978193575,
+    "run_id": 43768273343,
+    "workflow_name": "Native iOS drawer",
+    "head_branch": "fix/ios-drawer-job-budget-183",
+    "run_url": "https://api.github.com/repos/rafaelaugustos/vue-router-ns/actions/runs/43768273343",
+    "run_attempt": 1,
+    "node_id": "CR_kwDOFRK6dc8AAAAe9h40pw",
+    "head_sha": "9f8f0e2236fbe430b6d57496c13d46020ba6a983",
+    "url": "https://api.github.com/repos/rafaelaugustos/vue-router-ns/actions/jobs/132978193575",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43768273343/job/132978193575",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-15T22:15:33Z",
+    "started_at": "2026-11-15T22:15:35Z",
+    "completed_at": "2026-11-15T22:27:22Z",
+    "name": "drawer (iPad-Pro-11-inch-M4-8GB, adaptive)",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-15T22:15:36Z",
+        "completed_at": "2026-11-15T22:15:38Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-15T22:15:38Z",
+        "completed_at": "2026-11-15T22:16:01Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-15T22:16:01Z",
+        "completed_at": "2026-11-15T22:16:08Z"
+      },
+      {
+        "name": "Run ruby/setup-ruby@v1",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-15T22:16:08Z",
+        "completed_at": "2026-11-15T22:16:09Z"
+      },
+      {
+        "name": "Run gem install cocoapods xcodeproj --no-document",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-15T22:16:09Z",
+        "completed_at": "2026-11-15T22:16:11Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-15T22:16:11Z",
+        "completed_at": "2026-11-15T22:16:18Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-15T22:16:18Z",
+        "completed_at": "2026-11-15T22:16:29Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-15T22:16:29Z",
+        "completed_at": "2026-11-15T22:16:44Z"
+      },
+      {
+        "name": "Prepare native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-15T22:16:44Z",
+        "completed_at": "2026-11-15T22:16:55Z"
+      },
+      {
+        "name": "Run ns build ios --for-device false --env.drawerTest",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 10,
+        "started_at": "2026-11-15T22:16:55Z",
+        "completed_at": "2026-11-15T22:16:55Z"
+      },
+      {
+        "name": "Build adaptive drawer fixture",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-15T22:16:55Z",
+        "completed_at": "2026-11-15T22:18:27Z"
+      },
+      {
+        "name": "Create dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-15T22:18:27Z",
+        "completed_at": "2026-11-15T22:19:33Z"
+      },
+      {
+        "name": "Binding, accessibility state and lifecycle contracts",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 13,
+        "started_at": "2026-11-15T22:19:33Z",
+        "completed_at": "2026-11-15T22:19:33Z"
+      },
+      {
+        "name": "Reduce Motion contracts",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 14,
+        "started_at": "2026-11-15T22:19:33Z",
+        "completed_at": "2026-11-15T22:19:33Z"
+      },
+      {
+        "name": "Real native input, navigation and rotation",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 15,
+        "started_at": "2026-11-15T22:19:34Z",
+        "completed_at": "2026-11-15T22:19:34Z"
+      },
+      {
+        "name": "Adaptive identity, state and modal contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 16,
+        "started_at": "2026-11-15T22:19:34Z",
+        "completed_at": "2026-11-15T22:21:44Z"
+      },
+      {
+        "name": "Adaptive Reduce Motion contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 17,
+        "started_at": "2026-11-15T22:21:44Z",
+        "completed_at": "2026-11-15T22:22:50Z"
+      },
+      {
+        "name": "Adaptive native input and rotation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 18,
+        "started_at": "2026-11-15T22:22:50Z",
+        "completed_at": "2026-11-15T22:24:46Z"
+      },
+      {
+        "name": "iPad rotation requested during active navigation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 19,
+        "started_at": "2026-11-15T22:24:46Z",
+        "completed_at": "2026-11-15T22:27:03Z"
+      },
+      {
+        "name": "Clean up dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 20,
+        "started_at": "2026-11-15T22:27:03Z",
+        "completed_at": "2026-11-15T22:27:12Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 21,
+        "started_at": "2026-11-15T22:27:12Z",
+        "completed_at": "2026-11-15T22:27:15Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 41,
+        "started_at": "2026-11-15T22:27:15Z",
+        "completed_at": "2026-11-15T22:27:15Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 42,
+        "started_at": "2026-11-15T22:27:15Z",
+        "completed_at": "2026-11-15T22:27:17Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 43,
+        "started_at": "2026-11-15T22:27:17Z",
+        "completed_at": "2026-11-15T22:27:21Z"
+      }
+    ],
+    "check_run_url": "https://api.github.com/repos/rafaelaugustos/vue-router-ns/check-runs/132978193575",
+    "labels": ["macos-15"],
+    "runner_id": 1000005494,
+    "runner_name": "GitHub Actions 1000005494",
+    "runner_group_id": 0,
+    "runner_group_name": "GitHub Actions"
+  },
+  {
+    "id": 132978193590,
+    "run_id": 43768273343,
+    "workflow_name": "Native iOS drawer",
+    "head_branch": "fix/ios-drawer-job-budget-183",
+    "run_url": "https://api.github.com/repos/rafaelaugustos/vue-router-ns/actions/runs/43768273343",
+    "run_attempt": 1,
+    "node_id": "CR_kwDOFRK6dc8AAAAe9h40tg",
+    "head_sha": "9f8f0e2236fbe430b6d57496c13d46020ba6a983",
+    "url": "https://api.github.com/repos/rafaelaugustos/vue-router-ns/actions/jobs/132978193590",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43768273343/job/132978193590",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-15T22:15:33Z",
+    "started_at": "2026-11-15T22:15:36Z",
+    "completed_at": "2026-11-15T22:26:02Z",
+    "name": "drawer (iPhone-16, drawer)",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-15T22:15:36Z",
+        "completed_at": "2026-11-15T22:15:37Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-15T22:15:37Z",
+        "completed_at": "2026-11-15T22:15:59Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-15T22:15:59Z",
+        "completed_at": "2026-11-15T22:16:06Z"
+      },
+      {
+        "name": "Run ruby/setup-ruby@v1",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-15T22:16:06Z",
+        "completed_at": "2026-11-15T22:16:06Z"
+      },
+      {
+        "name": "Run gem install cocoapods xcodeproj --no-document",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-15T22:16:06Z",
+        "completed_at": "2026-11-15T22:16:08Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-15T22:16:08Z",
+        "completed_at": "2026-11-15T22:16:14Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-15T22:16:14Z",
+        "completed_at": "2026-11-15T22:16:27Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-15T22:16:27Z",
+        "completed_at": "2026-11-15T22:16:42Z"
+      },
+      {
+        "name": "Prepare native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-15T22:16:42Z",
+        "completed_at": "2026-11-15T22:16:55Z"
+      },
+      {
+        "name": "Run ns build ios --for-device false --env.drawerTest",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-15T22:16:55Z",
+        "completed_at": "2026-11-15T22:18:41Z"
+      },
+      {
+        "name": "Build adaptive drawer fixture",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 11,
+        "started_at": "2026-11-15T22:18:41Z",
+        "completed_at": "2026-11-15T22:18:41Z"
+      },
+      {
+        "name": "Create dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-15T22:18:41Z",
+        "completed_at": "2026-11-15T22:19:59Z"
+      },
+      {
+        "name": "Binding, accessibility state and lifecycle contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-15T22:19:59Z",
+        "completed_at": "2026-11-15T22:22:20Z"
+      },
+      {
+        "name": "Reduce Motion contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-11-15T22:22:20Z",
+        "completed_at": "2026-11-15T22:23:05Z"
+      },
+      {
+        "name": "Real native input, navigation and rotation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15,
+        "started_at": "2026-11-15T22:23:05Z",
+        "completed_at": "2026-11-15T22:25:43Z"
+      },
+      {
+        "name": "Adaptive identity, state and modal contracts",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 16,
+        "started_at": "2026-11-15T22:25:43Z",
+        "completed_at": "2026-11-15T22:25:43Z"
+      },
+      {
+        "name": "Adaptive Reduce Motion contracts",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 17,
+        "started_at": "2026-11-15T22:25:43Z",
+        "completed_at": "2026-11-15T22:25:43Z"
+      },
+      {
+        "name": "Adaptive native input and rotation",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 18,
+        "started_at": "2026-11-15T22:25:43Z",
+        "completed_at": "2026-11-15T22:25:43Z"
+      },
+      {
+        "name": "iPad rotation requested during active navigation",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 19,
+        "started_at": "2026-11-15T22:25:43Z",
+        "completed_at": "2026-11-15T22:25:43Z"
+      },
+      {
+        "name": "Clean up dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 20,
+        "started_at": "2026-11-15T22:25:43Z",
+        "completed_at": "2026-11-15T22:25:53Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 21,
+        "started_at": "2026-11-15T22:25:53Z",
+        "completed_at": "2026-11-15T22:25:55Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 41,
+        "started_at": "2026-11-15T22:25:55Z",
+        "completed_at": "2026-11-15T22:25:55Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 42,
+        "started_at": "2026-11-15T22:25:55Z",
+        "completed_at": "2026-11-15T22:25:56Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 43,
+        "started_at": "2026-11-15T22:25:56Z",
+        "completed_at": "2026-11-15T22:26:01Z"
+      }
+    ],
+    "check_run_url": "https://api.github.com/repos/rafaelaugustos/vue-router-ns/check-runs/132978193590",
+    "labels": ["macos-15"],
+    "runner_id": 1000005496,
+    "runner_name": "GitHub Actions 1000005496",
+    "runner_group_id": 0,
+    "runner_group_name": "GitHub Actions"
+  },
+  {
+    "id": 132978193603,
+    "run_id": 43768273343,
+    "workflow_name": "Native iOS drawer",
+    "head_branch": "fix/ios-drawer-job-budget-183",
+    "run_url": "https://api.github.com/repos/rafaelaugustos/vue-router-ns/actions/runs/43768273343",
+    "run_attempt": 1,
+    "node_id": "CR_kwDOFRK6dc8AAAAe9h40ww",
+    "head_sha": "9f8f0e2236fbe430b6d57496c13d46020ba6a983",
+    "url": "https://api.github.com/repos/rafaelaugustos/vue-router-ns/actions/jobs/132978193603",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43768273343/job/132978193603",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-15T22:15:33Z",
+    "started_at": "2026-11-15T22:15:36Z",
+    "completed_at": "2026-11-15T22:26:50Z",
+    "name": "drawer (iPad-Pro-11-inch-M4-8GB, drawer)",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-15T22:15:38Z",
+        "completed_at": "2026-11-15T22:15:39Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-15T22:15:39Z",
+        "completed_at": "2026-11-15T22:15:56Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-15T22:15:56Z",
+        "completed_at": "2026-11-15T22:16:08Z"
+      },
+      {
+        "name": "Run ruby/setup-ruby@v1",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-15T22:16:08Z",
+        "completed_at": "2026-11-15T22:16:08Z"
+      },
+      {
+        "name": "Run gem install cocoapods xcodeproj --no-document",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-15T22:16:08Z",
+        "completed_at": "2026-11-15T22:16:10Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-15T22:16:10Z",
+        "completed_at": "2026-11-15T22:16:19Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-15T22:16:19Z",
+        "completed_at": "2026-11-15T22:16:35Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-15T22:16:35Z",
+        "completed_at": "2026-11-15T22:16:50Z"
+      },
+      {
+        "name": "Prepare native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-15T22:16:50Z",
+        "completed_at": "2026-11-15T22:17:10Z"
+      },
+      {
+        "name": "Run ns build ios --for-device false --env.drawerTest",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-15T22:17:10Z",
+        "completed_at": "2026-11-15T22:19:04Z"
+      },
+      {
+        "name": "Build adaptive drawer fixture",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 11,
+        "started_at": "2026-11-15T22:19:04Z",
+        "completed_at": "2026-11-15T22:19:04Z"
+      },
+      {
+        "name": "Create dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-15T22:19:04Z",
+        "completed_at": "2026-11-15T22:20:36Z"
+      },
+      {
+        "name": "Binding, accessibility state and lifecycle contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-15T22:20:37Z",
+        "completed_at": "2026-11-15T22:22:44Z"
+      },
+      {
+        "name": "Reduce Motion contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-11-15T22:22:44Z",
+        "completed_at": "2026-11-15T22:23:27Z"
+      },
+      {
+        "name": "Real native input, navigation and rotation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15,
+        "started_at": "2026-11-15T22:23:27Z",
+        "completed_at": "2026-11-15T22:26:30Z"
+      },
+      {
+        "name": "Adaptive identity, state and modal contracts",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 16,
+        "started_at": "2026-11-15T22:26:30Z",
+        "completed_at": "2026-11-15T22:26:30Z"
+      },
+      {
+        "name": "Adaptive Reduce Motion contracts",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 17,
+        "started_at": "2026-11-15T22:26:30Z",
+        "completed_at": "2026-11-15T22:26:30Z"
+      },
+      {
+        "name": "Adaptive native input and rotation",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 18,
+        "started_at": "2026-11-15T22:26:30Z",
+        "completed_at": "2026-11-15T22:26:30Z"
+      },
+      {
+        "name": "iPad rotation requested during active navigation",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 19,
+        "started_at": "2026-11-15T22:26:30Z",
+        "completed_at": "2026-11-15T22:26:30Z"
+      },
+      {
+        "name": "Clean up dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 20,
+        "started_at": "2026-11-15T22:26:30Z",
+        "completed_at": "2026-11-15T22:26:39Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 21,
+        "started_at": "2026-11-15T22:26:39Z",
+        "completed_at": "2026-11-15T22:26:42Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 41,
+        "started_at": "2026-11-15T22:26:42Z",
+        "completed_at": "2026-11-15T22:26:42Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 42,
+        "started_at": "2026-11-15T22:26:42Z",
+        "completed_at": "2026-11-15T22:26:44Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 43,
+        "started_at": "2026-11-15T22:26:44Z",
+        "completed_at": "2026-11-15T22:26:48Z"
+      }
+    ],
+    "check_run_url": "https://api.github.com/repos/rafaelaugustos/vue-router-ns/check-runs/132978193603",
+    "labels": ["macos-15"],
+    "runner_id": 1000005495,
+    "runner_name": "GitHub Actions 1000005495",
+    "runner_group_id": 0,
+    "runner_group_name": "GitHub Actions"
+  }
+]
