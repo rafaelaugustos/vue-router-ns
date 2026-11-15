@@ -1,0 +1,1154 @@
+﻿2026-11-15T22:15:35.9449320Z Current runner version: '2.338.2'
+2026-11-15T22:15:35.9463540Z ##[group]Runner Image Provisioner
+2026-11-15T22:15:35.9464060Z Hosted Compute Agent
+2026-11-15T22:15:35.9464500Z Version: 20261103.629
+2026-11-15T22:15:35.9464900Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+2026-11-15T22:15:35.9465360Z Build Date: 2026-11-03T17:26:59Z
+2026-11-15T22:15:35.9465790Z Worker ID: {68800429-cae0-43d7-af48-c7585571be99}
+2026-11-15T22:15:35.9466320Z Region: westus
+2026-11-15T22:15:35.9466670Z Cloud: MacCloud
+2026-11-15T22:15:35.9467010Z ##[endgroup]
+2026-11-15T22:15:35.9467830Z ##[group]Operating System
+2026-11-15T22:15:35.9468270Z macOS
+2026-11-15T22:15:35.9468610Z 15.8.2
+2026-11-15T22:15:35.9468930Z 24H232
+2026-11-15T22:15:35.9469240Z ##[endgroup]
+2026-11-15T22:15:35.9469620Z ##[group]Runner Image
+2026-11-15T22:15:35.9470000Z Image: macos-15-arm64
+2026-11-15T22:15:35.9470420Z Version: 20261104.0514.1
+2026-11-15T22:15:35.9471230Z Included Software: https://github.com/actions/runner-images/blob/macos-15-arm64/20261104.0514/images/macos/macos-15-arm64-Readme.md
+2026-11-15T22:15:35.9472320Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-15-arm64%2F20261104.0514
+2026-11-15T22:15:35.9472990Z ##[endgroup]
+2026-11-15T22:15:35.9473750Z ##[group]GITHUB_TOKEN Permissions
+2026-11-15T22:15:35.9474890Z Contents: read
+2026-11-15T22:15:35.9475240Z Metadata: read
+2026-11-15T22:15:35.9475690Z ##[endgroup]
+2026-11-15T22:15:35.9477180Z Secret source: Actions
+2026-11-15T22:15:35.9477720Z Cache mode: write
+2026-11-15T22:15:35.9478140Z Prepare workflow directory
+2026-11-15T22:15:35.9701440Z Prepare all required actions
+2026-11-15T22:15:35.9741160Z Getting action download info
+2026-11-15T22:15:36.1193310Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-15T22:15:36.3462130Z Download action repository 'actions/setup-node@v7' (SHA:949feb2413d6458794dcd2491c4babbbce0c15c1)
+2026-11-15T22:15:36.5077350Z Download action repository 'ruby/setup-ruby@v1' (SHA:b3aaceaef7e0ee231b499e7b5f49c03fc1d32199)
+2026-11-15T22:15:37.1559370Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-15T22:15:37.3656090Z Complete job name: drawer (iPhone-16, adaptive)
+2026-11-15T22:15:37.4314090Z ##[group]Run actions/checkout@v7
+2026-11-15T22:15:37.4314940Z with:
+2026-11-15T22:15:37.4315470Z   repository: rafaelaugustos/vue-router-ns
+2026-11-15T22:15:37.4319300Z   token: ***
+2026-11-15T22:15:37.4319900Z   ssh-strict: true
+2026-11-15T22:15:37.4320410Z   ssh-user: git
+2026-11-15T22:15:37.4320900Z   persist-credentials: true
+2026-11-15T22:15:37.4321470Z   clean: true
+2026-11-15T22:15:37.4322040Z   sparse-checkout-cone-mode: true
+2026-11-15T22:15:37.4322600Z   fetch-depth: 1
+2026-11-15T22:15:37.4323100Z   fetch-tags: false
+2026-11-15T22:15:37.4323690Z   show-progress: true
+2026-11-15T22:15:37.4324200Z   lfs: false
+2026-11-15T22:15:37.4324670Z   submodules: false
+2026-11-15T22:15:37.4325290Z   set-safe-directory: true
+2026-11-15T22:15:37.4325980Z   allow-unsafe-pr-checkout: false
+2026-11-15T22:15:37.4326830Z ##[endgroup]
+2026-11-15T22:15:37.8269010Z Syncing repository: rafaelaugustos/vue-router-ns
+2026-11-15T22:15:37.8270670Z ##[group]Getting Git version info
+2026-11-15T22:15:37.8271270Z Working directory is '/Users/runner/work/vue-router-ns/vue-router-ns'
+2026-11-15T22:15:37.8272210Z [command]/opt/homebrew/bin/git version
+2026-11-15T22:15:37.8461730Z git version 2.56.0
+2026-11-15T22:15:37.8483650Z ##[endgroup]
+2026-11-15T22:15:37.8491920Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/063d149d-d80c-4ae4-b668-761333e063e3/.gitconfig'
+2026-11-15T22:15:37.8498820Z Temporarily overriding HOME='/Users/runner/work/_temp/063d149d-d80c-4ae4-b668-761333e063e3' before making global git config changes
+2026-11-15T22:15:37.8500390Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-15T22:15:37.8502290Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/vue-router-ns/vue-router-ns
+2026-11-15T22:15:37.8604620Z Deleting the contents of '/Users/runner/work/vue-router-ns/vue-router-ns'
+2026-11-15T22:15:37.8606340Z ##[group]Determining repository object format
+2026-11-15T22:15:37.8607440Z ##[endgroup]
+2026-11-15T22:15:37.8608180Z ##[group]Initializing the repository
+2026-11-15T22:15:37.8610770Z [command]/opt/homebrew/bin/git init /Users/runner/work/vue-router-ns/vue-router-ns
+2026-11-15T22:15:37.8816300Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-15T22:15:37.8817920Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-15T22:15:37.8819230Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-15T22:15:37.8820160Z hint: call:
+2026-11-15T22:15:37.8821070Z hint:
+2026-11-15T22:15:37.8821610Z hint: 	git config --global init.defaultBranch <name>
+2026-11-15T22:15:37.8822300Z hint:
+2026-11-15T22:15:37.8823010Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-15T22:15:37.8824310Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-15T22:15:37.8825250Z hint:
+2026-11-15T22:15:37.8825690Z hint: 	git branch -m <name>
+2026-11-15T22:15:37.8826240Z hint:
+2026-11-15T22:15:37.8826990Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-15T22:15:37.8830160Z Initialized empty Git repository in /Users/runner/work/vue-router-ns/vue-router-ns/.git/
+2026-11-15T22:15:37.8836330Z [command]/opt/homebrew/bin/git remote add origin https://github.com/rafaelaugustos/vue-router-ns
+2026-11-15T22:15:37.8916340Z ##[endgroup]
+2026-11-15T22:15:37.8917360Z ##[group]Disabling automatic garbage collection
+2026-11-15T22:15:37.8918330Z [command]/opt/homebrew/bin/git config --local gc.auto 0
+2026-11-15T22:15:37.8989100Z ##[endgroup]
+2026-11-15T22:15:37.8990000Z ##[group]Setting up auth
+2026-11-15T22:15:37.8990640Z Removing SSH command configuration
+2026-11-15T22:15:37.8994200Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-15T22:15:37.9077580Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-15T22:15:38.0429380Z Removing HTTP extra header
+2026-11-15T22:15:38.0503920Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-15T22:15:38.0508290Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-15T22:15:38.2039840Z Removing includeIf entries pointing to credentials config files
+2026-11-15T22:15:38.2053200Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-15T22:15:38.2127610Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-15T22:15:38.3033600Z [command]/opt/homebrew/bin/git config --file /Users/runner/work/_temp/git-credentials-393ffa2a-3711-46e9-8104-ad23a822dde2.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-15T22:15:38.3112930Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/Users/runner/work/vue-router-ns/vue-router-ns/.git.path /Users/runner/work/_temp/git-credentials-393ffa2a-3711-46e9-8104-ad23a822dde2.config
+2026-11-15T22:15:38.3174670Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/Users/runner/work/vue-router-ns/vue-router-ns/.git/worktrees/*.path /Users/runner/work/_temp/git-credentials-393ffa2a-3711-46e9-8104-ad23a822dde2.config
+2026-11-15T22:15:38.3303870Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-393ffa2a-3711-46e9-8104-ad23a822dde2.config
+2026-11-15T22:15:38.3491140Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-393ffa2a-3711-46e9-8104-ad23a822dde2.config
+2026-11-15T22:15:38.3575900Z ##[endgroup]
+2026-11-15T22:15:38.3578420Z ##[group]Fetching the repository
+2026-11-15T22:15:38.3583640Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +9f8f0e2236fbe430b6d57496c13d46020ba6a983:refs/remotes/origin/fix/ios-drawer-job-budget-183
+2026-11-15T22:16:01.9795880Z From https://github.com/rafaelaugustos/vue-router-ns
+2026-11-15T22:16:01.9798900Z  * [new ref]         9f8f0e2236fbe430b6d57496c13d46020ba6a983 -> origin/fix/ios-drawer-job-budget-183
+2026-11-15T22:16:01.9889660Z [command]/opt/homebrew/bin/git branch --list --remote origin/fix/ios-drawer-job-budget-183
+2026-11-15T22:16:01.9980020Z   origin/fix/ios-drawer-job-budget-183
+2026-11-15T22:16:01.9996990Z [command]/opt/homebrew/bin/git rev-parse refs/remotes/origin/fix/ios-drawer-job-budget-183
+2026-11-15T22:16:02.0092840Z 9f8f0e2236fbe430b6d57496c13d46020ba6a983
+2026-11-15T22:16:02.0098840Z ##[endgroup]
+2026-11-15T22:16:02.0100480Z ##[group]Determining the checkout info
+2026-11-15T22:16:02.0105330Z ##[endgroup]
+2026-11-15T22:16:02.0115530Z [command]/opt/homebrew/bin/git sparse-checkout disable
+2026-11-15T22:16:02.0200730Z [command]/opt/homebrew/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-15T22:16:02.0270930Z ##[group]Checking out the ref
+2026-11-15T22:16:02.0273120Z [command]/opt/homebrew/bin/git checkout --progress --force -B fix/ios-drawer-job-budget-183 refs/remotes/origin/fix/ios-drawer-job-budget-183
+2026-11-15T22:16:03.1424050Z Updating files:  30% (488/1575)
+2026-11-15T22:16:04.3052230Z Updating files:  31% (489/1575)
+2026-11-15T22:16:04.3168000Z Updating files:  31% (501/1575)
+2026-11-15T22:16:04.3211190Z Updating files:  32% (504/1575)
+2026-11-15T22:16:04.3243720Z Updating files:  33% (520/1575)
+2026-11-15T22:16:04.3286480Z Updating files:  34% (536/1575)
+2026-11-15T22:16:04.3325490Z Updating files:  35% (552/1575)
+2026-11-15T22:16:04.3355340Z Updating files:  36% (567/1575)
+2026-11-15T22:16:04.3382150Z Updating files:  37% (583/1575)
+2026-11-15T22:16:04.3415510Z Updating files:  38% (599/1575)
+2026-11-15T22:16:04.3435190Z Updating files:  39% (615/1575)
+2026-11-15T22:16:04.3483830Z Updating files:  40% (630/1575)
+2026-11-15T22:16:04.3524940Z Updating files:  41% (646/1575)
+2026-11-15T22:16:04.3575990Z Updating files:  42% (662/1575)
+2026-11-15T22:16:04.3626630Z Updating files:  43% (678/1575)
+2026-11-15T22:16:04.3647080Z Updating files:  44% (693/1575)
+2026-11-15T22:16:04.3661540Z Updating files:  45% (709/1575)
+2026-11-15T22:16:04.3687130Z Updating files:  46% (725/1575)
+2026-11-15T22:16:04.3721360Z Updating files:  47% (741/1575)
+2026-11-15T22:16:04.3753740Z Updating files:  48% (756/1575)
+2026-11-15T22:16:04.3787900Z Updating files:  49% (772/1575)
+2026-11-15T22:16:04.3822970Z Updating files:  50% (788/1575)
+2026-11-15T22:16:04.3867320Z Updating files:  51% (804/1575)
+2026-11-15T22:16:04.3899180Z Updating files:  52% (819/1575)
+2026-11-15T22:16:04.3924920Z Updating files:  53% (835/1575)
+2026-11-15T22:16:04.3938960Z Updating files:  54% (851/1575)
+2026-11-15T22:16:04.3961920Z Updating files:  55% (867/1575)
+2026-11-15T22:16:04.4008640Z Updating files:  56% (882/1575)
+2026-11-15T22:16:04.4041210Z Updating files:  57% (898/1575)
+2026-11-15T22:16:04.4074330Z Updating files:  58% (914/1575)
+2026-11-15T22:16:04.4111850Z Updating files:  59% (930/1575)
+2026-11-15T22:16:04.4145450Z Updating files:  60% (945/1575)
+2026-11-15T22:16:04.4190020Z Updating files:  61% (961/1575)
+2026-11-15T22:16:04.4226880Z Updating files:  62% (977/1575)
+2026-11-15T22:16:04.4249300Z Updating files:  63% (993/1575)
+2026-11-15T22:16:04.4290580Z Updating files:  64% (1008/1575)
+2026-11-15T22:16:04.4316920Z Updating files:  65% (1024/1575)
+2026-11-15T22:16:04.4329900Z Updating files:  66% (1040/1575)
+2026-11-15T22:16:04.4372760Z Updating files:  67% (1056/1575)
+2026-11-15T22:16:04.4398550Z Updating files:  68% (1071/1575)
+2026-11-15T22:16:04.4463110Z Updating files:  69% (1087/1575)
+2026-11-15T22:16:04.5227340Z Updating files:  70% (1103/1575)
+2026-11-15T22:16:04.5301240Z Updating files:  71% (1119/1575)
+2026-11-15T22:16:04.6564770Z Updating files:  72% (1134/1575)
+2026-11-15T22:16:04.8318430Z Updating files:  73% (1150/1575)
+2026-11-15T22:16:04.8387770Z Updating files:  74% (1166/1575)
+2026-11-15T22:16:04.8744730Z Updating files:  75% (1182/1575)
+2026-11-15T22:16:04.8802670Z Updating files:  76% (1197/1575)
+2026-11-15T22:16:04.9867500Z Updating files:  77% (1213/1575)
+2026-11-15T22:16:04.9929070Z Updating files:  78% (1229/1575)
+2026-11-15T22:16:05.0088950Z Updating files:  79% (1245/1575)
+2026-11-15T22:16:05.1546920Z Updating files:  80% (1260/1575)
+2026-11-15T22:16:05.1553420Z Updating files:  80% (1272/1575)
+2026-11-15T22:16:05.1654490Z Updating files:  81% (1276/1575)
+2026-11-15T22:16:05.2082270Z Updating files:  82% (1292/1575)
+2026-11-15T22:16:05.2133090Z Updating files:  83% (1308/1575)
+2026-11-15T22:16:05.2163980Z Updating files:  84% (1323/1575)
+2026-11-15T22:16:05.3458500Z Updating files:  85% (1339/1575)
+2026-11-15T22:16:05.5250700Z Updating files:  86% (1355/1575)
+2026-11-15T22:16:05.5307330Z Updating files:  87% (1371/1575)
+2026-11-15T22:16:05.5461600Z Updating files:  88% (1386/1575)
+2026-11-15T22:16:05.5492210Z Updating files:  89% (1402/1575)
+2026-11-15T22:16:05.5548260Z Updating files:  90% (1418/1575)
+2026-11-15T22:16:05.5566850Z Updating files:  91% (1434/1575)
+2026-11-15T22:16:05.5608430Z Updating files:  92% (1449/1575)
+2026-11-15T22:16:05.5647940Z Updating files:  93% (1465/1575)
+2026-11-15T22:16:05.5666720Z Updating files:  94% (1481/1575)
+2026-11-15T22:16:05.5686970Z Updating files:  95% (1497/1575)
+2026-11-15T22:16:05.5719120Z Updating files:  96% (1512/1575)
+2026-11-15T22:16:05.5753290Z Updating files:  97% (1528/1575)
+2026-11-15T22:16:05.5771050Z Updating files:  98% (1544/1575)
+2026-11-15T22:16:05.5811910Z Updating files:  99% (1560/1575)
+2026-11-15T22:16:05.5813360Z Updating files: 100% (1575/1575)
+2026-11-15T22:16:05.5814980Z Updating files: 100% (1575/1575), done.
+2026-11-15T22:16:05.5906080Z Switched to a new branch 'fix/ios-drawer-job-budget-183'
+2026-11-15T22:16:05.5911150Z branch 'fix/ios-drawer-job-budget-183' set up to track 'origin/fix/ios-drawer-job-budget-183'.
+2026-11-15T22:16:05.6245690Z ##[endgroup]
+2026-11-15T22:16:05.6406030Z [command]/opt/homebrew/bin/git log -1 --format=%H
+2026-11-15T22:16:05.6518550Z 9f8f0e2236fbe430b6d57496c13d46020ba6a983
+2026-11-15T22:16:05.7123290Z ##[group]Run actions/setup-node@v7
+2026-11-15T22:16:05.7123510Z with:
+2026-11-15T22:16:05.7123640Z   node-version: 22
+2026-11-15T22:16:05.7123780Z   cache: npm
+2026-11-15T22:16:05.7123920Z   check-latest: false
+2026-11-15T22:16:05.7125890Z   token: ***
+2026-11-15T22:16:05.7126040Z   package-manager-cache: true
+2026-11-15T22:16:05.7126330Z ##[endgroup]
+2026-11-15T22:16:05.9812890Z Found in cache @ /Users/runner/hostedtoolcache/node/22.23.4/arm64
+2026-11-15T22:16:06.1408290Z ##[group]Environment details
+2026-11-15T22:16:06.6108420Z node: v22.23.4
+2026-11-15T22:16:06.6147680Z npm: 10.9.9
+2026-11-15T22:16:06.6148850Z yarn: 1.22.22
+2026-11-15T22:16:06.6150210Z ##[endgroup]
+2026-11-15T22:16:06.6151330Z [command]/Users/runner/hostedtoolcache/node/22.23.4/arm64/bin/npm config get cache
+2026-11-15T22:16:06.9359910Z /Users/runner/.npm
+2026-11-15T22:16:07.0943440Z Cache hit for: node-cache-macOS-arm64-npm-80f12e1d85cfe2521c704c7dd184aa9cf9307fa6bea5e6291733be3f18001fe0
+2026-11-15T22:16:08.2369880Z Received 134217728 of 360926228 (37.2%), 125.9 MBs/sec
+2026-11-15T22:16:09.2379430Z Received 306184192 of 360926228 (84.8%), 140.1 MBs/sec
+2026-11-15T22:16:09.7291760Z Received 360926228 of 360926228 (100.0%), 134.1 MBs/sec
+2026-11-15T22:16:09.7313370Z Cache Size: ~344 MB (360926228 B)
+2026-11-15T22:16:09.7352090Z [command]/opt/homebrew/bin/gtar -xf /Users/runner/work/_temp/18aa648b-6f2e-4ea4-b868-ca85c36b37ae/cache.tzst -P -C /Users/runner/work/vue-router-ns/vue-router-ns --delay-directory-restore --use-compress-program unzstd
+2026-11-15T22:16:11.9342130Z Cache restored successfully
+2026-11-15T22:16:11.9504940Z Cache restored from key: node-cache-macOS-arm64-npm-80f12e1d85cfe2521c704c7dd184aa9cf9307fa6bea5e6291733be3f18001fe0
+2026-11-15T22:16:12.0176790Z ##[group]Run ruby/setup-ruby@v1
+2026-11-15T22:16:12.0176990Z with:
+2026-11-15T22:16:12.0177240Z   ruby-version: 3.3
+2026-11-15T22:16:12.0177530Z   bundler-cache: false
+2026-11-15T22:16:12.0179500Z   token: ***
+2026-11-15T22:16:12.0179730Z ##[endgroup]
+2026-11-15T22:16:12.2429500Z ##[group]Modifying PATH
+2026-11-15T22:16:12.2480590Z Entries removed from PATH to avoid conflicts with default Ruby:
+2026-11-15T22:16:12.2488690Z   /opt/homebrew/lib/ruby/gems/3.3.0/bin
+2026-11-15T22:16:12.2489310Z   /opt/homebrew/opt/ruby@3.3/bin
+2026-11-15T22:16:12.2489910Z Entries added to PATH to use selected Ruby:
+2026-11-15T22:16:12.2491190Z   /Users/runner/hostedtoolcache/Ruby/3.3.13/arm64/bin
+2026-11-15T22:16:12.2491960Z ##[endgroup]
+2026-11-15T22:16:12.2492420Z ##[group]Print Ruby version
+2026-11-15T22:16:12.2493180Z [command]/Users/runner/hostedtoolcache/Ruby/3.3.13/arm64/bin/ruby --version
+2026-11-15T22:16:12.2810320Z ruby 3.3.13 (2026-10-23 revision af48f08f21) [arm64-darwin23]
+2026-11-15T22:16:12.2820420Z Took   0.05 seconds
+2026-11-15T22:16:12.2821860Z ##[endgroup]
+2026-11-15T22:16:12.2822890Z ##[group]Installing Bundler
+2026-11-15T22:16:12.2823770Z Using Bundler shipped with ruby-3.3.13
+2026-11-15T22:16:12.2824590Z Took   0.00 seconds
+2026-11-15T22:16:12.2824990Z ##[endgroup]
+2026-11-15T22:16:12.2905690Z ##[group]Run gem install cocoapods xcodeproj --no-document
+2026-11-15T22:16:12.2906190Z [36;1mgem install cocoapods xcodeproj --no-document[0m
+2026-11-15T22:16:12.3069800Z shell: /bin/bash -e {0}
+2026-11-15T22:16:12.3070040Z env:
+2026-11-15T22:16:12.3071510Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-15T22:16:12.3073150Z ##[endgroup]
+2026-11-15T22:16:14.2666570Z Successfully installed nanaimo-0.4.0
+2026-11-15T22:16:14.2667580Z Successfully installed colored2-3.1.2
+2026-11-15T22:16:14.2676680Z Successfully installed claide-1.1.0
+2026-11-15T22:16:14.2679020Z Successfully installed CFPropertyList-3.0.8
+2026-11-15T22:16:14.2698600Z Successfully installed atomos-0.1.3
+2026-11-15T22:16:14.2701870Z Successfully installed xcodeproj-1.28.1
+2026-11-15T22:16:14.2704610Z Successfully installed ruby-macho-4.1.0
+2026-11-15T22:16:14.2705060Z Successfully installed nap-1.2.0
+2026-11-15T22:16:14.2705480Z Successfully installed molinillo-0.8.0
+2026-11-15T22:16:14.2705830Z Successfully installed gh_inspector-1.1.3
+2026-11-15T22:16:14.2707130Z Successfully installed fourflusher-2.3.1
+2026-11-15T22:16:14.2707580Z Successfully installed cocoapods-try-1.2.0
+2026-11-15T22:16:14.2707930Z Successfully installed netrc-0.11.0
+2026-11-15T22:16:14.2708350Z Successfully installed cocoapods-trunk-1.6.0
+2026-11-15T22:16:14.2708830Z Successfully installed cocoapods-search-1.0.1
+2026-11-15T22:16:14.2709730Z Successfully installed cocoapods-plugins-1.0.0
+2026-11-15T22:16:14.2710200Z Successfully installed cocoapods-downloader-2.1
+2026-11-15T22:16:14.2710620Z Successfully installed cocoapods-deintegrate-1.0.5
+2026-11-15T22:16:14.2711350Z Successfully installed ffi-1.17.4-arm64-darwin
+2026-11-15T22:16:14.2711770Z Successfully installed ethon-0.19.2
+2026-11-15T22:16:14.2712130Z Successfully installed typhoeus-1.7.1
+2026-11-15T22:16:14.2713760Z Successfully installed public_suffix-4.0.7
+2026-11-15T22:16:14.2714130Z Successfully installed fuzzy_match-2.0.4
+2026-11-15T22:16:14.2714470Z Successfully installed concurrent-ruby-1.3.8
+2026-11-15T22:16:14.2715200Z Successfully installed httpclient-2.10.0
+2026-11-15T22:16:14.2715950Z A new major version is available for Algolia! Please now use the https://rubygems.org/gems/algolia gem to get the latest features.
+2026-11-15T22:16:14.2716560Z Successfully installed algoliasearch-1.27.5
+2026-11-15T22:16:14.2716890Z Successfully installed addressable-2.9.2
+2026-11-15T22:16:14.2717200Z Successfully installed tzinfo-2.0.6
+2026-11-15T22:16:14.2717560Z Successfully installed i18n-1.15.2
+2026-11-15T22:16:14.2717900Z Successfully installed connection_pool-2.5.5
+2026-11-15T22:16:14.2718300Z Successfully installed activesupport-7.2.4
+2026-11-15T22:16:14.2718720Z Successfully installed cocoapods-core-1.17.0
+2026-11-15T22:16:14.2719050Z Successfully installed cocoapods-1.17.0
+2026-11-15T22:16:14.2719370Z Successfully installed xcodeproj-1.28.1
+2026-11-15T22:16:14.2719620Z 34 gems installed
+2026-11-15T22:16:14.2779580Z ##[group]Run npm ci && npm run build
+2026-11-15T22:16:14.2779890Z [36;1mnpm ci && npm run build[0m
+2026-11-15T22:16:14.2816570Z shell: /bin/bash -e {0}
+2026-11-15T22:16:14.2816770Z env:
+2026-11-15T22:16:14.2818310Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-15T22:16:14.2820010Z ##[endgroup]
+2026-11-15T22:16:19.4669400Z 
+2026-11-15T22:16:19.4670790Z added 248 packages, and audited 249 packages in 5s
+2026-11-15T22:16:19.4671420Z 
+2026-11-15T22:16:19.4672070Z 68 packages are looking for funding
+2026-11-15T22:16:19.4673040Z   run `npm fund` for details
+2026-11-15T22:16:19.4822340Z 
+2026-11-15T22:16:19.4823280Z 4 vulnerabilities (3 moderate, 1 high)
+2026-11-15T22:16:19.4823780Z 
+2026-11-15T22:16:19.4825320Z To address issues that do not require attention, run:
+2026-11-15T22:16:19.4826520Z   npm audit fix
+2026-11-15T22:16:19.4827140Z 
+2026-11-15T22:16:19.4827840Z Some issues need review, and may require choosing
+2026-11-15T22:16:19.4828960Z a different dependency.
+2026-11-15T22:16:19.4829590Z 
+2026-11-15T22:16:19.4830360Z Run `npm audit` for details.
+2026-11-15T22:16:19.7334620Z 
+2026-11-15T22:16:19.7335980Z > vue-router-ns@0.1.0-rc.4 build
+2026-11-15T22:16:19.7337780Z > node -e "fs.rmSync('dist', { recursive: true, force: true })" && tsc -p tsconfig.build.json
+2026-11-15T22:16:19.7338680Z 
+2026-11-15T22:16:20.3497260Z ##[group]Run npm install --no-audit --no-fund
+2026-11-15T22:16:20.3497850Z [36;1mnpm install --no-audit --no-fund[0m
+2026-11-15T22:16:20.3535050Z shell: /bin/bash -e {0}
+2026-11-15T22:16:20.3535290Z env:
+2026-11-15T22:16:20.3536940Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-15T22:16:20.3538570Z ##[endgroup]
+2026-11-15T22:16:29.1230390Z npm warn deprecated source-map-resolve@0.6.0: See https://github.com/lydell/source-map-resolve#deprecated
+2026-11-15T22:16:29.2601730Z npm warn deprecated node-abort-controller@3.1.1: This package is no longer needed on supported Node.js versions. Node.js 16+ includes AbortController and AbortSignal as built-in globals. All Node.js versions requiring this polyfill are end-of-life. Use the built-in globals instead.
+2026-11-15T22:16:29.4176210Z npm warn deprecated webpack-chain@6.5.1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+2026-11-15T22:16:32.1813410Z 
+2026-11-15T22:16:32.1821780Z added 330 packages in 12s
+2026-11-15T22:16:32.2046320Z ##[group]Run npm install -g nativescript
+2026-11-15T22:16:32.2047180Z [36;1mnpm install -g nativescript[0m
+2026-11-15T22:16:32.2095730Z shell: /bin/bash -e {0}
+2026-11-15T22:16:32.2096160Z env:
+2026-11-15T22:16:32.2097980Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-15T22:16:32.2101150Z ##[endgroup]
+2026-11-15T22:16:44.3397390Z 
+2026-11-15T22:16:44.3403610Z added 417 packages in 12s
+2026-11-15T22:16:44.3404610Z 
+2026-11-15T22:16:44.3404900Z 62 packages are looking for funding
+2026-11-15T22:16:44.3405780Z   run `npm fund` for details
+2026-11-15T22:16:44.3642970Z ##[group]Run ns usage-reporting disable
+2026-11-15T22:16:44.3643470Z [36;1mns usage-reporting disable[0m
+2026-11-15T22:16:44.3643870Z [36;1mns error-reporting disable[0m
+2026-11-15T22:16:44.3644420Z [36;1mns create drawer-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null[0m
+2026-11-15T22:16:44.3644920Z [36;1mcp -R /tmp/drawer-scaffold/App_Resources demo/App_Resources[0m
+2026-11-15T22:16:44.3691060Z shell: /bin/bash -e {0}
+2026-11-15T22:16:44.3691420Z env:
+2026-11-15T22:16:44.3693070Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-15T22:16:44.3694890Z ##[endgroup]
+2026-11-15T22:16:45.6238210Z Usage reporting is now disabled.
+2026-11-15T22:16:46.5546240Z Error reporting is now disabled.
+2026-11-15T22:16:54.3999370Z ##[group]Run ns build ios --for-device false --env.adaptivedrawerTest
+2026-11-15T22:16:54.3999990Z [36;1mns build ios --for-device false --env.adaptivedrawerTest[0m
+2026-11-15T22:16:54.4051220Z shell: /bin/bash -e {0}
+2026-11-15T22:16:54.4052140Z env:
+2026-11-15T22:16:54.4055080Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-15T22:16:54.4056830Z ##[endgroup]
+2026-11-15T22:17:00.6824810Z Copying template files...
+2026-11-15T22:17:01.2260290Z Platform ios successfully added. v9.1.0
+2026-11-15T22:17:01.2264270Z Preparing project...
+2026-11-15T22:17:02.6214950Z [nativescript-vue] vue@3.5.44 is installed in this project but nativescript-vue uses @vue/runtime-core@3.5.45. Templates are compiled with the installed vue's compiler, so keep both on the same version.
+2026-11-15T22:17:15.9342090Z assets by path [1m[32mairbnb/assets/*.jpg[39m[22m 1.45 MiB
+2026-11-15T22:17:15.9343710Z   asset [1m[32mairbnb/assets/cabin.jpg[39m[22m 254 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/cabin.jpg] [1m[32m[copied][39m[22m
+2026-11-15T22:17:15.9352130Z   asset [1m[32mairbnb/assets/pool.jpg[39m[22m 209 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/pool.jpg] [1m[32m[copied][39m[22m
+2026-11-15T22:17:15.9353480Z   asset [1m[32mairbnb/assets/mountain.jpg[39m[22m 199 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/mountain.jpg] [1m[32m[copied][39m[22m
+2026-11-15T22:17:15.9355040Z   asset [1m[32mairbnb/assets/loft.jpg[39m[22m 163 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/loft.jpg] [1m[32m[copied][39m[22m
+2026-11-15T22:17:15.9360340Z   asset [1m[32mairbnb/assets/garden-house.jpg[39m[22m 153 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/garden-house.jpg] [1m[32m[copied][39m[22m
+2026-11-15T22:17:15.9361080Z   + 4 assets
+2026-11-15T22:17:15.9362210Z assets by path [1m[32m*.mjs[39m[22m 4.68 MiB
+2026-11-15T22:17:15.9363210Z   asset [1m[32mvendor.mjs[39m[22m 4.19 MiB [1m[32m[emitted][39m[22m [javascript module] (name: vendor) (id hint: vendor) 1 related asset
+2026-11-15T22:17:15.9364460Z   asset [1m[32mbundle.mjs[39m[22m 500 KiB [1m[32m[emitted][39m[22m [javascript module] (name: bundle) 1 related asset
+2026-11-15T22:17:15.9365480Z   asset [1m[32mruntime.mjs[39m[22m 5.98 KiB [1m[32m[emitted][39m[22m [javascript module] (name: runtime) 1 related asset
+2026-11-15T22:17:15.9366450Z assets by path [1m[32mfonts/[39m[22m 342 KiB
+2026-11-15T22:17:15.9367510Z   asset [1m[32mfonts/MaterialIconsOutlined-Regular.otf[39m[22m 331 KiB [1m[32m[emitted][39m[22m [from: src/fonts/MaterialIconsOutlined-Regular.otf] [1m[32m[copied][39m[22m
+2026-11-15T22:17:15.9411800Z   asset [1m[32mfonts/MaterialIcons-LICENSE.txt[39m[22m 11.1 KiB [1m[32m[emitted][39m[22m [from: src/fonts/MaterialIcons-LICENSE.txt] [1m[32m[copied][39m[22m
+2026-11-15T22:17:15.9413150Z asset [1m[32mtns_modules/inspector_modules.mjs[39m[22m 778 bytes [1m[32m[emitted][39m[22m [javascript module] (name: tns_modules/inspector_modules) 1 related asset
+2026-11-15T22:17:15.9415000Z Entrypoint [1mbundle[39m[22m 4.68 MiB (4.65 MiB) = [1m[32mruntime.mjs[39m[22m 5.98 KiB [1m[32mvendor.mjs[39m[22m 4.19 MiB [1m[32mbundle.mjs[39m[22m 500 KiB 3 auxiliary assets
+2026-11-15T22:17:15.9417050Z Entrypoint [1mtns_modules/inspector_modules[39m[22m 4.19 MiB (4.14 MiB) = [1m[32mruntime.mjs[39m[22m 5.98 KiB [1m[32mvendor.mjs[39m[22m 4.19 MiB [1m[32mtns_modules/inspector_modules.mjs[39m[22m 778 bytes 3 auxiliary assets
+2026-11-15T22:17:15.9421720Z orphan modules 23.8 KiB [1m[33m[orphan][39m[22m 16 modules
+2026-11-15T22:17:15.9424070Z runtime modules 3.09 KiB 7 modules
+2026-11-15T22:17:15.9424610Z modules by path [1m./node_modules/[39m[22m 3.44 MiB 408 modules
+2026-11-15T22:17:15.9425280Z modules by path [1m../dist/[39m[22m 394 KiB
+2026-11-15T22:17:15.9425740Z   modules by path [1m../dist/*.js[39m[22m 350 KiB 48 modules
+2026-11-15T22:17:15.9426330Z   modules by path [1m../dist/components/*.js[39m[22m 13.8 KiB 6 modules
+2026-11-15T22:17:15.9427170Z   modules by path [1m../dist/hosts/*.js[39m[22m 25.4 KiB
+2026-11-15T22:17:15.9428530Z     [1m../dist/hosts/frame-page.js[39m[22m 2.82 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+2026-11-15T22:17:15.9428940Z     + 4 modules
+2026-11-15T22:17:15.9434020Z   [1m../dist/destinations/view.js[39m[22m 5.12 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+2026-11-15T22:17:15.9434840Z modules by path [1m./src/testing/*.ts[39m[22m 24.6 KiB
+2026-11-15T22:17:15.9435580Z   [1m./src/testing/adaptivedrawer-app.ts[39m[22m 17.8 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+2026-11-15T22:17:15.9436500Z   [1m./src/testing/adaptive-settlement.ios.ts[39m[22m 304 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+2026-11-15T22:17:15.9437420Z   [1m./src/testing/adaptive-rotation.ios.ts[39m[22m 6.48 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+2026-11-15T22:17:15.9438350Z [1mexternal "~/package.json"[39m[22m 42 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+2026-11-15T22:17:15.9439550Z webpack 5.112.2 compiled [1m[32msuccessfully[39m[22m in 12212 ms
+2026-11-15T22:17:15.9440060Z Webpack compilation complete.
+2026-11-15T22:17:16.6521500Z Updating runtime package.json with configuration values...
+2026-11-15T22:17:16.6553120Z Project successfully prepared (ios)
+2026-11-15T22:17:16.6572940Z Building project...
+2026-11-15T22:17:16.6600150Z - Resolving Swift Package dependencies… (0m 0s)
+2026-11-15T22:17:53.2794400Z ✔ Swift Package dependencies resolved (0m 37s)
+2026-11-15T22:17:53.2823160Z Xcode build...
+2026-11-15T22:18:36.8580920Z Project successfully built.
+2026-11-15T22:18:36.8584130Z Build time: 80.198 s.
+2026-11-15T22:18:36.8585870Z The build result is located at: /Users/runner/work/vue-router-ns/vue-router-ns/demo/platforms/ios/build/Debug-iphonesimulator/demo.app
+2026-11-15T22:18:36.9394080Z ##[group]Run SIM=$(xcrun simctl create RouterDrawer-adaptive com.apple.CoreSimulator.SimDeviceType.iPhone-16 com.apple.CoreSimulator.SimRuntime.iOS-18-6)
+2026-11-15T22:18:36.9395860Z [36;1mSIM=$(xcrun simctl create RouterDrawer-adaptive com.apple.CoreSimulator.SimDeviceType.iPhone-16 com.apple.CoreSimulator.SimRuntime.iOS-18-6)[0m
+2026-11-15T22:18:36.9397020Z [36;1mecho "IOS_SIMULATOR=$SIM" >> "$GITHUB_ENV"[0m
+2026-11-15T22:18:36.9397340Z [36;1mxcrun simctl boot "$SIM"[0m
+2026-11-15T22:18:36.9397840Z [36;1mxcrun simctl bootstatus "$SIM" -b[0m
+2026-11-15T22:18:37.1461380Z shell: /bin/bash -e {0}
+2026-11-15T22:18:37.1461790Z env:
+2026-11-15T22:18:37.1463930Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-15T22:18:37.1465850Z ##[endgroup]
+2026-11-15T22:19:17.5602600Z Monitoring boot status for RouterDrawer-adaptive (1A21D119-3452-438C-BCBF-C707176207E8).
+2026-11-15T22:19:17.5604430Z [2026-11-15 22:19:17 +0000] Status=2, isTerminal=NO, Elapsed=00:36.
+2026-11-15T22:19:17.5605160Z 	Waiting on Data Migration
+2026-11-15T22:19:17.5605920Z 		Reason:Running plugin com.apple.-0LaunchServicesMigrator (00LaunchServicesMigrator.migrator, user-agnostic)
+2026-11-15T22:19:17.5606620Z 		Migration Elapsed:00:27 seconds
+2026-11-15T22:19:17.5607580Z 
+2026-11-15T22:19:18.5546350Z [2026-11-15 22:19:18 +0000] Status=2, isTerminal=NO, Elapsed=00:37.
+2026-11-15T22:19:18.5553760Z 	Waiting on Data Migration
+2026-11-15T22:19:18.5555830Z 		Reason:Running plugin com.apple.-0LaunchServicesMigrator (00LaunchServicesMigrator.migrator, user-agnostic)
+2026-11-15T22:19:18.5556720Z 		Migration Elapsed:00:28 seconds
+2026-11-15T22:19:18.5557310Z 
+2026-11-15T22:19:19.6191820Z [2026-11-15 22:19:19 +0000] Status=2, isTerminal=NO, Elapsed=00:38.
+2026-11-15T22:19:19.6225530Z 	Waiting on Data Migration
+2026-11-15T22:19:19.6226340Z 		Reason:Running plugin com.apple.-0LaunchServicesMigrator (00LaunchServicesMigrator.migrator, user-agnostic)
+2026-11-15T22:19:19.6227240Z 		Migration Elapsed:00:29 seconds
+2026-11-15T22:19:19.6227650Z 
+2026-11-15T22:19:20.5469000Z [2026-11-15 22:19:20 +0000] Status=2, isTerminal=NO, Elapsed=00:39.
+2026-11-15T22:19:20.5469810Z 	Waiting on Data Migration
+2026-11-15T22:19:20.5470620Z 		Reason:Running plugin com.apple.-0LaunchServicesMigrator (00LaunchServicesMigrator.migrator, user-agnostic)
+2026-11-15T22:19:20.5471220Z 		Migration Elapsed:00:30 seconds
+2026-11-15T22:19:20.5471490Z 
+2026-11-15T22:19:21.5618960Z [2026-11-15 22:19:21 +0000] Status=2, isTerminal=NO, Elapsed=00:40.
+2026-11-15T22:19:21.5619570Z 	Waiting on Data Migration
+2026-11-15T22:19:21.5622380Z 		Reason:Running plugin com.apple.-0LaunchServicesMigrator (00LaunchServicesMigrator.migrator, user-agnostic)
+2026-11-15T22:19:21.5630120Z 		Migration Elapsed:00:31 seconds
+2026-11-15T22:19:21.5630400Z 
+2026-11-15T22:19:22.5672960Z [2026-11-15 22:19:22 +0000] Status=2, isTerminal=NO, Elapsed=00:41.
+2026-11-15T22:19:22.5674320Z 	Waiting on Data Migration
+2026-11-15T22:19:22.5675460Z 		Reason:Running plugin com.apple.-0LaunchServicesMigrator (00LaunchServicesMigrator.migrator, user-agnostic)
+2026-11-15T22:19:22.5676440Z 		Migration Elapsed:00:32 seconds
+2026-11-15T22:19:22.5676740Z 
+2026-11-15T22:19:23.5788500Z [2026-11-15 22:19:23 +0000] Status=2, isTerminal=NO, Elapsed=00:42.
+2026-11-15T22:19:23.5790070Z 	Waiting on Data Migration
+2026-11-15T22:19:23.5790970Z 		Reason:Running plugin com.apple.-0LaunchServicesMigrator (00LaunchServicesMigrator.migrator, user-agnostic)
+2026-11-15T22:19:23.5792010Z 		Migration Elapsed:00:33 seconds
+2026-11-15T22:19:23.5795110Z 
+2026-11-15T22:19:24.5493590Z [2026-11-15 22:19:24 +0000] Status=2, isTerminal=NO, Elapsed=00:43.
+2026-11-15T22:19:24.5495920Z 	Waiting on Data Migration
+2026-11-15T22:19:24.5497430Z 		Reason:Running plugin com.apple.-0LaunchServicesMigrator (00LaunchServicesMigrator.migrator, user-agnostic)
+2026-11-15T22:19:24.5498580Z 		Migration Elapsed:00:34 seconds
+2026-11-15T22:19:24.5498870Z 
+2026-11-15T22:19:25.5691920Z [2026-11-15 22:19:25 +0000] Status=2, isTerminal=NO, Elapsed=00:44.
+2026-11-15T22:19:25.5728410Z 	Waiting on Data Migration
+2026-11-15T22:19:25.5752120Z 		Reason:Running plugin com.apple.-0LaunchServicesMigrator (00LaunchServicesMigrator.migrator, user-agnostic)
+2026-11-15T22:19:25.5762580Z 		Migration Elapsed:00:35 seconds
+2026-11-15T22:19:25.5763120Z 
+2026-11-15T22:19:29.2658960Z [2026-11-15 22:19:29 +0000] Status=2, isTerminal=NO, Elapsed=00:47.
+2026-11-15T22:19:29.3472030Z 	Waiting on Data Migration
+2026-11-15T22:19:29.4276810Z 		Reason:Running plugin com.apple.securityd.KeychainMigrator (KeychainMigrator.migrator, user-agnostic)
+2026-11-15T22:19:29.4277530Z 		Migration Elapsed:00:36 seconds
+2026-11-15T22:19:29.5101820Z 
+2026-11-15T22:19:30.6524260Z [2026-11-15 22:19:30 +0000] Status=2, isTerminal=NO, Elapsed=00:49.
+2026-11-15T22:19:30.6525690Z 	Waiting on Data Migration
+2026-11-15T22:19:30.7330500Z 		Reason:Running plugin com.apple.managedconfiguration.migrator (MCProfile.migrator, user-agnostic)
+2026-11-15T22:19:30.8150480Z 		Migration Elapsed:00:38 seconds
+2026-11-15T22:19:30.8961860Z 
+2026-11-15T22:19:31.1432870Z [2026-11-15 22:19:31 +0000] Status=2, isTerminal=NO, Elapsed=00:49.
+2026-11-15T22:19:31.2235660Z 	Waiting on Data Migration
+2026-11-15T22:19:31.3027510Z 		Reason:Running plugin com.apple.managedconfiguration.migrator (MCProfile.migrator, user-agnostic)
+2026-11-15T22:19:31.3857310Z 		Migration Elapsed:00:40 seconds
+2026-11-15T22:19:31.4694950Z 
+2026-11-15T22:19:32.0399400Z [2026-11-15 22:19:31 +0000] Status=2, isTerminal=NO, Elapsed=00:50.
+2026-11-15T22:19:32.0407670Z 	Waiting on Data Migration
+2026-11-15T22:19:32.0408560Z 		Reason:Running plugin com.apple.managedconfiguration.migrator (MCProfile.migrator, user-agnostic)
+2026-11-15T22:19:32.0409180Z 		Migration Elapsed:00:41 seconds
+2026-11-15T22:19:32.0409740Z 
+2026-11-15T22:19:33.2665480Z [2026-11-15 22:19:33 +0000] Status=2, isTerminal=NO, Elapsed=00:51.
+2026-11-15T22:19:33.9150460Z 	Waiting on Data Migration
+2026-11-15T22:19:33.9993540Z 		Reason:Running plugin com.apple.managedconfiguration.migrator (MCProfile.migrator, user-agnostic)
+2026-11-15T22:19:34.1627700Z 		Migration Elapsed:00:42 seconds
+2026-11-15T22:19:34.1628040Z 
+2026-11-15T22:19:34.4083000Z [2026-11-15 22:19:34 +0000] Status=2, isTerminal=NO, Elapsed=00:52.
+2026-11-15T22:19:34.4882130Z 	Waiting on Data Migration
+2026-11-15T22:19:34.6493670Z 		Reason:Running plugin com.apple.managedconfiguration.migrator (MCProfile.migrator, user-agnostic)
+2026-11-15T22:19:34.7317750Z 		Migration Elapsed:00:43 seconds
+2026-11-15T22:19:34.8134650Z 
+2026-11-15T22:19:35.4677200Z [2026-11-15 22:19:35 +0000] Status=2, isTerminal=NO, Elapsed=00:54.
+2026-11-15T22:19:35.5467260Z 	Waiting on Data Migration
+2026-11-15T22:19:35.5487000Z 		Reason:Running plugin com.apple.WebBookmarks.migrator (WebBookmarks.migrator)
+2026-11-15T22:19:35.6283140Z 		Migration Elapsed:00:44 seconds
+2026-11-15T22:19:35.7104220Z 
+2026-11-15T22:19:36.6132010Z [2026-11-15 22:19:36 +0000] Status=2, isTerminal=NO, Elapsed=00:55.
+2026-11-15T22:19:36.6956820Z 	Waiting on Data Migration
+2026-11-15T22:19:36.8621990Z 		Reason:Running plugin com.apple.locationd.migrator (CoreLocationMigrator.migrator)
+2026-11-15T22:19:37.2852190Z 		Migration Elapsed:00:45 seconds
+2026-11-15T22:19:39.1413160Z 
+2026-11-15T22:19:39.7120310Z [2026-11-15 22:19:37 +0000] Status=2, isTerminal=NO, Elapsed=00:56.
+2026-11-15T22:19:40.0408830Z 	Waiting on Data Migration
+2026-11-15T22:19:40.1485810Z 		Reason:Running plugin com.apple.PreferencesMigrator (PreferencesMigrator.migrator)
+2026-11-15T22:19:40.2280460Z 		Migration Elapsed:00:46 seconds
+2026-11-15T22:19:40.3116140Z 
+2026-11-15T22:19:40.3933310Z [2026-11-15 22:19:38 +0000] Status=2, isTerminal=NO, Elapsed=00:57.
+2026-11-15T22:19:40.4744520Z 	Waiting on Data Migration
+2026-11-15T22:19:40.6364220Z 		Reason:Running plugin com.apple.managedconfiguration.cleanup.migrator (MCCleanup.migrator)
+2026-11-15T22:19:40.7993900Z 		Migration Elapsed:00:47 seconds
+2026-11-15T22:19:40.8809270Z 
+2026-11-15T22:19:40.9626330Z [2026-11-15 22:19:39 +0000] Status=4, isTerminal=NO, Elapsed=00:57.
+2026-11-15T22:19:41.0447860Z 	Waiting on System App
+2026-11-15T22:19:41.1244780Z 
+2026-11-15T22:19:41.2054650Z [2026-11-15 22:19:40 +0000] Status=4, isTerminal=NO, Elapsed=00:58.
+2026-11-15T22:19:41.2883640Z 	Waiting on System App
+2026-11-15T22:19:41.3694580Z 
+2026-11-15T22:19:41.4525190Z [2026-11-15 22:19:40 +0000] Status=4, isTerminal=NO, Elapsed=00:59.
+2026-11-15T22:19:41.5348220Z 	Waiting on System App
+2026-11-15T22:19:41.6144500Z 
+2026-11-15T22:19:41.6991490Z [2026-11-15 22:19:41 +0000] Status=4, isTerminal=NO, Elapsed=01:00.
+2026-11-15T22:19:41.7782210Z 	Waiting on System App
+2026-11-15T22:19:41.8581570Z 
+2026-11-15T22:19:44.2666280Z [2026-11-15 22:19:44 +0000] Status=4294967295, isTerminal=YES, Elapsed=01:02.
+2026-11-15T22:19:44.3865370Z 	Finished
+2026-11-15T22:19:44.6412220Z 
+2026-11-15T22:19:46.9453020Z ##[group]Run OUT=scripts/native/out/adaptive-ios node scripts/native/adaptive-drawer/run.mjs
+2026-11-15T22:19:46.9453940Z [36;1mOUT=scripts/native/out/adaptive-ios node scripts/native/adaptive-drawer/run.mjs[0m
+2026-11-15T22:19:48.0106010Z shell: /bin/bash -e {0}
+2026-11-15T22:19:48.0106270Z env:
+2026-11-15T22:19:48.0115290Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-15T22:19:48.0117080Z   IOS_SIMULATOR: 1A21D119-3452-438C-BCBF-C707176207E8
+2026-11-15T22:19:48.0117450Z ##[endgroup]
+2026-11-15T22:25:15.3985440Z Native adaptive drawer contracts passed: 38 commands
+2026-11-15T22:25:15.4904470Z ##[group]Run xcrun simctl spawn "$IOS_SIMULATOR" defaults write com.apple.Accessibility ReduceMotionEnabled -bool YES
+2026-11-15T22:25:15.4906230Z [36;1mxcrun simctl spawn "$IOS_SIMULATOR" defaults write com.apple.Accessibility ReduceMotionEnabled -bool YES[0m
+2026-11-15T22:25:15.4907160Z [36;1mEXPECT_REDUCED_MOTION=1 OUT=scripts/native/out/adaptive-reduced-motion node scripts/native/adaptive-drawer/run.mjs[0m
+2026-11-15T22:25:15.4908030Z [36;1mxcrun simctl spawn "$IOS_SIMULATOR" defaults delete com.apple.Accessibility ReduceMotionEnabled[0m
+2026-11-15T22:25:15.7029290Z shell: /bin/bash -e {0}
+2026-11-15T22:25:15.7029880Z env:
+2026-11-15T22:25:15.7031610Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-15T22:25:15.7040330Z   IOS_SIMULATOR: 1A21D119-3452-438C-BCBF-C707176207E8
+2026-11-15T22:25:15.7041000Z ##[endgroup]
+2026-11-15T22:25:52.5986290Z Native adaptive drawer contracts passed: 38 commands
+2026-11-15T22:25:55.1640010Z ##[group]Run xcrun simctl uninstall "$IOS_SIMULATOR" org.nativescript.vuerouterns
+2026-11-15T22:25:55.1643230Z [36;1mxcrun simctl uninstall "$IOS_SIMULATOR" org.nativescript.vuerouterns[0m
+2026-11-15T22:25:55.1646590Z [36;1mxcrun simctl install "$IOS_SIMULATOR" demo/platforms/ios/build/Debug-iphonesimulator/demo.app[0m
+2026-11-15T22:25:55.1648500Z [36;1mruby scripts/native/adaptive-drawer/project.rb /tmp/router-adaptive-tests[0m
+2026-11-15T22:25:55.1651440Z [36;1mnode scripts/native/command-timeout.mjs 600000 xcodebuild test \[0m
+2026-11-15T22:25:55.1652550Z [36;1m  -project /tmp/router-adaptive-tests/AdaptiveDrawerChecks.xcodeproj -scheme AdaptiveDrawerChecks \[0m
+2026-11-15T22:25:55.1654530Z [36;1m  -destination "platform=iOS Simulator,id=$IOS_SIMULATOR" \[0m
+2026-11-15T22:25:55.1655420Z [36;1m  -derivedDataPath /tmp/router-adaptive-tests/build -collect-test-diagnostics never \[0m
+2026-11-15T22:25:55.1656420Z [36;1m  -resultBundlePath scripts/native/out/adaptive-ios/checks.xcresult[0m
+2026-11-15T22:25:55.3307260Z shell: /bin/bash -e {0}
+2026-11-15T22:25:55.3308050Z env:
+2026-11-15T22:25:55.3309890Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-15T22:25:55.3312020Z   IOS_SIMULATOR: 1A21D119-3452-438C-BCBF-C707176207E8
+2026-11-15T22:25:55.3312710Z ##[endgroup]
+2026-11-15T22:26:08.2553870Z Command line invocation:
+2026-11-15T22:26:08.2565330Z     /Applications/Xcode_16.4.app/Contents/Developer/usr/bin/xcodebuild test -project /tmp/router-adaptive-tests/AdaptiveDrawerChecks.xcodeproj -scheme AdaptiveDrawerChecks -destination "platform=iOS Simulator,id=1A21D119-3452-438C-BCBF-C707176207E8" -derivedDataPath /tmp/router-adaptive-tests/build -collect-test-diagnostics never -resultBundlePath scripts/native/out/adaptive-ios/checks.xcresult
+2026-11-15T22:26:08.2668900Z 
+2026-11-15T22:26:09.9395910Z Writing result bundle at path:
+2026-11-15T22:26:09.9627150Z 	/Users/runner/work/vue-router-ns/vue-router-ns/scripts/native/out/adaptive-ios/checks.xcresult
+2026-11-15T22:26:09.9729110Z 
+2026-11-15T22:26:10.1012200Z --- xcodebuild: WARNING: Using the first of multiple matching destinations:
+2026-11-15T22:26:10.1120370Z { platform:iOS Simulator, arch:arm64, id:1A21D119-3452-438C-BCBF-C707176207E8, OS:18.6, name:RouterDrawer-adaptive }
+2026-11-15T22:26:10.1122140Z { platform:iOS Simulator, arch:x86_64, id:1A21D119-3452-438C-BCBF-C707176207E8, OS:18.6, name:RouterDrawer-adaptive }
+2026-11-15T22:26:11.6916130Z ComputePackagePrebuildTargetDependencyGraph
+2026-11-15T22:26:11.9097800Z 
+2026-11-15T22:26:11.9400140Z Prepare packages
+2026-11-15T22:26:11.9501240Z 
+2026-11-15T22:26:11.9604230Z CreateBuildRequest
+2026-11-15T22:26:11.9606270Z 
+2026-11-15T22:26:11.9942360Z SendProjectDescription
+2026-11-15T22:26:12.0045670Z 
+2026-11-15T22:26:12.0188760Z CreateBuildOperation
+2026-11-15T22:26:12.0499180Z 
+2026-11-15T22:26:12.0600370Z ComputeTargetDependencyGraph
+2026-11-15T22:26:12.0708570Z note: Building targets in dependency order
+2026-11-15T22:26:12.0856790Z note: Target dependency graph (1 target)
+2026-11-15T22:26:12.1008700Z     Target 'AdaptiveDrawerChecks' in project 'AdaptiveDrawerChecks' (no dependencies)
+2026-11-15T22:26:12.1114320Z 
+2026-11-15T22:26:12.1215910Z GatherProvisioningInputs
+2026-11-15T22:26:12.1487930Z 
+2026-11-15T22:26:12.1588750Z CreateBuildDescription
+2026-11-15T22:26:12.1696360Z 
+2026-11-15T22:26:12.1802620Z ExecuteExternalTool /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+2026-11-15T22:26:14.3876170Z 
+2026-11-15T22:26:14.3986540Z ExecuteExternalTool /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -x c -c /dev/null
+2026-11-15T22:26:14.4116240Z 
+2026-11-15T22:26:14.4378730Z ExecuteExternalTool /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+2026-11-15T22:26:14.6861470Z 
+2026-11-15T22:26:14.7133800Z Build description signature: a6cb4eea163c5f09d2bd02859325276e
+2026-11-15T22:26:14.7345000Z Build description path: /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/XCBuildData/a6cb4eea163c5f09d2bd02859325276e.xcbuilddata
+2026-11-15T22:26:14.7894210Z CreateBuildDirectory /tmp/router-adaptive-tests/build/Build/Products
+2026-11-15T22:26:14.7934920Z     cd /tmp/router-adaptive-tests/AdaptiveDrawerChecks.xcodeproj
+2026-11-15T22:26:14.7936040Z     builtin-create-build-directory /tmp/router-adaptive-tests/build/Build/Products
+2026-11-15T22:26:14.7943120Z 
+2026-11-15T22:26:14.7945800Z CreateBuildDirectory /tmp/router-adaptive-tests/build/Build/Intermediates.noindex
+2026-11-15T22:26:14.7950160Z     cd /tmp/router-adaptive-tests/AdaptiveDrawerChecks.xcodeproj
+2026-11-15T22:26:14.7961530Z     builtin-create-build-directory /tmp/router-adaptive-tests/build/Build/Intermediates.noindex
+2026-11-15T22:26:14.7961960Z 
+2026-11-15T22:26:14.7963630Z ClangStatCache /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk /tmp/router-adaptive-tests/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-96ae0914227b19deccb34b33ba7b5dea.sdkstatcache
+2026-11-15T22:26:14.7965090Z     cd /tmp/router-adaptive-tests/AdaptiveDrawerChecks.xcodeproj
+2026-11-15T22:26:14.7966780Z     /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -o /tmp/router-adaptive-tests/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-96ae0914227b19deccb34b33ba7b5dea.sdkstatcache
+2026-11-15T22:26:19.1048010Z 
+2026-11-15T22:26:19.1317160Z WriteAuxiliaryFile /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks-60bf23044dc63ebdadfde106dfc39786-VFS-iphonesimulator/all-product-headers.yaml
+2026-11-15T22:26:19.1327950Z     cd /tmp/router-adaptive-tests/AdaptiveDrawerChecks.xcodeproj
+2026-11-15T22:26:19.1433050Z     write-file /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks-60bf23044dc63ebdadfde106dfc39786-VFS-iphonesimulator/all-product-headers.yaml
+2026-11-15T22:26:19.1537580Z 
+2026-11-15T22:26:19.1640040Z CreateBuildDirectory /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator
+2026-11-15T22:26:19.1829780Z     cd /tmp/router-adaptive-tests/AdaptiveDrawerChecks.xcodeproj
+2026-11-15T22:26:19.1937060Z     builtin-create-build-directory /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator
+2026-11-15T22:26:19.2050960Z 
+2026-11-15T22:26:19.2262530Z CreateBuildDirectory /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+2026-11-15T22:26:19.2379250Z     cd /tmp/router-adaptive-tests/AdaptiveDrawerChecks.xcodeproj
+2026-11-15T22:26:19.2486030Z     builtin-create-build-directory /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+2026-11-15T22:26:19.2684120Z 
+2026-11-15T22:26:19.2872950Z WriteAuxiliaryFile /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/empty-AdaptiveDrawerChecks.plist (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:19.3204530Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:19.3330580Z     write-file /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/empty-AdaptiveDrawerChecks.plist
+2026-11-15T22:26:19.3431880Z 
+2026-11-15T22:26:19.3673150Z WriteAuxiliaryFile /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/ProductTypeInfoPlistAdditions.plist (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:19.3777360Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:19.3940650Z     write-file /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/ProductTypeInfoPlistAdditions.plist
+2026-11-15T22:26:19.4158320Z 
+2026-11-15T22:26:19.4286140Z WriteAuxiliaryFile /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks_const_extract_protocols.json (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:19.4388480Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:19.4776370Z     write-file /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks_const_extract_protocols.json
+2026-11-15T22:26:19.4877590Z 
+2026-11-15T22:26:19.5041870Z WriteAuxiliaryFile /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.SwiftFileList (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:19.5291480Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:19.5398380Z     write-file /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.SwiftFileList
+2026-11-15T22:26:19.5516120Z 
+2026-11-15T22:26:19.5719670Z WriteAuxiliaryFile /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.SwiftConstValuesFileList (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:19.5936820Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:19.6184740Z     write-file /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.SwiftConstValuesFileList
+2026-11-15T22:26:19.6329410Z 
+2026-11-15T22:26:19.6432440Z WriteAuxiliaryFile /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.LinkFileList (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:19.6662240Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:19.6773190Z     write-file /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.LinkFileList
+2026-11-15T22:26:19.6774290Z 
+2026-11-15T22:26:19.6876290Z WriteAuxiliaryFile /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks-OutputFileMap.json (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:19.7068480Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:19.7170910Z     write-file /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks-OutputFileMap.json
+2026-11-15T22:26:19.7272660Z 
+2026-11-15T22:26:19.7391580Z WriteAuxiliaryFile /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks.hmap (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:19.7525390Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:19.7637850Z     write-file /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks.hmap
+2026-11-15T22:26:19.7744100Z 
+2026-11-15T22:26:19.7987920Z WriteAuxiliaryFile /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks.DependencyStaticMetadataFileList (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:19.8103910Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:19.8210320Z     write-file /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks.DependencyStaticMetadataFileList
+2026-11-15T22:26:19.8494790Z 
+2026-11-15T22:26:19.8712720Z WriteAuxiliaryFile /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks.DependencyMetadataFileList (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:19.9003890Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:19.9201880Z     write-file /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks.DependencyMetadataFileList
+2026-11-15T22:26:19.9309500Z 
+2026-11-15T22:26:19.9449720Z WriteAuxiliaryFile /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-project-headers.hmap (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:19.9552400Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:19.9654230Z     write-file /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-project-headers.hmap
+2026-11-15T22:26:19.9936210Z 
+2026-11-15T22:26:20.0048700Z WriteAuxiliaryFile /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-own-target-headers.hmap (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:20.0153560Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:20.0291980Z     write-file /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-own-target-headers.hmap
+2026-11-15T22:26:20.0472670Z 
+2026-11-15T22:26:20.0575910Z WriteAuxiliaryFile /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-generated-files.hmap (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:20.0679290Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:20.0909700Z     write-file /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-generated-files.hmap
+2026-11-15T22:26:20.1014760Z 
+2026-11-15T22:26:20.1121260Z WriteAuxiliaryFile /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-all-target-headers.hmap (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:20.1344620Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:20.1449870Z     write-file /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-all-target-headers.hmap
+2026-11-15T22:26:20.1551840Z 
+2026-11-15T22:26:20.1899710Z WriteAuxiliaryFile /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-all-non-framework-target-headers.hmap (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:20.2018020Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:20.2124910Z     write-file /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-all-non-framework-target-headers.hmap
+2026-11-15T22:26:20.2431230Z 
+2026-11-15T22:26:20.2533630Z MkDir /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:20.2637280Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:20.2752680Z     /bin/mkdir -p /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest
+2026-11-15T22:26:20.2930700Z 
+2026-11-15T22:26:20.3156650Z ProcessInfoPlistFile /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest/Info.plist /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/empty-AdaptiveDrawerChecks.plist (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:20.3261900Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:20.3458110Z     builtin-infoPlistUtility /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/empty-AdaptiveDrawerChecks.plist -producttype com.apple.product-type.bundle.ui-testing -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/ProductTypeInfoPlistAdditions.plist -o /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest/Info.plist
+2026-11-15T22:26:20.3561150Z 
+2026-11-15T22:26:20.3663050Z SwiftDriver AdaptiveDrawerChecks normal arm64 com.apple.xcode.tools.swift.compiler (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:20.3915050Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:20.4072410Z     builtin-SwiftDriver -- /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name AdaptiveDrawerChecks -Onone -enforce-exclusivity\=checked @/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.SwiftFileList -DDEBUG -module-alias Testing\=_Testing_Unavailable -plugin-path /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /tmp/router-adaptive-tests/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/router-adaptive-tests/build/Index.noindex/DataStore -swift-version 5 -I /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator -I /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator -F /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk/Developer/Library/Frameworks -parse-as-library -c -j3 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/router-adaptive-tests/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-96ae0914227b19deccb34b33ba7b5dea.sdkstatcache -output-file-map /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.swiftmodule -validate-clang-modules-once -clang-build-session-file /tmp/router-adaptive-tests/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-generated-files.hmap -Xcc -I/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-own-target-headers.hmap -Xcc -I/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-project-headers.hmap -Xcc -I/tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/DerivedSources-normal/arm64 -Xcc -I/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/DerivedSources/arm64 -Xcc -I/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks-Swift.h -working-directory /tmp/router-adaptive-tests -experimental-emit-module-separately -disable-cmo
+2026-11-15T22:26:20.4097500Z 
+2026-11-15T22:26:20.4199430Z SwiftEmitModule normal arm64 Emitting\ module\ for\ AdaptiveDrawerChecks (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:20.4384970Z 
+2026-11-15T22:26:20.4487200Z SwiftCompile normal arm64 /Users/runner/work/vue-router-ns/vue-router-ns/scripts/native/adaptive-drawer/AdaptiveDrawerUITests.swift (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:20.4589940Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:20.4691960Z     
+2026-11-15T22:26:34.4083770Z 
+2026-11-15T22:26:34.4155550Z SwiftCompile normal arm64 Compiling\ AdaptiveDrawerUITests.swift /Users/runner/work/vue-router-ns/vue-router-ns/scripts/native/adaptive-drawer/AdaptiveDrawerUITests.swift (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:34.4179000Z SwiftCompile normal arm64 /Users/runner/work/vue-router-ns/vue-router-ns/scripts/native/adaptive-drawer/AdaptiveDrawerUITests.swift (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:34.4312220Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:34.4418320Z     
+2026-11-15T22:26:37.4843040Z 
+2026-11-15T22:26:37.5245750Z SwiftDriverJobDiscovery normal arm64 Emitting module for AdaptiveDrawerChecks (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:37.5251520Z 
+2026-11-15T22:26:37.5253610Z SwiftDriver\ Compilation\ Requirements AdaptiveDrawerChecks normal arm64 com.apple.xcode.tools.swift.compiler (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:37.5254820Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:37.5275760Z     builtin-Swift-Compilation-Requirements -- /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name AdaptiveDrawerChecks -Onone -enforce-exclusivity\=checked @/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.SwiftFileList -DDEBUG -module-alias Testing\=_Testing_Unavailable -plugin-path /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /tmp/router-adaptive-tests/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/router-adaptive-tests/build/Index.noindex/DataStore -swift-version 5 -I /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator -I /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator -F /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk/Developer/Library/Frameworks -parse-as-library -c -j3 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/router-adaptive-tests/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-96ae0914227b19deccb34b33ba7b5dea.sdkstatcache -output-file-map /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.swiftmodule -validate-clang-modules-once -clang-build-session-file /tmp/router-adaptive-tests/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-generated-files.hmap -Xcc -I/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-own-target-headers.hmap -Xcc -I/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-project-headers.hmap -Xcc -I/tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/DerivedSources-normal/arm64 -Xcc -I/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/DerivedSources/arm64 -Xcc -I/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks-Swift.h -working-directory /tmp/router-adaptive-tests -experimental-emit-module-separately -disable-cmo
+2026-11-15T22:26:37.5321030Z 
+2026-11-15T22:26:37.5324540Z SwiftMergeGeneratedHeaders /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/DerivedSources/AdaptiveDrawerChecks-Swift.h /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks-Swift.h (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:37.5326990Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:37.5328850Z     builtin-swiftHeaderTool -arch arm64 /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks-Swift.h -o /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/DerivedSources/AdaptiveDrawerChecks-Swift.h
+2026-11-15T22:26:37.5330320Z 
+2026-11-15T22:26:37.5332000Z Copy /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks.swiftmodule/arm64-apple-ios-simulator.swiftmodule /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.swiftmodule (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:37.5333470Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:37.5335290Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.swiftmodule /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks.swiftmodule/arm64-apple-ios-simulator.swiftmodule
+2026-11-15T22:26:37.5337100Z 
+2026-11-15T22:26:37.5339170Z Copy /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks.swiftmodule/arm64-apple-ios-simulator.swiftdoc /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.swiftdoc (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:37.5340830Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:37.5346380Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.swiftdoc /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks.swiftmodule/arm64-apple-ios-simulator.swiftdoc
+2026-11-15T22:26:37.5350990Z 
+2026-11-15T22:26:37.5355650Z Copy /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks.swiftmodule/arm64-apple-ios-simulator.abi.json /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.abi.json (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:37.5359980Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:37.5365490Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.abi.json /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks.swiftmodule/arm64-apple-ios-simulator.abi.json
+2026-11-15T22:26:37.5369570Z 
+2026-11-15T22:26:37.5374390Z Copy /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.swiftsourceinfo (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:37.5378900Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:37.5385120Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.swiftsourceinfo /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo
+2026-11-15T22:26:37.5390060Z 
+2026-11-15T22:26:37.5391710Z SwiftDriverJobDiscovery normal arm64 Compiling AdaptiveDrawerUITests.swift (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:37.5393260Z 
+2026-11-15T22:26:37.5394930Z SwiftDriver\ Compilation AdaptiveDrawerChecks normal arm64 com.apple.xcode.tools.swift.compiler (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:37.5397180Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:37.5433090Z     builtin-Swift-Compilation -- /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name AdaptiveDrawerChecks -Onone -enforce-exclusivity\=checked @/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.SwiftFileList -DDEBUG -module-alias Testing\=_Testing_Unavailable -plugin-path /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /tmp/router-adaptive-tests/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/router-adaptive-tests/build/Index.noindex/DataStore -swift-version 5 -I /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator -I /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator -F /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk/Developer/Library/Frameworks -parse-as-library -c -j3 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/router-adaptive-tests/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-96ae0914227b19deccb34b33ba7b5dea.sdkstatcache -output-file-map /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.swiftmodule -validate-clang-modules-once -clang-build-session-file /tmp/router-adaptive-tests/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-generated-files.hmap -Xcc -I/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-own-target-headers.hmap -Xcc -I/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks-project-headers.hmap -Xcc -I/tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/DerivedSources-normal/arm64 -Xcc -I/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/DerivedSources/arm64 -Xcc -I/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks-Swift.h -working-directory /tmp/router-adaptive-tests -experimental-emit-module-separately -disable-cmo
+2026-11-15T22:26:37.5468760Z 
+2026-11-15T22:26:37.5469880Z Ld /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest/AdaptiveDrawerChecks normal (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:37.5471000Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:37.5480340Z     /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios18.0-simulator -bundle -isysroot /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -O0 -L/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -L/tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator -L/Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F/tmp/router-adaptive-tests/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -F/tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator -iframework /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -iframework /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk/Developer/Library/Frameworks -filelist /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.LinkFileList -Xlinker -rpath -Xlinker @loader_path/Frameworks -dead_strip -Xlinker -object_path_lto -Xlinker /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.swiftmodule -framework XCTest -lXCTestSwiftSupport -framework Foundation -o /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest/AdaptiveDrawerChecks
+2026-11-15T22:26:37.8403370Z 
+2026-11-15T22:26:37.8424650Z CopySwiftLibs /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:37.8427590Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:37.8443440Z     builtin-swiftStdLibTool --copy --verbose --scan-executable /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest/AdaptiveDrawerChecks --scan-folder /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest/Frameworks --scan-folder /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest/PlugIns --scan-folder /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest/SystemExtensions --scan-folder /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest/Extensions --scan-folder /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework --platform iphonesimulator --toolchain /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest/Frameworks --strip-bitcode --scan-executable /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+2026-11-15T22:26:37.9339400Z Ignoring --strip-bitcode because --sign was not passed
+2026-11-15T22:26:37.9340410Z 
+2026-11-15T22:26:37.9340920Z ExtractAppIntentsMetadata (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:37.9341510Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:37.9350710Z     /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name AdaptiveDrawerChecks --sdk-root /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk --xcode-version 16F6 --platform-family iOS --deployment-target 18.0 --bundle-identifier org.nativescript.adaptivedrawerchecks --output /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest --target-triple arm64-apple-ios18.0-simulator --binary-file /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest/AdaptiveDrawerChecks --dependency-file /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks_dependency_info.dat --stringsdata-file /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.SwiftFileList --metadata-file-list /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks.DependencyMetadataFileList --static-metadata-file-list /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks.DependencyStaticMetadataFileList --swift-const-vals-list /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/Objects-normal/arm64/AdaptiveDrawerChecks.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --validate-assistant-intents --no-app-shortcuts-localization
+2026-11-15T22:26:38.0130760Z 2026-11-15 22:26:38.004 appintentsmetadataprocessor[26853:76344] Starting appintentsmetadataprocessor export
+2026-11-15T22:26:38.0133720Z 2026-11-15 22:26:38.010 appintentsmetadataprocessor[26853:76344] warning: Metadata extraction skipped. No AppIntents.framework dependency found.
+2026-11-15T22:26:38.0135410Z 
+2026-11-15T22:26:38.0137520Z AppIntentsSSUTraining (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:38.0138850Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:38.0146460Z     /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest/Info.plist --temp-dir-path /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/ssu --bundle-id org.nativescript.adaptivedrawerchecks --product-path /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest --extracted-metadata-path /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest/Metadata.appintents --metadata-file-list /tmp/router-adaptive-tests/build/Build/Intermediates.noindex/AdaptiveDrawerChecks.build/Debug-iphonesimulator/AdaptiveDrawerChecks.build/AdaptiveDrawerChecks.DependencyMetadataFileList --archive-ssu-assets
+2026-11-15T22:26:38.0485790Z 2026-11-15 22:26:38.046 appintentsnltrainingprocessor[26854:76348] Parsing options for appintentsnltrainingprocessor
+2026-11-15T22:26:38.0505960Z 2026-11-15 22:26:38.047 appintentsnltrainingprocessor[26854:76348] No AppShortcuts found - Skipping.
+2026-11-15T22:26:38.0508400Z 
+2026-11-15T22:26:38.0511560Z MkDir /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:38.0514840Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:38.0516450Z     /bin/mkdir -p /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app
+2026-11-15T22:26:38.0517880Z 
+2026-11-15T22:26:38.0520570Z CopyAndPreserveArchs /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/AdaptiveDrawerChecks-Runner (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:38.0523110Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:38.0531030Z     /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/XCTRunner -output /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/AdaptiveDrawerChecks-Runner -extract arm64
+2026-11-15T22:26:38.0707520Z 
+2026-11-15T22:26:38.0710440Z CopyPlistFile /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/Info.plist /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/Info.plist (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:38.0713100Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:38.0719860Z     builtin-copyPlist --validate --convert xml1 --macro-expansion WRAPPEDPRODUCTNAME AdaptiveDrawerChecks-Runner --macro-expansion WRAPPEDPRODUCTBUNDLEIDENTIFIER org.nativescript.adaptivedrawerchecks.xctrunner --macro-expansion TESTPRODUCTNAME AdaptiveDrawerChecks --macro-expansion TESTPRODUCTBUNDLEIDENTIFIER org.nativescript.adaptivedrawerchecks --copy-value UIDeviceFamily /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest/Info.plist --outdir /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app -- /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/Info.plist
+2026-11-15T22:26:38.0723510Z 
+2026-11-15T22:26:38.0729600Z Copy /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PkgInfo /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/PkgInfo (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:38.0735370Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:38.0739220Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/PkgInfo /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app
+2026-11-15T22:26:38.0741040Z 
+2026-11-15T22:26:38.0743750Z Copy /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/Frameworks/libXCTestSwiftSupport.dylib /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:38.0746850Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:38.0749160Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/Frameworks
+2026-11-15T22:26:38.0751230Z 
+2026-11-15T22:26:38.0752940Z Copy /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/Frameworks/XCUnit.framework /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks/XCUnit.framework (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:38.0754190Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:38.0755890Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks/XCUnit.framework /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/Frameworks
+2026-11-15T22:26:38.0836750Z 
+2026-11-15T22:26:38.0841290Z Copy /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/Frameworks/XCUIAutomation.framework /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/XCUIAutomation.framework (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:38.0842870Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:38.0846480Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/XCUIAutomation.framework /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/Frameworks
+2026-11-15T22:26:38.0923100Z 
+2026-11-15T22:26:38.0925320Z Copy /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/Frameworks/XCTestSupport.framework /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks/XCTestSupport.framework (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:38.0929260Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:38.0932320Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks/XCTestSupport.framework /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/Frameworks
+2026-11-15T22:26:38.0933920Z 
+2026-11-15T22:26:38.0936670Z Copy /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/Frameworks/XCTestCore.framework /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks/XCTestCore.framework (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:38.0937970Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:38.0939560Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks/XCTestCore.framework /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/Frameworks
+2026-11-15T22:26:38.1096000Z 
+2026-11-15T22:26:38.1098170Z Copy /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/Frameworks/XCTest.framework /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/XCTest.framework (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:38.1104690Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:38.1108460Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/XCTest.framework /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/Frameworks
+2026-11-15T22:26:38.1110350Z 
+2026-11-15T22:26:38.1112550Z Copy /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/Frameworks/XCTAutomationSupport.framework /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks/XCTAutomationSupport.framework (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:38.1115020Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:38.1117240Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks/XCTAutomationSupport.framework /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/Frameworks
+2026-11-15T22:26:38.1119180Z 
+2026-11-15T22:26:38.1120790Z Copy /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/Frameworks/Testing.framework /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/Testing.framework (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:38.1123120Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:38.1125730Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/Testing.framework /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/Frameworks
+2026-11-15T22:26:38.1564300Z 
+2026-11-15T22:26:38.1779050Z RegisterExecutionPolicyException /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:38.1780530Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:38.1781470Z     builtin-RegisterExecutionPolicyException /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest
+2026-11-15T22:26:38.1929520Z 
+2026-11-15T22:26:38.1933450Z Touch /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest (in target 'AdaptiveDrawerChecks' from project 'AdaptiveDrawerChecks')
+2026-11-15T22:26:38.1934620Z     cd /tmp/router-adaptive-tests
+2026-11-15T22:26:38.1936110Z     /usr/bin/touch -c /tmp/router-adaptive-tests/build/Build/Products/Debug-iphonesimulator/AdaptiveDrawerChecks-Runner.app/PlugIns/AdaptiveDrawerChecks.xctest
+2026-11-15T22:26:38.2149030Z 
+2026-11-15T22:26:51.0696970Z 2026-11-15 22:26:51.011596+0000 AdaptiveDrawerChecks-Runner[26919:76787] [Default] Running tests...
+2026-11-15T22:26:56.3348300Z     t =      nans Interface orientation changed to Portrait
+2026-11-15T22:26:57.4401930Z Test Suite 'All tests' started at 2026-11-15 22:26:57.382.
+2026-11-15T22:26:57.4519400Z Test Suite 'AdaptiveDrawerChecks.xctest' started at 2026-11-15 22:26:57.384.
+2026-11-15T22:26:57.4628120Z Test Suite 'AdaptiveDrawerUITests' started at 2026-11-15 22:26:57.385.
+2026-11-15T22:26:57.4733920Z Test Case '-[AdaptiveDrawerChecks.AdaptiveDrawerUITests testDrawerAndNativeBackGesturesAfterAdaptation]' started.
+2026-11-15T22:26:57.4861230Z     t =     0.00s Start Test at 2026-11-15 22:26:57.386
+2026-11-15T22:26:58.0138270Z     t =     0.60s Set Up
+2026-11-15T22:26:58.0241530Z     t =     0.60s     Setting device orientation to Portrait
+2026-11-15T22:26:58.0346110Z     t =     0.62s         Device orientation changed to Portrait
+2026-11-15T22:26:58.1284740Z     t =     0.66s         Wait for com.apple.springboard to idle
+2026-11-15T22:26:58.1804900Z     t =     0.75s     Open org.nativescript.vuerouterns
+2026-11-15T22:26:58.2266120Z     t =     0.75s         Launch org.nativescript.vuerouterns
+2026-11-15T22:26:58.8260860Z     t =     1.38s             Setting up automation session
+2026-11-15T22:27:01.1421940Z     t =     3.74s             Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:02.8122960Z     t =     5.42s Waiting 8.0s for "route /" StaticText to exist
+2026-11-15T22:27:03.8459300Z     t =     6.46s     Checking `Expect predicate `existsNoRetry == 1` for object "route /" StaticText`
+2026-11-15T22:27:03.8559390Z     t =     6.46s         Checking existence of `"route /" StaticText`
+2026-11-15T22:27:03.9380880Z     t =     6.55s Tap "permanent" Button
+2026-11-15T22:27:03.9484780Z     t =     6.55s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:03.9587320Z     t =     6.55s     Find the "permanent" Button
+2026-11-15T22:27:04.0261490Z     t =     6.60s     Check for interrupting elements affecting "permanent" Button
+2026-11-15T22:27:04.0363230Z     t =     6.64s     Synthesize event
+2026-11-15T22:27:04.5202920Z     t =     7.11s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:04.8581560Z     t =     7.43s Tap "overlay" Button
+2026-11-15T22:27:04.8688650Z     t =     7.43s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:04.8809530Z     t =     7.43s     Find the "overlay" Button
+2026-11-15T22:27:04.8922360Z     t =     7.46s     Check for interrupting elements affecting "overlay" Button
+2026-11-15T22:27:04.9026550Z     t =     7.49s     Synthesize event
+2026-11-15T22:27:05.1878030Z     t =     7.79s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:05.5396910Z     t =     8.09s Press Application 'org.nativescript.vuerouterns'[0.01, 0.60] for 0.1 seconds, then drag to Application 'org.nativescript.vuerouterns'[0.01, 0.60] -> (260.0, 0.0) with velocity of 250.00 pixels per second, and then hold for 0.1 seconds 
+2026-11-15T22:27:05.5408890Z     t =     8.09s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:05.5525770Z     t =     8.09s     Find the Application 'org.nativescript.vuerouterns'
+2026-11-15T22:27:05.5921870Z     t =     8.11s     Check for interrupting elements affecting "demo" Application
+2026-11-15T22:27:05.6029060Z     t =     8.13s     Synthesize event
+2026-11-15T22:27:05.6139940Z     t =     8.13s         Find the Application 'org.nativescript.vuerouterns'
+2026-11-15T22:27:05.6280660Z     t =     8.15s         Find the Application 'org.nativescript.vuerouterns'
+2026-11-15T22:27:05.6385330Z     t =     8.17s         Find the Application 'org.nativescript.vuerouterns'
+2026-11-15T22:27:05.6492500Z     t =     8.18s         Find the Application 'org.nativescript.vuerouterns'
+2026-11-15T22:27:05.6595920Z     t =     8.21s         Find the Application 'org.nativescript.vuerouterns'
+2026-11-15T22:27:07.1056790Z     t =     9.72s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:07.1581470Z     t =     9.76s Waiting 5.0s for "Destinations" StaticText to exist
+2026-11-15T22:27:08.2017310Z     t =    10.78s     Checking `Expect predicate `existsNoRetry == 1` for object "Destinations" StaticText`
+2026-11-15T22:27:08.2144900Z     t =    10.78s         Checking existence of `"Destinations" StaticText`
+2026-11-15T22:27:08.2851200Z     t =    10.81s Tap "Close drawer" Button
+2026-11-15T22:27:08.2952630Z     t =    10.81s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:08.3054980Z     t =    10.81s     Find the "Close drawer" Button
+2026-11-15T22:27:08.3158670Z     t =    10.83s     Check for interrupting elements affecting "Close drawer" Button
+2026-11-15T22:27:08.3337970Z     t =    10.87s     Synthesize event
+2026-11-15T22:27:08.5676210Z     t =    11.17s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:08.8509720Z     t =    11.44s Waiting 5.0s for "Destinations" StaticText to not exist
+2026-11-15T22:27:09.9845030Z     t =    12.47s     Checking `Expect predicate `existsNoRetry == 0` for object "Destinations" StaticText`
+2026-11-15T22:27:09.9947500Z     t =    12.47s         Checking existence of `"Destinations" StaticText`
+2026-11-15T22:27:10.0074830Z     t =    12.51s Tap "Push detail" Button
+2026-11-15T22:27:10.0179790Z     t =    12.51s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:10.0183820Z     t =    12.51s     Find the "Push detail" Button
+2026-11-15T22:27:10.0286390Z     t =    12.54s     Check for interrupting elements affecting "Push detail" Button
+2026-11-15T22:27:10.0411190Z     t =    12.56s     Synthesize event
+2026-11-15T22:27:10.2735310Z     t =    12.87s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:10.7459320Z     t =    13.33s Waiting 8.0s for "route /detail" StaticText to exist
+2026-11-15T22:27:11.8073270Z     t =    14.37s     Checking `Expect predicate `existsNoRetry == 1` for object "route /detail" StaticText`
+2026-11-15T22:27:11.8176240Z     t =    14.37s         Checking existence of `"route /detail" StaticText`
+2026-11-15T22:27:11.8305120Z     t =    14.42s Tap "permanent" Button
+2026-11-15T22:27:11.8725180Z     t =    14.42s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:11.8848210Z     t =    14.42s     Find the "permanent" Button
+2026-11-15T22:27:11.9005610Z     t =    14.44s     Check for interrupting elements affecting "permanent" Button
+2026-11-15T22:27:11.9110010Z     t =    14.46s     Synthesize event
+2026-11-15T22:27:12.1645180Z     t =    14.76s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:12.4925050Z     t =    15.06s Tap "overlay" Button
+2026-11-15T22:27:12.4926570Z     t =    15.06s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:12.5029500Z     t =    15.07s     Find the "overlay" Button
+2026-11-15T22:27:12.5476450Z     t =    15.09s     Check for interrupting elements affecting "overlay" Button
+2026-11-15T22:27:12.5578890Z     t =    15.13s     Synthesize event
+2026-11-15T22:27:12.8206090Z     t =    15.42s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:13.1125050Z     t =    15.72s Find the Application 'org.nativescript.vuerouterns'
+2026-11-15T22:27:13.1762600Z     t =    15.74s Press Application 'org.nativescript.vuerouterns'[0.01, 0.60] for 0.1 seconds, then drag to Application 'org.nativescript.vuerouterns'[0.01, 0.60] -> (334.1, 0.0) with velocity of 250.00 pixels per second, and then hold for 0.1 seconds 
+2026-11-15T22:27:13.1871960Z     t =    15.74s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:13.2321450Z     t =    15.75s     Find the Application 'org.nativescript.vuerouterns'
+2026-11-15T22:27:13.2435870Z     t =    15.76s     Check for interrupting elements affecting "demo" Application
+2026-11-15T22:27:13.2551720Z     t =    15.78s     Synthesize event
+2026-11-15T22:27:13.2670800Z     t =    15.78s         Find the Application 'org.nativescript.vuerouterns'
+2026-11-15T22:27:13.2772990Z     t =    15.79s         Find the Application 'org.nativescript.vuerouterns'
+2026-11-15T22:27:13.2889700Z     t =    15.81s         Find the Application 'org.nativescript.vuerouterns'
+2026-11-15T22:27:13.2991350Z     t =    15.82s         Find the Application 'org.nativescript.vuerouterns'
+2026-11-15T22:27:13.3092910Z     t =    15.84s         Find the Application 'org.nativescript.vuerouterns'
+2026-11-15T22:27:15.0364010Z     t =    17.64s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:15.2313400Z     t =    17.82s Waiting 8.0s for "route /" StaticText to exist
+2026-11-15T22:27:16.4472220Z     t =    18.83s     Checking `Expect predicate `existsNoRetry == 1` for object "route /" StaticText`
+2026-11-15T22:27:16.4581190Z     t =    18.83s         Checking existence of `"route /" StaticText`
+2026-11-15T22:27:16.4686010Z     t =    18.86s Checking existence of `"Destinations" StaticText`
+2026-11-15T22:27:16.5506830Z     t =    18.90s Tear Down
+2026-11-15T22:27:16.5507600Z     t =    18.90s     Setting device orientation to Portrait
+2026-11-15T22:27:16.5611590Z     t =    18.91s         Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:16.5714430Z     t =    18.91s     Terminate org.nativescript.vuerouterns:27480
+2026-11-15T22:27:17.3605440Z Test Case '-[AdaptiveDrawerChecks.AdaptiveDrawerUITests testDrawerAndNativeBackGesturesAfterAdaptation]' passed (19.966 seconds).
+2026-11-15T22:27:17.3713540Z Test Case '-[AdaptiveDrawerChecks.AdaptiveDrawerUITests testInputAndAccessibilityAcrossModes]' started.
+2026-11-15T22:27:17.3830430Z     t =     0.00s Start Test at 2026-11-15 22:27:17.352
+2026-11-15T22:27:17.5488180Z     t =     0.04s Set Up
+2026-11-15T22:27:17.5590810Z     t =     0.04s     Setting device orientation to Portrait
+2026-11-15T22:27:17.9707400Z     t =     0.05s         Wait for com.apple.springboard to idle
+2026-11-15T22:27:17.9943640Z     t =     0.05s     Open org.nativescript.vuerouterns
+2026-11-15T22:27:18.0052830Z     t =     0.05s         Launch org.nativescript.vuerouterns
+2026-11-15T22:27:18.0182970Z     t =     0.62s             Setting up automation session
+2026-11-15T22:27:19.5571570Z     t =     2.15s             Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:20.9080650Z     t =     3.47s Tap "overlay" Button
+2026-11-15T22:27:20.9181730Z     t =     3.47s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:20.9483320Z     t =     3.47s     Find the "overlay" Button
+2026-11-15T22:27:21.0239010Z     t =     3.54s     Check for interrupting elements affecting "overlay" Button
+2026-11-15T22:27:21.0239820Z     t =     3.56s     Synthesize event
+2026-11-15T22:27:21.2917170Z     t =     3.90s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:21.5295180Z     t =     4.17s Waiting 8.0s for "route /" StaticText to exist
+2026-11-15T22:27:22.6059670Z     t =     5.23s     Checking `Expect predicate `existsNoRetry == 1` for object "route /" StaticText`
+2026-11-15T22:27:22.6594160Z     t =     5.23s         Checking existence of `"route /" StaticText`
+2026-11-15T22:27:22.6701250Z     t =     5.26s Tap "Push detail" Button
+2026-11-15T22:27:22.6859270Z     t =     5.26s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:22.7331540Z     t =     5.26s     Find the "Push detail" Button
+2026-11-15T22:27:22.7431920Z     t =     5.30s     Check for interrupting elements affecting "Push detail" Button
+2026-11-15T22:27:22.7532510Z     t =     5.32s     Synthesize event
+2026-11-15T22:27:22.9719860Z     t =     5.62s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:23.3656820Z     t =     5.99s Waiting 8.0s for "route /detail" StaticText to exist
+2026-11-15T22:27:24.3932360Z     t =     7.04s     Checking `Expect predicate `existsNoRetry == 1` for object "route /detail" StaticText`
+2026-11-15T22:27:24.4039450Z     t =     7.04s         Checking existence of `"route /detail" StaticText`
+2026-11-15T22:27:24.4838820Z     t =     7.09s Tap "Retained draft" TextField
+2026-11-15T22:27:24.5272730Z     t =     7.09s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:24.5282110Z     t =     7.09s     Find the "Retained draft" TextField
+2026-11-15T22:27:24.5364240Z     t =     7.12s     Check for interrupting elements affecting "Retained draft" TextField
+2026-11-15T22:27:24.5370130Z     t =     7.15s     Synthesize event
+2026-11-15T22:27:24.8686640Z     t =     7.45s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:26.1318430Z     t =     8.58s Waiting 5.0s for Keyboard (First Match) to exist
+2026-11-15T22:27:27.2859260Z     t =     9.59s     Checking `Expect predicate `existsNoRetry == 1` for object Keyboard (First Match)`
+2026-11-15T22:27:27.3669830Z     t =     9.59s         Checking existence of `Keyboard (First Match)`
+2026-11-15T22:27:27.3670900Z     t =     9.62s Type 'Keep my navigation...' into "Retained draft" TextField
+2026-11-15T22:27:27.4481760Z     t =     9.62s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:27.5294880Z     t =     9.63s     Find the "Retained draft" TextField
+2026-11-15T22:27:27.6107850Z     t =     9.76s     Check for interrupting elements affecting "Retained draft" TextField
+2026-11-15T22:27:27.6482750Z     t =     9.80s     Synthesize event
+2026-11-15T22:27:27.9173290Z     t =    10.40s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:27.9277490Z     t =    10.40s Tap "permanent" Button
+2026-11-15T22:27:27.9768430Z     t =    10.40s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:27.9876380Z     t =    10.40s     Find the "permanent" Button
+2026-11-15T22:27:27.9986280Z     t =    10.45s     Check for interrupting elements affecting "permanent" Button
+2026-11-15T22:27:28.0093620Z     t =    10.48s     Synthesize event
+2026-11-15T22:27:28.1383100Z     t =    10.77s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:28.4555010Z     t =    11.08s Waiting 5.0s for "Destinations" StaticText to exist
+2026-11-15T22:27:29.6193610Z     t =    12.13s     Checking `Expect predicate `existsNoRetry == 1` for object "Destinations" StaticText`
+2026-11-15T22:27:29.6297620Z     t =    12.13s         Checking existence of `"Destinations" StaticText`
+2026-11-15T22:27:29.6399880Z     t =    12.18s Find the "Push detail" Button
+2026-11-15T22:27:29.6795450Z     t =    12.27s Tap "Close drawer" Button
+2026-11-15T22:27:29.6980110Z     t =    12.27s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:29.7084090Z     t =    12.27s     Find the "Close drawer" Button
+2026-11-15T22:27:29.7085620Z     t =    12.30s     Check for interrupting elements affecting "Close drawer" Button
+2026-11-15T22:27:29.7229810Z     t =    12.34s     Synthesize event
+2026-11-15T22:27:29.9883430Z     t =    12.63s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:30.3255730Z     t =    12.90s Checking existence of `"Destinations" StaticText`
+2026-11-15T22:27:30.3357030Z     t =    12.95s Tap "Settings stack" Button
+2026-11-15T22:27:30.3811660Z     t =    12.95s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:30.3827350Z     t =    12.95s     Find the "Settings stack" Button
+2026-11-15T22:27:30.3939470Z     t =    12.99s     Check for interrupting elements affecting "Settings stack" Button
+2026-11-15T22:27:30.4045380Z     t =    13.02s     Synthesize event
+2026-11-15T22:27:30.7128730Z     t =    13.32s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:31.3531010Z     t =    13.90s Waiting 8.0s for "route /settings" StaticText to exist
+2026-11-15T22:27:32.4113610Z     t =    14.93s     Checking `Expect predicate `existsNoRetry == 1` for object "route /settings" StaticText`
+2026-11-15T22:27:32.4119350Z     t =    14.93s         Checking existence of `"route /settings" StaticText`
+2026-11-15T22:27:32.4253370Z     t =    14.97s Tap "Home stack" Button
+2026-11-15T22:27:32.4378100Z     t =    14.97s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:32.4560340Z     t =    14.98s     Find the "Home stack" Button
+2026-11-15T22:27:32.9362660Z     t =    14.99s     Check for interrupting elements affecting "Home stack" Button
+2026-11-15T22:27:32.9466190Z     t =    15.03s     Synthesize event
+2026-11-15T22:27:32.9744640Z     t =    15.41s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:33.2375420Z     t =    15.87s Waiting 8.0s for "route /detail" StaticText to exist
+2026-11-15T22:27:34.4262680Z     t =    16.89s     Checking `Expect predicate `existsNoRetry == 1` for object "route /detail" StaticText`
+2026-11-15T22:27:34.4367760Z     t =    16.90s         Checking existence of `"route /detail" StaticText`
+2026-11-15T22:27:34.4470430Z     t =    16.98s Find the "Retained draft" TextField
+2026-11-15T22:27:34.4931480Z     t =    17.08s Tap "RTL" Button
+2026-11-15T22:27:34.5074080Z     t =    17.08s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:34.5381420Z     t =    17.08s     Find the "RTL" Button
+2026-11-15T22:27:34.5496720Z     t =    17.12s     Check for interrupting elements affecting "RTL" Button
+2026-11-15T22:27:34.5599070Z     t =    17.15s     Synthesize event
+2026-11-15T22:27:34.9727900Z     t =    17.44s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:34.9904890Z     t =    17.44s Find the "Destinations" StaticText
+2026-11-15T22:27:34.9905710Z     t =    17.50s Find the "Keep my navigation state" TextField
+2026-11-15T22:27:35.0014860Z     t =    17.59s Tap "LTR" Button
+2026-11-15T22:27:35.0150960Z     t =    17.59s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:35.1823510Z     t =    17.80s     Find the "LTR" Button
+2026-11-15T22:27:35.2634680Z     t =    17.84s     Check for interrupting elements affecting "LTR" Button
+2026-11-15T22:27:35.2636270Z     t =    17.88s     Synthesize event
+2026-11-15T22:27:35.6063460Z     t =    18.19s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:35.6178700Z     t =    18.19s Tap "overlay" Button
+2026-11-15T22:27:35.6181000Z     t =    18.19s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:35.6672810Z     t =    18.20s     Find the "overlay" Button
+2026-11-15T22:27:35.6783430Z     t =    18.24s     Check for interrupting elements affecting "overlay" Button
+2026-11-15T22:27:35.6885930Z     t =    18.29s     Synthesize event
+2026-11-15T22:27:35.9608580Z     t =    18.58s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:36.2468790Z     t =    18.88s Waiting 5.0s for "Destinations" StaticText to not exist
+2026-11-15T22:27:37.3381730Z     t =    19.92s     Checking `Expect predicate `existsNoRetry == 0` for object "Destinations" StaticText`
+2026-11-15T22:27:37.4249120Z     t =    19.93s         Checking existence of `"Destinations" StaticText`
+2026-11-15T22:27:37.4642900Z     t =    20.01s Tap "Menu" Button
+2026-11-15T22:27:37.4747450Z     t =    20.01s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:37.4748050Z     t =    20.01s     Find the "Menu" Button
+2026-11-15T22:27:37.4850260Z     t =    20.08s     Check for interrupting elements affecting "Menu" Button
+2026-11-15T22:27:37.4970630Z     t =    20.10s     Synthesize event
+2026-11-15T22:27:37.7658570Z     t =    20.40s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:38.0999900Z     t =    20.73s Waiting 5.0s for "Destinations" StaticText to exist
+2026-11-15T22:27:39.1573200Z     t =    21.76s     Checking `Expect predicate `existsNoRetry == 1` for object "Destinations" StaticText`
+2026-11-15T22:27:39.1679630Z     t =    21.76s         Checking existence of `"Destinations" StaticText`
+2026-11-15T22:27:39.1779920Z     t =    21.79s Checking existence of `"Push detail" Button`
+2026-11-15T22:27:39.2268270Z     t =    21.80s Tap "permanent" Button
+2026-11-15T22:27:39.2350810Z     t =    21.80s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:39.2452360Z     t =    21.80s     Find the "permanent" Button
+2026-11-15T22:27:39.2926370Z     t =    21.82s     Check for interrupting elements affecting "permanent" Button
+2026-11-15T22:27:39.3269800Z     t =    21.84s     Synthesize event
+2026-11-15T22:27:39.4917800Z     t =    22.14s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:39.7894060Z     t =    22.44s Waiting 5.0s for "Push detail" Button to exist
+2026-11-15T22:27:40.8757850Z     t =    23.48s     Checking `Expect predicate `existsNoRetry == 1` for object "Push detail" Button`
+2026-11-15T22:27:40.8859700Z     t =    23.48s         Checking existence of `"Push detail" Button`
+2026-11-15T22:27:40.8891380Z     t =    23.53s Tap "Open result modal" Button
+2026-11-15T22:27:40.8919370Z     t =    23.53s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:40.8993010Z     t =    23.53s     Find the "Open result modal" Button
+2026-11-15T22:27:40.9465640Z     t =    23.55s     Check for interrupting elements affecting "Open result modal" Button
+2026-11-15T22:27:40.9487660Z     t =    23.58s     Synthesize event
+2026-11-15T22:27:41.2578030Z     t =    23.87s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:41.6877450Z     t =    24.33s Waiting 8.0s for "route /modal" StaticText to exist
+2026-11-15T22:27:42.7517600Z     t =    25.38s     Checking `Expect predicate `existsNoRetry == 1` for object "route /modal" StaticText`
+2026-11-15T22:27:42.7518750Z     t =    25.38s         Checking existence of `"route /modal" StaticText`
+2026-11-15T22:27:42.7964700Z     t =    25.42s Tap "Return result" Button
+2026-11-15T22:27:42.8068280Z     t =    25.42s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:42.8170410Z     t =    25.42s     Find the "Return result" Button
+2026-11-15T22:27:42.8504980Z     t =    25.45s     Check for interrupting elements affecting "Return result" Button
+2026-11-15T22:27:42.8607420Z     t =    25.48s     Synthesize event
+2026-11-15T22:27:43.1262050Z     t =    25.77s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:43.4503390Z     t =    26.09s Waiting 5.0s for "result accepted" StaticText to exist
+2026-11-15T22:27:44.5153990Z     t =    27.13s     Checking `Expect predicate `existsNoRetry == 1` for object "result accepted" StaticText`
+2026-11-15T22:27:44.5560570Z     t =    27.13s         Checking existence of `"result accepted" StaticText`
+2026-11-15T22:27:44.5662200Z     t =    27.17s Find the "Keep my navigation state" TextField
+2026-11-15T22:27:44.5698790Z     t =    27.19s Find the Application 'org.nativescript.vuerouterns'
+2026-11-15T22:27:44.8143720Z     t =    27.34s Added attachment named 'Screenshot of Application 'org.nativescript.vuerouterns'.png'
+2026-11-15T22:27:44.9733230Z     t =    27.34s Tear Down
+2026-11-15T22:27:44.9747900Z     t =    27.34s     Setting device orientation to Portrait
+2026-11-15T22:27:44.9849930Z     t =    27.35s         Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:44.9951300Z     t =    27.36s     Terminate org.nativescript.vuerouterns:28213
+2026-11-15T22:27:45.7391070Z Test Case '-[AdaptiveDrawerChecks.AdaptiveDrawerUITests testInputAndAccessibilityAcrossModes]' passed (28.375 seconds).
+2026-11-15T22:27:45.7716280Z Test Case '-[AdaptiveDrawerChecks.AdaptiveDrawerUITests testRotationUsesAvailableWidth]' started.
+2026-11-15T22:27:45.7717030Z     t =     0.00s Start Test at 2026-11-15 22:27:45.727
+2026-11-15T22:27:45.8950780Z     t =     0.04s Set Up
+2026-11-15T22:27:46.0250500Z     t =     0.04s     Setting device orientation to Portrait
+2026-11-15T22:27:46.3326690Z     t =     0.05s         Wait for com.apple.springboard to idle
+2026-11-15T22:27:46.3503750Z     t =     0.05s     Open org.nativescript.vuerouterns
+2026-11-15T22:27:46.4588370Z     t =     0.05s         Launch org.nativescript.vuerouterns
+2026-11-15T22:27:46.7341580Z     t =     0.79s             Setting up automation session
+2026-11-15T22:27:47.7854880Z     t =     2.02s             Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:49.0226600Z     t =     3.29s Tap "auto" Button
+2026-11-15T22:27:49.0431950Z     t =     3.29s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:49.0545220Z     t =     3.29s     Find the "auto" Button
+2026-11-15T22:27:49.0648520Z     t =     3.32s     Check for interrupting elements affecting "auto" Button
+2026-11-15T22:27:49.0988940Z     t =     3.34s     Synthesize event
+2026-11-15T22:27:49.3616850Z     t =     3.63s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:49.7259010Z     t =     3.92s Setting device orientation to Landscape Left
+2026-11-15T22:27:49.7373880Z     t =     3.92s     Device orientation changed to Landscape Left
+2026-11-15T22:27:49.7579230Z     t =     3.98s     Interface orientation changed to Landscape Right
+2026-11-15T22:27:49.8245500Z     t =     3.98s     Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:49.8418880Z     t =     4.03s Find the Application 'org.nativescript.vuerouterns'
+2026-11-15T22:27:49.8521520Z     t =     4.06s Tear Down
+2026-11-15T22:27:49.8626220Z     t =     4.06s     Setting device orientation to Portrait
+2026-11-15T22:27:49.8965470Z     t =     4.06s         Device orientation changed to Portrait
+2026-11-15T22:27:49.9068390Z     t =     4.08s         Interface orientation changed to Portrait
+2026-11-15T22:27:49.9069080Z     t =     4.09s         Wait for org.nativescript.vuerouterns to idle
+2026-11-15T22:27:50.2034990Z     t =     4.43s     Terminate org.nativescript.vuerouterns:29661
+2026-11-15T22:27:51.2221180Z Test Case '-[AdaptiveDrawerChecks.AdaptiveDrawerUITests testRotationUsesAvailableWidth]' passed (5.465 seconds).
+2026-11-15T22:27:51.2325280Z Test Suite 'AdaptiveDrawerUITests' passed at 2026-11-15 22:27:51.192.
+2026-11-15T22:27:51.2656710Z 	 Executed 3 tests, with 0 failures (0 unexpected) in 53.806 (53.807) seconds
+2026-11-15T22:27:51.3491850Z Test Suite 'AdaptiveDrawerChecks.xctest' passed at 2026-11-15 22:27:51.192.
+2026-11-15T22:27:51.3492670Z 	 Executed 3 tests, with 0 failures (0 unexpected) in 53.806 (53.808) seconds
+2026-11-15T22:27:51.3894590Z Test Suite 'All tests' passed at 2026-11-15 22:27:51.193.
+2026-11-15T22:27:51.4035670Z 	 Executed 3 tests, with 0 failures (0 unexpected) in 53.806 (53.810) seconds
+2026-11-15T22:27:52.0948630Z 2026-11-15 22:27:52.086 xcodebuild[24169:69375] [MT] IDETestOperationsObserverDebug: 73.833 elapsed -- Testing started completed.
+2026-11-15T22:27:52.1054180Z 2026-11-15 22:27:52.087 xcodebuild[24169:69375] [MT] IDETestOperationsObserverDebug: 0.001 sec, +0.001 sec -- start
+2026-11-15T22:27:52.1156680Z 2026-11-15 22:27:52.087 xcodebuild[24169:69375] [MT] IDETestOperationsObserverDebug: 73.833 sec, +73.832 sec -- end
+2026-11-15T22:27:52.1980560Z 
+2026-11-15T22:27:52.2083380Z Test session results, code coverage, and logs:
+2026-11-15T22:27:52.2341020Z 	/Users/runner/work/vue-router-ns/vue-router-ns/scripts/native/out/adaptive-ios/checks.xcresult
+2026-11-15T22:27:52.2442820Z 
+2026-11-15T22:27:52.2443210Z ** TEST SUCCEEDED **
+2026-11-15T22:27:52.2549210Z 
+2026-11-15T22:27:52.4379650Z Testing started
+2026-11-15T22:27:52.7568830Z ##[group]Run xcrun simctl shutdown "$IOS_SIMULATOR"
+2026-11-15T22:27:52.7569750Z [36;1mxcrun simctl shutdown "$IOS_SIMULATOR"[0m
+2026-11-15T22:27:52.7570490Z [36;1mxcrun simctl delete "$IOS_SIMULATOR"[0m
+2026-11-15T22:27:52.8027100Z shell: /bin/bash -e {0}
+2026-11-15T22:27:52.8027380Z env:
+2026-11-15T22:27:52.8028960Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-15T22:27:52.8030630Z   IOS_SIMULATOR: 1A21D119-3452-438C-BCBF-C707176207E8
+2026-11-15T22:27:52.8031010Z ##[endgroup]
+2026-11-15T22:27:58.9895300Z ##[group]Run actions/upload-artifact@v4
+2026-11-15T22:27:58.9895720Z with:
+2026-11-15T22:27:58.9896040Z   name: drawer-iPhone-16-adaptive
+2026-11-15T22:27:58.9896540Z   path: scripts/native/out
+2026-11-15T22:27:58.9896920Z   if-no-files-found: warn
+2026-11-15T22:27:58.9897320Z   compression-level: 6
+2026-11-15T22:27:58.9897550Z   overwrite: false
+2026-11-15T22:27:58.9897930Z   include-hidden-files: false
+2026-11-15T22:27:58.9898160Z env:
+2026-11-15T22:27:58.9899870Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-15T22:27:58.9901920Z   IOS_SIMULATOR: 1A21D119-3452-438C-BCBF-C707176207E8
+2026-11-15T22:27:58.9902260Z ##[endgroup]
+2026-11-15T22:27:59.6073030Z (node:30381) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-15T22:27:59.6075010Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-15T22:27:59.6462320Z With the provided path, there will be 39 files uploaded
+2026-11-15T22:27:59.6464160Z Artifact name is valid!
+2026-11-15T22:27:59.6467260Z Root directory input is valid!
+2026-11-15T22:27:59.9126630Z Beginning upload of artifact content to blob storage
+2026-11-15T22:27:59.9146190Z (node:30381) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-15T22:27:59.9536830Z Uploaded bytes 317261
+2026-11-15T22:27:59.9715430Z Finished uploading artifact content to blob storage!
+2026-11-15T22:27:59.9717570Z SHA256 digest of uploaded artifact zip is 2fe39dd71dd874c74adefefc0a5ddf28974735e5af4f9eccb9a3a4542a7e6a06
+2026-11-15T22:27:59.9718840Z Finalizing artifact upload
+2026-11-15T22:28:00.3040840Z Artifact drawer-iPhone-16-adaptive.zip successfully finalized. Artifact ID 14183985343
+2026-11-15T22:28:00.3050400Z Artifact drawer-iPhone-16-adaptive has been successfully uploaded! Final size is 317261 bytes. Artifact ID is 14183985343
+2026-11-15T22:28:00.3059310Z Artifact download URL: https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43768273343/artifacts/14183985343
+2026-11-15T22:28:00.3228130Z Post job cleanup.
+2026-11-15T22:28:00.6633170Z Cache hit occurred on the primary key node-cache-macOS-arm64-npm-80f12e1d85cfe2521c704c7dd184aa9cf9307fa6bea5e6291733be3f18001fe0, not saving cache.
+2026-11-15T22:28:00.6760600Z Post job cleanup.
+2026-11-15T22:28:00.8551900Z [command]/opt/homebrew/bin/git version
+2026-11-15T22:28:00.8962890Z git version 2.56.0
+2026-11-15T22:28:00.9086550Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/553a2ba1-9146-42d7-83d8-facae374459a/.gitconfig'
+2026-11-15T22:28:00.9092930Z Temporarily overriding HOME='/Users/runner/work/_temp/553a2ba1-9146-42d7-83d8-facae374459a' before making global git config changes
+2026-11-15T22:28:00.9153410Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-15T22:28:00.9196920Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/vue-router-ns/vue-router-ns
+2026-11-15T22:28:00.9280110Z Removing SSH command configuration
+2026-11-15T22:28:00.9288760Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-15T22:28:00.9298270Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-15T22:28:01.0884960Z Removing HTTP extra header
+2026-11-15T22:28:01.0891630Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-15T22:28:01.0966280Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-15T22:28:01.3160970Z Removing includeIf entries pointing to credentials config files
+2026-11-15T22:28:01.3161840Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-15T22:28:01.3211560Z includeif.gitdir:/Users/runner/work/vue-router-ns/vue-router-ns/.git.path
+2026-11-15T22:28:01.3212440Z includeif.gitdir:/Users/runner/work/vue-router-ns/vue-router-ns/.git/worktrees/*.path
+2026-11-15T22:28:01.3213060Z includeif.gitdir:/github/workspace/.git.path
+2026-11-15T22:28:01.3213630Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-15T22:28:01.3268320Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/Users/runner/work/vue-router-ns/vue-router-ns/.git.path
+2026-11-15T22:28:01.3325930Z /Users/runner/work/_temp/git-credentials-393ffa2a-3711-46e9-8104-ad23a822dde2.config
+2026-11-15T22:28:01.3350680Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/Users/runner/work/vue-router-ns/vue-router-ns/.git.path \/Users\/runner\/work\/_temp\/git\-credentials\-393ffa2a\-3711\-46e9\-8104\-ad23a822dde2\.config
+2026-11-15T22:28:01.3422840Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/Users/runner/work/vue-router-ns/vue-router-ns/.git/worktrees/*.path
+2026-11-15T22:28:01.3477760Z /Users/runner/work/_temp/git-credentials-393ffa2a-3711-46e9-8104-ad23a822dde2.config
+2026-11-15T22:28:01.3544020Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/Users/runner/work/vue-router-ns/vue-router-ns/.git/worktrees/*.path \/Users\/runner\/work\/_temp\/git\-credentials\-393ffa2a\-3711\-46e9\-8104\-ad23a822dde2\.config
+2026-11-15T22:28:01.3598790Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-15T22:28:01.3670820Z /github/runner_temp/git-credentials-393ffa2a-3711-46e9-8104-ad23a822dde2.config
+2026-11-15T22:28:01.3726550Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-393ffa2a\-3711\-46e9\-8104\-ad23a822dde2\.config
+2026-11-15T22:28:01.3785260Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-15T22:28:01.3870100Z /github/runner_temp/git-credentials-393ffa2a-3711-46e9-8104-ad23a822dde2.config
+2026-11-15T22:28:01.3877410Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-393ffa2a\-3711\-46e9\-8104\-ad23a822dde2\.config
+2026-11-15T22:28:01.3980940Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-15T22:28:01.5614520Z Removing credentials config '/Users/runner/work/_temp/git-credentials-393ffa2a-3711-46e9-8104-ad23a822dde2.config'
+2026-11-15T22:28:01.5768120Z Cleaning up orphan processes
+2026-11-15T22:28:04.2909420Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

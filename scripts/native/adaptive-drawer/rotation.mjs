@@ -5,6 +5,7 @@ import { mkdtemp, readFile, readdir, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 import { initialize, command, ios, sim, pkg, pause, out } from './bridge.mjs'
+import { loggedCommand } from '../logged-command.mjs'
 
 const exec = promisify(execFile)
 assert(
@@ -35,7 +36,7 @@ if (process.env.RECORD_VIDEO === '1') {
 }
 let testError
 try {
-  const result = await exec(
+  await loggedCommand(
     'xcodebuild',
     [
       'test',
@@ -54,15 +55,14 @@ try {
       '-resultBundlePath',
       join(out, 'rotation.xcresult'),
     ],
-    { timeout: 240000, maxBuffer: 16 * 1024 * 1024 },
+    {
+      timeout: 240000,
+      maxBuffer: 16 * 1024 * 1024,
+      logFile: join(out, 'rotation-xctest.log'),
+    },
   )
-  await writeFile(join(out, 'rotation-xctest.log'), result.stdout + result.stderr)
 } catch (error) {
   testError = error
-  await writeFile(
-    join(out, 'rotation-xctest.log'),
-    `${error.stdout ?? ''}\n${error.stderr ?? ''}`,
-  )
 } finally {
   if (recording && recording.exitCode === null) {
     const stopped = new Promise((resolve) => recording.once('exit', resolve))

@@ -1,0 +1,51 @@
+{
+  "sourceCommit": "4ca8b1a8580a7ebb577044dad2789a972121c41c",
+  "device": {
+    "model": "iPad Pro 11-inch (3rd generation)",
+    "modelIdentifier": "iPad13,4",
+    "osVersion": "27.0",
+    "osBuild": "24A5418b",
+    "physical": true
+  },
+  "xcode": "Xcode 27.2\nBuild version 27B52",
+  "fixture": "adaptivedrawerTest",
+  "applicationIdentifier": "org.nativescript.routerdrawerphysical215",
+  "uiTestSourceOnlyChange": "isolated application bundle identifier",
+  "sourceSha256": {
+    "scripts/native/adaptive-drawer/AdaptiveDrawerUITests.swift": "041a116c7ca59c5f6bc51c079d7e3cf3c92545ffffbea137e345edb4c013d747",
+    "demo/src/testing/adaptivedrawer-app.ts": "436eb9ca6b4af311238f4cb70b0bf7b3bc434269e94c1217bb937f338603cc52",
+    "demo/src/testing/adaptive-rotation.ios.ts": "787c6ab7ec9a7cf5a14c1630b18c0e24f8dc9f2116fb693d9edd3e92159cfe3c",
+    "demo/src/testing/adaptive-settlement.ios.ts": "3f6e782ac9e9b5d9d19f2c033d41920d7979a5108313ec959bb9bcfa8e462d7a"
+  },
+  "adaptedUITestSha256": "0ee621525d6298e9b19d0303f0f578230e1e2cd40a526f443fce18f9daa55e70",
+  "capture": "devicectl screen-record rejected: capability unsupported",
+  "recordedAt": "2026-11-15T22:04:01.603000+00:00",
+  "result": "Passed",
+  "passedTests": 3,
+  "failedTests": 0,
+  "skippedTests": 0,
+  "tests": [
+    {
+      "name": "testDrawerAndNativeBackGesturesAfterAdaptation()",
+      "result": "Passed",
+      "durationInSeconds": 21.331140995025635
+    },
+    {
+      "name": "testInputAndAccessibilityAcrossModes()",
+      "result": "Passed",
+      "durationInSeconds": 30.52811300754547
+    },
+    {
+      "name": "testRotationUsesAvailableWidth()",
+      "result": "Passed",
+      "durationInSeconds": 9.414047956466675
+    }
+  ],
+  "appearanceUnchanged": true,
+  "orientationRestored": true,
+  "excluded": [
+    "RotationUITests ten-case rotation-during-native-navigation matrix",
+    "Full native CI acceptance"
+  ],
+  "evidence": "Derived from physical-device XCTest result bundle; raw bundle retained locally because it contains device identifiers."
+}

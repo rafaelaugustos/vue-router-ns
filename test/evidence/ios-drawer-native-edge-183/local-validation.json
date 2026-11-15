@@ -1,0 +1,67 @@
+{
+  "sourceCommit": "9f8f0e2236fbe430b6d57496c13d46020ba6a983",
+  "unchanged": [
+    "runtime",
+    "fixture",
+    "rotation.mjs acceptance assertions",
+    "workflow deadlines"
+  ],
+  "cases": 10,
+  "exercised": 8,
+  "notReproduced": 2,
+  "gestures": [
+    {
+      "case": "commit-landscape",
+      "recognizerX": 0,
+      "input": {
+        "y": 655,
+        "x": 2
+      },
+      "interactiveObserved": true,
+      "requestedDuringNavigation": true,
+      "cancelled": false,
+      "notReproduced": null
+    },
+    {
+      "case": "cancel-landscape",
+      "recognizerX": 0,
+      "input": {
+        "y": 655,
+        "x": 2
+      },
+      "interactiveObserved": true,
+      "requestedDuringNavigation": true,
+      "cancelled": true,
+      "notReproduced": null
+    },
+    {
+      "case": "commit-portrait",
+      "recognizerX": 280,
+      "input": {
+        "x": 282,
+        "y": 467
+      },
+      "interactiveObserved": false,
+      "requestedDuringNavigation": false,
+      "cancelled": null,
+      "notReproduced": "No interactive coordinator at the permanent content edge"
+    },
+    {
+      "case": "cancel-portrait",
+      "recognizerX": 280,
+      "input": {
+        "x": 282,
+        "y": 467
+      },
+      "interactiveObserved": false,
+      "requestedDuringNavigation": false,
+      "cancelled": null,
+      "notReproduced": "No interactive coordinator at the permanent content edge"
+    }
+  ],
+  "fullRunnerExitCode": 0,
+  "observerAndCommandLogTests": {
+    "passed": 13,
+    "failed": 0
+  }
+}

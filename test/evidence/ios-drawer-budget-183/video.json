@@ -1,0 +1,28 @@
+{
+  "path": "docs/public/media/ios-drawer-rotation-evidence.mp4",
+  "sha256": "8c8806f527935ac738bd4fdc6e3fec0cc1b1d115e093dc793b50d4f35d572b45",
+  "sourceSHA256": "8c8806f527935ac738bd4fdc6e3fec0cc1b1d115e093dc793b50d4f35d572b45",
+  "sourceRun": "43763592731",
+  "sourceJob": 132963613392,
+  "sourceMember": "adaptive-rotation/rotation.mp4",
+  "unchangedOriginal": true,
+  "transformation": "None: original hosted simulator video retained byte for byte. No cuts, overlays or replacement frames.",
+  "acceptance": "Failed: four programmatic cases complete in XCTest; the first intended-commit gesture does not observe native navigation. This is not a passing rotation matrix.",
+  "media": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1668,
+        "height": 2420,
+        "time_base": "1/600",
+        "nb_frames": "329"
+      }
+    ],
+    "format": {
+      "duration": "61.743333",
+      "size": "7042875"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "sourceCommit": "9f8f0e2236fbe430b6d57496c13d46020ba6a983",
+  "baselineCommit": "d6d1ed0ee092823e9bf8ffc807eef5a7b2a89f14",
+  "xcode": "Xcode 27.2\nBuild version 27B52",
+  "runtime": "iOS 18.6 / 22G86",
+  "device": "iPad Pro 11-inch (M4)",
+  "sourceSha256": {
+    "scripts/native/adaptive-drawer/RotationUITests.swift": "29b413b53ade616ee3e7a946e833c4c59ac018d68221394a07f82eb6f725d5b2",
+    "scripts/native/adaptive-drawer/rotation.mjs": "88af92af4a8dacdbc7a7b41e7bde3c7020abbee5197c5889a17b119b29cb4903",
+    "demo/src/testing/adaptive-rotation.ios.ts": "787c6ab7ec9a7cf5a14c1630b18c0e24f8dc9f2116fb693d9edd3e92159cfe3c",
+    "demo/src/testing/adaptivedrawer-app.ts": "436eb9ca6b4af311238f4cb70b0bf7b3bc434269e94c1217bb937f338603cc52",
+    ".github/workflows/native-drawer-ios.yml": "569f407efb5cafef0e0908254042beaa6a137dde71640128a5cc3a9da844b613"
+  },
+  "fixtureBinarySha256": "7a2ac7319cee1409a52086e5469bc233df6c6080a35dd535ae2aac3b764ebda4",
+  "replayPatch": "replayed-ci-gesture.patch",
+  "interpretation": {
+    "baseline": "Unmodified driver completed locally; original hosted failure remains retained separately.",
+    "replay": "Controlled replay substitutes only the first intended-commit drag with the coordinates recorded in the hosted failure; it reproduces the missing coordinator and subsequent observer failures.",
+    "nativeEdge": "Corrected driver completes all ten reports and follow-up checks with the unchanged app. Eight cases exercised; two permanent-sidebar gestures classified not reproduced under the existing rule."
+  }
+}

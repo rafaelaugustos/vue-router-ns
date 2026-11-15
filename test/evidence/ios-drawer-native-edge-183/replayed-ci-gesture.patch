@@ -1,0 +1,17 @@
+diff --git a/scripts/native/adaptive-drawer/RotationUITests.swift b/scripts/native/adaptive-drawer/RotationUITests.swift
+index e0b6e1e..54a5ad7 100644
+--- a/scripts/native/adaptive-drawer/RotationUITests.swift
++++ b/scripts/native/adaptive-drawer/RotationUITests.swift
+@@ -106,8 +106,10 @@ final class RotationUITests: XCTestCase {
+             XCUIDevice.shared.orientation = landscape ? .portrait : .landscapeLeft
+             try command("push", "home")
+             let content = app.textFields["Retained draft"].firstMatch.frame
+-            let start = app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: content.minX - 14, dy: content.midY + 120))
+-            let end = start.withOffset(CGVector(dx: content.width * fraction, dy: 0))
++            // Negative control: replay the first failed hosted drag coordinate.
++            let replay = name == "commit" && landscape
++            let start = app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: replay ? 80.1 : content.minX - 14, dy: replay ? 388.4 : content.midY + 120))
++            let end = start.withOffset(CGVector(dx: replay ? 613.1 : content.width * fraction, dy: 0))
+             let label = "\(name)-\(landscape ? "landscape" : "portrait")"
+             try arm("gesture-device", landscape: landscape)
+             // Two real device actions overlap: the pointer stays down while the

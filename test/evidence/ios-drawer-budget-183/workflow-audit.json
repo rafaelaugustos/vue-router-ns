@@ -1,0 +1,117 @@
+{
+  "base": "fbfb7b6e399d125a7aaec39b1ded4f271250316b",
+  "originalStepCount": 20,
+  "jobLimitMinutes": 20,
+  "devices": ["iPhone-16", "iPad-Pro-11-inch-M4-8GB"],
+  "suites": ["drawer", "adaptive"],
+  "requiredByAggregate": true,
+  "steps": [
+    {
+      "step": "actions/checkout@v7",
+      "condition": null,
+      "equivalent": true
+    },
+    {
+      "step": "actions/setup-node@v7",
+      "condition": null,
+      "equivalent": true
+    },
+    {
+      "step": "ruby/setup-ruby@v1",
+      "condition": null,
+      "equivalent": true
+    },
+    {
+      "step": "gem install cocoapods xcodeproj --no-document",
+      "condition": null,
+      "equivalent": true
+    },
+    {
+      "step": "npm ci && npm run build",
+      "condition": null,
+      "equivalent": true
+    },
+    {
+      "step": "npm install --no-audit --no-fund",
+      "condition": null,
+      "equivalent": true
+    },
+    {
+      "step": "npm install -g nativescript",
+      "condition": null,
+      "equivalent": true
+    },
+    {
+      "step": "Prepare native resources",
+      "condition": null,
+      "equivalent": true
+    },
+    {
+      "step": "ns build ios --for-device false --env.drawerTest",
+      "condition": "matrix.suite == 'drawer'",
+      "equivalent": true
+    },
+    {
+      "step": "Create dedicated simulator",
+      "condition": null,
+      "equivalent": true
+    },
+    {
+      "step": "Binding, accessibility state and lifecycle contracts",
+      "condition": "matrix.suite == 'drawer'",
+      "equivalent": true
+    },
+    {
+      "step": "Reduce Motion contracts",
+      "condition": "matrix.suite == 'drawer'",
+      "equivalent": true
+    },
+    {
+      "step": "Real native input, navigation and rotation",
+      "condition": "matrix.suite == 'drawer'",
+      "equivalent": true
+    },
+    {
+      "step": "Build adaptive drawer fixture",
+      "condition": "matrix.suite == 'adaptive'",
+      "equivalent": true
+    },
+    {
+      "step": "Adaptive identity, state and modal contracts",
+      "condition": "matrix.suite == 'adaptive'",
+      "equivalent": true
+    },
+    {
+      "step": "Adaptive Reduce Motion contracts",
+      "condition": "matrix.suite == 'adaptive'",
+      "equivalent": true
+    },
+    {
+      "step": "Adaptive native input and rotation",
+      "condition": "matrix.suite == 'adaptive'",
+      "equivalent": true
+    },
+    {
+      "step": "iPad rotation requested during active navigation",
+      "condition": "matrix.suite == 'adaptive' && matrix.device == 'iPad-Pro-11-inch-M4-8GB'",
+      "equivalent": true
+    },
+    {
+      "step": "Clean up dedicated simulator",
+      "condition": "always() && env.IOS_SIMULATOR != ''",
+      "equivalent": true
+    },
+    {
+      "step": "actions/upload-artifact@v4",
+      "condition": "always()",
+      "equivalent": true
+    }
+  ],
+  "changes": [
+    "Conditional basic/adaptive suites",
+    "Adaptive build moved before simulator creation",
+    "Unique suite simulator/artifact names",
+    "Existing rotation recording enabled"
+  ],
+  "source": "941d13bb377889e737d64b60a734d9f1e53e04cd"
+}
