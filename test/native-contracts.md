@@ -36,7 +36,7 @@ The aggregate runs on every PR, including documentation-only PRs, so a required
 check never disappears due to workflow path filtering. The current workflow skips
 all device lanes on every PR and accepts those skips; change detection alone does
 not enable them. A green PR aggregate therefore does not prove native acceptance.
-Workflow dispatch and the weekly schedule enable all nine required groups (21
+Workflow dispatch and the weekly schedule enable all nine required groups (23
 device jobs after matrix expansion). For these runs the aggregate requires every
 group to succeed. Preserve the run's exact source and per-job results when using
 it as acceptance evidence.
@@ -47,6 +47,13 @@ together; the other runs tabs, HTTP data and Suspense. Each job has a 30-minute
 limit, its own simulator and artifact, and unchanged per-scenario deadlines. Both
 must pass. Destination XCTest output is written as it arrives so an outer job
 cancellation retains the output already produced.
+
+The iOS drawer group runs the basic and adaptive fixtures independently on both
+iPhone and iPad, with four required jobs and the original 20-minute job limits.
+The adaptive iPad job includes rotation during active navigation and records its
+actual simulator video. Each suite has its own simulator and artifact. Rotation
+XCTest output is written as it arrives, with the same 240-second command deadline
+and all existing identity, history, draft and settlement assertions.
 
 The [2026-11-14 matrix investigation](./native-matrix-183.md) records a run on one
 merged commit and the guarded UIKit Split test-selector correction it exposed.
