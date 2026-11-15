@@ -50,6 +50,8 @@ cancellation retains the output already produced.
 
 The [2026-11-14 matrix investigation](./native-matrix-183.md) records a run on one
 merged commit and the guarded UIKit Split test-selector correction it exposed.
+The [iOS duration follow-up](./ios-job-budget-183.md) records the job split and
+live XCTest output regression evidence.
 
 Rafael Augusto owns the fixture and baseline review. A platform failure stays red
 until its evidence distinguishes a fixture defect, router regression, upstream

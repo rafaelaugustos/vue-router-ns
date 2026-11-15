@@ -1,0 +1,3963 @@
+[
+  {
+    "id": 132591077647,
+    "name": "changes",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-14T21:16:09Z",
+    "completed_at": "2026-11-14T21:16:21Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591077647",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:16:10Z",
+        "completed_at": "2026-11-14T21:16:10Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:16:10Z",
+        "completed_at": "2026-11-14T21:16:18Z"
+      },
+      {
+        "name": "Run dorny/paths-filter@v3",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:16:18Z",
+        "completed_at": "2026-11-14T21:16:19Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:16:19Z",
+        "completed_at": "2026-11-14T21:16:19Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:16:19Z",
+        "completed_at": "2026-11-14T21:16:19Z"
+      }
+    ],
+    "log": "jobs/132591077647.log.gz",
+    "logSHA256": "7961047b6812f570476412d21488e775d0ebf487838fdae882188fb1626b7651"
+  },
+  {
+    "id": 132591141601,
+    "name": "android (34)",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-14T21:16:23Z",
+    "completed_at": "2026-11-14T21:26:02Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591141601",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:16:24Z",
+        "completed_at": "2026-11-14T21:16:25Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:16:25Z",
+        "completed_at": "2026-11-14T21:16:33Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:16:33Z",
+        "completed_at": "2026-11-14T21:16:34Z"
+      },
+      {
+        "name": "Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:16:34Z",
+        "completed_at": "2026-11-14T21:16:34Z"
+      },
+      {
+        "name": "Enable KVM",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:16:34Z",
+        "completed_at": "2026-11-14T21:16:34Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:16:34Z",
+        "completed_at": "2026-11-14T21:16:39Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:16:39Z",
+        "completed_at": "2026-11-14T21:16:52Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:16:52Z",
+        "completed_at": "2026-11-14T21:17:01Z"
+      },
+      {
+        "name": "Prepare native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:17:01Z",
+        "completed_at": "2026-11-14T21:17:25Z"
+      },
+      {
+        "name": "Install emulator image",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:17:25Z",
+        "completed_at": "2026-11-14T21:18:02Z"
+      },
+      {
+        "name": "Build fixed and former HMR fixtures",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:18:02Z",
+        "completed_at": "2026-11-14T21:20:31Z"
+      },
+      {
+        "name": "Prepare native incoming links and launcher resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-14T21:20:31Z",
+        "completed_at": "2026-11-14T21:20:31Z"
+      },
+      {
+        "name": "Build incoming destination fixture",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-14T21:20:31Z",
+        "completed_at": "2026-11-14T21:20:50Z"
+      },
+      {
+        "name": "Build continuous native input driver",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-11-14T21:20:50Z",
+        "completed_at": "2026-11-14T21:20:54Z"
+      },
+      {
+        "name": "Native contracts and negative control",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15,
+        "started_at": "2026-11-14T21:20:54Z",
+        "completed_at": "2026-11-14T21:25:58Z"
+      },
+      {
+        "name": "Enforce timing and retention budgets",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 16,
+        "started_at": "2026-11-14T21:25:58Z",
+        "completed_at": "2026-11-14T21:25:58Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 17,
+        "started_at": "2026-11-14T21:25:58Z",
+        "completed_at": "2026-11-14T21:25:59Z"
+      },
+      {
+        "name": "Post Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 32,
+        "started_at": "2026-11-14T21:25:59Z",
+        "completed_at": "2026-11-14T21:25:59Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 33,
+        "started_at": "2026-11-14T21:25:59Z",
+        "completed_at": "2026-11-14T21:25:59Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 34,
+        "started_at": "2026-11-14T21:25:59Z",
+        "completed_at": "2026-11-14T21:25:59Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 35,
+        "started_at": "2026-11-14T21:25:59Z",
+        "completed_at": "2026-11-14T21:25:59Z"
+      }
+    ],
+    "log": "jobs/132591141601.log.gz",
+    "logSHA256": "0b1350a7cc75da1bd8925f89f53cc58c1705c250c053870a8863749f1cc3fd76"
+  },
+  {
+    "id": 132591141640,
+    "name": "uikit-split (iPad-Pro-13-inch-M4-8GB)",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-14T21:31:31Z",
+    "completed_at": "2026-11-14T21:50:53Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591141640",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:31:32Z",
+        "completed_at": "2026-11-14T21:31:34Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:31:34Z",
+        "completed_at": "2026-11-14T21:32:06Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:32:06Z",
+        "completed_at": "2026-11-14T21:32:18Z"
+      },
+      {
+        "name": "Run ruby/setup-ruby@v1",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:32:18Z",
+        "completed_at": "2026-11-14T21:32:18Z"
+      },
+      {
+        "name": "Run gem install cocoapods xcodeproj --no-document",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:32:18Z",
+        "completed_at": "2026-11-14T21:32:20Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:32:20Z",
+        "completed_at": "2026-11-14T21:32:26Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:32:26Z",
+        "completed_at": "2026-11-14T21:32:39Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:32:39Z",
+        "completed_at": "2026-11-14T21:32:53Z"
+      },
+      {
+        "name": "Prepare a resizable native app",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:32:53Z",
+        "completed_at": "2026-11-14T21:33:05Z"
+      },
+      {
+        "name": "Run ns build ios --for-device false --env.uikitsplitTest",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:33:05Z",
+        "completed_at": "2026-11-14T21:34:44Z"
+      },
+      {
+        "name": "Create dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:34:44Z",
+        "completed_at": "2026-11-14T21:36:51Z"
+      },
+      {
+        "name": "Run node scripts/native/uikit-split/ios.mjs",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-14T21:36:51Z",
+        "completed_at": "2026-11-14T21:42:34Z"
+      },
+      {
+        "name": "Prepare incoming destination fixture",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-14T21:42:34Z",
+        "completed_at": "2026-11-14T21:42:35Z"
+      },
+      {
+        "name": "Build incoming destination fixture",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-11-14T21:42:35Z",
+        "completed_at": "2026-11-14T21:44:48Z"
+      },
+      {
+        "name": "Native scene links, quick actions and Spotlight",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15,
+        "started_at": "2026-11-14T21:44:48Z",
+        "completed_at": "2026-11-14T21:50:37Z"
+      },
+      {
+        "name": "Clean up dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 16,
+        "started_at": "2026-11-14T21:50:37Z",
+        "completed_at": "2026-11-14T21:50:43Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 17,
+        "started_at": "2026-11-14T21:50:43Z",
+        "completed_at": "2026-11-14T21:50:46Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 33,
+        "started_at": "2026-11-14T21:50:46Z",
+        "completed_at": "2026-11-14T21:50:47Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 34,
+        "started_at": "2026-11-14T21:50:47Z",
+        "completed_at": "2026-11-14T21:50:48Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 35,
+        "started_at": "2026-11-14T21:50:48Z",
+        "completed_at": "2026-11-14T21:50:51Z"
+      }
+    ],
+    "log": "jobs/132591141640.log.gz",
+    "logSHA256": "558956bd84df23f9ce21b5f427e945b2f20ffdef4c49826286acc1205d3a5779"
+  },
+  {
+    "id": 132591141664,
+    "name": "android (36)",
+    "status": "completed",
+    "conclusion": "failure",
+    "started_at": "2026-11-14T21:16:24Z",
+    "completed_at": "2026-11-14T21:25:08Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591141664",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:16:25Z",
+        "completed_at": "2026-11-14T21:16:26Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:16:26Z",
+        "completed_at": "2026-11-14T21:16:34Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:16:34Z",
+        "completed_at": "2026-11-14T21:16:35Z"
+      },
+      {
+        "name": "Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:16:35Z",
+        "completed_at": "2026-11-14T21:16:35Z"
+      },
+      {
+        "name": "Enable KVM",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:16:35Z",
+        "completed_at": "2026-11-14T21:16:35Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:16:35Z",
+        "completed_at": "2026-11-14T21:16:42Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:16:42Z",
+        "completed_at": "2026-11-14T21:16:56Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:16:56Z",
+        "completed_at": "2026-11-14T21:17:06Z"
+      },
+      {
+        "name": "Prepare native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:17:06Z",
+        "completed_at": "2026-11-14T21:17:31Z"
+      },
+      {
+        "name": "Install emulator image",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:17:31Z",
+        "completed_at": "2026-11-14T21:18:03Z"
+      },
+      {
+        "name": "Build fixed and former HMR fixtures",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:18:03Z",
+        "completed_at": "2026-11-14T21:21:32Z"
+      },
+      {
+        "name": "Prepare native incoming links and launcher resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-14T21:21:32Z",
+        "completed_at": "2026-11-14T21:21:32Z"
+      },
+      {
+        "name": "Build incoming destination fixture",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-14T21:21:32Z",
+        "completed_at": "2026-11-14T21:22:04Z"
+      },
+      {
+        "name": "Build continuous native input driver",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-11-14T21:22:04Z",
+        "completed_at": "2026-11-14T21:22:09Z"
+      },
+      {
+        "name": "Native contracts and negative control",
+        "status": "completed",
+        "conclusion": "failure",
+        "number": 15,
+        "started_at": "2026-11-14T21:22:09Z",
+        "completed_at": "2026-11-14T21:25:05Z"
+      },
+      {
+        "name": "Enforce timing and retention budgets",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 16,
+        "started_at": "2026-11-14T21:25:05Z",
+        "completed_at": "2026-11-14T21:25:05Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 17,
+        "started_at": "2026-11-14T21:25:05Z",
+        "completed_at": "2026-11-14T21:25:06Z"
+      },
+      {
+        "name": "Post Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 32,
+        "started_at": "2026-11-14T21:25:06Z",
+        "completed_at": "2026-11-14T21:25:06Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 33,
+        "started_at": "2026-11-14T21:25:06Z",
+        "completed_at": "2026-11-14T21:25:06Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 34,
+        "started_at": "2026-11-14T21:25:06Z",
+        "completed_at": "2026-11-14T21:25:06Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 35,
+        "started_at": "2026-11-14T21:25:06Z",
+        "completed_at": "2026-11-14T21:25:06Z"
+      }
+    ],
+    "log": "jobs/132591141664.log.gz",
+    "logSHA256": "ca101d2bbd54217030e26037740b52561832ca53fb66ea0e2546847e8a722ef1",
+    "annotations": [
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rafaelaugustos/vue-router-ns/blob/c953afe0766a1907920600cc5d5ee9d5452b87d0/.github",
+        "start_line": 4,
+        "start_column": null,
+        "end_line": 4,
+        "end_column": null,
+        "annotation_level": "warning",
+        "title": "",
+        "message": "Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/setup-java@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/",
+        "raw_details": ""
+      },
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rafaelaugustos/vue-router-ns/blob/c953afe0766a1907920600cc5d5ee9d5452b87d0/.github",
+        "start_line": 267,
+        "start_column": null,
+        "end_line": 267,
+        "end_column": null,
+        "annotation_level": "failure",
+        "title": "",
+        "message": "The process '/usr/bin/sh' failed with exit code 1",
+        "raw_details": ""
+      },
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rafaelaugustos/vue-router-ns/blob/c953afe0766a1907920600cc5d5ee9d5452b87d0/.github",
+        "start_line": 14,
+        "start_column": null,
+        "end_line": 14,
+        "end_column": null,
+        "annotation_level": "warning",
+        "title": "",
+        "message": "setup-java v4 is deprecated and will no longer receive updates. Please migrate to actions/setup-java@v5.",
+        "raw_details": ""
+      },
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rafaelaugustos/vue-router-ns/blob/c953afe0766a1907920600cc5d5ee9d5452b87d0/.github",
+        "start_line": 1,
+        "start_column": null,
+        "end_line": 1,
+        "end_column": null,
+        "annotation_level": "notice",
+        "title": "",
+        "message": "\"The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748\"",
+        "raw_details": ""
+      }
+    ]
+  },
+  {
+    "id": 132591141717,
+    "name": "uikit-split (iPhone-16-Pro)",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-14T21:33:43Z",
+    "completed_at": "2026-11-14T21:43:55Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591141717",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:33:44Z",
+        "completed_at": "2026-11-14T21:33:47Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:33:47Z",
+        "completed_at": "2026-11-14T21:34:05Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:34:05Z",
+        "completed_at": "2026-11-14T21:34:12Z"
+      },
+      {
+        "name": "Run ruby/setup-ruby@v1",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:34:12Z",
+        "completed_at": "2026-11-14T21:34:13Z"
+      },
+      {
+        "name": "Run gem install cocoapods xcodeproj --no-document",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:34:13Z",
+        "completed_at": "2026-11-14T21:34:16Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:34:16Z",
+        "completed_at": "2026-11-14T21:34:22Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:34:22Z",
+        "completed_at": "2026-11-14T21:34:38Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:34:38Z",
+        "completed_at": "2026-11-14T21:34:54Z"
+      },
+      {
+        "name": "Prepare a resizable native app",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:34:54Z",
+        "completed_at": "2026-11-14T21:35:15Z"
+      },
+      {
+        "name": "Run ns build ios --for-device false --env.uikitsplitTest",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:35:15Z",
+        "completed_at": "2026-11-14T21:37:19Z"
+      },
+      {
+        "name": "Create dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:37:19Z",
+        "completed_at": "2026-11-14T21:38:37Z"
+      },
+      {
+        "name": "Run node scripts/native/uikit-split/ios.mjs",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-14T21:38:38Z",
+        "completed_at": "2026-11-14T21:43:42Z"
+      },
+      {
+        "name": "Prepare incoming destination fixture",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 13,
+        "started_at": "2026-11-14T21:43:42Z",
+        "completed_at": "2026-11-14T21:43:42Z"
+      },
+      {
+        "name": "Build incoming destination fixture",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 14,
+        "started_at": "2026-11-14T21:43:42Z",
+        "completed_at": "2026-11-14T21:43:42Z"
+      },
+      {
+        "name": "Native scene links, quick actions and Spotlight",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 15,
+        "started_at": "2026-11-14T21:43:42Z",
+        "completed_at": "2026-11-14T21:43:42Z"
+      },
+      {
+        "name": "Clean up dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 16,
+        "started_at": "2026-11-14T21:43:42Z",
+        "completed_at": "2026-11-14T21:43:47Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 17,
+        "started_at": "2026-11-14T21:43:47Z",
+        "completed_at": "2026-11-14T21:43:49Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 33,
+        "started_at": "2026-11-14T21:43:49Z",
+        "completed_at": "2026-11-14T21:43:50Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 34,
+        "started_at": "2026-11-14T21:43:50Z",
+        "completed_at": "2026-11-14T21:43:50Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 35,
+        "started_at": "2026-11-14T21:43:50Z",
+        "completed_at": "2026-11-14T21:43:53Z"
+      }
+    ],
+    "log": "jobs/132591141717.log.gz",
+    "logSHA256": "794ebe0cdfa39d59ee9181341d5d4cd6c1f15aebef8ff3640c016a371ee0e0e6"
+  },
+  {
+    "id": 132591141761,
+    "name": "flows / android",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-14T21:16:24Z",
+    "completed_at": "2026-11-14T21:24:31Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591141761",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:16:25Z",
+        "completed_at": "2026-11-14T21:16:26Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:16:26Z",
+        "completed_at": "2026-11-14T21:16:34Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:16:34Z",
+        "completed_at": "2026-11-14T21:16:35Z"
+      },
+      {
+        "name": "Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:16:35Z",
+        "completed_at": "2026-11-14T21:16:35Z"
+      },
+      {
+        "name": "Enable KVM",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:16:35Z",
+        "completed_at": "2026-11-14T21:16:35Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:16:35Z",
+        "completed_at": "2026-11-14T21:16:43Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:16:43Z",
+        "completed_at": "2026-11-14T21:16:57Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:16:57Z",
+        "completed_at": "2026-11-14T21:17:07Z"
+      },
+      {
+        "name": "Prepare NativeScript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:17:07Z",
+        "completed_at": "2026-11-14T21:17:28Z"
+      },
+      {
+        "name": "Install the emulator image",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:17:28Z",
+        "completed_at": "2026-11-14T21:17:54Z"
+      },
+      {
+        "name": "Run ns build android --env.flowsTest",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:17:54Z",
+        "completed_at": "2026-11-14T21:20:25Z"
+      },
+      {
+        "name": "Run reactivecircus/android-emulator-runner@v2",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-14T21:20:25Z",
+        "completed_at": "2026-11-14T21:24:28Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-14T21:24:28Z",
+        "completed_at": "2026-11-14T21:24:29Z"
+      },
+      {
+        "name": "Post Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 24,
+        "started_at": "2026-11-14T21:24:29Z",
+        "completed_at": "2026-11-14T21:24:29Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 25,
+        "started_at": "2026-11-14T21:24:29Z",
+        "completed_at": "2026-11-14T21:24:29Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 26,
+        "started_at": "2026-11-14T21:24:29Z",
+        "completed_at": "2026-11-14T21:24:30Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 27,
+        "started_at": "2026-11-14T21:24:30Z",
+        "completed_at": "2026-11-14T21:24:30Z"
+      }
+    ],
+    "log": "jobs/132591141761.log.gz",
+    "logSHA256": "3173be484e5d73f335aaf8a8f7fda079f2e1b20fb398aab0ca6e117d6f2e165f"
+  },
+  {
+    "id": 132591141762,
+    "name": "ios / ios (composition)",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-14T21:29:55Z",
+    "completed_at": "2026-11-14T21:56:12Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591141762",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:29:55Z",
+        "completed_at": "2026-11-14T21:29:57Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:29:57Z",
+        "completed_at": "2026-11-14T21:30:16Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:30:16Z",
+        "completed_at": "2026-11-14T21:30:29Z"
+      },
+      {
+        "name": "Run ruby/setup-ruby@v1",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:30:29Z",
+        "completed_at": "2026-11-14T21:30:29Z"
+      },
+      {
+        "name": "Run gem install cocoapods xcodeproj --no-document",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:30:29Z",
+        "completed_at": "2026-11-14T21:30:31Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:30:31Z",
+        "completed_at": "2026-11-14T21:30:38Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:30:38Z",
+        "completed_at": "2026-11-14T21:30:52Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:30:52Z",
+        "completed_at": "2026-11-14T21:31:08Z"
+      },
+      {
+        "name": "Prepare native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:31:08Z",
+        "completed_at": "2026-11-14T21:31:21Z"
+      },
+      {
+        "name": "Build fixed fixture",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 10,
+        "started_at": "2026-11-14T21:31:21Z",
+        "completed_at": "2026-11-14T21:31:21Z"
+      },
+      {
+        "name": "Create dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:31:21Z",
+        "completed_at": "2026-11-14T21:32:52Z"
+      },
+      {
+        "name": "Fixed native contracts",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 12,
+        "started_at": "2026-11-14T21:32:54Z",
+        "completed_at": "2026-11-14T21:32:55Z"
+      },
+      {
+        "name": "Build and validate real tab taps",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-14T21:32:55Z",
+        "completed_at": "2026-11-14T21:39:34Z"
+      },
+      {
+        "name": "Validate public tab appearance",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-11-14T21:39:34Z",
+        "completed_at": "2026-11-14T21:42:21Z"
+      },
+      {
+        "name": "Validate per-page tab visibility and cancelled gestures",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15,
+        "started_at": "2026-11-14T21:42:21Z",
+        "completed_at": "2026-11-14T21:47:41Z"
+      },
+      {
+        "name": "Validate route data with real HTTP",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 16,
+        "started_at": "2026-11-14T21:47:41Z",
+        "completed_at": "2026-11-14T21:50:28Z"
+      },
+      {
+        "name": "Validate native Suspense composition and gestures",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 17,
+        "started_at": "2026-11-14T21:50:28Z",
+        "completed_at": "2026-11-14T21:55:49Z"
+      },
+      {
+        "name": "Build former HMR fixture",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 18,
+        "started_at": "2026-11-14T21:55:49Z",
+        "completed_at": "2026-11-14T21:55:49Z"
+      },
+      {
+        "name": "Negative control",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 19,
+        "started_at": "2026-11-14T21:55:49Z",
+        "completed_at": "2026-11-14T21:55:49Z"
+      },
+      {
+        "name": "Enforce timing and retention budgets",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 20,
+        "started_at": "2026-11-14T21:55:49Z",
+        "completed_at": "2026-11-14T21:55:49Z"
+      },
+      {
+        "name": "Build native controller destination fixture",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 21,
+        "started_at": "2026-11-14T21:55:49Z",
+        "completed_at": "2026-11-14T21:55:49Z"
+      },
+      {
+        "name": "Native controller results, disposal and restoration",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 22,
+        "started_at": "2026-11-14T21:55:49Z",
+        "completed_at": "2026-11-14T21:55:49Z"
+      },
+      {
+        "name": "Clean up dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 23,
+        "started_at": "2026-11-14T21:55:49Z",
+        "completed_at": "2026-11-14T21:55:57Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 24,
+        "started_at": "2026-11-14T21:55:57Z",
+        "completed_at": "2026-11-14T21:56:01Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 47,
+        "started_at": "2026-11-14T21:56:01Z",
+        "completed_at": "2026-11-14T21:56:01Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 48,
+        "started_at": "2026-11-14T21:56:01Z",
+        "completed_at": "2026-11-14T21:56:03Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 49,
+        "started_at": "2026-11-14T21:56:03Z",
+        "completed_at": "2026-11-14T21:56:10Z"
+      }
+    ],
+    "log": "jobs/132591141762.log.gz",
+    "logSHA256": "af4c0b82eb10ce693d64f062bead9b43a97e15105b417c268e0fba1bba281804"
+  },
+  {
+    "id": 132591141763,
+    "name": "page-actions / ios",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-14T21:16:24Z",
+    "completed_at": "2026-11-14T21:24:24Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591141763",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:16:25Z",
+        "completed_at": "2026-11-14T21:16:27Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:16:27Z",
+        "completed_at": "2026-11-14T21:16:42Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:16:42Z",
+        "completed_at": "2026-11-14T21:16:43Z"
+      },
+      {
+        "name": "Run ruby/setup-ruby@v1",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:16:43Z",
+        "completed_at": "2026-11-14T21:16:43Z"
+      },
+      {
+        "name": "Run gem install cocoapods xcodeproj --no-document",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:16:43Z",
+        "completed_at": "2026-11-14T21:16:45Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:16:45Z",
+        "completed_at": "2026-11-14T21:16:53Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:16:53Z",
+        "completed_at": "2026-11-14T21:17:08Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:17:08Z",
+        "completed_at": "2026-11-14T21:17:21Z"
+      },
+      {
+        "name": "Prepare native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:17:21Z",
+        "completed_at": "2026-11-14T21:17:33Z"
+      },
+      {
+        "name": "Run ns build ios --for-device false --env.actionsTest",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:17:33Z",
+        "completed_at": "2026-11-14T21:19:19Z"
+      },
+      {
+        "name": "Create dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:19:19Z",
+        "completed_at": "2026-11-14T21:20:28Z"
+      },
+      {
+        "name": "Lifetime, HMR and navigation contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-14T21:20:29Z",
+        "completed_at": "2026-11-14T21:22:16Z"
+      },
+      {
+        "name": "Real header and menu input",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-14T21:22:16Z",
+        "completed_at": "2026-11-14T21:24:05Z"
+      },
+      {
+        "name": "Clean up dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-11-14T21:24:05Z",
+        "completed_at": "2026-11-14T21:24:12Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15,
+        "started_at": "2026-11-14T21:24:12Z",
+        "completed_at": "2026-11-14T21:24:13Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 29,
+        "started_at": "2026-11-14T21:24:13Z",
+        "completed_at": "2026-11-14T21:24:21Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 30,
+        "started_at": "2026-11-14T21:24:21Z",
+        "completed_at": "2026-11-14T21:24:22Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 31,
+        "started_at": "2026-11-14T21:24:22Z",
+        "completed_at": "2026-11-14T21:24:23Z"
+      }
+    ],
+    "log": "jobs/132591141763.log.gz",
+    "logSHA256": "bc3a12be943c4f6bc47ff1f80775931c570255291ce105543c726434b5385210"
+  },
+  {
+    "id": 132591141766,
+    "name": "flows / ios",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-14T21:16:25Z",
+    "completed_at": "2026-11-14T21:31:27Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591141766",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:16:25Z",
+        "completed_at": "2026-11-14T21:16:27Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:16:27Z",
+        "completed_at": "2026-11-14T21:16:45Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:16:45Z",
+        "completed_at": "2026-11-14T21:16:48Z"
+      },
+      {
+        "name": "Run ruby/setup-ruby@v1",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:16:48Z",
+        "completed_at": "2026-11-14T21:16:49Z"
+      },
+      {
+        "name": "Run gem install cocoapods xcodeproj --no-document",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:16:49Z",
+        "completed_at": "2026-11-14T21:16:56Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:16:56Z",
+        "completed_at": "2026-11-14T21:17:09Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:17:09Z",
+        "completed_at": "2026-11-14T21:17:32Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:17:32Z",
+        "completed_at": "2026-11-14T21:17:55Z"
+      },
+      {
+        "name": "Prepare NativeScript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:17:55Z",
+        "completed_at": "2026-11-14T21:18:15Z"
+      },
+      {
+        "name": "Run ns build ios --for-device false --env.flowsTest",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:18:15Z",
+        "completed_at": "2026-11-14T21:20:37Z"
+      },
+      {
+        "name": "Drive the system picker with XCTest",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:20:37Z",
+        "completed_at": "2026-11-14T21:31:09Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-14T21:31:09Z",
+        "completed_at": "2026-11-14T21:31:12Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 23,
+        "started_at": "2026-11-14T21:31:12Z",
+        "completed_at": "2026-11-14T21:31:19Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 24,
+        "started_at": "2026-11-14T21:31:19Z",
+        "completed_at": "2026-11-14T21:31:20Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 25,
+        "started_at": "2026-11-14T21:31:20Z",
+        "completed_at": "2026-11-14T21:31:24Z"
+      }
+    ],
+    "log": "jobs/132591141766.log.gz",
+    "logSHA256": "295d29aca0ed08ad2b685b14a411ce29a98c751640df7fcab95384ce17838739"
+  },
+  {
+    "id": 132591141771,
+    "name": "ios / ios (contracts)",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-14T21:16:24Z",
+    "completed_at": "2026-11-14T21:33:41Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591141771",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:16:25Z",
+        "completed_at": "2026-11-14T21:16:26Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:16:26Z",
+        "completed_at": "2026-11-14T21:16:43Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:16:43Z",
+        "completed_at": "2026-11-14T21:16:45Z"
+      },
+      {
+        "name": "Run ruby/setup-ruby@v1",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:16:45Z",
+        "completed_at": "2026-11-14T21:16:45Z"
+      },
+      {
+        "name": "Run gem install cocoapods xcodeproj --no-document",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:16:45Z",
+        "completed_at": "2026-11-14T21:16:48Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:16:48Z",
+        "completed_at": "2026-11-14T21:16:55Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:16:55Z",
+        "completed_at": "2026-11-14T21:17:15Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:17:15Z",
+        "completed_at": "2026-11-14T21:17:32Z"
+      },
+      {
+        "name": "Prepare native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:17:32Z",
+        "completed_at": "2026-11-14T21:17:44Z"
+      },
+      {
+        "name": "Build fixed fixture",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:17:44Z",
+        "completed_at": "2026-11-14T21:20:58Z"
+      },
+      {
+        "name": "Create dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:20:58Z",
+        "completed_at": "2026-11-14T21:22:19Z"
+      },
+      {
+        "name": "Fixed native contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-14T21:22:19Z",
+        "completed_at": "2026-11-14T21:26:35Z"
+      },
+      {
+        "name": "Build and validate real tab taps",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 13,
+        "started_at": "2026-11-14T21:26:35Z",
+        "completed_at": "2026-11-14T21:26:35Z"
+      },
+      {
+        "name": "Validate public tab appearance",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 14,
+        "started_at": "2026-11-14T21:26:35Z",
+        "completed_at": "2026-11-14T21:26:35Z"
+      },
+      {
+        "name": "Validate per-page tab visibility and cancelled gestures",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 15,
+        "started_at": "2026-11-14T21:26:35Z",
+        "completed_at": "2026-11-14T21:26:35Z"
+      },
+      {
+        "name": "Validate route data with real HTTP",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 16,
+        "started_at": "2026-11-14T21:26:35Z",
+        "completed_at": "2026-11-14T21:26:35Z"
+      },
+      {
+        "name": "Validate native Suspense composition and gestures",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 17,
+        "started_at": "2026-11-14T21:26:35Z",
+        "completed_at": "2026-11-14T21:26:35Z"
+      },
+      {
+        "name": "Build former HMR fixture",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 18,
+        "started_at": "2026-11-14T21:26:35Z",
+        "completed_at": "2026-11-14T21:28:01Z"
+      },
+      {
+        "name": "Negative control",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 19,
+        "started_at": "2026-11-14T21:28:01Z",
+        "completed_at": "2026-11-14T21:29:47Z"
+      },
+      {
+        "name": "Enforce timing and retention budgets",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 20,
+        "started_at": "2026-11-14T21:29:47Z",
+        "completed_at": "2026-11-14T21:29:48Z"
+      },
+      {
+        "name": "Build native controller destination fixture",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 21,
+        "started_at": "2026-11-14T21:29:48Z",
+        "completed_at": "2026-11-14T21:31:23Z"
+      },
+      {
+        "name": "Native controller results, disposal and restoration",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 22,
+        "started_at": "2026-11-14T21:31:23Z",
+        "completed_at": "2026-11-14T21:33:16Z"
+      },
+      {
+        "name": "Clean up dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 23,
+        "started_at": "2026-11-14T21:33:16Z",
+        "completed_at": "2026-11-14T21:33:22Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 24,
+        "started_at": "2026-11-14T21:33:22Z",
+        "completed_at": "2026-11-14T21:33:26Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 47,
+        "started_at": "2026-11-14T21:33:26Z",
+        "completed_at": "2026-11-14T21:33:32Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 48,
+        "started_at": "2026-11-14T21:33:32Z",
+        "completed_at": "2026-11-14T21:33:34Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 49,
+        "started_at": "2026-11-14T21:33:34Z",
+        "completed_at": "2026-11-14T21:33:39Z"
+      }
+    ],
+    "log": "jobs/132591141771.log.gz",
+    "logSHA256": "634ca1eacd2824de804e99af7e242a5020f6c10334465fe2de76b684c4dc6c76"
+  },
+  {
+    "id": 132591141780,
+    "name": "page-actions / android",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-14T21:16:23Z",
+    "completed_at": "2026-11-14T21:24:31Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591141780",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:16:24Z",
+        "completed_at": "2026-11-14T21:16:26Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:16:26Z",
+        "completed_at": "2026-11-14T21:16:34Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:16:34Z",
+        "completed_at": "2026-11-14T21:16:36Z"
+      },
+      {
+        "name": "Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:16:36Z",
+        "completed_at": "2026-11-14T21:16:36Z"
+      },
+      {
+        "name": "Enable KVM",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:16:36Z",
+        "completed_at": "2026-11-14T21:16:36Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:16:36Z",
+        "completed_at": "2026-11-14T21:16:42Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:16:42Z",
+        "completed_at": "2026-11-14T21:16:55Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:16:55Z",
+        "completed_at": "2026-11-14T21:17:05Z"
+      },
+      {
+        "name": "Prepare native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:17:05Z",
+        "completed_at": "2026-11-14T21:17:26Z"
+      },
+      {
+        "name": "Run ns build android --env.actionsTest",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:17:26Z",
+        "completed_at": "2026-11-14T21:19:50Z"
+      },
+      {
+        "name": "Lifetime, HMR, navigation and real input",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:19:50Z",
+        "completed_at": "2026-11-14T21:24:27Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-14T21:24:27Z",
+        "completed_at": "2026-11-14T21:24:29Z"
+      },
+      {
+        "name": "Post Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 22,
+        "started_at": "2026-11-14T21:24:29Z",
+        "completed_at": "2026-11-14T21:24:29Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 23,
+        "started_at": "2026-11-14T21:24:29Z",
+        "completed_at": "2026-11-14T21:24:29Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 24,
+        "started_at": "2026-11-14T21:24:29Z",
+        "completed_at": "2026-11-14T21:24:29Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 25,
+        "started_at": "2026-11-14T21:24:29Z",
+        "completed_at": "2026-11-14T21:24:29Z"
+      }
+    ],
+    "log": "jobs/132591141780.log.gz",
+    "logSHA256": "e5411208e08b5291a71c03325955c6f889c46692be0c120c4925724a4c3bcf85"
+  },
+  {
+    "id": 132591141818,
+    "name": "drawer-ios / drawer (iPhone-16)",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-14T21:29:42Z",
+    "completed_at": "2026-11-14T21:48:02Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591141818",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:29:43Z",
+        "completed_at": "2026-11-14T21:29:44Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:29:44Z",
+        "completed_at": "2026-11-14T21:29:58Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:29:58Z",
+        "completed_at": "2026-11-14T21:30:06Z"
+      },
+      {
+        "name": "Run ruby/setup-ruby@v1",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:30:06Z",
+        "completed_at": "2026-11-14T21:30:06Z"
+      },
+      {
+        "name": "Run gem install cocoapods xcodeproj --no-document",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:30:06Z",
+        "completed_at": "2026-11-14T21:30:08Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:30:08Z",
+        "completed_at": "2026-11-14T21:30:13Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:30:13Z",
+        "completed_at": "2026-11-14T21:30:24Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:30:24Z",
+        "completed_at": "2026-11-14T21:30:35Z"
+      },
+      {
+        "name": "Prepare native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:30:35Z",
+        "completed_at": "2026-11-14T21:30:48Z"
+      },
+      {
+        "name": "Run ns build ios --for-device false --env.drawerTest",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:30:48Z",
+        "completed_at": "2026-11-14T21:32:11Z"
+      },
+      {
+        "name": "Create dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:32:11Z",
+        "completed_at": "2026-11-14T21:33:20Z"
+      },
+      {
+        "name": "Binding, accessibility state and lifecycle contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-14T21:33:20Z",
+        "completed_at": "2026-11-14T21:39:47Z"
+      },
+      {
+        "name": "Reduce Motion contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-14T21:39:47Z",
+        "completed_at": "2026-11-14T21:40:30Z"
+      },
+      {
+        "name": "Real native input, navigation and rotation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-11-14T21:40:30Z",
+        "completed_at": "2026-11-14T21:43:12Z"
+      },
+      {
+        "name": "Build adaptive drawer fixture",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15,
+        "started_at": "2026-11-14T21:43:12Z",
+        "completed_at": "2026-11-14T21:44:27Z"
+      },
+      {
+        "name": "Adaptive identity, state and modal contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 16,
+        "started_at": "2026-11-14T21:44:27Z",
+        "completed_at": "2026-11-14T21:45:09Z"
+      },
+      {
+        "name": "Adaptive Reduce Motion contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 17,
+        "started_at": "2026-11-14T21:45:09Z",
+        "completed_at": "2026-11-14T21:45:47Z"
+      },
+      {
+        "name": "Adaptive native input and rotation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 18,
+        "started_at": "2026-11-14T21:45:47Z",
+        "completed_at": "2026-11-14T21:47:44Z"
+      },
+      {
+        "name": "iPad rotation requested during active navigation",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 19,
+        "started_at": "2026-11-14T21:47:44Z",
+        "completed_at": "2026-11-14T21:47:44Z"
+      },
+      {
+        "name": "Clean up dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 20,
+        "started_at": "2026-11-14T21:47:44Z",
+        "completed_at": "2026-11-14T21:47:53Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 21,
+        "started_at": "2026-11-14T21:47:53Z",
+        "completed_at": "2026-11-14T21:47:56Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 41,
+        "started_at": "2026-11-14T21:47:56Z",
+        "completed_at": "2026-11-14T21:47:56Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 42,
+        "started_at": "2026-11-14T21:47:56Z",
+        "completed_at": "2026-11-14T21:47:57Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 43,
+        "started_at": "2026-11-14T21:47:57Z",
+        "completed_at": "2026-11-14T21:48:00Z"
+      }
+    ],
+    "log": "jobs/132591141818.log.gz",
+    "logSHA256": "ab29140e6be345f6d19c970328a6b028a660b2b2789a084da4948d5004a80a43"
+  },
+  {
+    "id": 132591141821,
+    "name": "integration / android",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-14T21:16:24Z",
+    "completed_at": "2026-11-14T21:42:10Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591141821",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:16:24Z",
+        "completed_at": "2026-11-14T21:16:26Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:16:26Z",
+        "completed_at": "2026-11-14T21:16:34Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:16:34Z",
+        "completed_at": "2026-11-14T21:16:35Z"
+      },
+      {
+        "name": "Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:16:35Z",
+        "completed_at": "2026-11-14T21:16:35Z"
+      },
+      {
+        "name": "Enable KVM",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:16:35Z",
+        "completed_at": "2026-11-14T21:16:35Z"
+      },
+      {
+        "name": "Run npm ci",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:16:35Z",
+        "completed_at": "2026-11-14T21:16:39Z"
+      },
+      {
+        "name": "Run npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:16:39Z",
+        "completed_at": "2026-11-14T21:16:40Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:16:40Z",
+        "completed_at": "2026-11-14T21:16:52Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:16:52Z",
+        "completed_at": "2026-11-14T21:17:00Z"
+      },
+      {
+        "name": "Prepare the NativeScript CLI",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:17:00Z",
+        "completed_at": "2026-11-14T21:17:12Z"
+      },
+      {
+        "name": "Scaffold App_Resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:17:12Z",
+        "completed_at": "2026-11-14T21:17:18Z"
+      },
+      {
+        "name": "Build the demo",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-14T21:17:18Z",
+        "completed_at": "2026-11-14T21:23:07Z"
+      },
+      {
+        "name": "Build route data HTTP fixture",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-14T21:23:07Z",
+        "completed_at": "2026-11-14T21:23:25Z"
+      },
+      {
+        "name": "Build native Suspense fixture",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-11-14T21:23:25Z",
+        "completed_at": "2026-11-14T21:23:42Z"
+      },
+      {
+        "name": "Build native gesture input driver",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15,
+        "started_at": "2026-11-14T21:23:42Z",
+        "completed_at": "2026-11-14T21:23:46Z"
+      },
+      {
+        "name": "Prepare the convention-based example",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 16,
+        "started_at": "2026-11-14T21:23:46Z",
+        "completed_at": "2026-11-14T21:24:00Z"
+      },
+      {
+        "name": "Smoke test on an emulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 17,
+        "started_at": "2026-11-14T21:24:00Z",
+        "completed_at": "2026-11-14T21:42:06Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 18,
+        "started_at": "2026-11-14T21:42:06Z",
+        "completed_at": "2026-11-14T21:42:07Z"
+      },
+      {
+        "name": "Post Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 34,
+        "started_at": "2026-11-14T21:42:07Z",
+        "completed_at": "2026-11-14T21:42:08Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 35,
+        "started_at": "2026-11-14T21:42:08Z",
+        "completed_at": "2026-11-14T21:42:08Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 36,
+        "started_at": "2026-11-14T21:42:08Z",
+        "completed_at": "2026-11-14T21:42:08Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 37,
+        "started_at": "2026-11-14T21:42:08Z",
+        "completed_at": "2026-11-14T21:42:08Z"
+      }
+    ],
+    "log": "jobs/132591141821.log.gz",
+    "logSHA256": "1f4f5e19f60d8bc816a2d9c8401aa7da98dd4272f574b0572ef3d1aab8f4413e"
+  },
+  {
+    "id": 132591141859,
+    "name": "integration / ios-vite",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-14T21:16:25Z",
+    "completed_at": "2026-11-14T21:29:51Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591141859",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:16:25Z",
+        "completed_at": "2026-11-14T21:16:27Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:16:27Z",
+        "completed_at": "2026-11-14T21:16:38Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:16:38Z",
+        "completed_at": "2026-11-14T21:16:40Z"
+      },
+      {
+        "name": "Run ruby/setup-ruby@v1",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:16:40Z",
+        "completed_at": "2026-11-14T21:16:40Z"
+      },
+      {
+        "name": "Run gem install cocoapods xcodeproj --no-document",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:16:40Z",
+        "completed_at": "2026-11-14T21:16:42Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:16:42Z",
+        "completed_at": "2026-11-14T21:16:52Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:16:52Z",
+        "completed_at": "2026-11-14T21:17:10Z"
+      },
+      {
+        "name": "Prepare the convention-based example",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:17:10Z",
+        "completed_at": "2026-11-14T21:17:50Z"
+      },
+      {
+        "name": "Create dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:17:50Z",
+        "completed_at": "2026-11-14T21:19:17Z"
+      },
+      {
+        "name": "Native Vite navigation and live updates",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:19:18Z",
+        "completed_at": "2026-11-14T21:29:32Z"
+      },
+      {
+        "name": "Clean up dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:29:32Z",
+        "completed_at": "2026-11-14T21:29:38Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-14T21:29:38Z",
+        "completed_at": "2026-11-14T21:29:41Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 23,
+        "started_at": "2026-11-14T21:29:41Z",
+        "completed_at": "2026-11-14T21:29:46Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 24,
+        "started_at": "2026-11-14T21:29:46Z",
+        "completed_at": "2026-11-14T21:29:47Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 25,
+        "started_at": "2026-11-14T21:29:47Z",
+        "completed_at": "2026-11-14T21:29:49Z"
+      }
+    ],
+    "log": "jobs/132591141859.log.gz",
+    "logSHA256": "4b3cf454716d91f303c9533e09ea166a58477d3e94ae03327fbd9d5929b28e92"
+  },
+  {
+    "id": 132591141874,
+    "name": "drawer-ios / drawer (iPad-Pro-11-inch-M4-8GB)",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "started_at": "2026-11-14T21:24:27Z",
+    "completed_at": "2026-11-14T21:45:03Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591141874",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:24:28Z",
+        "completed_at": "2026-11-14T21:24:29Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:24:29Z",
+        "completed_at": "2026-11-14T21:24:57Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:24:57Z",
+        "completed_at": "2026-11-14T21:25:10Z"
+      },
+      {
+        "name": "Run ruby/setup-ruby@v1",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:25:10Z",
+        "completed_at": "2026-11-14T21:25:11Z"
+      },
+      {
+        "name": "Run gem install cocoapods xcodeproj --no-document",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:25:11Z",
+        "completed_at": "2026-11-14T21:25:13Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:25:13Z",
+        "completed_at": "2026-11-14T21:25:18Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:25:18Z",
+        "completed_at": "2026-11-14T21:25:34Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:25:34Z",
+        "completed_at": "2026-11-14T21:25:52Z"
+      },
+      {
+        "name": "Prepare native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:25:52Z",
+        "completed_at": "2026-11-14T21:26:07Z"
+      },
+      {
+        "name": "Run ns build ios --for-device false --env.drawerTest",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:26:07Z",
+        "completed_at": "2026-11-14T21:28:09Z"
+      },
+      {
+        "name": "Create dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:28:09Z",
+        "completed_at": "2026-11-14T21:29:46Z"
+      },
+      {
+        "name": "Binding, accessibility state and lifecycle contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-14T21:29:46Z",
+        "completed_at": "2026-11-14T21:32:30Z"
+      },
+      {
+        "name": "Reduce Motion contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-14T21:32:30Z",
+        "completed_at": "2026-11-14T21:33:20Z"
+      },
+      {
+        "name": "Real native input, navigation and rotation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-11-14T21:33:20Z",
+        "completed_at": "2026-11-14T21:36:31Z"
+      },
+      {
+        "name": "Build adaptive drawer fixture",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15,
+        "started_at": "2026-11-14T21:36:31Z",
+        "completed_at": "2026-11-14T21:38:41Z"
+      },
+      {
+        "name": "Adaptive identity, state and modal contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 16,
+        "started_at": "2026-11-14T21:38:41Z",
+        "completed_at": "2026-11-14T21:39:28Z"
+      },
+      {
+        "name": "Adaptive Reduce Motion contracts",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 17,
+        "started_at": "2026-11-14T21:39:28Z",
+        "completed_at": "2026-11-14T21:40:25Z"
+      },
+      {
+        "name": "Adaptive native input and rotation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 18,
+        "started_at": "2026-11-14T21:40:25Z",
+        "completed_at": "2026-11-14T21:43:21Z"
+      },
+      {
+        "name": "iPad rotation requested during active navigation",
+        "status": "completed",
+        "conclusion": "cancelled",
+        "number": 19,
+        "started_at": "2026-11-14T21:43:21Z",
+        "completed_at": "2026-11-14T21:44:41Z"
+      },
+      {
+        "name": "Clean up dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 20,
+        "started_at": "2026-11-14T21:44:41Z",
+        "completed_at": "2026-11-14T21:44:52Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 21,
+        "started_at": "2026-11-14T21:44:52Z",
+        "completed_at": "2026-11-14T21:44:55Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 41,
+        "started_at": "2026-11-14T21:44:55Z",
+        "completed_at": "2026-11-14T21:44:55Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 42,
+        "started_at": "2026-11-14T21:44:55Z",
+        "completed_at": "2026-11-14T21:44:57Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 43,
+        "started_at": "2026-11-14T21:44:57Z",
+        "completed_at": "2026-11-14T21:45:00Z"
+      }
+    ],
+    "log": "jobs/132591141874.log.gz",
+    "logSHA256": "213a659eed0cdad7c7dc8b4b10462b07764137120888047984e68ee5346b62ca",
+    "annotations": [
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rafaelaugustos/vue-router-ns/blob/c953afe0766a1907920600cc5d5ee9d5452b87d0/.github",
+        "start_line": 1,
+        "start_column": null,
+        "end_line": 1,
+        "end_column": null,
+        "annotation_level": "failure",
+        "title": "",
+        "message": "The job has exceeded the maximum execution time of 20m0s",
+        "raw_details": ""
+      },
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rafaelaugustos/vue-router-ns/blob/c953afe0766a1907920600cc5d5ee9d5452b87d0/.github",
+        "start_line": 2,
+        "start_column": null,
+        "end_line": 2,
+        "end_column": null,
+        "annotation_level": "warning",
+        "title": "",
+        "message": "Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/",
+        "raw_details": ""
+      },
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rafaelaugustos/vue-router-ns/blob/c953afe0766a1907920600cc5d5ee9d5452b87d0/.github",
+        "start_line": 8,
+        "start_column": null,
+        "end_line": 8,
+        "end_column": null,
+        "annotation_level": "failure",
+        "title": "",
+        "message": "The operation was canceled.",
+        "raw_details": ""
+      },
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rafaelaugustos/vue-router-ns/blob/c953afe0766a1907920600cc5d5ee9d5452b87d0/.github",
+        "start_line": 1,
+        "start_column": null,
+        "end_line": 1,
+        "end_column": null,
+        "annotation_level": "notice",
+        "title": "",
+        "message": "Due to capacity constraints, jobs targeting macOS arm64 runners may experience longer queue times.",
+        "raw_details": ""
+      }
+    ]
+  },
+  {
+    "id": 132591141910,
+    "name": "predictive / android (36)",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-14T21:16:23Z",
+    "completed_at": "2026-11-14T21:25:03Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591141910",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:16:24Z",
+        "completed_at": "2026-11-14T21:16:28Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:16:28Z",
+        "completed_at": "2026-11-14T21:16:36Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:16:36Z",
+        "completed_at": "2026-11-14T21:16:38Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:16:38Z",
+        "completed_at": "2026-11-14T21:16:43Z"
+      },
+      {
+        "name": "Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:16:43Z",
+        "completed_at": "2026-11-14T21:16:43Z"
+      },
+      {
+        "name": "Enable KVM",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:16:43Z",
+        "completed_at": "2026-11-14T21:16:43Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:16:43Z",
+        "completed_at": "2026-11-14T21:16:48Z"
+      },
+      {
+        "name": "Build the pinned Core candidate",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:16:48Z",
+        "completed_at": "2026-11-14T21:17:13Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:17:13Z",
+        "completed_at": "2026-11-14T21:17:23Z"
+      },
+      {
+        "name": "Pin the released Core negative control and native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:17:23Z",
+        "completed_at": "2026-11-14T21:17:25Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:17:25Z",
+        "completed_at": "2026-11-14T21:17:31Z"
+      },
+      {
+        "name": "Prepare native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-14T21:17:31Z",
+        "completed_at": "2026-11-14T21:17:53Z"
+      },
+      {
+        "name": "Install emulator image",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-14T21:17:53Z",
+        "completed_at": "2026-11-14T21:18:27Z"
+      },
+      {
+        "name": "Build released and candidate native fixtures",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-11-14T21:18:27Z",
+        "completed_at": "2026-11-14T21:20:40Z"
+      },
+      {
+        "name": "Run node scripts/native/contracts/build-touch.mjs",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15,
+        "started_at": "2026-11-14T21:20:40Z",
+        "completed_at": "2026-11-14T21:20:43Z"
+      },
+      {
+        "name": "Compare native previews and Activity recreation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 16,
+        "started_at": "2026-11-14T21:20:43Z",
+        "completed_at": "2026-11-14T21:24:59Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 17,
+        "started_at": "2026-11-14T21:24:59Z",
+        "completed_at": "2026-11-14T21:25:01Z"
+      },
+      {
+        "name": "Post Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 31,
+        "started_at": "2026-11-14T21:25:01Z",
+        "completed_at": "2026-11-14T21:25:01Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 32,
+        "started_at": "2026-11-14T21:25:01Z",
+        "completed_at": "2026-11-14T21:25:01Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 33,
+        "started_at": "2026-11-14T21:25:01Z",
+        "completed_at": "2026-11-14T21:25:01Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 34,
+        "started_at": "2026-11-14T21:25:01Z",
+        "completed_at": "2026-11-14T21:25:01Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 35,
+        "started_at": "2026-11-14T21:25:01Z",
+        "completed_at": "2026-11-14T21:25:01Z"
+      }
+    ],
+    "log": "jobs/132591141910.log.gz",
+    "logSHA256": "e1aca49eb0fff406e7a204a7bd3b4d29981581adc35d60ce1e365a29fd7b00a4"
+  },
+  {
+    "id": 132591141912,
+    "name": "predictive / android (35)",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-14T21:16:24Z",
+    "completed_at": "2026-11-14T21:25:09Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591141912",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:16:25Z",
+        "completed_at": "2026-11-14T21:16:27Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:16:27Z",
+        "completed_at": "2026-11-14T21:16:45Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:16:45Z",
+        "completed_at": "2026-11-14T21:16:48Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:16:48Z",
+        "completed_at": "2026-11-14T21:16:50Z"
+      },
+      {
+        "name": "Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:16:50Z",
+        "completed_at": "2026-11-14T21:16:50Z"
+      },
+      {
+        "name": "Enable KVM",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:16:50Z",
+        "completed_at": "2026-11-14T21:16:50Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:16:50Z",
+        "completed_at": "2026-11-14T21:16:56Z"
+      },
+      {
+        "name": "Build the pinned Core candidate",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:16:56Z",
+        "completed_at": "2026-11-14T21:17:26Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:17:26Z",
+        "completed_at": "2026-11-14T21:17:38Z"
+      },
+      {
+        "name": "Pin the released Core negative control and native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:17:38Z",
+        "completed_at": "2026-11-14T21:17:41Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:17:41Z",
+        "completed_at": "2026-11-14T21:17:48Z"
+      },
+      {
+        "name": "Prepare native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-14T21:17:48Z",
+        "completed_at": "2026-11-14T21:18:13Z"
+      },
+      {
+        "name": "Install emulator image",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-14T21:18:13Z",
+        "completed_at": "2026-11-14T21:18:46Z"
+      },
+      {
+        "name": "Build released and candidate native fixtures",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-11-14T21:18:46Z",
+        "completed_at": "2026-11-14T21:21:25Z"
+      },
+      {
+        "name": "Run node scripts/native/contracts/build-touch.mjs",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15,
+        "started_at": "2026-11-14T21:21:25Z",
+        "completed_at": "2026-11-14T21:21:30Z"
+      },
+      {
+        "name": "Compare native previews and Activity recreation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 16,
+        "started_at": "2026-11-14T21:21:30Z",
+        "completed_at": "2026-11-14T21:25:02Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 17,
+        "started_at": "2026-11-14T21:25:02Z",
+        "completed_at": "2026-11-14T21:25:05Z"
+      },
+      {
+        "name": "Post Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 31,
+        "started_at": "2026-11-14T21:25:05Z",
+        "completed_at": "2026-11-14T21:25:05Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 32,
+        "started_at": "2026-11-14T21:25:05Z",
+        "completed_at": "2026-11-14T21:25:05Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 33,
+        "started_at": "2026-11-14T21:25:05Z",
+        "completed_at": "2026-11-14T21:25:05Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 34,
+        "started_at": "2026-11-14T21:25:05Z",
+        "completed_at": "2026-11-14T21:25:05Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 35,
+        "started_at": "2026-11-14T21:25:05Z",
+        "completed_at": "2026-11-14T21:25:05Z"
+      }
+    ],
+    "log": "jobs/132591141912.log.gz",
+    "logSHA256": "599e1629a23567ae409d820f0d8c5a3ddc0933b558509c5b0336264a764f7dd5"
+  },
+  {
+    "id": 132591141928,
+    "name": "predictive / android (34)",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-14T21:16:24Z",
+    "completed_at": "2026-11-14T21:23:35Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591141928",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:16:25Z",
+        "completed_at": "2026-11-14T21:16:26Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:16:26Z",
+        "completed_at": "2026-11-14T21:16:34Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:16:34Z",
+        "completed_at": "2026-11-14T21:16:36Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:16:36Z",
+        "completed_at": "2026-11-14T21:16:37Z"
+      },
+      {
+        "name": "Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:16:37Z",
+        "completed_at": "2026-11-14T21:16:37Z"
+      },
+      {
+        "name": "Enable KVM",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:16:37Z",
+        "completed_at": "2026-11-14T21:16:37Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:16:37Z",
+        "completed_at": "2026-11-14T21:16:41Z"
+      },
+      {
+        "name": "Build the pinned Core candidate",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:16:41Z",
+        "completed_at": "2026-11-14T21:17:06Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:17:06Z",
+        "completed_at": "2026-11-14T21:17:17Z"
+      },
+      {
+        "name": "Pin the released Core negative control and native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:17:17Z",
+        "completed_at": "2026-11-14T21:17:20Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:17:20Z",
+        "completed_at": "2026-11-14T21:17:29Z"
+      },
+      {
+        "name": "Prepare native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-14T21:17:29Z",
+        "completed_at": "2026-11-14T21:17:50Z"
+      },
+      {
+        "name": "Install emulator image",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-14T21:17:50Z",
+        "completed_at": "2026-11-14T21:18:28Z"
+      },
+      {
+        "name": "Build released and candidate native fixtures",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 14,
+        "started_at": "2026-11-14T21:18:28Z",
+        "completed_at": "2026-11-14T21:20:36Z"
+      },
+      {
+        "name": "Run node scripts/native/contracts/build-touch.mjs",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15,
+        "started_at": "2026-11-14T21:20:36Z",
+        "completed_at": "2026-11-14T21:20:40Z"
+      },
+      {
+        "name": "Compare native previews and Activity recreation",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 16,
+        "started_at": "2026-11-14T21:20:40Z",
+        "completed_at": "2026-11-14T21:23:30Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 17,
+        "started_at": "2026-11-14T21:23:30Z",
+        "completed_at": "2026-11-14T21:23:32Z"
+      },
+      {
+        "name": "Post Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 31,
+        "started_at": "2026-11-14T21:23:32Z",
+        "completed_at": "2026-11-14T21:23:32Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 32,
+        "started_at": "2026-11-14T21:23:32Z",
+        "completed_at": "2026-11-14T21:23:32Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 33,
+        "started_at": "2026-11-14T21:23:32Z",
+        "completed_at": "2026-11-14T21:23:32Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 34,
+        "started_at": "2026-11-14T21:23:32Z",
+        "completed_at": "2026-11-14T21:23:33Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 35,
+        "started_at": "2026-11-14T21:23:33Z",
+        "completed_at": "2026-11-14T21:23:33Z"
+      }
+    ],
+    "log": "jobs/132591141928.log.gz",
+    "logSHA256": "41efd9491d6c366f2f67c2945bc85e1acb08a0cedf501097ff4a2d584041dd0c"
+  },
+  {
+    "id": 132591142018,
+    "name": "windows / iPad window isolation and resume",
+    "status": "completed",
+    "conclusion": "failure",
+    "started_at": "2026-11-14T21:16:25Z",
+    "completed_at": "2026-11-14T21:29:39Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591142018",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:16:26Z",
+        "completed_at": "2026-11-14T21:16:27Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:16:27Z",
+        "completed_at": "2026-11-14T21:16:44Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:16:44Z",
+        "completed_at": "2026-11-14T21:16:45Z"
+      },
+      {
+        "name": "Run ruby/setup-ruby@v1",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:16:45Z",
+        "completed_at": "2026-11-14T21:16:46Z"
+      },
+      {
+        "name": "Run gem install cocoapods xcodeproj --no-document",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:16:46Z",
+        "completed_at": "2026-11-14T21:16:49Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:16:49Z",
+        "completed_at": "2026-11-14T21:16:58Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:16:58Z",
+        "completed_at": "2026-11-14T21:17:16Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:17:16Z",
+        "completed_at": "2026-11-14T21:17:40Z"
+      },
+      {
+        "name": "Prepare isolated native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:17:40Z",
+        "completed_at": "2026-11-14T21:17:53Z"
+      },
+      {
+        "name": "Build window fixture",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:17:53Z",
+        "completed_at": "2026-11-14T21:19:44Z"
+      },
+      {
+        "name": "Create dedicated iPad",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:19:44Z",
+        "completed_at": "2026-11-14T21:21:08Z"
+      },
+      {
+        "name": "Window isolation, modal results, background resume and closure",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-14T21:21:08Z",
+        "completed_at": "2026-11-14T21:24:22Z"
+      },
+      {
+        "name": "Restore original UIKit scene sessions in a new process",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-14T21:24:22Z",
+        "completed_at": "2026-11-14T21:26:06Z"
+      },
+      {
+        "name": "Reconnect a UIKit scene within the same live process",
+        "status": "completed",
+        "conclusion": "failure",
+        "number": 14,
+        "started_at": "2026-11-14T21:26:06Z",
+        "completed_at": "2026-11-14T21:29:23Z"
+      },
+      {
+        "name": "Clean up dedicated simulator",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 15,
+        "started_at": "2026-11-14T21:29:23Z",
+        "completed_at": "2026-11-14T21:29:30Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 16,
+        "started_at": "2026-11-14T21:29:30Z",
+        "completed_at": "2026-11-14T21:29:32Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 31,
+        "started_at": "2026-11-14T21:29:32Z",
+        "completed_at": "2026-11-14T21:29:32Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 32,
+        "started_at": "2026-11-14T21:29:32Z",
+        "completed_at": "2026-11-14T21:29:34Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 33,
+        "started_at": "2026-11-14T21:29:34Z",
+        "completed_at": "2026-11-14T21:29:37Z"
+      }
+    ],
+    "log": "jobs/132591142018.log.gz",
+    "logSHA256": "6bb492f9646383682b813fe6cf3e9828290368ada61b50633e16457aae203598",
+    "annotations": [
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rafaelaugustos/vue-router-ns/blob/c953afe0766a1907920600cc5d5ee9d5452b87d0/.github",
+        "start_line": 2,
+        "start_column": null,
+        "end_line": 2,
+        "end_column": null,
+        "annotation_level": "warning",
+        "title": "",
+        "message": "Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/",
+        "raw_details": ""
+      },
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rafaelaugustos/vue-router-ns/blob/c953afe0766a1907920600cc5d5ee9d5452b87d0/.github",
+        "start_line": 23,
+        "start_column": null,
+        "end_line": 23,
+        "end_column": null,
+        "annotation_level": "failure",
+        "title": "",
+        "message": "Process completed with exit code 1.",
+        "raw_details": ""
+      },
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rafaelaugustos/vue-router-ns/blob/c953afe0766a1907920600cc5d5ee9d5452b87d0/.github",
+        "start_line": 1,
+        "start_column": null,
+        "end_line": 1,
+        "end_column": null,
+        "annotation_level": "notice",
+        "title": "",
+        "message": "Due to capacity constraints, jobs targeting macOS arm64 runners may experience longer queue times.",
+        "raw_details": ""
+      }
+    ]
+  },
+  {
+    "id": 132591142050,
+    "name": "integration / foldable",
+    "status": "completed",
+    "conclusion": "failure",
+    "started_at": "2026-11-14T21:16:25Z",
+    "completed_at": "2026-11-14T21:21:11Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591142050",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:16:25Z",
+        "completed_at": "2026-11-14T21:16:29Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:16:29Z",
+        "completed_at": "2026-11-14T21:16:37Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:16:37Z",
+        "completed_at": "2026-11-14T21:16:42Z"
+      },
+      {
+        "name": "Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:16:42Z",
+        "completed_at": "2026-11-14T21:16:42Z"
+      },
+      {
+        "name": "Enable KVM",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:16:42Z",
+        "completed_at": "2026-11-14T21:16:42Z"
+      },
+      {
+        "name": "Run npm ci",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:16:42Z",
+        "completed_at": "2026-11-14T21:16:47Z"
+      },
+      {
+        "name": "Run npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:16:47Z",
+        "completed_at": "2026-11-14T21:16:47Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:16:47Z",
+        "completed_at": "2026-11-14T21:16:57Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:16:57Z",
+        "completed_at": "2026-11-14T21:17:03Z"
+      },
+      {
+        "name": "Prepare native fixture resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:17:03Z",
+        "completed_at": "2026-11-14T21:17:23Z"
+      },
+      {
+        "name": "Build the foldable fixture",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:17:23Z",
+        "completed_at": "2026-11-14T21:19:35Z"
+      },
+      {
+        "name": "Native fold/posture acceptance",
+        "status": "completed",
+        "conclusion": "failure",
+        "number": 12,
+        "started_at": "2026-11-14T21:19:35Z",
+        "completed_at": "2026-11-14T21:21:07Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-14T21:21:07Z",
+        "completed_at": "2026-11-14T21:21:08Z"
+      },
+      {
+        "name": "Post Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 24,
+        "started_at": "2026-11-14T21:21:08Z",
+        "completed_at": "2026-11-14T21:21:08Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "skipped",
+        "number": 25,
+        "started_at": "2026-11-14T21:21:08Z",
+        "completed_at": "2026-11-14T21:21:08Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 26,
+        "started_at": "2026-11-14T21:21:08Z",
+        "completed_at": "2026-11-14T21:21:08Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 27,
+        "started_at": "2026-11-14T21:21:08Z",
+        "completed_at": "2026-11-14T21:21:09Z"
+      }
+    ],
+    "log": "jobs/132591142050.log.gz",
+    "logSHA256": "beb0311c0a2fd0e0964d4e215dbee4a037fbea5a7aef1d94a2bb59647ccae70e",
+    "annotations": [
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rafaelaugustos/vue-router-ns/blob/c953afe0766a1907920600cc5d5ee9d5452b87d0/.github",
+        "start_line": 4,
+        "start_column": null,
+        "end_line": 4,
+        "end_column": null,
+        "annotation_level": "warning",
+        "title": "",
+        "message": "Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/setup-java@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/",
+        "raw_details": ""
+      },
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rafaelaugustos/vue-router-ns/blob/c953afe0766a1907920600cc5d5ee9d5452b87d0/.github",
+        "start_line": 240,
+        "start_column": null,
+        "end_line": 240,
+        "end_column": null,
+        "annotation_level": "failure",
+        "title": "",
+        "message": "The process '/usr/bin/sh' failed with exit code 1",
+        "raw_details": ""
+      },
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rafaelaugustos/vue-router-ns/blob/c953afe0766a1907920600cc5d5ee9d5452b87d0/.github",
+        "start_line": 18,
+        "start_column": null,
+        "end_line": 18,
+        "end_column": null,
+        "annotation_level": "warning",
+        "title": "",
+        "message": "setup-java v4 is deprecated and will no longer receive updates. Please migrate to actions/setup-java@v5.",
+        "raw_details": ""
+      },
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rafaelaugustos/vue-router-ns/blob/c953afe0766a1907920600cc5d5ee9d5452b87d0/.github",
+        "start_line": 1,
+        "start_column": null,
+        "end_line": 1,
+        "end_column": null,
+        "annotation_level": "notice",
+        "title": "",
+        "message": "\"The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748\"",
+        "raw_details": ""
+      }
+    ]
+  },
+  {
+    "id": 132591142085,
+    "name": "windows / android (34)",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-14T21:16:24Z",
+    "completed_at": "2026-11-14T21:26:07Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591142085",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:16:25Z",
+        "completed_at": "2026-11-14T21:16:27Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:16:27Z",
+        "completed_at": "2026-11-14T21:16:35Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:16:35Z",
+        "completed_at": "2026-11-14T21:16:36Z"
+      },
+      {
+        "name": "Check the Android saved-state checkpoint parser",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:16:36Z",
+        "completed_at": "2026-11-14T21:16:36Z"
+      },
+      {
+        "name": "Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:16:36Z",
+        "completed_at": "2026-11-14T21:16:37Z"
+      },
+      {
+        "name": "Enable KVM",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:16:37Z",
+        "completed_at": "2026-11-14T21:16:37Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:16:37Z",
+        "completed_at": "2026-11-14T21:16:43Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:16:43Z",
+        "completed_at": "2026-11-14T21:16:58Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:16:58Z",
+        "completed_at": "2026-11-14T21:17:07Z"
+      },
+      {
+        "name": "Prepare isolated native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:17:07Z",
+        "completed_at": "2026-11-14T21:17:27Z"
+      },
+      {
+        "name": "Build with published dependencies",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:17:27Z",
+        "completed_at": "2026-11-14T21:20:06Z"
+      },
+      {
+        "name": "Window lifecycle and surviving-Activity launcher acceptance",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-14T21:20:06Z",
+        "completed_at": "2026-11-14T21:25:59Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-14T21:25:59Z",
+        "completed_at": "2026-11-14T21:26:00Z"
+      },
+      {
+        "name": "Post Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 24,
+        "started_at": "2026-11-14T21:26:00Z",
+        "completed_at": "2026-11-14T21:26:04Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 25,
+        "started_at": "2026-11-14T21:26:04Z",
+        "completed_at": "2026-11-14T21:26:04Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 26,
+        "started_at": "2026-11-14T21:26:04Z",
+        "completed_at": "2026-11-14T21:26:04Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 27,
+        "started_at": "2026-11-14T21:26:04Z",
+        "completed_at": "2026-11-14T21:26:04Z"
+      }
+    ],
+    "log": "jobs/132591142085.log.gz",
+    "logSHA256": "97c4c24724cef8845da1dbc54333186f7e0b191a0a5724cef1ad7e282cf442f3"
+  },
+  {
+    "id": 132591142104,
+    "name": "windows / android (36)",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-14T21:16:24Z",
+    "completed_at": "2026-11-14T21:24:58Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132591142104",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:16:25Z",
+        "completed_at": "2026-11-14T21:16:27Z"
+      },
+      {
+        "name": "Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-14T21:16:27Z",
+        "completed_at": "2026-11-14T21:16:36Z"
+      },
+      {
+        "name": "Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:16:36Z",
+        "completed_at": "2026-11-14T21:16:38Z"
+      },
+      {
+        "name": "Check the Android saved-state checkpoint parser",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-14T21:16:38Z",
+        "completed_at": "2026-11-14T21:16:38Z"
+      },
+      {
+        "name": "Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-14T21:16:38Z",
+        "completed_at": "2026-11-14T21:16:38Z"
+      },
+      {
+        "name": "Enable KVM",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 6,
+        "started_at": "2026-11-14T21:16:38Z",
+        "completed_at": "2026-11-14T21:16:39Z"
+      },
+      {
+        "name": "Run npm ci && npm run build",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 7,
+        "started_at": "2026-11-14T21:16:39Z",
+        "completed_at": "2026-11-14T21:16:44Z"
+      },
+      {
+        "name": "Run npm install --no-audit --no-fund",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 8,
+        "started_at": "2026-11-14T21:16:44Z",
+        "completed_at": "2026-11-14T21:16:56Z"
+      },
+      {
+        "name": "Run npm install -g nativescript",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-14T21:16:56Z",
+        "completed_at": "2026-11-14T21:17:05Z"
+      },
+      {
+        "name": "Prepare isolated native resources",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-14T21:17:05Z",
+        "completed_at": "2026-11-14T21:17:29Z"
+      },
+      {
+        "name": "Build with published dependencies",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-14T21:17:29Z",
+        "completed_at": "2026-11-14T21:19:58Z"
+      },
+      {
+        "name": "Window lifecycle and surviving-Activity launcher acceptance",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 12,
+        "started_at": "2026-11-14T21:19:58Z",
+        "completed_at": "2026-11-14T21:24:46Z"
+      },
+      {
+        "name": "Run actions/upload-artifact@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 13,
+        "started_at": "2026-11-14T21:24:46Z",
+        "completed_at": "2026-11-14T21:24:48Z"
+      },
+      {
+        "name": "Post Run actions/setup-java@v4",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 24,
+        "started_at": "2026-11-14T21:24:48Z",
+        "completed_at": "2026-11-14T21:24:55Z"
+      },
+      {
+        "name": "Post Run actions/setup-node@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 25,
+        "started_at": "2026-11-14T21:24:55Z",
+        "completed_at": "2026-11-14T21:24:55Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v7",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 26,
+        "started_at": "2026-11-14T21:24:55Z",
+        "completed_at": "2026-11-14T21:24:55Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 27,
+        "started_at": "2026-11-14T21:24:55Z",
+        "completed_at": "2026-11-14T21:24:56Z"
+      }
+    ],
+    "log": "jobs/132591142104.log.gz",
+    "logSHA256": "5d006d4ebe21f8b50a532c968b5bfc609f1285006cfef2299d6e4efda761ea67"
+  },
+  {
+    "id": 132601932594,
+    "name": "native-contracts",
+    "status": "completed",
+    "conclusion": "failure",
+    "started_at": "2026-11-14T21:56:15Z",
+    "completed_at": "2026-11-14T21:56:18Z",
+    "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641/job/132601932594",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-14T21:56:15Z",
+        "completed_at": "2026-11-14T21:56:15Z"
+      },
+      {
+        "name": "Require every applicable native lane",
+        "status": "completed",
+        "conclusion": "failure",
+        "number": 2,
+        "started_at": "2026-11-14T21:56:15Z",
+        "completed_at": "2026-11-14T21:56:16Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-14T21:56:16Z",
+        "completed_at": "2026-11-14T21:56:16Z"
+      }
+    ],
+    "log": "jobs/132601932594.log.gz",
+    "logSHA256": "be9a4ce5afc9472914a489dcf863eb6f11d75789edde47df78b794096ede0796",
+    "annotations": [
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rafaelaugustos/vue-router-ns/blob/c953afe0766a1907920600cc5d5ee9d5452b87d0/.github",
+        "start_line": 83,
+        "start_column": null,
+        "end_line": 83,
+        "end_column": null,
+        "annotation_level": "failure",
+        "title": "",
+        "message": "Process completed with exit code 1.",
+        "raw_details": ""
+      },
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rafaelaugustos/vue-router-ns/blob/c953afe0766a1907920600cc5d5ee9d5452b87d0/.github",
+        "start_line": 1,
+        "start_column": null,
+        "end_line": 1,
+        "end_column": null,
+        "annotation_level": "notice",
+        "title": "",
+        "message": "\"The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748\"",
+        "raw_details": ""
+      }
+    ]
+  }
+]

@@ -2,7 +2,8 @@
 
 The original [full native run](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43600236191)
 cancelled its serial iOS job at the 40-minute job limit. Native destinations only
-started after almost 37 minutes of setup and unrelated fixture builds/tests; it
+started 38 minutes 43 seconds after the job began, following setup and unrelated
+fixture builds/tests; it
 received 89 seconds before cancellation. The command's own 180-second deadline
 had not expired. The retained 17 initial destination checks do not establish
 system-Back or process-restoration acceptance. The [original evidence](./native-matrix-183.md)
@@ -72,12 +73,103 @@ identify the recording. Local success is separate from hosted acceptance.
 
 The [complete native matrix](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641)
 was dispatched once on the same code commit `c953afe`, including both new iOS
-jobs and the merged Split selector correction. Results are being collected.
-The Android foldable job has already failed a 3,000-ms drawer-settlement
-assertion; it passed on the preceding matrix, so this remains an unresolved
-failure, not a proven regression from this iOS-only change. No retry or assertion
-change is used to conceal it. #183 remains open and the full matrix is not green.
+jobs and the merged Split selector correction. The contracts job passed in
+**17 minutes 17 seconds**, including the final destination scenario in 113
+seconds. [Recorded timestamps](./evidence/ios-job-budget-183/durations.json) place
+the destination start at 14m59s into the new job, versus 38m43s previously.
+These durations exclude queue wait and are two observations, not a performance
+benchmark. It produced 19 positive reports; the former fixture failed specifically
+on covered-HMR native Page replacement with `fault: true`, as required. Forty
+transition samples measured 267.96/304.47 ms median/p95 against unchanged
+518.5/632.5-ms limits. All four retention batches had zero live JS Pages and one
+retained native controller. Destinations passed three zero-instance GC rounds,
+system Back and restoration from PID 35936 to 40794; the completed XCTest log is
+retained. Hosted source was clean, on macOS ARM64/M1 Virtual, Node 22.23.4,
+Xcode 16.4 and the same native package versions as the local run.
+
+The composition job passed in **26 minutes 17 seconds**. All five scenario
+steps completed: real native tab taps, 18 appearance reports, 20 visibility
+reports and cancelled-Back XCTest, 21 real-HTTP reports, and 71 Suspense
+observations with its native gesture tests. These report counts include commands
+and snapshots, not 130 independent tests. Both iOS jobs stayed within their
+30-minute limits with unchanged per-command limits.
+
+The completed matrix has **17 successful device jobs, three failures and one
+cancellation**, so its required aggregate failed. All jobs use the same source
+commit and attempt 1; there was no matrix retry.
+
+| Required group       | Device results                               |
+| -------------------- | -------------------------------------------- |
+| Android contracts    | API 34 passed; API 36 failed                 |
+| iOS contracts        | Contracts and composition both passed        |
+| UIKit Split          | iPhone and iPad both passed                  |
+| Integration          | Android and iOS Vite passed; foldable failed |
+| Page actions         | Android and iOS passed                       |
+| iOS drawer           | iPhone passed; iPad cancelled                |
+| Native flows         | Android and iOS passed                       |
+| Predictive prototype | API 34, 35 and 36 passed                     |
+| Native windows       | Android 34/36 passed; iPad failed            |
+
+The merged Split correction now has hosted validation: 26 iPhone and 28 iPad
+reports, each with no diagnostic issues and restoration in a second process.
+The iPad's additional destination/scene-entrypoint steps also passed. iOS Vite
+passed its 24 checks and cleanup on a clean source snapshot. All three
+predictive prototype jobs passed 17 Core and 15 legacy reports, both recreation
+modes, and the API 35 published-Core control failed at the expected
+`back-after-recreate` state. API 36 now recorded 19 cancellation samples with
+peak progress 0.1523. That success does not explain the preceding zero-progress
+failure or certify published-Core predictive support.
+
+Four nonpassing jobs require separate investigation:
+
+- Android contracts API 36 stops at the fixed fixture's `cancel-check`: 24 native
+  gesture events, peak progress zero, despite the Activity being resumed/focused.
+  Its first four reports passed. Later contracts, budgets and the former-HMR
+  control did not run. This uses published Core 9.1.4, distinct from the passing
+  candidate-Core predictive job.
+- Foldable fails its first `mode: overlay` command: drawer settlement exceeded
+  3,000 ms with `state: 0`, `layoutRequested: false` and no events. The original
+  uploaded artifact contains only that failed command report; this workflow did
+  not capture a hierarchy or logcat at this failure. The complete job log is
+  retained. The preceding matrix passed this same fixture; cause is unresolved.
+- iPad windows passes normal lifecycle and cold scene restoration, then fails
+  waiting 90 seconds for `PASS reconnect`/`FAIL reconnect` in the same-process
+  reconnect scenario. The last native report is successful `detached`, PID
+  19208; XCTest's failure hierarchy shows PID 21785. The evidence establishes
+  missing reconnection acknowledgement and a changed process, not why it changed.
+  Full uploaded XCTest bundles and reports are retained.
+- iPad drawer is cancelled at its separate 20-minute job limit during
+  `iPad rotation requested during active navigation`, confirmed by the GitHub
+  annotation. The rotation artifact contains four setup commands and no completed
+  rotation case; those remaining cases are unverified. Earlier steps succeeded
+  and cleanup uploaded the original archive. This stage does not change the
+  drawer workflow's deadline.
+
+No retry, timeout extension or assertion change is used for these failures.
+#183 remains open and the full matrix is not green.
 
 Ordinary PR CI skips device jobs; its aggregate is not native acceptance. This
 stage does not close the separate predictive API 36 progress investigation,
 authorize a release or establish physical-device acceptance.
+
+## Retained evidence
+
+[Run metadata](./evidence/ios-job-budget-183/hosted/run.json) identifies the source
+and attempt. [Job records](./evidence/ios-job-budget-183/hosted/jobs.json) retain
+all 23 job logs, individual step outcomes and annotations for nonpassing jobs.
+[Artifact records](./evidence/ios-job-budget-183/hosted/artifacts.json) identify
+all 21 uploaded archives, GitHub digests/expiry dates and retained-file hashes.
+Both iOS suite archives and all four nonpassing device archives are preserved
+in full. Other passing archives retain JSON/text/XML/log files byte for byte;
+their binary attachments remain in the original GitHub archives until expiry.
+Those committed subsets are explicitly marked `completeOriginal: false`.
+
+[Source hashes](./evidence/ios-job-budget-183/sources.json) identify the workflow
+and logging change and the unchanged destination fixture, native gesture test,
+validators and performance profiles. Later commits only add documentation and
+evidence to the tested code commit.
+
+The [ordinary PR CI](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43642652399)
+passed 988 unit tests (ten existing skips), the native shell helpers, nine
+observer and four command-log tests, formatting, types, package build and
+documentation build.

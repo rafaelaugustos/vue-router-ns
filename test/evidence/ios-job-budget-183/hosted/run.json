@@ -1,0 +1,13 @@
+{
+  "id": 43641895641,
+  "name": "Native contracts",
+  "event": "workflow_dispatch",
+  "head_branch": "fix/ios-contract-job-budget-183",
+  "head_sha": "c953afe0766a1907920600cc5d5ee9d5452b87d0",
+  "run_attempt": 1,
+  "status": "completed",
+  "conclusion": "failure",
+  "created_at": "2026-11-14T21:16:06Z",
+  "updated_at": "2026-11-14T21:56:19Z",
+  "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43641895641"
+}

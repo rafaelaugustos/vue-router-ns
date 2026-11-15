@@ -1,0 +1,60 @@
+{
+  "base": "ed58059f6688a4f747428c45c1ec3be3746722fc",
+  "source": "c953afe0766a1907920600cc5d5ee9d5452b87d0",
+  "files": [
+    {
+      "path": ".github/workflows/native-contracts.yml",
+      "baseSHA256": "0a71062f846ad0f7344ee522c9e52074ba08e7bab668c6f5a5e309b841449e64",
+      "sourceSHA256": "b77acce5b15fadf45c5235c1a073c61f3fc3e3e1e5978a0ef5fa31caaedf1984",
+      "changed": true
+    },
+    {
+      "path": ".github/workflows/native-contracts-ios.yml",
+      "baseSHA256": null,
+      "sourceSHA256": "a25cb15b8c9e68d7ffe280e7129d83da10c9cb01e768acd839de52b3a627f13e",
+      "changed": true
+    },
+    {
+      "path": "scripts/native/destinations.mjs",
+      "baseSHA256": "c4ab1129eaf4c1fd5896922a1931b736071bdf8f4a465a322c9764e8cd1c48a9",
+      "sourceSHA256": "33d4a0e21e1b44054a39aec12c91588fdfc984d3440a097b81ca081193a18904",
+      "changed": true
+    },
+    {
+      "path": "scripts/native/logged-command.mjs",
+      "baseSHA256": null,
+      "sourceSHA256": "6a300a88ee940ba3beb6e115097ab23f80281ebac93b5d9c0f13b2e185d45be1",
+      "changed": true
+    },
+    {
+      "path": "scripts/native/destinations/BackUITests.swift",
+      "baseSHA256": "bed0d36df9cee409ded974102bd149ea84d42fd0ac49837cc4df6f4ac2532471",
+      "sourceSHA256": "bed0d36df9cee409ded974102bd149ea84d42fd0ac49837cc4df6f4ac2532471",
+      "changed": false
+    },
+    {
+      "path": "demo/src/testing/destinations-app.ts",
+      "baseSHA256": "0468625a0dcf27a17f8720da1e0bc733f4817d81b9644c2c4f087f31bba0ede8",
+      "sourceSHA256": "0468625a0dcf27a17f8720da1e0bc733f4817d81b9644c2c4f087f31bba0ede8",
+      "changed": false
+    },
+    {
+      "path": "scripts/native/contracts/validate.mjs",
+      "baseSHA256": "7586d13aa2b19e6151755402d72e459fb4aa28b2ca95d25b8869ed345dcd2875",
+      "sourceSHA256": "7586d13aa2b19e6151755402d72e459fb4aa28b2ca95d25b8869ed345dcd2875",
+      "changed": false
+    },
+    {
+      "path": "scripts/native/contracts/baselines.json",
+      "baseSHA256": "b542e768002899542f56028bd78cdf2448d6de55f3a718d6f52738d4de2885f8",
+      "sourceSHA256": "b542e768002899542f56028bd78cdf2448d6de55f3a718d6f52738d4de2885f8",
+      "changed": false
+    },
+    {
+      "path": "scripts/native/uikit-split/SplitUITests.swift",
+      "baseSHA256": "aa1e7fee7ca436f0bf048daad4d813e2b74be5ad3da996e981c75b97226c349e",
+      "sourceSHA256": "aa1e7fee7ca436f0bf048daad4d813e2b74be5ad3da996e981c75b97226c349e",
+      "changed": false
+    }
+  ]
+}
