@@ -126,5 +126,38 @@ This focused workflow is separate from full-matrix acceptance. The last full
 run also failed Android API 36 gesture progress, foldable drawer settlement and
 iPad window reconnection. Those causes remain separate investigations. Ordinary
 PR CI skips device jobs, and #183 remains open until the complete required
-matrix passes on one acceptance commit. No merge, release or physical-device
-acceptance follows from this stage.
+matrix passes on one acceptance commit. No merge or release follows from this
+stage.
+
+## Additional physical iPad check
+
+On November 15, 2026, all three `AdaptiveDrawerUITests` passed on a connected
+**iPad Pro 11-inch, 3rd generation**, running **iPadOS 27.0 / 24A5418b**, using
+Xcode 27.2. The tested source was `4ca8b1a8580a7ebb577044dad2789a972121c41c`.
+The isolated app was installed as **Router Drawer Test**; the Swift test source
+was identical except for the app's separate bundle identifier.
+
+| Test                                             | Duration | Result |
+| ------------------------------------------------ | -------- | ------ |
+| Drawer edge pan and native Back after adaptation | 21.33s   | Passed |
+| Input, stacks, RTL/LTR, accessibility and modal  | 30.53s   | Passed |
+| Landscape/portrait available-width adaptation    | 9.41s    | Passed |
+
+XCTest reports **3 passed, 0 failed, 0 skipped**, with 61.27 seconds of test
+execution. The rotation test actually exercised its iPad branch: landscape
+showed the permanent drawer, and portrait returned to overlay with the drawer
+hidden. The device's original orientation was restored, and its appearance
+preferences were verified unchanged. The isolated app remains installed for
+manual testing.
+
+[Sanitized physical results](./evidence/ios-drawer-budget-183/physical-ipad.json)
+retain device model/OS, test durations and source hashes. Raw XCTest results
+and logs remain local because they include device identifiers. Video capture
+was attempted, but `devicectl` reported that screen recording is unsupported
+on this device; no physical-device video is claimed. The hosted simulator
+recording above remains the PR's video evidence.
+
+This is additional physical UI coverage. It does **not** execute the separate
+ten-case `RotationUITests` matrix, whose direct host-file bridge is exclusive
+to the simulator. In particular, it does not resolve the CI failure during
+active native navigation or establish full-matrix acceptance.
