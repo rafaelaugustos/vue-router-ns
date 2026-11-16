@@ -16,6 +16,9 @@ assert(serial, 'Select a dedicated emulator with ANDROID_SERIAL')
 const out = resolve(process.env.OUT ?? 'scripts/native/out/flows-android')
 const pkg = 'org.nativescript.vuerouterns'
 const activity = `${pkg}/com.tns.NativeScriptActivity`
+// Shared-storage XML dumps notify MediaProvider while DocumentsUI is querying
+// it. Keep observation scratch files outside the provider under test.
+const hierarchyFile = '/data/local/tmp/router-flow-ui.xml'
 await mkdir(out, { recursive: true })
 const adb = async (...args) =>
   (
@@ -65,9 +68,9 @@ async function outcome(name, previous = 0) {
 }
 async function ui() {
   // A failed dump must never reuse the preceding window's hierarchy.
-  await adb('shell', 'rm', '-f', '/sdcard/flow-ui.xml')
-  await adb('shell', 'uiautomator', 'dump', '/sdcard/flow-ui.xml')
-  return adb('shell', 'cat', '/sdcard/flow-ui.xml')
+  await adb('shell', 'rm', '-f', hierarchyFile)
+  await adb('shell', 'uiautomator', 'dump', hierarchyFile)
+  return adb('shell', 'cat', hierarchyFile)
 }
 async function tap(text) {
   const xml = await ui()

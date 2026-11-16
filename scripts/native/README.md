@@ -128,6 +128,10 @@ acceptance run, even if the app reports a user cancellation. `failure.json`,
 the first failure and surrounding evidence. The driver does not restart a
 crashed picker or retry the scenario.
 
+Hierarchy XML uses `/data/local/tmp`, outside shared storage. Writing or deleting
+inspection files under `/sdcard` can update MediaProvider while the picker is
+loading documents, so inspection must not modify the provider's contents.
+
 For iOS, `prepare-flows.py` enables file sharing in the generated demo resources for manual exploration. The automated selection test uses an external document in the local Files provider, seeded by `seed-document.py` in a dedicated simulator. The picker must return its actual scoped URL. CI uses a fresh iOS 18.6 simulator on macOS 15 ARM; local acceptance also covers iOS 26.0 and 26.5. Install CocoaPods and the `xcodeproj` Ruby gem, then:
 
 ```sh
