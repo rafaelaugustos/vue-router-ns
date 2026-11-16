@@ -68,7 +68,7 @@ try {
       join(out, 'rotation.xcresult'),
     ],
     {
-      timeout: 240000,
+      timeout: 360000,
       killSignal: 'SIGKILL',
       maxBuffer: 16 * 1024 * 1024,
       logFile: join(out, 'rotation-xctest.log'),
@@ -146,10 +146,25 @@ assert.equal(
   10,
   'Every direction, gesture intent and control must produce evidence',
 )
+const { checks: windowChecks } = JSON.parse(
+  await readFile(join(out, 'window-setup.json'), 'utf8'),
+)
+assert.deepEqual(
+  windowChecks.map((check) => check.case).sort(),
+  Object.keys(cases).sort(),
+  'Every case must establish its own full-window precondition exactly once',
+)
 const summary = []
 for (const [name, report] of Object.entries(cases)) {
   assert(report.finished && !report.error, `${name}: ${report.error ?? 'unfinished'}`)
   const { before, after, events, operation } = report
+  const setup = windowChecks.find((check) => check.case === name)
+  assert.deepEqual(setup.after, setup.screen, `${name}: full-window precondition`)
+  const armed = events.find((event) => event.kind === 'armed')
+  assert(
+    setup.preparedAt <= armed?.wallTime,
+    `${name}: window preparation must precede the native navigation observer`,
+  )
   const driver = JSON.parse(await readFile(join(out, `${name}-driver.json`), 'utf8'))
   assertContentBack(name, report, driver)
   if (report.notReproduced) {

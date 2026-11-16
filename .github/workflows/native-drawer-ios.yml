@@ -141,7 +141,7 @@ jobs:
           xcrun simctl boot "$SIM"
           xcrun simctl bootstatus "$SIM" -b
       - name: Require actual committed and cancelled content Back during rotation
-        timeout-minutes: 8
+        timeout-minutes: 12
         env:
           RECORD_VIDEO: '1'
         run: OUT=scripts/native/out/content-back node scripts/native/adaptive-drawer/rotation.mjs

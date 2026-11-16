@@ -13,24 +13,26 @@ final class RotationUITests: XCTestCase {
         let config = try JSONSerialization.jsonObject(with: Data(contentsOf: configURL)) as! [String: String]
         directory = URL(fileURLWithPath: config["directory"]!)
         app.activate()
-        // #168's baseline is a full-size iPad window. iPadOS 26.2 can launch
-        // this fixture in a scaled compatibility window even with
-        // UIRequiresFullScreen. Use the system's normal Zoom control and verify
-        // the precondition; reduced/windowed input remains a separate boundary.
-        if name.contains("test01ProgrammaticNavigation") {
-            XCUIDevice.shared.orientation = .portrait
-            let before = app.windows.firstMatch.frame
-            let maximized = before != app.frame
-            if maximized {
-                let system = XCUIApplication(bundleIdentifier: "com.apple.springboard")
-                system.buttons["window-controls:org.nativescript.vuerouterns"].tap()
-                system.buttons["Zoom-button"].tap()
-            }
-            XCTAssertEqual(app.windows.firstMatch.frame, app.frame, "This suite requires a full-size application window")
-            try write("window-setup.json", ["before": rectangle(before),
-                "after": rectangle(app.windows.firstMatch.frame), "screen": rectangle(app.frame),
-                "maximized": maximized])
+    }
+    // Rotation can restore a reduced compatibility window after an earlier
+    // setup. Establish the baseline after the case's orientation/preparation,
+    // before arming navigation; never repair or retry an active gesture.
+    func prepareWindow(_ label: String) throws {
+        let before = app.windows.firstMatch.frame
+        let maximized = before != app.frame
+        if maximized {
+            let system = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+            system.buttons["window-controls:org.nativescript.vuerouterns"].tap()
+            system.buttons["Zoom-button"].tap()
         }
+        let after = app.windows.firstMatch.frame
+        let screen = app.frame
+        var checks = (try? read("window-setup.json"))?["checks"] as? [[String: Any]] ?? []
+        checks.append(["case": label, "before": rectangle(before),
+            "after": rectangle(after), "screen": rectangle(screen),
+            "maximized": maximized, "preparedAt": (Date().timeIntervalSince1970 * 1000).rounded(.down)])
+        try write("window-setup.json", ["checks": checks])
+        XCTAssertEqual(after, screen, "This case requires a full-size application window")
     }
     func rectangle(_ value: CGRect) -> [String: CGFloat] {
         ["x": value.minX, "y": value.minY, "width": value.width, "height": value.height]
@@ -126,6 +128,7 @@ final class RotationUITests: XCTestCase {
             for operation in ["push-device", "back-device"] {
                 let target = operation == "push-device" ? landscape : !landscape
                 let label = "\(operation)-\(target ? "landscape" : "portrait")"
+                try prepareWindow(label)
                 try arm(operation, landscape: target)
                 try waitObserved()
                 try requestRotation(label, landscape: target)
@@ -137,10 +140,11 @@ final class RotationUITests: XCTestCase {
         for landscape in [true, false] {
             XCUIDevice.shared.orientation = landscape ? .portrait : .landscapeLeft
             try command("push", "home")
+            let label = "\(name)-\(landscape ? "landscape" : "portrait")"
+            try prepareWindow(label)
             let applicationFrame = app.frame
             let windowFrame = app.windows.firstMatch.frame
             XCTAssertEqual(windowFrame, applicationFrame, "Content Back requires the full-window test precondition")
-            let label = "\(name)-\(landscape ? "landscape" : "portrait")"
             let armed = try arm("gesture-device", landscape: landscape)
             let events = try XCTUnwrap(armed["events"] as? [[String: Any]])
             let recognizer = try XCTUnwrap(events.first { $0["kind"] as? String == "gesture-recognizer" })
@@ -212,12 +216,14 @@ final class RotationUITests: XCTestCase {
     func test03IntendedCancel() throws { try gesture(0.12, name: "cancel") }
     func test04SettledAndModalControl() throws {
         XCUIDevice.shared.orientation = .portrait
+        try prepareWindow("settled")
         try arm("settled", landscape: true)
         // Wait for the bridge to install its observer, with no navigation running.
         _ = try command("snapshot")
         try requestRotation("settled", landscape: true)
         try finish("settled", navigation: false)
         try command("modal")
+        try prepareWindow("modal")
         try arm("settled", landscape: false)
         _ = try command("snapshot")
         try requestRotation("modal", landscape: false)
