@@ -68,6 +68,11 @@ was cancelled after stalling before XCTest; its artifact contains provenance onl
 and counts as no native coverage. The driver now reuses the already-resolved app
 container, bounds simulator commands and recording shutdown, and logs preparation
 milestones. These host-process changes do not alter gestures or native assertions.
+Both subsequent local iPadOS 26.2 checks passed all ten scenarios and four XCTest
+methods; [automation-validation.json](./evidence/published-content-back-168/automation-validation.json)
+retains their source revisions and reports separately from the four-OS matrix.
+The ordinary [PR CI](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43842875993)
+passed formatting, types, unit tests, build and documentation.
 
 Each run uses Core 9.1.4, NativeScript-Vue 3.1.3 and iOS runtime 9.1.0. The fixture
 aliases the current checkout's built `dist`; this is not npm registry-consumer or
