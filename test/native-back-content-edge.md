@@ -1,6 +1,6 @@
 # Native Back from inset iPad content — #168
 
-This report preserves the **Core 9.1.3 investigation baseline**. The current demo uses Core 9.1.4, whose default Frame succeeds at the inset content gesture on iPadOS 26 in the [published dependency acceptance run](./native-core-9.1.4.md). The current driver includes that verified expectation; the historical observations below are unchanged. Active rotation during that gesture remains unvalidated.
+This report preserves the **Core 9.1.3 investigation baseline**. The current demo uses Core 9.1.4, whose default Frame succeeds at the inset content gesture on iPadOS 26 in the [published dependency acceptance run](./native-core-9.1.4.md). The [2026-11-16 adaptive content-Back acceptance](./native-published-content-back-168.md) now records actual committed/cancelled Back with rotation requests during native navigation. Its input phases and supported OS boundary are explicit. The historical observations and remaining-work statements below describe their original investigation stage.
 
 ## Result and scope
 

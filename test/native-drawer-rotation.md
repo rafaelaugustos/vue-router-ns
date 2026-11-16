@@ -1,5 +1,11 @@
 # iPad rotation requested during navigation — #167
 
+Current evidence — 2026-11-16: [published Core content-Back acceptance](./native-published-content-back-168.md)
+adds the previously missing committed/cancelled permanent-content cases on supported
+iPadOS versions, with distinct pointer-interaction and completion-animation phases.
+The sections below preserve the original Core 9.1.3 observations. The new evidence
+does not make every #167 scenario or arbitrary window configuration verified.
+
 ## Scope and method
 
 The opt-in adaptive drawer fixture uses published NativeScript Core 9.1.3, NativeScript-Vue 3.1.2 and iOS runtime 9.1.0. It keeps two warm named stacks with different draft values. No production router API, navigation delegate or gesture rule is changed. The observer is an additional empty child controller in the fixture, not a replacement for any existing controller.

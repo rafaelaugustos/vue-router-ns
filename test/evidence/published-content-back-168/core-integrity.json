@@ -1,0 +1,9 @@
+{
+  "version": "9.1.4",
+  "source": "https://registry.npmjs.org/@nativescript/core/-/core-9.1.4.tgz",
+  "registryIntegrity": "sha512-S8HQDKi7Md9SIr7rzBHvobS3X3HC9RG5qMCLqnXsOzW1u8Kp8W4TuCVIdjoyRoj5/V8xLMv+ZpMYsJ7K5iE9Ug==",
+  "tarballSha256": "1488560d441b0e679b06755c5acb59466d4f9d4c6140b08f6224a0bb237b010d",
+  "filesCompared": 1362,
+  "canonicalFileListSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+  "canonicalization": "JSON array sorted by path; each object has path then sha256; compact JSON UTF-8. All source files except package.json installation metadata. Full installed inventories are retained in each provenance.json."
+}

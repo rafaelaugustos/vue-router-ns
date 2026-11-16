@@ -1,0 +1,32 @@
+{
+  "runs": [
+    {
+      "run": "bounded262",
+      "source": "7ff5f6e1e3a807be7b7fbeda876d8a67c7cdab02",
+      "xctestPassed": 4,
+      "scenariosExercised": 10,
+      "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+      "purpose": "Verify process cleanup and container/timeout changes; native input, observer and outcome assertions are unchanged from the four-OS matrix."
+    },
+    {
+      "run": "container262",
+      "source": "5abf144e119ea9dfc22cc6059f592b712074cd72",
+      "xctestPassed": 4,
+      "scenariosExercised": 10,
+      "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+      "purpose": "Verify process cleanup and container/timeout changes; native input, observer and outcome assertions are unchanged from the four-OS matrix."
+    }
+  ],
+  "archive": "automation-checks.zip",
+  "sha256": "d30477d85d01c19ec288f346971f7620129032a5868b0c690af36ffafbe806cb",
+  "cancelledHostedRun": {
+    "id": 43840048613,
+    "artifactId": 14212498992,
+    "artifactSha256": "9e06aa782744b99670288689eaf2c0a905fc3650e3b20d40b03a095854194266",
+    "coverage": "none; only provenance was uploaded, no XCTest log or result bundle"
+  },
+  "videoUrlVerified": {
+    "httpStatus": 200,
+    "sha256": "2a221511c15ac34a57f15f905d6f5f5d312b5ab814515422bb3410cc358ea7b8"
+  }
+}

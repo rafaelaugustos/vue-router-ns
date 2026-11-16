@@ -1,0 +1,75 @@
+[
+  {
+    "name": "commit-portrait",
+    "sourceRun": "accepted262",
+    "expectedRejection": false,
+    "passed": true
+  },
+  {
+    "name": "cancel-portrait",
+    "sourceRun": "accepted262",
+    "expectedRejection": false,
+    "passed": true
+  },
+  {
+    "name": "commit-portrait",
+    "sourceRun": "accepted18",
+    "expectedRejection": false,
+    "passed": true
+  },
+  {
+    "name": "cancel-portrait",
+    "sourceRun": "accepted18",
+    "expectedRejection": false,
+    "passed": true
+  },
+  {
+    "name": "commit-portrait",
+    "sourceRun": "baseline26",
+    "expectedRejection": true,
+    "passed": true,
+    "rejection": "commit-portrait: actual native outcome"
+  },
+  {
+    "name": "commit-portrait",
+    "sourceRun": "progress26-ready",
+    "expectedRejection": true,
+    "passed": true,
+    "rejection": "commit-portrait: actual native outcome"
+  },
+  {
+    "name": "commit-portrait",
+    "sourceRun": "missing-supported-gesture",
+    "expectedRejection": true,
+    "passed": true,
+    "rejection": "commit-portrait: missing supported gesture"
+  },
+  {
+    "name": "commit-portrait",
+    "sourceRun": "noninteractive-pop",
+    "expectedRejection": true,
+    "passed": true,
+    "rejection": "commit-portrait: native interactive Back required"
+  },
+  {
+    "name": "commit-portrait",
+    "sourceRun": "late-request",
+    "expectedRejection": true,
+    "passed": true,
+    "rejection": "commit-portrait: rotation must be requested before native navigation completes"
+  },
+  {
+    "name": "commit-portrait",
+    "sourceRun": "wrong-phase",
+    "expectedRejection": true,
+    "passed": true,
+    "rejection": "commit-portrait: input phase"
+  },
+  {
+    "name": "commit-portrait",
+    "sourceRun": "unlisted-OS-boundary",
+    "expectedRejection": true,
+    "passed": true,
+    "rejection": "commit-portrait: missing supported gesture"
+  }
+]

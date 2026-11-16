@@ -1,0 +1,328 @@
+{
+  "source": "5d7e9cc7ed431b1c9679027a3a85247b588e62c4",
+  "runs": [
+    {
+      "run": "default18",
+      "resources": "default full-screen single-scene template",
+      "source": "5d7e9cc7ed431b1c9679027a3a85247b588e62c4",
+      "dirty": true,
+      "dirtyScope": "Documentation only; all native test/fixture source hashes equal the tested commit.",
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.41",
+        "webpack": "5.112.2"
+      },
+      "xcode": "Xcode 27.2\nBuild version 27B52",
+      "node": "v20.19.4",
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "9F1B22F3-1F6D-4FEA-981A-89A9EC3B6B91",
+        "deviceName": "Back168-ipad18",
+        "modelName": "iPad Pro 11-inch (M4)",
+        "osBuildNumber": "22G86",
+        "osVersion": "18.6",
+        "platform": "iOS Simulator"
+      },
+      "xctestPassed": 4,
+      "scenariosExercised": 8,
+      "gesturesNotReproduced": 2,
+      "classifications": {
+        "gesture-not-reproduced": 2,
+        "overlap": 1,
+        "rotation-deferred": 5,
+        "settled-control": 2
+      },
+      "contentBack": {
+        "commit-portrait": {
+          "result": "gesture-not-reproduced"
+        },
+        "cancel-portrait": {
+          "result": "gesture-not-reproduced"
+        }
+      },
+      "coreFilesCompared": 1362,
+      "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+      "routerDistSha256": "82ea80d4c73714c904b61d3cea7759c170ac2b6aaee7829c29156be6749a6b36",
+      "archive": "default18.zip",
+      "sha256": "417b02fcffe178a657b82f5cbceb40cbe4f1a6a65774221fb299040f1e42f51e"
+    },
+    {
+      "run": "default26",
+      "resources": "default full-screen single-scene template",
+      "source": "5d7e9cc7ed431b1c9679027a3a85247b588e62c4",
+      "dirty": true,
+      "dirtyScope": "Documentation only; all native test/fixture source hashes equal the tested commit.",
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.41",
+        "webpack": "5.112.2"
+      },
+      "xcode": "Xcode 27.2\nBuild version 27B52",
+      "node": "v20.19.4",
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "BDDB96A9-928C-4968-B6B1-DD9D2AA74878",
+        "deviceName": "Back168-ipad26",
+        "modelName": "iPad Pro 11-inch (M4)",
+        "osBuildNumber": "23A343",
+        "osVersion": "26.0",
+        "platform": "iOS Simulator"
+      },
+      "xctestPassed": 4,
+      "scenariosExercised": 10,
+      "gesturesNotReproduced": 0,
+      "classifications": {
+        "rotation-deferred": 8,
+        "settled-control": 2
+      },
+      "contentBack": {
+        "commit-portrait": {
+          "requestAfterStartMs": 3084.218,
+          "remainingNavigationMs": 419.782,
+          "requestAfterInteractionMs": 2.218,
+          "visualRotationAfterNavigationMs": 101,
+          "visualOverlap": false,
+          "cancelled": false
+        },
+        "cancel-portrait": {
+          "requestAfterStartMs": 1.907,
+          "remainingNavigationMs": 1030.093,
+          "requestAfterInteractionMs": -598.093,
+          "visualRotationAfterNavigationMs": 19,
+          "visualOverlap": false,
+          "cancelled": true
+        }
+      },
+      "coreFilesCompared": 1362,
+      "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+      "routerDistSha256": "82ea80d4c73714c904b61d3cea7759c170ac2b6aaee7829c29156be6749a6b36",
+      "archive": "default26.zip",
+      "sha256": "0e45942dec128ddeee488b837b64cff326adc3a5481ccf8a6758276d6c226bda"
+    },
+    {
+      "run": "default27",
+      "resources": "default full-screen single-scene template",
+      "source": "5d7e9cc7ed431b1c9679027a3a85247b588e62c4",
+      "dirty": true,
+      "dirtyScope": "Documentation only; all native test/fixture source hashes equal the tested commit.",
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.41",
+        "webpack": "5.112.2"
+      },
+      "xcode": "Xcode 27.2\nBuild version 27B52",
+      "node": "v20.19.4",
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "36B2A7F4-86B4-42FE-BB2C-80A4CC8D0E94",
+        "deviceName": "Back168-ipad27",
+        "modelName": "iPad Pro 11-inch (M4)",
+        "osBuildNumber": "24A434",
+        "osVersion": "27.0",
+        "platform": "iOS Simulator"
+      },
+      "xctestPassed": 4,
+      "scenariosExercised": 10,
+      "gesturesNotReproduced": 0,
+      "classifications": {
+        "overlap": 1,
+        "rotation-deferred": 7,
+        "settled-control": 2
+      },
+      "contentBack": {
+        "commit-portrait": {
+          "requestAfterStartMs": 3119.513,
+          "remainingNavigationMs": 417.487,
+          "requestAfterInteractionMs": 4.513,
+          "visualRotationAfterNavigationMs": 69,
+          "visualOverlap": false,
+          "cancelled": false
+        },
+        "cancel-portrait": {
+          "requestAfterStartMs": 2.541,
+          "remainingNavigationMs": 968.459,
+          "requestAfterInteractionMs": -607.459,
+          "visualRotationAfterNavigationMs": 11,
+          "visualOverlap": false,
+          "cancelled": true
+        }
+      },
+      "coreFilesCompared": 1362,
+      "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+      "routerDistSha256": "82ea80d4c73714c904b61d3cea7759c170ac2b6aaee7829c29156be6749a6b36",
+      "archive": "default27.zip",
+      "sha256": "cad0338d8363692c7215f3c9b6e38fa04c68d495406b124ee2635b1ffe63614a"
+    },
+    {
+      "run": "final18",
+      "resources": "earlier multi-scene development configuration",
+      "source": "5d7e9cc7ed431b1c9679027a3a85247b588e62c4",
+      "dirty": false,
+      "dirtyScope": "Documentation only; all native test/fixture source hashes equal the tested commit.",
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.41",
+        "webpack": "5.112.2"
+      },
+      "xcode": "Xcode 27.2\nBuild version 27B52",
+      "node": "v20.19.4",
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "9F1B22F3-1F6D-4FEA-981A-89A9EC3B6B91",
+        "deviceName": "Back168-ipad18",
+        "modelName": "iPad Pro 11-inch (M4)",
+        "osBuildNumber": "22G86",
+        "osVersion": "18.6",
+        "platform": "iOS Simulator"
+      },
+      "xctestPassed": 4,
+      "scenariosExercised": 8,
+      "gesturesNotReproduced": 2,
+      "classifications": {
+        "gesture-not-reproduced": 2,
+        "overlap": 6,
+        "settled-control": 2
+      },
+      "contentBack": {
+        "commit-portrait": {
+          "result": "gesture-not-reproduced"
+        },
+        "cancel-portrait": {
+          "result": "gesture-not-reproduced"
+        }
+      },
+      "coreFilesCompared": 1362,
+      "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+      "routerDistSha256": "82ea80d4c73714c904b61d3cea7759c170ac2b6aaee7829c29156be6749a6b36",
+      "archive": "final18.zip",
+      "sha256": "34e2a9302e9449a3061d12c26cafc904ef27de34d0b646f590c5e5986ca777ad"
+    },
+    {
+      "run": "final26",
+      "resources": "earlier multi-scene development configuration",
+      "source": "5d7e9cc7ed431b1c9679027a3a85247b588e62c4",
+      "dirty": false,
+      "dirtyScope": "Documentation only; all native test/fixture source hashes equal the tested commit.",
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.41",
+        "webpack": "5.112.2"
+      },
+      "xcode": "Xcode 27.2\nBuild version 27B52",
+      "node": "v20.19.4",
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "BDDB96A9-928C-4968-B6B1-DD9D2AA74878",
+        "deviceName": "Back168-ipad26",
+        "modelName": "iPad Pro 11-inch (M4)",
+        "osBuildNumber": "23A343",
+        "osVersion": "26.0",
+        "platform": "iOS Simulator"
+      },
+      "xctestPassed": 4,
+      "scenariosExercised": 10,
+      "gesturesNotReproduced": 0,
+      "classifications": {
+        "overlap": 8,
+        "settled-control": 2
+      },
+      "contentBack": {
+        "commit-portrait": {
+          "requestAfterStartMs": 3115.541,
+          "remainingNavigationMs": 414.459,
+          "requestAfterInteractionMs": 7.541,
+          "visualRotationAfterNavigationMs": -403,
+          "visualOverlap": true,
+          "cancelled": false
+        },
+        "cancel-portrait": {
+          "requestAfterStartMs": 4.18,
+          "remainingNavigationMs": 600.82,
+          "requestAfterInteractionMs": -594.82,
+          "visualRotationAfterNavigationMs": -585,
+          "visualOverlap": true,
+          "cancelled": true
+        }
+      },
+      "coreFilesCompared": 1362,
+      "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+      "routerDistSha256": "82ea80d4c73714c904b61d3cea7759c170ac2b6aaee7829c29156be6749a6b36",
+      "archive": "final26.zip",
+      "sha256": "ea924fec11a4c01ff29e4ffdaaf297d83a270f96b39c20626de040e1de63f640"
+    },
+    {
+      "run": "final27",
+      "resources": "earlier multi-scene development configuration",
+      "source": "5d7e9cc7ed431b1c9679027a3a85247b588e62c4",
+      "dirty": false,
+      "dirtyScope": "Documentation only; all native test/fixture source hashes equal the tested commit.",
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.41",
+        "webpack": "5.112.2"
+      },
+      "xcode": "Xcode 27.2\nBuild version 27B52",
+      "node": "v20.19.4",
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "36B2A7F4-86B4-42FE-BB2C-80A4CC8D0E94",
+        "deviceName": "Back168-ipad27",
+        "modelName": "iPad Pro 11-inch (M4)",
+        "osBuildNumber": "24A434",
+        "osVersion": "27.0",
+        "platform": "iOS Simulator"
+      },
+      "xctestPassed": 4,
+      "scenariosExercised": 10,
+      "gesturesNotReproduced": 0,
+      "classifications": {
+        "overlap": 8,
+        "settled-control": 2
+      },
+      "contentBack": {
+        "commit-portrait": {
+          "requestAfterStartMs": 3118.686,
+          "remainingNavigationMs": 432.314,
+          "requestAfterInteractionMs": 4.686,
+          "visualRotationAfterNavigationMs": -416,
+          "visualOverlap": true,
+          "cancelled": false
+        },
+        "cancel-portrait": {
+          "requestAfterStartMs": 1.858,
+          "remainingNavigationMs": 888.142,
+          "requestAfterInteractionMs": -608.142,
+          "visualRotationAfterNavigationMs": -870,
+          "visualOverlap": true,
+          "cancelled": true
+        }
+      },
+      "coreFilesCompared": 1362,
+      "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+      "routerDistSha256": "82ea80d4c73714c904b61d3cea7759c170ac2b6aaee7829c29156be6749a6b36",
+      "archive": "final27.zip",
+      "sha256": "ff6d3b522847e186946e44c46cb3fc0733b2f5e9970f5f9094e69e19f7d27229"
+    }
+  ],
+  "primaryDefaultResourceScenariosExercised": 28,
+  "primaryKnownMissingGestures": 2,
+  "earlierResourceConfigurationScenariosExercised": 28,
+  "diagnostics": {
+    "archive": "diagnostics.zip",
+    "sha256": "986bbeb579673d25fea5cb8bb8d290dc9041aa2df748a16d0d560bb597ca7585",
+    "scope": "Native probes plus preparation failures; these do not count as final acceptance. Baseline26 and60% progress probe both cancelled the intended permanent commit. decision26 uses the final native interaction decision phase."
+  },
+  "privacy": "Local workspace/home paths replaced in text archives. Original XCTest bundles remain local. Only dedicated simulators were used."
+}

@@ -16,7 +16,12 @@ export const out = resolve(
   process.env.OUT ?? `scripts/native/out/adaptive-${sim ? 'ios' : 'android'}`,
 )
 export const ios = async (...args) =>
-  (await exec('xcrun', ['simctl', ...args])).stdout.trim()
+  (
+    await exec('xcrun', ['simctl', ...args], {
+      timeout: args[0] === 'install' ? 120000 : 30000,
+      killSignal: 'SIGKILL',
+    })
+  ).stdout.trim()
 export const adb = async (...args) =>
   (
     await exec('adb', ['-s', serial, ...args], {
@@ -56,7 +61,7 @@ export async function initialize() {
     try {
       if (sim) await access(directory)
       else await adb('shell', 'run-as', pkg, 'ls', 'files/adaptive')
-      return
+      return directory
     } catch {
       await pause(200)
     }

@@ -1,19 +1,24 @@
 import assert from 'node:assert/strict'
 import { execFile, spawn } from 'node:child_process'
 import { promisify } from 'node:util'
-import { mkdtemp, readFile, readdir, writeFile } from 'node:fs/promises'
+import { copyFile, mkdtemp, readFile, readdir, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
-import { initialize, command, ios, sim, pkg, pause, out } from './bridge.mjs'
+import { initialize, command, sim, pause, out } from './bridge.mjs'
 import { loggedCommand } from '../logged-command.mjs'
+import { assertContentBack } from './content-back.mjs'
+import { recordRotationProvenance } from './rotation-provenance.mjs'
 
 const exec = promisify(execFile)
 assert(
   sim,
   'Set IOS_SIMULATOR to a dedicated booted iPad (this driver reinstalls the app)',
 )
-await initialize()
-const directory = `${await ios('get_app_container', sim, pkg, 'data')}/Documents/adaptive`
+console.log('Installing the adaptive rotation fixture')
+const directory = await initialize()
+console.log('Recording source and native build provenance')
+await recordRotationProvenance(out, sim)
+console.log('Warming retained stacks')
 await command('push', 'settings')
 await command('draft', { frame: 'settings', text: 'Inactive settings draft' })
 await command('draft', { frame: 'home', text: 'Home draft survives rotation' })
@@ -25,16 +30,23 @@ await exec(process.env.RUBY ?? 'ruby', [
   project,
   'rotation',
 ])
-let recording
+let recording, stopped, recordingError
 if (process.env.RECORD_VIDEO === '1') {
   recording = spawn(
     'xcrun',
     ['simctl', 'io', sim, 'recordVideo', '--codec=h264', join(out, 'rotation.mp4')],
     { stdio: 'ignore' },
   )
+  // Observe termination immediately, including a signal/launch failure before
+  // XCTest finishes. Waiting for an already-emitted exit event would hang CI.
+  stopped = new Promise((resolve) => {
+    recording.once('exit', (code, signal) => resolve({ code, signal }))
+    recording.once('error', (error) => resolve({ error }))
+  })
   await pause(500)
 }
 let testError
+console.log('Starting XCTest with the full-window precondition')
 try {
   await loggedCommand(
     'xcodebuild',
@@ -57,6 +69,7 @@ try {
     ],
     {
       timeout: 240000,
+      killSignal: 'SIGKILL',
       maxBuffer: 16 * 1024 * 1024,
       logFile: join(out, 'rotation-xctest.log'),
     },
@@ -64,13 +77,57 @@ try {
 } catch (error) {
   testError = error
 } finally {
-  if (recording && recording.exitCode === null) {
-    const stopped = new Promise((resolve) => recording.once('exit', resolve))
+  if (recording) {
     recording.kill('SIGINT')
-    await stopped
+    const timer = setTimeout(() => recording.kill('SIGKILL'), 10000)
+    try {
+      const result = await stopped
+      assert(!result.error, String(result.error))
+      assert(
+        result.code === 0 || result.signal === 'SIGINT',
+        `Video failed: ${JSON.stringify(result)}`,
+      )
+    } catch (error) {
+      recordingError = error
+    } finally {
+      clearTimeout(timer)
+    }
   }
 }
 const cases = {}
+let xctest, summaryError
+try {
+  xctest = JSON.parse(
+    (
+      await exec(
+        'xcrun',
+        [
+          'xcresulttool',
+          'get',
+          'test-results',
+          'summary',
+          '--path',
+          join(out, 'rotation.xcresult'),
+        ],
+        { timeout: 30000 },
+      )
+    ).stdout,
+  )
+  await writeFile(join(out, 'xctest-summary.json'), JSON.stringify(xctest, null, 2))
+} catch (error) {
+  summaryError = error
+}
+await copyFile(join(directory, 'rotation.json'), join(out, 'last-rotation.json')).catch(
+  (error) => {
+    if (!testError) throw error
+  },
+)
+await copyFile(
+  join(directory, 'window-setup.json'),
+  join(out, 'window-setup.json'),
+).catch((error) => {
+  if (!testError) throw error
+})
 for (const name of await readdir(directory)) {
   if (!/^(push-device-|back-device-|commit-|cancel-|settled|modal).*\.json$/.test(name))
     continue
@@ -79,6 +136,11 @@ for (const name of await readdir(directory)) {
   if (!name.endsWith('-driver.json')) cases[name.replace('.json', '')] = JSON.parse(value)
 }
 if (testError) throw new Error(`XCTest failed; see ${join(out, 'rotation-xctest.log')}`)
+if (recordingError) throw recordingError
+if (summaryError) throw summaryError
+assert.equal(xctest.passedTests, 4)
+assert.equal(xctest.failedTests, 0)
+assert.equal(xctest.skippedTests, 0)
 assert.equal(
   Object.keys(cases).length,
   10,
@@ -88,6 +150,8 @@ const summary = []
 for (const [name, report] of Object.entries(cases)) {
   assert(report.finished && !report.error, `${name}: ${report.error ?? 'unfinished'}`)
   const { before, after, events, operation } = report
+  const driver = JSON.parse(await readFile(join(out, `${name}-driver.json`), 'utf8'))
+  assertContentBack(name, report, driver)
   if (report.notReproduced) {
     assert(operation.startsWith('gesture') && report.landscape === false)
     assert.deepEqual(after.frames, before.frames)
@@ -108,7 +172,6 @@ for (const [name, report] of Object.entries(cases)) {
   const nativeStart = events.find((e) => e.kind === 'navigation-observed')
   const nativeEnd = events.find((e) => e.kind === 'navigation-ended')
   const rotation = events.find((e) => e.kind === 'rotation-began')
-  const driver = JSON.parse(await readFile(join(out, `${name}-driver.json`), 'utf8'))
   assert(
     rotation && events.some((e) => e.kind === 'rotation-ended'),
     `${name}: rotation never completed`,
@@ -219,6 +282,7 @@ for (const [name, report] of Object.entries(cases)) {
     requestedDuringNavigation: navigates,
     visualOverlap: rotation.navigationActive,
     navigationCancelled: nativeEnd?.cancelled ?? null,
+    interactionEndedBeforeRequest: driver.interactionEndedBeforeRequest,
     result: rotation.navigationActive
       ? 'overlap'
       : navigates
