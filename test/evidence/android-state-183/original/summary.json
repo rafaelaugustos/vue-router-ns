@@ -1,0 +1,12 @@
+{
+  "run": 43772034713,
+  "job": 132989971275,
+  "artifact": 14185154358,
+  "sourceCommit": "f7892f0254b78ec3589f30f1539faa1a56474d34",
+  "archiveSha256": "254c798f8dab1f1a434d787dbcc5fd23eeacb98c9ed494cded372f94a3ad4da5",
+  "stateResults": 0,
+  "processTransitions": [],
+  "hierarchyBytes": 0,
+  "screenshot": "state/failure.png within original archive: NativeScript splash",
+  "boundary": "Original filtered log lacks STATE results and does not establish the startup hang cause."
+}

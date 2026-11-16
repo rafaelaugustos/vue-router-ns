@@ -1,0 +1,55 @@
+Copying template files...
+Platform android successfully added. v9.1.1
+Preparing project...
+assets by path [1m[32mairbnb/assets/*.jpg[39m[22m 1.45 MiB
+  asset [1m[32mairbnb/assets/cabin.jpg[39m[22m 254 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/cabin.jpg] [1m[32m[copied][39m[22m
+  asset [1m[32mairbnb/assets/pool.jpg[39m[22m 209 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/pool.jpg] [1m[32m[copied][39m[22m
+  asset [1m[32mairbnb/assets/mountain.jpg[39m[22m 199 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/mountain.jpg] [1m[32m[copied][39m[22m
+  asset [1m[32mairbnb/assets/loft.jpg[39m[22m 163 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/loft.jpg] [1m[32m[copied][39m[22m
+  asset [1m[32mairbnb/assets/garden-house.jpg[39m[22m 153 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/garden-house.jpg] [1m[32m[copied][39m[22m
+  + 4 assets
+assets by path [1m[32m*.mjs[39m[22m 4.48 MiB
+  asset [1m[32mvendor.mjs[39m[22m 4 MiB [1m[32m[emitted][39m[22m [javascript module] (name: vendor) (id hint: vendor) 1 related asset
+  asset [1m[32mbundle.mjs[39m[22m 487 KiB [1m[32m[emitted][39m[22m [javascript module] (name: bundle) 1 related asset
+  asset [1m[32mruntime.mjs[39m[22m 5.98 KiB [1m[32m[emitted][39m[22m [javascript module] (name: runtime) 1 related asset
+assets by path [1m[32mfonts/[39m[22m 342 KiB
+  asset [1m[32mfonts/MaterialIconsOutlined-Regular.otf[39m[22m 331 KiB [1m[32m[emitted][39m[22m [from: src/fonts/MaterialIconsOutlined-Regular.otf] [1m[32m[copied][39m[22m
+  asset [1m[32mfonts/MaterialIcons-LICENSE.txt[39m[22m 11.1 KiB [1m[32m[emitted][39m[22m [from: src/fonts/MaterialIcons-LICENSE.txt] [1m[32m[copied][39m[22m
+asset [1m[32mtns_modules/inspector_modules.mjs[39m[22m 864 bytes [1m[32m[emitted][39m[22m [javascript module] (name: tns_modules/inspector_modules) 1 related asset
+Entrypoint [1mbundle[39m[22m 4.48 MiB (4.3 MiB) = [1m[32mruntime.mjs[39m[22m 5.98 KiB [1m[32mvendor.mjs[39m[22m 4 MiB [1m[32mbundle.mjs[39m[22m 487 KiB 3 auxiliary assets
+Entrypoint [1mtns_modules/inspector_modules[39m[22m 4.01 MiB (3.82 MiB) = [1m[32mruntime.mjs[39m[22m 5.98 KiB [1m[32mvendor.mjs[39m[22m 4 MiB [1m[32mtns_modules/inspector_modules.mjs[39m[22m 864 bytes 3 auxiliary assets
+orphan modules 23.8 KiB [1m[33m[orphan][39m[22m 16 modules
+runtime modules 3.09 KiB 7 modules
+modules by path [1m../../../../../Users/rafaelaugusto/Documents/workspace/side-projects/vue-router-...(truncated)[39m[22m 3.13 MiB 415 modules
+modules by path [1m../dist/[39m[22m 394 KiB
+  modules by path [1m../dist/*.js[39m[22m 350 KiB 48 modules
+  modules by path [1m../dist/components/*.js[39m[22m 13.8 KiB
+    [1m../dist/components/RouterView.js[39m[22m 2.11 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+    + 5 modules
+  modules by path [1m../dist/hosts/*.js[39m[22m 25.4 KiB
+    [1m../dist/hosts/frame-page.js[39m[22m 2.82 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+    + 4 modules
+  [1m../dist/destinations/view.js[39m[22m 5.12 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+[1m./src/testing/state-app.ts[39m[22m 9.48 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+[1mexternal "~/package.json"[39m[22m 42 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+webpack 5.111.1 compiled [1m[32msuccessfully[39m[22m in 2718 ms
+Webpack compilation complete.
+	 ~ applying user-defined configuration from /private/tmp/android-state183/worktree/demo/App_Resources/Android/before-plugins.gradle
+Built aar for @nativescript/core
+Updating runtime package.json with configuration values...
+Project successfully prepared (android)
+Building project...
+Gradle build...
+	 + applying user-defined configuration from /private/tmp/android-state183/worktree/demo/App_Resources/Android/before-plugins.gradle
+	 + applying user-defined configuration from /private/tmp/android-state183/worktree/demo/App_Resources/Android/before-plugins.gradle
+	 + setting applicationId
+	 + applying user-defined configuration from /private/tmp/android-state183/worktree/demo/App_Resources/Android/app.gradle
+	 + adding nativescript runtime package dependency: nativescript-optimized-with-inspector
+	 + adding aar plugin dependency: /Users/rafaelaugusto/Documents/workspace/side-projects/vue-router-ns/demo/node_modules/@nativescript/core/platforms/android/core.aar
+	 + adding aar plugin dependency: /Users/rafaelaugusto/Documents/workspace/side-projects/vue-router-ns/demo/node_modules/@nativescript/core/platforms/android/widgets-release.aar
+	 + adding aar plugin dependency: /Users/rafaelaugusto/Documents/workspace/side-projects/vue-router-ns/demo/node_modules/@nativescript/core/platforms/android/winter_tc-release.aar
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Project successfully built.
+Build time: 11.817 s.
+The build result is located at: /private/tmp/android-state183/worktree/demo/platforms/android/app/build/outputs/apk/debug/app-debug.apk

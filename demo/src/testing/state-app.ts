@@ -11,6 +11,7 @@ import {
 
 const storageKey = 'state-acceptance'
 const mode = ApplicationSettings.getString('state-mode', 'prepare')
+console.log(`STATE_BOOT entry ${mode}`)
 const status = ref('Running state checks')
 const checks: string[] = []
 const editors: EditorCapture[] = []
@@ -212,7 +213,9 @@ function nextScenario() {
   status.value = `READY: ${next}`
 }
 async function run() {
+  console.log(`STATE_BOOT waiting-for-router ${mode}`)
   await router.isReady()
+  console.log(`STATE_BOOT router-ready ${mode}`)
   if (mode === 'prepare') {
     await router.push('/edit', { animated: false })
     editors[0]!.text.value = 'first draft'

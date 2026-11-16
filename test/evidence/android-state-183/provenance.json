@@ -1,0 +1,36 @@
+{
+  "baseCommit": "a52e11d10a9a21ade4ef9d03e9f221d1179dadfb",
+  "codeCommit": "3d26a43c99c090bfec1f9a6427b754a82d508154",
+  "sourceFiles": [
+    {
+      "path": "scripts/native/state-android.sh",
+      "sha256": "cfeab7c63aaabddf290d89f808c3ea30d7a817b044819808d03a773e31dbc914"
+    },
+    {
+      "path": "demo/src/testing/state-app.ts",
+      "sha256": "3d81e357df8e6a205fd17e3dfe71e2466aa4480294cf96334e1134a716a28a55"
+    },
+    {
+      "path": ".github/workflows/native.yml",
+      "sha256": "2cfc8e49b45e148dc3d3f917bd94ac4c13d5f259e45bbf38ed3529972923747e"
+    }
+  ],
+  "apks": [
+    {
+      "name": "state-baseline.apk",
+      "sha256": "3cee0261799d33c45b5b6c561e97ab3b5415e551fa5269644236b72eca1d3bd0",
+      "bytes": 119590442
+    },
+    {
+      "name": "state-candidate.apk",
+      "sha256": "66fbecf56450ff3485401220b6a2a6fe1e95f8ece39acf78584432c0232d4adc",
+      "bytes": 120157261
+    }
+  ],
+  "control": {
+    "mechanism": "OS per-application wait-for-debugger on the dedicated test emulator, before running the unchanged candidate APK and driver",
+    "expected": "Initial prepared wait fails at existing deadline without app restart; full system/window evidence identifies debugger wait",
+    "cleanup": "debug_app=null, wait_for_debugger=0 verified before dedicated emulator deletion",
+    "boundary": "A deliberate pre-JavaScript startup blockage tests failure diagnostics; it does not reproduce or explain the original hosted splash hang."
+  }
+}

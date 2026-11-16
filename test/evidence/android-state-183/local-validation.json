@@ -1,0 +1,124 @@
+[
+  {
+    "name": "baseline",
+    "sourceCommit": "a52e11d10a9a21ade4ef9d03e9f221d1179dadfb",
+    "archive": "local/baseline.zip",
+    "sha256": "d5042c93ec2b284364de4a54d429b3503379693a4b983f1e53185075aa00752d",
+    "expectedExit": 0,
+    "stages": [
+      "prepared",
+      "duplicate top",
+      "duplicate previous",
+      "migration",
+      "expired",
+      "missing",
+      "signed-out",
+      "legacy"
+    ],
+    "processes": [
+      {
+        "scenario": "duplicates",
+        "before": 5486,
+        "after": 5795,
+        "method": "am-kill"
+      },
+      {
+        "scenario": "migration",
+        "before": 5795,
+        "after": 6153,
+        "method": "am-kill"
+      },
+      {
+        "scenario": "expired",
+        "before": 6153,
+        "after": 6401,
+        "method": "am-kill"
+      },
+      {
+        "scenario": "missing",
+        "before": 6401,
+        "after": 6583,
+        "method": "am-kill"
+      },
+      {
+        "scenario": "signed-out",
+        "before": 6583,
+        "after": 6754,
+        "method": "am-kill"
+      },
+      {
+        "scenario": "legacy",
+        "before": 6754,
+        "after": 6925,
+        "method": "am-kill"
+      }
+    ],
+    "failurePhase": null
+  },
+  {
+    "name": "candidate-normal",
+    "sourceCommit": "3d26a43c99c090bfec1f9a6427b754a82d508154",
+    "archive": "local/candidate-normal.zip",
+    "sha256": "3b2d96a6f835e204d999bc96f51ec4bd1eebd589acbc034394ff41e2ad5493d3",
+    "expectedExit": 0,
+    "stages": [
+      "prepared",
+      "duplicate top",
+      "duplicate previous",
+      "migration",
+      "expired",
+      "missing",
+      "signed-out",
+      "legacy"
+    ],
+    "processes": [
+      {
+        "scenario": "duplicates",
+        "before": 7458,
+        "after": 8288,
+        "method": "am-kill"
+      },
+      {
+        "scenario": "migration",
+        "before": 8288,
+        "after": 9504,
+        "method": "am-kill"
+      },
+      {
+        "scenario": "expired",
+        "before": 9504,
+        "after": 10557,
+        "method": "am-kill"
+      },
+      {
+        "scenario": "missing",
+        "before": 10557,
+        "after": 11578,
+        "method": "am-kill"
+      },
+      {
+        "scenario": "signed-out",
+        "before": 11578,
+        "after": 12599,
+        "method": "am-kill"
+      },
+      {
+        "scenario": "legacy",
+        "before": 12599,
+        "after": 13621,
+        "method": "am-kill"
+      }
+    ],
+    "failurePhase": null
+  },
+  {
+    "name": "blocked-start-control",
+    "sourceCommit": "3d26a43c99c090bfec1f9a6427b754a82d508154",
+    "archive": "local/blocked-start-control.zip",
+    "sha256": "662844bc6180dbf0e8e1f8bcd3ad2be63be2b46267848410cca052cb6b97093d",
+    "expectedExit": 1,
+    "stages": [],
+    "processes": [],
+    "failurePhase": "initial-prepared"
+  }
+]

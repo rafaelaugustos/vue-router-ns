@@ -1,0 +1,4 @@
+
+> vue-router-ns@0.1.0-rc.4 typecheck
+> tsc --noEmit
+
