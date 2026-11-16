@@ -27,7 +27,10 @@ jobs:
       - run: gem install cocoapods xcodeproj --no-document
       - run: npm ci && npm install -g nativescript
       - name: Prepare a fresh packed-router consumer and verify published Core
-        run: node scripts/native/direction/prepare.mjs
+        run: |
+          ns usage-reporting disable
+          ns error-reporting disable
+          node scripts/native/direction/prepare.mjs
       - name: Create dedicated simulator
         run: |
           SIM=$(xcrun simctl create DirectionAcceptance com.apple.CoreSimulator.SimDeviceType.${{ matrix.device }} com.apple.CoreSimulator.SimRuntime.iOS-18-6)
