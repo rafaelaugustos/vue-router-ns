@@ -37,7 +37,13 @@ Exactly 3/2/3 passing cases and no skipped/failed tests are required. The delibe
 unsafe pre-startup `controller.view` access remains a separate negative control;
 it is not a supported composition or silently included among the passing cases.
 
-The focused `Native inherited direction` workflow runs all eight cases on iPhone
+Dispatch `Native contracts` with `lane=direction` for the focused suite:
+
+```sh
+gh workflow run native-contracts.yml --ref <branch> -f lane=direction
+```
+
+The reusable `Native inherited direction` workflow runs all eight cases on iPhone
 and iPad 18.6. The complete Native contracts workflow requires both rows on its
 manual/scheduled runs. Ordinary PRs keep the repository's existing policy of
 skipping device jobs. Current acceptance does not certify dynamic RTL, arbitrary
