@@ -182,10 +182,10 @@ final class RotationUITests: XCTestCase {
             let distance = bounds.width * fraction
             let start = app.coordinate(withNormalizedOffset: .zero).withOffset(offset)
             let end = start.withOffset(CGVector(dx: distance, dy: 0))
-            // Rotation with a pointer down can cancel even a long drag. For the
-            // permanent-content commit control, wait for UIKit's interaction
+            // A long pointer-down drag can cancel or reverse the orientation
+            // transition. In both commit directions, wait for UIKit's interaction
             // decision, then rotate while its navigation animation is unfinished.
-            let signal = name == "commit" && !landscape ? "interaction-ended" : "navigation-observed"
+            let signal = name == "commit" ? "interaction-ended" : "navigation-observed"
             try write("\(label)-driver.json", [
                 "rotationSignal": signal,
                 "windowFrame": rectangle(windowFrame),
