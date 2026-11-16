@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict'
 import { execFile, spawn } from 'node:child_process'
 import { promisify } from 'node:util'
-import { access, mkdir, writeFile, readFile } from 'node:fs/promises'
+import { mkdir, writeFile, readFile, rename } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { recordEnvironment } from '../contracts/environment.mjs'
 const exec = promisify(execFile)
 const sim = process.env.IOS_SIMULATOR
 const serial = process.env.ANDROID_SERIAL
@@ -26,12 +27,46 @@ const pause = (ms) => new Promise((done) => setTimeout(done, ms))
 let container
 let recording
 let phase = 'launch'
+let session
+let lastRead
 const startedAt = new Date().toISOString()
+const readResult = () =>
+  sim
+    ? readFile(`${container}/Documents/tabs-visibility/result.json`, 'utf8')
+    : appShell('cat', `${appFiles}/result.json`)
+async function readReport() {
+  let raw
+  try {
+    raw = await readResult()
+    const report = JSON.parse(raw)
+    lastRead = { raw }
+    return report
+  } catch (error) {
+    lastRead = { raw, error: String(error) }
+  }
+}
+async function waitForBridge() {
+  phase = 'bridge readiness'
+  const deadline = Date.now() + 30000
+  while (Date.now() < deadline) {
+    const report = await readReport()
+    if (
+      report?.ready === true &&
+      typeof report.session === 'string' &&
+      report.session !== session
+    ) {
+      session = report.session
+      return
+    }
+    await pause(200)
+  }
+  assert.fail('Native tab visibility command bridge did not become ready within 30s')
+}
 async function diagnose(error) {
   await writeFile(
     `${out}/failure.json`,
     JSON.stringify(
-      { phase, startedAt, error: String(error), stack: error.stack },
+      { phase, startedAt, session, lastRead, error: String(error), stack: error.stack },
       null,
       2,
     ),
@@ -69,6 +104,15 @@ async function diagnose(error) {
   ])
 }
 try {
+  await recordEnvironment(
+    out,
+    serial
+      ? {
+          serial,
+          fingerprint: await adb('shell', 'getprop', 'ro.build.fingerprint'),
+        }
+      : { simulator: sim },
+  )
   if (sim) {
     await ios('terminate', sim, pkg).catch(() => {})
     await ios('uninstall', sim, pkg).catch(() => {})
@@ -88,23 +132,7 @@ try {
     await adb('shell', 'pm', 'clear', pkg)
     await adb('shell', 'am', 'start', '-W', '-n', `${pkg}/com.tns.NativeScriptActivity`)
   }
-  // A fresh installation can take longer to start on a busy simulator. The
-  // fixture creates result.json only after setting up its native command bridge.
-  phase = 'bridge readiness'
-  const bridgeDeadline = Date.now() + 30000
-  while (true) {
-    try {
-      if (sim) await access(`${container}/Documents/tabs-visibility/result.json`)
-      else await appShell('test', '-f', `${appFiles}/result.json`)
-      break
-    } catch {
-      assert(
-        Date.now() < bridgeDeadline,
-        'Native tab visibility command bridge did not become ready within 30s',
-      )
-      await pause(200)
-    }
-  }
+  await waitForBridge()
   if (process.env.RECORD === '1') {
     recording = sim
       ? spawn(
@@ -130,9 +158,12 @@ try {
   async function command(action, value) {
     const id = results.length + 1
     phase = `command ${id}: ${action}`
-    const body = JSON.stringify({ id, action, value })
-    if (sim) await writeFile(`${container}/Documents/tabs-visibility/command.json`, body)
-    else {
+    const body = JSON.stringify({ session, id, action, value })
+    if (sim) {
+      const folder = `${container}/Documents/tabs-visibility`
+      await writeFile(`${folder}/command.pending`, body)
+      await rename(`${folder}/command.pending`, `${folder}/command.json`)
+    } else {
       await writeFile(`${out}/command.json`, body)
       await adb(
         'push',
@@ -142,21 +173,21 @@ try {
       await appShell(
         'cp',
         '/data/local/tmp/tabs-visibility-command.json',
-        `${appFiles}/command.json`,
+        `${appFiles}/command.pending`,
       )
+      await appShell('mv', `${appFiles}/command.pending`, `${appFiles}/command.json`)
     }
     let report
     for (let i = 0; i < 80; i++) {
-      try {
-        const text = sim
-          ? await readFile(`${container}/Documents/tabs-visibility/result.json`, 'utf8')
-          : await appShell('cat', `${appFiles}/result.json`)
-        report = JSON.parse(text)
+      report = await readReport()
+      if (report?.session === session) {
+        assert(!report.error, JSON.stringify(report))
         if (report.id === id) break
-      } catch {}
+      }
       await pause(200)
     }
     assert.equal(report?.id, id, `Command timed out: ${action}`)
+    assert.equal(report?.session, session, 'Reply belongs to another app process')
     results.push({ action, value, ...report })
     await writeFile(`${out}/results.json`, JSON.stringify(results, null, 2))
     assert(!report.error, JSON.stringify(report))
@@ -267,7 +298,7 @@ try {
     await adb('shell', 'am', 'force-stop', pkg)
     await adb('shell', 'am', 'start', '-W', '-n', `${pkg}/com.tns.NativeScriptActivity`)
   }
-  await pause(1800)
+  await waitForBridge()
   expectHidden(await command('select', 'saved'), true)
   assert.equal(results.at(-1).stacks.saved, 2, 'Restoration lost native history')
   await command('root')
@@ -285,7 +316,7 @@ try {
       'vuerouterns://saved/detail',
       pkg,
     )
-    await pause(2000)
+    await waitForBridge()
     expectHidden(await command('snapshot'), true)
     assert.equal(results.at(-1).selected, 'saved')
   }
