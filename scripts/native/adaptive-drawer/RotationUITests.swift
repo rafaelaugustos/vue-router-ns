@@ -6,12 +6,14 @@ import XCTest
 final class RotationUITests: XCTestCase {
     let app = XCUIApplication(bundleIdentifier: "org.nativescript.vuerouterns")
     var directory: URL!
+    var overlap = false
     override func setUpWithError() throws {
         continueAfterFailure = false
         let udid = ProcessInfo.processInfo.environment["SIMULATOR_UDID"]!
         let configURL = URL(fileURLWithPath: "/tmp/router-rotation-\(udid).json")
         let config = try JSONSerialization.jsonObject(with: Data(contentsOf: configURL)) as! [String: String]
         directory = URL(fileURLWithPath: config["directory"]!)
+        overlap = config["mode"] == "overlap"
         app.activate()
     }
     // Rotation can restore a reduced compatibility window after an earlier
@@ -108,6 +110,8 @@ final class RotationUITests: XCTestCase {
         var driver = (try? read("\(label)-driver.json")) ?? [:]
         let events = try XCTUnwrap(try read("rotation.json")["events"] as? [[String: Any]])
         driver["interactionEndedBeforeRequest"] = events.contains { $0["kind"] as? String == "interaction-ended" }
+        driver["navigationObservedBeforeRequest"] = events.contains { $0["kind"] as? String == "navigation-observed" }
+        driver["requestPhase"] = label.contains("-overlap-") ? "admission" : "observed"
         driver["requestedAt"] = Date().timeIntervalSince1970 * 1000
         try write("\(label)-driver.json", driver)
         XCUIDevice.shared.orientation = landscape ? .landscapeLeft : .portrait
@@ -129,7 +133,13 @@ final class RotationUITests: XCTestCase {
             let begin = try XCTUnwrap(events.first { $0["kind"] as? String == "navigation-observed" })
             let end = try XCTUnwrap(events.first { $0["kind"] as? String == "navigation-ended" })
             let request = try read("\(label)-driver.json")["requestedAt"] as! Double
-            XCTAssertGreaterThanOrEqual(request, begin["wallTime"] as! Double)
+            // The overlap suite dispatches both requests near admission. Its
+            // acceptance requires the native navigation coordinator to be current
+            // when rotation actually begins; the original device suite still
+            // requires the orientation request itself to follow observation.
+            if !label.contains("-overlap-") {
+                XCTAssertGreaterThanOrEqual(request, begin["wallTime"] as! Double)
+            }
             XCTAssertLessThan(request, end["wallTime"] as! Double, "Orientation request happened after navigation ended")
             XCTAssertEqual(events.filter { $0["kind"] as? String == "navigation-ended" }.count, 1)
         }
@@ -142,12 +152,13 @@ final class RotationUITests: XCTestCase {
     func test01ProgrammaticNavigation() throws {
         for landscape in [true, false] {
             XCUIDevice.shared.orientation = landscape ? .portrait : .landscapeLeft
-            for operation in ["push-device", "back-device"] {
-                let target = operation == "push-device" ? landscape : !landscape
+            let source = overlap ? "overlap" : "device"
+            for operation in ["push-\(source)", "back-\(source)"] {
+                let target = operation.hasPrefix("push") ? landscape : !landscape
                 let label = "\(operation)-\(target ? "landscape" : "portrait")"
                 try prepareWindow(label)
                 try arm(operation, landscape: target)
-                try waitObserved()
+                if !overlap { try waitObserved() }
                 try requestRotation(label, landscape: target)
                 try finish(label)
             }

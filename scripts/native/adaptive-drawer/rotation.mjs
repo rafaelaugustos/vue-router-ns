@@ -6,10 +6,14 @@ import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 import { initialize, command, sim, pause, out } from './bridge.mjs'
 import { loggedCommand } from '../logged-command.mjs'
+import { assertProgrammaticOverlap } from './programmatic-overlap.mjs'
 import { assertContentBack } from './content-back.mjs'
 import { recordRotationProvenance } from './rotation-provenance.mjs'
 
 const exec = promisify(execFile)
+const mode = process.env.ROTATION_MODE ?? 'device'
+assert(['device', 'overlap'].includes(mode), 'ROTATION_MODE must be device or overlap')
+const overlap = mode === 'overlap'
 assert(
   sim,
   'Set IOS_SIMULATOR to a dedicated booted iPad (this driver reinstalls the app)',
@@ -23,7 +27,7 @@ await command('push', 'settings')
 await command('draft', { frame: 'settings', text: 'Inactive settings draft' })
 await command('draft', { frame: 'home', text: 'Home draft survives rotation' })
 await command('select', 'home')
-await writeFile(`/tmp/router-rotation-${sim}.json`, JSON.stringify({ directory }))
+await writeFile(`/tmp/router-rotation-${sim}.json`, JSON.stringify({ directory, mode }))
 const project = await mkdtemp(join(tmpdir(), 'router-rotation-tests-'))
 await exec(process.env.RUBY ?? 'ruby', [
   'scripts/native/adaptive-drawer/project.rb',
@@ -52,6 +56,12 @@ try {
     'xcodebuild',
     [
       'test',
+      ...(overlap
+        ? [
+            '-only-testing:AdaptiveDrawerChecks/RotationUITests/test01ProgrammaticNavigation',
+            '-only-testing:AdaptiveDrawerChecks/RotationUITests/test04SettledAndModalControl',
+          ]
+        : []),
       '-project',
       join(project, 'AdaptiveDrawerChecks.xcodeproj'),
       '-scheme',
@@ -129,7 +139,11 @@ await copyFile(
   if (!testError) throw error
 })
 for (const name of await readdir(directory)) {
-  if (!/^(push-device-|back-device-|commit-|cancel-|settled|modal).*\.json$/.test(name))
+  if (
+    !/^((?:push|back)-(?:device|overlap)-|commit-|cancel-|settled|modal).*\.json$/.test(
+      name,
+    )
+  )
     continue
   const value = await readFile(join(directory, name), 'utf8')
   await writeFile(join(out, name), value)
@@ -138,13 +152,13 @@ for (const name of await readdir(directory)) {
 if (testError) throw new Error(`XCTest failed; see ${join(out, 'rotation-xctest.log')}`)
 if (recordingError) throw recordingError
 if (summaryError) throw summaryError
-assert.equal(xctest.passedTests, 4)
+assert.equal(xctest.passedTests, overlap ? 2 : 4)
 assert.equal(xctest.failedTests, 0)
 assert.equal(xctest.skippedTests, 0)
 assert.equal(
   Object.keys(cases).length,
-  10,
-  'Every direction, gesture intent and control must produce evidence',
+  overlap ? 6 : 10,
+  'Every selected direction and control must produce evidence',
 )
 const { checks: windowChecks } = JSON.parse(
   await readFile(join(out, 'window-setup.json'), 'utf8'),
@@ -154,6 +168,15 @@ assert.deepEqual(
   Object.keys(cases).sort(),
   'Every case must establish its own full-window precondition exactly once',
 )
+if (overlap)
+  assert.deepEqual(Object.keys(cases).sort(), [
+    'back-overlap-landscape',
+    'back-overlap-portrait',
+    'modal',
+    'push-overlap-landscape',
+    'push-overlap-portrait',
+    'settled',
+  ])
 const summary = []
 for (const [name, report] of Object.entries(cases)) {
   assert(report.finished && !report.error, `${name}: ${report.error ?? 'unfinished'}`)
@@ -166,6 +189,10 @@ for (const [name, report] of Object.entries(cases)) {
     `${name}: window preparation must precede the native navigation observer`,
   )
   const driver = JSON.parse(await readFile(join(out, `${name}-driver.json`), 'utf8'))
+  const proof =
+    overlap && report.operation !== 'settled'
+      ? assertProgrammaticOverlap(name, report, driver)
+      : null
   assertContentBack(name, report, driver)
   if (report.notReproduced) {
     assert(operation.startsWith('gesture') && report.landscape === false)
@@ -196,11 +223,12 @@ for (const [name, report] of Object.entries(cases)) {
       nativeStart && nativeEnd && nativeStart.duration > 0,
       `${name}: missing animated navigation`,
     )
-    assert(
-      driver.requestedAt >= nativeStart.wallTime &&
-        driver.requestedAt < nativeEnd.wallTime,
-      `${name}: orientation must be requested while navigation is active`,
-    )
+    if (!proof)
+      assert(
+        driver.requestedAt >= nativeStart.wallTime &&
+          driver.requestedAt < nativeEnd.wallTime,
+        `${name}: orientation must be requested while navigation is active`,
+      )
     assert.equal(events.filter((e) => e.kind === 'navigation-ended').length, 1)
     assert.equal(nativeStart.interactive, operation.startsWith('gesture'))
   }
@@ -294,17 +322,19 @@ for (const [name, report] of Object.entries(cases)) {
   )
   summary.push({
     case: name,
-    requestedDuringNavigation: navigates,
-    visualOverlap: rotation.navigationActive,
+    requestedDuringNavigation: navigates && driver.requestedAt >= nativeStart.wallTime,
+    ...(proof ? { overlapEvidence: proof } : {}),
+    visualOverlap: proof ? true : rotation.navigationActive,
     navigationCancelled: nativeEnd?.cancelled ?? null,
     interactionEndedBeforeRequest: driver.interactionEndedBeforeRequest,
-    result: rotation.navigationActive
-      ? 'overlap'
-      : navigates
-        ? rotation.navigationCompletionPending
-          ? 'overlap-unconfirmed'
-          : 'rotation-deferred'
-        : 'settled-control',
+    result:
+      proof || rotation.navigationActive
+        ? 'overlap'
+        : navigates
+          ? rotation.navigationCompletionPending
+            ? 'overlap-unconfirmed'
+            : 'rotation-deferred'
+          : 'settled-control',
   })
 }
 // Follow-up navigation and refusing guard must still work after the entire matrix.

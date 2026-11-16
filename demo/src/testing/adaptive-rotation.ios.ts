@@ -20,6 +20,55 @@ function event(run: any, kind: string, data: object = {}) {
   run.report.events.push({ kind, at: performance.now(), wallTime: Date.now(), ...data })
   write(run)
 }
+function observeNavigation(run: any, rotation?: any) {
+  if (!run.observed && run.report.operation !== 'settled') {
+    const controller = run.frame.ios.controller
+    const coordinator =
+      controller.transitionCoordinator ??
+      controller.topViewController?.transitionCoordinator
+    // Some UIKit nested contexts return null for the transition keys. The
+    // Frame source and navigation controller's destination identify that push/pop.
+    const from =
+      coordinator?.viewControllerForKey(UITransitionContextFromViewControllerKey) ??
+      run.source
+    const to =
+      coordinator?.viewControllerForKey(UITransitionContextToViewControllerKey) ??
+      controller.topViewController
+    if (coordinator && coordinator !== rotation && from && to && from !== to) {
+      run.observed = true
+      run.navigationActive = true
+      run.coordinator = coordinator
+      const coordinatorId = nativeIdentity(coordinator)
+      event(run, 'navigation-observed', {
+        coordinator: coordinatorId,
+        observedFrom: rotation ? 'rotation-callback' : 'poll',
+        fromKey: nativeIdentity(
+          coordinator.viewControllerForKey(UITransitionContextFromViewControllerKey),
+        ),
+        toKey: nativeIdentity(
+          coordinator.viewControllerForKey(UITransitionContextToViewControllerKey),
+        ),
+        from: nativeIdentity(from),
+        to: nativeIdentity(to),
+        interactive: coordinator.initiallyInteractive,
+        duration: coordinator.transitionDuration,
+      })
+      if (coordinator.initiallyInteractive)
+        coordinator.notifyWhenInteractionChangesUsingBlock((context: any) => {
+          event(run, 'interaction-ended', { cancelled: context.cancelled })
+        })
+      coordinator.animateAlongsideTransitionCompletion(null, (context: any) => {
+        run.navigationActive = false
+        run.coordinator = undefined
+        run.completed = true
+        event(run, 'navigation-ended', {
+          cancelled: context.cancelled,
+          coordinator: coordinatorId,
+        })
+      })
+    }
+  }
+}
 function install() {
   if (observer) return
   Observer ??= (UIViewController as any).extend({
@@ -31,6 +80,9 @@ function install() {
       )
       const run = pending
       if (!run || run.report.finished) return
+      if (run.report.operation.endsWith('-overlap')) observeNavigation(run, rotation)
+      const rotationId = nativeIdentity(rotation)
+      run.rotationsInFlight++
       // Never retain/query a completed coordinator: UIKit invalidates its context.
       const stillCurrent =
         run.navigationActive &&
@@ -40,10 +92,18 @@ function install() {
         height: size.height,
         navigationActive: stillCurrent,
         navigationCompletionPending: run.navigationActive,
+        navigationCoordinator: run.navigationActive
+          ? nativeIdentity(run.coordinator)
+          : null,
+        currentCoordinator: nativeIdentity(
+          run.frame.ios.controller.transitionCoordinator,
+        ),
+        rotationCoordinator: rotationId,
       })
       rotation.animateAlongsideTransitionCompletion(null, () => {
+        run.rotationsInFlight--
         run.rotated = true
-        event(run, 'rotation-ended')
+        event(run, 'rotation-ended', { rotationCoordinator: rotationId })
       })
     },
   })
@@ -81,12 +141,21 @@ export function rotateDuringNavigation(
     navigationActive: false,
     completed: operation === 'settled',
     rotated: false,
+    rotationsInFlight: 0,
     source: frame.currentPage?.ios,
     frame,
     coordinator: undefined as any,
     snapshot,
     timer: undefined as ReturnType<typeof setInterval> | undefined,
     report: {
+      navigationProfile: operation.endsWith('-overlap')
+        ? 'core-slide-1500'
+        : 'platform-default',
+      reduceMotion: UIAccessibilityIsReduceMotionEnabled(),
+      window: {
+        width: frame.ios.controller.view.window.bounds.size.width,
+        height: frame.ios.controller.view.window.bounds.size.height,
+      },
       systemVersion: UIDevice.currentDevice.systemVersion,
       operation,
       landscape,
@@ -115,43 +184,12 @@ export function rotateDuringNavigation(
       clearInterval(timer)
       return
     }
-    if (!run.observed && operation !== 'settled') {
-      const controller = frame.ios.controller
-      const coordinator =
-        controller.transitionCoordinator ??
-        controller.topViewController?.transitionCoordinator
-      // Some UIKit nested contexts return null for the transition keys. The
-      // Frame source and navigation controller's destination identify that push/pop.
-      const from =
-        coordinator?.viewControllerForKey(UITransitionContextFromViewControllerKey) ??
-        run.source
-      const to =
-        coordinator?.viewControllerForKey(UITransitionContextToViewControllerKey) ??
-        controller.topViewController
-      if (coordinator && from && to && from !== to) {
-        run.observed = true
-        run.navigationActive = true
-        run.coordinator = coordinator
-        event(run, 'navigation-observed', {
-          from: nativeIdentity(from),
-          to: nativeIdentity(to),
-          interactive: coordinator.initiallyInteractive,
-          duration: coordinator.transitionDuration,
-        })
-        if (coordinator.initiallyInteractive)
-          coordinator.notifyWhenInteractionChangesUsingBlock((context: any) => {
-            event(run, 'interaction-ended', { cancelled: context.cancelled })
-          })
-        coordinator.animateAlongsideTransitionCompletion(null, (context: any) => {
-          run.navigationActive = false
-          run.coordinator = undefined
-          run.completed = true
-          event(run, 'navigation-ended', { cancelled: context.cancelled })
-        })
-      }
-    }
+    observeNavigation(run)
     const elapsed = performance.now() - started
-    if ((run.rotated && run.completed && elapsed > 2000) || elapsed > 20000) {
+    if (
+      (run.rotated && run.rotationsInFlight === 0 && run.completed && elapsed > 2000) ||
+      elapsed > 20000
+    ) {
       clearInterval(timer)
       run.report.after = snapshot()
       run.report.finished = true

@@ -6,13 +6,13 @@ on:
       scope:
         description: Drawer acceptance scope
         type: choice
-        options: [all, content-back]
+        options: [all, content-back, programmatic-overlap]
         default: all
 permissions:
   contents: read
 jobs:
   drawer:
-    if: inputs.scope != 'content-back'
+    if: inputs.scope != 'content-back' && inputs.scope != 'programmatic-overlap'
     runs-on: macos-15
     timeout-minutes: 20
     strategy:
@@ -109,6 +109,7 @@ jobs:
           name: drawer-${{ matrix.device }}-${{ matrix.suite }}
           path: scripts/native/out
   content-back:
+    if: inputs.scope != 'programmatic-overlap'
     runs-on: macos-26
     timeout-minutes: 25
     steps:
@@ -155,3 +156,64 @@ jobs:
         with:
           name: content-back-ipad-26.2
           path: scripts/native/out/content-back
+
+  programmatic-overlap:
+    if: inputs.scope != 'content-back'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            runtime: '18-6'
+          - runner: macos-26
+            runtime: '26-2'
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - run: gem install cocoapods xcodeproj --no-document
+      - run: npm ci && npm run build
+      - run: npm install --no-audit --no-fund
+        working-directory: demo
+      - run: npm install -g nativescript
+      - name: Prepare native resources
+        run: |
+          ns usage-reporting disable
+          ns error-reporting disable
+          ns create rotation-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null
+          cp -R /tmp/rotation-scaffold/App_Resources demo/App_Resources
+      - name: Build the adaptive fixture with published Core
+        run: ns build ios --for-device false --env.adaptivedrawerTest
+        working-directory: demo
+      - name: Create dedicated iPad simulator
+        run: |
+          SIM=$(xcrun simctl create RotationOverlap167 com.apple.CoreSimulator.SimDeviceType.iPad-Pro-11-inch-M4-8GB com.apple.CoreSimulator.SimRuntime.iOS-${{ matrix.runtime }})
+          echo "IOS_SIMULATOR=$SIM" >> "$GITHUB_ENV"
+          xcrun simctl boot "$SIM"
+          xcrun simctl bootstatus "$SIM" -b
+      - name: Require actual programmatic overlap in both orientations
+        timeout-minutes: 12
+        env:
+          ROTATION_MODE: overlap
+          RECORD_VIDEO: '1'
+        run: OUT=scripts/native/out/programmatic-overlap node scripts/native/adaptive-drawer/rotation.mjs
+      - name: Preserve default-transition and content-Back acceptance
+        timeout-minutes: 12
+        run: OUT=scripts/native/out/default-rotation node scripts/native/adaptive-drawer/rotation.mjs
+      - name: Clean up dedicated simulator
+        if: always() && env.IOS_SIMULATOR != ''
+        run: |
+          xcrun simctl shutdown "$IOS_SIMULATOR"
+          xcrun simctl delete "$IOS_SIMULATOR"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: programmatic-overlap-ipad-${{ matrix.runtime }}
+          path: scripts/native/out

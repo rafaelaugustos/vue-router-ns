@@ -320,7 +320,12 @@ function startRotation(operation: string, landscape: boolean) {
     landscape,
     () =>
       operation.startsWith('push')
-        ? router.push('/detail', { frame: 'home' })
+        ? router.push('/detail', {
+            frame: 'home',
+            ...(operation.endsWith('-overlap')
+              ? { transition: { name: 'slide', duration: 1500 } }
+              : {}),
+          })
         : router.back({ frame: 'home' }),
     () => ({
       mode: handle.value!.presentation,
