@@ -85,15 +85,17 @@ iOS 实现和自适应表示是 `0.1.0-rc.3` 的一部分。之前的 `0.1.0-rc.
 
 ## 导航期间旋转 {#rotation-during-navigation}
 
-在 iPadOS 18.6 模拟器上，测试在页面推进动画、程序触发的返回或交互式返回手势进行期间请求改变方向，观察到的是**导航结束后才开始界面旋转**。在这一执行顺序下，测试中的页面、Vue 实例、草稿以及原生和逻辑导航历史均得以保留；确认返回时，页面只卸载一次；取消返回手势时，页面仍然保留。这证明了导航期间收到旋转请求时的状态保持能力，但不保证 UIKit 同时执行两种动画。
+使用已发布的 Core 9.1.4 / NativeScript-Vue 3.1.3，当前 router 的默认 Frame 导航在已测试的 iPadOS 26.0、26.2 和 27.0 模拟器的最大化窗口中支持从常驻 drawer 内容区域发起返回。[内容区域返回验收](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-published-content-back-168.md)记录了从横屏到竖屏时真正完成和取消的返回、保留的草稿与历史，以及恰好一次的页面销毁。
 
-在 iPadOS 26.0 上，即使 UIKit 取消了原本用于确认返回的长距离滑动，同一测试场景仍保持了状态一致。应以原生系统实际确认或取消的结果为准，不要假定旋转期间手势会保持原样继续执行。
+测试在必要时通过系统 Zoom 控件最大化应用窗口，并在手势开始前验证窗口边界。在 iPadOS 26.2 的缩小窗口中，两个内侧边缘手势仍未能复现；该配置不在本次验收范围内，应保留明确的返回操作。
 
-当前测试驱动从常驻侧栏旁的内容边缘发起滑动时，未能启动交互式导航，因此这一方向仍存在明确的测试覆盖缺口。本次测试也未验证实体 iPad 或 Stage Manager。具体场景、实际执行顺序及剩余限制，请参阅[旋转验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-rotation.md)。
+手势阶段很重要。在手指仍按住时请求旋转，即使返回拖动很长，也可能被取消。完成返回的对照用例先松开手指，等待 UIKit 作出交互决策，再于**导航剩余动画结束之前**请求旋转。取消用例在手指交互期间旋转。两者都使用真实原生返回；这并不保证尚未松开的手势能在旋转后继续并完成返回。
 
-[独立返回对照测试](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-back-content-edge.md)此前在未使用 Vue 或 RouterDrawer 的 NativeScript Core 9.1.3 Frame 中也复现了内容区域右移后的限制。在 iPadOS 26.0 上，UIKit 对照测试区分了默认导航与暴露自定义转场回调的 delegate。常驻模式下应保留明确的返回操作。本次调查不代表已经验证该方向上返回手势期间的旋转行为。
+观察器区分导航期间的旋转请求和真正同时进行的动画。报告记录原生 coordinator 的身份，以及界面旋转与导航重叠还是被推迟。手势长度或尚未完成的 Promise 都不能证明原生结果。
 
-上述旋转测试使用 Core 9.1.3。Core 9.1.4 包含 #11590，为默认 Frame 导航保留内容区域返回手势；[新报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) 区分了 iPadOS 18 的屏幕边缘限制与 iPadOS 26 的内容导航行为。这项修复本身并不完成 [#167](https://github.com/rafaelaugustos/vue-router-ns/issues/167)/[#168](https://github.com/rafaelaugustos/vue-router-ns/issues/168) 的导航中旋转覆盖。请保留明确的返回按钮。
+在 iPadOS 18.6 中，从常驻内容内侧边缘发起的两个手势仍然**未能复现**。其他八个旋转或对照场景通过；缺失的手势不计为已通过的交互覆盖。常驻模式应保留明确的返回操作。
+
+[原始旋转报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-rotation.md)和[独立 Core 调查](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-back-content-edge.md)仍作为历史证据保留。新测试处理 [#168](https://github.com/rafaelaugustos/vue-router-ns/issues/168)；更广泛的 [#167](https://github.com/rafaelaugustos/vue-router-ns/issues/167) 验收、实体 iPad、Stage Manager 和任意自定义宿主仍需分别评估。
 
 ## 样式与平台 {#styling-and-platforms}
 

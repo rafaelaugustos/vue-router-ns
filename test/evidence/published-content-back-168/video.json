@@ -1,0 +1,27 @@
+{
+  "sourceRun": "accepted262",
+  "sourceRevision": "fb4b93fe7535e72fda39339177a54494ffc6f84e",
+  "sourceVideoSha256": "0b749f778741d55f4fce7f6b87d224c027dd06055c004bfa4c35b47336182cba",
+  "publishedVideo": "docs/public/media/published-content-back-168.mp4",
+  "sha256": "2a221511c15ac34a57f15f905d6f5f5d312b5ab814515422bb3410cc358ea7b8",
+  "sourceStream": {
+    "codec_name": "h264",
+    "width": 1668,
+    "height": 2420,
+    "time_base": "1/600",
+    "duration": "46.501667",
+    "nb_frames": "2223"
+  },
+  "publishedStream": {
+    "codec_name": "h264",
+    "width": 720,
+    "height": 1044,
+    "time_base": "1/600",
+    "duration": "46.501667",
+    "nb_frames": "2223"
+  },
+  "frameTimestampsPreserved": true,
+  "framesCompared": 2223,
+  "timestampListSha256": "4ad3abc73afc413d8a1cf9b158ef2a4ea6a68d75862607f190a1512403afd1e0",
+  "processing": "Entire recording scaled to720px width and H.264 encoded; no trimming, retiming or synthetic frames. Original final-frame duration0.335s preserved. Native simulator orientation retained."
+}

@@ -39,11 +39,25 @@ IOS_SIMULATOR=<dedicated-booted-ipad-uuid> OUT=scripts/native/out/adaptive-rotat
   node scripts/native/adaptive-drawer/rotation.mjs
 ```
 
-Use a new output directory for each run because Xcode result bundles cannot already exist. Optionally set `RECORD_VIDEO=1` to retain a real simulator recording, and `RUBY=/path/to/ruby` if your configured Ruby is not on PATH. The driver has a four-minute XCTest timeout and copies per-case JSON and XCTest logs even when XCTest fails. Build products stay in a temporary directory rather than the uploaded artifacts.
+Use a new output directory for each run because Xcode result bundles cannot already exist. Optionally set `RECORD_VIDEO=1` to retain a real simulator recording, and `RUBY=/path/to/ruby` if your configured Ruby is not on PATH. The driver bounds simulator commands (30 seconds, 120 seconds for installation), reuses the resolved app container, and logs preparation milestones. Requested recordings are observed from process start and have a ten-second shutdown deadline; recording failures fail the run. The driver has a four-minute XCTest timeout and copies per-case JSON and XCTest logs even when XCTest fails. Build products stay in a temporary directory rather than the uploaded artifacts.
 
-The probe attempts ten scenarios across push, programmatic Back, intended swipe commit/cancel and settled/modal controls. Each active case must prove that the orientation request preceded native navigation completion. The report separately labels `overlap`, `rotation-deferred`, `overlap-unconfirmed`, `settled-control` and `gesture-not-reproduced`. If navigation completion is pending but its coordinator is no longer current, overlap remains unconfirmed. The last label is an explicit gap, not a passing interactive-rotation case: in the current iPadOS 18.6/26.0 runs, the permanent content-edge swipe did not begin navigation. See [#168](https://github.com/rafaelaugustos/vue-router-ns/issues/168).
+The rotation suite targets a **maximized, full-size application window**, matching #168's original 1210-point landscape baseline. Before the first case, it uses SpringBoard's normal window-controls/Zoom buttons when necessary and asserts that the application's accessibility window matches the screen-sized application frame. Every gesture rechecks this precondition; `window-setup.json` retains before/after geometry. On iPadOS 26.2 the default full-screen compatibility resources can still launch a reduced window. Missing inset gestures in that configuration are retained as diagnostics, not accepted coverage. This suite does not certify windowed/Stage Manager input.
+
+The probe attempts ten scenarios across push, programmatic Back, swipe commit/cancel and settled/modal controls. Each active case must prove that the orientation request preceded native navigation completion. The report separately labels `overlap`, `rotation-deferred`, `overlap-unconfirmed`, `settled-control` and `gesture-not-reproduced`. If navigation completion is pending but its coordinator is no longer current, overlap remains unconfirmed. A missing gesture is accepted only for the two permanent-content cases on iPadOS 18.6, with unchanged identity/history assertions. It fails on iPadOS 26 and later.
+
+On iPadOS 26+, the permanent-content cases require both actual native outcomes. The cancellation control requests rotation while pointer interaction is active. The committed control waits for UIKit's `interaction-ended` callback, then requests rotation during the remaining navigation animation. It must still precede `navigation-ended`. Rotating with the pointer down can cancel even a long drag; its length never substitutes for UIKit's actual result. The driver retains the signal, input phase and native timestamps. The portrait-to-landscape long-drag control continues to report whichever outcome UIKit actually produces.
+
+Each run records source hashes, built router files, installed Core source hashes, package/tool versions, built Info.plist configuration and the XCTest summary. The demo uses the checkout's built `dist`; this suite does not certify an npm registry consumer. The [published content-Back report](../../../test/native-published-content-back-168.md) compares Core files with the official package and retains the exact native evidence, diagnostic controls and video.
 
 A native observer records the rotation callback and current coordinator identity without replacing delegates or synthesizing a pop. The host checks surviving object/entry identities, inactive history/drafts, real native controller membership, disposal count, promise settlement, bounds/accessibility state, and follow-up guards/navigation. A committed or cancelled gesture is judged by UIKit's actual completion, not the intended drag length. The [detailed acceptance report](../../../test/native-drawer-rotation.md) records OS differences and physical-device limitations.
+
+The full `Native iOS drawer` workflow requires an additional iPadOS 26.2 content-Back job. Its existing iOS 18.6 rows remain unchanged. Run only the new job with:
+
+```sh
+gh workflow run native-drawer-ios.yml --ref <candidate-branch> -f scope=content-back
+```
+
+This focused run skips the older drawer jobs and is not a complete native matrix.
 
 ## Android
 
