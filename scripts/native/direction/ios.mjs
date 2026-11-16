@@ -112,6 +112,15 @@ for (const entry of selected) {
       recording.once('error', (error) => resolve({ error }))
     })
   }
+  let failure
+  const diagnosticErrors = []
+  async function diagnose(operation) {
+    try {
+      return await operation()
+    } catch (error) {
+      diagnosticErrors.push(String(error))
+    }
+  }
   try {
     await run(`${entry}/xcodebuild`, 'xcodebuild', [
       'test',
@@ -131,47 +140,70 @@ for (const entry of selected) {
         (name) => `-only-testing:DirectionChecks/DirectionUITests/${name}`,
       ),
     ])
+  } catch (error) {
+    failure = error
   } finally {
     if (recording) {
-      recording.kill('SIGINT')
-      const timer = setTimeout(() => recording.kill('SIGKILL'), 10000)
-      try {
-        const result = await stopped
-        assert(!result.error, String(result.error))
-        assert(
-          result.code === 0 || result.signal === 'SIGINT',
-          `Video failed: ${JSON.stringify(result)}`,
-        )
-      } finally {
-        clearTimeout(timer)
-      }
+      await diagnose(async () => {
+        recording.kill('SIGINT')
+        const timer = setTimeout(() => recording.kill('SIGKILL'), 10000)
+        try {
+          const result = await stopped
+          assert(!result.error, String(result.error))
+          assert(
+            result.code === 0 || result.signal === 'SIGINT',
+            `Video failed: ${JSON.stringify(result)}`,
+          )
+        } finally {
+          clearTimeout(timer)
+        }
+      })
     }
-    const container = (
-      await run(`${entry}/container`, 'xcrun', [
-        'simctl',
-        'get_app_container',
-        simulator,
-        'org.nativescript.directionrepro',
-        'data',
-      ])
-    ).trim()
-    if (entry === 'core')
-      await copyFile(
-        join(container, 'Documents/direction.json'),
-        join(target, 'direction.json'),
-      ).catch(() => {})
+    await diagnose(async () => {
+      const container = (
+        await run(`${entry}/container`, 'xcrun', [
+          'simctl',
+          'get_app_container',
+          simulator,
+          'org.nativescript.directionrepro',
+          'data',
+        ])
+      ).trim()
+      if (entry === 'core')
+        await copyFile(
+          join(container, 'Documents/direction.json'),
+          join(target, 'direction.json'),
+        )
+    })
   }
-  const summary = JSON.parse(
-    await run(`${entry}/summary`, 'xcrun', [
-      'xcresulttool',
-      'get',
-      'test-results',
-      'summary',
-      '--path',
-      join(target, 'checks.xcresult'),
-    ]),
+  const summary = await diagnose(async () => {
+    const value = JSON.parse(
+      await run(`${entry}/summary`, 'xcrun', [
+        'xcresulttool',
+        'get',
+        'test-results',
+        'summary',
+        '--path',
+        join(target, 'checks.xcresult'),
+      ]),
+    )
+    await writeFile(join(target, 'summary.json'), JSON.stringify(value, null, 2))
+    return value
+  })
+  await writeFile(
+    join(target, 'outcome.json'),
+    JSON.stringify(
+      {
+        testCommandPassed: !failure,
+        failure: failure ? String(failure) : undefined,
+        diagnosticErrors,
+      },
+      null,
+      2,
+    ),
   )
-  await writeFile(join(target, 'summary.json'), JSON.stringify(summary, null, 2))
+  if (failure) throw failure
+  assert.equal(diagnosticErrors.length, 0, diagnosticErrors.join('\n'))
   assert.equal(summary.passedTests, cases[entry].length)
   assert.equal(summary.failedTests, 0)
   assert.equal(summary.skippedTests, 0)

@@ -31,6 +31,14 @@ covers ordinary/inherited LTR and inherited LTR under tabs. The reversing-touch
 helper is compiled only into XCTest, not the app or package. No delegate or
 recognizer is replaced and no always-active leave guard hides the regression.
 
+Typing waits for the exact `draft` value for at most five seconds, the same value
+observation budget already used after reversed Back. A hosted failure recording
+showed the original single `typeText` command completing after the immediate
+assertion had read `d`. Input is never sent again. The explicit
+`testIncompleteTypingControl` sends only `d` and must fail before Back; it is
+excluded from the eight passing cases. Failure summaries are exported even when
+XCTest fails, and diagnostic errors do not replace the original test failure.
+
 The driver retains bounded command logs, package/source provenance, native
 environment, Core's final startup trace and XCTest results for every entry.
 Exactly 3/2/3 passing cases and no skipped/failed tests are required. The deliberately
