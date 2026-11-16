@@ -1,0 +1,37 @@
+[
+  {
+    "label": "full",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "focused",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "pull-request",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "new-lane-fails",
+    "exit": 1,
+    "expected": 1
+  },
+  {
+    "label": "existing-lane-skipped",
+    "exit": 1,
+    "expected": 1
+  },
+  {
+    "label": "focused-fails",
+    "exit": 1,
+    "expected": 1
+  },
+  {
+    "label": "unselected-ran",
+    "exit": 1,
+    "expected": 1
+  }
+]

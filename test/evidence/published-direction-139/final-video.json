@@ -1,0 +1,44 @@
+{
+  "source": "3390ed432be4a14cf91247d480d0ea55b7731270",
+  "original": {
+    "sha256": "36d54c0b3522d66adc539d785ec2b86ac775504ac170e7e6e286948b692d3d2a",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1668,
+        "height": 2420,
+        "nb_frames": "1599"
+      }
+    ],
+    "format": {
+      "duration": "48.761667",
+      "size": "22767725"
+    }
+  },
+  "published": {
+    "path": "docs/public/media/published-direction-139-ipad.mp4",
+    "sha256": "d55af5bc908683fad14128dd31d397c4ca34a34449cbe5d2a3dc622bfecfd081",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 720,
+        "height": 1044,
+        "nb_frames": "1599"
+      }
+    ],
+    "format": {
+      "duration": "48.541667",
+      "size": "968371"
+    }
+  },
+  "capture": "Actual iPad Pro 11-inch M4 / iPadOS 18.6 simulator, current packed router / Core9.1.4 / Vue3.1.3, final bounded typing observation; three passing router cases.",
+  "encoding": "H264 scaled to720x1044, all1599frames and presentation timestamps preserved; no cuts, speed changes or audio. Final container frame hold may differ.",
+  "verifiedPresentationTimestamps": {
+    "framesCompared": 1599,
+    "maxDifferenceSeconds": 0.0
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "original": {
+    "sha256": "085566ea48ca2efc82feafccc71427c814c621d0fb225d685e7e2b63a017bb28",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1206,
+        "height": 2622,
+        "nb_frames": "1236"
+      }
+    ],
+    "format": {
+      "duration": "40.166667",
+      "size": "16907496"
+    }
+  },
+  "published": {
+    "path": "docs/public/media/published-direction-139.mp4",
+    "sha256": "c818a3701b081f468ea95669e7c69935b19144f0f3b1f99e26d02da9fb9dd23c",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 600,
+        "height": 1304,
+        "nb_frames": "1236"
+      }
+    ],
+    "format": {
+      "duration": "40.108333",
+      "size": "1669332"
+    }
+  },
+  "capture": "Actual iPhone 16 Pro / iOS 18.6 simulator running current packed router with published Core 9.1.4 / Vue 3.1.3; three successful XCTest cases.",
+  "encoding": "H264 scaled to600x1304; all1236frames and presentation timestamps preserved. No cuts, speed changes or audio. Container duration differs only at the final frame hold.",
+  "verifiedPresentationTimestamps": {
+    "framesCompared": 1236,
+    "maxDifferenceSeconds": 0.0
+  }
+}

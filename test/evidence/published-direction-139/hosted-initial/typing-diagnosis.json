@@ -1,0 +1,29 @@
+{
+  "run": 43822097166,
+  "job": 133147465849,
+  "source": "7669916cf65c525704f300d87230ed1660d47353",
+  "artifact": {
+    "id": 14205666967,
+    "name": "inherited-direction-iPad-Pro-11-inch-M4-8GB",
+    "size_in_bytes": 1990244,
+    "digest": "sha256:45344b84203e0fbd61a89689b4b1cebbc2ad73d8c638fe5c3d0e8de8c87a017b",
+    "file": "inherited-direction-iPad-Pro-11-inch-M4-8GB.zip",
+    "sha256": "45344b84203e0fbd61a89689b4b1cebbc2ad73d8c638fe5c3d0e8de8c87a017b"
+  },
+  "xcresult": "vue/checks.xcresult",
+  "test": "DirectionUITests/testControl()",
+  "extractedAttachment": "9AF3DBBC-AFB0-4D37-8B54-4AA80184904C.mp4",
+  "retainedVideo": "typing-completes-after-snapshot.mp4",
+  "sha256": "6c614352b8320b069d740f6a601338c4b105b17947bb8ee8e2aabbaf4e9aabd4",
+  "extraction": "Xcode xcresulttool export attachments; original MP4 bytes retained.",
+  "observations": [
+    "A single typeText(\"draft\") precedes the immediate assertion reading d.",
+    "The original XCTest video shows d around9.5\u20139.8s and draft around9.9s through the end.",
+    "No second text command occurs; router tests were not reached after the Vue failure."
+  ],
+  "vueSummary": {
+    "passed": 1,
+    "failed": 1,
+    "skipped": 0
+  }
+}

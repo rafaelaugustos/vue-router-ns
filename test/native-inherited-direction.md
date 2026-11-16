@@ -1,5 +1,11 @@
 # Inherited CSS direction investigation — #139
 
+Current disposition — 2026-11-16: the correction shipped in Core 9.1.4.
+[Published-dependency/current-tarball acceptance](./native-published-direction-139.md)
+records the new regression and limits. The sections below preserve the original
+9.1.3 investigation and candidate status at the time; their unresolved disposition
+is historical.
+
 Tested 2026-10-25 with Core 9.1.3, iOS runtime 9.1.0, NativeScript-Vue 3.1.2 and, only in the router comparison entry, published vue-router-ns 0.1.0-rc.3. webpack is pinned to 5.111.1 because the subsequently resolved 5.112.2 removed an internal dependency used by NativeScript webpack 5.0.38's worker loader. This build-tool pin is not a router compatibility fix.
 
 ## Published Core baseline

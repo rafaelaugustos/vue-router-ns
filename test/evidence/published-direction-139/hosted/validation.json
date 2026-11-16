@@ -1,0 +1,61 @@
+{
+  "run": 43825876567,
+  "source": "3390ed432be4a14cf91247d480d0ea55b7731270",
+  "scope": "Explicit lane=direction; unrelated native groups skipped. This is not a rerun of the full native matrix.",
+  "nativeRows": [
+    {
+      "artifact": "inherited-direction-iPhone-16-Pro.zip",
+      "source": "3390ed432be4a14cf91247d480d0ea55b7731270",
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "vue-router-ns": "0.1.0-rc.4",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.38",
+        "webpack": "5.111.1"
+      },
+      "node": "v22.23.4",
+      "architecture": "arm64",
+      "xcode": "Xcode 16.4\nBuild version 16F6",
+      "cli": "9.1.2\n- Checking for updates...\n\u2714 Up to date.",
+      "device": "DirectionAcceptance",
+      "os": "18.6",
+      "osBuild": "22G86",
+      "counts": {
+        "core": 3,
+        "vue": 2,
+        "router": 3
+      },
+      "validationError": null,
+      "coreFilesCompared": 1362,
+      "routerSha256": "c02af84abbbe667ad5beb5544d28ff7d6e6adcb6a4fed2a63cbc33143ac797b9"
+    },
+    {
+      "artifact": "inherited-direction-iPad-Pro-11-inch-M4-8GB.zip",
+      "source": "3390ed432be4a14cf91247d480d0ea55b7731270",
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "vue-router-ns": "0.1.0-rc.4",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.38",
+        "webpack": "5.111.1"
+      },
+      "node": "v22.23.4",
+      "architecture": "arm64",
+      "xcode": "Xcode 16.4\nBuild version 16F6",
+      "cli": "9.1.2\n- Checking for updates...\n\u2714 Up to date.",
+      "device": "DirectionAcceptance",
+      "os": "18.6",
+      "osBuild": "22G86",
+      "counts": {
+        "core": 3,
+        "vue": 2,
+        "router": 3
+      },
+      "validationError": null,
+      "coreFilesCompared": 1362,
+      "routerSha256": "c02af84abbbe667ad5beb5544d28ff7d6e6adcb6a4fed2a63cbc33143ac797b9"
+    }
+  ]
+}

@@ -1,5 +1,10 @@
 # Inherited direction: isolated native controls (#139)
 
+This is the historical Core 9.1.3 reproduction. The correction is now published
+in Core 9.1.4; use the separate [current packed-router acceptance](../../scripts/native/direction/README.md)
+for supported-dependency regression. The candidate instructions below remain
+research controls for the original pinned package, not installation guidance.
+
 Three build entries share one locked project. **The crash now reproduces with Core alone** when the native tree and inherited LTR are assembled before `Application.run()`. The earlier Core controls created the tree inside its factory and missed this startup-order difference. `src/app.js` imports only NativeScript Core; `src/vue.js` imports Core indirectly through NativeScript-Vue and uses its published `$navigateTo`; `src/router.js` adds the exact published router rc.3. Installing a dependency does not import it into the Core/Vue controls. There is no Drawer, custom recognizer, native delegate override or permanent leave guard in the Vue control.
 
 ```sh
