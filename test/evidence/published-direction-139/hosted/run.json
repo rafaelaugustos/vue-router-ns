@@ -1,0 +1,13 @@
+{
+  "id": 43825876567,
+  "name": "Native contracts",
+  "event": "workflow_dispatch",
+  "head_branch": "test/published-direction-139",
+  "head_sha": "3390ed432be4a14cf91247d480d0ea55b7731270",
+  "run_attempt": 1,
+  "status": "completed",
+  "conclusion": "success",
+  "created_at": "2026-11-16T07:44:07Z",
+  "updated_at": "2026-11-16T08:06:42Z",
+  "html_url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43825876567"
+}

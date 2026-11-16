@@ -1,0 +1,18 @@
+[
+  {
+    "id": 14205850986,
+    "name": "inherited-direction-iPhone-16-Pro",
+    "size_in_bytes": 1506129,
+    "digest": "sha256:b407c83a4893b7d164aa6d4c1da491f2566a264d427b1fd12d08a7579dbb02ef",
+    "file": "inherited-direction-iPhone-16-Pro.zip",
+    "sha256": "b407c83a4893b7d164aa6d4c1da491f2566a264d427b1fd12d08a7579dbb02ef"
+  },
+  {
+    "id": 14205666967,
+    "name": "inherited-direction-iPad-Pro-11-inch-M4-8GB",
+    "size_in_bytes": 1990244,
+    "digest": "sha256:45344b84203e0fbd61a89689b4b1cebbc2ad73d8c638fe5c3d0e8de8c87a017b",
+    "file": "inherited-direction-iPad-Pro-11-inch-M4-8GB.zip",
+    "sha256": "45344b84203e0fbd61a89689b4b1cebbc2ad73d8c638fe5c3d0e8de8c87a017b"
+  }
+]

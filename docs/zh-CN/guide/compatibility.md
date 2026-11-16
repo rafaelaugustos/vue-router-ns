@@ -43,7 +43,7 @@ RC 冻结显式路由和带类型的导航位置；推/替换/返回和结果；
 
 ## 已知限制 {#known-limits}
 
-- 在 Core 9.1.3 中，原生导航外围继承 CSS `direction` 可能导致崩溃，因为 `requestLayout()` 会在应用启动前加载控制器视图。Core 9.1.4 包含上游修复（#11587）；应使用已发布的软件包，而非历史研究补丁。[验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) 记录了已测试的键盘/返回导航组合及 [#139](https://github.com/rafaelaugustos/vue-router-ns/issues/139) 的适用边界。
+- Core 9.1.3 在原生导航外围继承 CSS `direction` 时可能崩溃，因为 `requestLayout()` 会在应用启动前加载控制器视图。已发布的 Core 9.1.4 包含修复（#11587）。[当前 router tarball 回归测试](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-published-direction-139.md)在 iOS/iPadOS 18.6 和 iPadOS 27.0 模拟器上验证了继承 LTR、文本输入、反向取消和完成原生返回，包括标签页组合。请使用已发布的依赖，不要应用历史研究补丁。动态 RTL、任意自定义宿主和启动前强制加载控制器视图不在本次验收范围内。
 - 自动原生可访问性标志、标签和焦点声明不保证语音 VoiceOver/TalkBack 遍历。 [展示验收](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-showcase.md)和单独的功能报告确定了剩余的手动检查。
 
 - 原生 Vite HMR 使用 `.route.json` 元数据。 `definePageMeta` 可与 webpack 和捆绑的 Vite 配合使用，但在原生 Vite HMR 期间不受支持。添加/删除布局或中间件注册需要重新启动应用程序；脚本修改可能重新挂载页面。请参见 [文件路由](./file-routing)。

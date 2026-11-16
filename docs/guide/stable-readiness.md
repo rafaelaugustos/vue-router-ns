@@ -2,7 +2,7 @@
 
 `0.1.0-rc.4` is published. The next decision is whether its documented, non-experimental scope is ready for **0.1.0**, without requiring every roadmap feature. The 1.0 review below is a separate compatibility decision, not an automatic version bump. A small number of open issues is not an acceptance criterion.
 
-Update — 2026-11-13: Core 9.1.4 is published and this checkout adopts it. See the [new dependency acceptance](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) and current [roadmap #64](https://github.com/rafaelaugustos/vue-router-ns/issues/64). The dated 1.0 review below remains historical; multi-window and NativeHost stabilization are tracked in #175/#176, and current full-matrix failures in #183.
+Update — 2026-11-16: this checkout uses published Core 9.1.4. The [current packed-router regression](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-published-direction-139.md) validates the inherited-direction correction, and the [complete native acceptance](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-acceptance-183.md) records the successful matrix that closed #183. The dated 1.0 review below remains historical. Experimental boundaries and the remaining release gates still apply.
 
 ## What has been delivered
 
@@ -26,7 +26,7 @@ A previous green candidate is evidence for that revision, not a waiver for a cha
 
 ## Follow-ups and investigation decisions
 
-- **#139:** the Core correction [#11587](https://github.com/NativeScript/NativeScript/pull/11587) is published in Core 9.1.4. This checkout adopts it; the [new acceptance report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) records the tested compositions. The final consumer artifact and complete native matrix still require acceptance on the release commit. Core 9.1.3 remains affected.
+- **#139:** the published Core correction [#11587](https://github.com/NativeScript/NativeScript/pull/11587) is verified with Core 9.1.4 / Vue 3.1.3 and a fresh installation of the current router tarball. The [regression report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-published-direction-139.md) covers typing, reversed Back with a retained draft and committed Back on iPhone/iPad simulators. Core 9.1.3 remains affected. Dynamic RTL, arbitrary custom hosts and explicit pre-startup controller-view loading are outside the accepted scope; this result does not authorize a release.
 - **#152:** the [published-consumer report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-rc3-consumer.md) records physical VoiceOver service output and the emulator TalkBack procedure/results separately from UI assertions. Android hardware is unavailable; the maintainer accepted emulator validation with that limit. Read the speech and gesture boundaries before treating this as broad accessibility certification.
 - **#145:** the [v1 observation proposal](https://github.com/rafaelaugustos/vue-router-ns/blob/main/research/transition-observation/README.md) records the native lifecycle evidence and decision to keep the adapter private. Missing authoritative entry IDs and unsupported concurrent target mutation prevent a public controller. Continuous UIKit progress and a Jolt adapter remain outside stable-release requirements.
 - **#64:** maintain the roadmap as an index of delivered scope and current follow-ups, not a checklist that silently promotes experimental integrations to stable.

@@ -1,6 +1,6 @@
 import XCTest
 final class DirectionUITests: XCTestCase {
-    func check(_ mode: String) {
+    func check(_ mode: String, typedText: String = "draft") {
         continueAfterFailure = false
         let app = XCUIApplication(bundleIdentifier: "org.nativescript.directionrepro")
         app.launchArguments = ["direction-mode=" + mode]
@@ -11,7 +11,12 @@ final class DirectionUITests: XCTestCase {
         let field = app.textFields["Draft"].firstMatch
         XCTAssertTrue(field.waitForExistence(timeout: 10), app.debugDescription)
         field.tap()
-        field.typeText("draft")
+        field.typeText(typedText)
+        // Event synthesis can return before the complete string is visible.
+        // Observe completion; never send the input again or accept a prefix.
+        let typed = XCTNSPredicateExpectation(predicate: NSPredicate(format: "value == %@", "draft"), object: field)
+        XCTAssertEqual(XCTWaiter.wait(for: [typed], timeout: 5), .completed,
+                       "The complete typed value must arrive before testing Back")
         XCTAssertEqual(field.value as? String, "draft", "Typing must reach the field before testing Back")
         app.buttons["Dismiss keyboard"].tap()
         let cancelled = expectation(description: "Reverse native Back")
@@ -28,6 +33,8 @@ final class DirectionUITests: XCTestCase {
         XCTAssertTrue(push.waitForExistence(timeout: 10), app.debugDescription)
     }
     func testExplicitBarControl() { check("explicit-bar-none") }
+    // Explicit negative control; excluded from the supported eight-case suite.
+    func testIncompleteTypingControl() { check("none", typedText: "d") }
     func testExplicitBarLTR() { check("explicit-bar-ltr") }
     func testPrebuiltControl() { check("prebuilt-none") }
     func testPrebuiltLTR() { check("prebuilt-ltr") }

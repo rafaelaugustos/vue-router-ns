@@ -1,0 +1,140 @@
+{
+  "runs": {
+    "iphone18": {
+      "source": "4e1fcbb5b6b04035beb6153028b489e9b71cd2e0",
+      "driverSource": "4e1fcbb5b6b04035beb6153028b489e9b71cd2e0",
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "vue-router-ns": "0.1.0-rc.4",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.38",
+        "webpack": "5.111.1"
+      },
+      "node": "v20.19.4",
+      "xcode": "Xcode 27.2\nBuild version 27B52",
+      "cli": "9.1.2\n- Checking for updates...\n\u2714 Up to date.",
+      "device": "Direction139-iPhone18",
+      "os": "18.6",
+      "osBuild": "22G86",
+      "architecture": "arm64",
+      "entries": {
+        "core": {
+          "passed": 3,
+          "failed": 0,
+          "skipped": 0
+        },
+        "vue": {
+          "passed": 2,
+          "failed": 0,
+          "skipped": 0
+        },
+        "router": {
+          "passed": 3,
+          "failed": 0,
+          "skipped": 0
+        }
+      },
+      "coreSourceFilesCompared": 1362,
+      "archive": "iphone18.zip",
+      "sha256": "47d76c35cc713c87be626c791782597450caea37800c950288aecf61dfbe8c0a",
+      "routerSha256": "c02af84abbbe667ad5beb5544d28ff7d6e6adcb6a4fed2a63cbc33143ac797b9"
+    },
+    "ipad18": {
+      "source": "7669916cf65c525704f300d87230ed1660d47353",
+      "driverSource": "7669916cf65c525704f300d87230ed1660d47353",
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "vue-router-ns": "0.1.0-rc.4",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.38",
+        "webpack": "5.111.1"
+      },
+      "node": "v20.19.4",
+      "xcode": "Xcode 27.2\nBuild version 27B52",
+      "cli": "9.1.2\n- Checking for updates...\n\u2714 Up to date.",
+      "device": "Direction139-iPad18",
+      "os": "18.6",
+      "osBuild": "22G86",
+      "architecture": "arm64",
+      "entries": {
+        "core": {
+          "passed": 3,
+          "failed": 0,
+          "skipped": 0
+        },
+        "vue": {
+          "passed": 2,
+          "failed": 0,
+          "skipped": 0
+        },
+        "router": {
+          "passed": 3,
+          "failed": 0,
+          "skipped": 0
+        }
+      },
+      "coreSourceFilesCompared": 1362,
+      "archive": "ipad18.zip",
+      "sha256": "a54913b6228aec7bda6b6362f6bd1446a23eceee35b297227e319b89455a0db3",
+      "routerSha256": "c02af84abbbe667ad5beb5544d28ff7d6e6adcb6a4fed2a63cbc33143ac797b9"
+    },
+    "ipad27": {
+      "source": "7669916cf65c525704f300d87230ed1660d47353",
+      "driverSource": "7669916cf65c525704f300d87230ed1660d47353",
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "vue-router-ns": "0.1.0-rc.4",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.38",
+        "webpack": "5.111.1"
+      },
+      "node": "v20.19.4",
+      "xcode": "Xcode 27.2\nBuild version 27B52",
+      "cli": "9.1.2\n- Checking for updates...\n\u2714 Up to date.",
+      "device": "Direction139-iPad27",
+      "os": "27.0",
+      "osBuild": "24A434",
+      "architecture": "arm64",
+      "entries": {
+        "core": {
+          "passed": 3,
+          "failed": 0,
+          "skipped": 0
+        },
+        "vue": {
+          "passed": 2,
+          "failed": 0,
+          "skipped": 0
+        },
+        "router": {
+          "passed": 3,
+          "failed": 0,
+          "skipped": 0
+        }
+      },
+      "coreSourceFilesCompared": 1362,
+      "archive": "ipad27.zip",
+      "sha256": "78329c79185fa94e356118cfabba48c73307afa5aa7f3d0c370cf0dbd6cd8520",
+      "routerSha256": "c02af84abbbe667ad5beb5544d28ff7d6e6adcb6a4fed2a63cbc33143ac797b9"
+    }
+  },
+  "positiveCases": 24,
+  "controls": {
+    "baselineCore": "9.1.3",
+    "baselinePassed": 1,
+    "baselineExpectedFailures": 2,
+    "publishedCoreUnsafeViewExpectedFailures": 1,
+    "archive": "controls.zip",
+    "sha256": "21cf5c15bdfb93ea291f9eec06f7160c93387bc0d589b49479fc0ce2fecfe545"
+  },
+  "currentRouterTarball": {
+    "file": "vue-router-ns-0.1.0-rc.4.tgz",
+    "sha256": "c02af84abbbe667ad5beb5544d28ff7d6e6adcb6a4fed2a63cbc33143ac797b9",
+    "filesComparedAcrossAllThreeInstallations": 434,
+    "allFilesIdentical": true
+  },
+  "privacy": "Workspace/user-home paths replaced in text archives. Original logs and XCTest bundles remain local. No physical device used for this stage."
+}
