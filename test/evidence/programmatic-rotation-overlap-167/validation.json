@@ -584,8 +584,561 @@
     }
   ],
   "hosted": {
-    "status": "pending",
-    "url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43860859914"
+    "status": "success",
+    "url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43860859914",
+    "source": "65f61c8576a2190faebf485357cbe6c23e223115",
+    "runs": [
+      {
+        "os": "18-6",
+        "mode": "programmatic-overlap",
+        "source": "65f61c8576a2190faebf485357cbe6c23e223115",
+        "sourceHashesVerified": true,
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "B5DA8155-A026-4130-B04E-DD2F223B17CB",
+          "deviceName": "RotationOverlap167",
+          "modelName": "iPad Pro 11-inch (M4)",
+          "osBuildNumber": "22G86",
+          "osVersion": "18.6",
+          "platform": "iOS Simulator"
+        },
+        "xcode": "Xcode 16.4\nBuild version 16F6",
+        "node": "v22.23.5",
+        "packages": {
+          "@nativescript/core": "9.1.4",
+          "nativescript-vue": "3.1.3",
+          "@nativescript/ios": "9.1.0",
+          "@nativescript/webpack": "5.0.41",
+          "webpack": "5.112.2"
+        },
+        "nativeApp": {
+          "infoPlistSha256": "7092a5592ca88bd43170fa96f378b70b9627eae41714f7a7556b451b4b53f371",
+          "sdk": "iphonesimulator18.5",
+          "requiresFullScreen": true,
+          "sceneManifest": {
+            "UIApplicationSupportsMultipleScenes": false,
+            "UIApplicationPreferredDefaultSceneSessionRole": "UIWindowSceneSessionRoleApplication"
+          },
+          "ipadOrientations": [
+            "UIInterfaceOrientationPortrait",
+            "UIInterfaceOrientationPortraitUpsideDown",
+            "UIInterfaceOrientationLandscapeLeft",
+            "UIInterfaceOrientationLandscapeRight"
+          ]
+        },
+        "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+        "routerDistSha256": "82ea80d4c73714c904b61d3cea7759c170ac2b6aaee7829c29156be6749a6b36",
+        "passedMethods": 2,
+        "cases": 6,
+        "exercised": 6,
+        "missingGestures": 0,
+        "windowChecks": 6,
+        "programmaticOverlap": [
+          {
+            "case": "back-overlap-landscape",
+            "requestedDuringNavigation": false,
+            "overlapEvidence": {
+              "navigationCoordinator": 37,
+              "rotationCoordinator": 38,
+              "observedFrom": "poll",
+              "overlapBeforeCompletionMs": 1450.117000000042,
+              "rotations": [
+                {
+                  "width": 1210,
+                  "height": 834,
+                  "target": true,
+                  "duringNavigation": true,
+                  "afterNavigationObservedMs": 53.5619999999908,
+                  "rotationCoordinator": 38
+                },
+                {
+                  "width": 834,
+                  "height": 1210,
+                  "target": false,
+                  "duringNavigation": true,
+                  "afterNavigationObservedMs": 587.4350000000268,
+                  "rotationCoordinator": 39
+                },
+                {
+                  "width": 1210,
+                  "height": 834,
+                  "target": true,
+                  "duringNavigation": false,
+                  "afterNavigationObservedMs": 1563.9970000000321,
+                  "rotationCoordinator": 40
+                }
+              ]
+            },
+            "visualOverlap": true,
+            "navigationCancelled": false,
+            "interactionEndedBeforeRequest": false,
+            "result": "overlap"
+          },
+          {
+            "case": "back-overlap-portrait",
+            "requestedDuringNavigation": false,
+            "overlapEvidence": {
+              "navigationCoordinator": 25,
+              "rotationCoordinator": 26,
+              "observedFrom": "poll",
+              "overlapBeforeCompletionMs": 1502.9629999999597,
+              "rotations": [
+                {
+                  "width": 834,
+                  "height": 1210,
+                  "target": true,
+                  "duringNavigation": true,
+                  "afterNavigationObservedMs": 5.334000000002561,
+                  "rotationCoordinator": 26
+                },
+                {
+                  "width": 1210,
+                  "height": 834,
+                  "target": false,
+                  "duringNavigation": true,
+                  "afterNavigationObservedMs": 578.905999999959,
+                  "rotationCoordinator": 27
+                },
+                {
+                  "width": 834,
+                  "height": 1210,
+                  "target": true,
+                  "duringNavigation": false,
+                  "afterNavigationObservedMs": 1564.9709999999468,
+                  "rotationCoordinator": 28
+                }
+              ]
+            },
+            "visualOverlap": true,
+            "navigationCancelled": false,
+            "interactionEndedBeforeRequest": false,
+            "result": "overlap"
+          },
+          {
+            "case": "push-overlap-landscape",
+            "requestedDuringNavigation": false,
+            "overlapEvidence": {
+              "navigationCoordinator": 17,
+              "rotationCoordinator": 19,
+              "observedFrom": "rotation-callback",
+              "overlapBeforeCompletionMs": 1487.8380000000034,
+              "rotations": [
+                {
+                  "width": 1210,
+                  "height": 834,
+                  "target": true,
+                  "duringNavigation": true,
+                  "afterNavigationObservedMs": 1.0859999999956926,
+                  "rotationCoordinator": 19
+                },
+                {
+                  "width": 834,
+                  "height": 1210,
+                  "target": false,
+                  "duringNavigation": true,
+                  "afterNavigationObservedMs": 636.2379999999976,
+                  "rotationCoordinator": 20
+                },
+                {
+                  "width": 1210,
+                  "height": 834,
+                  "target": true,
+                  "duringNavigation": false,
+                  "afterNavigationObservedMs": 1548.3289999999688,
+                  "rotationCoordinator": 21
+                }
+              ]
+            },
+            "visualOverlap": true,
+            "navigationCancelled": false,
+            "interactionEndedBeforeRequest": false,
+            "result": "overlap"
+          },
+          {
+            "case": "push-overlap-portrait",
+            "requestedDuringNavigation": false,
+            "overlapEvidence": {
+              "navigationCoordinator": 29,
+              "rotationCoordinator": 31,
+              "observedFrom": "poll",
+              "overlapBeforeCompletionMs": 1470.719000000041,
+              "rotations": [
+                {
+                  "width": 834,
+                  "height": 1210,
+                  "target": true,
+                  "duringNavigation": true,
+                  "afterNavigationObservedMs": 31.23499999997148,
+                  "rotationCoordinator": 31
+                },
+                {
+                  "width": 1210,
+                  "height": 834,
+                  "target": false,
+                  "duringNavigation": true,
+                  "afterNavigationObservedMs": 594.5340000000142,
+                  "rotationCoordinator": 32
+                },
+                {
+                  "width": 834,
+                  "height": 1210,
+                  "target": true,
+                  "duringNavigation": false,
+                  "afterNavigationObservedMs": 1557.3679999999877,
+                  "rotationCoordinator": 33
+                }
+              ]
+            },
+            "visualOverlap": true,
+            "navigationCancelled": false,
+            "interactionEndedBeforeRequest": false,
+            "result": "overlap"
+          }
+        ],
+        "artifact": {
+          "id": 14224910687,
+          "name": "programmatic-overlap-ipad-18-6",
+          "digest": "sha256:26607b2f13feb859c20d00dbbd04309cd1ba6f7315cf00bd28b4cec5bf7d4fdb"
+        },
+        "jobUrl": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43860859914/job/133276999361",
+        "archive": {
+          "file": "hosted-18-6-programmatic-overlap.zip",
+          "sha256": "550f8f8baae482146de40c45c4a75856e8076c6c1ea7aa7e52b19b8505465eeb"
+        }
+      },
+      {
+        "os": "18-6",
+        "mode": "default-rotation",
+        "source": "65f61c8576a2190faebf485357cbe6c23e223115",
+        "sourceHashesVerified": true,
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "B5DA8155-A026-4130-B04E-DD2F223B17CB",
+          "deviceName": "RotationOverlap167",
+          "modelName": "iPad Pro 11-inch (M4)",
+          "osBuildNumber": "22G86",
+          "osVersion": "18.6",
+          "platform": "iOS Simulator"
+        },
+        "xcode": "Xcode 16.4\nBuild version 16F6",
+        "node": "v22.23.5",
+        "packages": {
+          "@nativescript/core": "9.1.4",
+          "nativescript-vue": "3.1.3",
+          "@nativescript/ios": "9.1.0",
+          "@nativescript/webpack": "5.0.41",
+          "webpack": "5.112.2"
+        },
+        "nativeApp": {
+          "infoPlistSha256": "7092a5592ca88bd43170fa96f378b70b9627eae41714f7a7556b451b4b53f371",
+          "sdk": "iphonesimulator18.5",
+          "requiresFullScreen": true,
+          "sceneManifest": {
+            "UIApplicationSupportsMultipleScenes": false,
+            "UIApplicationPreferredDefaultSceneSessionRole": "UIWindowSceneSessionRoleApplication"
+          },
+          "ipadOrientations": [
+            "UIInterfaceOrientationPortrait",
+            "UIInterfaceOrientationPortraitUpsideDown",
+            "UIInterfaceOrientationLandscapeLeft",
+            "UIInterfaceOrientationLandscapeRight"
+          ]
+        },
+        "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+        "routerDistSha256": "82ea80d4c73714c904b61d3cea7759c170ac2b6aaee7829c29156be6749a6b36",
+        "passedMethods": 4,
+        "cases": 10,
+        "exercised": 8,
+        "missingGestures": 2,
+        "windowChecks": 10,
+        "programmaticOverlap": [],
+        "artifact": {
+          "id": 14224910687,
+          "name": "programmatic-overlap-ipad-18-6",
+          "digest": "sha256:26607b2f13feb859c20d00dbbd04309cd1ba6f7315cf00bd28b4cec5bf7d4fdb"
+        },
+        "jobUrl": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43860859914/job/133276999361",
+        "archive": {
+          "file": "hosted-18-6-default-rotation.zip",
+          "sha256": "4c6a763f104f946346bcc2d4da47ce501e0a72dba48081e89526e934be209a71"
+        }
+      },
+      {
+        "os": "26-2",
+        "mode": "programmatic-overlap",
+        "source": "65f61c8576a2190faebf485357cbe6c23e223115",
+        "sourceHashesVerified": true,
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "762CD192-1EB9-43A3-AA0C-1B7E95AA6A1E",
+          "deviceName": "RotationOverlap167",
+          "modelName": "iPad Pro 11-inch (M4)",
+          "osBuildNumber": "23C54",
+          "osVersion": "26.2",
+          "platform": "iOS Simulator"
+        },
+        "xcode": "Xcode 26.6\nBuild version 17F113",
+        "node": "v22.23.4",
+        "packages": {
+          "@nativescript/core": "9.1.4",
+          "nativescript-vue": "3.1.3",
+          "@nativescript/ios": "9.1.0",
+          "@nativescript/webpack": "5.0.41",
+          "webpack": "5.112.2"
+        },
+        "nativeApp": {
+          "infoPlistSha256": "cf4aef8dc885f283f53604172da0c3a723123cde22cffbbd855fb6cc957df59e",
+          "sdk": "iphonesimulator26.5",
+          "requiresFullScreen": true,
+          "sceneManifest": {
+            "UIApplicationSupportsMultipleScenes": false,
+            "UIApplicationPreferredDefaultSceneSessionRole": "UIWindowSceneSessionRoleApplication"
+          },
+          "ipadOrientations": [
+            "UIInterfaceOrientationPortrait",
+            "UIInterfaceOrientationPortraitUpsideDown",
+            "UIInterfaceOrientationLandscapeLeft",
+            "UIInterfaceOrientationLandscapeRight"
+          ]
+        },
+        "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+        "routerDistSha256": "82ea80d4c73714c904b61d3cea7759c170ac2b6aaee7829c29156be6749a6b36",
+        "passedMethods": 2,
+        "cases": 6,
+        "exercised": 6,
+        "missingGestures": 0,
+        "windowChecks": 6,
+        "programmaticOverlap": [
+          {
+            "case": "back-overlap-landscape",
+            "requestedDuringNavigation": false,
+            "overlapEvidence": {
+              "navigationCoordinator": 37,
+              "rotationCoordinator": 38,
+              "observedFrom": "rotation-callback",
+              "overlapBeforeCompletionMs": 1521.6470000000263,
+              "rotations": [
+                {
+                  "width": 1210,
+                  "height": 834,
+                  "target": true,
+                  "duringNavigation": true,
+                  "afterNavigationObservedMs": 1.8210000000544824,
+                  "rotationCoordinator": 38
+                },
+                {
+                  "width": 834,
+                  "height": 1210,
+                  "target": false,
+                  "duringNavigation": true,
+                  "afterNavigationObservedMs": 823.8180000000575,
+                  "rotationCoordinator": 39
+                },
+                {
+                  "width": 1210,
+                  "height": 834,
+                  "target": true,
+                  "duringNavigation": false,
+                  "afterNavigationObservedMs": 1748.9310000000696,
+                  "rotationCoordinator": 40
+                }
+              ]
+            },
+            "visualOverlap": true,
+            "navigationCancelled": false,
+            "interactionEndedBeforeRequest": false,
+            "result": "overlap"
+          },
+          {
+            "case": "back-overlap-portrait",
+            "requestedDuringNavigation": false,
+            "overlapEvidence": {
+              "navigationCoordinator": 25,
+              "rotationCoordinator": 26,
+              "observedFrom": "poll",
+              "overlapBeforeCompletionMs": 1517.4629999999015,
+              "rotations": [
+                {
+                  "width": 834,
+                  "height": 1210,
+                  "target": true,
+                  "duringNavigation": true,
+                  "afterNavigationObservedMs": 6.793000000005122,
+                  "rotationCoordinator": 26
+                },
+                {
+                  "width": 1210,
+                  "height": 834,
+                  "target": false,
+                  "duringNavigation": true,
+                  "afterNavigationObservedMs": 1117.524000000005,
+                  "rotationCoordinator": 27
+                },
+                {
+                  "width": 834,
+                  "height": 1210,
+                  "target": true,
+                  "duringNavigation": false,
+                  "afterNavigationObservedMs": 1781.7840000000142,
+                  "rotationCoordinator": 28
+                }
+              ]
+            },
+            "visualOverlap": true,
+            "navigationCancelled": false,
+            "interactionEndedBeforeRequest": false,
+            "result": "overlap"
+          },
+          {
+            "case": "push-overlap-landscape",
+            "requestedDuringNavigation": false,
+            "overlapEvidence": {
+              "navigationCoordinator": 17,
+              "rotationCoordinator": 19,
+              "observedFrom": "rotation-callback",
+              "overlapBeforeCompletionMs": 1385.9340000000084,
+              "rotations": [
+                {
+                  "width": 1210,
+                  "height": 834,
+                  "target": true,
+                  "duringNavigation": true,
+                  "afterNavigationObservedMs": 6.529999999998836,
+                  "rotationCoordinator": 19
+                },
+                {
+                  "width": 834,
+                  "height": 1210,
+                  "target": false,
+                  "duringNavigation": false,
+                  "afterNavigationObservedMs": 1488.8089999999502,
+                  "rotationCoordinator": 20
+                },
+                {
+                  "width": 1210,
+                  "height": 834,
+                  "target": true,
+                  "duringNavigation": false,
+                  "afterNavigationObservedMs": 2175.624999999971,
+                  "rotationCoordinator": 21
+                }
+              ]
+            },
+            "visualOverlap": true,
+            "navigationCancelled": false,
+            "interactionEndedBeforeRequest": false,
+            "result": "overlap"
+          },
+          {
+            "case": "push-overlap-portrait",
+            "requestedDuringNavigation": false,
+            "overlapEvidence": {
+              "navigationCoordinator": 29,
+              "rotationCoordinator": 31,
+              "observedFrom": "poll",
+              "overlapBeforeCompletionMs": 1501.0809999999765,
+              "rotations": [
+                {
+                  "width": 834,
+                  "height": 1210,
+                  "target": true,
+                  "duringNavigation": true,
+                  "afterNavigationObservedMs": 7.313000000081956,
+                  "rotationCoordinator": 31
+                },
+                {
+                  "width": 1210,
+                  "height": 834,
+                  "target": false,
+                  "duringNavigation": true,
+                  "afterNavigationObservedMs": 835.2870000000985,
+                  "rotationCoordinator": 32
+                },
+                {
+                  "width": 834,
+                  "height": 1210,
+                  "target": true,
+                  "duringNavigation": false,
+                  "afterNavigationObservedMs": 1581.6400000001013,
+                  "rotationCoordinator": 33
+                }
+              ]
+            },
+            "visualOverlap": true,
+            "navigationCancelled": false,
+            "interactionEndedBeforeRequest": false,
+            "result": "overlap"
+          }
+        ],
+        "artifact": {
+          "id": 14223842942,
+          "name": "programmatic-overlap-ipad-26-2",
+          "digest": "sha256:6c71e5392c5cff8a9227ebfd817831cf90e4fcf3da109ef93a8661689ef4f3ee"
+        },
+        "jobUrl": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43860859914/job/133276998916",
+        "archive": {
+          "file": "hosted-26-2-programmatic-overlap.zip",
+          "sha256": "ca98f7285084a9f228e7a31b662d8b9589dfb69dd924f92026294828effba92d"
+        }
+      },
+      {
+        "os": "26-2",
+        "mode": "default-rotation",
+        "source": "65f61c8576a2190faebf485357cbe6c23e223115",
+        "sourceHashesVerified": true,
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "762CD192-1EB9-43A3-AA0C-1B7E95AA6A1E",
+          "deviceName": "RotationOverlap167",
+          "modelName": "iPad Pro 11-inch (M4)",
+          "osBuildNumber": "23C54",
+          "osVersion": "26.2",
+          "platform": "iOS Simulator"
+        },
+        "xcode": "Xcode 26.6\nBuild version 17F113",
+        "node": "v22.23.4",
+        "packages": {
+          "@nativescript/core": "9.1.4",
+          "nativescript-vue": "3.1.3",
+          "@nativescript/ios": "9.1.0",
+          "@nativescript/webpack": "5.0.41",
+          "webpack": "5.112.2"
+        },
+        "nativeApp": {
+          "infoPlistSha256": "cf4aef8dc885f283f53604172da0c3a723123cde22cffbbd855fb6cc957df59e",
+          "sdk": "iphonesimulator26.5",
+          "requiresFullScreen": true,
+          "sceneManifest": {
+            "UIApplicationSupportsMultipleScenes": false,
+            "UIApplicationPreferredDefaultSceneSessionRole": "UIWindowSceneSessionRoleApplication"
+          },
+          "ipadOrientations": [
+            "UIInterfaceOrientationPortrait",
+            "UIInterfaceOrientationPortraitUpsideDown",
+            "UIInterfaceOrientationLandscapeLeft",
+            "UIInterfaceOrientationLandscapeRight"
+          ]
+        },
+        "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+        "routerDistSha256": "82ea80d4c73714c904b61d3cea7759c170ac2b6aaee7829c29156be6749a6b36",
+        "passedMethods": 4,
+        "cases": 10,
+        "exercised": 10,
+        "missingGestures": 0,
+        "windowChecks": 10,
+        "programmaticOverlap": [],
+        "artifact": {
+          "id": 14223842942,
+          "name": "programmatic-overlap-ipad-26-2",
+          "digest": "sha256:6c71e5392c5cff8a9227ebfd817831cf90e4fcf3da109ef93a8661689ef4f3ee"
+        },
+        "jobUrl": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43860859914/job/133276998916",
+        "archive": {
+          "file": "hosted-26-2-default-rotation.zip",
+          "sha256": "5c1c4aad136e130fa379c9aff6dd3e730e94d5a569d66e53669c551b0a137e0c"
+        }
+      }
+    ]
   },
   "intermediateLocal": {
     "source": "9407817da3b8882d6ce19beae3a949ce51b90e4a",

@@ -92,7 +92,14 @@ Formatting, typechecking and the native harness checks pass locally. The unit su
 
 The initial hosted run, [43858903471](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43858903471), passed both modes on 18.6. Its 26.2 run proved all four overlaps but the strict final-state check rejected a snapshot taken after the temporary orientation return, before the queued final rotation. The observer now waits for target dimensions as well as zero rotations in flight. This adds no rotation retry and preserves the final geometry assertion. The failed artifact is retained separately.
 
-The final [hosted matrix](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43860859914) is in progress on this native source. Hosted acceptance remains pending until both overlap and default-control steps pass on both OS versions; local results above are already verified.
+The final [hosted matrix](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43860859914) passed both modes on both OS versions using the same native source. Downloaded artifacts were checked against the committed fixture/driver/validator hashes and the published Core digest. All eight hosted programmatic cases passed the same strict overlap validator again after download.
+
+| Hosted runner          | Xcode         | Overlap mode                              | Default control                                         |
+| ---------------------- | ------------- | ----------------------------------------- | ------------------------------------------------------- |
+| macOS 15 / iPadOS 18.6 | 16.4 / 16F6   | 2 methods, 6 scenarios, 4 native overlaps | 4 methods, 8 exercised + 2 known missing inset gestures |
+| macOS 26 / iPadOS 26.2 | 26.6 / 17F113 | 2 methods, 6 scenarios, 4 native overlaps | 4 methods, 10 exercised                                 |
+
+Both rows use published Core 9.1.4, NativeScript-Vue 3.1.3 and iOS runtime 9.1.0. Node versions are 22.23.5 on the 18.6 runner and 22.23.4 on the 26.2 runner. Full versions, artifact IDs/digests, per-scenario evidence and compact archive hashes are retained in `validation.json`. Subsequent commits add only documentation, evidence and the recording; executable sources remain identical to the native-tested commit.
 
 [Validation, provenance and archive hashes](./evidence/programmatic-rotation-overlap-167/validation.json)
 retain accepted runs separately from diagnostic probes. Public
