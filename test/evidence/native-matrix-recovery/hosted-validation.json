@@ -1,0 +1,2726 @@
+{
+  "run": 43890886508,
+  "revision": "fee900e23e33343b1fbe684310ae1d036dbf166e",
+  "android": [
+    {
+      "api": 34,
+      "core": {
+        "reportsPassed": 17,
+        "cancelEvents": 24,
+        "cancelPeak": 0.2797688841819763,
+        "inputReceipt": "INSTRUMENTATION_RESULT: deliveryLagMs=23\nINSTRUMENTATION_RESULT: gestureReadyMs=90\nINSTRUMENTATION_RESULT: result=CONTRACT_TOUCH_OK\nINSTRUMENTATION_CODE: -1\n",
+        "environment": {
+          "commit": "fee900e23e33343b1fbe684310ae1d036dbf166e",
+          "dirty": false,
+          "host": {
+            "platform": "linux",
+            "release": "7.0.0-1019-azure",
+            "arch": "x64",
+            "cpus": 4,
+            "cpu": "AMD EPYC 7763 64-Core Processor"
+          },
+          "node": "v22.23.4",
+          "runner": "Linux",
+          "runnerImage": "20261111.196.1",
+          "run": "43890886508",
+          "attempt": "1",
+          "packages": {
+            "@nativescript/core": "9.1.3",
+            "nativescript-vue": "3.1.3",
+            "@nativescript/android": "9.1.1",
+            "@nativescript/ios": "9.1.0"
+          },
+          "device": {
+            "serial": "emulator-5554",
+            "mode": "core",
+            "coreRevision": "fadb58f034e403933028f86746280375ea9811ff",
+            "fingerprint": "google/sdk_gphone64_x86_64/emu64xa:14/UE1A.230829.050/12077443:userdebug/dev-keys"
+          }
+        }
+      },
+      "legacy": {
+        "reportsPassed": 15,
+        "cancelEvents": 28,
+        "cancelPeak": 0.3293059170246124,
+        "inputReceipt": "INSTRUMENTATION_RESULT: deliveryLagMs=3\nINSTRUMENTATION_RESULT: gestureReadyMs=96\nINSTRUMENTATION_RESULT: result=CONTRACT_TOUCH_OK\nINSTRUMENTATION_CODE: -1\n",
+        "environment": {
+          "commit": "fee900e23e33343b1fbe684310ae1d036dbf166e",
+          "dirty": false,
+          "host": {
+            "platform": "linux",
+            "release": "7.0.0-1019-azure",
+            "arch": "x64",
+            "cpus": 4,
+            "cpu": "AMD EPYC 7763 64-Core Processor"
+          },
+          "node": "v22.23.4",
+          "runner": "Linux",
+          "runnerImage": "20261111.196.1",
+          "run": "43890886508",
+          "attempt": "1",
+          "packages": {
+            "@nativescript/core": "9.1.3",
+            "nativescript-vue": "3.1.3",
+            "@nativescript/android": "9.1.1",
+            "@nativescript/ios": "9.1.0"
+          },
+          "device": {
+            "serial": "emulator-5554",
+            "mode": "legacy",
+            "coreRevision": "fadb58f034e403933028f86746280375ea9811ff",
+            "fingerprint": "google/sdk_gphone64_x86_64/emu64xa:14/UE1A.230829.050/12077443:userdebug/dev-keys"
+          }
+        }
+      },
+      "readRecovery": [
+        {
+          "at": 1794841511982,
+          "stage": "failed-read",
+          "code": 255,
+          "signal": null,
+          "killed": false
+        },
+        {
+          "at": 1794841512443,
+          "stage": "identity-confirmed",
+          "phase": "before-retry",
+          "bootId": "387480fe-7062-46bc-80db-aa5dfbe3de9e",
+          "systemPid": "839",
+          "appPid": "6920"
+        },
+        {
+          "at": 1794841512646,
+          "stage": "identity-confirmed",
+          "phase": "after-retry",
+          "bootId": "387480fe-7062-46bc-80db-aa5dfbe3de9e",
+          "systemPid": "839",
+          "appPid": "6920"
+        },
+        {
+          "at": 1794841512647,
+          "stage": "read-recovered"
+        }
+      ],
+      "recreation": {
+        "core": {
+          "command": "recreated",
+          "stage": "back-after-recreate",
+          "frameLoaded": true,
+          "pageLoaded": true,
+          "queueEmpty": true,
+          "executing": false,
+          "attached": true,
+          "ownerActivity": 92423868,
+          "managerDestroyed": false,
+          "ok": true,
+          "mode": "core",
+          "sdk": "34",
+          "pid": 7975,
+          "activity": 92423868,
+          "oldActivity": 63593286,
+          "sessionActive": false,
+          "stack": 0,
+          "currentId": 8,
+          "previousId": 8,
+          "trace": [
+            {
+              "event": "initNativeView",
+              "phase": "before",
+              "at": 763.510999999994,
+              "nativeId": 264008399,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 63593286,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "initNativeView",
+              "phase": "after",
+              "at": 784.0029999999842,
+              "nativeId": 264008399,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 63593286,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "before",
+              "at": 819.9850000000026,
+              "nativeId": 264008399,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 63593286,
+              "state": "CREATED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "after",
+              "at": 901.9700000000057,
+              "nativeId": 264008399,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 63593286,
+              "state": "CREATED",
+              "managerDestroyed": false
+            },
+            {
+              "event": "loaded",
+              "title": "Ready",
+              "id": 2,
+              "loaded": true,
+              "at": 1088.8649999999984
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 1209.5359999999857,
+              "nativeId": 264008399,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 63593286,
+              "state": "RESUMED",
+              "global": 63593286,
+              "managerDestroyed": false
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 1210.4359999999872,
+              "nativeId": 264008399,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 63593286,
+              "state": "RESUMED",
+              "global": 63593286,
+              "managerDestroyed": false
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Ready",
+              "id": 2,
+              "loaded": true,
+              "at": 1896.710999999982
+            },
+            {
+              "event": "loaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 2982.411999999982
+            },
+            {
+              "event": "unloaded",
+              "title": "Ready",
+              "id": 2,
+              "loaded": false,
+              "at": 3203.950999999989
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Ready",
+              "id": 2,
+              "loaded": false,
+              "at": 3204.0039999999976
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 3210.6449999999995
+            },
+            {
+              "event": "loaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 3328.2260000000006
+            },
+            {
+              "event": "unloaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": false,
+              "at": 3387.412999999981
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Root",
+              "id": 8,
+              "loaded": false,
+              "at": 3387.4329999999873
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 3387.4589999999785
+            },
+            {
+              "event": "onUnloaded",
+              "phase": "before",
+              "at": 3766.1509999999794,
+              "nativeId": 264008399,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 63593286,
+              "state": "CREATED",
+              "global": 63593286,
+              "managerDestroyed": false
+            },
+            {
+              "event": "unloaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": false,
+              "at": 3767.7400000000034
+            },
+            {
+              "event": "onUnloaded",
+              "phase": "after",
+              "at": 3767.774000000003,
+              "nativeId": 264008399,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 63593286,
+              "state": "CREATED",
+              "global": 63593286
+            },
+            {
+              "event": "disposeNativeView",
+              "phase": "before",
+              "at": 3773.145999999997,
+              "nativeId": 264008399,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 63593286,
+              "state": "DESTROYED",
+              "global": 63593286
+            },
+            {
+              "event": "_onDetachedFromWindow",
+              "phase": "before",
+              "at": 3774.0249999999946,
+              "nativeId": 264008399,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 63593286,
+              "state": "DESTROYED",
+              "global": 63593286
+            },
+            {
+              "event": "_onDetachedFromWindow",
+              "phase": "after",
+              "at": 3774.1460000000015,
+              "nativeId": 264008399,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 63593286,
+              "state": "DESTROYED",
+              "global": 63593286
+            },
+            {
+              "event": "disposeNativeView",
+              "phase": "after",
+              "at": 3774.9609999999902,
+              "nativeId": 264008399,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 63593286,
+              "state": "DESTROYED",
+              "global": 63593286
+            },
+            {
+              "event": "initNativeView",
+              "phase": "before",
+              "at": 3843.851999999998,
+              "nativeId": 226990885,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 92423868,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "initNativeView",
+              "phase": "after",
+              "at": 3844.005999999979,
+              "nativeId": 226990885,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 92423868,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 3862.3269999999934,
+              "nativeId": 226990885,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 92423868,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 3862.487999999985,
+              "nativeId": 226990885,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 92423868,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "before",
+              "at": 3871.2519999999986,
+              "nativeId": 226990885,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 92423868,
+              "state": "CREATED"
+            },
+            {
+              "event": "loaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 3879.73199999999
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 3880.059999999986,
+              "nativeId": 226990885,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 92423868,
+              "state": "CREATED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 3880.2929999999947,
+              "nativeId": 226990885,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 92423868,
+              "state": "CREATED",
+              "managerDestroyed": false
+            },
+            {
+              "event": "onLoaded",
+              "phase": "after",
+              "at": 3880.336,
+              "nativeId": 226990885,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 92423868,
+              "state": "CREATED",
+              "managerDestroyed": false
+            },
+            {
+              "event": "loaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 4074.8839999999973
+            },
+            {
+              "event": "unloaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": false,
+              "at": 4137.910000000005
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Detail",
+              "id": 14,
+              "loaded": false,
+              "at": 4137.91999999998
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 4138.463000000002
+            }
+          ]
+        },
+        "legacy": {
+          "command": "recreated",
+          "stage": "back-after-recreate",
+          "frameLoaded": true,
+          "pageLoaded": true,
+          "queueEmpty": true,
+          "executing": false,
+          "attached": true,
+          "ownerActivity": 193012542,
+          "managerDestroyed": false,
+          "ok": true,
+          "mode": "legacy",
+          "sdk": "34",
+          "pid": 7859,
+          "activity": 193012542,
+          "oldActivity": 21764189,
+          "sessionActive": false,
+          "stack": 0,
+          "currentId": 8,
+          "previousId": 8,
+          "trace": [
+            {
+              "event": "initNativeView",
+              "phase": "before",
+              "at": 1982.0839999999862,
+              "nativeId": 178542650,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 21764189,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "initNativeView",
+              "phase": "after",
+              "at": 2005.26499999998,
+              "nativeId": 178542650,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 21764189,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "before",
+              "at": 2041.8769999999995,
+              "nativeId": 178542650,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 21764189,
+              "state": "CREATED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "after",
+              "at": 2104.204999999979,
+              "nativeId": 178542650,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 21764189,
+              "state": "CREATED",
+              "managerDestroyed": false
+            },
+            {
+              "event": "loaded",
+              "title": "Ready",
+              "id": 2,
+              "loaded": true,
+              "at": 2236.2310000000034
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 2255.1839999999856,
+              "nativeId": 178542650,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 21764189,
+              "state": "RESUMED",
+              "global": 21764189,
+              "managerDestroyed": false
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 2255.91,
+              "nativeId": 178542650,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 21764189,
+              "state": "RESUMED",
+              "global": 21764189,
+              "managerDestroyed": false
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Ready",
+              "id": 2,
+              "loaded": true,
+              "at": 2826.6849999999977
+            },
+            {
+              "event": "loaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 3824.1009999999847
+            },
+            {
+              "event": "unloaded",
+              "title": "Ready",
+              "id": 2,
+              "loaded": false,
+              "at": 4212.544999999977
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Ready",
+              "id": 2,
+              "loaded": false,
+              "at": 4212.594999999993
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 4218.824999999981
+            },
+            {
+              "event": "loaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 4344.7829999999785
+            },
+            {
+              "event": "unloaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": false,
+              "at": 4418.858
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Root",
+              "id": 8,
+              "loaded": false,
+              "at": 4418.875999999983
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 4418.897999999985
+            },
+            {
+              "event": "onUnloaded",
+              "phase": "before",
+              "at": 4840.001000000001,
+              "nativeId": 178542650,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 21764189,
+              "state": "CREATED",
+              "global": 21764189,
+              "managerDestroyed": false
+            },
+            {
+              "event": "unloaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": false,
+              "at": 4840.2260000000015
+            },
+            {
+              "event": "onUnloaded",
+              "phase": "after",
+              "at": 4842.049000000003,
+              "nativeId": 178542650,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 21764189,
+              "state": "CREATED",
+              "global": 21764189
+            },
+            {
+              "event": "disposeNativeView",
+              "phase": "before",
+              "at": 4847.1250000000055,
+              "nativeId": 178542650,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 21764189,
+              "state": "DESTROYED",
+              "global": 21764189
+            },
+            {
+              "event": "_onDetachedFromWindow",
+              "phase": "before",
+              "at": 4847.422999999992,
+              "nativeId": 178542650,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 21764189,
+              "state": "DESTROYED",
+              "global": 21764189
+            },
+            {
+              "event": "_onDetachedFromWindow",
+              "phase": "after",
+              "at": 4847.611999999998,
+              "nativeId": 178542650,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 21764189,
+              "state": "DESTROYED",
+              "global": 21764189
+            },
+            {
+              "event": "disposeNativeView",
+              "phase": "after",
+              "at": 4848.57599999998,
+              "nativeId": 178542650,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 21764189,
+              "state": "DESTROYED",
+              "global": 21764189
+            },
+            {
+              "event": "initNativeView",
+              "phase": "before",
+              "at": 4896.787999999987,
+              "nativeId": 111529855,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 193012542,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "initNativeView",
+              "phase": "after",
+              "at": 4897.149999999982,
+              "nativeId": 111529855,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 193012542,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 4914.377999999999,
+              "nativeId": 111529855,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 193012542,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 4914.540999999986,
+              "nativeId": 111529855,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 193012542,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "before",
+              "at": 4922.528999999997,
+              "nativeId": 111529855,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 193012542,
+              "state": "CREATED"
+            },
+            {
+              "event": "loaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 4928.592999999978
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 4928.876000000002,
+              "nativeId": 111529855,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 193012542,
+              "state": "CREATED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 4929.045999999999,
+              "nativeId": 111529855,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 193012542,
+              "state": "CREATED",
+              "managerDestroyed": false
+            },
+            {
+              "event": "onLoaded",
+              "phase": "after",
+              "at": 4929.084999999986,
+              "nativeId": 111529855,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 193012542,
+              "state": "CREATED",
+              "managerDestroyed": false
+            },
+            {
+              "event": "loaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 5041.4020000000055
+            },
+            {
+              "event": "unloaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": false,
+              "at": 5111.546000000004
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Detail",
+              "id": 14,
+              "loaded": false,
+              "at": 5111.554999999981
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 5112.023999999991
+            }
+          ]
+        }
+      },
+      "archiveSha256": "14c498e33a9f3f6b49784bcd831b2321d24cc2d8ea249910fd557d6ef92d12e0"
+    },
+    {
+      "api": 35,
+      "core": {
+        "reportsPassed": 17,
+        "cancelEvents": 21,
+        "cancelPeak": 0.24250036478042603,
+        "inputReceipt": "INSTRUMENTATION_RESULT: deliveryLagMs=64\nINSTRUMENTATION_RESULT: gestureReadyMs=323\nINSTRUMENTATION_RESULT: result=CONTRACT_TOUCH_OK\nINSTRUMENTATION_CODE: -1\n",
+        "environment": {
+          "commit": "fee900e23e33343b1fbe684310ae1d036dbf166e",
+          "dirty": false,
+          "host": {
+            "platform": "linux",
+            "release": "7.0.0-1019-azure",
+            "arch": "x64",
+            "cpus": 4,
+            "cpu": "AMD EPYC 7763 64-Core Processor"
+          },
+          "node": "v22.23.4",
+          "runner": "Linux",
+          "runnerImage": "20261111.196.1",
+          "run": "43890886508",
+          "attempt": "1",
+          "packages": {
+            "@nativescript/core": "9.1.3",
+            "nativescript-vue": "3.1.3",
+            "@nativescript/android": "9.1.1",
+            "@nativescript/ios": "9.1.0"
+          },
+          "device": {
+            "serial": "emulator-5554",
+            "mode": "core",
+            "coreRevision": "fadb58f034e403933028f86746280375ea9811ff",
+            "fingerprint": "google/sdk_gphone64_x86_64/emu64xa:15/AE3A.240806.043/12960925:userdebug/dev-keys"
+          }
+        }
+      },
+      "legacy": {
+        "reportsPassed": 15,
+        "cancelEvents": 25,
+        "cancelPeak": 0.26986128091812134,
+        "inputReceipt": "INSTRUMENTATION_RESULT: deliveryLagMs=33\nINSTRUMENTATION_RESULT: gestureReadyMs=47\nINSTRUMENTATION_RESULT: result=CONTRACT_TOUCH_OK\nINSTRUMENTATION_CODE: -1\n",
+        "environment": {
+          "commit": "fee900e23e33343b1fbe684310ae1d036dbf166e",
+          "dirty": false,
+          "host": {
+            "platform": "linux",
+            "release": "7.0.0-1019-azure",
+            "arch": "x64",
+            "cpus": 4,
+            "cpu": "AMD EPYC 7763 64-Core Processor"
+          },
+          "node": "v22.23.4",
+          "runner": "Linux",
+          "runnerImage": "20261111.196.1",
+          "run": "43890886508",
+          "attempt": "1",
+          "packages": {
+            "@nativescript/core": "9.1.3",
+            "nativescript-vue": "3.1.3",
+            "@nativescript/android": "9.1.1",
+            "@nativescript/ios": "9.1.0"
+          },
+          "device": {
+            "serial": "emulator-5554",
+            "mode": "legacy",
+            "coreRevision": "fadb58f034e403933028f86746280375ea9811ff",
+            "fingerprint": "google/sdk_gphone64_x86_64/emu64xa:15/AE3A.240806.043/12960925:userdebug/dev-keys"
+          }
+        }
+      },
+      "readRecovery": [
+        {
+          "at": 1794841528356,
+          "stage": "failed-read",
+          "code": 255,
+          "signal": null,
+          "killed": false
+        },
+        {
+          "at": 1794841528509,
+          "stage": "identity-confirmed",
+          "phase": "before-retry",
+          "bootId": "8ba88d36-8cce-4fe8-a562-f7b7868013c6",
+          "systemPid": "922",
+          "appPid": "5136"
+        },
+        {
+          "at": 1794841528608,
+          "stage": "identity-confirmed",
+          "phase": "after-retry",
+          "bootId": "8ba88d36-8cce-4fe8-a562-f7b7868013c6",
+          "systemPid": "922",
+          "appPid": "5136"
+        },
+        {
+          "at": 1794841528609,
+          "stage": "read-recovered"
+        }
+      ],
+      "recreation": {
+        "core": {
+          "command": "recreated",
+          "stage": "back-after-recreate",
+          "frameLoaded": true,
+          "pageLoaded": true,
+          "queueEmpty": true,
+          "executing": false,
+          "attached": true,
+          "ownerActivity": 8064590,
+          "managerDestroyed": false,
+          "ok": true,
+          "mode": "core",
+          "sdk": "35",
+          "pid": 5989,
+          "activity": 8064590,
+          "oldActivity": 162524184,
+          "sessionActive": false,
+          "stack": 0,
+          "currentId": 8,
+          "previousId": 8,
+          "trace": [
+            {
+              "event": "initNativeView",
+              "phase": "before",
+              "at": 772.9940000000113,
+              "nativeId": 100960693,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 162524184,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "initNativeView",
+              "phase": "after",
+              "at": 786.4449999999863,
+              "nativeId": 100960693,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 162524184,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "before",
+              "at": 1028.2929999999908,
+              "nativeId": 100960693,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 162524184,
+              "state": "CREATED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "after",
+              "at": 1072.2710000000006,
+              "nativeId": 100960693,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 162524184,
+              "state": "CREATED",
+              "managerDestroyed": false
+            },
+            {
+              "event": "loaded",
+              "title": "Ready",
+              "id": 2,
+              "loaded": true,
+              "at": 1534.7109999999873
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Ready",
+              "id": 2,
+              "loaded": true,
+              "at": 1577.2619999999904
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 1583.7950000000092,
+              "nativeId": 100960693,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 162524184,
+              "state": "RESUMED",
+              "global": 162524184,
+              "managerDestroyed": false
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 1584.623999999991,
+              "nativeId": 100960693,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 162524184,
+              "state": "RESUMED",
+              "global": 162524184,
+              "managerDestroyed": false
+            },
+            {
+              "event": "loaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 3405.7809999999904
+            },
+            {
+              "event": "unloaded",
+              "title": "Ready",
+              "id": 2,
+              "loaded": false,
+              "at": 3694.012999999984
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Ready",
+              "id": 2,
+              "loaded": false,
+              "at": 3694.0700000000106
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 3740.095999999994
+            },
+            {
+              "event": "loaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 3792.855000000003
+            },
+            {
+              "event": "unloaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": false,
+              "at": 3872.2510000000057
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Root",
+              "id": 8,
+              "loaded": false,
+              "at": 3872.2740000000044
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 3872.3039999999855
+            },
+            {
+              "event": "onUnloaded",
+              "phase": "before",
+              "at": 4223.916000000003,
+              "nativeId": 100960693,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 162524184,
+              "state": "CREATED",
+              "global": 162524184,
+              "managerDestroyed": false
+            },
+            {
+              "event": "unloaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": false,
+              "at": 4225.34300000001
+            },
+            {
+              "event": "onUnloaded",
+              "phase": "after",
+              "at": 4225.434000000007,
+              "nativeId": 100960693,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 162524184,
+              "state": "CREATED",
+              "global": 162524184
+            },
+            {
+              "event": "disposeNativeView",
+              "phase": "before",
+              "at": 4229.759999999998,
+              "nativeId": 100960693,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 162524184,
+              "state": "DESTROYED",
+              "global": 162524184
+            },
+            {
+              "event": "_onDetachedFromWindow",
+              "phase": "before",
+              "at": 4230.065999999993,
+              "nativeId": 100960693,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 162524184,
+              "state": "DESTROYED",
+              "global": 162524184
+            },
+            {
+              "event": "_onDetachedFromWindow",
+              "phase": "after",
+              "at": 4230.268999999993,
+              "nativeId": 100960693,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 162524184,
+              "state": "DESTROYED",
+              "global": 162524184
+            },
+            {
+              "event": "disposeNativeView",
+              "phase": "after",
+              "at": 4231.411000000008,
+              "nativeId": 100960693,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 162524184,
+              "state": "DESTROYED",
+              "global": 162524184
+            },
+            {
+              "event": "initNativeView",
+              "phase": "before",
+              "at": 4300.150000000002,
+              "nativeId": 127724879,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 8064590,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "initNativeView",
+              "phase": "after",
+              "at": 4300.309999999996,
+              "nativeId": 127724879,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 8064590,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 4307.123999999987,
+              "nativeId": 127724879,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 8064590,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 4307.259999999986,
+              "nativeId": 127724879,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 8064590,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "before",
+              "at": 4311.341999999996,
+              "nativeId": 127724879,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 8064590,
+              "state": "CREATED"
+            },
+            {
+              "event": "loaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 4315.336000000002
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 4315.657999999985,
+              "nativeId": 127724879,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 8064590,
+              "state": "CREATED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 4315.836999999988,
+              "nativeId": 127724879,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 8064590,
+              "state": "CREATED",
+              "managerDestroyed": false
+            },
+            {
+              "event": "onLoaded",
+              "phase": "after",
+              "at": 4315.879999999993,
+              "nativeId": 127724879,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 8064590,
+              "state": "CREATED",
+              "managerDestroyed": false
+            },
+            {
+              "event": "loaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 4450.346999999993
+            },
+            {
+              "event": "unloaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": false,
+              "at": 4513.631000000004
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Detail",
+              "id": 14,
+              "loaded": false,
+              "at": 4513.641000000007
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 4514.185999999995
+            }
+          ]
+        },
+        "legacy": {
+          "command": "recreated",
+          "stage": "back-after-recreate",
+          "frameLoaded": true,
+          "pageLoaded": true,
+          "queueEmpty": true,
+          "executing": false,
+          "attached": true,
+          "ownerActivity": 75350804,
+          "managerDestroyed": false,
+          "ok": true,
+          "mode": "legacy",
+          "sdk": "35",
+          "pid": 5910,
+          "activity": 75350804,
+          "oldActivity": 159364311,
+          "sessionActive": false,
+          "stack": 0,
+          "currentId": 8,
+          "previousId": 8,
+          "trace": [
+            {
+              "event": "initNativeView",
+              "phase": "before",
+              "at": 530.3610000000276,
+              "nativeId": 180056280,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 159364311,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "initNativeView",
+              "phase": "after",
+              "at": 539.9960000000021,
+              "nativeId": 180056280,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 159364311,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "before",
+              "at": 570.7230000000152,
+              "nativeId": 180056280,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 159364311,
+              "state": "CREATED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "after",
+              "at": 626.7910000000256,
+              "nativeId": 180056280,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 159364311,
+              "state": "CREATED",
+              "managerDestroyed": false
+            },
+            {
+              "event": "loaded",
+              "title": "Ready",
+              "id": 2,
+              "loaded": true,
+              "at": 757.4620000000039
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Ready",
+              "id": 2,
+              "loaded": true,
+              "at": 773.4380000000272
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 779.3280000000209,
+              "nativeId": 180056280,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 159364311,
+              "state": "RESUMED",
+              "global": 159364311,
+              "managerDestroyed": false
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 783.5560000000044,
+              "nativeId": 180056280,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 159364311,
+              "state": "RESUMED",
+              "global": 159364311,
+              "managerDestroyed": false
+            },
+            {
+              "event": "loaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 2528.871000000009
+            },
+            {
+              "event": "unloaded",
+              "title": "Ready",
+              "id": 2,
+              "loaded": false,
+              "at": 2790.846000000016
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Ready",
+              "id": 2,
+              "loaded": false,
+              "at": 2790.8990000000244
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 2803.533000000016
+            },
+            {
+              "event": "loaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 2888.136000000003
+            },
+            {
+              "event": "unloaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": false,
+              "at": 2961.229000000003
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Root",
+              "id": 8,
+              "loaded": false,
+              "at": 2961.2520000000018
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 2961.2750000000005
+            },
+            {
+              "event": "onUnloaded",
+              "phase": "before",
+              "at": 3388.555000000025,
+              "nativeId": 180056280,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 159364311,
+              "state": "CREATED",
+              "global": 159364311,
+              "managerDestroyed": false
+            },
+            {
+              "event": "unloaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": false,
+              "at": 3388.9030000000275
+            },
+            {
+              "event": "onUnloaded",
+              "phase": "after",
+              "at": 3390.4950000000154,
+              "nativeId": 180056280,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 159364311,
+              "state": "CREATED",
+              "global": 159364311
+            },
+            {
+              "event": "disposeNativeView",
+              "phase": "before",
+              "at": 3404.7079999999996,
+              "nativeId": 180056280,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 159364311,
+              "state": "DESTROYED",
+              "global": 159364311
+            },
+            {
+              "event": "_onDetachedFromWindow",
+              "phase": "before",
+              "at": 3405.138000000022,
+              "nativeId": 180056280,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 159364311,
+              "state": "DESTROYED",
+              "global": 159364311
+            },
+            {
+              "event": "_onDetachedFromWindow",
+              "phase": "after",
+              "at": 3405.3440000000137,
+              "nativeId": 180056280,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 159364311,
+              "state": "DESTROYED",
+              "global": 159364311
+            },
+            {
+              "event": "disposeNativeView",
+              "phase": "after",
+              "at": 3406.267000000014,
+              "nativeId": 180056280,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 159364311,
+              "state": "DESTROYED",
+              "global": 159364311
+            },
+            {
+              "event": "initNativeView",
+              "phase": "before",
+              "at": 3479.492000000022,
+              "nativeId": 144472221,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 75350804,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "initNativeView",
+              "phase": "after",
+              "at": 3479.6890000000076,
+              "nativeId": 144472221,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 75350804,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 3498.273000000012,
+              "nativeId": 144472221,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 75350804,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 3498.4230000000025,
+              "nativeId": 144472221,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 75350804,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "before",
+              "at": 3505.068000000023,
+              "nativeId": 144472221,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 75350804,
+              "state": "CREATED"
+            },
+            {
+              "event": "loaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 3510.8820000000096
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 3511.0690000000204,
+              "nativeId": 144472221,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 75350804,
+              "state": "CREATED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 3511.4440000000113,
+              "nativeId": 144472221,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 75350804,
+              "state": "CREATED",
+              "managerDestroyed": false
+            },
+            {
+              "event": "onLoaded",
+              "phase": "after",
+              "at": 3511.478000000011,
+              "nativeId": 144472221,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 75350804,
+              "state": "CREATED",
+              "managerDestroyed": false
+            },
+            {
+              "event": "loaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 3546.004000000011
+            },
+            {
+              "event": "unloaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": false,
+              "at": 3624.541000000022
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Detail",
+              "id": 14,
+              "loaded": false,
+              "at": 3624.5580000000073
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 3625.058000000024
+            }
+          ]
+        }
+      },
+      "releasedCoreNegative": {
+        "legacy": {
+          "command": "recreated",
+          "stage": "back-after-recreate",
+          "frameLoaded": true,
+          "pageLoaded": true,
+          "queueEmpty": false,
+          "executing": false,
+          "attached": false,
+          "ownerActivity": 225649074,
+          "managerDestroyed": false,
+          "ok": false,
+          "error": "Error: Native Frame not ready",
+          "mode": "legacy",
+          "sdk": "35",
+          "pid": 6125,
+          "activity": 225649074,
+          "oldActivity": 138042454,
+          "sessionActive": false,
+          "stack": 1,
+          "currentId": 14,
+          "previousId": 8,
+          "trace": [
+            {
+              "event": "initNativeView",
+              "phase": "before",
+              "at": 482.2419999999852,
+              "nativeId": 180056280,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 138042454,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "initNativeView",
+              "phase": "after",
+              "at": 494.38599999999155,
+              "nativeId": 180056280,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 138042454,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "before",
+              "at": 518.6449999999923,
+              "nativeId": 180056280,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 138042454,
+              "state": "CREATED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "after",
+              "at": 562.5869999999793,
+              "nativeId": 180056280,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 138042454,
+              "state": "CREATED",
+              "managerDestroyed": false
+            },
+            {
+              "event": "loaded",
+              "title": "Ready",
+              "id": 2,
+              "loaded": true,
+              "at": 692.5899999999956
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Ready",
+              "id": 2,
+              "loaded": true,
+              "at": 717.4499999999853
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 728.0009999999777,
+              "nativeId": 180056280,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 138042454,
+              "state": "RESUMED",
+              "global": 138042454,
+              "managerDestroyed": false
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 729.8069999999939,
+              "nativeId": 180056280,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 138042454,
+              "state": "RESUMED",
+              "global": 138042454,
+              "managerDestroyed": false
+            },
+            {
+              "event": "loaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 2548.2789999999795
+            },
+            {
+              "event": "unloaded",
+              "title": "Ready",
+              "id": 2,
+              "loaded": false,
+              "at": 2768.921999999975
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Ready",
+              "id": 2,
+              "loaded": false,
+              "at": 2768.9759999999806
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 2771.828999999997
+            },
+            {
+              "event": "loaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 2831.2179999999785
+            },
+            {
+              "event": "unloaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": false,
+              "at": 2931.16999999998
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Root",
+              "id": 8,
+              "loaded": false,
+              "at": 2931.2379999999794
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 2931.2809999999845
+            },
+            {
+              "event": "onUnloaded",
+              "phase": "before",
+              "at": 3258.8919999999744,
+              "nativeId": 180056280,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 138042454,
+              "state": "CREATED",
+              "global": 138042454,
+              "managerDestroyed": false
+            },
+            {
+              "event": "unloaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": false,
+              "at": 3259.361999999982
+            },
+            {
+              "event": "onUnloaded",
+              "phase": "after",
+              "at": 3260.5409999999893,
+              "nativeId": 180056280,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 138042454,
+              "state": "CREATED",
+              "global": 138042454
+            },
+            {
+              "event": "disposeNativeView",
+              "phase": "before",
+              "at": 3264.3179999999747,
+              "nativeId": 180056280,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 138042454,
+              "state": "DESTROYED",
+              "global": 138042454
+            },
+            {
+              "event": "_onDetachedFromWindow",
+              "phase": "before",
+              "at": 3264.567999999997,
+              "nativeId": 180056280,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 138042454,
+              "state": "DESTROYED",
+              "global": 138042454
+            },
+            {
+              "event": "_onDetachedFromWindow",
+              "phase": "after",
+              "at": 3264.7369999999964,
+              "nativeId": 180056280,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 138042454,
+              "state": "DESTROYED",
+              "global": 138042454
+            },
+            {
+              "event": "disposeNativeView",
+              "phase": "after",
+              "at": 3265.49,
+              "nativeId": 180056280,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 138042454,
+              "state": "DESTROYED",
+              "global": 138042454
+            },
+            {
+              "event": "initNativeView",
+              "phase": "before",
+              "at": 3306.905999999998,
+              "nativeId": 166854883,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 225649074,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "initNativeView",
+              "phase": "after",
+              "at": 3307.173999999975,
+              "nativeId": 166854883,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 225649074,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 3324.013999999977,
+              "nativeId": 166854883,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 225649074,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 3324.1499999999746,
+              "nativeId": 166854883,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 225649074,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "before",
+              "at": 3336.1639999999966,
+              "nativeId": 166854883,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 225649074,
+              "state": "CREATED"
+            },
+            {
+              "event": "loaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 3339.986999999979
+            },
+            {
+              "event": "onLoaded",
+              "phase": "after",
+              "at": 3340.287999999987,
+              "nativeId": 166854883,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 225649074,
+              "state": "CREATED"
+            }
+          ]
+        }
+      },
+      "archiveSha256": "274695012c4d9ce6c6cb2b33a97653f8ef6db5758849cbde230fd5861a0516d6"
+    },
+    {
+      "api": 36,
+      "core": {
+        "reportsPassed": 17,
+        "cancelEvents": 26,
+        "cancelPeak": 0.24250036478042603,
+        "inputReceipt": "INSTRUMENTATION_RESULT: deliveryLagMs=40\nINSTRUMENTATION_RESULT: gestureReadyMs=169\nINSTRUMENTATION_RESULT: result=CONTRACT_TOUCH_OK\nINSTRUMENTATION_CODE: -1\n",
+        "environment": {
+          "commit": "fee900e23e33343b1fbe684310ae1d036dbf166e",
+          "dirty": false,
+          "host": {
+            "platform": "linux",
+            "release": "7.0.0-1019-azure",
+            "arch": "x64",
+            "cpus": 4,
+            "cpu": "AMD EPYC 9V45 96-Core Processor"
+          },
+          "node": "v22.23.4",
+          "runner": "Linux",
+          "runnerImage": "20261111.196.1",
+          "run": "43890886508",
+          "attempt": "1",
+          "packages": {
+            "@nativescript/core": "9.1.3",
+            "nativescript-vue": "3.1.3",
+            "@nativescript/android": "9.1.1",
+            "@nativescript/ios": "9.1.0"
+          },
+          "device": {
+            "serial": "emulator-5554",
+            "mode": "core",
+            "coreRevision": "fadb58f034e403933028f86746280375ea9811ff",
+            "fingerprint": "google/sdk_gphone64_x86_64/emu64xa:16/BE2A.250530.026.F3/13894323:userdebug/dev-keys"
+          }
+        }
+      },
+      "legacy": {
+        "reportsPassed": 15,
+        "cancelEvents": 28,
+        "cancelPeak": 0.3004937171936035,
+        "inputReceipt": "INSTRUMENTATION_RESULT: deliveryLagMs=70\nINSTRUMENTATION_RESULT: gestureReadyMs=62\nINSTRUMENTATION_RESULT: result=CONTRACT_TOUCH_OK\nINSTRUMENTATION_CODE: -1\n",
+        "environment": {
+          "commit": "fee900e23e33343b1fbe684310ae1d036dbf166e",
+          "dirty": false,
+          "host": {
+            "platform": "linux",
+            "release": "7.0.0-1019-azure",
+            "arch": "x64",
+            "cpus": 4,
+            "cpu": "AMD EPYC 9V45 96-Core Processor"
+          },
+          "node": "v22.23.4",
+          "runner": "Linux",
+          "runnerImage": "20261111.196.1",
+          "run": "43890886508",
+          "attempt": "1",
+          "packages": {
+            "@nativescript/core": "9.1.3",
+            "nativescript-vue": "3.1.3",
+            "@nativescript/android": "9.1.1",
+            "@nativescript/ios": "9.1.0"
+          },
+          "device": {
+            "serial": "emulator-5554",
+            "mode": "legacy",
+            "coreRevision": "fadb58f034e403933028f86746280375ea9811ff",
+            "fingerprint": "google/sdk_gphone64_x86_64/emu64xa:16/BE2A.250530.026.F3/13894323:userdebug/dev-keys"
+          }
+        }
+      },
+      "readRecovery": [
+        {
+          "at": 1794841453327,
+          "stage": "failed-read",
+          "code": 255,
+          "signal": null,
+          "killed": false
+        },
+        {
+          "at": 1794841453573,
+          "stage": "identity-confirmed",
+          "phase": "before-retry",
+          "bootId": "2545b0ab-860b-483a-b5a4-cdd5ae86c089",
+          "systemPid": "1038",
+          "appPid": "5720"
+        },
+        {
+          "at": 1794841453646,
+          "stage": "identity-confirmed",
+          "phase": "after-retry",
+          "bootId": "2545b0ab-860b-483a-b5a4-cdd5ae86c089",
+          "systemPid": "1038",
+          "appPid": "5720"
+        },
+        {
+          "at": 1794841453651,
+          "stage": "read-recovered"
+        }
+      ],
+      "recreation": {
+        "core": {
+          "command": "recreated",
+          "stage": "back-after-recreate",
+          "frameLoaded": true,
+          "pageLoaded": true,
+          "queueEmpty": true,
+          "executing": false,
+          "attached": true,
+          "ownerActivity": 194394221,
+          "managerDestroyed": false,
+          "ok": true,
+          "mode": "core",
+          "sdk": "36",
+          "pid": 6969,
+          "activity": 194394221,
+          "oldActivity": 195716615,
+          "sessionActive": false,
+          "stack": 0,
+          "currentId": 8,
+          "previousId": 8,
+          "trace": [
+            {
+              "event": "initNativeView",
+              "phase": "before",
+              "at": 295.5609999999922,
+              "nativeId": 3127046,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 195716615,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "initNativeView",
+              "phase": "after",
+              "at": 300.20700000000033,
+              "nativeId": 3127046,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 195716615,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "before",
+              "at": 319.0079999999966,
+              "nativeId": 3127046,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 195716615,
+              "state": "CREATED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "after",
+              "at": 336.8949999999984,
+              "nativeId": 3127046,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 195716615,
+              "state": "CREATED",
+              "managerDestroyed": false
+            },
+            {
+              "event": "loaded",
+              "title": "Ready",
+              "id": 2,
+              "loaded": true,
+              "at": 420.44799999999327
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Ready",
+              "id": 2,
+              "loaded": true,
+              "at": 519.3510000000003
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 544.2380000000071,
+              "nativeId": 3127046,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 195716615,
+              "state": "RESUMED",
+              "global": 195716615,
+              "managerDestroyed": false
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 545.3779999999995,
+              "nativeId": 3127046,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 195716615,
+              "state": "RESUMED",
+              "global": 195716615,
+              "managerDestroyed": false
+            },
+            {
+              "event": "loaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 2003.183000000007
+            },
+            {
+              "event": "unloaded",
+              "title": "Ready",
+              "id": 2,
+              "loaded": false,
+              "at": 2274.1359999999986
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Ready",
+              "id": 2,
+              "loaded": false,
+              "at": 2274.2470000000026
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 2323.1820000000025
+            },
+            {
+              "event": "loaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 2405.6209999999965
+            },
+            {
+              "event": "unloaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": false,
+              "at": 2473.431000000005
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Root",
+              "id": 8,
+              "loaded": false,
+              "at": 2473.69599999999
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 2473.721000000012
+            },
+            {
+              "event": "onUnloaded",
+              "phase": "before",
+              "at": 2853.1879999999887,
+              "nativeId": 3127046,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 195716615,
+              "state": "CREATED",
+              "global": 195716615,
+              "managerDestroyed": false
+            },
+            {
+              "event": "unloaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": false,
+              "at": 2858.701999999994
+            },
+            {
+              "event": "onUnloaded",
+              "phase": "after",
+              "at": 2858.741000000009,
+              "nativeId": 3127046,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 195716615,
+              "state": "CREATED",
+              "global": 195716615
+            },
+            {
+              "event": "disposeNativeView",
+              "phase": "before",
+              "at": 2867.836000000011,
+              "nativeId": 3127046,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 195716615,
+              "state": "DESTROYED",
+              "global": 195716615
+            },
+            {
+              "event": "_onDetachedFromWindow",
+              "phase": "before",
+              "at": 2868.080999999989,
+              "nativeId": 3127046,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 195716615,
+              "state": "DESTROYED",
+              "global": 195716615
+            },
+            {
+              "event": "_onDetachedFromWindow",
+              "phase": "after",
+              "at": 2868.144000000001,
+              "nativeId": 3127046,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 195716615,
+              "state": "DESTROYED",
+              "global": 195716615
+            },
+            {
+              "event": "disposeNativeView",
+              "phase": "after",
+              "at": 2868.5560000000123,
+              "nativeId": 3127046,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 195716615,
+              "state": "DESTROYED",
+              "global": 195716615
+            },
+            {
+              "event": "initNativeView",
+              "phase": "before",
+              "at": 2917.0180000000128,
+              "nativeId": 200270850,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 194394221,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "initNativeView",
+              "phase": "after",
+              "at": 2917.1139999999978,
+              "nativeId": 200270850,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 194394221,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 2922.635000000014,
+              "nativeId": 200270850,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 194394221,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 2922.7750000000015,
+              "nativeId": 200270850,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 194394221,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "before",
+              "at": 2926.1789999999905,
+              "nativeId": 200270850,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 194394221,
+              "state": "CREATED"
+            },
+            {
+              "event": "loaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 2930.1450000000104
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 2930.6799999999953,
+              "nativeId": 200270850,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 194394221,
+              "state": "CREATED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 2930.855000000008,
+              "nativeId": 200270850,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 194394221,
+              "state": "CREATED",
+              "managerDestroyed": false
+            },
+            {
+              "event": "onLoaded",
+              "phase": "after",
+              "at": 2930.8729999999914,
+              "nativeId": 200270850,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 194394221,
+              "state": "CREATED",
+              "managerDestroyed": false
+            },
+            {
+              "event": "loaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 3121.499
+            },
+            {
+              "event": "unloaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": false,
+              "at": 3175.0849999999955
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Detail",
+              "id": 14,
+              "loaded": false,
+              "at": 3175.0959999999964
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 3175.5070000000105
+            }
+          ]
+        },
+        "legacy": {
+          "command": "recreated",
+          "stage": "back-after-recreate",
+          "frameLoaded": true,
+          "pageLoaded": true,
+          "queueEmpty": true,
+          "executing": false,
+          "attached": true,
+          "ownerActivity": 54728413,
+          "managerDestroyed": false,
+          "ok": true,
+          "mode": "legacy",
+          "sdk": "36",
+          "pid": 6828,
+          "activity": 54728413,
+          "oldActivity": 157146784,
+          "sessionActive": false,
+          "stack": 0,
+          "currentId": 8,
+          "previousId": 8,
+          "trace": [
+            {
+              "event": "initNativeView",
+              "phase": "before",
+              "at": 508.6289999999849,
+              "nativeId": 21554019,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 157146784,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "initNativeView",
+              "phase": "after",
+              "at": 515.9490000000062,
+              "nativeId": 21554019,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 157146784,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "before",
+              "at": 537.6679999999965,
+              "nativeId": 21554019,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 157146784,
+              "state": "CREATED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "after",
+              "at": 563.5110000000054,
+              "nativeId": 21554019,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 157146784,
+              "state": "CREATED",
+              "managerDestroyed": false
+            },
+            {
+              "event": "loaded",
+              "title": "Ready",
+              "id": 2,
+              "loaded": true,
+              "at": 655.003999999991
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Ready",
+              "id": 2,
+              "loaded": true,
+              "at": 668.9680000000067
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 671.1170000000095,
+              "nativeId": 21554019,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 157146784,
+              "state": "RESUMED",
+              "global": 157146784,
+              "managerDestroyed": false
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 671.7370000000074,
+              "nativeId": 21554019,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 157146784,
+              "state": "RESUMED",
+              "global": 157146784,
+              "managerDestroyed": false
+            },
+            {
+              "event": "loaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 2226.0579999999945
+            },
+            {
+              "event": "unloaded",
+              "title": "Ready",
+              "id": 2,
+              "loaded": false,
+              "at": 2588.314999999994
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Ready",
+              "id": 2,
+              "loaded": false,
+              "at": 2588.4279999999935
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 2591.0189999999884
+            },
+            {
+              "event": "loaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 2749.7649999999967
+            },
+            {
+              "event": "unloaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": false,
+              "at": 2850.7940000000076
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Root",
+              "id": 8,
+              "loaded": false,
+              "at": 2850.8139999999858
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 2850.830999999999
+            },
+            {
+              "event": "onUnloaded",
+              "phase": "before",
+              "at": 3201.896000000005,
+              "nativeId": 21554019,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 157146784,
+              "state": "CREATED",
+              "global": 157146784,
+              "managerDestroyed": false
+            },
+            {
+              "event": "unloaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": false,
+              "at": 3202.393000000001
+            },
+            {
+              "event": "onUnloaded",
+              "phase": "after",
+              "at": 3225.2169999999865,
+              "nativeId": 21554019,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 157146784,
+              "state": "CREATED",
+              "global": 157146784
+            },
+            {
+              "event": "disposeNativeView",
+              "phase": "before",
+              "at": 3242.356999999998,
+              "nativeId": 21554019,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 157146784,
+              "state": "DESTROYED",
+              "global": 157146784
+            },
+            {
+              "event": "_onDetachedFromWindow",
+              "phase": "before",
+              "at": 3242.895000000004,
+              "nativeId": 21554019,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 157146784,
+              "state": "DESTROYED",
+              "global": 157146784
+            },
+            {
+              "event": "_onDetachedFromWindow",
+              "phase": "after",
+              "at": 3243.017000000009,
+              "nativeId": 21554019,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 157146784,
+              "state": "DESTROYED",
+              "global": 157146784
+            },
+            {
+              "event": "disposeNativeView",
+              "phase": "after",
+              "at": 3243.7070000000003,
+              "nativeId": 21554019,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 157146784,
+              "state": "DESTROYED",
+              "global": 157146784
+            },
+            {
+              "event": "initNativeView",
+              "phase": "before",
+              "at": 3398.967999999996,
+              "nativeId": 229462450,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 54728413,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "initNativeView",
+              "phase": "after",
+              "at": 3399.1100000000074,
+              "nativeId": 229462450,
+              "nativeAttached": false,
+              "flag": false,
+              "activity": 54728413,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 3411.706000000009,
+              "nativeId": 229462450,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 54728413,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 3411.857999999995,
+              "nativeId": 229462450,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 54728413,
+              "state": "INITIALIZED"
+            },
+            {
+              "event": "onLoaded",
+              "phase": "before",
+              "at": 3415.611999999982,
+              "nativeId": 229462450,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 54728413,
+              "state": "CREATED"
+            },
+            {
+              "event": "loaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": true,
+              "at": 3424.712999999997
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "before",
+              "at": 3424.970000000002,
+              "nativeId": 229462450,
+              "nativeAttached": true,
+              "flag": false,
+              "activity": 54728413,
+              "state": "CREATED"
+            },
+            {
+              "event": "_onAttachedToWindow",
+              "phase": "after",
+              "at": 3425.1569999999847,
+              "nativeId": 229462450,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 54728413,
+              "state": "CREATED",
+              "managerDestroyed": false
+            },
+            {
+              "event": "onLoaded",
+              "phase": "after",
+              "at": 3425.1700000000083,
+              "nativeId": 229462450,
+              "nativeAttached": true,
+              "flag": true,
+              "activity": 54728413,
+              "state": "CREATED",
+              "managerDestroyed": false
+            },
+            {
+              "event": "loaded",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 3504.852
+            },
+            {
+              "event": "unloaded",
+              "title": "Detail",
+              "id": 14,
+              "loaded": false,
+              "at": 3566.0120000000006
+            },
+            {
+              "event": "navigatedFrom",
+              "title": "Detail",
+              "id": 14,
+              "loaded": false,
+              "at": 3566.023000000001
+            },
+            {
+              "event": "navigatedTo",
+              "title": "Root",
+              "id": 8,
+              "loaded": true,
+              "at": 3567.8100000000086
+            }
+          ]
+        }
+      },
+      "archiveSha256": "e3fbb5a0cdedb6bf18815f6df4f2aee9d0dcdbe9aac406f8c4853ad305a0d838"
+    }
+  ],
+  "uikitIpad": {
+    "run": 43886738405,
+    "attempt": 2,
+    "job": 133382302302,
+    "result": "success",
+    "elapsedSeconds": 997,
+    "entrypointReportsPassed": 34,
+    "systemSearch": "skipped",
+    "archiveSha256": "b870d7958c4d6143ee832b23baafb1d449efaa049a880a59b0bd7f0bb46ef091"
+  },
+  "ios26": {
+    "run": 43893873442,
+    "revision": "c6d681863308bf05b0f1e100efd0d5cf13342805",
+    "status": "queued"
+  }
+}

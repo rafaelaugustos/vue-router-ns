@@ -1,26 +1,25 @@
 {
-  "sourceRun": "final26",
-  "sourceRevision": "9ba1c7c606a0430beb213a02c6254621761ab717",
-  "sourceSha256": "885a7acd8c7751cf285acc4492006b2e5181741d8ab810204ca1c3975938fb4b",
+  "sourceRun": "inset8-final26",
+  "sourceRevision": "c6d681863308bf05b0f1e100efd0d5cf13342805",
+  "sourceSha256": "b5421b0485819f58148b779840688c001877eac0064de8b9d52abc33d0d417a8",
   "publishedVideo": "docs/public/media/native-cancellation-recovery.mp4",
-  "sha256": "b5df97224a779241f82b93a8c84ebbf3a40cce5bdcd88f5847846e2e5f39d044",
+  "sha256": "ec58226834ae73ee50bc37dde148021915235f3a27f35d35aa24ba7cadf0d1ae",
   "sourceStream": {
     "codec_name": "h264",
     "width": 1668,
     "height": 2420,
     "time_base": "1/600",
-    "duration": "56.695000",
-    "nb_frames": "2621"
+    "duration": "65.650000",
+    "nb_frames": "3073"
   },
   "publishedStream": {
     "codec_name": "h264",
     "width": 720,
     "height": 1044,
     "time_base": "1/600",
-    "duration": "56.695000",
-    "nb_frames": "2621"
+    "duration": "65.650000",
+    "nb_frames": "3073"
   },
-  "framesCompared": 2621,
-  "presentationTimestampsPreserved": true,
-  "processing": "Complete real simulator recording scaled to720px width and H.264 encoded. No trimming or retiming; final-frame duration preserved."
+  "presentationTimestampsPreserved": false,
+  "processing": "Complete actual simulator recording resized/re-encoded for visual review. All3073 frames and total65.65s duration retained; muxing normalizes some timestamps. Timing assertions use the native JSON receipts, not this review video."
 }

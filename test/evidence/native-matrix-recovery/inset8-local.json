@@ -1,0 +1,46 @@
+{
+  "revision": "c6d681863308bf05b0f1e100efd0d5cf13342805",
+  "passedTests": 4,
+  "failedTests": 0,
+  "cases": 10,
+  "cancelPortrait": {
+    "cancelled": true,
+    "requestBeforeDecisionMs": 452.47998046875,
+    "driver": {
+      "requestedAt": 1794842028123.52,
+      "start": {
+        "x": 282,
+        "y": 471
+      },
+      "end": {
+        "x": 356.4,
+        "y": 471
+      },
+      "interactionEndedBeforeRequest": false,
+      "recognizer": {
+        "height": 726,
+        "x": 280,
+        "enabled": true,
+        "y": 108,
+        "width": 930,
+        "wallTime": 1794842027777,
+        "at": 58824.97600000352,
+        "kind": "gesture-recognizer",
+        "state": 0
+      },
+      "windowFrame": {
+        "y": 0,
+        "x": 0,
+        "width": 1210,
+        "height": 834
+      },
+      "holdDuration": 0.3,
+      "requestPhase": "observed",
+      "dragVelocity": -20,
+      "rotationSignal": "navigation-observed",
+      "navigationObservedBeforeRequest": true
+    }
+  },
+  "archiveSha256": "285e6852902870df086d4f5de7b9b27009fa179439c34e840b6a564881e75353",
+  "hostedStatus": "pending"
+}

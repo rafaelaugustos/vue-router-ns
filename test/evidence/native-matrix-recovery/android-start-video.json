@@ -1,0 +1,29 @@
+{
+  "sourceRun": "start-final",
+  "sourceRevision": "fee900e23e33343b1fbe684310ae1d036dbf166e",
+  "sourceSha256": "3981d0609f2d91226039383c09bb429c7739b767e87611f2f70f20953baa924d",
+  "normalApkSha256": "44627d70bddfde8e3f1e7c2122a9d75f65dbb14ec41215066283012e5a4e58cb",
+  "publishedVideo": "docs/public/media/native-predictive-startup-recovery.mp4",
+  "sha256": "69c25cf7ce52ac9231bd3f3d3382ef76bdd096db642b54b9b2142248c78447e2",
+  "sourceStream": {
+    "codec_name": "h264",
+    "width": 1080,
+    "height": 2400,
+    "time_base": "1/90000",
+    "duration_ts": 12357166,
+    "duration": "137.301844",
+    "nb_frames": "813"
+  },
+  "publishedStream": {
+    "codec_name": "h264",
+    "width": 640,
+    "height": 1422,
+    "time_base": "1/90000",
+    "duration_ts": 12357166,
+    "duration": "137.301844",
+    "nb_frames": "813"
+  },
+  "framesCompared": 813,
+  "presentationTimestampsPreserved": true,
+  "processing": "Entire actual Android36 app recording; resized/encoded without trimming or retiming. No injected delay in this recorded build."
+}
