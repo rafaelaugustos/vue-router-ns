@@ -1,0 +1,397 @@
+[
+  {
+    "name": "baseline",
+    "driver": "original",
+    "expected": "pass",
+    "archive": "local/baseline.zip",
+    "bytes": 62889,
+    "sha256": "31460c5f823b7e5e51efeb9a44e6e91fd47252747b159d949a7cf926b275ab4e",
+    "accepted": [
+      "guard:guard",
+      "pick:user",
+      "pick:completed",
+      "pick:completed",
+      "concurrent-second:user",
+      "concurrent-first:user",
+      "dispose:disposed",
+      "pick:user",
+      "recreate:completed",
+      "recovery:orphan",
+      "pick:user",
+      "close:disposed"
+    ],
+    "backActions": null,
+    "failure": null,
+    "sourceCommit": "f98385e013add4039f7bbd670d3310db5ebc35c0"
+  },
+  {
+    "name": "original-crash-control",
+    "driver": "original+control",
+    "expected": "misclassified then timeout",
+    "archive": "local/original-crash-control.zip",
+    "bytes": 75917,
+    "sha256": "fe03183243ae59bcf42dc88c7887eb1cb7c4056dfcc967828fd9055ffc2282dd",
+    "accepted": ["guard:guard", "pick:user"],
+    "backActions": null,
+    "failure": null,
+    "sourceCommit": "f98385e013add4039f7bbd670d3310db5ebc35c0"
+  },
+  {
+    "name": "corrected-crash-control",
+    "driver": "corrected+control",
+    "expected": "native crash rejection",
+    "archive": "local/corrected-crash-control.zip",
+    "bytes": 148051,
+    "sha256": "99cfe3fd76243f6905a4dbfe210d386ac020cc747b5e0e55c4f27692ee5c7101",
+    "accepted": ["guard:guard"],
+    "backActions": [],
+    "failure": {
+      "message": "Error: Android process com.google.android.documentsui (PID 6423) crashed:\nFATAL EXCEPTION: main\nProcess: com.google.android.documentsui, PID: 6423\nandroid.app.RemoteServiceException$CrashedByAdbException: shell-induced crash\nat android.app.ActivityThread.throwRemoteServiceException(ActivityThread.java:2257)\nat android.app.ActivityThread.-$$Nest$mthrowRemoteServiceException(Unknown Source:0)\nat android.app.ActivityThread$H.handleMessage(ActivityThread.java:2557)\nat android.os.Handler.dispatchMessage(Handler.java:107)\nat android.os.Looper.loopOnce(Looper.java:232)\nat android.os.Looper.loop(Looper.java:317)\nat android.app.ActivityThread.main(ActivityThread.java:8705)\nat java.lang.reflect.Method.invoke(Native Method)\nat com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:580)\nat com.android.internal.os.ZygoteInit.main(ZygoteInit.java:886)",
+      "crash": {
+        "pid": 6423,
+        "process": "com.google.android.documentsui",
+        "lines": [
+          "FATAL EXCEPTION: main",
+          "Process: com.google.android.documentsui, PID: 6423",
+          "android.app.RemoteServiceException$CrashedByAdbException: shell-induced crash",
+          "at android.app.ActivityThread.throwRemoteServiceException(ActivityThread.java:2257)",
+          "at android.app.ActivityThread.-$$Nest$mthrowRemoteServiceException(Unknown Source:0)",
+          "at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2557)",
+          "at android.os.Handler.dispatchMessage(Handler.java:107)",
+          "at android.os.Looper.loopOnce(Looper.java:232)",
+          "at android.os.Looper.loop(Looper.java:317)",
+          "at android.app.ActivityThread.main(ActivityThread.java:8705)",
+          "at java.lang.reflect.Method.invoke(Native Method)",
+          "at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:580)",
+          "at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:886)"
+        ]
+      },
+      "at": "2026-11-16T02:12:37.658Z"
+    },
+    "sourceCommit": "8710040f5ade10f9eab335713041fb06bf8de5d2"
+  },
+  {
+    "name": "corrected-normal",
+    "driver": "corrected",
+    "expected": "pass",
+    "archive": "local/corrected-normal.zip",
+    "bytes": 295780,
+    "sha256": "3e59a450e7bf3201bcdba3ceb10f057af9ab44227e27dc62bf89241689ee8c90",
+    "accepted": [
+      "guard:guard",
+      "pick:user",
+      "pick:completed",
+      "pick:completed",
+      "concurrent-second:user",
+      "concurrent-first:user",
+      "dispose:disposed",
+      "pick:user",
+      "recreate:completed",
+      "recovery:orphan",
+      "pick:user",
+      "close:disposed"
+    ],
+    "backActions": [
+      {
+        "action": "back-requested",
+        "at": "2026-11-16T02:13:48.679Z"
+      },
+      {
+        "action": "back-sent",
+        "at": "2026-11-16T02:13:48.700Z"
+      },
+      {
+        "action": "back-requested",
+        "at": "2026-11-16T02:14:14.702Z"
+      },
+      {
+        "action": "back-sent",
+        "at": "2026-11-16T02:14:14.721Z"
+      },
+      {
+        "action": "back-requested",
+        "at": "2026-11-16T02:14:19.332Z"
+      },
+      {
+        "action": "back-sent",
+        "at": "2026-11-16T02:14:19.351Z"
+      },
+      {
+        "action": "back-requested",
+        "at": "2026-11-16T02:14:46.341Z"
+      },
+      {
+        "action": "back-sent",
+        "at": "2026-11-16T02:14:46.359Z"
+      },
+      {
+        "action": "back-requested",
+        "at": "2026-11-16T02:15:16.224Z"
+      },
+      {
+        "action": "back-sent",
+        "at": "2026-11-16T02:15:16.243Z"
+      },
+      {
+        "action": "back-requested",
+        "at": "2026-11-16T02:15:26.548Z"
+      },
+      {
+        "action": "back-sent",
+        "at": "2026-11-16T02:15:26.572Z"
+      }
+    ],
+    "failure": null,
+    "sourceCommit": "8710040f5ade10f9eab335713041fb06bf8de5d2"
+  },
+  {
+    "name": "corrected-crash-video",
+    "driver": "corrected+control",
+    "expected": "native crash rejection",
+    "archive": "local/corrected-crash-video.zip",
+    "bytes": 1256344,
+    "sha256": "48465b3534c359051091723dc5c7c00174f8f201da6a6ef8348901a1d25ad329",
+    "accepted": ["guard:guard"],
+    "backActions": [],
+    "failure": {
+      "message": "Error: Android process com.google.android.documentsui (PID 7427) crashed:\nFATAL EXCEPTION: main\nProcess: com.google.android.documentsui, PID: 7427\nandroid.app.RemoteServiceException$CrashedByAdbException: shell-induced crash\nat android.app.ActivityThread.throwRemoteServiceException(ActivityThread.java:2257)\nat android.app.ActivityThread.-$$Nest$mthrowRemoteServiceException(Unknown Source:0)\nat android.app.ActivityThread$H.handleMessage(ActivityThread.java:2557)\nat android.os.Handler.dispatchMessage(Handler.java:107)\nat android.os.Looper.loopOnce(Looper.java:232)\nat android.os.Looper.loop(Looper.java:317)\nat android.app.ActivityThread.main(ActivityThread.java:8705)\nat java.lang.reflect.Method.invoke(Native Method)\nat com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:580)\nat com.android.internal.os.ZygoteInit.main(ZygoteInit.java:886)",
+      "crash": {
+        "pid": 7427,
+        "process": "com.google.android.documentsui",
+        "lines": [
+          "FATAL EXCEPTION: main",
+          "Process: com.google.android.documentsui, PID: 7427",
+          "android.app.RemoteServiceException$CrashedByAdbException: shell-induced crash",
+          "at android.app.ActivityThread.throwRemoteServiceException(ActivityThread.java:2257)",
+          "at android.app.ActivityThread.-$$Nest$mthrowRemoteServiceException(Unknown Source:0)",
+          "at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2557)",
+          "at android.os.Handler.dispatchMessage(Handler.java:107)",
+          "at android.os.Looper.loopOnce(Looper.java:232)",
+          "at android.os.Looper.loop(Looper.java:317)",
+          "at android.app.ActivityThread.main(ActivityThread.java:8705)",
+          "at java.lang.reflect.Method.invoke(Native Method)",
+          "at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:580)",
+          "at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:886)"
+        ]
+      },
+      "at": "2026-11-16T02:16:35.046Z"
+    },
+    "sourceCommit": "8710040f5ade10f9eab335713041fb06bf8de5d2"
+  },
+  {
+    "name": "final-normal",
+    "driver": "final",
+    "sourceCommit": "86a9824172666d4c7edd9bedcc0ef9fa0d10bc5d",
+    "expected": "pass",
+    "archive": "local/final-normal.zip",
+    "bytes": 265085,
+    "sha256": "1b4f1e23d7491fde83220e176f26c42ed7f103a8d8ff3a3b5e5533d3f74f0422",
+    "accepted": [
+      "guard:guard",
+      "pick:user",
+      "pick:completed",
+      "pick:completed",
+      "concurrent-second:user",
+      "concurrent-first:user",
+      "dispose:disposed",
+      "pick:user",
+      "recreate:completed",
+      "recovery:orphan",
+      "pick:user",
+      "close:disposed"
+    ],
+    "backActions": [
+      {
+        "action": "back-requested",
+        "at": "2026-11-16T02:29:56.011Z"
+      },
+      {
+        "action": "back-sent",
+        "at": "2026-11-16T02:29:56.033Z"
+      },
+      {
+        "action": "back-requested",
+        "at": "2026-11-16T02:30:26.416Z"
+      },
+      {
+        "action": "back-sent",
+        "at": "2026-11-16T02:30:26.435Z"
+      },
+      {
+        "action": "back-requested",
+        "at": "2026-11-16T02:30:30.593Z"
+      },
+      {
+        "action": "back-sent",
+        "at": "2026-11-16T02:30:30.610Z"
+      },
+      {
+        "action": "back-requested",
+        "at": "2026-11-16T02:30:53.899Z"
+      },
+      {
+        "action": "back-sent",
+        "at": "2026-11-16T02:30:53.918Z"
+      },
+      {
+        "action": "back-requested",
+        "at": "2026-11-16T02:31:21.713Z"
+      },
+      {
+        "action": "back-sent",
+        "at": "2026-11-16T02:31:21.732Z"
+      },
+      {
+        "action": "back-requested",
+        "at": "2026-11-16T02:31:29.996Z"
+      },
+      {
+        "action": "back-sent",
+        "at": "2026-11-16T02:31:30.015Z"
+      }
+    ],
+    "failure": null
+  },
+  {
+    "name": "final-crash-control",
+    "driver": "final+control",
+    "sourceCommit": "86a9824172666d4c7edd9bedcc0ef9fa0d10bc5d",
+    "expected": "native crash rejection",
+    "archive": "local/final-crash-control.zip",
+    "bytes": 145703,
+    "sha256": "40d25897887c42b6d8e14f07805db827355cb0d9f108b76841d30ecc28dd80bb",
+    "accepted": ["guard:guard"],
+    "backActions": [],
+    "failure": {
+      "message": "Error: Android process com.google.android.documentsui (PID 2457) crashed:\nFATAL EXCEPTION: main\nProcess: com.google.android.documentsui, PID: 2457\nandroid.app.RemoteServiceException$CrashedByAdbException: shell-induced crash\nat android.app.ActivityThread.throwRemoteServiceException(ActivityThread.java:2257)\nat android.app.ActivityThread.-$$Nest$mthrowRemoteServiceException(Unknown Source:0)\nat android.app.ActivityThread$H.handleMessage(ActivityThread.java:2557)\nat android.os.Handler.dispatchMessage(Handler.java:107)\nat android.os.Looper.loopOnce(Looper.java:232)\nat android.os.Looper.loop(Looper.java:317)\nat android.app.ActivityThread.main(ActivityThread.java:8705)\nat java.lang.reflect.Method.invoke(Native Method)\nat com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:580)\nat com.android.internal.os.ZygoteInit.main(ZygoteInit.java:886)",
+      "crash": {
+        "pid": 2457,
+        "process": "com.google.android.documentsui",
+        "lines": [
+          "FATAL EXCEPTION: main",
+          "Process: com.google.android.documentsui, PID: 2457",
+          "android.app.RemoteServiceException$CrashedByAdbException: shell-induced crash",
+          "at android.app.ActivityThread.throwRemoteServiceException(ActivityThread.java:2257)",
+          "at android.app.ActivityThread.-$$Nest$mthrowRemoteServiceException(Unknown Source:0)",
+          "at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2557)",
+          "at android.os.Handler.dispatchMessage(Handler.java:107)",
+          "at android.os.Looper.loopOnce(Looper.java:232)",
+          "at android.os.Looper.loop(Looper.java:317)",
+          "at android.app.ActivityThread.main(ActivityThread.java:8705)",
+          "at java.lang.reflect.Method.invoke(Native Method)",
+          "at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:580)",
+          "at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:886)"
+        ]
+      },
+      "at": "2026-11-16T02:32:13.656Z"
+    }
+  },
+  {
+    "name": "final-v3-normal",
+    "driver": "final",
+    "sourceCommit": "7ea14b27158a60509b72c7f140805b4ebb447568",
+    "expected": "pass",
+    "archive": "local/final-v3-normal.zip",
+    "bytes": 271650,
+    "sha256": "d16d757b44f3d959438046132e1a47681714aa9e79743754d21f37ca66c950c7",
+    "accepted": [
+      "guard:guard",
+      "pick:user",
+      "pick:completed",
+      "pick:completed",
+      "concurrent-second:user",
+      "concurrent-first:user",
+      "dispose:disposed",
+      "pick:user",
+      "recreate:completed",
+      "recovery:orphan",
+      "pick:user",
+      "close:disposed"
+    ],
+    "backActions": [
+      {
+        "action": "back-requested",
+        "at": "2026-11-16T02:39:05.081Z"
+      },
+      {
+        "action": "back-sent",
+        "at": "2026-11-16T02:39:05.102Z"
+      },
+      {
+        "action": "back-requested",
+        "at": "2026-11-16T02:39:35.275Z"
+      },
+      {
+        "action": "back-sent",
+        "at": "2026-11-16T02:39:35.295Z"
+      },
+      {
+        "action": "back-requested",
+        "at": "2026-11-16T02:39:39.493Z"
+      },
+      {
+        "action": "back-sent",
+        "at": "2026-11-16T02:39:39.512Z"
+      },
+      {
+        "action": "back-requested",
+        "at": "2026-11-16T02:40:02.902Z"
+      },
+      {
+        "action": "back-sent",
+        "at": "2026-11-16T02:40:02.923Z"
+      },
+      {
+        "action": "back-requested",
+        "at": "2026-11-16T02:40:31.357Z"
+      },
+      {
+        "action": "back-sent",
+        "at": "2026-11-16T02:40:31.378Z"
+      },
+      {
+        "action": "back-requested",
+        "at": "2026-11-16T02:40:39.667Z"
+      },
+      {
+        "action": "back-sent",
+        "at": "2026-11-16T02:40:39.687Z"
+      }
+    ],
+    "failure": null
+  },
+  {
+    "name": "final-v3-crash-control",
+    "driver": "final+control",
+    "sourceCommit": "7ea14b27158a60509b72c7f140805b4ebb447568",
+    "expected": "native crash rejection",
+    "archive": "local/final-v3-crash-control.zip",
+    "bytes": 146498,
+    "sha256": "68a36f77de23c24413ba3a4edca11ffb6f2f00120cee733fdf4c0bfff23d86d7",
+    "accepted": ["guard:guard"],
+    "backActions": [],
+    "failure": {
+      "message": "Error: Android process com.google.android.documentsui (PID 2588) crashed:\nFATAL EXCEPTION: main\nProcess: com.google.android.documentsui, PID: 2588\nandroid.app.RemoteServiceException$CrashedByAdbException: shell-induced crash\nat android.app.ActivityThread.throwRemoteServiceException(ActivityThread.java:2257)\nat android.app.ActivityThread.-$$Nest$mthrowRemoteServiceException(Unknown Source:0)\nat android.app.ActivityThread$H.handleMessage(ActivityThread.java:2557)\nat android.os.Handler.dispatchMessage(Handler.java:107)\nat android.os.Looper.loopOnce(Looper.java:232)\nat android.os.Looper.loop(Looper.java:317)\nat android.app.ActivityThread.main(ActivityThread.java:8705)\nat java.lang.reflect.Method.invoke(Native Method)\nat com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:580)\nat com.android.internal.os.ZygoteInit.main(ZygoteInit.java:886)",
+      "crash": {
+        "pid": 2588,
+        "process": "com.google.android.documentsui",
+        "lines": [
+          "FATAL EXCEPTION: main",
+          "Process: com.google.android.documentsui, PID: 2588",
+          "android.app.RemoteServiceException$CrashedByAdbException: shell-induced crash",
+          "at android.app.ActivityThread.throwRemoteServiceException(ActivityThread.java:2257)",
+          "at android.app.ActivityThread.-$$Nest$mthrowRemoteServiceException(Unknown Source:0)",
+          "at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2557)",
+          "at android.os.Handler.dispatchMessage(Handler.java:107)",
+          "at android.os.Looper.loopOnce(Looper.java:232)",
+          "at android.os.Looper.loop(Looper.java:317)",
+          "at android.app.ActivityThread.main(ActivityThread.java:8705)",
+          "at java.lang.reflect.Method.invoke(Native Method)",
+          "at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:580)",
+          "at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:886)"
+        ]
+      },
+      "at": "2026-11-16T02:41:13.878Z"
+    }
+  }
+]

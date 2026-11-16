@@ -1,0 +1,28 @@
+
+> vue-router-ns@0.1.0-rc.4 docs:build
+> npm run docs:check && npm run diagnostics:typecheck && npm run diagnostics:build && vitepress build docs
+
+
+> vue-router-ns@0.1.0-rc.4 docs:check
+> node scripts/check-doc-locales.mjs
+
+Documentation: 49 pages × 4 languages; links, anchors, shared code and UI keys passed
+
+> vue-router-ns@0.1.0-rc.4 diagnostics:typecheck
+> tsc --noEmit -p tools/diagnostics-viewer/tsconfig.json
+
+
+> vue-router-ns@0.1.0-rc.4 diagnostics:build
+> node tools/diagnostics-viewer/build.mjs
+
+Built standalone diagnostics viewer (no remote assets or transport)
+
+  vitepress v1.6.4
+
+- building client + server bundles...
+[32m✓[0m building client + server bundles...
+- rendering pages...
+[32m✓[0m rendering pages...
+- generating sitemap...
+[32m✓[0m generating sitemap...
+build complete in 9.43s.

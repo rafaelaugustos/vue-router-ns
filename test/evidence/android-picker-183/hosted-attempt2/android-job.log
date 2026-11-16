@@ -1,0 +1,773 @@
+﻿2026-11-16T02:30:46.1307933Z Current runner version: '2.338.2'
+2026-11-16T02:30:46.1326415Z ##[group]Runner Image Provisioner
+2026-11-16T02:30:46.1327104Z Hosted Compute Agent
+2026-11-16T02:30:46.1327514Z Version: 20261103.629
+2026-11-16T02:30:46.1327972Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+2026-11-16T02:30:46.1328514Z Build Date: 2026-11-03T17:26:59Z
+2026-11-16T02:30:46.1328997Z Worker ID: {c6cbc31c-ac35-48fd-8cb7-8bdb82ee093c}
+2026-11-16T02:30:46.1329543Z Region: us-east-1
+2026-11-16T02:30:46.1329933Z Cloud: AWS
+2026-11-16T02:30:46.1330303Z ##[endgroup]
+2026-11-16T02:30:46.1331203Z ##[group]Operating System
+2026-11-16T02:30:46.1331632Z Ubuntu
+2026-11-16T02:30:46.1332449Z 26.04.1
+2026-11-16T02:30:46.1332829Z LTS
+2026-11-16T02:30:46.1333178Z ##[endgroup]
+2026-11-16T02:30:46.1333601Z ##[group]Runner Image
+2026-11-16T02:30:46.1334067Z Image: ubuntu-26.04
+2026-11-16T02:30:46.1334503Z Version: 20261111.82.6
+2026-11-16T02:30:46.1335375Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261111.82/images/ubuntu/Ubuntu2604-Readme.md
+2026-11-16T02:30:46.1336468Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261111.82
+2026-11-16T02:30:46.1337138Z ##[endgroup]
+2026-11-16T02:30:46.1339712Z ##[group]GITHUB_TOKEN Permissions
+2026-11-16T02:30:46.1341596Z Actions: write
+2026-11-16T02:30:46.1342289Z ArtifactMetadata: write
+2026-11-16T02:30:46.1342711Z Attestations: write
+2026-11-16T02:30:46.1343113Z Checks: write
+2026-11-16T02:30:46.1343529Z CodeQuality: write
+2026-11-16T02:30:46.1343909Z Contents: write
+2026-11-16T02:30:46.1344385Z CopilotRequests: write
+2026-11-16T02:30:46.1344795Z Deployments: write
+2026-11-16T02:30:46.1345183Z Discussions: write
+2026-11-16T02:30:46.1345572Z Drives: write
+2026-11-16T02:30:46.1345941Z Issues: write
+2026-11-16T02:30:46.1346540Z Metadata: read
+2026-11-16T02:30:46.1346965Z Models: read
+2026-11-16T02:30:46.1347394Z Packages: write
+2026-11-16T02:30:46.1347787Z Pages: write
+2026-11-16T02:30:46.1348191Z PullRequests: write
+2026-11-16T02:30:46.1348696Z RepositoryProjects: write
+2026-11-16T02:30:46.1349144Z SecurityEvents: write
+2026-11-16T02:30:46.1349562Z Statuses: write
+2026-11-16T02:30:46.1349978Z VulnerabilityAlerts: read
+2026-11-16T02:30:46.1350394Z ##[endgroup]
+2026-11-16T02:30:46.1352295Z Secret source: Actions
+2026-11-16T02:30:46.1352977Z Cache mode: write
+2026-11-16T02:30:46.1353496Z Prepare workflow directory
+2026-11-16T02:30:46.1580201Z Prepare all required actions
+2026-11-16T02:30:46.1617139Z Getting action download info
+2026-11-16T02:30:46.3316896Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-16T02:30:48.4666415Z Download action repository 'actions/setup-node@v7' (SHA:949feb2413d6458794dcd2491c4babbbce0c15c1)
+2026-11-16T02:30:48.6497818Z Download action repository 'actions/setup-java@v4' (SHA:cf277c60eb25467037889841efdb72551f06f6c3)
+2026-11-16T02:30:48.7946182Z Download action repository 'reactivecircus/android-emulator-runner@v2' (SHA:a421e43855164a8197daf9d8d40fe71c6996bb0d)
+2026-11-16T02:30:48.8920497Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-16T02:30:49.2559480Z Complete job name: android
+2026-11-16T02:30:49.3352462Z ##[group]Run actions/checkout@v7
+2026-11-16T02:30:49.3353664Z with:
+2026-11-16T02:30:49.3354474Z   repository: rafaelaugustos/vue-router-ns
+2026-11-16T02:30:49.3361025Z   token: ***
+2026-11-16T02:30:49.3362076Z   ssh-strict: true
+2026-11-16T02:30:49.3362846Z   ssh-user: git
+2026-11-16T02:30:49.3363606Z   persist-credentials: true
+2026-11-16T02:30:49.3364383Z   clean: true
+2026-11-16T02:30:49.3365143Z   sparse-checkout-cone-mode: true
+2026-11-16T02:30:49.3365952Z   fetch-depth: 1
+2026-11-16T02:30:49.3366689Z   fetch-tags: false
+2026-11-16T02:30:49.3367395Z   show-progress: true
+2026-11-16T02:30:49.3368106Z   lfs: false
+2026-11-16T02:30:49.3368777Z   submodules: false
+2026-11-16T02:30:49.3369489Z   set-safe-directory: true
+2026-11-16T02:30:49.3370312Z   allow-unsafe-pr-checkout: false
+2026-11-16T02:30:49.3371562Z ##[endgroup]
+2026-11-16T02:30:52.9406911Z Syncing repository: rafaelaugustos/vue-router-ns
+2026-11-16T02:30:52.9408283Z ##[group]Getting Git version info
+2026-11-16T02:30:52.9408742Z Working directory is '/home/runner/work/vue-router-ns/vue-router-ns'
+2026-11-16T02:30:52.9409225Z [command]/usr/bin/git version
+2026-11-16T02:30:52.9425586Z git version 2.56.1
+2026-11-16T02:30:52.9437644Z ##[endgroup]
+2026-11-16T02:30:52.9446894Z Temporarily overriding HOME='/home/runner/work/_temp/fdbecfaa-3b4d-43f6-96aa-8aa341165f43' before making global git config changes
+2026-11-16T02:30:52.9447839Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-16T02:30:52.9450717Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/vue-router-ns/vue-router-ns
+2026-11-16T02:30:52.9842603Z Deleting the contents of '/home/runner/work/vue-router-ns/vue-router-ns'
+2026-11-16T02:30:52.9845282Z ##[group]Determining repository object format
+2026-11-16T02:30:52.9850206Z ##[endgroup]
+2026-11-16T02:30:52.9850850Z ##[group]Initializing the repository
+2026-11-16T02:30:52.9858899Z [command]/usr/bin/git init /home/runner/work/vue-router-ns/vue-router-ns
+2026-11-16T02:30:52.9965297Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-16T02:30:52.9966039Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-16T02:30:52.9966454Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-16T02:30:52.9966775Z hint: call:
+2026-11-16T02:30:52.9966957Z hint:
+2026-11-16T02:30:52.9967241Z hint: 	git config --global init.defaultBranch <name>
+2026-11-16T02:30:52.9967498Z hint:
+2026-11-16T02:30:52.9967755Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-16T02:30:52.9968148Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-16T02:30:52.9968456Z hint:
+2026-11-16T02:30:52.9968648Z hint: 	git branch -m <name>
+2026-11-16T02:30:52.9968904Z hint:
+2026-11-16T02:30:52.9969286Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-16T02:30:52.9985205Z Initialized empty Git repository in /home/runner/work/vue-router-ns/vue-router-ns/.git/
+2026-11-16T02:30:52.9992926Z [command]/usr/bin/git remote add origin https://github.com/rafaelaugustos/vue-router-ns
+2026-11-16T02:30:53.0040985Z ##[endgroup]
+2026-11-16T02:30:53.0041598Z ##[group]Disabling automatic garbage collection
+2026-11-16T02:30:53.0043410Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-16T02:30:53.0068471Z ##[endgroup]
+2026-11-16T02:30:53.0068948Z ##[group]Setting up auth
+2026-11-16T02:30:53.0069287Z Removing SSH command configuration
+2026-11-16T02:30:53.0072239Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-16T02:30:53.0095740Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-16T02:30:53.2427950Z Removing HTTP extra header
+2026-11-16T02:30:53.2434160Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-16T02:30:53.2456985Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-16T02:30:53.2630896Z Removing includeIf entries pointing to credentials config files
+2026-11-16T02:30:53.2635835Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-16T02:30:53.2664249Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-16T02:30:53.2841578Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-35ed4705-5254-40dc-aa33-94ab59237e6d.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-16T02:30:53.2870007Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/vue-router-ns/vue-router-ns/.git.path /home/runner/work/_temp/git-credentials-35ed4705-5254-40dc-aa33-94ab59237e6d.config
+2026-11-16T02:30:53.2889903Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/vue-router-ns/vue-router-ns/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-35ed4705-5254-40dc-aa33-94ab59237e6d.config
+2026-11-16T02:30:53.2914116Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-35ed4705-5254-40dc-aa33-94ab59237e6d.config
+2026-11-16T02:30:53.2933993Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-35ed4705-5254-40dc-aa33-94ab59237e6d.config
+2026-11-16T02:30:53.2952517Z ##[endgroup]
+2026-11-16T02:30:53.2952898Z ##[group]Fetching the repository
+2026-11-16T02:30:53.2957673Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +86a9824172666d4c7edd9bedcc0ef9fa0d10bc5d:refs/remotes/origin/fix/android-picker-crash-183
+2026-11-16T02:31:07.7820551Z From https://github.com/rafaelaugustos/vue-router-ns
+2026-11-16T02:31:07.7821196Z  * [new ref]         86a9824172666d4c7edd9bedcc0ef9fa0d10bc5d -> origin/fix/android-picker-crash-183
+2026-11-16T02:31:07.7832105Z [command]/usr/bin/git branch --list --remote origin/fix/android-picker-crash-183
+2026-11-16T02:31:07.7849994Z   origin/fix/android-picker-crash-183
+2026-11-16T02:31:07.7855767Z [command]/usr/bin/git rev-parse refs/remotes/origin/fix/android-picker-crash-183
+2026-11-16T02:31:07.7875828Z 86a9824172666d4c7edd9bedcc0ef9fa0d10bc5d
+2026-11-16T02:31:07.7877680Z ##[endgroup]
+2026-11-16T02:31:07.7878050Z ##[group]Determining the checkout info
+2026-11-16T02:31:07.7881315Z ##[endgroup]
+2026-11-16T02:31:07.7882141Z [command]/usr/bin/git sparse-checkout disable
+2026-11-16T02:31:07.7924267Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-16T02:31:07.7943278Z ##[group]Checking out the ref
+2026-11-16T02:31:07.7946452Z [command]/usr/bin/git checkout --progress --force -B fix/android-picker-crash-183 refs/remotes/origin/fix/android-picker-crash-183
+2026-11-16T02:31:08.8282185Z Updating files:  73% (1203/1627)
+2026-11-16T02:31:08.8313975Z Updating files:  74% (1204/1627)
+2026-11-16T02:31:08.8340016Z Updating files:  75% (1221/1627)
+2026-11-16T02:31:08.8382731Z Updating files:  76% (1237/1627)
+2026-11-16T02:31:08.8397058Z Updating files:  77% (1253/1627)
+2026-11-16T02:31:08.8558392Z Updating files:  78% (1270/1627)
+2026-11-16T02:31:08.8581749Z Updating files:  79% (1286/1627)
+2026-11-16T02:31:08.8585459Z Updating files:  80% (1302/1627)
+2026-11-16T02:31:08.8764163Z Updating files:  81% (1318/1627)
+2026-11-16T02:31:08.8771252Z Updating files:  82% (1335/1627)
+2026-11-16T02:31:08.8819164Z Updating files:  83% (1351/1627)
+2026-11-16T02:31:08.8819473Z Updating files:  84% (1367/1627)
+2026-11-16T02:31:08.9121966Z Updating files:  85% (1383/1627)
+2026-11-16T02:31:08.9652664Z Updating files:  86% (1400/1627)
+2026-11-16T02:31:08.9662611Z Updating files:  87% (1416/1627)
+2026-11-16T02:31:08.9716084Z Updating files:  88% (1432/1627)
+2026-11-16T02:31:08.9722614Z Updating files:  89% (1449/1627)
+2026-11-16T02:31:08.9724928Z Updating files:  90% (1465/1627)
+2026-11-16T02:31:08.9732056Z Updating files:  91% (1481/1627)
+2026-11-16T02:31:08.9740222Z Updating files:  92% (1497/1627)
+2026-11-16T02:31:08.9747875Z Updating files:  93% (1514/1627)
+2026-11-16T02:31:08.9760941Z Updating files:  94% (1530/1627)
+2026-11-16T02:31:08.9762900Z Updating files:  95% (1546/1627)
+2026-11-16T02:31:08.9770105Z Updating files:  96% (1562/1627)
+2026-11-16T02:31:08.9779516Z Updating files:  97% (1579/1627)
+2026-11-16T02:31:08.9788275Z Updating files:  98% (1595/1627)
+2026-11-16T02:31:08.9794595Z Updating files:  99% (1611/1627)
+2026-11-16T02:31:08.9794831Z Updating files: 100% (1627/1627)
+2026-11-16T02:31:08.9795070Z Updating files: 100% (1627/1627), done.
+2026-11-16T02:31:08.9821176Z Switched to a new branch 'fix/android-picker-crash-183'
+2026-11-16T02:31:08.9828178Z branch 'fix/android-picker-crash-183' set up to track 'origin/fix/android-picker-crash-183'.
+2026-11-16T02:31:08.9883423Z ##[endgroup]
+2026-11-16T02:31:08.9927392Z [command]/usr/bin/git log -1 --format=%H
+2026-11-16T02:31:08.9946506Z 86a9824172666d4c7edd9bedcc0ef9fa0d10bc5d
+2026-11-16T02:31:09.0161080Z ##[group]Run actions/setup-node@v7
+2026-11-16T02:31:09.0161353Z with:
+2026-11-16T02:31:09.0161566Z   node-version: 22
+2026-11-16T02:31:09.0162023Z   cache: npm
+2026-11-16T02:31:09.0162271Z   check-latest: false
+2026-11-16T02:31:09.0164074Z   token: ***
+2026-11-16T02:31:09.0164310Z   package-manager-cache: true
+2026-11-16T02:31:09.0164552Z ##[endgroup]
+2026-11-16T02:31:09.2750777Z Found in cache @ /opt/hostedtoolcache/node/22.23.4/x64
+2026-11-16T02:31:11.4560798Z ##[group]Environment details
+2026-11-16T02:31:14.0980257Z node: v22.23.4
+2026-11-16T02:31:14.0980569Z npm: 10.9.9
+2026-11-16T02:31:14.0980946Z yarn: 1.22.22
+2026-11-16T02:31:14.0981531Z ##[endgroup]
+2026-11-16T02:31:14.0990741Z [command]/opt/hostedtoolcache/node/22.23.4/x64/bin/npm config get cache
+2026-11-16T02:31:14.4164096Z /home/runner/.npm
+2026-11-16T02:31:14.5189453Z Cache hit for: node-cache-Linux-x64-npm-80f12e1d85cfe2521c704c7dd184aa9cf9307fa6bea5e6291733be3f18001fe0
+2026-11-16T02:31:14.6269295Z Received 26857 of 26857 (100.0%), 0.6 MBs/sec
+2026-11-16T02:31:14.6269707Z Cache Size: ~0 MB (26857 B)
+2026-11-16T02:31:14.6285556Z [command]/usr/bin/tar -xf /home/runner/work/_temp/26018d06-ab51-4e3c-9c76-f425d90f0121/cache.tzst -P -C /home/runner/work/vue-router-ns/vue-router-ns --use-compress-program unzstd
+2026-11-16T02:31:14.6330428Z Cache restored successfully
+2026-11-16T02:31:14.6333558Z Cache restored from key: node-cache-Linux-x64-npm-80f12e1d85cfe2521c704c7dd184aa9cf9307fa6bea5e6291733be3f18001fe0
+2026-11-16T02:31:14.6467946Z ##[group]Run actions/setup-java@v4
+2026-11-16T02:31:14.6468194Z with:
+2026-11-16T02:31:14.6468386Z   distribution: temurin
+2026-11-16T02:31:14.6468594Z   java-version: 17
+2026-11-16T02:31:14.6468772Z   java-package: jdk
+2026-11-16T02:31:14.6468946Z   check-latest: false
+2026-11-16T02:31:14.6469123Z   server-id: github
+2026-11-16T02:31:14.6469311Z   server-username: GITHUB_ACTOR
+2026-11-16T02:31:14.6469525Z   server-password: GITHUB_TOKEN
+2026-11-16T02:31:14.6469728Z   overwrite-settings: true
+2026-11-16T02:31:14.6469926Z   job-status: success
+2026-11-16T02:31:14.6471743Z   token: ***
+2026-11-16T02:31:14.6472289Z ##[endgroup]
+2026-11-16T02:31:14.7773896Z ##[warning]setup-java v4 is deprecated and will no longer receive updates. Please migrate to actions/setup-java@v5.
+2026-11-16T02:31:14.7778602Z ##[group]Installed distributions
+2026-11-16T02:31:14.7810584Z Resolved Java 17.0.21+9 from tool-cache
+2026-11-16T02:31:14.7810936Z Setting Java 17.0.21+9 as the default
+2026-11-16T02:31:14.7814001Z (node:2452) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-16T02:31:14.7814715Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-16T02:31:14.7816188Z Creating toolchains.xml for JDK version 17 from temurin
+2026-11-16T02:31:14.7886479Z Writing to /home/runner/.m2/toolchains.xml
+2026-11-16T02:31:14.7886776Z 
+2026-11-16T02:31:14.7886907Z Java configuration:
+2026-11-16T02:31:14.7887227Z   Distribution: temurin
+2026-11-16T02:31:14.7887484Z   Version: 17.0.21+9
+2026-11-16T02:31:14.7887848Z   Path: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64
+2026-11-16T02:31:14.7888099Z 
+2026-11-16T02:31:14.7888526Z ##[endgroup]
+2026-11-16T02:31:14.7891507Z Creating settings.xml with server-id: github
+2026-11-16T02:31:14.7912374Z Writing to /home/runner/.m2/settings.xml
+2026-11-16T02:31:14.8053131Z ##[group]Run echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+2026-11-16T02:31:14.8054118Z [36;1mecho 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules[0m
+2026-11-16T02:31:14.8054860Z [36;1msudo udevadm control --reload-rules[0m
+2026-11-16T02:31:14.8055203Z [36;1msudo udevadm trigger --name-match=kvm[0m
+2026-11-16T02:31:14.8096565Z shell: /usr/bin/bash -e {0}
+2026-11-16T02:31:14.8096838Z env:
+2026-11-16T02:31:14.8097166Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64
+2026-11-16T02:31:14.8097643Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64
+2026-11-16T02:31:14.8098009Z ##[endgroup]
+2026-11-16T02:31:14.8264681Z KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"
+2026-11-16T02:31:14.8581648Z ##[group]Run npm ci && npm run build
+2026-11-16T02:31:14.8582188Z [36;1mnpm ci && npm run build[0m
+2026-11-16T02:31:14.8600263Z shell: /usr/bin/bash -e {0}
+2026-11-16T02:31:14.8600463Z env:
+2026-11-16T02:31:14.8600702Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64
+2026-11-16T02:31:14.8601064Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64
+2026-11-16T02:31:14.8601345Z ##[endgroup]
+2026-11-16T02:31:19.5832150Z 
+2026-11-16T02:31:19.5832861Z added 251 packages, and audited 252 packages in 5s
+2026-11-16T02:31:19.5833124Z 
+2026-11-16T02:31:19.5833282Z 69 packages are looking for funding
+2026-11-16T02:31:19.5833564Z   run `npm fund` for details
+2026-11-16T02:31:19.5969118Z 
+2026-11-16T02:31:19.5973303Z 4 vulnerabilities (3 moderate, 1 high)
+2026-11-16T02:31:19.5977339Z 
+2026-11-16T02:31:19.5978398Z To address issues that do not require attention, run:
+2026-11-16T02:31:19.5978812Z   npm audit fix
+2026-11-16T02:31:19.5978963Z 
+2026-11-16T02:31:19.5979244Z Some issues need review, and may require choosing
+2026-11-16T02:31:19.5979997Z a different dependency.
+2026-11-16T02:31:19.5980164Z 
+2026-11-16T02:31:19.5980298Z Run `npm audit` for details.
+2026-11-16T02:31:19.6898129Z 
+2026-11-16T02:31:19.6898702Z > vue-router-ns@0.1.0-rc.4 build
+2026-11-16T02:31:19.6899201Z > node -e "fs.rmSync('dist', { recursive: true, force: true })" && tsc -p tsconfig.build.json
+2026-11-16T02:31:19.6899474Z 
+2026-11-16T02:31:20.1416186Z ##[group]Run npm install --no-audit --no-fund
+2026-11-16T02:31:20.1416492Z [36;1mnpm install --no-audit --no-fund[0m
+2026-11-16T02:31:20.1434310Z shell: /usr/bin/bash -e {0}
+2026-11-16T02:31:20.1434519Z env:
+2026-11-16T02:31:20.1434763Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64
+2026-11-16T02:31:20.1435114Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64
+2026-11-16T02:31:20.1435381Z ##[endgroup]
+2026-11-16T02:31:27.6318225Z npm warn deprecated source-map-resolve@0.6.0: See https://github.com/lydell/source-map-resolve#deprecated
+2026-11-16T02:31:27.8143368Z npm warn deprecated node-abort-controller@3.1.1: This package is no longer needed on supported Node.js versions. Node.js 16+ includes AbortController and AbortSignal as built-in globals. All Node.js versions requiring this polyfill are end-of-life. Use the built-in globals instead.
+2026-11-16T02:31:27.9494827Z npm warn deprecated webpack-chain@6.5.1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+2026-11-16T02:31:30.5606649Z 
+2026-11-16T02:31:30.5607541Z added 330 packages in 10s
+2026-11-16T02:31:30.5793545Z ##[group]Run npm install -g nativescript
+2026-11-16T02:31:30.5793822Z [36;1mnpm install -g nativescript[0m
+2026-11-16T02:31:30.5812195Z shell: /usr/bin/bash -e {0}
+2026-11-16T02:31:30.5812410Z env:
+2026-11-16T02:31:30.5812651Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64
+2026-11-16T02:31:30.5813003Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64
+2026-11-16T02:31:30.5813274Z ##[endgroup]
+2026-11-16T02:31:37.5469988Z 
+2026-11-16T02:31:37.5470498Z added 417 packages in 7s
+2026-11-16T02:31:37.5470716Z 
+2026-11-16T02:31:37.5474417Z 62 packages are looking for funding
+2026-11-16T02:31:37.5474854Z   run `npm fund` for details
+2026-11-16T02:31:37.5676736Z ##[group]Run yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install emulator >/dev/null
+2026-11-16T02:31:37.5677567Z [36;1myes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install emulator >/dev/null[0m
+2026-11-16T02:31:37.5678004Z [36;1mns usage-reporting disable[0m
+2026-11-16T02:31:37.5678273Z [36;1mns error-reporting disable[0m
+2026-11-16T02:31:37.5678699Z [36;1mns create flow-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null[0m
+2026-11-16T02:31:37.5679222Z [36;1mcp -R /tmp/flow-scaffold/App_Resources demo/App_Resources[0m
+2026-11-16T02:31:37.5702898Z shell: /usr/bin/bash -e {0}
+2026-11-16T02:31:37.5703106Z env:
+2026-11-16T02:31:37.5703349Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64
+2026-11-16T02:31:37.5703709Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64
+2026-11-16T02:31:37.5704002Z ##[endgroup]
+2026-11-16T02:31:51.8435561Z yes: standard output: Broken pipe
+2026-11-16T02:31:52.6374822Z Usage reporting is now disabled.
+2026-11-16T02:31:53.3912943Z Error reporting is now disabled.
+2026-11-16T02:31:59.2826115Z ##[group]Run for attempt in 1 2 3; do
+2026-11-16T02:31:59.2826383Z [36;1mfor attempt in 1 2 3; do[0m
+2026-11-16T02:31:59.2826962Z [36;1m  if "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install 'system-images;android-35;google_apis;x86_64' && test -s "$ANDROID_HOME/system-images/android-35/google_apis/x86_64/system.img"; then[0m
+2026-11-16T02:31:59.2827496Z [36;1m    exit 0[0m
+2026-11-16T02:31:59.2827652Z [36;1m  fi[0m
+2026-11-16T02:31:59.2827807Z [36;1m  sleep 5[0m
+2026-11-16T02:31:59.2827960Z [36;1mdone[0m
+2026-11-16T02:31:59.2828103Z [36;1mexit 1[0m
+2026-11-16T02:31:59.2853421Z shell: /usr/bin/bash -e {0}
+2026-11-16T02:31:59.2853691Z env:
+2026-11-16T02:31:59.2854013Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64
+2026-11-16T02:31:59.2854504Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64
+2026-11-16T02:31:59.2854883Z ##[endgroup]
+2026-11-16T02:31:59.9460835Z Loading package information...                                                  
+2026-11-16T02:32:00.0066848Z Loading local repository...                                                     
+2026-11-16T02:32:00.0067382Z [                                       ] 3% Loading local repository...        
+2026-11-16T02:32:00.0133677Z [                                       ] 3% Fetch remote repository...         
+2026-11-16T02:32:00.2274754Z [=                                      ] 3% Fetch remote repository...         
+2026-11-16T02:32:00.2826228Z [=                                      ] 4% Fetch remote repository...         
+2026-11-16T02:32:00.3153135Z [=                                      ] 5% Fetch remote repository...         
+2026-11-16T02:32:00.3446222Z [==                                     ] 5% Fetch remote repository...         
+2026-11-16T02:32:00.3997461Z [==                                     ] 6% Fetch remote repository...         
+2026-11-16T02:32:00.4603514Z [==                                     ] 7% Fetch remote repository...         
+2026-11-16T02:32:00.4632995Z [==                                     ] 7% Computing updates...               
+2026-11-16T02:32:00.4693164Z [===                                    ] 8% Computing updates...               
+2026-11-16T02:32:00.4794523Z [===                                    ] 10% Computing updates...              
+2026-11-16T02:32:00.7326564Z [===                                    ] 10% Installing Google APIs Intel x86_6
+2026-11-16T02:32:01.0857596Z [===                                    ] 10% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:01.1940263Z [====                                   ] 10% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:01.4103532Z [====                                   ] 11% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:01.6819096Z [====                                   ] 12% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:01.8924472Z [=====                                  ] 13% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:02.0852260Z [=====                                  ] 14% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:02.2388725Z [=====                                  ] 15% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:02.3271088Z [======                                 ] 15% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:02.5569042Z [======                                 ] 16% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:02.8105211Z [======                                 ] 17% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:03.0566550Z [=======                                ] 18% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:03.3210889Z [=======                                ] 19% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:03.4453267Z [=======                                ] 20% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:03.5449751Z [========                               ] 20% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:03.8199840Z [========                               ] 21% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:04.0277441Z [========                               ] 22% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:04.2585975Z [=========                              ] 23% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:04.5481279Z [=========                              ] 24% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:04.6720481Z [=========                              ] 25% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:04.8300127Z [==========                             ] 25% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:05.1174016Z [==========                             ] 26% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:05.3390879Z [==========                             ] 27% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:05.5973504Z [===========                            ] 28% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:05.8229099Z [===========                            ] 29% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:05.9357365Z [===========                            ] 30% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:06.0960958Z [============                           ] 30% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:06.3076042Z [============                           ] 31% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:06.5742145Z [============                           ] 32% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:06.5749082Z [============                           ] 33% Downloading x86_64-35_r09.zip...  
+2026-11-16T02:32:06.6133666Z [============                           ] 33% Unzipping...                      
+2026-11-16T02:32:06.6159185Z [============                           ] 33% Unzipping... x86_64/NOTICE.txt    
+2026-11-16T02:32:06.8258728Z [=============                          ] 33% Unzipping... x86_64/NOTICE.txt    
+2026-11-16T02:32:06.8277151Z [=============                          ] 33% Unzipping... x86_64/VerifiedBootPa
+2026-11-16T02:32:06.8315287Z [=============                          ] 33% Unzipping... x86_64/advancedFeatur
+2026-11-16T02:32:06.8339567Z [=============                          ] 33% Unzipping... x86_64/build.prop    
+2026-11-16T02:32:06.9967946Z [=============                          ] 33% Unzipping... x86_64/encryptionkey.
+2026-11-16T02:32:07.1738300Z [=============                          ] 33% Unzipping... x86_64/kernel-ranchu 
+2026-11-16T02:32:07.1741469Z [=============                          ] 33% Unzipping... x86_64/kernel_cmdline
+2026-11-16T02:32:07.1894233Z [=============                          ] 33% Unzipping... x86_64/ramdisk.img   
+2026-11-16T02:32:07.1896372Z [=============                          ] 33% Unzipping... x86_64/source.propert
+2026-11-16T02:32:07.7785658Z [=============                          ] 33% Unzipping... x86_64/system.img    
+2026-11-16T02:32:08.2167544Z [=============                          ] 34% Unzipping... x86_64/system.img    
+2026-11-16T02:32:08.7156466Z [=============                          ] 35% Unzipping... x86_64/system.img    
+2026-11-16T02:32:09.0601461Z [==============                         ] 35% Unzipping... x86_64/system.img    
+2026-11-16T02:32:09.8009651Z [==============                         ] 36% Unzipping... x86_64/system.img    
+2026-11-16T02:32:10.3886188Z [==============                         ] 37% Unzipping... x86_64/system.img    
+2026-11-16T02:32:10.9790064Z [===============                        ] 38% Unzipping... x86_64/system.img    
+2026-11-16T02:32:11.4195915Z [===============                        ] 39% Unzipping... x86_64/system.img    
+2026-11-16T02:32:11.8412875Z [===============                        ] 40% Unzipping... x86_64/system.img    
+2026-11-16T02:32:12.0965349Z [================                       ] 40% Unzipping... x86_64/system.img    
+2026-11-16T02:32:12.7984620Z [================                       ] 41% Unzipping... x86_64/system.img    
+2026-11-16T02:32:13.4043486Z [================                       ] 42% Unzipping... x86_64/system.img    
+2026-11-16T02:32:14.1641311Z [=================                      ] 43% Unzipping... x86_64/system.img    
+2026-11-16T02:32:14.7743282Z [=================                      ] 44% Unzipping... x86_64/system.img    
+2026-11-16T02:32:15.0528442Z [=================                      ] 45% Unzipping... x86_64/system.img    
+2026-11-16T02:32:15.2157402Z [==================                     ] 45% Unzipping... x86_64/system.img    
+2026-11-16T02:32:15.9983306Z [==================                     ] 46% Unzipping... x86_64/system.img    
+2026-11-16T02:32:16.6194631Z [==================                     ] 47% Unzipping... x86_64/system.img    
+2026-11-16T02:32:17.4058389Z [===================                    ] 48% Unzipping... x86_64/system.img    
+2026-11-16T02:32:18.1612654Z [===================                    ] 49% Unzipping... x86_64/system.img    
+2026-11-16T02:32:18.4717294Z [===================                    ] 50% Unzipping... x86_64/system.img    
+2026-11-16T02:32:18.7729776Z [====================                   ] 50% Unzipping... x86_64/system.img    
+2026-11-16T02:32:19.4469688Z [====================                   ] 51% Unzipping... x86_64/system.img    
+2026-11-16T02:32:20.0210630Z [====================                   ] 52% Unzipping... x86_64/system.img    
+2026-11-16T02:32:20.5977863Z [=====================                  ] 53% Unzipping... x86_64/system.img    
+2026-11-16T02:32:29.3959174Z [=====================                  ] 54% Unzipping... x86_64/system.img    
+2026-11-16T02:32:29.4172700Z [=====================                  ] 54% Unzipping... x86_64/vendor.img    
+2026-11-16T02:32:29.9775273Z [=====================                  ] 55% Unzipping... x86_64/vendor.img    
+2026-11-16T02:32:29.9780105Z [=====================                  ] 55% Unzipping... x86_64/data/empty_dat
+2026-11-16T02:32:29.9780717Z [=====================                  ] 55% Unzipping... x86_64/data/local.pro
+2026-11-16T02:32:29.9783166Z [=====================                  ] 55% Unzipping... x86_64/data/misc/Gold
+2026-11-16T02:32:29.9785921Z [=====================                  ] 55% Unzipping... x86_64/data/misc/apns
+2026-11-16T02:32:29.9790355Z [=====================                  ] 55% Unzipping... x86_64/data/misc/emul
+2026-11-16T02:32:29.9797252Z [=====================                  ] 55% Unzipping... x86_64/data/misc/mode
+2026-11-16T02:32:30.1066644Z [=====================                  ] 55% Unzipping... x86_64/data/misc/pixe
+2026-11-16T02:32:30.1067545Z [=======================================] 100% Unzipping... x86_64/data/misc/pix
+2026-11-16T02:32:30.1913309Z 
+2026-11-16T02:32:30.2132910Z ##[group]Run ns build android --env.flowsTest
+2026-11-16T02:32:30.2133183Z [36;1mns build android --env.flowsTest[0m
+2026-11-16T02:32:30.2152389Z shell: /usr/bin/bash -e {0}
+2026-11-16T02:32:30.2152598Z env:
+2026-11-16T02:32:30.2152830Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64
+2026-11-16T02:32:30.2153322Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64
+2026-11-16T02:32:30.2153597Z ##[endgroup]
+2026-11-16T02:32:36.9563491Z Copying template files...
+2026-11-16T02:32:37.0196043Z Platform android successfully added. v9.1.1
+2026-11-16T02:32:37.0196490Z Preparing project...
+2026-11-16T02:32:37.8434687Z [nativescript-vue] vue@3.5.44 is installed in this project but nativescript-vue uses @vue/runtime-core@3.5.45. Templates are compiled with the installed vue's compiler, so keep both on the same version.
+2026-11-16T02:32:44.3885439Z assets by path [1m[32mairbnb/assets/*.jpg[39m[22m 1.45 MiB
+2026-11-16T02:32:44.3886640Z   asset [1m[32mairbnb/assets/cabin.jpg[39m[22m 254 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/cabin.jpg] [1m[32m[copied][39m[22m
+2026-11-16T02:32:44.3887684Z   asset [1m[32mairbnb/assets/pool.jpg[39m[22m 209 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/pool.jpg] [1m[32m[copied][39m[22m
+2026-11-16T02:32:44.3888605Z   asset [1m[32mairbnb/assets/mountain.jpg[39m[22m 199 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/mountain.jpg] [1m[32m[copied][39m[22m
+2026-11-16T02:32:44.3889380Z   asset [1m[32mairbnb/assets/loft.jpg[39m[22m 163 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/loft.jpg] [1m[32m[copied][39m[22m
+2026-11-16T02:32:44.3890456Z   asset [1m[32mairbnb/assets/garden-house.jpg[39m[22m 153 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/garden-house.jpg] [1m[32m[copied][39m[22m
+2026-11-16T02:32:44.3891140Z   + 4 assets
+2026-11-16T02:32:44.3891582Z assets by path [1m[32m*.mjs[39m[22m 4.36 MiB
+2026-11-16T02:32:44.3894096Z   asset [1m[32mvendor.mjs[39m[22m 3.87 MiB [1m[32m[emitted][39m[22m [javascript module] (name: vendor) (id hint: vendor) 1 related asset
+2026-11-16T02:32:44.3894827Z   asset [1m[32mbundle.mjs[39m[22m 497 KiB [1m[32m[emitted][39m[22m [javascript module] (name: bundle) 1 related asset
+2026-11-16T02:32:44.3895540Z   asset [1m[32mruntime.mjs[39m[22m 5.98 KiB [1m[32m[emitted][39m[22m [javascript module] (name: runtime) 1 related asset
+2026-11-16T02:32:44.3896030Z assets by path [1m[32mfonts/[39m[22m 342 KiB
+2026-11-16T02:32:44.3896729Z   asset [1m[32mfonts/MaterialIconsOutlined-Regular.otf[39m[22m 331 KiB [1m[32m[emitted][39m[22m [from: src/fonts/MaterialIconsOutlined-Regular.otf] [1m[32m[copied][39m[22m
+2026-11-16T02:32:44.3897723Z   asset [1m[32mfonts/MaterialIcons-LICENSE.txt[39m[22m 11.1 KiB [1m[32m[emitted][39m[22m [from: src/fonts/MaterialIcons-LICENSE.txt] [1m[32m[copied][39m[22m
+2026-11-16T02:32:44.3898631Z asset [1m[32mtns_modules/inspector_modules.mjs[39m[22m 778 bytes [1m[32m[emitted][39m[22m [javascript module] (name: tns_modules/inspector_modules) 1 related asset
+2026-11-16T02:32:44.3899626Z Entrypoint [1mbundle[39m[22m 4.36 MiB (4.29 MiB) = [1m[32mruntime.mjs[39m[22m 5.98 KiB [1m[32mvendor.mjs[39m[22m 3.87 MiB [1m[32mbundle.mjs[39m[22m 497 KiB 3 auxiliary assets
+2026-11-16T02:32:44.3900701Z Entrypoint [1mtns_modules/inspector_modules[39m[22m 3.88 MiB (3.79 MiB) = [1m[32mruntime.mjs[39m[22m 5.98 KiB [1m[32mvendor.mjs[39m[22m 3.87 MiB [1m[32mtns_modules/inspector_modules.mjs[39m[22m 778 bytes 3 auxiliary assets
+2026-11-16T02:32:44.3901499Z orphan modules 23.8 KiB [1m[33m[orphan][39m[22m 16 modules
+2026-11-16T02:32:44.3901968Z runtime modules 3.09 KiB 7 modules
+2026-11-16T02:32:44.3902366Z modules by path [1m./node_modules/[39m[22m 3.14 MiB 415 modules
+2026-11-16T02:32:44.3902805Z modules by path [1m../dist/[39m[22m 408 KiB
+2026-11-16T02:32:44.3903557Z   modules by path [1m../dist/*.js[39m[22m 356 KiB 49 modules
+2026-11-16T02:32:44.3904039Z   modules by path [1m../dist/components/*.js[39m[22m 13.8 KiB 6 modules
+2026-11-16T02:32:44.3904495Z   modules by path [1m../dist/hosts/*.js[39m[22m 25.4 KiB 5 modules
+2026-11-16T02:32:44.3904895Z   modules by path [1m../dist/flows/*.js[39m[22m 7.56 KiB
+2026-11-16T02:32:44.3905517Z     [1m../dist/flows/document-picker.js[39m[22m 4.3 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+2026-11-16T02:32:44.3906221Z     [1m../dist/flows/activity-result.js[39m[22m 3.25 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+2026-11-16T02:32:44.3906857Z   [1m../dist/destinations/view.js[39m[22m 5.12 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+2026-11-16T02:32:44.3907504Z [1m./src/testing/flows-app.ts[39m[22m 8.33 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+2026-11-16T02:32:44.3908238Z [1mexternal "~/package.json"[39m[22m 42 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+2026-11-16T02:32:44.3908796Z webpack 5.112.2 compiled [1m[32msuccessfully[39m[22m in 6133 ms
+2026-11-16T02:32:44.3909195Z Webpack compilation complete.
+2026-11-16T02:32:44.5351071Z Downloading https://services.gradle.org/distributions/gradle-8.14.3-bin.zip
+2026-11-16T02:32:45.5929366Z .....................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
+2026-11-16T02:32:45.5941614Z Unzipping /home/runner/.gradle/wrapper/dists/gradle-8.14.3-bin/cv11ve7ro1n3o1j4so8xd9n66/gradle-8.14.3-bin.zip to /home/runner/.gradle/wrapper/dists/gradle-8.14.3-bin/cv11ve7ro1n3o1j4so8xd9n66
+2026-11-16T02:32:46.2642432Z Set executable permissions for: /home/runner/.gradle/wrapper/dists/gradle-8.14.3-bin/cv11ve7ro1n3o1j4so8xd9n66/gradle-8.14.3/bin/gradle
+2026-11-16T02:33:08.6039665Z 	 ~ applying user-defined configuration from /home/runner/work/vue-router-ns/vue-router-ns/demo/App_Resources/Android/before-plugins.gradle
+2026-11-16T02:33:20.0780865Z Built aar for @nativescript/core
+2026-11-16T02:33:20.0836830Z Updating runtime package.json with configuration values...
+2026-11-16T02:33:20.0868529Z Project successfully prepared (android)
+2026-11-16T02:33:20.0893804Z Building project...
+2026-11-16T02:33:20.0942371Z Gradle build...
+2026-11-16T02:33:21.1623845Z 	 + applying user-defined configuration from /home/runner/work/vue-router-ns/vue-router-ns/demo/App_Resources/Android/before-plugins.gradle
+2026-11-16T02:33:30.6599295Z 	 + applying user-defined configuration from /home/runner/work/vue-router-ns/vue-router-ns/demo/App_Resources/Android/before-plugins.gradle
+2026-11-16T02:33:30.7599926Z 	 + setting applicationId
+2026-11-16T02:33:30.7602795Z 	 + applying user-defined configuration from /home/runner/work/vue-router-ns/vue-router-ns/demo/App_Resources/Android/app.gradle
+2026-11-16T02:33:30.8590900Z 	 + adding nativescript runtime package dependency: nativescript-optimized-with-inspector
+2026-11-16T02:33:30.8598457Z 	 + adding aar plugin dependency: /home/runner/work/vue-router-ns/vue-router-ns/demo/node_modules/@nativescript/core/platforms/android/widgets-release.aar
+2026-11-16T02:33:30.8600017Z 	 + adding aar plugin dependency: /home/runner/work/vue-router-ns/vue-router-ns/demo/node_modules/@nativescript/core/platforms/android/winter_tc-release.aar
+2026-11-16T02:33:30.8601450Z 	 + adding aar plugin dependency: /home/runner/work/vue-router-ns/vue-router-ns/demo/node_modules/@nativescript/core/platforms/android/core.aar
+2026-11-16T02:34:09.3593845Z Note: Some input files use or override a deprecated API.
+2026-11-16T02:34:09.3594754Z Note: Recompile with -Xlint:deprecation for details.
+2026-11-16T02:34:18.7896504Z Project successfully built.
+2026-11-16T02:34:18.7897175Z Build time: 58.698 s.
+2026-11-16T02:34:18.7898139Z The build result is located at: /home/runner/work/vue-router-ns/vue-router-ns/demo/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+2026-11-16T02:34:18.8686164Z ##[group]Run reactivecircus/android-emulator-runner@v2
+2026-11-16T02:34:18.8686669Z with:
+2026-11-16T02:34:18.8686984Z   api-level: 35
+2026-11-16T02:34:18.8687350Z   arch: x86_64
+2026-11-16T02:34:18.8687735Z   target: google_apis
+2026-11-16T02:34:18.8688128Z   profile: pixel_7
+2026-11-16T02:34:18.8688495Z   disable-animations: false
+2026-11-16T02:34:18.8689165Z   emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+2026-11-16T02:34:18.8690286Z   script: adb install -r demo/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+ANDROID_SERIAL=emulator-5554 node scripts/native/flows-android.mjs
+
+2026-11-16T02:34:18.8691069Z   cores: 2
+2026-11-16T02:34:18.8691402Z   avd-name: test
+2026-11-16T02:34:18.8691716Z   force-avd-creation: true
+2026-11-16T02:34:18.8722769Z   emulator-boot-timeout: 600
+2026-11-16T02:34:18.8723124Z   emulator-port: 5554
+2026-11-16T02:34:18.8723641Z   disable-spellchecker: false
+2026-11-16T02:34:18.8724200Z   disable-linux-hw-accel: auto
+2026-11-16T02:34:18.8724585Z   enable-hw-keyboard: false
+2026-11-16T02:34:18.8724923Z   channel: stable
+2026-11-16T02:34:18.8725226Z env:
+2026-11-16T02:34:18.8725663Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64
+2026-11-16T02:34:18.8726243Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64
+2026-11-16T02:34:18.8726763Z ##[endgroup]
+2026-11-16T02:34:19.0134307Z ##[group]Configure emulator
+2026-11-16T02:34:19.0136175Z API level: 35
+2026-11-16T02:34:19.0136534Z System image API level: 35
+2026-11-16T02:34:19.0136860Z target: google_apis
+2026-11-16T02:34:19.0137268Z CPU architecture: x86_64
+2026-11-16T02:34:19.0137638Z Hardware profile: pixel_7
+2026-11-16T02:34:19.0138786Z Cores: 2
+2026-11-16T02:34:19.0139196Z RAM size: 
+2026-11-16T02:34:19.0139609Z Heap size: 
+2026-11-16T02:34:19.0140266Z SD card path or size: 
+2026-11-16T02:34:19.0140578Z Disk size: 
+2026-11-16T02:34:19.0140886Z AVD name: test
+2026-11-16T02:34:19.0141266Z force avd creation: true
+2026-11-16T02:34:19.0141600Z Emulator boot timeout: 600
+2026-11-16T02:34:19.0142228Z emulator port: 5554
+2026-11-16T02:34:19.0142996Z emulator options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+2026-11-16T02:34:19.0143655Z disable animations: false
+2026-11-16T02:34:19.0144042Z disable spellchecker: false
+2026-11-16T02:34:19.0144441Z disable Linux hardware acceleration: false
+2026-11-16T02:34:19.0144868Z enable hardware keyboard: false
+2026-11-16T02:34:19.0145198Z Channel: 0 (stable)
+2026-11-16T02:34:19.0145612Z Script:
+2026-11-16T02:34:19.0145989Z adb install -r demo/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+2026-11-16T02:34:19.0146513Z ANDROID_SERIAL=emulator-5554 node scripts/native/flows-android.mjs
+2026-11-16T02:34:19.0146860Z Pre emulator launch script:
+2026-11-16T02:34:19.0147364Z ##[endgroup]
+2026-11-16T02:34:19.0147757Z ##[group]Install Android SDK
+2026-11-16T02:34:19.0733899Z [command]/usr/bin/sh -c \yes | sdkmanager --licenses > /dev/null
+2026-11-16T02:34:20.3192554Z Installing latest build tools, platform tools, and platform.
+2026-11-16T02:34:20.3198571Z [command]/usr/bin/sh -c \sdkmanager --install 'build-tools;37.0.0' platform-tools 'platforms;android-35'> /dev/null
+2026-11-16T02:34:21.5161952Z Installing latest emulator.
+2026-11-16T02:34:21.5168192Z [command]/usr/bin/sh -c \sdkmanager --install emulator --channel=0 > /dev/null
+2026-11-16T02:34:22.6729558Z Installing system images.
+2026-11-16T02:34:22.6735622Z [command]/usr/bin/sh -c \sdkmanager --install 'system-images;android-35;google_apis;x86_64' --channel=0 > /dev/null
+2026-11-16T02:34:23.7568429Z ##[endgroup]
+2026-11-16T02:34:23.7571209Z ##[group]Create AVD
+2026-11-16T02:34:23.7571603Z Creating AVD.
+2026-11-16T02:34:23.7586485Z [command]/usr/bin/sh -c \echo no | avdmanager create avd --force -n test --package 'system-images;android-35;google_apis;x86_64' --device 'pixel_7'
+2026-11-16T02:34:24.3889831Z Loading local repository...                                                     
+2026-11-16T02:34:24.7237468Z [=========                              ] 25% Loading local repository...       
+2026-11-16T02:34:24.7238142Z Auto-selecting single ABI x86_64
+2026-11-16T02:34:24.9961436Z [command]/usr/bin/sh -c \printf 'hw.cpu.ncore=2\n' >> /home/runner/.android/avd/test.avd/config.ini
+2026-11-16T02:34:24.9979003Z ##[endgroup]
+2026-11-16T02:34:24.9980215Z ##[group]Launch Emulator
+2026-11-16T02:34:24.9980614Z Starting emulator.
+2026-11-16T02:34:24.9991013Z [command]/usr/bin/sh -c \/usr/local/lib/android/sdk/emulator/emulator -port 5554 -avd test -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim &
+2026-11-16T02:34:25.0078840Z INFO         | Android emulator version 37.2.13.0 (build_id 16740729) (CL:N/A)
+2026-11-16T02:34:25.0079306Z INFO         | Graphics backend: gfxstream
+2026-11-16T02:34:25.0079855Z INFO         | Found systemPath /usr/local/lib/android/sdk/system-images/android-35/google_apis/x86_64/
+2026-11-16T02:34:25.0440153Z INFO         | Saving last run QEMU version for the AVD to 2
+2026-11-16T02:34:25.0441022Z INFO         | Increasing RAM size to 2560MB
+2026-11-16T02:34:25.0441696Z INFO         | Guest GLES Driver: Auto (ext controls)
+2026-11-16T02:34:25.0442841Z INFO         | emuglConfig_init: vulkan_mode_selected:swiftshader gles_mode_selected:swiftshader
+2026-11-16T02:34:25.0443871Z INFO         | Checking system compatibility:
+2026-11-16T02:34:25.0444663Z INFO         |   Checking: hasSufficientDiskSpace
+2026-11-16T02:34:25.0445498Z INFO         |      Ok: Disk space requirements to run avd: `test` are met
+2026-11-16T02:34:25.0446271Z INFO         |   Checking: hasSufficientHwGpu
+2026-11-16T02:34:25.0447258Z INFO         |      Ok: Hardware GPU compatibility checks are not required
+2026-11-16T02:34:25.0447998Z INFO         |   Checking: hasSufficientSystem
+2026-11-16T02:34:25.0448887Z INFO         |      Ok: System requirements to run avd: `test` are met
+2026-11-16T02:34:25.0450214Z WARNING      | Feature QuickbootFileBacked is disabled due to stability issues, if you really want that, the environment variable ANDROID_EMU_FORCE_QUICKBOOT_FILE_BACKED need to set to 1
+2026-11-16T02:34:25.2766907Z ERROR        | Unable to connect to adb daemon on port: 5037
+2026-11-16T02:34:25.2794901Z INFO         | Storing crashdata in: /tmp/android-runner/emu-crash-37.2.13.db, detection is enabled for process: 4021
+2026-11-16T02:34:25.2795592Z INFO         | Initializing gfxstream backend
+2026-11-16T02:34:25.2802085Z INFO         | startOpenglesRendererImpl: gpu info
+2026-11-16T02:34:25.2802466Z INFO         | 
+2026-11-16T02:34:25.2804414Z INFO         | initIcdPaths: ICD set to 'swiftshader', using Swiftshader ICD
+2026-11-16T02:34:25.2805188Z INFO         | Setting ICD filenames for the loader = /usr/local/lib/android/sdk/emulator/lib64/vulkan/vk_swiftshader_icd.json
+2026-11-16T02:34:25.2806134Z INFO         | SharedLibrary::open for [/usr/local/lib/android/sdk/emulator/qemu/linux-x86_64/lib64/vulkan/libvulkan.so]
+2026-11-16T02:34:25.2806883Z INFO         | SharedLibrary::open for [/usr/local/lib/android/sdk/emulator/qemu/linux-x86_64/lib64/vulkan/libvulkan.so.1]
+2026-11-16T02:34:25.2807668Z INFO         | SharedLibrary::open for [/usr/local/lib/android/sdk/emulator/lib64/vulkan/libvulkan.so]
+2026-11-16T02:34:25.2808419Z INFO         | Added library: /usr/local/lib/android/sdk/emulator/lib64/vulkan/libvulkan.so
+2026-11-16T02:34:25.3882739Z INFO         | Selecting Vulkan device: SwiftShader Device (Subzero), Version: 1.3.0
+2026-11-16T02:34:25.3883493Z INFO         | Using Vulkan externalMemoryMode: OpaqueFd for VkEmulation
+2026-11-16T02:34:25.4395328Z INFO         | Format VK_FORMAT_G10X6_B10X6R10X6_2PLANE_422_UNORM_3PACK16 does not support YCbCr sampler conversion
+2026-11-16T02:34:25.4420238Z INFO         | SharedLibrary::open for [libX11]
+2026-11-16T02:34:25.4420809Z WARNING      | Could not open libX11.so, try libX11.so.6
+2026-11-16T02:34:25.4421227Z INFO         | SharedLibrary::open for [libX11.so.6]
+2026-11-16T02:34:25.4421678Z INFO         | SharedLibrary::open for [libX11-xcb]
+2026-11-16T02:34:25.4422711Z WARNING      | Could not open libX11-xcb.so, try libX11-xcb.so.1
+2026-11-16T02:34:25.4423210Z INFO         | SharedLibrary::open for [libX11-xcb.so.1]
+2026-11-16T02:34:25.4492528Z INFO         | Initializing VkEmulation features:
+2026-11-16T02:34:25.4493057Z INFO         |     glInteropSupported: false
+2026-11-16T02:34:25.4493648Z INFO         |     useDeferredCommands: true
+2026-11-16T02:34:25.4494205Z INFO         |     createResourceWithRequirements: true
+2026-11-16T02:34:25.4494697Z INFO         |     useVulkanComposition: false
+2026-11-16T02:34:25.4495154Z INFO         |     useVulkanNativeSwapchain: false
+2026-11-16T02:34:25.4495649Z INFO         |     enable guestRenderDoc: false
+2026-11-16T02:34:25.4496085Z INFO         |     ASTC LDR emulation mode: Gpu
+2026-11-16T02:34:25.4496548Z INFO         |     enable ETC2 emulation: true
+2026-11-16T02:34:25.4497110Z INFO         |     enable Ycbcr emulation: false
+2026-11-16T02:34:25.4497533Z INFO         |     guestVulkanOnly: false
+2026-11-16T02:34:25.4498004Z INFO         |     useDedicatedAllocations: false
+2026-11-16T02:34:25.4498521Z INFO         |     guestVulkanMaxApiVersion: 1.3.0
+2026-11-16T02:34:25.4498967Z INFO         |     enableProtectedMemoryEmulation: false
+2026-11-16T02:34:25.4500572Z INFO         | Graphics Adapter Vendor Google (Google Inc.)
+2026-11-16T02:34:25.4501070Z INFO         | Graphics Adapter Android Emulator OpenGL ES Translator (Google SwiftShader)
+2026-11-16T02:34:25.4501694Z INFO         | Graphics API Version OpenGL ES 3.0 (OpenGL ES 3.0 SwiftShader 4.0.0.1)
+2026-11-16T02:34:25.4503859Z INFO         | Graphics API Extensions GL_OES_EGL_sync GL_OES_EGL_image GL_OES_EGL_image_external GL_OES_depth24 GL_OES_depth32 GL_OES_element_index_uint GL_OES_texture_float GL_OES_texture_float_linear GL_OES_compressed_paletted_texture GL_OES_compressed_ETC1_RGB8_texture GL_OES_depth_texture GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_packed_depth_stencil GL_OES_vertex_half_float GL_OES_standard_derivatives GL_OES_texture_npot GL_OES_rgb8_rgba8 GL_EXT_color_buffer_float GL_EXT_color_buffer_half_float GL_EXT_texture_format_BGRA8888 GL_APPLE_texture_format_BGRA8888 
+2026-11-16T02:34:25.4505503Z INFO         | Graphics Device Extensions N/A
+2026-11-16T02:34:25.4505877Z INFO         | Disabling sparse binding feature support
+2026-11-16T02:34:25.4574423Z INFO         | Sending adb public key [QAAAAM330m37MsUhi0MSNXjP1Z//ohRyP6Rx5hINulDXJoIewPtROZ1cP4mHEylW07Lqd/jsZSq6blrRxkVm80GRpmqSE/6FDOZQBv+slSMfc+0FCAe+Ya+aOung8/bG3VX3FMAPh3GcU4PV1wi/ggbvXq15UfB9TNKflKoeho4bGIn5VXS1LRjTuLSgplPrrCwdIHcSdiXPkWViDEzZEXgfQmiVDhotGI3aqQN0lgSnnviWDXhfChu1lM3CGNBOYt1hssoCc/xh/sWdrqzgEEK5BLNx1p8ZAUCzwtKDTvwnZ6RtWjUXVw4yEp4Z/0SslAiiZmbrWTYSdjZzr3Fcp8rA/CQSGQLPMmPLObuGCI1HhRbE0Q19dV1W3UKCt+UouWsTAo/8SGzS9A31AYAfMLZ2rYSYK4oqQk9QDUAvJHiS6wzOF8Zg56off7vH8mctLifY2mgtXBq3yLv4aNs1uCFo94h/f6m4ymVDMd+v9dnvvY4pgCB9zzlkrur/mVaCdqe+4HbWhbug63BYckeZW38L5sVxvKJ2fGqBeOKgcB1ihvTk8Y8EK3aivvL47DhiCYVAYPsWUCwbtAbDfplZaO0xQDvm+VFlNIEKlcAtrPWqIq9Mdz0rcGCMMXhiM5eIJeMoWyKsalAZ6pltPts+UkYnVXc/e0sNBBqQBPHbPr14ePAkZAIycwEAAQA= runner@unknown]
+2026-11-16T02:34:25.4578482Z INFO         | Userspace boot properties:
+2026-11-16T02:34:25.4579428Z INFO         |   androidboot.boot_devices=pci0000:00/0000:00:03.0 pci0000:00/0000:00:06.0
+2026-11-16T02:34:25.4580197Z INFO         |   androidboot.dalvik.vm.heapsize=576m
+2026-11-16T02:34:25.4580841Z INFO         |   androidboot.debug.hwui.renderer=skiagl
+2026-11-16T02:34:25.4581501Z INFO         |   androidboot.debug.sf.nobootanimation=1
+2026-11-16T02:34:25.4582340Z INFO         |   androidboot.hardware=ranchu
+2026-11-16T02:34:25.4582917Z INFO         |   androidboot.hardware.gltransport=pipe
+2026-11-16T02:34:25.4583824Z INFO         |   androidboot.hardware.vulkan=ranchu
+2026-11-16T02:34:25.4584436Z INFO         |   androidboot.logcat=*:V
+2026-11-16T02:34:25.4584950Z INFO         |   androidboot.opengles.version=196608
+2026-11-16T02:34:25.4585424Z INFO         |   androidboot.qemu=1
+2026-11-16T02:34:25.4589910Z INFO         |   androidboot.qemu.adb.pubkey=QAAAAM330m37MsUhi0MSNXjP1Z//ohRyP6Rx5hINulDXJoIewPtROZ1cP4mHEylW07Lqd/jsZSq6blrRxkVm80GRpmqSE/6FDOZQBv+slSMfc+0FCAe+Ya+aOung8/bG3VX3FMAPh3GcU4PV1wi/ggbvXq15UfB9TNKflKoeho4bGIn5VXS1LRjTuLSgplPrrCwdIHcSdiXPkWViDEzZEXgfQmiVDhotGI3aqQN0lgSnnviWDXhfChu1lM3CGNBOYt1hssoCc/xh/sWdrqzgEEK5BLNx1p8ZAUCzwtKDTvwnZ6RtWjUXVw4yEp4Z/0SslAiiZmbrWTYSdjZzr3Fcp8rA/CQSGQLPMmPLObuGCI1HhRbE0Q19dV1W3UKCt+UouWsTAo/8SGzS9A31AYAfMLZ2rYSYK4oqQk9QDUAvJHiS6wzOF8Zg56off7vH8mctLifY2mgtXBq3yLv4aNs1uCFo94h/f6m4ymVDMd+v9dnvvY4pgCB9zzlkrur/mVaCdqe+4HbWhbug63BYckeZW38L5sVxvKJ2fGqBeOKgcB1ihvTk8Y8EK3aivvL47DhiCYVAYPsWUCwbtAbDfplZaO0xQDvm+VFlNIEKlcAtrPWqIq9Mdz0rcGCMMXhiM5eIJeMoWyKsalAZ6pltPts+UkYnVXc/e0sNBBqQBPHbPr14ePAkZAIycwEAAQA= runner@unknown
+2026-11-16T02:34:25.4593843Z INFO         |   androidboot.qemu.avd_name=test
+2026-11-16T02:34:25.4594402Z INFO         |   androidboot.qemu.camera_hq_edge_processing=0
+2026-11-16T02:34:25.4595008Z INFO         |   androidboot.qemu.camera_protocol_ver=1
+2026-11-16T02:34:25.4595561Z INFO         |   androidboot.qemu.cpuvulkan.version=4206592
+2026-11-16T02:34:25.4596169Z INFO         |   androidboot.qemu.gltransport.drawFlushInterval=800
+2026-11-16T02:34:25.4596813Z INFO         |   androidboot.qemu.gltransport.name=pipe
+2026-11-16T02:34:25.4597332Z INFO         |   androidboot.qemu.hwcodec.avcdec=2
+2026-11-16T02:34:25.4597862Z INFO         |   androidboot.qemu.hwcodec.hevcdec=2
+2026-11-16T02:34:25.4598417Z INFO         |   androidboot.qemu.hwcodec.vpxdec=2
+2026-11-16T02:34:25.4599025Z INFO         |   androidboot.qemu.settings.system.screen_off_timeout=2147483647
+2026-11-16T02:34:25.4599636Z INFO         |   androidboot.qemu.skin=1080x2400
+2026-11-16T02:34:25.4600183Z INFO         |   androidboot.qemu.virtiowifi=1
+2026-11-16T02:34:25.4600670Z INFO         |   androidboot.qemu.vsync=60
+2026-11-16T02:34:25.4601312Z INFO         |   androidboot.serialno=EMULATOR37X2X13X0
+2026-11-16T02:34:25.4602271Z INFO         |   androidboot.vbmeta.digest=b3271ba499104f4631ae3723913d5c12574e01715fce5b82d60beed097ead264
+2026-11-16T02:34:25.4602933Z INFO         |   androidboot.vbmeta.hash_alg=sha256
+2026-11-16T02:34:25.4603388Z INFO         |   androidboot.vbmeta.size=6720
+2026-11-16T02:34:25.4603874Z INFO         |   androidboot.veritymode=enforcing
+2026-11-16T02:34:25.4735859Z WARNING: cannnot unmap ptr 0x7c998b801000 as it is in the protected range from 0x7c98eb800000 to 0x7c998ba00000
+2026-11-16T02:34:25.4932386Z INFO         | Monitoring duration of emulator setup.
+2026-11-16T02:34:26.4837464Z INFO         | Activated packet streamer for bluetooth emulation
+2026-11-16T02:34:26.4839846Z INFO         | Successfully initialized netsim WiFi
+2026-11-16T02:34:26.4878320Z INFO         | Setting display: 0 configuration to: 1080x2400, dpi: 420x420 
+2026-11-16T02:34:26.4878828Z INFO         | setDisplayActiveConfig: id:0, 1080x2400
+2026-11-16T02:34:26.4879412Z INFO         | emulatorSetupEnvironment: Environment scene is not required
+2026-11-16T02:34:26.4943277Z USER_INFO    | Emulator is performing a full startup. This may take upto two minutes, or more.
+2026-11-16T02:34:26.4944215Z WARNING      | Failed to process .ini file /home/runner/.android/emu-update-last-check.ini for reading.
+2026-11-16T02:34:26.5898962Z WARNING      | Failed to process .ini file /home/runner/.android/emu-update-last-check.ini for reading.
+2026-11-16T02:34:35.0097163Z [command]/usr/local/lib/android/sdk/platform-tools/adb -s emulator-5554 shell getprop sys.boot_completed
+2026-11-16T02:34:35.0124825Z * daemon not running; starting now at tcp:5037
+2026-11-16T02:34:35.0540251Z * daemon started successfully
+2026-11-16T02:34:35.0548602Z The process '/usr/local/lib/android/sdk/platform-tools/adb' failed with exit code 1
+2026-11-16T02:34:35.0551187Z adb: device offline
+2026-11-16T02:34:37.0591514Z [command]/usr/local/lib/android/sdk/platform-tools/adb -s emulator-5554 shell getprop sys.boot_completed
+2026-11-16T02:34:37.0653172Z adb: device offline
+2026-11-16T02:34:37.0655111Z The process '/usr/local/lib/android/sdk/platform-tools/adb' failed with exit code 1
+2026-11-16T02:34:39.0698136Z [command]/usr/local/lib/android/sdk/platform-tools/adb -s emulator-5554 shell getprop sys.boot_completed
+2026-11-16T02:34:39.0977405Z 
+2026-11-16T02:34:41.1023155Z [command]/usr/local/lib/android/sdk/platform-tools/adb -s emulator-5554 shell getprop sys.boot_completed
+2026-11-16T02:34:41.1382516Z 
+2026-11-16T02:34:43.1417427Z [command]/usr/local/lib/android/sdk/platform-tools/adb -s emulator-5554 shell getprop sys.boot_completed
+2026-11-16T02:34:43.1694238Z 
+2026-11-16T02:34:45.1753689Z [command]/usr/local/lib/android/sdk/platform-tools/adb -s emulator-5554 shell getprop sys.boot_completed
+2026-11-16T02:34:45.1965425Z 
+2026-11-16T02:34:47.2073976Z [command]/usr/local/lib/android/sdk/platform-tools/adb -s emulator-5554 shell getprop sys.boot_completed
+2026-11-16T02:34:47.2266111Z 
+2026-11-16T02:34:49.2321490Z [command]/usr/local/lib/android/sdk/platform-tools/adb -s emulator-5554 shell getprop sys.boot_completed
+2026-11-16T02:34:49.2616284Z 
+2026-11-16T02:34:51.2654463Z [command]/usr/local/lib/android/sdk/platform-tools/adb -s emulator-5554 shell getprop sys.boot_completed
+2026-11-16T02:34:51.2921318Z 
+2026-11-16T02:34:53.2957036Z [command]/usr/local/lib/android/sdk/platform-tools/adb -s emulator-5554 shell getprop sys.boot_completed
+2026-11-16T02:34:53.3242713Z 
+2026-11-16T02:34:55.3287781Z [command]/usr/local/lib/android/sdk/platform-tools/adb -s emulator-5554 shell getprop sys.boot_completed
+2026-11-16T02:34:55.3643883Z 
+2026-11-16T02:34:57.3677405Z [command]/usr/local/lib/android/sdk/platform-tools/adb -s emulator-5554 shell getprop sys.boot_completed
+2026-11-16T02:34:57.3926490Z 
+2026-11-16T02:34:59.2397831Z INFO         | Boot completed in 34211 ms
+2026-11-16T02:34:59.2402935Z INFO         | Increasing screen off timeout, logcat buffer size to 2M.
+2026-11-16T02:34:59.3946413Z [command]/usr/local/lib/android/sdk/platform-tools/adb -s emulator-5554 shell getprop sys.boot_completed
+2026-11-16T02:34:59.4084729Z 1
+2026-11-16T02:34:59.4085260Z Emulator booted.
+2026-11-16T02:34:59.4102322Z [command]/usr/local/lib/android/sdk/platform-tools/adb -s emulator-5554 shell input keyevent 82
+2026-11-16T02:34:59.4623085Z ##[endgroup]
+2026-11-16T02:34:59.4640589Z [command]/usr/bin/sh -c adb install -r demo/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+2026-11-16T02:35:06.7543361Z Performing Streamed Install
+2026-11-16T02:35:06.7544251Z Success
+2026-11-16T02:35:06.7603490Z [command]/usr/bin/sh -c ANDROID_SERIAL=emulator-5554 node scripts/native/flows-android.mjs
+2026-11-16T02:35:27.6764839Z guard:guard: passed (pid 2840)
+2026-11-16T02:35:36.7620150Z node:internal/errors:983
+2026-11-16T02:35:36.7621001Z   const err = new Error(message);
+2026-11-16T02:35:36.7622059Z               ^
+2026-11-16T02:35:36.7623468Z 
+2026-11-16T02:35:36.7624185Z Error: Command failed: adb -s emulator-5554 shell cat /data/local/tmp/router-flow-ui.xml
+2026-11-16T02:35:36.7625158Z cat: /data/local/tmp/router-flow-ui.xml: No such file or directory
+2026-11-16T02:35:36.7625555Z 
+2026-11-16T02:35:36.7625929Z     at genericNodeError (node:internal/errors:983:15)
+2026-11-16T02:35:36.7626430Z     at wrappedFn (node:internal/errors:537:14)
+2026-11-16T02:35:36.7627033Z     at ChildProcess.exithandler (node:child_process:417:12)
+2026-11-16T02:35:36.7627651Z     at ChildProcess.emit (node:events:519:28)
+2026-11-16T02:35:36.7628291Z     at maybeClose (node:internal/child_process:1101:16)
+2026-11-16T02:35:36.7628941Z     at ChildProcess._handle.onexit (node:internal/child_process:304:5) {
+2026-11-16T02:35:36.7629520Z   code: 1,
+2026-11-16T02:35:36.7629877Z   killed: false,
+2026-11-16T02:35:36.7630372Z   signal: null,
+2026-11-16T02:35:36.7630936Z   cmd: 'adb -s emulator-5554 shell cat /data/local/tmp/router-flow-ui.xml',
+2026-11-16T02:35:36.7631424Z   stdout: '',
+2026-11-16T02:35:36.7632183Z   stderr: 'cat: /data/local/tmp/router-flow-ui.xml: No such file or directory\n'
+2026-11-16T02:35:36.7632773Z }
+2026-11-16T02:35:36.7632991Z 
+2026-11-16T02:35:36.7633256Z Node.js v22.23.4
+2026-11-16T02:35:36.7684513Z ##[error]The process '/usr/bin/sh' failed with exit code 1
+2026-11-16T02:35:36.7689534Z ##[group]Terminate Emulator
+2026-11-16T02:35:36.7690326Z [command]/usr/local/lib/android/sdk/platform-tools/adb -s emulator-5554 emu kill
+2026-11-16T02:35:36.7725239Z OK: killing emulator, bye bye
+2026-11-16T02:35:36.7729282Z OK
+2026-11-16T02:35:36.7730083Z ##[endgroup]
+2026-11-16T02:35:36.7737815Z INFO         | Wait for emulator (pid 4021) 20 seconds to shutdown gracefully before kill;you can set environment variable ANDROID_EMULATOR_WAIT_TIME_BEFORE_KILL(in seconds) to change the default value (20 seconds)
+2026-11-16T02:35:36.7739499Z 
+2026-11-16T02:35:36.8015485Z USER_INFO    | Snapshots have been disabled by the user, save request is ignored.
+2026-11-16T02:35:36.8016106Z INFO         | Saving snapshot 'default_boot' took 0 ms
+2026-11-16T02:35:37.5306972Z ERROR        | stop: Not implemented
+2026-11-16T02:35:37.5307601Z WARNING      | Emulator client has not yet been configured.. Call configure me first!
+2026-11-16T02:35:37.5616989Z INFO         | removeAll
+2026-11-16T02:35:37.6081742Z WARNING      | Netsim Wifi dns:///localhost:43539 is gone due to Stream removed (CANCELLED)
+2026-11-16T02:35:38.2474075Z ##[group]Run actions/upload-artifact@v4
+2026-11-16T02:35:38.2474420Z with:
+2026-11-16T02:35:38.2474735Z   name: flows-android
+2026-11-16T02:35:38.2475044Z   path: scripts/native/out/flows-android
+2026-11-16T02:35:38.2475432Z   if-no-files-found: warn
+2026-11-16T02:35:38.2475759Z   compression-level: 6
+2026-11-16T02:35:38.2476045Z   overwrite: false
+2026-11-16T02:35:38.2476376Z   include-hidden-files: false
+2026-11-16T02:35:38.2476703Z env:
+2026-11-16T02:35:38.2477074Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64
+2026-11-16T02:35:38.2477640Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64
+2026-11-16T02:35:38.2478299Z   ANDROID_AVD_HOME: /home/runner/.android/avd
+2026-11-16T02:35:38.2478715Z ##[endgroup]
+2026-11-16T02:35:38.3704832Z (node:4462) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-16T02:35:38.3705539Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-16T02:35:38.3785960Z With the provided path, there will be 10 files uploaded
+2026-11-16T02:35:38.3789983Z Artifact name is valid!
+2026-11-16T02:35:38.3790889Z Root directory input is valid!
+2026-11-16T02:35:38.5866854Z Beginning upload of artifact content to blob storage
+2026-11-16T02:35:38.7184870Z (node:4462) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-16T02:35:38.7716339Z Uploaded bytes 453973
+2026-11-16T02:35:38.7858657Z Finished uploading artifact content to blob storage!
+2026-11-16T02:35:38.7859791Z SHA256 digest of uploaded artifact zip is 5d29bfce95489590fa5d9ba14c9fa49a034d14a937c1f5829ed88d33dfa7e477
+2026-11-16T02:35:38.7860676Z Finalizing artifact upload
+2026-11-16T02:35:39.1218999Z Artifact flows-android.zip successfully finalized. Artifact ID 14192904511
+2026-11-16T02:35:39.1219850Z Artifact flows-android has been successfully uploaded! Final size is 453973 bytes. Artifact ID is 14192904511
+2026-11-16T02:35:39.1223206Z Artifact download URL: https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43792609235/artifacts/14192904511
+2026-11-16T02:35:39.1383417Z Post job cleanup.
+2026-11-16T02:35:39.2377706Z (node:4476) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-16T02:35:39.2378406Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-16T02:35:39.2526917Z Post job cleanup.
+2026-11-16T02:35:39.3170393Z [command]/usr/bin/git version
+2026-11-16T02:35:39.3199135Z git version 2.56.1
+2026-11-16T02:35:39.3222433Z Temporarily overriding HOME='/home/runner/work/_temp/c91221a1-a296-4070-af34-f2707ef52545' before making global git config changes
+2026-11-16T02:35:39.3223469Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-16T02:35:39.3225660Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/vue-router-ns/vue-router-ns
+2026-11-16T02:35:39.3250313Z Removing SSH command configuration
+2026-11-16T02:35:39.3255657Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-16T02:35:39.3280591Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-16T02:35:39.3516095Z Removing HTTP extra header
+2026-11-16T02:35:39.3520552Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-16T02:35:39.3547818Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-16T02:35:39.3724585Z Removing includeIf entries pointing to credentials config files
+2026-11-16T02:35:39.3738750Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-16T02:35:39.3752754Z includeif.gitdir:/home/runner/work/vue-router-ns/vue-router-ns/.git.path
+2026-11-16T02:35:39.3758121Z includeif.gitdir:/home/runner/work/vue-router-ns/vue-router-ns/.git/worktrees/*.path
+2026-11-16T02:35:39.3758857Z includeif.gitdir:/github/workspace/.git.path
+2026-11-16T02:35:39.3759449Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-16T02:35:39.3760676Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/vue-router-ns/vue-router-ns/.git.path
+2026-11-16T02:35:39.3774617Z /home/runner/work/_temp/git-credentials-35ed4705-5254-40dc-aa33-94ab59237e6d.config
+2026-11-16T02:35:39.3781789Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/vue-router-ns/vue-router-ns/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-35ed4705\-5254\-40dc\-aa33\-94ab59237e6d\.config
+2026-11-16T02:35:39.3804183Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/vue-router-ns/vue-router-ns/.git/worktrees/*.path
+2026-11-16T02:35:39.3821763Z /home/runner/work/_temp/git-credentials-35ed4705-5254-40dc-aa33-94ab59237e6d.config
+2026-11-16T02:35:39.3829701Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/vue-router-ns/vue-router-ns/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-35ed4705\-5254\-40dc\-aa33\-94ab59237e6d\.config
+2026-11-16T02:35:39.3849923Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-16T02:35:39.3867540Z /github/runner_temp/git-credentials-35ed4705-5254-40dc-aa33-94ab59237e6d.config
+2026-11-16T02:35:39.3872612Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-35ed4705\-5254\-40dc\-aa33\-94ab59237e6d\.config
+2026-11-16T02:35:39.3894851Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-16T02:35:39.3911242Z /github/runner_temp/git-credentials-35ed4705-5254-40dc-aa33-94ab59237e6d.config
+2026-11-16T02:35:39.3916339Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-35ed4705\-5254\-40dc\-aa33\-94ab59237e6d\.config
+2026-11-16T02:35:39.3940359Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-16T02:35:39.4119351Z Removing credentials config '/home/runner/work/_temp/git-credentials-35ed4705-5254-40dc-aa33-94ab59237e6d.config'
+2026-11-16T02:35:39.4229211Z Cleaning up orphan processes
+2026-11-16T02:35:39.4535458Z Terminate orphan process: pid (3234) (java)
+2026-11-16T02:35:39.4602054Z Terminate orphan process: pid (4129) (adb)
+2026-11-16T02:35:39.4681154Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/setup-java@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

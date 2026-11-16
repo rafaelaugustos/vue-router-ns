@@ -1,0 +1,87 @@
+Hierarchy matching passed: early match, absent node and producer failure.
+Hierarchy deadlines passed: inspection time counted and stalled command terminated.
+TAP version 13
+# Subtest: failed environment probe retains its error and waits for every other command journal
+ok 1 - failed environment probe retains its error and waits for every other command journal
+  ---
+  duration_ms: 128.009208
+  ...
+# Subtest: environment timeout and malformed simulator output remain explicit without invented versions
+ok 2 - environment timeout and malformed simulator output remain explicit without invented versions
+  ---
+  duration_ms: 0.354708
+  ...
+# Subtest: environment identifies the selected simulator and reports a missing runtime
+ok 3 - environment identifies the selected simulator and reports a missing runtime
+  ---
+  duration_ms: 0.2425
+  ...
+# Subtest: delayed CLI launch owns startup; observing restart never starts a competing process
+ok 4 - delayed CLI launch owns startup; observing restart never starts a competing process
+  ---
+  duration_ms: 0.129583
+  ...
+# Subtest: current failure before ready wins; a stale marker does not authorize success
+ok 5 - current failure before ready wins; a stale marker does not authorize success
+  ---
+  duration_ms: 0.085834
+  ...
+# Subtest: post-sync fallback only reads logs; a timed-out log service is not retried or relaunched
+ok 6 - post-sync fallback only reads logs; a timed-out log service is not retried or relaunched
+  ---
+  duration_ms: 0.092584
+  ...
+# Subtest: a non-timeout diagnostic failure propagates
+ok 7 - a non-timeout diagnostic failure propagates
+  ---
+  duration_ms: 0.283792
+  ...
+# Subtest: real failed and hung commands retain output, exit/signal, timeout and duration
+ok 8 - real failed and hung commands retain output, exit/signal, timeout and duration
+  ---
+  duration_ms: 531.208583
+  ...
+# Subtest: failed diagnostics cannot skip source restoration and process cleanup
+ok 9 - failed diagnostics cannot skip source restoration and process cleanup
+  ---
+  duration_ms: 1.050708
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 699.116166
+TAP version 13
+# Subtest: stdout and stderr are readable before the command exits
+ok 1 - stdout and stderr are readable before the command exits
+  ---
+  duration_ms: 34.250125
+  ...
+# Subtest: a nonzero exit keeps its log and remains a failure
+ok 2 - a nonzero exit keeps its log and remains a failure
+  ---
+  duration_ms: 19.273
+  ...
+# Subtest: the command deadline still rejects and preserves partial output
+ok 3 - the command deadline still rejects and preserves partial output
+  ---
+  duration_ms: 1011.490833
+  ...
+# Subtest: interrupting the runner retains output from its unfinished command
+ok 4 - interrupting the runner retains output from its unfinished command
+  ---
+  duration_ms: 70.40425
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1166.240083

@@ -1,0 +1,16 @@
+
+> vue-router-ns@0.1.0-rc.4 test
+> vitest run
+
+Testing types with tsc and vue-tsc is an experimental feature.
+Breaking changes might not follow SemVer, please pin Vitest's version when using it.
+
+ RUN  v5.0.4 /Users/rafaelaugusto/Documents/workspace/side-projects/vue-router-ns
+
+
+ Test Files  77 passed (77)
+      Tests  993 passed | 10 skipped (1003)
+Type Errors  no errors
+   Start at  23:17:11
+   Duration  1.75s (tests 73%, import 18%, transform 8%, worker 1%)
+
