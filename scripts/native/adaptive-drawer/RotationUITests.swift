@@ -18,12 +18,29 @@ final class RotationUITests: XCTestCase {
     // setup. Establish the baseline after the case's orientation/preparation,
     // before arming navigation; never repair or retry an active gesture.
     func prepareWindow(_ label: String) throws {
+        // Accessibility can briefly report the preceding orientation (including
+        // a negative origin). Wait for usable geometry before deciding to Zoom.
+        let settledGeometry = NSPredicate { _, _ in
+            let window = self.app.windows.firstMatch.frame
+            let screen = self.app.frame
+            if window == screen { return true }
+            if #available(iOS 26.0, *) {
+                return window.width > 0 && window.height > 0 && screen.contains(window)
+                    && window.width < screen.width && window.height < screen.height
+            }
+            return false
+        }
+        XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: settledGeometry, object: nil)],
+                                     timeout: 5), .completed, "Window geometry did not settle before setup")
         let before = app.windows.firstMatch.frame
         let maximized = before != app.frame
         if maximized {
             let system = XCUIApplication(bundleIdentifier: "com.apple.springboard")
             system.buttons["window-controls:org.nativescript.vuerouterns"].tap()
             system.buttons["Zoom-button"].tap()
+            let fullWindow = NSPredicate { _, _ in self.app.windows.firstMatch.frame == self.app.frame }
+            XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: fullWindow, object: nil)],
+                                         timeout: 5), .completed, "Zoom did not restore the full window")
         }
         let after = app.windows.firstMatch.frame
         let screen = app.frame
