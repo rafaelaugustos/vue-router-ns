@@ -4,7 +4,7 @@ import { promisify } from 'node:util'
 import { copyFile, mkdtemp, readFile, readdir, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
-import { initialize, command, ios, sim, pkg, pause, out } from './bridge.mjs'
+import { initialize, command, sim, pause, out } from './bridge.mjs'
 import { loggedCommand } from '../logged-command.mjs'
 import { assertContentBack } from './content-back.mjs'
 import { recordRotationProvenance } from './rotation-provenance.mjs'
@@ -14,9 +14,11 @@ assert(
   sim,
   'Set IOS_SIMULATOR to a dedicated booted iPad (this driver reinstalls the app)',
 )
-await initialize()
+console.log('Installing the adaptive rotation fixture')
+const directory = await initialize()
+console.log('Recording source and native build provenance')
 await recordRotationProvenance(out, sim)
-const directory = `${await ios('get_app_container', sim, pkg, 'data')}/Documents/adaptive`
+console.log('Warming retained stacks')
 await command('push', 'settings')
 await command('draft', { frame: 'settings', text: 'Inactive settings draft' })
 await command('draft', { frame: 'home', text: 'Home draft survives rotation' })
@@ -44,6 +46,7 @@ if (process.env.RECORD_VIDEO === '1') {
   await pause(500)
 }
 let testError
+console.log('Starting XCTest with the full-window precondition')
 try {
   await loggedCommand(
     'xcodebuild',

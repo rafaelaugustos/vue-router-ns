@@ -43,6 +43,7 @@ export async function recordRotationProvenance(out, simulator) {
     'demo/src/testing/adaptive-rotation.ios.ts',
     'scripts/native/adaptive-drawer/RotationUITests.swift',
     'scripts/native/adaptive-drawer/rotation.mjs',
+    'scripts/native/adaptive-drawer/bridge.mjs',
     'scripts/native/adaptive-drawer/content-back.mjs',
     'scripts/native/adaptive-drawer/rotation-provenance.mjs',
   ])
