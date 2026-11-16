@@ -1,0 +1,1092 @@
+﻿2026-11-16T02:38:08.7959340Z Current runner version: '2.338.2'
+2026-11-16T02:38:08.7994670Z ##[group]Runner Image Provisioner
+2026-11-16T02:38:08.7995250Z Hosted Compute Agent
+2026-11-16T02:38:08.7995610Z Version: 20261103.629
+2026-11-16T02:38:08.7996000Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+2026-11-16T02:38:08.7996460Z Build Date: 2026-11-03T17:26:59Z
+2026-11-16T02:38:08.7996890Z Worker ID: {a008b477-9282-43bc-8ee6-f8047713ae4d}
+2026-11-16T02:38:08.7997330Z Region: westus
+2026-11-16T02:38:08.7997670Z Cloud: MacCloud
+2026-11-16T02:38:08.7998010Z ##[endgroup]
+2026-11-16T02:38:08.7998870Z ##[group]Operating System
+2026-11-16T02:38:08.7999250Z macOS
+2026-11-16T02:38:08.7999560Z 15.8.2
+2026-11-16T02:38:08.7999870Z 24H232
+2026-11-16T02:38:08.8000200Z ##[endgroup]
+2026-11-16T02:38:08.8000540Z ##[group]Runner Image
+2026-11-16T02:38:08.8000900Z Image: macos-15-arm64
+2026-11-16T02:38:08.8001260Z Version: 20261104.0514.1
+2026-11-16T02:38:08.8002090Z Included Software: https://github.com/actions/runner-images/blob/macos-15-arm64/20261104.0514/images/macos/macos-15-arm64-Readme.md
+2026-11-16T02:38:08.8003100Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-15-arm64%2F20261104.0514
+2026-11-16T02:38:08.8003750Z ##[endgroup]
+2026-11-16T02:38:08.8005850Z ##[group]GITHUB_TOKEN Permissions
+2026-11-16T02:38:08.8007120Z Actions: write
+2026-11-16T02:38:08.8007480Z ArtifactMetadata: write
+2026-11-16T02:38:08.8007880Z Attestations: write
+2026-11-16T02:38:08.8008240Z Checks: write
+2026-11-16T02:38:08.8008630Z CodeQuality: write
+2026-11-16T02:38:08.8009010Z Contents: write
+2026-11-16T02:38:08.8010150Z CopilotRequests: write
+2026-11-16T02:38:08.8010540Z Deployments: write
+2026-11-16T02:38:08.8010900Z Discussions: write
+2026-11-16T02:38:08.8011260Z Drives: write
+2026-11-16T02:38:08.8011610Z Issues: write
+2026-11-16T02:38:08.8012010Z Metadata: read
+2026-11-16T02:38:08.8013130Z Models: read
+2026-11-16T02:38:08.8013510Z Packages: write
+2026-11-16T02:38:08.8013860Z Pages: write
+2026-11-16T02:38:08.8014240Z PullRequests: write
+2026-11-16T02:38:08.8014610Z RepositoryProjects: write
+2026-11-16T02:38:08.8015030Z SecurityEvents: write
+2026-11-16T02:38:08.8015400Z Statuses: write
+2026-11-16T02:38:08.8015770Z VulnerabilityAlerts: read
+2026-11-16T02:38:08.8016160Z ##[endgroup]
+2026-11-16T02:38:08.8017680Z Secret source: Actions
+2026-11-16T02:38:08.8018250Z Cache mode: write
+2026-11-16T02:38:08.8018700Z Prepare workflow directory
+2026-11-16T02:38:08.8295030Z Prepare all required actions
+2026-11-16T02:38:08.8330590Z Getting action download info
+2026-11-16T02:38:09.1993490Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-16T02:38:10.4193150Z Download action repository 'actions/setup-node@v7' (SHA:949feb2413d6458794dcd2491c4babbbce0c15c1)
+2026-11-16T02:38:10.5267910Z Download action repository 'ruby/setup-ruby@v1' (SHA:b3aaceaef7e0ee231b499e7b5f49c03fc1d32199)
+2026-11-16T02:38:10.9488650Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-16T02:38:11.1270920Z Complete job name: ios
+2026-11-16T02:38:11.1813030Z ##[group]Run actions/checkout@v7
+2026-11-16T02:38:11.1813700Z with:
+2026-11-16T02:38:11.1814060Z   repository: rafaelaugustos/vue-router-ns
+2026-11-16T02:38:11.1817350Z   token: ***
+2026-11-16T02:38:11.1817690Z   ssh-strict: true
+2026-11-16T02:38:11.1818070Z   ssh-user: git
+2026-11-16T02:38:11.1818430Z   persist-credentials: true
+2026-11-16T02:38:11.1818840Z   clean: true
+2026-11-16T02:38:11.1819240Z   sparse-checkout-cone-mode: true
+2026-11-16T02:38:11.1819680Z   fetch-depth: 1
+2026-11-16T02:38:11.1820010Z   fetch-tags: false
+2026-11-16T02:38:11.1820370Z   show-progress: true
+2026-11-16T02:38:11.1820730Z   lfs: false
+2026-11-16T02:38:11.1821070Z   submodules: false
+2026-11-16T02:38:11.1821500Z   set-safe-directory: true
+2026-11-16T02:38:11.1822000Z   allow-unsafe-pr-checkout: false
+2026-11-16T02:38:11.1822830Z ##[endgroup]
+2026-11-16T02:38:11.5595250Z Syncing repository: rafaelaugustos/vue-router-ns
+2026-11-16T02:38:11.5596810Z ##[group]Getting Git version info
+2026-11-16T02:38:11.5598430Z Working directory is '/Users/runner/work/vue-router-ns/vue-router-ns'
+2026-11-16T02:38:11.5599260Z [command]/opt/homebrew/bin/git version
+2026-11-16T02:38:11.5821960Z git version 2.56.0
+2026-11-16T02:38:11.5905150Z ##[endgroup]
+2026-11-16T02:38:11.5912500Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/1e2ddb3f-c47d-4d8a-8b4e-5ed23cff63de/.gitconfig'
+2026-11-16T02:38:11.5914150Z Temporarily overriding HOME='/Users/runner/work/_temp/1e2ddb3f-c47d-4d8a-8b4e-5ed23cff63de' before making global git config changes
+2026-11-16T02:38:11.5915540Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-16T02:38:11.5916790Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/vue-router-ns/vue-router-ns
+2026-11-16T02:38:11.5996460Z Deleting the contents of '/Users/runner/work/vue-router-ns/vue-router-ns'
+2026-11-16T02:38:11.5998580Z ##[group]Determining repository object format
+2026-11-16T02:38:11.5999710Z ##[endgroup]
+2026-11-16T02:38:11.6000530Z ##[group]Initializing the repository
+2026-11-16T02:38:11.6003130Z [command]/opt/homebrew/bin/git init /Users/runner/work/vue-router-ns/vue-router-ns
+2026-11-16T02:38:11.6220310Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-16T02:38:11.6222040Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-16T02:38:11.6222810Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-16T02:38:11.6223460Z hint: call:
+2026-11-16T02:38:11.6223820Z hint:
+2026-11-16T02:38:11.6224240Z hint: 	git config --global init.defaultBranch <name>
+2026-11-16T02:38:11.6224760Z hint:
+2026-11-16T02:38:11.6225330Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-16T02:38:11.6226190Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-16T02:38:11.6226770Z hint:
+2026-11-16T02:38:11.6227110Z hint: 	git branch -m <name>
+2026-11-16T02:38:11.6227600Z hint:
+2026-11-16T02:38:11.6228120Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-16T02:38:11.6242050Z Initialized empty Git repository in /Users/runner/work/vue-router-ns/vue-router-ns/.git/
+2026-11-16T02:38:11.6244190Z [command]/opt/homebrew/bin/git remote add origin https://github.com/rafaelaugustos/vue-router-ns
+2026-11-16T02:38:11.6315740Z ##[endgroup]
+2026-11-16T02:38:11.6316620Z ##[group]Disabling automatic garbage collection
+2026-11-16T02:38:11.6318000Z [command]/opt/homebrew/bin/git config --local gc.auto 0
+2026-11-16T02:38:11.6385290Z ##[endgroup]
+2026-11-16T02:38:11.6386980Z ##[group]Setting up auth
+2026-11-16T02:38:11.6387660Z Removing SSH command configuration
+2026-11-16T02:38:11.6388560Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-16T02:38:11.6450570Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-16T02:38:11.7356800Z Removing HTTP extra header
+2026-11-16T02:38:11.7359740Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-16T02:38:11.7416640Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-16T02:38:11.8066900Z Removing includeIf entries pointing to credentials config files
+2026-11-16T02:38:11.8068010Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-16T02:38:11.8120040Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-16T02:38:11.8876440Z [command]/opt/homebrew/bin/git config --file /Users/runner/work/_temp/git-credentials-32f104c9-9e6d-49f1-87f3-1d0fac966688.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-16T02:38:11.9118750Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/Users/runner/work/vue-router-ns/vue-router-ns/.git.path /Users/runner/work/_temp/git-credentials-32f104c9-9e6d-49f1-87f3-1d0fac966688.config
+2026-11-16T02:38:11.9415240Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/Users/runner/work/vue-router-ns/vue-router-ns/.git/worktrees/*.path /Users/runner/work/_temp/git-credentials-32f104c9-9e6d-49f1-87f3-1d0fac966688.config
+2026-11-16T02:38:11.9567810Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-32f104c9-9e6d-49f1-87f3-1d0fac966688.config
+2026-11-16T02:38:11.9735190Z [command]/opt/homebrew/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-32f104c9-9e6d-49f1-87f3-1d0fac966688.config
+2026-11-16T02:38:11.9794220Z ##[endgroup]
+2026-11-16T02:38:11.9795330Z ##[group]Fetching the repository
+2026-11-16T02:38:11.9798440Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +7ea14b27158a60509b72c7f140805b4ebb447568:refs/remotes/origin/fix/android-picker-crash-183
+2026-11-16T02:38:39.8038200Z From https://github.com/rafaelaugustos/vue-router-ns
+2026-11-16T02:38:39.8039380Z  * [new ref]         7ea14b27158a60509b72c7f140805b4ebb447568 -> origin/fix/android-picker-crash-183
+2026-11-16T02:38:39.8142560Z [command]/opt/homebrew/bin/git branch --list --remote origin/fix/android-picker-crash-183
+2026-11-16T02:38:39.8222060Z   origin/fix/android-picker-crash-183
+2026-11-16T02:38:39.8231310Z [command]/opt/homebrew/bin/git rev-parse refs/remotes/origin/fix/android-picker-crash-183
+2026-11-16T02:38:39.8291030Z 7ea14b27158a60509b72c7f140805b4ebb447568
+2026-11-16T02:38:39.8294290Z ##[endgroup]
+2026-11-16T02:38:39.8295030Z ##[group]Determining the checkout info
+2026-11-16T02:38:39.8295930Z ##[endgroup]
+2026-11-16T02:38:39.8301250Z [command]/opt/homebrew/bin/git sparse-checkout disable
+2026-11-16T02:38:39.8385090Z [command]/opt/homebrew/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-16T02:38:39.8447620Z ##[group]Checking out the ref
+2026-11-16T02:38:39.8450190Z [command]/opt/homebrew/bin/git checkout --progress --force -B fix/android-picker-crash-183 refs/remotes/origin/fix/android-picker-crash-183
+2026-11-16T02:38:41.5526310Z Updating files:  30% (501/1627)
+2026-11-16T02:38:41.5566980Z Updating files:  31% (505/1627)
+2026-11-16T02:38:41.5589360Z Updating files:  32% (521/1627)
+2026-11-16T02:38:41.5615260Z Updating files:  33% (537/1627)
+2026-11-16T02:38:41.5667430Z Updating files:  34% (554/1627)
+2026-11-16T02:38:41.5687930Z Updating files:  35% (570/1627)
+2026-11-16T02:38:41.5705560Z Updating files:  36% (586/1627)
+2026-11-16T02:38:41.5739170Z Updating files:  37% (602/1627)
+2026-11-16T02:38:41.5756430Z Updating files:  38% (619/1627)
+2026-11-16T02:38:41.5782420Z Updating files:  39% (635/1627)
+2026-11-16T02:38:41.5793290Z Updating files:  40% (651/1627)
+2026-11-16T02:38:41.5817750Z Updating files:  41% (668/1627)
+2026-11-16T02:38:41.5840470Z Updating files:  42% (684/1627)
+2026-11-16T02:38:41.5855900Z Updating files:  43% (700/1627)
+2026-11-16T02:38:41.5872170Z Updating files:  44% (716/1627)
+2026-11-16T02:38:41.5888730Z Updating files:  45% (733/1627)
+2026-11-16T02:38:41.5906100Z Updating files:  46% (749/1627)
+2026-11-16T02:38:41.5920990Z Updating files:  47% (765/1627)
+2026-11-16T02:38:41.5933910Z Updating files:  48% (781/1627)
+2026-11-16T02:38:41.5946870Z Updating files:  49% (798/1627)
+2026-11-16T02:38:41.5962040Z Updating files:  50% (814/1627)
+2026-11-16T02:38:41.5975540Z Updating files:  51% (830/1627)
+2026-11-16T02:38:41.5991030Z Updating files:  52% (847/1627)
+2026-11-16T02:38:41.6008540Z Updating files:  53% (863/1627)
+2026-11-16T02:38:41.6031690Z Updating files:  54% (879/1627)
+2026-11-16T02:38:41.6049110Z Updating files:  55% (895/1627)
+2026-11-16T02:38:41.6063980Z Updating files:  56% (912/1627)
+2026-11-16T02:38:41.6078430Z Updating files:  57% (928/1627)
+2026-11-16T02:38:41.6095300Z Updating files:  58% (944/1627)
+2026-11-16T02:38:41.6120240Z Updating files:  59% (960/1627)
+2026-11-16T02:38:41.6134840Z Updating files:  60% (977/1627)
+2026-11-16T02:38:41.6151890Z Updating files:  61% (993/1627)
+2026-11-16T02:38:41.6252230Z Updating files:  62% (1009/1627)
+2026-11-16T02:38:41.6521620Z Updating files:  63% (1026/1627)
+2026-11-16T02:38:41.6549950Z Updating files:  64% (1042/1627)
+2026-11-16T02:38:41.6563660Z Updating files:  65% (1058/1627)
+2026-11-16T02:38:41.6593270Z Updating files:  66% (1074/1627)
+2026-11-16T02:38:41.6619000Z Updating files:  67% (1091/1627)
+2026-11-16T02:38:41.6636610Z Updating files:  68% (1107/1627)
+2026-11-16T02:38:41.6664380Z Updating files:  69% (1123/1627)
+2026-11-16T02:38:41.6994180Z Updating files:  70% (1139/1627)
+2026-11-16T02:38:41.7583230Z Updating files:  71% (1156/1627)
+2026-11-16T02:38:41.8670150Z Updating files:  72% (1172/1627)
+2026-11-16T02:38:41.9997830Z Updating files:  72% (1174/1627)
+2026-11-16T02:38:42.1967880Z Updating files:  73% (1188/1627)
+2026-11-16T02:38:42.2140560Z Updating files:  74% (1204/1627)
+2026-11-16T02:38:42.2203220Z Updating files:  75% (1221/1627)
+2026-11-16T02:38:42.2509520Z Updating files:  76% (1237/1627)
+2026-11-16T02:38:42.2564710Z Updating files:  77% (1253/1627)
+2026-11-16T02:38:42.3265530Z Updating files:  78% (1270/1627)
+2026-11-16T02:38:42.3344280Z Updating files:  79% (1286/1627)
+2026-11-16T02:38:42.3362940Z Updating files:  80% (1302/1627)
+2026-11-16T02:38:42.4029480Z Updating files:  81% (1318/1627)
+2026-11-16T02:38:42.4043600Z Updating files:  82% (1335/1627)
+2026-11-16T02:38:42.4244280Z Updating files:  83% (1351/1627)
+2026-11-16T02:38:42.4259670Z Updating files:  84% (1367/1627)
+2026-11-16T02:38:42.4762640Z Updating files:  85% (1383/1627)
+2026-11-16T02:38:42.6090260Z Updating files:  86% (1400/1627)
+2026-11-16T02:38:42.6144820Z Updating files:  87% (1416/1627)
+2026-11-16T02:38:42.6310810Z Updating files:  88% (1432/1627)
+2026-11-16T02:38:42.6324580Z Updating files:  89% (1449/1627)
+2026-11-16T02:38:42.6344690Z Updating files:  90% (1465/1627)
+2026-11-16T02:38:42.6363090Z Updating files:  91% (1481/1627)
+2026-11-16T02:38:42.6381050Z Updating files:  92% (1497/1627)
+2026-11-16T02:38:42.6399830Z Updating files:  93% (1514/1627)
+2026-11-16T02:38:42.6415790Z Updating files:  94% (1530/1627)
+2026-11-16T02:38:42.6430110Z Updating files:  95% (1546/1627)
+2026-11-16T02:38:42.6445010Z Updating files:  96% (1562/1627)
+2026-11-16T02:38:42.6461230Z Updating files:  97% (1579/1627)
+2026-11-16T02:38:42.6479160Z Updating files:  98% (1595/1627)
+2026-11-16T02:38:42.6494480Z Updating files:  99% (1611/1627)
+2026-11-16T02:38:42.6495430Z Updating files: 100% (1627/1627)
+2026-11-16T02:38:42.6515620Z Updating files: 100% (1627/1627), done.
+2026-11-16T02:38:42.6550200Z Switched to a new branch 'fix/android-picker-crash-183'
+2026-11-16T02:38:42.6558220Z branch 'fix/android-picker-crash-183' set up to track 'origin/fix/android-picker-crash-183'.
+2026-11-16T02:38:42.6755400Z ##[endgroup]
+2026-11-16T02:38:42.6904550Z [command]/opt/homebrew/bin/git log -1 --format=%H
+2026-11-16T02:38:42.7019120Z 7ea14b27158a60509b72c7f140805b4ebb447568
+2026-11-16T02:38:42.7744820Z ##[group]Run actions/setup-node@v7
+2026-11-16T02:38:42.7745270Z with:
+2026-11-16T02:38:42.7745510Z   node-version: 22
+2026-11-16T02:38:42.7745790Z   cache: npm
+2026-11-16T02:38:42.7745970Z   check-latest: false
+2026-11-16T02:38:42.7748220Z   token: ***
+2026-11-16T02:38:42.7748500Z   package-manager-cache: true
+2026-11-16T02:38:42.7789270Z ##[endgroup]
+2026-11-16T02:38:42.9636140Z Found in cache @ /Users/runner/hostedtoolcache/node/22.23.4/arm64
+2026-11-16T02:38:43.0790050Z ##[group]Environment details
+2026-11-16T02:38:43.4882970Z node: v22.23.4
+2026-11-16T02:38:43.4903800Z npm: 10.9.9
+2026-11-16T02:38:43.4905950Z yarn: 1.22.22
+2026-11-16T02:38:43.4909430Z ##[endgroup]
+2026-11-16T02:38:43.4910030Z [command]/Users/runner/hostedtoolcache/node/22.23.4/arm64/bin/npm config get cache
+2026-11-16T02:38:43.7484680Z /Users/runner/.npm
+2026-11-16T02:38:43.9592860Z Cache hit for: node-cache-macOS-arm64-npm-80f12e1d85cfe2521c704c7dd184aa9cf9307fa6bea5e6291733be3f18001fe0
+2026-11-16T02:38:45.1237020Z Received 67108864 of 360905157 (18.6%), 63.9 MBs/sec
+2026-11-16T02:38:46.1281120Z Received 146800640 of 360905157 (40.7%), 69.9 MBs/sec
+2026-11-16T02:38:47.1302570Z Received 260046848 of 360905157 (72.1%), 82.6 MBs/sec
+2026-11-16T02:38:48.1286960Z Received 344127941 of 360905157 (95.4%), 81.9 MBs/sec
+2026-11-16T02:38:48.5086040Z Received 360905157 of 360905157 (100.0%), 78.7 MBs/sec
+2026-11-16T02:38:48.5086700Z Cache Size: ~344 MB (360905157 B)
+2026-11-16T02:38:48.5142460Z [command]/opt/homebrew/bin/gtar -xf /Users/runner/work/_temp/5c3a0e78-a47a-4de0-8573-11bdbd3d8947/cache.tzst -P -C /Users/runner/work/vue-router-ns/vue-router-ns --delay-directory-restore --use-compress-program unzstd
+2026-11-16T02:38:50.1701580Z Cache restored successfully
+2026-11-16T02:38:50.1783180Z Cache restored from key: node-cache-macOS-arm64-npm-80f12e1d85cfe2521c704c7dd184aa9cf9307fa6bea5e6291733be3f18001fe0
+2026-11-16T02:38:50.2134120Z ##[group]Run ruby/setup-ruby@v1
+2026-11-16T02:38:50.2134400Z with:
+2026-11-16T02:38:50.2134820Z   ruby-version: 3.3
+2026-11-16T02:38:50.2135180Z   bundler-cache: false
+2026-11-16T02:38:50.2137140Z   token: ***
+2026-11-16T02:38:50.2137430Z ##[endgroup]
+2026-11-16T02:38:50.3775230Z ##[group]Modifying PATH
+2026-11-16T02:38:50.3781550Z Entries removed from PATH to avoid conflicts with default Ruby:
+2026-11-16T02:38:50.3782070Z   /opt/homebrew/lib/ruby/gems/3.3.0/bin
+2026-11-16T02:38:50.3782510Z   /opt/homebrew/opt/ruby@3.3/bin
+2026-11-16T02:38:50.3783890Z Entries added to PATH to use selected Ruby:
+2026-11-16T02:38:50.3784430Z   /Users/runner/hostedtoolcache/Ruby/3.3.13/arm64/bin
+2026-11-16T02:38:50.3786540Z ##[endgroup]
+2026-11-16T02:38:50.3787020Z ##[group]Print Ruby version
+2026-11-16T02:38:50.3815070Z [command]/Users/runner/hostedtoolcache/Ruby/3.3.13/arm64/bin/ruby --version
+2026-11-16T02:38:50.4123030Z ruby 3.3.13 (2026-10-23 revision af48f08f21) [arm64-darwin23]
+2026-11-16T02:38:50.4132590Z Took   0.03 seconds
+2026-11-16T02:38:50.4133170Z ##[endgroup]
+2026-11-16T02:38:50.4133680Z ##[group]Installing Bundler
+2026-11-16T02:38:50.4134780Z Using Bundler shipped with ruby-3.3.13
+2026-11-16T02:38:50.4135350Z Took   0.00 seconds
+2026-11-16T02:38:50.4135850Z ##[endgroup]
+2026-11-16T02:38:50.4284330Z ##[group]Run gem install cocoapods xcodeproj --no-document
+2026-11-16T02:38:50.4284670Z [36;1mgem install cocoapods xcodeproj --no-document[0m
+2026-11-16T02:38:50.4431850Z shell: /bin/bash -e {0}
+2026-11-16T02:38:50.4432110Z env:
+2026-11-16T02:38:50.4433670Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-16T02:38:50.4435180Z ##[endgroup]
+2026-11-16T02:38:53.8738820Z Successfully installed nanaimo-0.4.0
+2026-11-16T02:38:53.8739260Z Successfully installed colored2-3.1.2
+2026-11-16T02:38:53.8739700Z Successfully installed claide-1.1.0
+2026-11-16T02:38:53.8740030Z Successfully installed CFPropertyList-3.0.8
+2026-11-16T02:38:53.8740370Z Successfully installed atomos-0.1.3
+2026-11-16T02:38:53.8740750Z Successfully installed xcodeproj-1.28.1
+2026-11-16T02:38:53.8741070Z Successfully installed ruby-macho-4.1.0
+2026-11-16T02:38:53.8741380Z Successfully installed nap-1.2.0
+2026-11-16T02:38:53.8741690Z Successfully installed molinillo-0.8.0
+2026-11-16T02:38:53.8742020Z Successfully installed gh_inspector-1.1.3
+2026-11-16T02:38:53.8742340Z Successfully installed fourflusher-2.3.1
+2026-11-16T02:38:53.8743610Z Successfully installed cocoapods-try-1.2.0
+2026-11-16T02:38:53.8743920Z Successfully installed netrc-0.11.0
+2026-11-16T02:38:53.8744280Z Successfully installed cocoapods-trunk-1.6.0
+2026-11-16T02:38:53.8744630Z Successfully installed cocoapods-search-1.0.1
+2026-11-16T02:38:53.8744990Z Successfully installed cocoapods-plugins-1.0.0
+2026-11-16T02:38:53.8745410Z Successfully installed cocoapods-downloader-2.1
+2026-11-16T02:38:53.8745800Z Successfully installed cocoapods-deintegrate-1.0.5
+2026-11-16T02:38:53.8746190Z Successfully installed ffi-1.17.4-arm64-darwin
+2026-11-16T02:38:53.8746520Z Successfully installed ethon-0.19.2
+2026-11-16T02:38:53.8746820Z Successfully installed typhoeus-1.7.1
+2026-11-16T02:38:53.8747130Z Successfully installed public_suffix-4.0.7
+2026-11-16T02:38:53.8747490Z Successfully installed fuzzy_match-2.0.4
+2026-11-16T02:38:53.8747820Z Successfully installed concurrent-ruby-1.3.8
+2026-11-16T02:38:53.8748190Z Successfully installed httpclient-2.10.0
+2026-11-16T02:38:53.8748970Z A new major version is available for Algolia! Please now use the https://rubygems.org/gems/algolia gem to get the latest features.
+2026-11-16T02:38:53.8749550Z Successfully installed algoliasearch-1.27.5
+2026-11-16T02:38:53.8749930Z Successfully installed addressable-2.9.2
+2026-11-16T02:38:53.8750300Z Successfully installed tzinfo-2.0.6
+2026-11-16T02:38:53.8750640Z Successfully installed i18n-1.15.2
+2026-11-16T02:38:53.8750960Z Successfully installed connection_pool-2.5.5
+2026-11-16T02:38:53.8751290Z Successfully installed activesupport-7.2.4
+2026-11-16T02:38:53.8751660Z Successfully installed cocoapods-core-1.17.0
+2026-11-16T02:38:53.8752020Z Successfully installed cocoapods-1.17.0
+2026-11-16T02:38:53.8755400Z Successfully installed xcodeproj-1.28.1
+2026-11-16T02:38:53.8756460Z 34 gems installed
+2026-11-16T02:38:53.8796170Z ##[group]Run npm ci && npm run build
+2026-11-16T02:38:53.8796430Z [36;1mnpm ci && npm run build[0m
+2026-11-16T02:38:53.8826420Z shell: /bin/bash -e {0}
+2026-11-16T02:38:53.8826620Z env:
+2026-11-16T02:38:53.8828090Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-16T02:38:53.8829600Z ##[endgroup]
+2026-11-16T02:38:57.0173320Z 
+2026-11-16T02:38:57.0212030Z added 248 packages, and audited 249 packages in 3s
+2026-11-16T02:38:57.0230510Z 
+2026-11-16T02:38:57.0231040Z 68 packages are looking for funding
+2026-11-16T02:38:57.0231490Z   run `npm fund` for details
+2026-11-16T02:38:57.0305430Z 
+2026-11-16T02:38:57.0308190Z 4 vulnerabilities (3 moderate, 1 high)
+2026-11-16T02:38:57.0308920Z 
+2026-11-16T02:38:57.0312530Z To address issues that do not require attention, run:
+2026-11-16T02:38:57.0326540Z   npm audit fix
+2026-11-16T02:38:57.0326800Z 
+2026-11-16T02:38:57.0327200Z Some issues need review, and may require choosing
+2026-11-16T02:38:57.0327590Z a different dependency.
+2026-11-16T02:38:57.0327810Z 
+2026-11-16T02:38:57.0328120Z Run `npm audit` for details.
+2026-11-16T02:38:57.2151150Z 
+2026-11-16T02:38:57.2151590Z > vue-router-ns@0.1.0-rc.4 build
+2026-11-16T02:38:57.2152370Z > node -e "fs.rmSync('dist', { recursive: true, force: true })" && tsc -p tsconfig.build.json
+2026-11-16T02:38:57.2152830Z 
+2026-11-16T02:38:57.6849520Z ##[group]Run npm install --no-audit --no-fund
+2026-11-16T02:38:57.6849850Z [36;1mnpm install --no-audit --no-fund[0m
+2026-11-16T02:38:57.6882850Z shell: /bin/bash -e {0}
+2026-11-16T02:38:57.6883070Z env:
+2026-11-16T02:38:57.6884740Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-16T02:38:57.6889250Z ##[endgroup]
+2026-11-16T02:39:09.4968420Z npm warn deprecated source-map-resolve@0.6.0: See https://github.com/lydell/source-map-resolve#deprecated
+2026-11-16T02:39:09.5995900Z npm warn deprecated node-abort-controller@3.1.1: This package is no longer needed on supported Node.js versions. Node.js 16+ includes AbortController and AbortSignal as built-in globals. All Node.js versions requiring this polyfill are end-of-life. Use the built-in globals instead.
+2026-11-16T02:39:09.7241100Z npm warn deprecated webpack-chain@6.5.1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+2026-11-16T02:39:11.6172490Z 
+2026-11-16T02:39:11.6173060Z added 330 packages in 14s
+2026-11-16T02:39:11.6516810Z ##[group]Run npm install -g nativescript
+2026-11-16T02:39:11.6517570Z [36;1mnpm install -g nativescript[0m
+2026-11-16T02:39:11.6566220Z shell: /bin/bash -e {0}
+2026-11-16T02:39:11.6566550Z env:
+2026-11-16T02:39:11.6568150Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-16T02:39:11.6569730Z ##[endgroup]
+2026-11-16T02:39:25.8732810Z 
+2026-11-16T02:39:25.8774550Z added 417 packages in 14s
+2026-11-16T02:39:25.8775730Z 
+2026-11-16T02:39:25.8776150Z 62 packages are looking for funding
+2026-11-16T02:39:25.8776860Z   run `npm fund` for details
+2026-11-16T02:39:25.8924810Z ##[group]Run ns usage-reporting disable
+2026-11-16T02:39:25.8925280Z [36;1mns usage-reporting disable[0m
+2026-11-16T02:39:25.8925660Z [36;1mns error-reporting disable[0m
+2026-11-16T02:39:25.8926080Z [36;1mns create flow-scaffold --template @nativescript/template-blank-ts --path /tmp >/dev/null[0m
+2026-11-16T02:39:25.8926640Z [36;1mcp -R /tmp/flow-scaffold/App_Resources demo/App_Resources[0m
+2026-11-16T02:39:25.8927090Z [36;1mpython3 scripts/native/prepare-flows.py[0m
+2026-11-16T02:39:25.8963740Z shell: /bin/bash -e {0}
+2026-11-16T02:39:25.8964080Z env:
+2026-11-16T02:39:25.8966190Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-16T02:39:25.8968150Z ##[endgroup]
+2026-11-16T02:39:26.9129210Z Usage reporting is now disabled.
+2026-11-16T02:39:27.9563360Z Error reporting is now disabled.
+2026-11-16T02:39:39.8698410Z ##[group]Run ns build ios --for-device false --env.flowsTest
+2026-11-16T02:39:39.8699230Z [36;1mns build ios --for-device false --env.flowsTest[0m
+2026-11-16T02:39:39.8854100Z shell: /bin/bash -e {0}
+2026-11-16T02:39:39.8854360Z env:
+2026-11-16T02:39:39.8856120Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-16T02:39:39.8863330Z ##[endgroup]
+2026-11-16T02:39:45.8776690Z Copying template files...
+2026-11-16T02:39:46.2881040Z Platform ios successfully added. v9.1.0
+2026-11-16T02:39:46.2885160Z Preparing project...
+2026-11-16T02:39:47.3434510Z [nativescript-vue] vue@3.5.44 is installed in this project but nativescript-vue uses @vue/runtime-core@3.5.45. Templates are compiled with the installed vue's compiler, so keep both on the same version.
+2026-11-16T02:39:54.7223370Z assets by path [1m[32mairbnb/assets/*.jpg[39m[22m 1.45 MiB
+2026-11-16T02:39:54.7226990Z   asset [1m[32mairbnb/assets/cabin.jpg[39m[22m 254 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/cabin.jpg] [1m[32m[copied][39m[22m
+2026-11-16T02:39:54.7229520Z   asset [1m[32mairbnb/assets/pool.jpg[39m[22m 209 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/pool.jpg] [1m[32m[copied][39m[22m
+2026-11-16T02:39:54.7233880Z   asset [1m[32mairbnb/assets/mountain.jpg[39m[22m 199 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/mountain.jpg] [1m[32m[copied][39m[22m
+2026-11-16T02:39:54.7235540Z   asset [1m[32mairbnb/assets/loft.jpg[39m[22m 163 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/loft.jpg] [1m[32m[copied][39m[22m
+2026-11-16T02:39:54.7241360Z   asset [1m[32mairbnb/assets/garden-house.jpg[39m[22m 153 KiB [1m[32m[emitted][39m[22m [from: src/airbnb/assets/garden-house.jpg] [1m[32m[copied][39m[22m
+2026-11-16T02:39:54.7242340Z   + 4 assets
+2026-11-16T02:39:54.7243690Z assets by path [1m[32m*.mjs[39m[22m 4.68 MiB
+2026-11-16T02:39:54.7244570Z   asset [1m[32mvendor.mjs[39m[22m 4.19 MiB [1m[32m[emitted][39m[22m [javascript module] (name: vendor) (id hint: vendor) 1 related asset
+2026-11-16T02:39:54.7245640Z   asset [1m[32mbundle.mjs[39m[22m 497 KiB [1m[32m[emitted][39m[22m [javascript module] (name: bundle) 1 related asset
+2026-11-16T02:39:54.7246560Z   asset [1m[32mruntime.mjs[39m[22m 5.98 KiB [1m[32m[emitted][39m[22m [javascript module] (name: runtime) 1 related asset
+2026-11-16T02:39:54.7247350Z assets by path [1m[32mfonts/[39m[22m 342 KiB
+2026-11-16T02:39:54.7248410Z   asset [1m[32mfonts/MaterialIconsOutlined-Regular.otf[39m[22m 331 KiB [1m[32m[emitted][39m[22m [from: src/fonts/MaterialIconsOutlined-Regular.otf] [1m[32m[copied][39m[22m
+2026-11-16T02:39:54.7249660Z   asset [1m[32mfonts/MaterialIcons-LICENSE.txt[39m[22m 11.1 KiB [1m[32m[emitted][39m[22m [from: src/fonts/MaterialIcons-LICENSE.txt] [1m[32m[copied][39m[22m
+2026-11-16T02:39:54.7251070Z asset [1m[32mtns_modules/inspector_modules.mjs[39m[22m 778 bytes [1m[32m[emitted][39m[22m [javascript module] (name: tns_modules/inspector_modules) 1 related asset
+2026-11-16T02:39:54.7252520Z Entrypoint [1mbundle[39m[22m 4.68 MiB (4.63 MiB) = [1m[32mruntime.mjs[39m[22m 5.98 KiB [1m[32mvendor.mjs[39m[22m 4.19 MiB [1m[32mbundle.mjs[39m[22m 497 KiB 3 auxiliary assets
+2026-11-16T02:39:54.7254250Z Entrypoint [1mtns_modules/inspector_modules[39m[22m 4.19 MiB (4.14 MiB) = [1m[32mruntime.mjs[39m[22m 5.98 KiB [1m[32mvendor.mjs[39m[22m 4.19 MiB [1m[32mtns_modules/inspector_modules.mjs[39m[22m 778 bytes 3 auxiliary assets
+2026-11-16T02:39:54.7256870Z orphan modules 23.8 KiB [1m[33m[orphan][39m[22m 16 modules
+2026-11-16T02:39:54.7257440Z runtime modules 3.09 KiB 7 modules
+2026-11-16T02:39:54.7257990Z modules by path [1m./node_modules/[39m[22m 3.44 MiB 408 modules
+2026-11-16T02:39:54.7258690Z modules by path [1m../dist/[39m[22m 408 KiB
+2026-11-16T02:39:54.7259250Z   modules by path [1m../dist/*.js[39m[22m 356 KiB 49 modules
+2026-11-16T02:39:54.7259890Z   modules by path [1m../dist/components/*.js[39m[22m 13.8 KiB 6 modules
+2026-11-16T02:39:54.7260570Z   modules by path [1m../dist/hosts/*.js[39m[22m 25.4 KiB 5 modules
+2026-11-16T02:39:54.7270100Z   modules by path [1m../dist/flows/*.js[39m[22m 7.56 KiB
+2026-11-16T02:39:54.7270970Z     [1m../dist/flows/document-picker.js[39m[22m 4.3 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+2026-11-16T02:39:54.7271880Z     [1m../dist/flows/activity-result.js[39m[22m 3.25 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+2026-11-16T02:39:54.7273020Z   [1m../dist/destinations/view.js[39m[22m 5.12 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+2026-11-16T02:39:54.7274040Z [1m./src/testing/flows-app.ts[39m[22m 8.33 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+2026-11-16T02:39:54.7274930Z [1mexternal "~/package.json"[39m[22m 42 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+2026-11-16T02:39:54.7275740Z webpack 5.112.2 compiled [1m[32msuccessfully[39m[22m in 6805 ms
+2026-11-16T02:39:54.7276270Z Webpack compilation complete.
+2026-11-16T02:39:55.5114320Z Updating runtime package.json with configuration values...
+2026-11-16T02:39:55.5115120Z Project successfully prepared (ios)
+2026-11-16T02:39:55.5115620Z Building project...
+2026-11-16T02:39:55.5136820Z - Resolving Swift Package dependencies… (0m 0s)
+2026-11-16T02:40:20.4806420Z ✔ Swift Package dependencies resolved (0m 25s)
+2026-11-16T02:40:20.4874220Z Xcode build...
+2026-11-16T02:41:02.1733110Z Project successfully built.
+2026-11-16T02:41:02.1741030Z Build time: 66.622 s.
+2026-11-16T02:41:02.1743070Z The build result is located at: /Users/runner/work/vue-router-ns/vue-router-ns/demo/platforms/ios/build/Debug-iphonesimulator/demo.app
+2026-11-16T02:41:02.2408030Z ##[group]Run # Pin the native acceptance baseline and isolate its storage.
+2026-11-16T02:41:02.2408900Z [36;1m# Pin the native acceptance baseline and isolate its storage.[0m
+2026-11-16T02:41:02.2409350Z [36;1mRUNTIME=com.apple.CoreSimulator.SimRuntime.iOS-18-6[0m
+2026-11-16T02:41:02.2472320Z [36;1mSIM=$(xcrun simctl create RouterFlows com.apple.CoreSimulator.SimDeviceType.iPhone-16-Pro "$RUNTIME")[0m
+2026-11-16T02:41:02.2473510Z [36;1mecho "Testing $SIM on $RUNTIME"[0m
+2026-11-16T02:41:02.2473900Z [36;1mtrap 'xcrun simctl shutdown "$SIM"; xcrun simctl delete "$SIM"' EXIT[0m
+2026-11-16T02:41:02.2474330Z [36;1mxcrun simctl boot "$SIM"[0m
+2026-11-16T02:41:02.2474680Z [36;1mxcrun simctl bootstatus "$SIM" -b[0m
+2026-11-16T02:41:02.2475050Z [36;1mxcrun simctl install "$SIM" demo/platforms/ios/build/Debug-iphonesimulator/demo.app[0m
+2026-11-16T02:41:02.2475610Z [36;1mpython3 scripts/native/ios-flows/seed-document.py "$SIM"[0m
+2026-11-16T02:41:02.2476150Z [36;1mruby scripts/native/ios-flows/project.rb /tmp/router-flow-tests[0m
+2026-11-16T02:41:02.2476490Z [36;1mmkdir -p scripts/native/out/flows-ios[0m
+2026-11-16T02:41:02.2476740Z [36;1mset +e[0m
+2026-11-16T02:41:02.2477720Z [36;1mxcodebuild test -project /tmp/router-flow-tests/FlowChecks.xcodeproj -scheme FlowChecks -destination "platform=iOS Simulator,id=$SIM" -derivedDataPath /tmp/router-flow-tests/build -collect-test-diagnostics never -resultBundlePath scripts/native/out/flows-ios/FlowChecks.xcresult[0m
+2026-11-16T02:41:02.2479190Z [36;1mtest_status=$?[0m
+2026-11-16T02:41:02.2480140Z [36;1mxcrun simctl spawn "$SIM" log show --last 10m --style compact --predicate 'process == "demo" OR eventMessage CONTAINS "FLOW_" OR subsystem CONTAINS[c] "FileProvider" OR subsystem CONTAINS[c] "DocumentManager" OR process == "ResolverService"' > scripts/native/out/flows-ios/runtime.log[0m
+2026-11-16T02:41:02.2482350Z [36;1mDATA=$(xcrun simctl get_app_container "$SIM" org.nativescript.vuerouterns data)[0m
+2026-11-16T02:41:02.2482930Z [36;1mls -l "$DATA/Documents" > scripts/native/out/flows-ios/documents.txt[0m
+2026-11-16T02:41:02.2483360Z [36;1mexit "$test_status"[0m
+2026-11-16T02:41:02.5492380Z shell: /bin/bash -e {0}
+2026-11-16T02:41:02.5493460Z env:
+2026-11-16T02:41:02.5496870Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-16T02:41:02.5506100Z ##[endgroup]
+2026-11-16T02:41:05.0756760Z Testing F798E04E-7270-41E3-B634-BF2278577CA0 on com.apple.CoreSimulator.SimRuntime.iOS-18-6
+2026-11-16T02:42:21.4043620Z Monitoring boot status for RouterFlows (F798E04E-7270-41E3-B634-BF2278577CA0).
+2026-11-16T02:42:21.4175370Z Device already booted, nothing to do.
+2026-11-16T02:42:21.4304650Z 
+2026-11-16T02:43:01.7787650Z /Users/runner/Library/Developer/CoreSimulator/Devices/F798E04E-7270-41E3-B634-BF2278577CA0/data/Containers/Shared/AppGroup/9F1764D6-FEB3-4533-893E-F27F961656E5/File Provider Storage/router-flow-external.txt
+2026-11-16T02:43:53.1020620Z Command line invocation:
+2026-11-16T02:43:53.1033330Z     /Applications/Xcode_16.4.app/Contents/Developer/usr/bin/xcodebuild test -project /tmp/router-flow-tests/FlowChecks.xcodeproj -scheme FlowChecks -destination "platform=iOS Simulator,id=F798E04E-7270-41E3-B634-BF2278577CA0" -derivedDataPath /tmp/router-flow-tests/build -collect-test-diagnostics never -resultBundlePath scripts/native/out/flows-ios/FlowChecks.xcresult
+2026-11-16T02:43:53.1163680Z 
+2026-11-16T02:44:01.1385540Z Writing result bundle at path:
+2026-11-16T02:44:01.1402400Z 	/Users/runner/work/vue-router-ns/vue-router-ns/scripts/native/out/flows-ios/FlowChecks.xcresult
+2026-11-16T02:44:01.1504580Z 
+2026-11-16T02:44:01.5220140Z --- xcodebuild: WARNING: Using the first of multiple matching destinations:
+2026-11-16T02:44:01.5322810Z { platform:iOS Simulator, arch:arm64, id:F798E04E-7270-41E3-B634-BF2278577CA0, OS:18.6, name:RouterFlows }
+2026-11-16T02:44:01.5425800Z { platform:iOS Simulator, arch:x86_64, id:F798E04E-7270-41E3-B634-BF2278577CA0, OS:18.6, name:RouterFlows }
+2026-11-16T02:44:05.1974170Z ComputePackagePrebuildTargetDependencyGraph
+2026-11-16T02:44:05.4360370Z 
+2026-11-16T02:44:05.4541750Z Prepare packages
+2026-11-16T02:44:05.4652550Z 
+2026-11-16T02:44:05.4765270Z CreateBuildRequest
+2026-11-16T02:44:05.4866460Z 
+2026-11-16T02:44:05.5014810Z SendProjectDescription
+2026-11-16T02:44:05.5115930Z 
+2026-11-16T02:44:05.5223660Z CreateBuildOperation
+2026-11-16T02:44:05.5339400Z 
+2026-11-16T02:44:05.5665540Z ComputeTargetDependencyGraph
+2026-11-16T02:44:05.5773610Z note: Building targets in dependency order
+2026-11-16T02:44:05.5894990Z note: Target dependency graph (1 target)
+2026-11-16T02:44:05.6019150Z     Target 'FlowChecks' in project 'FlowChecks' (no dependencies)
+2026-11-16T02:44:05.6143800Z 
+2026-11-16T02:44:05.6251300Z GatherProvisioningInputs
+2026-11-16T02:44:05.6353960Z 
+2026-11-16T02:44:05.6465990Z CreateBuildDescription
+2026-11-16T02:44:05.6660950Z 
+2026-11-16T02:44:05.6934290Z ExecuteExternalTool /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+2026-11-16T02:44:07.2838670Z 
+2026-11-16T02:44:07.2888400Z ExecuteExternalTool /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -x c -c /dev/null
+2026-11-16T02:44:07.2896990Z 
+2026-11-16T02:44:07.3148680Z ExecuteExternalTool /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+2026-11-16T02:44:07.6906630Z 
+2026-11-16T02:44:07.7214520Z Build description signature: 7367e7173db4b6eb1636f17d2066fc7e
+2026-11-16T02:44:07.7219160Z Build description path: /tmp/router-flow-tests/build/Build/Intermediates.noindex/XCBuildData/7367e7173db4b6eb1636f17d2066fc7e.xcbuilddata
+2026-11-16T02:44:07.8289190Z CreateBuildDirectory /tmp/router-flow-tests/build/Build/Products
+2026-11-16T02:44:07.8316800Z     cd /tmp/router-flow-tests/FlowChecks.xcodeproj
+2026-11-16T02:44:07.8318550Z     builtin-create-build-directory /tmp/router-flow-tests/build/Build/Products
+2026-11-16T02:44:07.8339920Z 
+2026-11-16T02:44:07.8342750Z ClangStatCache /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk /tmp/router-flow-tests/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-96ae0914227b19deccb34b33ba7b5dea.sdkstatcache
+2026-11-16T02:44:07.8346220Z     cd /tmp/router-flow-tests/FlowChecks.xcodeproj
+2026-11-16T02:44:07.8352250Z     /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -o /tmp/router-flow-tests/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-96ae0914227b19deccb34b33ba7b5dea.sdkstatcache
+2026-11-16T02:44:11.5794670Z 
+2026-11-16T02:44:11.5813010Z CreateBuildDirectory /tmp/router-flow-tests/build/Build/Intermediates.noindex
+2026-11-16T02:44:11.5819800Z     cd /tmp/router-flow-tests/FlowChecks.xcodeproj
+2026-11-16T02:44:11.5820470Z     builtin-create-build-directory /tmp/router-flow-tests/build/Build/Intermediates.noindex
+2026-11-16T02:44:11.5820860Z 
+2026-11-16T02:44:11.5840420Z WriteAuxiliaryFile /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks-056786cb5a934dc77a16275d86c6c426-VFS-iphonesimulator/all-product-headers.yaml
+2026-11-16T02:44:11.5841940Z     cd /tmp/router-flow-tests/FlowChecks.xcodeproj
+2026-11-16T02:44:11.5845450Z     write-file /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks-056786cb5a934dc77a16275d86c6c426-VFS-iphonesimulator/all-product-headers.yaml
+2026-11-16T02:44:11.5846860Z 
+2026-11-16T02:44:11.5847530Z CreateBuildDirectory /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator
+2026-11-16T02:44:11.5851420Z     cd /tmp/router-flow-tests/FlowChecks.xcodeproj
+2026-11-16T02:44:11.5866370Z     builtin-create-build-directory /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator
+2026-11-16T02:44:11.5867940Z 
+2026-11-16T02:44:11.5869310Z CreateBuildDirectory /tmp/router-flow-tests/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+2026-11-16T02:44:11.5871380Z     cd /tmp/router-flow-tests/FlowChecks.xcodeproj
+2026-11-16T02:44:11.5873800Z     builtin-create-build-directory /tmp/router-flow-tests/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+2026-11-16T02:44:11.5875460Z 
+2026-11-16T02:44:11.5878970Z WriteAuxiliaryFile /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/ProductTypeInfoPlistAdditions.plist (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.5881230Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:11.5884730Z     write-file /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/ProductTypeInfoPlistAdditions.plist
+2026-11-16T02:44:11.5885830Z 
+2026-11-16T02:44:11.5887110Z WriteAuxiliaryFile /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/empty-FlowChecks.plist (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.5889560Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:11.5902660Z     write-file /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/empty-FlowChecks.plist
+2026-11-16T02:44:11.5906000Z 
+2026-11-16T02:44:11.5947340Z WriteAuxiliaryFile /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks_const_extract_protocols.json (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.5999800Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:11.6001890Z     write-file /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks_const_extract_protocols.json
+2026-11-16T02:44:11.6002940Z 
+2026-11-16T02:44:11.6004340Z WriteAuxiliaryFile /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.SwiftFileList (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.6005320Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:11.6008150Z     write-file /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.SwiftFileList
+2026-11-16T02:44:11.6033070Z 
+2026-11-16T02:44:11.6035310Z WriteAuxiliaryFile /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.SwiftConstValuesFileList (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.6045210Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:11.6050730Z     write-file /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.SwiftConstValuesFileList
+2026-11-16T02:44:11.6075700Z 
+2026-11-16T02:44:11.6079140Z WriteAuxiliaryFile /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.LinkFileList (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.6081290Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:11.6104510Z     write-file /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.LinkFileList
+2026-11-16T02:44:11.6105590Z 
+2026-11-16T02:44:11.6113580Z WriteAuxiliaryFile /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks-OutputFileMap.json (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.6289060Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:11.6416390Z     write-file /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks-OutputFileMap.json
+2026-11-16T02:44:11.6519140Z 
+2026-11-16T02:44:11.6623870Z WriteAuxiliaryFile /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks.hmap (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.6627020Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:11.6736460Z     write-file /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks.hmap
+2026-11-16T02:44:11.6883020Z 
+2026-11-16T02:44:11.6998790Z WriteAuxiliaryFile /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks.DependencyStaticMetadataFileList (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.7131000Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:11.7374750Z     write-file /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks.DependencyStaticMetadataFileList
+2026-11-16T02:44:11.7484320Z 
+2026-11-16T02:44:11.7587110Z WriteAuxiliaryFile /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks.DependencyMetadataFileList (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.7689420Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:11.7798370Z     write-file /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks.DependencyMetadataFileList
+2026-11-16T02:44:11.7900040Z 
+2026-11-16T02:44:11.8011430Z WriteAuxiliaryFile /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-project-headers.hmap (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.8113250Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:11.8217780Z     write-file /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-project-headers.hmap
+2026-11-16T02:44:11.8390970Z 
+2026-11-16T02:44:11.8496940Z WriteAuxiliaryFile /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-own-target-headers.hmap (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.8602130Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:11.8707460Z     write-file /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-own-target-headers.hmap
+2026-11-16T02:44:11.8751340Z 
+2026-11-16T02:44:11.8753510Z WriteAuxiliaryFile /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-generated-files.hmap (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.8755040Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:11.8756180Z     write-file /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-generated-files.hmap
+2026-11-16T02:44:11.8757000Z 
+2026-11-16T02:44:11.8758760Z WriteAuxiliaryFile /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-all-target-headers.hmap (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.8761100Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:11.8762040Z     write-file /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-all-target-headers.hmap
+2026-11-16T02:44:11.8764090Z 
+2026-11-16T02:44:11.8765430Z WriteAuxiliaryFile /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-all-non-framework-target-headers.hmap (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.8767790Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:11.8769220Z     write-file /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-all-non-framework-target-headers.hmap
+2026-11-16T02:44:11.8771710Z 
+2026-11-16T02:44:11.8773500Z MkDir /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.8775160Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:11.8776960Z     /bin/mkdir -p /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest
+2026-11-16T02:44:11.8779830Z 
+2026-11-16T02:44:11.8783010Z ProcessInfoPlistFile /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest/Info.plist /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/empty-FlowChecks.plist (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.8785580Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:11.8810320Z     builtin-infoPlistUtility /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/empty-FlowChecks.plist -producttype com.apple.product-type.bundle.ui-testing -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/ProductTypeInfoPlistAdditions.plist -o /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest/Info.plist
+2026-11-16T02:44:11.8907590Z 
+2026-11-16T02:44:11.8913980Z SwiftDriver FlowChecks normal arm64 com.apple.xcode.tools.swift.compiler (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.9016350Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:11.9142260Z     builtin-SwiftDriver -- /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name FlowChecks -Onone -enforce-exclusivity\=checked @/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.SwiftFileList -DDEBUG -module-alias Testing\=_Testing_Unavailable -plugin-path /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /tmp/router-flow-tests/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/router-flow-tests/build/Index.noindex/DataStore -swift-version 5 -I /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator -I /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator -F /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk/Developer/Library/Frameworks -parse-as-library -c -j3 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/router-flow-tests/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-96ae0914227b19deccb34b33ba7b5dea.sdkstatcache -output-file-map /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.swiftmodule -validate-clang-modules-once -clang-build-session-file /tmp/router-flow-tests/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-generated-files.hmap -Xcc -I/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-own-target-headers.hmap -Xcc -I/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-project-headers.hmap -Xcc -I/tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/DerivedSources-normal/arm64 -Xcc -I/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/DerivedSources/arm64 -Xcc -I/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks-Swift.h -working-directory /tmp/router-flow-tests -experimental-emit-module-separately -disable-cmo
+2026-11-16T02:44:11.9194250Z 
+2026-11-16T02:44:11.9793680Z SwiftEmitModule normal arm64 Emitting\ module\ for\ FlowChecks (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.9794340Z 
+2026-11-16T02:44:11.9801570Z SwiftCompile normal arm64 /Users/runner/work/vue-router-ns/vue-router-ns/scripts/native/ios-flows/FlowUITests.swift (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:11.9804760Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:11.9805400Z     
+2026-11-16T02:44:24.6010520Z 
+2026-11-16T02:44:24.6116650Z SwiftCompile normal arm64 Compiling\ FlowUITests.swift /Users/runner/work/vue-router-ns/vue-router-ns/scripts/native/ios-flows/FlowUITests.swift (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:24.6128990Z SwiftCompile normal arm64 /Users/runner/work/vue-router-ns/vue-router-ns/scripts/native/ios-flows/FlowUITests.swift (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:24.6129870Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:24.6130570Z     
+2026-11-16T02:44:27.3308580Z 
+2026-11-16T02:44:27.3360590Z SwiftDriverJobDiscovery normal arm64 Emitting module for FlowChecks (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:27.3364200Z 
+2026-11-16T02:44:27.3370340Z SwiftDriver\ Compilation\ Requirements FlowChecks normal arm64 com.apple.xcode.tools.swift.compiler (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:27.3371560Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:27.3401540Z     builtin-Swift-Compilation-Requirements -- /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name FlowChecks -Onone -enforce-exclusivity\=checked @/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.SwiftFileList -DDEBUG -module-alias Testing\=_Testing_Unavailable -plugin-path /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /tmp/router-flow-tests/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/router-flow-tests/build/Index.noindex/DataStore -swift-version 5 -I /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator -I /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator -F /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk/Developer/Library/Frameworks -parse-as-library -c -j3 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/router-flow-tests/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-96ae0914227b19deccb34b33ba7b5dea.sdkstatcache -output-file-map /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.swiftmodule -validate-clang-modules-once -clang-build-session-file /tmp/router-flow-tests/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-generated-files.hmap -Xcc -I/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-own-target-headers.hmap -Xcc -I/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-project-headers.hmap -Xcc -I/tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/DerivedSources-normal/arm64 -Xcc -I/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/DerivedSources/arm64 -Xcc -I/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks-Swift.h -working-directory /tmp/router-flow-tests -experimental-emit-module-separately -disable-cmo
+2026-11-16T02:44:27.3447740Z 
+2026-11-16T02:44:27.3452520Z SwiftMergeGeneratedHeaders /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/DerivedSources/FlowChecks-Swift.h /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks-Swift.h (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:27.3455420Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:27.3457050Z     builtin-swiftHeaderTool -arch arm64 /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks-Swift.h -o /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/DerivedSources/FlowChecks-Swift.h
+2026-11-16T02:44:27.3458330Z 
+2026-11-16T02:44:27.3460450Z Copy /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks.swiftmodule/arm64-apple-ios-simulator.swiftmodule /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.swiftmodule (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:27.3463990Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:27.3468240Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.swiftmodule /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks.swiftmodule/arm64-apple-ios-simulator.swiftmodule
+2026-11-16T02:44:27.3471760Z 
+2026-11-16T02:44:27.3475830Z Copy /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks.swiftmodule/arm64-apple-ios-simulator.swiftdoc /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.swiftdoc (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:27.3480240Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:27.3484560Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.swiftdoc /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks.swiftmodule/arm64-apple-ios-simulator.swiftdoc
+2026-11-16T02:44:27.3488030Z 
+2026-11-16T02:44:27.3491990Z Copy /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks.swiftmodule/arm64-apple-ios-simulator.abi.json /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.abi.json (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:27.3493610Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:27.3496270Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.abi.json /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks.swiftmodule/arm64-apple-ios-simulator.abi.json
+2026-11-16T02:44:27.3497550Z 
+2026-11-16T02:44:27.3499720Z Copy /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.swiftsourceinfo (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:27.3501160Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:27.3503020Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.swiftsourceinfo /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo
+2026-11-16T02:44:27.3504960Z 
+2026-11-16T02:44:27.3505460Z SwiftDriverJobDiscovery normal arm64 Compiling FlowUITests.swift (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:27.3505860Z 
+2026-11-16T02:44:27.3506470Z SwiftDriver\ Compilation FlowChecks normal arm64 com.apple.xcode.tools.swift.compiler (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:27.3507030Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:27.3545830Z     builtin-Swift-Compilation -- /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name FlowChecks -Onone -enforce-exclusivity\=checked @/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.SwiftFileList -DDEBUG -module-alias Testing\=_Testing_Unavailable -plugin-path /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /tmp/router-flow-tests/build/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/router-flow-tests/build/Index.noindex/DataStore -swift-version 5 -I /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator -I /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator -F /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk/Developer/Library/Frameworks -parse-as-library -c -j3 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/router-flow-tests/build/SDKStatCaches.noindex/iphonesimulator18.5-22F76-96ae0914227b19deccb34b33ba7b5dea.sdkstatcache -output-file-map /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.swiftmodule -validate-clang-modules-once -clang-build-session-file /tmp/router-flow-tests/build/ModuleCache.noindex/Session.modulevalidation -Xcc -I/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-generated-files.hmap -Xcc -I/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-own-target-headers.hmap -Xcc -I/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks-project-headers.hmap -Xcc -I/tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/include -Xcc -I/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/DerivedSources-normal/arm64 -Xcc -I/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/DerivedSources/arm64 -Xcc -I/tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks-Swift.h -working-directory /tmp/router-flow-tests -experimental-emit-module-separately -disable-cmo
+2026-11-16T02:44:27.3580760Z 
+2026-11-16T02:44:27.3581690Z Ld /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest/FlowChecks normal (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:27.3583200Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:27.3593410Z     /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios18.0-simulator -bundle -isysroot /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk -O0 -L/tmp/router-flow-tests/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -L/tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator -L/Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F/tmp/router-flow-tests/build/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -F/tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator -iframework /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -iframework /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk/Developer/Library/Frameworks -filelist /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.LinkFileList -Xlinker -rpath -Xlinker @loader_path/Frameworks -dead_strip -Xlinker -object_path_lto -Xlinker /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.swiftmodule -framework XCTest -lXCTestSwiftSupport -framework Foundation -o /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest/FlowChecks
+2026-11-16T02:44:27.6913940Z 
+2026-11-16T02:44:27.6979000Z CopySwiftLibs /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:27.6979980Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:27.6987940Z     builtin-swiftStdLibTool --copy --verbose --scan-executable /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest/FlowChecks --scan-folder /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest/Frameworks --scan-folder /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest/PlugIns --scan-folder /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest/SystemExtensions --scan-folder /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest/Extensions --scan-folder /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework --platform iphonesimulator --toolchain /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest/Frameworks --strip-bitcode --scan-executable /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+2026-11-16T02:44:27.7779850Z Ignoring --strip-bitcode because --sign was not passed
+2026-11-16T02:44:27.7784850Z 
+2026-11-16T02:44:27.7785350Z ExtractAppIntentsMetadata (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:27.7786580Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:27.7804470Z     /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name FlowChecks --sdk-root /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator18.5.sdk --xcode-version 16F6 --platform-family iOS --deployment-target 18.0 --bundle-identifier org.nativescript.flowchecks --output /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest --target-triple arm64-apple-ios18.0-simulator --binary-file /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest/FlowChecks --dependency-file /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks_dependency_info.dat --stringsdata-file /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.SwiftFileList --metadata-file-list /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks.DependencyMetadataFileList --static-metadata-file-list /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks.DependencyStaticMetadataFileList --swift-const-vals-list /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/Objects-normal/arm64/FlowChecks.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --validate-assistant-intents --no-app-shortcuts-localization
+2026-11-16T02:44:28.0649440Z 2026-11-16 02:44:28.060 appintentsmetadataprocessor[8847:29509] Starting appintentsmetadataprocessor export
+2026-11-16T02:44:28.0655960Z 2026-11-16 02:44:28.062 appintentsmetadataprocessor[8847:29509] warning: Metadata extraction skipped. No AppIntents.framework dependency found.
+2026-11-16T02:44:28.0657060Z 
+2026-11-16T02:44:28.0659020Z AppIntentsSSUTraining (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:28.0660330Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:28.0666540Z     /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest/Info.plist --temp-dir-path /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/ssu --bundle-id org.nativescript.flowchecks --product-path /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest --extracted-metadata-path /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest/Metadata.appintents --metadata-file-list /tmp/router-flow-tests/build/Build/Intermediates.noindex/FlowChecks.build/Debug-iphonesimulator/FlowChecks.build/FlowChecks.DependencyMetadataFileList --archive-ssu-assets
+2026-11-16T02:44:28.1209550Z 2026-11-16 02:44:28.108 appintentsnltrainingprocessor[8848:29536] Parsing options for appintentsnltrainingprocessor
+2026-11-16T02:44:28.1330540Z 2026-11-16 02:44:28.119 appintentsnltrainingprocessor[8848:29536] No AppShortcuts found - Skipping.
+2026-11-16T02:44:28.1445220Z 
+2026-11-16T02:44:28.1462300Z MkDir /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:28.1477790Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:28.1581790Z     /bin/mkdir -p /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app
+2026-11-16T02:44:28.1700880Z 
+2026-11-16T02:44:28.1810030Z CopyPlistFile /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/Info.plist /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/Info.plist (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:28.1889520Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:28.1897350Z     builtin-copyPlist --validate --convert xml1 --macro-expansion WRAPPEDPRODUCTNAME FlowChecks-Runner --macro-expansion WRAPPEDPRODUCTBUNDLEIDENTIFIER org.nativescript.flowchecks.xctrunner --macro-expansion TESTPRODUCTNAME FlowChecks --macro-expansion TESTPRODUCTBUNDLEIDENTIFIER org.nativescript.flowchecks --copy-value UIDeviceFamily /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest/Info.plist --outdir /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app -- /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/Info.plist
+2026-11-16T02:44:28.1930330Z 
+2026-11-16T02:44:28.1931780Z CopyAndPreserveArchs /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/FlowChecks-Runner (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:28.1932610Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:28.1934610Z     /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/XCTRunner -output /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/FlowChecks-Runner -extract arm64
+2026-11-16T02:44:28.1936170Z 
+2026-11-16T02:44:28.1938790Z Copy /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PkgInfo /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/PkgInfo (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:28.1940170Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:28.1942840Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Xcode/Agents/XCTRunner.app/PkgInfo /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app
+2026-11-16T02:44:28.1945850Z 
+2026-11-16T02:44:28.1947450Z Copy /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/Frameworks/libXCTestSwiftSupport.dylib /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:28.1958030Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:28.1967770Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/Frameworks
+2026-11-16T02:44:28.1978260Z 
+2026-11-16T02:44:28.1979870Z Copy /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/Frameworks/XCUnit.framework /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks/XCUnit.framework (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:28.1981180Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:28.1987080Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks/XCUnit.framework /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/Frameworks
+2026-11-16T02:44:28.2012180Z 
+2026-11-16T02:44:28.2014590Z Copy /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/Frameworks/XCUIAutomation.framework /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/XCUIAutomation.framework (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:28.2018220Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:28.2020260Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/XCUIAutomation.framework /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/Frameworks
+2026-11-16T02:44:28.2021820Z 
+2026-11-16T02:44:28.2023470Z Copy /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/Frameworks/XCTestSupport.framework /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks/XCTestSupport.framework (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:28.2028530Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:28.2030550Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks/XCTestSupport.framework /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/Frameworks
+2026-11-16T02:44:28.2032000Z 
+2026-11-16T02:44:28.2033810Z Copy /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/Frameworks/XCTestCore.framework /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks/XCTestCore.framework (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:28.2035560Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:28.2037460Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks/XCTestCore.framework /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/Frameworks
+2026-11-16T02:44:28.2038900Z 
+2026-11-16T02:44:28.2040390Z Copy /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/Frameworks/XCTest.framework /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/XCTest.framework (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:28.2128300Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:28.2204380Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/XCTest.framework /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/Frameworks
+2026-11-16T02:44:28.2212550Z 
+2026-11-16T02:44:28.2246090Z Copy /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/Frameworks/XCTAutomationSupport.framework /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks/XCTAutomationSupport.framework (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:28.2250990Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:28.2266910Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks/XCTAutomationSupport.framework /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/Frameworks
+2026-11-16T02:44:28.2276800Z 
+2026-11-16T02:44:28.2280730Z Copy /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/Frameworks/Testing.framework /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/Testing.framework (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:28.2282680Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:28.2285050Z     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode_16.4.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/Testing.framework /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/Frameworks
+2026-11-16T02:44:28.2288340Z 
+2026-11-16T02:44:28.2290900Z RegisterExecutionPolicyException /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:28.2293300Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:28.2295310Z     builtin-RegisterExecutionPolicyException /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest
+2026-11-16T02:44:28.2296900Z 
+2026-11-16T02:44:28.2299520Z Touch /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest (in target 'FlowChecks' from project 'FlowChecks')
+2026-11-16T02:44:28.2301050Z     cd /tmp/router-flow-tests
+2026-11-16T02:44:28.2301860Z     /usr/bin/touch -c /tmp/router-flow-tests/build/Build/Products/Debug-iphonesimulator/FlowChecks-Runner.app/PlugIns/FlowChecks.xctest
+2026-11-16T02:44:28.2338600Z 
+2026-11-16T02:44:44.2966600Z 2026-11-16 02:44:44.219675+0000 FlowChecks-Runner[8903:30020] [Default] Running tests...
+2026-11-16T02:44:52.7210460Z     t =      nans Interface orientation changed to Portrait
+2026-11-16T02:44:54.4600920Z Test Suite 'All tests' started at 2026-11-16 02:44:54.425.
+2026-11-16T02:44:54.4711390Z Test Suite 'FlowChecks.xctest' started at 2026-11-16 02:44:54.426.
+2026-11-16T02:44:54.4825130Z Test Suite 'FlowUITests' started at 2026-11-16 02:44:54.427.
+2026-11-16T02:44:54.4943700Z Test Case '-[FlowChecks.FlowUITests testCancelAndGuard]' started.
+2026-11-16T02:44:54.5077980Z     t =     0.00s Start Test at 2026-11-16 02:44:54.427
+2026-11-16T02:44:55.4024560Z     t =     0.93s Set Up
+2026-11-16T02:44:55.4135080Z     t =     0.93s     Open org.nativescript.vuerouterns
+2026-11-16T02:44:55.4777100Z     t =     0.93s         Launch org.nativescript.vuerouterns
+2026-11-16T02:44:56.6660580Z     t =     1.91s             Setting up automation session
+2026-11-16T02:44:59.0330500Z     t =     4.57s             Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:45:00.4987430Z     t =     5.97s     Waiting 20.0s for "pick" Button to exist
+2026-11-16T02:45:01.4847420Z     t =     7.02s         Checking `Expect predicate `existsNoRetry == 1` for object "pick" Button`
+2026-11-16T02:45:01.4852180Z     t =     7.02s             Checking existence of `"pick" Button`
+2026-11-16T02:45:01.5397740Z     t =     7.10s Tap "guard" Button
+2026-11-16T02:45:01.5410400Z     t =     7.10s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:45:01.5412580Z     t =     7.11s     Find the "guard" Button
+2026-11-16T02:45:01.5696810Z     t =     7.14s     Check for interrupting elements affecting "guard" Button
+2026-11-16T02:45:01.6364540Z     t =     7.21s     Synthesize event
+2026-11-16T02:45:02.0780390Z     t =     7.65s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:45:02.0830920Z     t =     7.65s Waiting 10.0s for "guard:guard" StaticText to exist
+2026-11-16T02:45:03.1027210Z     t =     8.66s     Checking `Expect predicate `existsNoRetry == 1` for object "guard:guard" StaticText`
+2026-11-16T02:45:03.1054200Z     t =     8.67s         Checking existence of `"guard:guard" StaticText`
+2026-11-16T02:45:03.1209480Z     t =     8.69s Tap "pick" Button
+2026-11-16T02:45:03.1214300Z     t =     8.69s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:45:03.1278470Z     t =     8.69s     Find the "pick" Button
+2026-11-16T02:45:03.1957650Z     t =     8.72s     Check for interrupting elements affecting "pick" Button
+2026-11-16T02:45:03.1971390Z     t =     8.75s     Synthesize event
+2026-11-16T02:45:03.7341500Z     t =     9.12s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:45:03.7458310Z     t =     9.15s Waiting 60.0s for "Cancel" Button to exist
+2026-11-16T02:45:04.7128020Z     t =    10.18s     Checking `Expect predicate `existsNoRetry == 1` for object "Cancel" Button`
+2026-11-16T02:45:04.7137920Z     t =    10.18s         Checking existence of `"Cancel" Button`
+2026-11-16T02:45:04.7139710Z     t =    10.28s         Capturing element debug description
+2026-11-16T02:45:05.7878320Z     t =    11.22s     Checking `Expect predicate `existsNoRetry == 1` for object "Cancel" Button`
+2026-11-16T02:45:05.7907610Z     t =    11.22s         Checking existence of `"Cancel" Button`
+2026-11-16T02:45:05.7908540Z     t =    11.33s         Capturing element debug description
+2026-11-16T02:45:07.4814060Z     t =    12.20s     Checking `Expect predicate `existsNoRetry == 1` for object "Cancel" Button`
+2026-11-16T02:45:07.7534180Z     t =    12.21s         Checking existence of `"Cancel" Button`
+2026-11-16T02:45:08.2850670Z     t =    12.46s         Capturing element debug description
+2026-11-16T02:45:08.3668620Z     t =    13.17s     Checking `Expect predicate `existsNoRetry == 1` for object "Cancel" Button`
+2026-11-16T02:45:08.8331610Z     t =    13.17s         Checking existence of `"Cancel" Button`
+2026-11-16T02:45:09.8613950Z     t =    15.36s         Capturing element debug description
+2026-11-16T02:45:10.7880370Z     t =    16.22s     Checking `Expect predicate `existsNoRetry == 1` for object "Cancel" Button`
+2026-11-16T02:45:10.7989890Z     t =    16.22s         Checking existence of `"Cancel" Button`
+2026-11-16T02:45:13.4337260Z     t =    18.89s Find the Application 'org.nativescript.vuerouterns'
+2026-11-16T02:45:13.7696740Z     t =    19.28s Added attachment named 'system-document-picker'
+2026-11-16T02:45:13.7802970Z     t =    19.28s Tap "Cancel" Button
+2026-11-16T02:45:13.7904830Z     t =    19.28s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:45:13.8005240Z     t =    19.28s     Find the "Cancel" Button
+2026-11-16T02:45:13.8108910Z     t =    19.35s     Check for interrupting elements affecting "Cancel" Button
+2026-11-16T02:45:13.9003410Z     t =    19.41s     Synthesize event
+2026-11-16T02:45:14.1681270Z     t =    19.72s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:45:14.1693490Z     t =    19.73s Waiting 10.0s for "pick:user" StaticText to exist
+2026-11-16T02:45:15.1993360Z     t =    20.76s     Checking `Expect predicate `existsNoRetry == 1` for object "pick:user" StaticText`
+2026-11-16T02:45:15.2005150Z     t =    20.76s         Checking existence of `"pick:user" StaticText`
+2026-11-16T02:45:15.2199010Z     t =    20.79s Checking existence of `"IDLE" StaticText`
+2026-11-16T02:45:15.2379870Z     t =    20.81s Tear Down
+2026-11-16T02:45:15.4801160Z Test Case '-[FlowChecks.FlowUITests testCancelAndGuard]' passed (21.051 seconds).
+2026-11-16T02:45:15.4868790Z Test Case '-[FlowChecks.FlowUITests testConcurrentPresentation]' started.
+2026-11-16T02:45:15.4970790Z     t =     0.00s Start Test at 2026-11-16 02:45:15.479
+2026-11-16T02:45:15.8739160Z     t =     0.03s Set Up
+2026-11-16T02:45:15.8846950Z     t =     0.03s     Open org.nativescript.vuerouterns
+2026-11-16T02:45:15.8955760Z     t =     0.03s         Launch org.nativescript.vuerouterns
+2026-11-16T02:45:15.9057510Z     t =     0.03s             Terminate org.nativescript.vuerouterns:9334
+2026-11-16T02:45:35.0396770Z     t =    19.39s             Setting up automation session
+2026-11-16T02:45:36.5278100Z     t =    21.04s             Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:45:37.7271750Z     t =    22.25s     Waiting 20.0s for "pick" Button to exist
+2026-11-16T02:45:38.7924220Z     t =    23.31s         Checking `Expect predicate `existsNoRetry == 1` for object "pick" Button`
+2026-11-16T02:45:38.7936360Z     t =    23.31s             Checking existence of `"pick" Button`
+2026-11-16T02:45:38.8600140Z     t =    23.35s Tap "concurrent" Button
+2026-11-16T02:45:38.8636450Z     t =    23.35s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:45:38.8649500Z     t =    23.35s     Find the "concurrent" Button
+2026-11-16T02:45:38.8950990Z     t =    23.36s     Check for interrupting elements affecting "concurrent" Button
+2026-11-16T02:45:38.8951630Z     t =    23.38s     Synthesize event
+2026-11-16T02:45:39.1591400Z     t =    23.68s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:45:39.1598310Z     t =    23.68s Waiting 60.0s for "Cancel" Button to exist
+2026-11-16T02:45:40.2804390Z     t =    24.72s     Checking `Expect predicate `existsNoRetry == 1` for object "Cancel" Button`
+2026-11-16T02:45:40.2806650Z     t =    24.72s         Checking existence of `"Cancel" Button`
+2026-11-16T02:45:42.5987110Z     t =    27.10s         Capturing element debug description
+2026-11-16T02:45:43.2335600Z     t =    27.73s     Checking `Expect predicate `existsNoRetry == 1` for object "Cancel" Button`
+2026-11-16T02:45:43.2358950Z     t =    27.73s         Checking existence of `"Cancel" Button`
+2026-11-16T02:45:43.5002180Z     t =    27.83s Tap "Cancel" Button
+2026-11-16T02:45:43.5003360Z     t =    27.83s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:45:43.5105660Z     t =    27.84s     Find the "Cancel" Button
+2026-11-16T02:45:43.5207530Z     t =    27.89s     Check for interrupting elements affecting "Cancel" Button
+2026-11-16T02:45:43.5641080Z     t =    27.94s     Synthesize event
+2026-11-16T02:45:43.7828070Z     t =    28.23s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:45:43.8336340Z     t =    28.34s Waiting 10.0s for "concurrent:refused" StaticText to exist
+2026-11-16T02:45:44.9107820Z     t =    29.39s     Checking `Expect predicate `existsNoRetry == 1` for object "concurrent:refused" StaticText`
+2026-11-16T02:45:44.9231770Z     t =    29.39s         Checking existence of `"concurrent:refused" StaticText`
+2026-11-16T02:45:44.9613100Z     t =    29.42s Checking existence of `"IDLE" StaticText`
+2026-11-16T02:45:44.9613700Z     t =    29.43s Tear Down
+2026-11-16T02:45:45.2814350Z Test Case '-[FlowChecks.FlowUITests testConcurrentPresentation]' passed (29.687 seconds).
+2026-11-16T02:45:45.3093600Z Test Case '-[FlowChecks.FlowUITests testModalOwner]' started.
+2026-11-16T02:45:45.3198170Z     t =     0.00s Start Test at 2026-11-16 02:45:45.167
+2026-11-16T02:45:45.3199560Z     t =     0.03s Set Up
+2026-11-16T02:45:45.3517560Z     t =     0.03s     Open org.nativescript.vuerouterns
+2026-11-16T02:45:45.3630610Z     t =     0.03s         Launch org.nativescript.vuerouterns
+2026-11-16T02:45:45.3633420Z     t =     0.03s             Terminate org.nativescript.vuerouterns:10068
+2026-11-16T02:45:46.6168130Z     t =     1.43s             Setting up automation session
+2026-11-16T02:45:48.4185190Z     t =     3.17s             Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:45:49.5743560Z     t =     4.41s     Waiting 20.0s for "pick" Button to exist
+2026-11-16T02:45:50.6083900Z     t =     5.44s         Checking `Expect predicate `existsNoRetry == 1` for object "pick" Button`
+2026-11-16T02:45:50.6187330Z     t =     5.44s             Checking existence of `"pick" Button`
+2026-11-16T02:45:50.6863010Z     t =     5.50s Tap "modal" Button
+2026-11-16T02:45:50.6896920Z     t =     5.50s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:45:50.6898320Z     t =     5.50s     Find the "modal" Button
+2026-11-16T02:45:50.6899060Z     t =     5.52s     Check for interrupting elements affecting "modal" Button
+2026-11-16T02:45:50.7084290Z     t =     5.54s     Synthesize event
+2026-11-16T02:45:51.0134620Z     t =     5.84s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:45:51.4158480Z     t =     6.21s Get all elements bound by index for: Elements matching predicate '"pick" IN identifiers'
+2026-11-16T02:45:51.4159670Z     t =     6.24s Waiting 10.0s for "pick" Button to exist
+2026-11-16T02:45:52.4828270Z     t =     7.31s     Checking `Expect predicate `existsNoRetry == 1` for object "pick" Button`
+2026-11-16T02:45:52.4835210Z     t =     7.31s         Checking existence of `"pick" Button`
+2026-11-16T02:45:52.5065650Z     t =     7.34s Tap "pick" Button
+2026-11-16T02:45:52.5076090Z     t =     7.34s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:45:52.5077620Z     t =     7.34s     Find the "pick" Button
+2026-11-16T02:45:52.5594300Z     t =     7.37s     Check for interrupting elements affecting "pick" Button
+2026-11-16T02:45:52.5621940Z     t =     7.39s     Synthesize event
+2026-11-16T02:45:52.9043290Z     t =     7.68s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:45:52.9044110Z     t =     7.69s Waiting 60.0s for "Cancel" Button to exist
+2026-11-16T02:45:54.0093950Z     t =     8.73s     Checking `Expect predicate `existsNoRetry == 1` for object "Cancel" Button`
+2026-11-16T02:45:54.0204990Z     t =     8.73s         Checking existence of `"Cancel" Button`
+2026-11-16T02:45:56.8874220Z     t =    11.71s         Capturing element debug description
+2026-11-16T02:45:57.9822810Z     t =    12.73s     Checking `Expect predicate `existsNoRetry == 1` for object "Cancel" Button`
+2026-11-16T02:45:57.9907140Z     t =    12.73s         Checking existence of `"Cancel" Button`
+2026-11-16T02:45:58.2979090Z     t =    13.10s Tap "Cancel" Button
+2026-11-16T02:45:58.3486970Z     t =    13.11s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:45:58.3538220Z     t =    13.11s     Find the "Cancel" Button
+2026-11-16T02:45:58.3803470Z     t =    13.21s     Check for interrupting elements affecting "Cancel" Button
+2026-11-16T02:45:58.4330910Z     t =    13.26s     Synthesize event
+2026-11-16T02:45:58.7303590Z     t =    13.56s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:45:58.7304400Z     t =    13.56s Waiting 10.0s for "pick:user" StaticText to exist
+2026-11-16T02:45:59.7809040Z     t =    14.61s     Checking `Expect predicate `existsNoRetry == 1` for object "pick:user" StaticText`
+2026-11-16T02:45:59.7915140Z     t =    14.61s         Checking existence of `"pick:user" StaticText`
+2026-11-16T02:45:59.8018550Z     t =    14.63s Tear Down
+2026-11-16T02:46:00.0085760Z Test Case '-[FlowChecks.FlowUITests testModalOwner]' passed (14.841 seconds).
+2026-11-16T02:46:00.1138820Z Test Case '-[FlowChecks.FlowUITests testParentDisposal]' started.
+2026-11-16T02:46:00.1141940Z     t =     0.00s Start Test at 2026-11-16 02:46:00.009
+2026-11-16T02:46:00.3781620Z     t =     0.04s Set Up
+2026-11-16T02:46:00.3846160Z     t =     0.04s     Open org.nativescript.vuerouterns
+2026-11-16T02:46:00.3882170Z     t =     0.05s         Launch org.nativescript.vuerouterns
+2026-11-16T02:46:00.3884690Z     t =     0.05s             Terminate org.nativescript.vuerouterns:12200
+2026-11-16T02:46:01.4650740Z     t =     1.42s             Setting up automation session
+2026-11-16T02:46:03.3324980Z     t =     3.28s             Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:04.5103130Z     t =     4.50s     Waiting 20.0s for "pick" Button to exist
+2026-11-16T02:46:05.5739520Z     t =     5.56s         Checking `Expect predicate `existsNoRetry == 1` for object "pick" Button`
+2026-11-16T02:46:05.5849210Z     t =     5.57s             Checking existence of `"pick" Button`
+2026-11-16T02:46:05.6236050Z     t =     5.61s Tap "dispose" Button
+2026-11-16T02:46:05.6339640Z     t =     5.61s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:05.6441610Z     t =     5.62s     Find the "dispose" Button
+2026-11-16T02:46:05.6768170Z     t =     5.63s     Check for interrupting elements affecting "dispose" Button
+2026-11-16T02:46:05.6846040Z     t =     5.66s     Synthesize event
+2026-11-16T02:46:06.0157750Z     t =     5.97s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:06.0161340Z     t =     5.97s Waiting 30.0s for "dispose:disposed" StaticText to exist
+2026-11-16T02:46:07.0234830Z     t =     7.01s     Checking `Expect predicate `existsNoRetry == 1` for object "dispose:disposed" StaticText`
+2026-11-16T02:46:07.0236190Z     t =     7.01s         Checking existence of `"dispose:disposed" StaticText`
+2026-11-16T02:46:07.0988450Z     t =     7.08s         Capturing element debug description
+2026-11-16T02:46:08.0679180Z     t =     8.06s     Checking `Expect predicate `existsNoRetry == 1` for object "dispose:disposed" StaticText`
+2026-11-16T02:46:08.1280320Z     t =     8.06s         Checking existence of `"dispose:disposed" StaticText`
+2026-11-16T02:46:10.2948270Z     t =    10.27s Checking existence of `"Flow home" StaticText`
+2026-11-16T02:46:11.3464820Z     t =    11.30s Checking `Expect predicate `exists == 0` for object "Cancel" Button`
+2026-11-16T02:46:11.3779620Z     t =    11.30s     Checking existence of `"Cancel" Button`
+2026-11-16T02:46:11.3780510Z     t =    11.32s Tap "open" Button
+2026-11-16T02:46:11.3826450Z     t =    11.32s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:11.3827310Z     t =    11.32s     Find the "open" Button
+2026-11-16T02:46:11.4032630Z     t =    11.33s     Check for interrupting elements affecting "open" Button
+2026-11-16T02:46:11.4059730Z     t =    11.35s     Synthesize event
+2026-11-16T02:46:11.6484040Z     t =    11.64s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:11.9843540Z     t =    11.97s Waiting 10.0s for "pick" Button to exist
+2026-11-16T02:46:13.0301680Z     t =    13.01s     Checking `Expect predicate `existsNoRetry == 1` for object "pick" Button`
+2026-11-16T02:46:13.0631760Z     t =    13.01s         Checking existence of `"pick" Button`
+2026-11-16T02:46:13.1046770Z     t =    13.02s Tap "pick" Button
+2026-11-16T02:46:13.1156740Z     t =    13.02s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:13.1259720Z     t =    13.03s     Find the "pick" Button
+2026-11-16T02:46:13.1411290Z     t =    13.05s     Check for interrupting elements affecting "pick" Button
+2026-11-16T02:46:13.1512580Z     t =    13.07s     Synthesize event
+2026-11-16T02:46:13.4535540Z     t =    13.39s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:13.4670210Z     t =    13.40s Waiting 60.0s for "Cancel" Button to exist
+2026-11-16T02:46:14.5002080Z     t =    14.43s     Checking `Expect predicate `existsNoRetry == 1` for object "Cancel" Button`
+2026-11-16T02:46:14.5352160Z     t =    14.44s         Checking existence of `"Cancel" Button`
+2026-11-16T02:46:15.4106640Z     t =    15.32s Tap "Cancel" Button
+2026-11-16T02:46:15.4232120Z     t =    15.32s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:15.4233650Z     t =    15.32s     Find the "Cancel" Button
+2026-11-16T02:46:15.4634950Z     t =    15.45s     Check for interrupting elements affecting "Cancel" Button
+2026-11-16T02:46:15.5100540Z     t =    15.49s     Synthesize event
+2026-11-16T02:46:15.7987570Z     t =    15.79s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:16.2982050Z     t =    16.28s Waiting 10.0s for "pick:user" StaticText to exist
+2026-11-16T02:46:17.3723240Z     t =    17.36s     Checking `Expect predicate `existsNoRetry == 1` for object "pick:user" StaticText`
+2026-11-16T02:46:17.3726680Z     t =    17.36s         Checking existence of `"pick:user" StaticText`
+2026-11-16T02:46:17.4020950Z     t =    17.39s Tear Down
+2026-11-16T02:46:17.6345180Z Test Case '-[FlowChecks.FlowUITests testParentDisposal]' passed (17.623 seconds).
+2026-11-16T02:46:17.6366280Z Test Case '-[FlowChecks.FlowUITests testPickDocument]' started.
+2026-11-16T02:46:17.6367220Z     t =     0.00s Start Test at 2026-11-16 02:46:17.632
+2026-11-16T02:46:17.6617860Z     t =     0.03s Set Up
+2026-11-16T02:46:17.6912120Z     t =     0.03s     Open org.nativescript.vuerouterns
+2026-11-16T02:46:17.7765840Z     t =     0.03s         Launch org.nativescript.vuerouterns
+2026-11-16T02:46:17.7868770Z     t =     0.03s             Terminate org.nativescript.vuerouterns:12788
+2026-11-16T02:46:23.5923150Z     t =     5.95s             Setting up automation session
+2026-11-16T02:46:25.3361540Z     t =     7.68s             Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:26.6012280Z     t =     8.94s     Waiting 20.0s for "pick" Button to exist
+2026-11-16T02:46:27.6205880Z     t =     9.98s         Checking `Expect predicate `existsNoRetry == 1` for object "pick" Button`
+2026-11-16T02:46:27.6291100Z     t =     9.98s             Checking existence of `"pick" Button`
+2026-11-16T02:46:27.6834040Z     t =    10.02s Tap "pick" Button
+2026-11-16T02:46:27.6848450Z     t =    10.02s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:27.6954320Z     t =    10.02s     Find the "pick" Button
+2026-11-16T02:46:27.7061870Z     t =    10.04s     Check for interrupting elements affecting "pick" Button
+2026-11-16T02:46:27.7176410Z     t =    10.07s     Synthesize event
+2026-11-16T02:46:28.0504470Z     t =    10.38s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:28.0544420Z     t =    10.39s Waiting 60.0s for "Cancel" Button to exist
+2026-11-16T02:46:29.2942670Z     t =    11.45s     Checking `Expect predicate `existsNoRetry == 1` for object "Cancel" Button`
+2026-11-16T02:46:29.3131050Z     t =    11.45s         Checking existence of `"Cancel" Button`
+2026-11-16T02:46:32.9794650Z     t =    15.27s         Capturing element debug description
+2026-11-16T02:46:33.1788480Z     t =    15.46s     Checking `Expect predicate `existsNoRetry == 1` for object "Cancel" Button`
+2026-11-16T02:46:33.1889300Z     t =    15.46s         Checking existence of `"Cancel" Button`
+2026-11-16T02:46:33.7753350Z     t =    16.13s Find the "Browse" Button
+2026-11-16T02:46:33.8552520Z     t =    16.18s Tap "Browse" Button
+2026-11-16T02:46:33.8661700Z     t =    16.18s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:33.8663790Z     t =    16.18s     Find the "Browse" Button
+2026-11-16T02:46:33.8782300Z     t =    16.24s     Check for interrupting elements affecting "Browse" Button
+2026-11-16T02:46:33.9225720Z     t =    16.29s     Synthesize event
+2026-11-16T02:46:34.3889240Z     t =    16.59s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:34.3993370Z     t =    16.59s Checking existence of `"pick:completed" StaticText`
+2026-11-16T02:46:34.8289330Z     t =    17.01s Checking existence of `"Open" Button`
+2026-11-16T02:46:34.8442890Z     t =    17.13s Checking existence of `Cell (First Match)`
+2026-11-16T02:46:34.8787250Z     t =    17.24s Checking existence of `"On My iPhone" Button`
+2026-11-16T02:46:34.9978710Z     t =    17.34s Find the "On My iPhone" Button
+2026-11-16T02:46:35.1601820Z     t =    17.47s Tap "On My iPhone" Button
+2026-11-16T02:46:35.1615920Z     t =    17.47s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:35.1616640Z     t =    17.48s     Find the "On My iPhone" Button
+2026-11-16T02:46:35.3825100Z     t =    17.74s     Check for interrupting elements affecting "On My iPhone" Button
+2026-11-16T02:46:35.4699960Z     t =    17.80s     Synthesize event
+2026-11-16T02:46:35.7847820Z     t =    18.12s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:35.7947660Z     t =    18.13s Waiting 1.0s for "pick:completed" StaticText to exist
+2026-11-16T02:46:36.7655070Z     t =    19.13s     Checking `Expect predicate `existsNoRetry == 1` for object "pick:completed" StaticText`
+2026-11-16T02:46:36.7795310Z     t =    19.13s         Checking existence of `"pick:completed" StaticText`
+2026-11-16T02:46:36.8697180Z     t =    19.22s         Capturing element debug description
+2026-11-16T02:46:36.8720910Z     t =    19.23s     Checking existence of `"pick:completed" StaticText`
+2026-11-16T02:46:36.9418070Z     t =    19.31s Collecting debug information to assist test failure triage
+2026-11-16T02:46:36.9439210Z     t =    19.31s     Requesting snapshot of accessibility hierarchy for app with pid 13542
+2026-11-16T02:46:37.0338820Z     t =    19.40s Checking existence of `"pick:completed" StaticText`
+2026-11-16T02:46:37.1416750Z     t =    19.51s Checking existence of `"Open" Button`
+2026-11-16T02:46:37.2389040Z     t =    19.59s Checking existence of `Cell (First Match)`
+2026-11-16T02:46:37.2893470Z     t =    19.66s Find the Cell (First Match)
+2026-11-16T02:46:37.3636490Z     t =    19.72s Tap "router-flow-external, txt" Cell[0.50, 0.20]
+2026-11-16T02:46:37.3741410Z     t =    19.72s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:37.3876110Z     t =    19.73s     Find the "router-flow-external, txt" Cell
+2026-11-16T02:46:37.4232520Z     t =    19.79s     Check for interrupting elements affecting "router-flow-external, txt" Cell
+2026-11-16T02:46:37.4803840Z     t =    19.84s     Synthesize event
+2026-11-16T02:46:37.4868230Z     t =    19.85s         Find the "router-flow-external, txt" Cell
+2026-11-16T02:46:37.6381430Z     t =    19.93s         Find the "router-flow-external, txt" Cell
+2026-11-16T02:46:37.7240140Z     t =    20.02s         Find the "router-flow-external, txt" Cell
+2026-11-16T02:46:38.1520400Z     t =    20.39s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:38.2350560Z     t =    20.47s Waiting 1.0s for "pick:completed" StaticText to exist
+2026-11-16T02:46:39.1077070Z     t =    21.48s     Checking `Expect predicate `existsNoRetry == 1` for object "pick:completed" StaticText`
+2026-11-16T02:46:39.1194920Z     t =    21.48s         Checking existence of `"pick:completed" StaticText`
+2026-11-16T02:46:39.1399550Z     t =    21.50s     Checking existence of `"pick:completed" StaticText`
+2026-11-16T02:46:39.1505280Z     t =    21.52s Find the Application 'org.nativescript.vuerouterns'
+2026-11-16T02:46:39.2909290Z     t =    21.66s Added attachment named 'document-selection'
+2026-11-16T02:46:39.2954570Z     t =    21.66s Waiting 10.0s for "pick:completed" StaticText to exist
+2026-11-16T02:46:40.3834860Z     t =    22.74s     Checking `Expect predicate `existsNoRetry == 1` for object "pick:completed" StaticText`
+2026-11-16T02:46:40.3860970Z     t =    22.74s         Checking existence of `"pick:completed" StaticText`
+2026-11-16T02:46:40.3861600Z     t =    22.75s Tear Down
+2026-11-16T02:46:40.6028100Z Test Case '-[FlowChecks.FlowUITests testPickDocument]' passed (22.970 seconds).
+2026-11-16T02:46:40.6130920Z Test Case '-[FlowChecks.FlowUITests testProcessRestartDropsPromise]' started.
+2026-11-16T02:46:40.6232570Z     t =     0.00s Start Test at 2026-11-16 02:46:40.602
+2026-11-16T02:46:40.6979600Z     t =     0.02s Set Up
+2026-11-16T02:46:40.8682300Z     t =     0.02s     Open org.nativescript.vuerouterns
+2026-11-16T02:46:40.8859640Z     t =     0.02s         Launch org.nativescript.vuerouterns
+2026-11-16T02:46:40.9143930Z     t =     0.02s             Terminate org.nativescript.vuerouterns:13542
+2026-11-16T02:46:42.0865660Z     t =     1.47s             Setting up automation session
+2026-11-16T02:46:43.6740980Z     t =     3.06s             Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:44.8711400Z     t =     4.27s     Waiting 20.0s for "pick" Button to exist
+2026-11-16T02:46:45.9159470Z     t =     5.31s         Checking `Expect predicate `existsNoRetry == 1` for object "pick" Button`
+2026-11-16T02:46:45.9261180Z     t =     5.31s             Checking existence of `"pick" Button`
+2026-11-16T02:46:45.9462910Z     t =     5.34s Tap "pick" Button
+2026-11-16T02:46:45.9919290Z     t =     5.34s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:45.9934460Z     t =     5.34s     Find the "pick" Button
+2026-11-16T02:46:46.0060760Z     t =     5.35s     Check for interrupting elements affecting "pick" Button
+2026-11-16T02:46:46.0162140Z     t =     5.37s     Synthesize event
+2026-11-16T02:46:46.2996770Z     t =     5.68s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:46.3132350Z     t =     5.68s Waiting 60.0s for "Cancel" Button to exist
+2026-11-16T02:46:47.6317840Z     t =     6.74s     Checking `Expect predicate `existsNoRetry == 1` for object "Cancel" Button`
+2026-11-16T02:46:47.6418660Z     t =     6.74s         Checking existence of `"Cancel" Button`
+2026-11-16T02:46:50.4259260Z     t =     9.80s         Capturing element debug description
+2026-11-16T02:46:51.3476480Z     t =    10.70s     Checking `Expect predicate `existsNoRetry == 1` for object "Cancel" Button`
+2026-11-16T02:46:51.3578000Z     t =    10.70s         Checking existence of `"Cancel" Button`
+2026-11-16T02:46:51.4472000Z     t =    10.78s Terminate org.nativescript.vuerouterns:14579
+2026-11-16T02:46:52.4072990Z     t =    11.80s Open org.nativescript.vuerouterns
+2026-11-16T02:46:52.4111460Z     t =    11.80s     Launch org.nativescript.vuerouterns
+2026-11-16T02:46:52.7155050Z     t =    12.07s         Setting up automation session
+2026-11-16T02:46:54.1160710Z     t =    13.49s         Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:55.2171480Z     t =    14.61s Waiting 20.0s for "recovery:orphan" StaticText to exist
+2026-11-16T02:46:56.2529010Z     t =    15.64s     Checking `Expect predicate `existsNoRetry == 1` for object "recovery:orphan" StaticText`
+2026-11-16T02:46:56.2532550Z     t =    15.64s         Checking existence of `"recovery:orphan" StaticText`
+2026-11-16T02:46:56.2651310Z     t =    15.66s Checking existence of `"IDLE" StaticText`
+2026-11-16T02:46:56.2781650Z     t =    15.67s Tap "pick" Button
+2026-11-16T02:46:56.2786610Z     t =    15.67s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:56.2794630Z     t =    15.67s     Find the "pick" Button
+2026-11-16T02:46:56.2915700Z     t =    15.69s     Check for interrupting elements affecting "pick" Button
+2026-11-16T02:46:56.3055020Z     t =    15.70s     Synthesize event
+2026-11-16T02:46:56.6250270Z     t =    15.99s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:46:56.6250890Z     t =    16.00s Waiting 60.0s for "Cancel" Button to exist
+2026-11-16T02:46:57.6784810Z     t =    17.06s     Checking `Expect predicate `existsNoRetry == 1` for object "Cancel" Button`
+2026-11-16T02:46:57.7176260Z     t =    17.06s         Checking existence of `"Cancel" Button`
+2026-11-16T02:46:58.0402730Z     t =    17.42s         Capturing element debug description
+2026-11-16T02:46:58.7491670Z     t =    18.06s     Checking `Expect predicate `existsNoRetry == 1` for object "Cancel" Button`
+2026-11-16T02:46:58.7594770Z     t =    18.06s         Checking existence of `"Cancel" Button`
+2026-11-16T02:47:00.1273960Z     t =    19.41s Tap "Cancel" Button
+2026-11-16T02:47:00.2891870Z     t =    19.41s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:47:00.6454820Z     t =    19.42s     Find the "Cancel" Button
+2026-11-16T02:47:00.6918500Z     t =    19.52s     Check for interrupting elements affecting "Cancel" Button
+2026-11-16T02:47:00.7018880Z     t =    19.59s     Synthesize event
+2026-11-16T02:47:00.7132940Z     t =    19.96s     Wait for org.nativescript.vuerouterns to idle
+2026-11-16T02:47:00.7221790Z     t =    19.97s Waiting 10.0s for "pick:user" StaticText to exist
+2026-11-16T02:47:01.6585740Z     t =    21.00s     Checking `Expect predicate `existsNoRetry == 1` for object "pick:user" StaticText`
+2026-11-16T02:47:01.6688460Z     t =    21.00s         Checking existence of `"pick:user" StaticText`
+2026-11-16T02:47:01.6765090Z     t =    21.04s Tear Down
+2026-11-16T02:47:01.8755700Z Test Case '-[FlowChecks.FlowUITests testProcessRestartDropsPromise]' passed (21.269 seconds).
+2026-11-16T02:47:01.8820300Z Test Suite 'FlowUITests' passed at 2026-11-16 02:47:01.871.
+2026-11-16T02:47:01.8823030Z 	 Executed 6 tests, with 0 failures (0 unexpected) in 127.442 (127.444) seconds
+2026-11-16T02:47:01.8825520Z Test Suite 'FlowChecks.xctest' passed at 2026-11-16 02:47:01.871.
+2026-11-16T02:47:01.8829540Z 	 Executed 6 tests, with 0 failures (0 unexpected) in 127.442 (127.445) seconds
+2026-11-16T02:47:01.8839370Z Test Suite 'All tests' passed at 2026-11-16 02:47:01.871.
+2026-11-16T02:47:01.8839900Z 	 Executed 6 tests, with 0 failures (0 unexpected) in 127.442 (127.447) seconds
+2026-11-16T02:47:02.4615780Z 2026-11-16 02:47:02.457 xcodebuild[6621:23747] [MT] IDETestOperationsObserverDebug: 154.180 elapsed -- Testing started completed.
+2026-11-16T02:47:02.4717810Z 2026-11-16 02:47:02.458 xcodebuild[6621:23747] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-11-16T02:47:02.4818730Z 2026-11-16 02:47:02.458 xcodebuild[6621:23747] [MT] IDETestOperationsObserverDebug: 154.180 sec, +154.180 sec -- end
+2026-11-16T02:47:02.5571450Z 
+2026-11-16T02:47:02.5628590Z Test session results, code coverage, and logs:
+2026-11-16T02:47:02.5682700Z 	/Users/runner/work/vue-router-ns/vue-router-ns/scripts/native/out/flows-ios/FlowChecks.xcresult
+2026-11-16T02:47:02.5684630Z 
+2026-11-16T02:47:02.5685030Z ** TEST SUCCEEDED **
+2026-11-16T02:47:02.5685320Z 
+2026-11-16T02:47:02.9164800Z Testing started
+2026-11-16T02:47:05.4488510Z getpwuid_r did not find a match for uid 501
+2026-11-16T02:47:29.0021570Z ##[group]Run actions/upload-artifact@v4
+2026-11-16T02:47:29.0022970Z with:
+2026-11-16T02:47:29.0023350Z   name: flows-ios
+2026-11-16T02:47:29.0023620Z   path: scripts/native/out/flows-ios
+2026-11-16T02:47:29.0023960Z   if-no-files-found: warn
+2026-11-16T02:47:29.0024450Z   compression-level: 6
+2026-11-16T02:47:29.0024780Z   overwrite: false
+2026-11-16T02:47:29.0025150Z   include-hidden-files: false
+2026-11-16T02:47:29.0025480Z env:
+2026-11-16T02:47:29.0027520Z   PATH: /Users/runner/hostedtoolcache/node/22.23.4/arm64/bin:/opt/homebrew/opt/rustup/bin:/Users/runner/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/runner/.cargo/bin:/usr/local/opt/curl/bin:/usr/local/bin:/usr/local/sbin:/Users/runner/bin:/Users/runner/.yarn/bin:/Users/runner/Library/Android/sdk/tools:/Users/runner/Library/Android/sdk/platform-tools:/Library/Frameworks/Python.framework/Versions/Current/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/usr/bin:/bin:/usr/sbin:/sbin:/Users/runner/.dotnet/tools
+2026-11-16T02:47:29.0029340Z ##[endgroup]
+2026-11-16T02:47:29.6353450Z (node:17143) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-16T02:47:29.6455970Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-16T02:47:29.7028440Z With the provided path, there will be 47 files uploaded
+2026-11-16T02:47:29.7029620Z Artifact name is valid!
+2026-11-16T02:47:29.7030280Z Root directory input is valid!
+2026-11-16T02:47:29.9865720Z Beginning upload of artifact content to blob storage
+2026-11-16T02:47:30.0920520Z (node:17143) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-16T02:47:30.4924970Z Uploaded bytes 765977
+2026-11-16T02:47:30.5402700Z Finished uploading artifact content to blob storage!
+2026-11-16T02:47:30.5426980Z SHA256 digest of uploaded artifact zip is 8937cf9b3e46cb6ee79e8b661b93e011278132c143b1feb184a1cd4fac34594d
+2026-11-16T02:47:30.5430730Z Finalizing artifact upload
+2026-11-16T02:47:30.9042530Z Artifact flows-ios.zip successfully finalized. Artifact ID 14194210189
+2026-11-16T02:47:30.9043640Z Artifact flows-ios has been successfully uploaded! Final size is 765977 bytes. Artifact ID is 14194210189
+2026-11-16T02:47:30.9052640Z Artifact download URL: https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43793363376/artifacts/14194210189
+2026-11-16T02:47:30.9253080Z Post job cleanup.
+2026-11-16T02:47:31.1214120Z Cache hit occurred on the primary key node-cache-macOS-arm64-npm-80f12e1d85cfe2521c704c7dd184aa9cf9307fa6bea5e6291733be3f18001fe0, not saving cache.
+2026-11-16T02:47:31.1335310Z Post job cleanup.
+2026-11-16T02:47:31.3098850Z [command]/opt/homebrew/bin/git version
+2026-11-16T02:47:31.3616060Z git version 2.56.0
+2026-11-16T02:47:31.3715580Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/cebcb398-9a11-4d52-8ae6-631b41112f33/.gitconfig'
+2026-11-16T02:47:31.3724230Z Temporarily overriding HOME='/Users/runner/work/_temp/cebcb398-9a11-4d52-8ae6-631b41112f33' before making global git config changes
+2026-11-16T02:47:31.3725090Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-16T02:47:31.3738880Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/vue-router-ns/vue-router-ns
+2026-11-16T02:47:31.3910400Z Removing SSH command configuration
+2026-11-16T02:47:31.3913720Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-16T02:47:31.3967840Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-16T02:47:31.5799800Z Removing HTTP extra header
+2026-11-16T02:47:31.5800740Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-16T02:47:31.5866990Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-16T02:47:31.8599540Z Removing includeIf entries pointing to credentials config files
+2026-11-16T02:47:31.8703460Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-16T02:47:31.8806380Z includeif.gitdir:/Users/runner/work/vue-router-ns/vue-router-ns/.git.path
+2026-11-16T02:47:31.8909400Z includeif.gitdir:/Users/runner/work/vue-router-ns/vue-router-ns/.git/worktrees/*.path
+2026-11-16T02:47:31.9012560Z includeif.gitdir:/github/workspace/.git.path
+2026-11-16T02:47:31.9114070Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-16T02:47:31.9324760Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/Users/runner/work/vue-router-ns/vue-router-ns/.git.path
+2026-11-16T02:47:31.9432970Z /Users/runner/work/_temp/git-credentials-32f104c9-9e6d-49f1-87f3-1d0fac966688.config
+2026-11-16T02:47:31.9641210Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/Users/runner/work/vue-router-ns/vue-router-ns/.git.path \/Users\/runner\/work\/_temp\/git\-credentials\-32f104c9\-9e6d\-49f1\-87f3\-1d0fac966688\.config
+2026-11-16T02:47:31.9919120Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/Users/runner/work/vue-router-ns/vue-router-ns/.git/worktrees/*.path
+2026-11-16T02:47:31.9932130Z /Users/runner/work/_temp/git-credentials-32f104c9-9e6d-49f1-87f3-1d0fac966688.config
+2026-11-16T02:47:32.0055510Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/Users/runner/work/vue-router-ns/vue-router-ns/.git/worktrees/*.path \/Users\/runner\/work\/_temp\/git\-credentials\-32f104c9\-9e6d\-49f1\-87f3\-1d0fac966688\.config
+2026-11-16T02:47:32.0068560Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-16T02:47:32.0071790Z /github/runner_temp/git-credentials-32f104c9-9e6d-49f1-87f3-1d0fac966688.config
+2026-11-16T02:47:32.0073740Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-32f104c9\-9e6d\-49f1\-87f3\-1d0fac966688\.config
+2026-11-16T02:47:32.0075510Z [command]/opt/homebrew/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-16T02:47:32.0076360Z /github/runner_temp/git-credentials-32f104c9-9e6d-49f1-87f3-1d0fac966688.config
+2026-11-16T02:47:32.0078830Z [command]/opt/homebrew/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-32f104c9\-9e6d\-49f1\-87f3\-1d0fac966688\.config
+2026-11-16T02:47:32.0080720Z [command]/opt/homebrew/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-16T02:47:32.0949510Z Removing credentials config '/Users/runner/work/_temp/git-credentials-32f104c9-9e6d-49f1-87f3-1d0fac966688.config'
+2026-11-16T02:47:32.1057050Z Cleaning up orphan processes
+2026-11-16T02:47:34.2980240Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

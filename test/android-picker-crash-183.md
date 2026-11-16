@@ -138,6 +138,27 @@ emulator stopped passed without changing its timeout. Both logs are retained.
 [provenance](./evidence/android-picker-183/provenance.json) retain the ordinary
 runs, deliberate failures, binary/source hashes and recording metadata.
 
+## Final hosted acceptance
+
+[Run 43793363376](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43793363376)
+passed on final code `7ea14b2`: Android accepted all twelve native outcomes and
+iOS passed all six XCTest cases with no skips. [Both original artifacts, job
+logs and summaries](./evidence/android-picker-183/hosted-final/) are retained.
+The source changes after this tested commit consist only of evidence and reports.
+
+The Android environment records Google APIs 35 x86_64, build
+`AE3A.240806.043/12960925`, DocumentsUI 15 / code 350820300, and published
+Core 9.1.4 / NativeScript-Vue 3.1.3 / Android runtime 9.1.1. The hosted CPU/image
+is recorded in its environment file; this is not presented as a controlled
+comparison between hosted machines. The controlled path comparison is the
+local probe above.
+
+Its sole shell-attributed MediaProvider deletion occurred during launcher
+preflight, before the first picker command. There were none after opening the
+picker. Ordinary provider content updates still occurred. No unavailable
+hierarchy observation was needed in this passing run; the missing-file behavior
+is covered by the preceding native failure and regression tests.
+
 ## Recordings
 
 [Normal native suite](../docs/public/media/android-picker-normal-evidence.mp4)
