@@ -1,0 +1,52 @@
+[
+  {
+    "kind": "normal",
+    "sourceCommit": "7ea14b27158a60509b72c7f140805b4ebb447568",
+    "path": "docs/public/media/android-picker-normal-evidence.mp4",
+    "sha256": "5d7d1007f23cd368ccc6377a63a88d746ae33ca87f29aef0b66e7746409d25cd",
+    "sourceSha256": "5b3c6ee15be1caa90d2350f9b159127e037ed41f86f1028b4767e1a544d55053",
+    "startSeconds": 0,
+    "processing": "full recording recoded H264 CRF25; original timeline, no cuts, overlays or generated frames",
+    "media": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1080,
+          "height": 2400,
+          "nb_frames": "543"
+        }
+      ],
+      "format": {
+        "duration": "114.839300",
+        "size": "1599959"
+      }
+    }
+  },
+  {
+    "kind": "crash",
+    "sourceCommit": "7ea14b27158a60509b72c7f140805b4ebb447568",
+    "path": "docs/public/media/android-picker-crash-evidence.mp4",
+    "sha256": "3b622bcd269a85a9611bba3b00d0e9e22d6e2078908a088de149f90c84236050",
+    "sourceSha256": "b0f42f238d3162416bb3847ce86bd4a349deaec4b9da7ea96ab9a333214ae2c2",
+    "startSeconds": 0,
+    "processing": "full recording recoded H264 CRF25; original timeline, no cuts, overlays or generated frames",
+    "media": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1080,
+          "height": 2400,
+          "nb_frames": "315"
+        }
+      ],
+      "format": {
+        "duration": "19.983984",
+        "size": "563750"
+      }
+    }
+  }
+]

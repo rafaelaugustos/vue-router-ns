@@ -1,0 +1,134 @@
+{
+  "baseCommit": "f98385e013add4039f7bbd670d3310db5ebc35c0",
+  "originalHostedRun": 43772034713,
+  "originalHostedJob": 132989971192,
+  "originalArtifact": 14185261344,
+  "originalArtifactSha256": "683cbe26018d360e454f3be2d09a8e6842f5a67e10522c3f8be12c9a756e27b8",
+  "apk": {
+    "name": "flows-baseline.apk",
+    "sha256": "8580e0c01aa3ffdc4c60c0db8522d2b809371d20a97276be6119ab8a1080efcc",
+    "bytes": 119597574
+  },
+  "control": "Android am crash of the real DocumentsUI process once; no router/fixture replacement. This reproduces driver behavior after a system process crash, not the original AsyncTaskLoader NPE.",
+  "localChecks": "Initial import annotation corrected. Later unchanged webpack-watch test timed out; full suite passed with dedicated emulator stopped. No test deadline change.",
+  "firstCandidateCommit": "8710040f5ade10f9eab335713041fb06bf8de5d2",
+  "firstCandidateSourceFiles": [
+    {
+      "path": "scripts/native/flows-android.mjs",
+      "sha256": "5316fe7fd1319a9930d51b564777b994e15128041b889fb1c06abb9e9db95a24"
+    },
+    {
+      "path": "scripts/native/flows-android-evidence.mjs",
+      "sha256": "6f95e09550dfa4e016f7b046c04ae987ad75eeed907ceb45d856bf99cbaa7b91"
+    },
+    {
+      "path": "demo/src/testing/flows-app.ts",
+      "sha256": "2b6201df7b7a1eaaf38bee89731958b92dc093532bb0eed395a5afc922e00576"
+    }
+  ],
+  "probe": {
+    "archive": "provider-probe.zip",
+    "sha256": "63d8054154751e9a0d93551c9759e8fcb233d19c8a84186e703396a7672b9442",
+    "counts": [
+      {
+        "phase": "shared1",
+        "shellMediaDeletions": 4,
+        "documentContentUpdates": 18
+      },
+      {
+        "phase": "private",
+        "shellMediaDeletions": 0,
+        "documentContentUpdates": 0
+      },
+      {
+        "phase": "shared2",
+        "shellMediaDeletions": 5,
+        "documentContentUpdates": 19
+      }
+    ]
+  },
+  "hostedAttempts": [
+    {
+      "run": 43791144765,
+      "sourceCommit": "8710040f5ade10f9eab335713041fb06bf8de5d2",
+      "android": {
+        "job": 133049605294,
+        "artifact": 14192478179,
+        "outcomes": 3,
+        "conclusion": "failure: fixture document timeout after rotation"
+      },
+      "ios": {
+        "job": 133049604912,
+        "artifact": 14192957910,
+        "tests": 6,
+        "conclusion": "success"
+      },
+      "archives": [
+        {
+          "path": "hosted-attempt1/flows-android.zip",
+          "sha256": "75741fe1d93fdecdb6762dc63201911c4f08dc872d3430e11abf26e667379075"
+        },
+        {
+          "path": "hosted-attempt1/flows-ios.zip",
+          "sha256": "c2ed54e31fa940999f6e5a8cb4efbeea249f8293784fb6169e1002be19ffbacb"
+        }
+      ]
+    },
+    {
+      "run": 43792609235,
+      "sourceCommit": "86a9824172666d4c7edd9bedcc0ef9fa0d10bc5d",
+      "android": {
+        "job": 133054234978,
+        "artifact": 14192904511,
+        "outcomes": 1,
+        "conclusion": "failure: missing hierarchy during first picker opening"
+      },
+      "ios": {
+        "job": 133054234638,
+        "artifact": 14193064309,
+        "tests": 6,
+        "conclusion": "success"
+      },
+      "archives": [
+        {
+          "path": "hosted-attempt2/flows-android.zip",
+          "sha256": "5d29bfce95489590fa5d9ba14c9fa49a034d14a937c1f5829ed88d33dfa7e477"
+        },
+        {
+          "path": "hosted-attempt2/flows-ios.zip",
+          "sha256": "df862eae84b8f4a102fd0f4b56782e0d941754e00a7cabba8c5e7d844e5a3810"
+        }
+      ]
+    }
+  ],
+  "privatePathCandidateCommit": "86a9824172666d4c7edd9bedcc0ef9fa0d10bc5d",
+  "privatePathSourceFiles": [
+    {
+      "path": "scripts/native/flows-android.mjs",
+      "sha256": "ba1ce94952c85a21e8975ce8281a316748d45fa270dddd0f3688ee6786f5844e"
+    },
+    {
+      "path": "scripts/native/flows-android-evidence.mjs",
+      "sha256": "6f95e09550dfa4e016f7b046c04ae987ad75eeed907ceb45d856bf99cbaa7b91"
+    },
+    {
+      "path": "demo/src/testing/flows-app.ts",
+      "sha256": "2b6201df7b7a1eaaf38bee89731958b92dc093532bb0eed395a5afc922e00576"
+    }
+  ],
+  "finalCodeCommit": "7ea14b27158a60509b72c7f140805b4ebb447568",
+  "finalSourceFiles": [
+    {
+      "path": "scripts/native/flows-android.mjs",
+      "sha256": "82794f9a5f15d13c6317c0257b32627823898e7ad5ad3fe30c5f562b595a7da4"
+    },
+    {
+      "path": "scripts/native/flows-android-evidence.mjs",
+      "sha256": "2bf57f023fc04b030d36921a25a5ab76aa08d3a4bc454b66f9d66760a113f828"
+    },
+    {
+      "path": "demo/src/testing/flows-app.ts",
+      "sha256": "2b6201df7b7a1eaaf38bee89731958b92dc093532bb0eed395a5afc922e00576"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+
+> vue-router-ns@0.1.0-rc.4 test
+> vitest run
+
+Testing types with tsc and vue-tsc is an experimental feature.
+Breaking changes might not follow SemVer, please pin Vitest's version when using it.
+
+ RUN  v5.0.4 /Users/rafaelaugusto/Documents/workspace/side-projects/vue-router-ns
+
+ ❯ test/file-routing-setup.spec.ts (7 tests | 1 failed) 9697ms
+   × uses real webpack watch for add, metadata edit, rename, remove and error recovery 9472ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/file-routing-setup.spec.ts > uses real webpack watch for add, metadata edit, rename, remove and error recovery
+Error: Timed out waiting for webpack watch: 
+ ❯ next test/file-routing-setup.spec.ts:205:11
+    203|       await new Promise((resolve) => setTimeout(resolve, 30))
+    204|     }
+    205|     throw new Error(
+       |           ^
+    206|       'Timed out waiting for webpack watch: ' +
+    207|         results.map((r) => r.toString({ all: false, errors: true })).j…
+ ❯ test/file-routing-setup.spec.ts:224:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 76 passed (77)
+      Tests  1 failed | 992 passed | 10 skipped (1003)
+Type Errors  no errors
+   Start at  23:13:15
+   Duration  10.01s (tests 81%, import 13%, transform 5%, worker 1%)
+

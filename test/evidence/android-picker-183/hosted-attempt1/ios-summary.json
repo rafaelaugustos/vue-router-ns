@@ -1,0 +1,37 @@
+{
+  "devicesAndConfigurations": [
+    {
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "B64F2F27-B46A-4461-AE24-9B616618DF3A",
+        "deviceName": "RouterFlows",
+        "modelName": "iPhone 16 Pro",
+        "osBuildNumber": "22G86",
+        "osVersion": "18.6",
+        "platform": "iOS Simulator"
+      },
+      "expectedFailures": 0,
+      "failedTests": 0,
+      "passedTests": 6,
+      "skippedTests": 0,
+      "testPlanConfiguration": {
+        "configurationId": "1",
+        "configurationName": "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription": "FlowChecks · Built with macOS 15.8.2",
+  "expectedFailures": 0,
+  "failedTests": 0,
+  "finishTime": 1794796042.846,
+  "passedTests": 6,
+  "result": "Passed",
+  "runtimeWarnings": [],
+  "skippedTests": 0,
+  "startTime": 1794795850.642,
+  "statistics": [],
+  "testFailures": [],
+  "title": "Test - FlowChecks",
+  "topInsights": [],
+  "totalTestCount": 6
+}

@@ -1,0 +1,12 @@
+--- a/scripts/native/flows-android.mjs
++++ b/scripts/native/flows-android.mjs
+@@ -145,6 +145,9 @@
+   await command('pick')
+   await picker()
+   await capture('system-picker')
++  // Isolated native crash control: terminate the external system UI once.
++  await adb('shell', 'am', 'crash', 'com.google.android.documentsui')
++  await pause(1000)
+   await back()
+   await outcome('pick:user')
+   await command('pick')
