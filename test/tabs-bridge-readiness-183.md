@@ -69,6 +69,26 @@ native helper checks, formatting and documentation build passed.
 [Local inventory](./evidence/tabs-bridge-183/local-validation.json) summarizes
 the raw runs without replacing their evidence.
 
+## Hosted integration
+
+Both complete Android integration executions passed on API 34 x86_64:
+
+| Source                                                           | Run                                                                                     | Result                                                                                                    |
+| ---------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `fd6298f` — original readiness behavior with failure diagnostics | [43805986076](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43805986076) | Entire Android job passed; Material 29/29, Core 21/21, six state process deaths                           |
+| `8e5c85a` — readiness/session correction                         | [43806530336](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43806530336) | Entire Android job passed; same visibility/state coverage, three distinct sessions in each visibility run |
+
+The candidate's recorded source matches the final fixture and driver. Later
+commits add evidence only. [Hosted provenance](./evidence/tabs-bridge-183/hosted-validation.json)
+records the device fingerprint and verified original artifact digests.
+[Baseline evidence](./evidence/tabs-bridge-183/hosted-baseline.zip) and
+[candidate evidence](./evidence/tabs-bridge-183/hosted-candidate.zip) retain each
+complete job log, visibility results/screenshots and state process records.
+The baseline success confirms that the original intermittent timeout did not
+recur in this repetition; it does not prove that readiness caused that failure.
+The controlled native comparison establishes the corrected readiness behavior.
+These manual runs selected only Android, not the separate foldable/iOS Vite jobs.
+
 ## Recording
 
 [Android acceptance video](../docs/public/media/android-tabs-bridge-183.mp4)

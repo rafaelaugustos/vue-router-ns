@@ -1,0 +1,45 @@
+{
+  "baseline": {
+    "run": 43805986076,
+    "url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43805986076",
+    "commit": "fd6298ffcd537ed6ae847f43b6755bab9180f03a",
+    "conclusion": "success",
+    "materialChecks": 29,
+    "coreChecks": 21,
+    "stateProcessDeaths": 6,
+    "device": {
+      "serial": "emulator-5554",
+      "fingerprint": "google/sdk_gphone64_x86_64/emu64xa:14/UE1A.230829.050/12077443:userdebug/dev-keys"
+    },
+    "artifact": {
+      "id": 14199791510,
+      "name": "native-smoke-android",
+      "size_in_bytes": 4195062,
+      "digest": "sha256:0207aefc82afcdc7621e69ce4c5df9a14b02a195cffb8bfd0f58b59dbb6781d1"
+    },
+    "preservedEvidence": "hosted-baseline.zip",
+    "preservedSha256": "d91ba790160d5f793b8ef11cae7720388e49d8849f35f092cb5c4891f14bfaf9"
+  },
+  "candidate": {
+    "run": 43806530336,
+    "url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43806530336",
+    "commit": "8e5c85a00c278269cfaab81e76a9f1d5b646e547",
+    "conclusion": "success",
+    "materialChecks": 29,
+    "coreChecks": 21,
+    "stateProcessDeaths": 6,
+    "device": {
+      "serial": "emulator-5554",
+      "fingerprint": "google/sdk_gphone64_x86_64/emu64xa:14/UE1A.230829.050/12077443:userdebug/dev-keys"
+    },
+    "artifact": {
+      "id": 14199807789,
+      "name": "native-smoke-android",
+      "size_in_bytes": 4330216,
+      "digest": "sha256:c53c18d44c8eb7310403a52ed8da36624f141e70e041744fab9e429d4b2d50f4"
+    },
+    "preservedEvidence": "hosted-candidate.zip",
+    "preservedSha256": "ef1306c1da10f3ea422e2bc16b008a03cd42151efbbde483efbbba5fe45e3258"
+  },
+  "scope": "Both complete Android integration jobs passed. Foldable and iOS Vite jobs were explicitly not selected. The old-readiness diagnostic baseline passing does not establish the original intermittent failure cause."
+}
