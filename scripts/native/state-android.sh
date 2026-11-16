@@ -12,18 +12,34 @@ $ADB shell pm clear "$PKG" >/dev/null
 $ADB logcat -c
 $ADB logcat -v brief -s JS AndroidRuntime > "$OUT/runtime.log" &
 log_pid=$!
+$ADB logcat -v threadtime > "$OUT/system.log" &
+system_log_pid=$!
+phase=initial-launch
 finish() {
   local result=$?
   if [ "$result" != 0 ]; then
+    printf '%s\n' "$phase" > "$OUT/failure-phase.txt"
+    $ADB shell dumpsys activity activities > "$OUT/failure-activities.txt" 2>&1 || true
+    $ADB shell dumpsys window > "$OUT/failure-window.txt" 2>&1 || true
+    $ADB shell dumpsys activity exit-info "$PKG" > "$OUT/failure-exit-info.txt" 2>&1 || true
     screenshot failure || true
     dump > "$OUT/failure.xml" || true
     tail -60 "$OUT/runtime.log"
   fi
   kill "$log_pid" 2>/dev/null || true
   wait "$log_pid" 2>/dev/null || true
+  kill "$system_log_pid" 2>/dev/null || true
+  wait "$system_log_pid" 2>/dev/null || true
 }
 trap finish EXIT
 printf '[]\n' > "$OUT/processes.json"
+node --input-type=module - "$OUT" "$ANDROID_SERIAL" <<'JS'
+import { execFileSync } from 'node:child_process'
+import { recordEnvironment } from './scripts/native/contracts/environment.mjs'
+const [out, serial] = process.argv.slice(2)
+const fingerprint = execFileSync('adb', ['-s', serial, 'shell', 'getprop', 'ro.build.fingerprint'], { encoding: 'utf8' }).trim()
+await recordEnvironment(out, { serial, fingerprint })
+JS
 
 capture() {
   screenshot "$1"
@@ -31,6 +47,7 @@ capture() {
 }
 restart_process() {
   local scenario=$1 before after remaining method=am-kill
+  phase="kill-$scenario"
   before=$(pid_of)
   [[ "$before" =~ ^[0-9]+$ ]] || { echo 'No single app process to kill'; exit 1; }
   key_home
@@ -47,6 +64,7 @@ restart_process() {
     remaining=$(pid_of || true)
   fi
   [ -z "$remaining" ] || { echo "Process did not die: $remaining"; exit 1; }
+  phase="relaunch-$scenario"
   launch
   for _ in {1..30}; do
     after=$(pid_of || true)
@@ -64,27 +82,33 @@ JS
 }
 
 launch
+phase=initial-prepared
 wait_text 'PASS: prepared' 40
 wait_text 'second draft'
 capture 01-prepared
 restart_process duplicates
+phase=duplicate-top
 wait_text 'PASS: duplicate top' 40
 wait_text 'second draft'
 capture 02-duplicate-top
 tap_text 'Verify previous'
+phase=duplicate-previous
 wait_text 'PASS: duplicate previous'
 wait_text 'first draft'
 capture 03-duplicate-previous
 
 for scenario in migration expired missing signed-out legacy; do
+  phase="prepare-$scenario"
   tap_text 'Next scenario'
   wait_text "READY: $scenario"
   restart_process "$scenario"
+  phase="verify-$scenario"
   wait_text "PASS: $scenario" 40
   if [ "$scenario" = migration ]; then wait_text 'migrated draft'; fi
   capture "$scenario"
 done
 
+phase=verify-results
 node --input-type=module - "$OUT/runtime.log" "$OUT/results.json" "$OUT/processes.json" <<'JS'
 import assert from 'node:assert/strict'
 import fs from 'node:fs'

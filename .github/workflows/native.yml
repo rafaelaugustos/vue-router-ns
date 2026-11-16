@@ -10,7 +10,7 @@ on:
       lane:
         description: Select the full integration suite or one focused native lane
         type: choice
-        options: [all, foldable, ios-vite]
+        options: [all, android, foldable, ios-vite]
         default: all
   workflow_call:
 
@@ -162,7 +162,7 @@ jobs:
           path: scripts/native/out
 
   foldable:
-    if: github.event_name != 'workflow_dispatch' || inputs.lane != 'ios-vite'
+    if: github.event_name != 'workflow_dispatch' || (inputs.lane != 'android' && inputs.lane != 'ios-vite')
     runs-on: ubuntu-latest
     timeout-minutes: 25
     concurrency:
@@ -234,7 +234,7 @@ jobs:
             scripts/native/out/adaptive-*
 
   ios-vite:
-    if: github.event_name != 'workflow_dispatch' || inputs.lane != 'foldable'
+    if: github.event_name != 'workflow_dispatch' || (inputs.lane != 'android' && inputs.lane != 'foldable')
     runs-on: macos-15
     timeout-minutes: 20
     steps:
