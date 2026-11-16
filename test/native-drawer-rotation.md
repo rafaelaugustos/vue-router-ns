@@ -1,6 +1,11 @@
 # iPad rotation requested during navigation — #167
 
-Current evidence — 2026-11-16: [published Core content-Back acceptance](./native-published-content-back-168.md)
+Current programmatic stage — 2026-11-16: [genuine programmatic overlap](./native-programmatic-rotation-167.md)
+adds a separate Core slide composition with four required native overlaps on
+18.6 and 26.2, retaining default-transition controls and UIKit's orientation
+interruptions. Gesture overlap remains separate.
+
+Content-Back evidence — 2026-11-16: [published Core content-Back acceptance](./native-published-content-back-168.md)
 adds the previously missing committed/cancelled permanent-content cases on supported
 iPadOS versions, with distinct pointer-interaction and completion-animation phases.
 The sections below preserve the original Core 9.1.3 observations. The new evidence

@@ -93,6 +93,10 @@ The input phase matters. Requesting rotation while the pointer is down can cance
 
 The observer distinguishes a rotation request during navigation from actual simultaneous animation. The report records native coordinator identity and whether visual rotation overlapped or was deferred. Gesture length and a pending navigation promise are not evidence of the native outcome.
 
+A separate [programmatic overlap suite](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-programmatic-rotation-167.md) validates push and Back in both rotation directions on iPadOS 18.6 and 26.2 simulators, using Core's public `slide` transition with `duration: 1500`. Navigation and orientation requests are dispatched near navigation start; acceptance requires an active native navigation coordinator when the target rotation actually begins. Request timing alone does not pass this check.
+
+In these runs, UIKit temporarily returned to the initial orientation before reaching the final target. Both warm stacks, drafts, surviving instances and history remained coherent after settlement. This covers the specified programmatic composition; genuine overlap during gestures and other transition configurations remain separate.
+
 On iPadOS 18.6, the two gestures from the inset permanent-content edge remain **not reproduced**. Eight other rotation/control scenarios pass; the missing gestures are not counted as successful interactive coverage. Keep an explicit Back action available in permanent mode.
 
 The [original rotation report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-rotation.md) and [Core-only investigation](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-back-content-edge.md) remain historical evidence. The new tests address [#168](https://github.com/rafaelaugustos/vue-router-ns/issues/168); broader [#167](https://github.com/rafaelaugustos/vue-router-ns/issues/167) acceptance, physical iPads, Stage Manager and arbitrary custom hosts remain separate.
