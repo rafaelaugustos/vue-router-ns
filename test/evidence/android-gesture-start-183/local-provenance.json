@@ -1,0 +1,53 @@
+{
+  "baselineCommit": "ec6d98aef949c3c23bbd5bb1098c595542e9b2f6",
+  "codeCommit": "f7892f0254b78ec3589f30f1539faa1a56474d34",
+  "fixtureChanges": "650ms controls apply only the retained patches, without altering router runtime. Beta delayed candidate driver predates the strict elapsed<5000ms read check; r07 uses final driver.",
+  "versions": {
+    "core": "9.1.4",
+    "vue": "3.1.3",
+    "androidRuntime": "9.1.1"
+  },
+  "binaries": [
+    {
+      "name": "contracts-baseline.apk",
+      "bytes": 119598946,
+      "sha256": "62a4586bd59a466313f1dfb5a4da4004827fbbcba8e289aeff00e481ee446f68"
+    },
+    {
+      "name": "contracts-delayed.apk",
+      "bytes": 120165766,
+      "sha256": "a60f9b1b669b1d3ed0b8e2fcf4064933818bff55dda4b4ba73197e6fc95ab1ef"
+    },
+    {
+      "name": "contracts-former-hmr.apk",
+      "bytes": 120165767,
+      "sha256": "37cba427ee6204f63980fecb68facd08a867de10032fe5624152cbc063415eea"
+    },
+    {
+      "name": "contracts-ready-delayed.apk",
+      "bytes": 120165767,
+      "sha256": "707c069294240633b875ca14aa1b84be53d41610190c59165ec7f03e08f4fe21"
+    },
+    {
+      "name": "contracts-ready-normal.apk",
+      "bytes": 120165767,
+      "sha256": "0b9492abc0db79b3ee34a4361ecaea97878f2a45046ef97625ae5f31156081bd"
+    },
+    {
+      "name": "touch-baseline/touch.apk",
+      "bytes": 12715,
+      "sha256": "db258f15d905d99592034546e8e37bc8c98106e6fd047aee60659d6b17da7ca1"
+    },
+    {
+      "name": "touch-ready/touch.apk",
+      "bytes": 12715,
+      "sha256": "b8611d0ddc407d1c0ea846eaf4e5c6965393636e0ad38513b1cf5106ce7eeca3"
+    },
+    {
+      "name": "contracts-former-hmr-realpath.apk",
+      "bytes": 120165767,
+      "sha256": "130e7735af789b7f15a5dbf03da6463a7bbfcc70576b8913ff54d3611fc7ac3c"
+    }
+  ],
+  "negativeControlSetup": "Initial local negative fixture had fault=true but lacked the child.ceReload replacement because the worktree dist was a symlink. Preserved invalid attempt; copied identical dist files into worktree and rebuilt. Inspected bundle.mjs for child.ceReload = undefined before validating corrected build."
+}

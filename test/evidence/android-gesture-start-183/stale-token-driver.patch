@@ -1,0 +1,11 @@
+--- a/scripts/native/contracts/android.mjs
++++ b/scripts/native/contracts/android.mjs
+@@ -265,7 +265,7 @@
+     const setup = await command('gesture-setup')
+     assert.equal(typeof setup.gesture.probe, 'string')
+     assert(setup.gesture.probe.length > 0, 'Fresh gesture readiness token required')
+-    await swipe(false, setup.gesture.probe)
++    await swipe(false, `${setup.gesture.probe}:stale`)
+     await command('cancel-check')
+     await swipe(true)
+     await command('commit-check')

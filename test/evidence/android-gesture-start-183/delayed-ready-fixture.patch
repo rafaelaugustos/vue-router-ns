@@ -1,0 +1,11 @@
+--- a/demo/src/testing/contracts-app.ts
++++ b/demo/src/testing/contracts-app.ts
+@@ -169,6 +169,8 @@
+           gestureActive = !!value
+           if (value) {
+             gestureEvents++
++            // Diagnostic negative control only: delay the first app callback.
++            if (isAndroid && gestureEvents === 1) java.lang.Thread.sleep(650)
+             gesturePeak = Math.max(gesturePeak, value.progress)
+             if (isAndroid && gestureEvents === 1) {
+               const token = gestureProbe

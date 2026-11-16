@@ -1,0 +1,42 @@
+[
+  {
+    "id": 14185450770,
+    "node_id": "MDg6QXJ0aWZhY3QxNDE4NTQ1MDc3MA==",
+    "name": "contracts-android-34",
+    "size_in_bytes": 2340852,
+    "url": "https://api.github.com/repos/rafaelaugustos/vue-router-ns/actions/artifacts/14185450770",
+    "archive_download_url": "https://api.github.com/repos/rafaelaugustos/vue-router-ns/actions/artifacts/14185450770/zip",
+    "expired": false,
+    "digest": "sha256:faaed2a374140dc3695457ba5f79f74dce87dee59f02f7b4c4e76b1f2b89e8c9",
+    "created_at": "2026-11-15T23:06:43Z",
+    "updated_at": "2026-11-15T23:06:43Z",
+    "expires_at": "2027-02-13T22:56:22Z",
+    "workflow_run": {
+      "id": 43772034713,
+      "repository_id": 353548917,
+      "head_repository_id": 353548917,
+      "head_branch": "fix/android36-gesture-progress-183",
+      "head_sha": "f7892f0254b78ec3589f30f1539faa1a56474d34"
+    }
+  },
+  {
+    "id": 14184953164,
+    "node_id": "MDg6QXJ0aWZhY3QxNDE4NDk1MzE2NA==",
+    "name": "contracts-android-36",
+    "size_in_bytes": 2297025,
+    "url": "https://api.github.com/repos/rafaelaugustos/vue-router-ns/actions/artifacts/14184953164",
+    "archive_download_url": "https://api.github.com/repos/rafaelaugustos/vue-router-ns/actions/artifacts/14184953164/zip",
+    "expired": false,
+    "digest": "sha256:78482df606b3062572bf8f895ed0562255b47195cb7b6aade2540e727e45e164",
+    "created_at": "2026-11-15T23:08:32Z",
+    "updated_at": "2026-11-15T23:08:32Z",
+    "expires_at": "2027-02-13T22:56:22Z",
+    "workflow_run": {
+      "id": 43772034713,
+      "repository_id": 353548917,
+      "head_repository_id": 353548917,
+      "head_branch": "fix/android36-gesture-progress-183",
+      "head_sha": "f7892f0254b78ec3589f30f1539faa1a56474d34"
+    }
+  }
+]

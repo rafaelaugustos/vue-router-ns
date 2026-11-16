@@ -1,0 +1,162 @@
+[
+  {
+    "name": "baseline36",
+    "archive": "local/baseline36.zip",
+    "bytes": 839617,
+    "sha256": "577d1147863fc92cbb38df823c861675c0d813278feedf8505c7449fbccfd72a",
+    "driver": "original",
+    "fixture": "normal",
+    "reports": 18,
+    "passed": 18,
+    "cancel": [
+      {
+        "ok": true,
+        "gesture": {
+          "events": 55,
+          "peak": 0.3345296084880829
+        }
+      }
+    ]
+  },
+  {
+    "name": "delayed-original36",
+    "archive": "local/delayed-original36.zip",
+    "bytes": 337837,
+    "sha256": "0b33011c063b64fd39f5f3d67dc590f7d5c7a652f3447f86094c233f12dd2c74",
+    "driver": "original",
+    "fixture": "delay650",
+    "reports": 5,
+    "passed": 4,
+    "cancel": [
+      {
+        "ok": false,
+        "gesture": {
+          "events": 30,
+          "peak": 0
+        }
+      }
+    ]
+  },
+  {
+    "name": "ready-delayed36",
+    "archive": "local/ready-delayed36.zip",
+    "bytes": 829958,
+    "sha256": "14a66d289881f035a02eb2b1a11723e79f356a36109825fe9e93dd352a1752d7",
+    "driver": "corrected-before-strict-read-deadline",
+    "fixture": "delay650",
+    "reports": 18,
+    "passed": 18,
+    "cancel": [
+      {
+        "ok": true,
+        "gesture": {
+          "events": 54,
+          "peak": 0.24127240478992462,
+          "probe": "7313:1"
+        }
+      }
+    ]
+  },
+  {
+    "name": "ready-normal36r07",
+    "archive": "local/ready-normal36r07.zip",
+    "bytes": 849654,
+    "sha256": "5dbfa98e0718cee62e9858001400ffb8853c1a61806a22c976a63c9fd52d18dd",
+    "driver": "f7892f0",
+    "fixture": "normal",
+    "reports": 18,
+    "passed": 18,
+    "cancel": [
+      {
+        "ok": true,
+        "gesture": {
+          "events": 60,
+          "peak": 0.31665581464767456,
+          "probe": "3711:1"
+        }
+      }
+    ]
+  },
+  {
+    "name": "stale-token36r07",
+    "archive": "local/stale-token36r07.zip",
+    "bytes": 275910,
+    "sha256": "b783c91bc1341fe977ffee335272b45e55d497dcc9cafcb90a6a2b456bac7ed7",
+    "driver": "f7892f0 + stale-token-driver.patch",
+    "fixture": "normal",
+    "reports": 4,
+    "passed": 4,
+    "cancel": []
+  },
+  {
+    "name": "delayed-original36r07",
+    "archive": "local/delayed-original36r07.zip",
+    "bytes": 344193,
+    "sha256": "ef12ae5c15d663eb00065bbc4d78d2c2171f16a5bb49fbedb9b0af342e2a9fc4",
+    "driver": "original",
+    "fixture": "delay650",
+    "reports": 5,
+    "passed": 4,
+    "cancel": [
+      {
+        "ok": false,
+        "gesture": {
+          "events": 30,
+          "peak": 0
+        }
+      }
+    ]
+  },
+  {
+    "name": "ready-delayed36r07",
+    "archive": "local/ready-delayed36r07.zip",
+    "bytes": 854933,
+    "sha256": "b74bcd5559d45646bde2fea63cafd2807bc2eb94b24e868c1ed01cfb5d976b46",
+    "driver": "f7892f0",
+    "fixture": "delay650",
+    "reports": 18,
+    "passed": 18,
+    "cancel": [
+      {
+        "ok": true,
+        "gesture": {
+          "events": 57,
+          "peak": 0.24130317568778992,
+          "probe": "11780:1"
+        }
+      }
+    ]
+  },
+  {
+    "name": "former-hmr36r07",
+    "archive": "local/former-hmr36r07.zip",
+    "bytes": 109853,
+    "sha256": "6ba8efa410fb561987d3395c883200d12cdd0327696f20ba31504829408b6a66",
+    "driver": "f7892f0",
+    "fixture": "invalid-negative-fixture: symlink bypassed fault loader",
+    "reports": 2,
+    "hmr": [
+      {
+        "ok": true,
+        "fault": true,
+        "error": null
+      }
+    ]
+  },
+  {
+    "name": "former-hmr-realpath36r07",
+    "archive": "local/former-hmr-realpath36r07.zip",
+    "bytes": 44405,
+    "sha256": "239ddf5baf2bf52e4bd40dd91792d2b8e0550c163afe91990de51b27846dca6f",
+    "driver": "f7892f0",
+    "fixture": "former-HMR negative control",
+    "reports": 2,
+    "hmr": [
+      {
+        "ok": false,
+        "fault": true,
+        "error": "Error: Timed out: native Page replacement after covered HMR"
+      }
+    ]
+  }
+]
