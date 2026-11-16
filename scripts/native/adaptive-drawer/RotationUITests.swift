@@ -190,19 +190,19 @@ final class RotationUITests: XCTestCase {
             let point = CGPoint(x: bounds.minX + 2, y: bounds.midY)
             XCTAssertTrue(applicationFrame.contains(point), "Native gesture edge must be inside the application")
             let offset = CGVector(dx: point.x - applicationFrame.minX, dy: point.y - applicationFrame.minY)
-            let insetCancellation = name == "cancel" && !landscape
-            let distance = bounds.width * (insetCancellation ? 0.04 : fraction)
+            let insetCancellation = name == "cancel" && !landscape && ProcessInfo.processInfo.operatingSystemVersion.majorVersion >= 26
+            let distance = bounds.width * (insetCancellation ? 0.08 : fraction)
             let start = app.coordinate(withNormalizedOffset: .zero).withOffset(offset)
             let end = start.withOffset(CGVector(dx: distance, dy: 0))
             // A long pointer-down drag can cancel or reverse the orientation
             // transition. In both commit directions, wait for UIKit's interaction
             // decision, then rotate while its navigation animation is unfinished.
             let signal = name == "commit" ? "interaction-ended" : "navigation-observed"
-            // The iOS 26 inset cancellation control must use a short drag and
-            // release promptly after requesting orientation. A 12% drag with a
-            // longer hold can commit; native cancellation is still mandatory.
+            // On iOS 26 a 12% inset drag can commit, while a 4% drag with a
+            // shorter hold was not observed on CI. Keep the original hold and
+            // use an intermediate distance; native cancellation is mandatory.
             let velocity: XCUIGestureVelocity = .slow
-            let hold: TimeInterval = insetCancellation ? 0.1 : 0.3
+            let hold: TimeInterval = 0.3
             try write("\(label)-driver.json", [
                 "rotationSignal": signal,
                 "windowFrame": rectangle(windowFrame),
