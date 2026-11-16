@@ -5,6 +5,7 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { recordEnvironment } from '../contracts/environment.mjs'
 import { captureLogcat } from './logcat.mjs'
+import { readSystemUi } from './system-ui.mjs'
 const exec = promisify(execFile)
 const serial = process.env.ANDROID_SERIAL
 assert(serial, 'Set ANDROID_SERIAL to a dedicated emulator')
@@ -78,14 +79,30 @@ async function screenshot(name, touch = false) {
   })
   await writeFile(resolve(out, `${name}.png`), image.stdout)
 }
+const bootId = (await adb('shell', 'cat', '/proc/sys/kernel/random/boot_id')).trim()
+assert(bootId, 'Device boot identity required')
+let systemUiRead = 0
 async function systemUi() {
-  return adb(
-    'shell',
-    'dumpsys',
-    'activity',
-    'service',
-    'com.android.systemui/.SystemUIService',
-  )
+  const id = ++systemUiRead
+  const attempts = []
+  return readSystemUi({
+    bootId,
+    appPid: pid,
+    run: async (args, options) =>
+      (
+        await exec('adb', ['-s', serial, ...args], {
+          maxBuffer: 12 * 1024 * 1024,
+          ...options,
+        })
+      ).stdout,
+    record: async (event) => {
+      attempts.push({ at: Date.now(), ...event })
+      await writeFile(
+        resolve(out, `system-ui-read-${id}.json`),
+        JSON.stringify(attempts, null, 2),
+      )
+    },
+  })
 }
 async function prepareLauncher() {
   await adb('shell', 'input', 'keyevent', '3')

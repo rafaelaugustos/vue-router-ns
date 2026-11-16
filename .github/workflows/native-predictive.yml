@@ -89,6 +89,7 @@ jobs:
           script: |
             ANDROID_SERIAL=emulator-5554 ANDROID_APP=/tmp/predictive-router.apk PREVIEW_MODE=core OUT=scripts/native/out/predictive-core node scripts/native/predictive/android.mjs
             ANDROID_SERIAL=emulator-5554 PREVIEW_MODE=legacy OUT=scripts/native/out/predictive-legacy node scripts/native/predictive/android.mjs
+            ANDROID_SERIAL=emulator-5554 node scripts/native/predictive/verify-system-ui-recovery.mjs
             ANDROID_SERIAL=emulator-5554 ANDROID_APP=/tmp/predictive-plain.apk OUT=scripts/native/out/predictive-recreation node scripts/native/predictive/recreation.mjs
             if [ '${{ matrix.api }}' = '35' ]; then ANDROID_SERIAL=emulator-5554 ANDROID_APP=/tmp/predictive-stock.apk PREVIEW_MODE=legacy EXPECT_RECREATION_FAILURE=1 OUT=scripts/native/out/predictive-negative node scripts/native/predictive/recreation.mjs; fi
       - uses: actions/upload-artifact@v4

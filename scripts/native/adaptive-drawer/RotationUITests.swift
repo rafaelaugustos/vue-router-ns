@@ -197,12 +197,19 @@ final class RotationUITests: XCTestCase {
             // transition. In both commit directions, wait for UIKit's interaction
             // decision, then rotate while its navigation animation is unfinished.
             let signal = name == "commit" ? "interaction-ended" : "navigation-observed"
+            // Keep cancellation below the forward-progress threshold and release
+            // the pointer promptly after requesting orientation. The native
+            // cancellation outcome and request timing remain mandatory.
+            let velocity: XCUIGestureVelocity = .slow
+            let hold: TimeInterval = name == "cancel" ? 0.1 : 0.3
             try write("\(label)-driver.json", [
                 "rotationSignal": signal,
                 "windowFrame": rectangle(windowFrame),
                 "recognizer": recognizer,
                 "start": ["x": point.x, "y": point.y],
                 "end": ["x": point.x + distance, "y": point.y],
+                "dragVelocity": velocity.rawValue,
+                "holdDuration": hold,
             ])
             // Read native lifecycle signals without an app-idle query. finish()
             // still rejects requests made after the navigation animation ends.
@@ -225,7 +232,7 @@ final class RotationUITests: XCTestCase {
                     }
                 }
             }
-            start.press(forDuration: 0.05, thenDragTo: end, withVelocity: .slow, thenHoldForDuration: 0.3)
+            start.press(forDuration: 0.05, thenDragTo: end, withVelocity: velocity, thenHoldForDuration: hold)
             wait(for: [rotated], timeout: 15)
             if let missing = try? read("rotation.json"), missing["notReproduced"] != nil {
                 try write("\(label).json", missing)
@@ -241,7 +248,7 @@ final class RotationUITests: XCTestCase {
         }
     }
     func test02IntendedCommit() throws { try gesture(0.8, name: "commit") }
-    func test03IntendedCancel() throws { try gesture(0.12, name: "cancel") }
+    func test03IntendedCancel() throws { try gesture(0.04, name: "cancel") }
     func test04SettledAndModalControl() throws {
         XCUIDevice.shared.orientation = .portrait
         try prepareWindow("settled")
