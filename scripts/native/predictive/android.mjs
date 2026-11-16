@@ -161,7 +161,9 @@ async function prepareLauncher() {
     120000,
   )
 }
-async function swipe(name, commit) {
+async function swipe(name, commit, gestureProbe) {
+  if (!commit)
+    assert(gestureProbe?.startsWith(`${pid}:`), 'Fresh fixture gesture token required')
   await writeFile(resolve(out, `${name}-system-ui-before.txt`), await systemUi())
   const size = [...(await adb('shell', 'wm', 'size')).matchAll(/(\d+)x(\d+)/g)].at(-1)
   const output = await adb(
@@ -178,6 +180,7 @@ async function swipe(name, commit) {
     '-e',
     'height',
     size[2],
+    ...(gestureProbe ? ['-e', 'gestureProbe', gestureProbe] : []),
     'org.nativescript.contracttouch/.ContractTouch',
   )
   await writeFile(resolve(out, `${name}-input.txt`), output)
@@ -235,8 +238,12 @@ try {
     ['custom', 'cancel', 'custom-check'],
     ['modal', 'commit', 'modal-check'],
   ]) {
-    await command(setup)
-    await swipe(setup + '-' + gesture, gesture === 'commit')
+    const prepared = await command(setup)
+    await swipe(
+      setup + '-' + gesture,
+      gesture === 'commit',
+      gesture === 'cancel' ? prepared.gestureProbe : undefined,
+    )
     await command(check)
   }
   await command('replace-clear')

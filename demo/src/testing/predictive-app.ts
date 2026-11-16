@@ -33,6 +33,9 @@ let busy = false
 let result: unknown
 let resultCount = 0
 let gesture: any[] = []
+let gestureProbe = ''
+let gestureProbeSequence = 0
+let gestureActive = false
 let captures: any[] = []
 const collected = new java.lang.ref.ReferenceQueue<android.graphics.Bitmap>()
 const bitmaps: java.lang.ref.WeakReference<android.graphics.Bitmap>[] = []
@@ -51,6 +54,17 @@ const settings = {
   diagnostics: true,
 }
 const file = File.fromPath(`${knownFolders.documents().path}/predictive.json`)
+const gestureFile = File.fromPath(
+  `${knownFolders.documents().path}/contract-gesture.json`,
+)
+function writeGestureProbe(ready: boolean) {
+  gestureFile.writeTextSync(JSON.stringify({ token: gestureProbe, ready }))
+}
+function armGestureProbe() {
+  gestureActive = false
+  gestureProbe = `${android.os.Process.myPid()}:${++gestureProbeSequence}`
+  writeGestureProbe(false)
+}
 function check(label: string, value: unknown): asserts value {
   if (!value) throw new Error(label)
   assertions.push(label)
@@ -87,6 +101,7 @@ function report(command: string, error?: unknown) {
     route: router.currentRoute.value.path,
     stack: router.stack.value.map((r) => r.path),
     gesture,
+    gestureProbe,
     captures,
     lifecycle: lifecycle.slice(commandStart),
     assertions,
@@ -132,7 +147,11 @@ const Screen = defineComponent({
     watch(
       progress,
       (value) => {
-        if (!value) return
+        gestureActive = !!value
+        if (!value) {
+          if (gestureProbe) writeGestureProbe(false)
+          return
+        }
         const frame = host.native!
         const below = frame.backStack.at(-1)?.resolvedPage
         gesture.push({
@@ -147,6 +166,14 @@ const Screen = defineComponent({
           children: frame.nativeViewProtected?.getChildCount(),
           at: performance.now(),
         })
+        if (gesture.length === 1) {
+          const token = gestureProbe
+          // Use the contract driver's existing handshake: continue outward
+          // movement only after native onBackStarted returns to the app loop.
+          setTimeout(() => {
+            if (gestureActive && gestureProbe === token) writeGestureProbe(true)
+          }, 0)
+        }
       },
       { flush: 'sync' },
     )
@@ -228,6 +255,7 @@ async function prepare(path = '/detail', custom = false) {
   target = current.currentPage
   previous = current.backStack.at(-1)?.resolvedPage
   gesture = []
+  armGestureProbe()
   captures = []
   commandStart = lifecycle.length
 }
