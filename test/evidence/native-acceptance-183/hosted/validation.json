@@ -1,0 +1,12 @@
+{
+  "run": 43811586390,
+  "source": "63e43ec79a025776c368d2d8f9bc37786bb6027b",
+  "attempt": 1,
+  "conclusion": "success",
+  "successfulJobs": 25,
+  "nativeJobs": 23,
+  "failedSkippedOrCancelledJobs": [],
+  "verifiedOriginalArtifacts": 23,
+  "originalArtifactBytes": 95106496,
+  "preservation": "Every original artifact downloaded and checked against GitHub SHA-256. Full original iPad ZIP, all job logs and text members of every artifact committed. Original remaining ZIPs retained locally; text archives omit binary screenshots/xcresult objects."
+}

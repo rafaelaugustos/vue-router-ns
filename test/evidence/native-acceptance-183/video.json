@@ -1,0 +1,46 @@
+{
+  "original": {
+    "sha256": "ed56faaf684ce8c109779c849d253d1f0f0e6f96fb107528efa86732172c736e",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1718,
+        "height": 1200
+      }
+    ],
+    "format": {
+      "duration": "65.895400",
+      "size": "16827662"
+    }
+  },
+  "published": {
+    "file": "docs/public/media/ipad-windows-acceptance-183.mp4",
+    "sha256": "b268bda3e9d331ef4a0964c0d67c1e77e317bd62cb717b4c0ed6afcfdcc19b04",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1432,
+        "height": 1000
+      }
+    ],
+    "format": {
+      "duration": "26.958984",
+      "size": "630674"
+    }
+  },
+  "capture": "Actual connected physical iPad screen through AVFoundation USB muxed device; no audio captured.",
+  "edits": {
+    "sourceIntervalsSeconds": [
+      [1.5, 9.8],
+      [14.25, 28.5],
+      [30.5, 35]
+    ],
+    "reason": "Remove personal Home screen during launch/background/close transitions and trailing idle footage. Cuts are disclosed; this is not an uninterrupted timing record.",
+    "encoding": "H.264 scaled to 1432x1000, playback speed unchanged within retained intervals."
+  },
+  "correspondingRun": "physical-recorded (PID 1765)"
+}
