@@ -4,6 +4,7 @@ import { Application, File, Frame, knownFolders } from '@nativescript/core'
 let Observer: any
 let observer: any
 let pending: any
+let orientationObserver: any
 const identities = new WeakMap<object, number>()
 let serial = 0
 export function nativeIdentity(value: object | undefined) {
@@ -19,6 +20,35 @@ function write(run: any) {
 function event(run: any, kind: string, data: object = {}) {
   run.report.events.push({ kind, at: performance.now(), wallTime: Date.now(), ...data })
   write(run)
+}
+function nativePhase(run: any) {
+  const controller = run.frame.ios.controller
+  const current = controller.transitionCoordinator
+  // UIKit invalidates completed contexts: query only the current live context.
+  const active = run.navigationActive && current === run.coordinator
+  const gestures = [
+    ['edge', controller.interactivePopGestureRecognizer],
+    ...(Number(UIDevice.currentDevice.systemVersion.split('.')[0]) >= 26
+      ? [['content', controller.interactiveContentPopGestureRecognizer]]
+      : []),
+  ]
+    .filter(([, gesture]) => gesture)
+    .map(([kind, gesture]) => ({
+      kind,
+      id: nativeIdentity(gesture),
+      state: gesture.state,
+      enabled: gesture.enabled,
+    }))
+  return {
+    currentCoordinator: nativeIdentity(current),
+    navigationCoordinator: run.navigationActive ? nativeIdentity(run.coordinator) : null,
+    navigationActive: active,
+    navigationCompletionPending: run.navigationActive,
+    currentlyInteractive: active ? current.interactive : null,
+    percent: active ? current.percentComplete : null,
+    deviceOrientation: UIDevice.currentDevice.orientation,
+    gestures,
+  }
 }
 function observeNavigation(run: any, rotation?: any) {
   if (!run.observed && run.report.operation !== 'settled') {
@@ -42,6 +72,7 @@ function observeNavigation(run: any, rotation?: any) {
       event(run, 'navigation-observed', {
         coordinator: coordinatorId,
         observedFrom: rotation ? 'rotation-callback' : 'poll',
+        ...nativePhase(run),
         fromKey: nativeIdentity(
           coordinator.viewControllerForKey(UITransitionContextFromViewControllerKey),
         ),
@@ -55,7 +86,11 @@ function observeNavigation(run: any, rotation?: any) {
       })
       if (coordinator.initiallyInteractive)
         coordinator.notifyWhenInteractionChangesUsingBlock((context: any) => {
-          event(run, 'interaction-ended', { cancelled: context.cancelled })
+          event(run, 'interaction-ended', {
+            cancelled: context.cancelled,
+            coordinator: coordinatorId,
+            percent: context.percentComplete,
+          })
         })
       coordinator.animateAlongsideTransitionCompletion(null, (context: any) => {
         run.navigationActive = false
@@ -80,26 +115,19 @@ function install() {
       )
       const run = pending
       if (!run || run.report.finished) return
-      if (run.report.operation.endsWith('-overlap')) observeNavigation(run, rotation)
+      if (
+        run.report.operation.endsWith('-overlap') ||
+        run.report.operation.startsWith('gesture')
+      )
+        observeNavigation(run, rotation)
       const rotationId = nativeIdentity(rotation)
       run.rotationsInFlight++
       run.lastRotationWasTarget =
         size.width === run.report.window.height && size.height === run.report.window.width
-      // Never retain/query a completed coordinator: UIKit invalidates its context.
-      const stillCurrent =
-        run.navigationActive &&
-        run.frame.ios.controller.transitionCoordinator === run.coordinator
       event(run, 'rotation-began', {
         width: size.width,
         height: size.height,
-        navigationActive: stillCurrent,
-        navigationCompletionPending: run.navigationActive,
-        navigationCoordinator: run.navigationActive
-          ? nativeIdentity(run.coordinator)
-          : null,
-        currentCoordinator: nativeIdentity(
-          run.frame.ios.controller.transitionCoordinator,
-        ),
+        ...nativePhase(run),
         rotationCoordinator: rotationId,
       })
       rotation.animateAlongsideTransitionCompletion(null, () => {
@@ -109,6 +137,18 @@ function install() {
       })
     },
   })
+  orientationObserver ??=
+    NSNotificationCenter.defaultCenter.addObserverForNameObjectQueueUsingBlock(
+      UIDeviceOrientationDidChangeNotification,
+      null,
+      NSOperationQueue.mainQueue,
+      () => {
+        const run = pending
+        if (run && !run.report.finished)
+          event(run, 'device-orientation', nativePhase(run))
+      },
+    )
+  UIDevice.currentDevice.beginGeneratingDeviceOrientationNotifications()
   observer = Observer.new()
   const root = Application.getRootView().nativeViewProtected.window.rootViewController
   root.addChildViewController(observer)

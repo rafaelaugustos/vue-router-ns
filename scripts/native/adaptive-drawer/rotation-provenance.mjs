@@ -46,6 +46,7 @@ export async function recordRotationProvenance(out, simulator) {
     'scripts/native/adaptive-drawer/bridge.mjs',
     'scripts/native/adaptive-drawer/content-back.mjs',
     'scripts/native/adaptive-drawer/programmatic-overlap.mjs',
+    'scripts/native/adaptive-drawer/gesture-overlap.mjs',
     'scripts/native/adaptive-drawer/rotation-provenance.mjs',
   ])
     sources[path] = hash(await readFile(path))

@@ -7,6 +7,7 @@ final class RotationUITests: XCTestCase {
     let app = XCUIApplication(bundleIdentifier: "org.nativescript.vuerouterns")
     var directory: URL!
     var overlap = false
+    var gesturePhase = false
     override func setUpWithError() throws {
         continueAfterFailure = false
         let udid = ProcessInfo.processInfo.environment["SIMULATOR_UDID"]!
@@ -14,6 +15,7 @@ final class RotationUITests: XCTestCase {
         let config = try JSONSerialization.jsonObject(with: Data(contentsOf: configURL)) as! [String: String]
         directory = URL(fileURLWithPath: config["directory"]!)
         overlap = config["mode"] == "overlap"
+        gesturePhase = config["mode"] == "gesture"
         app.activate()
     }
     // Rotation can restore a reduced compatibility window after an earlier
@@ -193,12 +195,14 @@ final class RotationUITests: XCTestCase {
             let distance = bounds.width * fraction
             let start = app.coordinate(withNormalizedOffset: .zero).withOffset(offset)
             let end = start.withOffset(CGVector(dx: distance, dy: 0))
-            // A long pointer-down drag can cancel or reverse the orientation
-            // transition. In both commit directions, wait for UIKit's interaction
-            // decision, then rotate while its navigation animation is unfinished.
-            let signal = name == "commit" ? "interaction-ended" : "navigation-observed"
+            // The gesture-phase profile requests orientation during pointer input
+            // for both intentions. Keep the original committed control's request
+            // after UIKit's interaction decision in device mode.
+            let signal = name == "commit" && !gesturePhase ? "interaction-ended" : "navigation-observed"
             try write("\(label)-driver.json", [
                 "rotationSignal": signal,
+                "gestureIntent": name,
+                "rotationRequestPhase": gesturePhase ? "interactive" : "default-control",
                 "windowFrame": rectangle(windowFrame),
                 "recognizer": recognizer,
                 "start": ["x": point.x, "y": point.y],
