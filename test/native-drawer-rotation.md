@@ -1,6 +1,11 @@
 # iPad rotation requested during navigation — #167
 
-Current programmatic stage — 2026-11-16: [genuine programmatic overlap](./native-programmatic-rotation-167.md)
+Current gesture investigation — 2026-11-16: [device orientation during native gestures](./native-gesture-rotation-167.md)
+records orientation receipt while pointer interaction is active, then distinguishes
+actual window rotation from native navigation completion. The tested default
+composition defers visual rotation. This does not close #167's gesture-overlap gap.
+
+Programmatic stage — 2026-11-16: [genuine programmatic overlap](./native-programmatic-rotation-167.md)
 adds a separate Core slide composition with four required native overlaps on
 18.6 and 26.2, retaining default-transition controls and UIKit's orientation
 interruptions. Gesture overlap remains separate.

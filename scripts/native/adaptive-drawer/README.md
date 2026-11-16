@@ -81,6 +81,34 @@ gh workflow run native-drawer-ios.yml --ref <candidate-branch> -f scope=programm
 
 This focused run skips the separate drawer/content-Back jobs; it is not the complete native matrix.
 
+### Gesture phase and strict overlap audit
+
+`ROTATION_MODE=gesture` keeps the platform-default transition and requests orientation while pointer input is active for both commit and cancel intentions. It runs three XCTest methods and six scenarios: both gesture intentions in both directions, plus settled and pending-modal controls. It retains the full-window setup, identity/history/draft/disposal/promise/layout checks and follow-up navigation/guards. A missing gesture is still allowed only at the known iPadOS 18.6 permanent-content edge.
+
+```sh
+ROTATION_MODE=gesture IOS_SIMULATOR=<dedicated-booted-ipad-uuid> \
+  RECORD_VIDEO=1 OUT=scripts/native/out/gesture-rotation \
+  node scripts/native/adaptive-drawer/rotation.mjs
+```
+
+Every reproduced gesture must deliver a `UIDeviceOrientationDidChangeNotification` for the requested orientation before UIKit's interaction decision. At receipt, the native navigation coordinator must still be current and interactive, with an active native edge or content Back recognizer. The observer reads these public properties without changing gesture targets, delegates, animation duration or transition policy. Native completion determines the actual committed/cancelled outcome; the drag's intention is recorded separately.
+
+`gestureEvidence` classifies `interactive-overlap`, `completion-overlap`, `rotation-deferred` or `overlap-unconfirmed` from the target-size rotation callback and distinct coordinator identities. A device-orientation notification alone is not a window rotation. Both currently tested simulator versions defer the latter until navigation finishes. A green phase suite therefore certifies the delivered input and final state, **not genuine gesture overlap**. Audit that stronger claim separately:
+
+```sh
+node scripts/native/adaptive-drawer/gesture-overlap.mjs scripts/native/out/gesture-rotation
+```
+
+The audit recomputes proofs from raw reports and exits nonzero if any of the four gesture cases is deferred, missing or unconfirmed. It is expected to reject the currently recorded composition; it never retries input or relabels deferral as overlap. The [stage report](../../../test/native-gesture-rotation-167.md) retains these negative coverage results and exact versions.
+
+Run the phase suite plus both original regression profiles on both iPadOS versions with:
+
+```sh
+gh workflow run native-drawer-ios.yml --ref <candidate-branch> -f scope=gesture-rotation
+```
+
+The existing `programmatic-overlap` matrix retains its artifact names and adds a `gesture-rotation` directory for this scope and full runs. The focused `programmatic-overlap` scope keeps its original two suites. This is not the full native release matrix.
+
 ## Android
 
 ```sh
