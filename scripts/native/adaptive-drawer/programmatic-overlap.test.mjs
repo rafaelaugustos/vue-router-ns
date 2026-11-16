@@ -105,6 +105,25 @@ test('retains a temporary orientation reversal and final target rotation', () =>
     [true, false, true],
   )
 })
+test('rejects a snapshot between the temporary return and final target rotation', () => {
+  const value = sample()
+  value.report.events.push(
+    {
+      kind: 'rotation-began',
+      at: 510,
+      wallTime: 1510,
+      ...value.report.window,
+      navigationActive: true,
+      navigationCompletionPending: true,
+      navigationCoordinator: 42,
+      currentCoordinator: 42,
+      rotationCoordinator: 52,
+    },
+    { kind: 'rotation-ended', at: 1600, wallTime: 2600, rotationCoordinator: 52 },
+  )
+  value.report.events.sort((a, b) => a.at - b.at)
+  assert.throws(() => check(value), /final rotation must reach the target/)
+})
 for (const [reason, mutate] of [
   [
     'request timing without native overlap',

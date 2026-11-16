@@ -83,6 +83,8 @@ function install() {
       if (run.report.operation.endsWith('-overlap')) observeNavigation(run, rotation)
       const rotationId = nativeIdentity(rotation)
       run.rotationsInFlight++
+      run.lastRotationWasTarget =
+        size.width === run.report.window.height && size.height === run.report.window.width
       // Never retain/query a completed coordinator: UIKit invalidates its context.
       const stillCurrent =
         run.navigationActive &&
@@ -142,6 +144,7 @@ export function rotateDuringNavigation(
     completed: operation === 'settled',
     rotated: false,
     rotationsInFlight: 0,
+    lastRotationWasTarget: false,
     source: frame.currentPage?.ios,
     frame,
     coordinator: undefined as any,
@@ -187,14 +190,24 @@ export function rotateDuringNavigation(
     observeNavigation(run)
     const elapsed = performance.now() - started
     if (
-      (run.rotated && run.rotationsInFlight === 0 && run.completed && elapsed > 2000) ||
+      (run.rotated &&
+        run.lastRotationWasTarget &&
+        run.rotationsInFlight === 0 &&
+        run.completed &&
+        elapsed > 2000) ||
       elapsed > 20000
     ) {
       clearInterval(timer)
       run.report.after = snapshot()
       run.report.finished = true
-      if (!run.completed || !run.rotated)
-        run.report.error = 'Timed out waiting for native navigation/rotation completion'
+      if (
+        !run.completed ||
+        !run.rotated ||
+        !run.lastRotationWasTarget ||
+        run.rotationsInFlight !== 0
+      )
+        run.report.error =
+          'Timed out waiting for native navigation/target rotation completion'
       write(run)
     }
   }, 5)
