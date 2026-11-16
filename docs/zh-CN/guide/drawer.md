@@ -93,6 +93,10 @@ iOS 实现和自适应表示是 `0.1.0-rc.3` 的一部分。之前的 `0.1.0-rc.
 
 观察器区分导航期间的旋转请求和真正同时进行的动画。报告记录原生 coordinator 的身份，以及界面旋转与导航重叠还是被推迟。手势长度或尚未完成的 Promise 都不能证明原生结果。
 
+独立的[程序化导航重叠测试](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-programmatic-rotation-167.md)使用 Core 公开的 `slide` 转场及 `duration: 1500`，在 iPadOS 18.6 和 26.2 模拟器上验证两个旋转方向中的 push 和 Back。导航与方向请求在导航开始时相近的时点发出；只有目标方向的旋转真正开始时原生导航 coordinator 仍处于活动状态，测试才算通过。仅凭请求时间不能通过此检查。
+
+这些运行中，UIKit 曾暂时返回初始方向，然后才达到最终目标方向。结束后，两条已预热的导航栈、草稿、保留实例和历史记录仍保持一致。该覆盖范围限于上述程序化导航组合；手势期间的真实重叠及其他转场配置仍需分别验证。
+
 在 iPadOS 18.6 中，从常驻内容内侧边缘发起的两个手势仍然**未能复现**。其他八个旋转或对照场景通过；缺失的手势不计为已通过的交互覆盖。常驻模式应保留明确的返回操作。
 
 [原始旋转报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-rotation.md)和[独立 Core 调查](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-back-content-edge.md)仍作为历史证据保留。新测试处理 [#168](https://github.com/rafaelaugustos/vue-router-ns/issues/168)；更广泛的 [#167](https://github.com/rafaelaugustos/vue-router-ns/issues/167) 验收、实体 iPad、Stage Manager 和任意自定义宿主仍需分别评估。

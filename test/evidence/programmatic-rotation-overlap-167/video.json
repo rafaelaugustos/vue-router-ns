@@ -1,0 +1,26 @@
+{
+  "sourceRun": "final18",
+  "sourceRevision": "65f61c8576a2190faebf485357cbe6c23e223115",
+  "sourceSha256": "0e3d4777499afea7f27af8848bcb29ff19145893421d6c208e01b90e4767cf23",
+  "publishedVideo": "docs/public/media/programmatic-rotation-overlap-167.mp4",
+  "sha256": "dc50f0399fab3d54df50d10629b2f5fee46e34722d808011e3f14d2731a151ff",
+  "sourceStream": {
+    "codec_name": "h264",
+    "width": 1668,
+    "height": 2420,
+    "time_base": "1/600",
+    "duration": "28.116667",
+    "nb_frames": "830"
+  },
+  "publishedStream": {
+    "codec_name": "h264",
+    "width": 720,
+    "height": 1044,
+    "time_base": "1/600",
+    "duration": "28.116667",
+    "nb_frames": "830"
+  },
+  "framesCompared": 830,
+  "presentationTimestampsPreserved": true,
+  "processing": "Complete real simulator recording scaled to720px width and H.264 encoded. No trimming or retiming; final-frame duration preserved."
+}

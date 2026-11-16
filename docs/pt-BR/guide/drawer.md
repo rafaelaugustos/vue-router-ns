@@ -93,6 +93,10 @@ A fase do gesto importa. Pedir rotação enquanto o dedo está pressionado pode 
 
 O observador distingue um pedido de rotação durante a navegação de animações realmente simultâneas. O relatório registra a identidade do coordinator nativo e se a rotação visual coincidiu com a navegação ou foi adiada. O comprimento do gesto e uma Promise pendente não comprovam o resultado nativo.
 
+Uma [suíte separada de sobreposição programática](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-programmatic-rotation-167.md) valida push e Back nos dois sentidos de rotação nos simuladores com iPadOS 18.6 e 26.2, usando a transição pública `slide` do Core com `duration: 1500`. Os pedidos de navegação e orientação são disparados próximos ao início da navegação; a aceitação exige um coordinator nativo de navegação ativo quando a rotação para o destino realmente começa. Só o horário do pedido não aprova essa checagem.
+
+Nessas execuções, o UIKit voltou temporariamente à orientação inicial antes de chegar ao destino final. As duas pilhas aquecidas, os rascunhos, as instâncias sobreviventes e o histórico ficaram coerentes após a conclusão. A cobertura vale para essa composição programática; sobreposição real durante gestos e outras configurações de transição continuam separadas.
+
 No iPadOS 18.6, os dois gestos na borda interna do conteúdo permanente continuam **não reproduzidos**. Oito outros cenários de rotação/controle passam; os gestos ausentes não contam como cobertura interativa aprovada. Mantenha uma ação explícita de Voltar no modo permanente.
 
 O [relatório original de rotação](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-rotation.md) e a [investigação isolada de Core](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-back-content-edge.md) permanecem como evidência histórica. Os novos testes tratam da [#168](https://github.com/rafaelaugustos/vue-router-ns/issues/168); a aceitação mais ampla da [#167](https://github.com/rafaelaugustos/vue-router-ns/issues/167), iPads físicos, Stage Manager e hosts customizados arbitrários continuam separados.

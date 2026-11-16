@@ -41,7 +41,7 @@ IOS_SIMULATOR=<dedicated-booted-ipad-uuid> OUT=scripts/native/out/adaptive-rotat
 
 Use a new output directory for each run because Xcode result bundles cannot already exist. Optionally set `RECORD_VIDEO=1` to retain a real simulator recording, and `RUBY=/path/to/ruby` if your configured Ruby is not on PATH. The driver bounds simulator commands (30 seconds, 120 seconds for installation), reuses the resolved app container, and logs preparation milestones. Requested recordings are observed from process start and have a ten-second shutdown deadline; recording failures fail the run. The driver has a six-minute XCTest timeout (including compilation and runner startup) and copies per-case JSON and XCTest logs even when XCTest fails. Build products stay in a temporary directory rather than the uploaded artifacts.
 
-The rotation suite targets a **maximized, full-size application window**, matching #168's original 1210-point landscape baseline. Before every case, after its initial orientation and fixture preparation, it waits up to five seconds for usable accessibility geometry, uses SpringBoard's normal window-controls/Zoom buttons when necessary, and requires the application's accessibility window to match the screen-sized application frame. A Zoom action has a separate five-second geometry deadline. Each gesture rechecks the full-window assertion. `window-setup.json` contains one named check per scenario, with before/after geometry and a timestamp; the host requires all ten checks to precede their native observers. Setup never runs during an armed transition and failed gestures are not retried. See the [CI follow-up](../../../test/native-window-precondition-222.md). On iPadOS 26.2 the default full-screen compatibility resources can still launch a reduced window. Missing inset gestures in that configuration are retained as diagnostics, not accepted coverage. This suite does not certify windowed/Stage Manager input.
+The rotation suite targets a **maximized, full-size application window**, matching #168's original 1210-point landscape baseline. Before every case, after its initial orientation and fixture preparation, it waits up to five seconds for usable accessibility geometry, uses SpringBoard's normal window-controls/Zoom buttons when necessary, and requires the application's accessibility window to match the screen-sized application frame. A Zoom action has a separate five-second geometry deadline. Each gesture rechecks the full-window assertion. `window-setup.json` contains one named check per scenario, with before/after geometry and a timestamp; the host requires every selected check to precede its native observer (ten in device mode, six in overlap mode). Setup never runs during an armed transition and failed gestures are not retried. See the [CI follow-up](../../../test/native-window-precondition-222.md). On iPadOS 26.2 the default full-screen compatibility resources can still launch a reduced window. Missing inset gestures in that configuration are retained as diagnostics, not accepted coverage. This suite does not certify windowed/Stage Manager input.
 
 The probe attempts ten scenarios across push, programmatic Back, swipe commit/cancel and settled/modal controls. Each active case must prove that the orientation request preceded native navigation completion. The report separately labels `overlap`, `rotation-deferred`, `overlap-unconfirmed`, `settled-control` and `gesture-not-reproduced`. If navigation completion is pending but its coordinator is no longer current, overlap remains unconfirmed. A missing gesture is accepted only for the two permanent-content cases on iPadOS 18.6, with unchanged identity/history assertions. It fails on iPadOS 26 and later.
 
@@ -58,6 +58,28 @@ gh workflow run native-drawer-ios.yml --ref <candidate-branch> -f scope=content-
 ```
 
 This focused run skips the older drawer jobs and is not a complete native matrix.
+
+### Programmatic overlap
+
+The default `ROTATION_MODE=device` suite above keeps the platform transition and waits for native navigation observation before requesting device orientation. A separate mode uses Core's public `slide` transition with `duration: 1500` and dispatches orientation near navigation admission:
+
+```sh
+ROTATION_MODE=overlap IOS_SIMULATOR=<dedicated-booted-ipad-uuid> \
+  RECORD_VIDEO=1 OUT=scripts/native/out/programmatic-overlap \
+  node scripts/native/adaptive-drawer/rotation.mjs
+```
+
+It runs two XCTest methods and six scenarios: push and programmatic Back in both directions, plus settled and pending-modal controls. The original identity/history/draft/disposal/promise/layout/guard assertions remain. Every programmatic case additionally requires a target-size rotation while the same native navigation coordinator is current and unfinished, distinct from the rotation coordinator. A request sent before completion is insufficient. The observer checks the native context at `viewWillTransition` as well as its normal polling point, and waits for all observed rotations to complete and the last rotation to reach the target dimensions before taking its final snapshot.
+
+`overlapEvidence` retains the full rotation sequence, including UIKit's temporary return to the initial orientation. `requestedDuringNavigation` can be false in this mode: concurrent requests near admission are accepted only if the later native callbacks prove actual overlap. No gesture is attempted or retried by this mode, and the driver never assigns a navigation delegate. Core selects its own animator through the public transition option. See the [stage report](../../../test/native-programmatic-rotation-167.md) for the exact composition and boundaries.
+
+The full workflow includes an 18.6/26.2 overlap matrix. Each row also reruns the original device suite as a regression control. Run only these two rows with:
+
+```sh
+gh workflow run native-drawer-ios.yml --ref <candidate-branch> -f scope=programmatic-overlap
+```
+
+This focused run skips the separate drawer/content-Back jobs; it is not the complete native matrix.
 
 ## Android
 

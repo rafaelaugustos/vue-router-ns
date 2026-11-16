@@ -51,3 +51,4 @@ echo 'Hierarchy deadlines passed: inspection time counted and stalled command te
 
 node --test scripts/native/conventions/observer.test.mjs
 node --test scripts/native/logged-command.test.mjs
+node --test scripts/native/adaptive-drawer/programmatic-overlap.test.mjs
