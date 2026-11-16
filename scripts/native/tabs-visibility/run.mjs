@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict'
 import { execFile, spawn } from 'node:child_process'
 import { promisify } from 'node:util'
-import { access, mkdir, writeFile, readFile } from 'node:fs/promises'
+import { mkdir, writeFile, readFile, rename } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { recordEnvironment } from '../contracts/environment.mjs'
 const exec = promisify(execFile)
 const sim = process.env.IOS_SIMULATOR
 const serial = process.env.ANDROID_SERIAL
@@ -24,110 +25,185 @@ const appShell = (...args) => adb('shell', ...(rooted ? [] : ['run-as', pkg]), .
 const appFiles = `/data/data/${pkg}/files/tabs-visibility`
 const pause = (ms) => new Promise((done) => setTimeout(done, ms))
 let container
-if (sim) {
-  await ios('terminate', sim, pkg).catch(() => {})
-  await ios('uninstall', sim, pkg).catch(() => {})
-  await ios(
-    'install',
-    sim,
-    process.env.IOS_APP ?? 'demo/platforms/ios/build/Debug-iphonesimulator/demo.app',
-  )
-  await ios('launch', sim, pkg)
-  container = await ios('get_app_container', sim, pkg, 'data')
-} else {
-  if (rooted) {
-    await adb('root')
-    await adb('wait-for-device')
-  }
-  await adb('shell', 'am', 'force-stop', pkg)
-  await adb('shell', 'pm', 'clear', pkg)
-  await adb('shell', 'am', 'start', '-W', '-n', `${pkg}/com.tns.NativeScriptActivity`)
-}
-// A fresh installation can take longer to start on a busy simulator. The
-// fixture creates result.json only after setting up its native command bridge.
-const bridgeDeadline = Date.now() + 30000
-while (true) {
-  try {
-    if (sim) await access(`${container}/Documents/tabs-visibility/result.json`)
-    else await appShell('test', '-f', `${appFiles}/result.json`)
-    break
-  } catch {
-    assert(
-      Date.now() < bridgeDeadline,
-      'Native tab visibility command bridge did not become ready within 30s',
-    )
-    await pause(200)
-  }
-}
 let recording
-if (process.env.RECORD === '1') {
-  recording = sim
-    ? spawn(
-        'xcrun',
-        ['simctl', 'io', sim, 'recordVideo', '--codec=h264', `${out}/demo.mp4`],
-        { stdio: 'ignore' },
-      )
-    : spawn(
-        'adb',
-        [
-          '-s',
-          serial,
-          'shell',
-          'screenrecord',
-          '--bit-rate',
-          '4000000',
-          '/sdcard/tabs-visibility.mp4',
-        ],
-        { stdio: 'ignore' },
-      )
-}
-const results = []
-async function command(action, value) {
-  const id = results.length + 1
-  const body = JSON.stringify({ id, action, value })
-  if (sim) await writeFile(`${container}/Documents/tabs-visibility/command.json`, body)
-  else {
-    await writeFile(`${out}/command.json`, body)
-    await adb(
-      'push',
-      `${out}/command.json`,
-      '/data/local/tmp/tabs-visibility-command.json',
-    )
-    await appShell(
-      'cp',
-      '/data/local/tmp/tabs-visibility-command.json',
-      `${appFiles}/command.json`,
-    )
+let phase = 'launch'
+let session
+let lastRead
+const startedAt = new Date().toISOString()
+const readResult = () =>
+  sim
+    ? readFile(`${container}/Documents/tabs-visibility/result.json`, 'utf8')
+    : appShell('cat', `${appFiles}/result.json`)
+async function readReport() {
+  let raw
+  try {
+    raw = await readResult()
+    const report = JSON.parse(raw)
+    lastRead = { raw }
+    return report
+  } catch (error) {
+    lastRead = { raw, error: String(error) }
   }
-  let report
-  for (let i = 0; i < 80; i++) {
-    try {
-      const text = sim
-        ? await readFile(`${container}/Documents/tabs-visibility/result.json`, 'utf8')
-        : await appShell('cat', `${appFiles}/result.json`)
-      report = JSON.parse(text)
-      if (report.id === id) break
-    } catch {}
+}
+async function waitForBridge() {
+  phase = 'bridge readiness'
+  const deadline = Date.now() + 30000
+  while (Date.now() < deadline) {
+    const report = await readReport()
+    if (
+      report?.ready === true &&
+      typeof report.session === 'string' &&
+      report.session !== session
+    ) {
+      session = report.session
+      return
+    }
     await pause(200)
   }
-  assert.equal(report?.id, id, `Command timed out: ${action}`)
-  results.push({ action, value, ...report })
-  await writeFile(`${out}/results.json`, JSON.stringify(results, null, 2))
-  assert(!report.error, JSON.stringify(report))
-  console.log(`PASS ${action} ${value ?? ''} (${report.kind})`)
-  if (recording) await pause(1300)
-  return report
+  assert.fail('Native tab visibility command bridge did not become ready within 30s')
 }
-const expectHidden = (report, hidden) => {
-  assert.equal(
-    report.hidden,
-    report.kind === 'core' ? false : hidden,
-    JSON.stringify(report),
+async function diagnose(error) {
+  await writeFile(
+    `${out}/failure.json`,
+    JSON.stringify(
+      { phase, startedAt, session, lastRead, error: String(error), stack: error.stack },
+      null,
+      2,
+    ),
   )
-  if (report.kind !== 'core')
-    assert.equal(report.accessible, !hidden, 'Hidden navigation remains accessible')
+  const capture = async (name, collect) => {
+    try {
+      await writeFile(`${out}/${name}`, await collect())
+    } catch (error) {
+      await writeFile(`${out}/${name}.error.txt`, String(error))
+    }
+  }
+  await Promise.all([
+    ...['result.json', 'command.json'].map((name) =>
+      capture(`device-${name}`, () =>
+        sim
+          ? readFile(`${container}/Documents/tabs-visibility/${name}`, 'utf8')
+          : appShell('cat', `${appFiles}/${name}`),
+      ),
+    ),
+    ...(serial
+      ? [
+          capture('system.log', () =>
+            adb('logcat', '-b', 'all', '-d', '-v', 'threadtime'),
+          ),
+          capture('activity.txt', () =>
+            adb('shell', 'dumpsys', 'activity', 'activities'),
+          ),
+          capture('window.txt', () => adb('shell', 'dumpsys', 'window', 'windows')),
+          capture('exit-info.txt', () =>
+            adb('shell', 'dumpsys', 'activity', 'exit-info', pkg),
+          ),
+          capture('process.txt', () => adb('shell', 'pidof', pkg)),
+        ]
+      : []),
+  ])
 }
 try {
+  await recordEnvironment(
+    out,
+    serial
+      ? {
+          serial,
+          fingerprint: await adb('shell', 'getprop', 'ro.build.fingerprint'),
+        }
+      : { simulator: sim },
+  )
+  if (sim) {
+    await ios('terminate', sim, pkg).catch(() => {})
+    await ios('uninstall', sim, pkg).catch(() => {})
+    await ios(
+      'install',
+      sim,
+      process.env.IOS_APP ?? 'demo/platforms/ios/build/Debug-iphonesimulator/demo.app',
+    )
+    await ios('launch', sim, pkg)
+    container = await ios('get_app_container', sim, pkg, 'data')
+  } else {
+    if (rooted) {
+      await adb('root')
+      await adb('wait-for-device')
+    }
+    await adb('shell', 'am', 'force-stop', pkg)
+    await adb('shell', 'pm', 'clear', pkg)
+    await adb('shell', 'am', 'start', '-W', '-n', `${pkg}/com.tns.NativeScriptActivity`)
+  }
+  await waitForBridge()
+  if (process.env.RECORD === '1') {
+    recording = sim
+      ? spawn(
+          'xcrun',
+          ['simctl', 'io', sim, 'recordVideo', '--codec=h264', `${out}/demo.mp4`],
+          { stdio: 'ignore' },
+        )
+      : spawn(
+          'adb',
+          [
+            '-s',
+            serial,
+            'shell',
+            'screenrecord',
+            '--bit-rate',
+            '4000000',
+            '/sdcard/tabs-visibility.mp4',
+          ],
+          { stdio: 'ignore' },
+        )
+  }
+  const results = []
+  async function command(action, value) {
+    const id = results.length + 1
+    phase = `command ${id}: ${action}`
+    const body = JSON.stringify({ session, id, action, value })
+    if (sim) {
+      const folder = `${container}/Documents/tabs-visibility`
+      await writeFile(`${folder}/command.pending`, body)
+      await rename(`${folder}/command.pending`, `${folder}/command.json`)
+    } else {
+      await writeFile(`${out}/command.json`, body)
+      await adb(
+        'push',
+        `${out}/command.json`,
+        '/data/local/tmp/tabs-visibility-command.json',
+      )
+      await appShell(
+        'cp',
+        '/data/local/tmp/tabs-visibility-command.json',
+        `${appFiles}/command.pending`,
+      )
+      await appShell('mv', `${appFiles}/command.pending`, `${appFiles}/command.json`)
+    }
+    let report
+    for (let i = 0; i < 80; i++) {
+      report = await readReport()
+      if (report?.session === session) {
+        assert(!report.error, JSON.stringify(report))
+        if (report.id === id) break
+      }
+      await pause(200)
+    }
+    assert.equal(report?.id, id, `Command timed out: ${action}`)
+    assert.equal(report?.session, session, 'Reply belongs to another app process')
+    results.push({ action, value, ...report })
+    await writeFile(`${out}/results.json`, JSON.stringify(results, null, 2))
+    assert(!report.error, JSON.stringify(report))
+    console.log(`PASS ${action} ${value ?? ''} (${report.kind})`)
+    if (recording) await pause(1300)
+    return report
+  }
+  const expectHidden = (report, hidden) => {
+    assert.equal(
+      report.hidden,
+      report.kind === 'core' ? false : hidden,
+      JSON.stringify(report),
+    )
+    if (report.kind !== 'core')
+      assert.equal(report.accessible, !hidden, 'Hidden navigation remains accessible')
+  }
   const first = await command('snapshot')
   expectHidden(first, false)
   if (process.env.EXPECTED_HOST) assert.equal(first.kind, process.env.EXPECTED_HOST)
@@ -222,7 +298,7 @@ try {
     await adb('shell', 'am', 'force-stop', pkg)
     await adb('shell', 'am', 'start', '-W', '-n', `${pkg}/com.tns.NativeScriptActivity`)
   }
-  await pause(1800)
+  await waitForBridge()
   expectHidden(await command('select', 'saved'), true)
   assert.equal(results.at(-1).stacks.saved, 2, 'Restoration lost native history')
   await command('root')
@@ -240,7 +316,7 @@ try {
       'vuerouterns://saved/detail',
       pkg,
     )
-    await pause(2000)
+    await waitForBridge()
     expectHidden(await command('snapshot'), true)
     assert.equal(results.at(-1).selected, 'saved')
   }
@@ -249,6 +325,12 @@ try {
     await adb('shell', 'screencap', '-p', '/sdcard/tabs-visibility.png')
     await adb('pull', '/sdcard/tabs-visibility.png', `${out}/final.png`)
   }
+  console.log(
+    `PASS ${results.length} native visibility checks; layout, guards, modals, histories and restoration verified`,
+  )
+} catch (error) {
+  await diagnose(error)
+  throw error
 } finally {
   if (recording) {
     if (sim) recording.kill('SIGINT')
@@ -262,6 +344,3 @@ try {
     await adb('wait-for-device')
   }
 }
-console.log(
-  `PASS ${results.length} native visibility checks; layout, guards, modals, histories and restoration verified`,
-)

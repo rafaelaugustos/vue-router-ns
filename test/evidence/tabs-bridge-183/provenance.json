@@ -1,0 +1,30 @@
+{
+  "baseline": "52fe65c00aa743588f4d5012b5e2a78074dcade4",
+  "candidate": "8e5c85a00c278269cfaab81e76a9f1d5b646e547",
+  "files": {
+    "demo/src/testing/tabsvisibility-app.ts": "8193b100bafbcd3912829fce498172ae82317c0d60b69bfee8f31507fc044e39",
+    "scripts/native/tabs-visibility/run.mjs": "b064b0edd9e24faa2bed3bf81e9e6cb2562e28ec86a258253155daaaffcdd306"
+  },
+  "controls": {
+    "change": "Delay the root reference assignment in the fixture onLoaded callback by 20000ms, on both versions. No driver timeout or assertion changes.",
+    "baselinePatch": "local-runs.zip:baseline-delayed.patch",
+    "candidateSource": "local-runs.zip:candidate-delayed.patch",
+    "boundary": "Controlled delayed availability proves the readiness defect; it does not establish why the original hosted app failed to respond."
+  },
+  "apks": {
+    "baseline-delayed.apk": "b49cf65879f38d54e9c0d8f4ca3191ae1c2c94f431cf4008f8084af39ca2d2d3",
+    "baseline.apk": "c9e72068b644cb7865b20b25662363a166e45145c0b60d603541ffede4b488de",
+    "candidate-delayed.apk": "7d55e59d85ab1c78ed147ecba4063f126889f02747b02b85176b8ba9ae389180",
+    "candidate.apk": "81a192f463d78a126831c28246b3443f59b49b1d5d3d6657bb561e971c97150f",
+    "core.apk": "587c503c9a56f9a4a1b63e02f7034af46c967b432240558ebfaf481eb73159ac"
+  },
+  "original": {
+    "run": 43795665265,
+    "job": 133063792200,
+    "commit": "3d26a43c99c090bfec1f9a6427b754a82d508154",
+    "artifactId": 14195141240,
+    "sha256": "f083868d61fc36cbb87196b13ee5dbf87869f46cfa4e89695439473a86ae8dda",
+    "jobLogSha256": "f60d23f103ddda677323f7fae1ef7118fa3d8e402b937429b7eed4c150e7a2a5"
+  },
+  "localArchiveSha256": "8560bc071a8de405b4a83cfeb6c72b28acc3bdac0481ab7a782518d727e17ad8"
+}

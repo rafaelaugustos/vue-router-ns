@@ -1,0 +1,62 @@
+{
+  "baseline": {
+    "driverLog": "local-runs.zip:baseline/driver.log",
+    "checks": 29,
+    "sessions": [],
+    "hosts": ["bottom", "rail"]
+  },
+  "baseline-delayed": {
+    "driverLog": "local-runs.zip:baseline-delayed/driver.log",
+    "expectedFailure": true
+  },
+  "candidate": {
+    "driverLog": "local-runs.zip:candidate/driver.log",
+    "checks": 29,
+    "sessions": [
+      "1794804537785-snt7jnq4bj",
+      "1794804566198-d889o19pekk",
+      "1794804568753-tved3q1ctf"
+    ],
+    "hosts": ["bottom", "rail"]
+  },
+  "candidate-delayed": {
+    "driverLog": "local-runs.zip:candidate-delayed/driver.log",
+    "checks": 29,
+    "sessions": [
+      "1794804640668-e61l699v8f4",
+      "1794804691136-3hkr16kjbrb",
+      "1794804713163-j7nj8t96kz"
+    ],
+    "hosts": ["bottom", "rail"]
+  },
+  "core": {
+    "driverLog": "local-runs.zip:core/driver.log",
+    "checks": 21,
+    "sessions": [
+      "1794804801216-7zyelooped",
+      "1794804816893-7sgxp5qs6xt",
+      "1794804819164-4ol37c5lesd"
+    ],
+    "hosts": ["core"]
+  },
+  "missing-readiness": {
+    "driverLog": "local-runs.zip:missing-readiness/driver.log",
+    "expectedFailure": true
+  },
+  "recorded": {
+    "driverLog": "local-runs.zip:recorded/driver.log",
+    "checks": 29,
+    "sessions": [
+      "1794804860072-n37ynrpzac",
+      "1794804888164-y4auu1zp21",
+      "1794804890501-4p5m7p05xtq"
+    ],
+    "hosts": ["bottom", "rail"]
+  },
+  "ios": {
+    "driverLog": "local-runs.zip:ios/driver.log",
+    "checks": 20,
+    "sessions": ["1794804934186-vrz9xe4ova", "1794804953812-sh6zspab7e"],
+    "hosts": ["uikit"]
+  }
+}

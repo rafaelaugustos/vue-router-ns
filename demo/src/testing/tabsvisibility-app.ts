@@ -144,16 +144,30 @@ const folder = path.join(knownFolders.documents().path, 'tabs-visibility')
 Folder.fromPath(folder)
 const commandFile = path.join(folder, 'command.json')
 const result = File.fromPath(path.join(folder, 'result.json'))
+const session = `${Date.now()}-${Math.random().toString(36).slice(2)}`
+const rethrow = (error: unknown) => {
+  throw error
+}
+let ready = false
 let busy = false
 let remembered: unknown
 setInterval(async () => {
-  if (busy || !root || !File.exists(commandFile)) return
+  if (busy || !root?.isLoaded || !frames.get(selected.value)?.currentPage?.isLoaded)
+    return
   busy = true
   let id: unknown
   try {
-    const request = JSON.parse(File.fromPath(commandFile).readTextSync())
-    File.fromPath(commandFile).removeSync()
+    // File.fromPath creates an empty file before the native host has loaded.
+    // Only a reply from this process acknowledges that it can accept commands.
+    if (!ready) {
+      result.writeTextSync(JSON.stringify({ ready: true, session }), rethrow)
+      ready = true
+    }
+    if (!File.exists(commandFile)) return
+    const request = JSON.parse(File.fromPath(commandFile).readTextSync(rethrow))
     id = request.id
+    File.fromPath(commandFile).removeSync(rethrow)
+    if (request.session !== session) throw new Error('Stale visibility command session')
     const name = selected.value
     const options = { frame: name }
     switch (request.action) {
@@ -221,6 +235,7 @@ setInterval(async () => {
       accessible = true
     }
     const report = {
+      session,
       id,
       kind,
       hidden,
@@ -235,10 +250,18 @@ setInterval(async () => {
       height: frame?.getActualSize().height,
       inset,
     }
-    result.writeTextSync(JSON.stringify(report))
+    result.writeTextSync(JSON.stringify(report), rethrow)
     status.value = `${kind}: ${hidden ? 'hidden' : 'visible'}`
   } catch (error) {
-    result.writeTextSync(JSON.stringify({ id, error: String(error) }))
+    result.writeTextSync(
+      JSON.stringify({
+        session,
+        id,
+        error: String(error),
+        stack: (error as Error).stack,
+      }),
+      rethrow,
+    )
     status.value = String(error)
   } finally {
     busy = false
