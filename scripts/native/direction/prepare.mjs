@@ -9,7 +9,7 @@ import { promisify } from 'node:util'
 const exec = promisify(execFile)
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 const out = resolve(process.env.OUT ?? 'scripts/native/out/direction')
-const app = join(out, 'app')
+const app = join(out, 'consumer')
 await mkdir(out, { recursive: true })
 await mkdir(app) // Require a fresh consumer; never erase an existing installation.
 const commands = []

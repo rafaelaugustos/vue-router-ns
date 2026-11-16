@@ -8,7 +8,7 @@ import { promisify } from 'node:util'
 const exec = promisify(execFile)
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../../..')
 const out = resolve(process.env.OUT ?? 'scripts/native/out/direction')
-const app = join(out, 'app')
+const app = join(out, 'consumer')
 const simulator = process.env.IOS_SIMULATOR
 assert(simulator, 'Set IOS_SIMULATOR to a dedicated test simulator')
 const suite = process.env.ENTRY ?? 'all'

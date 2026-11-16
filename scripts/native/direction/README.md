@@ -17,7 +17,7 @@ node scripts/native/direction/prepare.mjs
 IOS_SIMULATOR=<dedicated-UUID> node scripts/native/direction/ios.mjs
 ```
 
-`OUT` must have no existing `app` directory. The simulator driver reinstalls only
+`OUT` must have no existing `consumer` directory. The simulator driver reinstalls only
 the fixture's `org.nativescript.directionrepro` app. It does not operate on hardware.
 `ENTRY=core|vue|router` selects one build for diagnosis; the default runs all three.
 Use a fresh output directory for another full execution. `RECORD_VIDEO=1` captures

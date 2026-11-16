@@ -51,7 +51,7 @@ jobs:
           path: |
             scripts/native/out/direction/*.json
             scripts/native/out/direction/*.log
-            scripts/native/out/direction/app/package*.json
+            scripts/native/out/direction/consumer/package*.json
             scripts/native/out/direction/core/*.json
             scripts/native/out/direction/core/*.log
             scripts/native/out/direction/core/checks.xcresult
