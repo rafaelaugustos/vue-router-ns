@@ -56,6 +56,7 @@ const match = Object.entries(devices.devices)
   .find((device) => device.udid === simulator)
 assert(match?.state === 'Booted', 'Dedicated simulator must be booted')
 const environment = {
+  driverCommit: (await run('driver-source', 'git', ['rev-parse', 'HEAD'])).trim(),
   simulator: match,
   xcode: (await run('xcode-version', 'xcodebuild', ['-version'])).trim(),
   runtimes: JSON.parse(
@@ -106,13 +107,9 @@ for (const entry of selected) {
       ['simctl', 'io', simulator, 'recordVideo', '--codec=h264', join(target, 'app.mov')],
       { stdio: 'ignore' },
     )
-    stopped = new Promise((resolve, reject) => {
-      recording.once('exit', (code, signal) =>
-        code === 0 || signal === 'SIGINT'
-          ? resolve()
-          : reject(new Error(`Video failed: ${code}/${signal}`)),
-      )
-      recording.once('error', reject)
+    stopped = new Promise((resolve) => {
+      recording.once('exit', (code, signal) => resolve({ code, signal }))
+      recording.once('error', (error) => resolve({ error }))
     })
   }
   try {
@@ -139,7 +136,12 @@ for (const entry of selected) {
       recording.kill('SIGINT')
       const timer = setTimeout(() => recording.kill('SIGKILL'), 10000)
       try {
-        await stopped
+        const result = await stopped
+        assert(!result.error, String(result.error))
+        assert(
+          result.code === 0 || result.signal === 'SIGINT',
+          `Video failed: ${JSON.stringify(result)}`,
+        )
       } finally {
         clearTimeout(timer)
       }
