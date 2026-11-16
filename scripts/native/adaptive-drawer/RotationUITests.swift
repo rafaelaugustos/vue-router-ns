@@ -55,17 +55,19 @@ final class RotationUITests: XCTestCase {
         XCTFail("Rotation observer was not armed")
         return [:]
     }
-    func waitObserved() throws {
+    func waitObserved(_ kind: String = "navigation-observed") throws {
         let deadline = Date().addingTimeInterval(5)
         while Date() < deadline {
             if let report = try? read("rotation.json"), let events = report["events"] as? [[String: Any]],
-               events.contains(where: { $0["kind"] as? String == "navigation-observed" }) { return }
+               events.contains(where: { $0["kind"] as? String == kind }) { return }
             Thread.sleep(forTimeInterval: 0.005)
         }
-        throw NSError(domain: "RotationFixture", code: 1, userInfo: [NSLocalizedDescriptionKey: "No active native navigation observed"])
+        throw NSError(domain: "RotationFixture", code: 1, userInfo: [NSLocalizedDescriptionKey: "Native signal missing: \(kind)"])
     }
     func requestRotation(_ label: String, landscape: Bool) throws {
         var driver = (try? read("\(label)-driver.json")) ?? [:]
+        let events = try XCTUnwrap(try read("rotation.json")["events"] as? [[String: Any]])
+        driver["interactionEndedBeforeRequest"] = events.contains { $0["kind"] as? String == "interaction-ended" }
         driver["requestedAt"] = Date().timeIntervalSince1970 * 1000
         try write("\(label)-driver.json", driver)
         XCUIDevice.shared.orientation = landscape ? .landscapeLeft : .portrait
@@ -136,17 +138,22 @@ final class RotationUITests: XCTestCase {
             let distance = bounds.width * fraction
             let start = app.coordinate(withNormalizedOffset: .zero).withOffset(offset)
             let end = start.withOffset(CGVector(dx: distance, dy: 0))
+            // Rotation with a pointer down can cancel even a long drag. For the
+            // permanent-content commit control, wait for UIKit's interaction
+            // decision, then rotate while its navigation animation is unfinished.
+            let signal = name == "commit" && !landscape ? "interaction-ended" : "navigation-observed"
             try write("\(label)-driver.json", [
+                "rotationSignal": signal,
                 "recognizer": recognizer,
                 "start": ["x": point.x, "y": point.y],
                 "end": ["x": point.x + distance, "y": point.y],
             ])
-            // Two real device actions overlap: the pointer stays down while the
-            // background driver waits for UIKit's interactive coordinator.
+            // Read native lifecycle signals without an app-idle query. finish()
+            // still rejects requests made after the navigation animation ends.
             let rotated = expectation(description: label)
             DispatchQueue.global().async {
                 do {
-                    try self.waitObserved()
+                    try self.waitObserved(signal)
                     DispatchQueue.main.async {
                         defer { rotated.fulfill() }
                         do { try self.requestRotation(label, landscape: landscape) }

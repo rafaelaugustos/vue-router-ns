@@ -1,11 +1,13 @@
 import assert from 'node:assert/strict'
 import { execFile, spawn } from 'node:child_process'
 import { promisify } from 'node:util'
-import { mkdtemp, readFile, readdir, writeFile } from 'node:fs/promises'
+import { copyFile, mkdtemp, readFile, readdir, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 import { initialize, command, ios, sim, pkg, pause, out } from './bridge.mjs'
 import { loggedCommand } from '../logged-command.mjs'
+import { assertContentBack } from './content-back.mjs'
+import { recordRotationProvenance } from './rotation-provenance.mjs'
 
 const exec = promisify(execFile)
 assert(
@@ -13,6 +15,7 @@ assert(
   'Set IOS_SIMULATOR to a dedicated booted iPad (this driver reinstalls the app)',
 )
 await initialize()
+await recordRotationProvenance(out, sim)
 const directory = `${await ios('get_app_container', sim, pkg, 'data')}/Documents/adaptive`
 await command('push', 'settings')
 await command('draft', { frame: 'settings', text: 'Inactive settings draft' })
@@ -71,6 +74,33 @@ try {
   }
 }
 const cases = {}
+let xctest, summaryError
+try {
+  xctest = JSON.parse(
+    (
+      await exec(
+        'xcrun',
+        [
+          'xcresulttool',
+          'get',
+          'test-results',
+          'summary',
+          '--path',
+          join(out, 'rotation.xcresult'),
+        ],
+        { timeout: 30000 },
+      )
+    ).stdout,
+  )
+  await writeFile(join(out, 'xctest-summary.json'), JSON.stringify(xctest, null, 2))
+} catch (error) {
+  summaryError = error
+}
+await copyFile(join(directory, 'rotation.json'), join(out, 'last-rotation.json')).catch(
+  (error) => {
+    if (!testError) throw error
+  },
+)
 for (const name of await readdir(directory)) {
   if (!/^(push-device-|back-device-|commit-|cancel-|settled|modal).*\.json$/.test(name))
     continue
@@ -79,6 +109,10 @@ for (const name of await readdir(directory)) {
   if (!name.endsWith('-driver.json')) cases[name.replace('.json', '')] = JSON.parse(value)
 }
 if (testError) throw new Error(`XCTest failed; see ${join(out, 'rotation-xctest.log')}`)
+if (summaryError) throw summaryError
+assert.equal(xctest.passedTests, 4)
+assert.equal(xctest.failedTests, 0)
+assert.equal(xctest.skippedTests, 0)
 assert.equal(
   Object.keys(cases).length,
   10,
@@ -88,6 +122,8 @@ const summary = []
 for (const [name, report] of Object.entries(cases)) {
   assert(report.finished && !report.error, `${name}: ${report.error ?? 'unfinished'}`)
   const { before, after, events, operation } = report
+  const driver = JSON.parse(await readFile(join(out, `${name}-driver.json`), 'utf8'))
+  assertContentBack(name, report, driver)
   if (report.notReproduced) {
     assert(operation.startsWith('gesture') && report.landscape === false)
     assert.deepEqual(after.frames, before.frames)
@@ -108,7 +144,6 @@ for (const [name, report] of Object.entries(cases)) {
   const nativeStart = events.find((e) => e.kind === 'navigation-observed')
   const nativeEnd = events.find((e) => e.kind === 'navigation-ended')
   const rotation = events.find((e) => e.kind === 'rotation-began')
-  const driver = JSON.parse(await readFile(join(out, `${name}-driver.json`), 'utf8'))
   assert(
     rotation && events.some((e) => e.kind === 'rotation-ended'),
     `${name}: rotation never completed`,
@@ -219,6 +254,7 @@ for (const [name, report] of Object.entries(cases)) {
     requestedDuringNavigation: navigates,
     visualOverlap: rotation.navigationActive,
     navigationCancelled: nativeEnd?.cancelled ?? null,
+    interactionEndedBeforeRequest: driver.interactionEndedBeforeRequest,
     result: rotation.navigationActive
       ? 'overlap'
       : navigates
