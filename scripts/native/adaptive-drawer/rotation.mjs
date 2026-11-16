@@ -28,13 +28,19 @@ await exec(process.env.RUBY ?? 'ruby', [
   project,
   'rotation',
 ])
-let recording
+let recording, stopped, recordingError
 if (process.env.RECORD_VIDEO === '1') {
   recording = spawn(
     'xcrun',
     ['simctl', 'io', sim, 'recordVideo', '--codec=h264', join(out, 'rotation.mp4')],
     { stdio: 'ignore' },
   )
+  // Observe termination immediately, including a signal/launch failure before
+  // XCTest finishes. Waiting for an already-emitted exit event would hang CI.
+  stopped = new Promise((resolve) => {
+    recording.once('exit', (code, signal) => resolve({ code, signal }))
+    recording.once('error', (error) => resolve({ error }))
+  })
   await pause(500)
 }
 let testError
@@ -60,6 +66,7 @@ try {
     ],
     {
       timeout: 240000,
+      killSignal: 'SIGKILL',
       maxBuffer: 16 * 1024 * 1024,
       logFile: join(out, 'rotation-xctest.log'),
     },
@@ -67,10 +74,21 @@ try {
 } catch (error) {
   testError = error
 } finally {
-  if (recording && recording.exitCode === null) {
-    const stopped = new Promise((resolve) => recording.once('exit', resolve))
+  if (recording) {
     recording.kill('SIGINT')
-    await stopped
+    const timer = setTimeout(() => recording.kill('SIGKILL'), 10000)
+    try {
+      const result = await stopped
+      assert(!result.error, String(result.error))
+      assert(
+        result.code === 0 || result.signal === 'SIGINT',
+        `Video failed: ${JSON.stringify(result)}`,
+      )
+    } catch (error) {
+      recordingError = error
+    } finally {
+      clearTimeout(timer)
+    }
   }
 }
 const cases = {}
@@ -115,6 +133,7 @@ for (const name of await readdir(directory)) {
   if (!name.endsWith('-driver.json')) cases[name.replace('.json', '')] = JSON.parse(value)
 }
 if (testError) throw new Error(`XCTest failed; see ${join(out, 'rotation-xctest.log')}`)
+if (recordingError) throw recordingError
 if (summaryError) throw summaryError
 assert.equal(xctest.passedTests, 4)
 assert.equal(xctest.failedTests, 0)
