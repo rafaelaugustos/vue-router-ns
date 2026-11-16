@@ -9,6 +9,7 @@ import {
   assertAndroidHealthy,
   assertPickerVisible,
   hasPackage,
+  readFreshHierarchy,
 } from './flows-android-evidence.mjs'
 const exec = promisify(execFile)
 const serial = process.env.ANDROID_SERIAL
@@ -20,16 +21,16 @@ const activity = `${pkg}/com.tns.NativeScriptActivity`
 // it. Keep observation scratch files outside the provider under test.
 const hierarchyFile = '/data/local/tmp/router-flow-ui.xml'
 await mkdir(out, { recursive: true })
-const adb = async (...args) =>
-  (
-    await exec('adb', ['-s', serial, ...args], {
-      timeout: 30000,
-      maxBuffer: 8 * 1024 * 1024,
-    })
-  ).stdout
+const adbResult = (...args) =>
+  exec('adb', ['-s', serial, ...args], {
+    timeout: 30000,
+    maxBuffer: 8 * 1024 * 1024,
+  })
+const adb = async (...args) => (await adbResult(...args)).stdout
 const pause = (ms = 300) => new Promise((done) => setTimeout(done, ms))
 const checks = []
 const actions = []
+const observations = []
 let runtime = ''
 let activePid = ''
 let pickerPackage = ''
@@ -67,10 +68,12 @@ async function outcome(name, previous = 0) {
   return result
 }
 async function ui() {
-  // A failed dump must never reuse the preceding window's hierarchy.
-  await adb('shell', 'rm', '-f', hierarchyFile)
-  await adb('shell', 'uiautomator', 'dump', hierarchyFile)
-  return adb('shell', 'cat', hierarchyFile)
+  const { xml, unavailable } = await readFreshHierarchy(adbResult, hierarchyFile)
+  if (unavailable) {
+    observations.push({ at: new Date().toISOString(), ...unavailable })
+    await logs()
+  }
+  return xml
 }
 async function tap(text) {
   const xml = await ui()
@@ -349,6 +352,10 @@ try {
 } finally {
   await writeFile(resolve(out, 'results.json'), JSON.stringify(checks, null, 2) + '\n')
   await writeFile(resolve(out, 'actions.json'), JSON.stringify(actions, null, 2) + '\n')
+  await writeFile(
+    resolve(out, 'observations.json'),
+    JSON.stringify(observations, null, 2) + '\n',
+  )
   await writeFile(
     resolve(out, 'runtime.log'),
     await adb('logcat', '-d', '-v', 'brief', '-s', 'JS', 'AndroidRuntime'),

@@ -43,3 +43,28 @@ export function assertPickerVisible(xml, pkg) {
   if (!hasPackage(xml, pkg))
     throw new Error(`Refusing Back: ${pkg} no longer owns the active hierarchy`)
 }
+
+/** A transition can leave uiautomator with no root, even when it exits zero. */
+export async function readFreshHierarchy(run, path) {
+  await run('shell', 'rm', '-f', path)
+  const dump = await run('shell', 'uiautomator', 'dump', path)
+  try {
+    return { xml: (await run('shell', 'cat', path)).stdout }
+  } catch (error) {
+    if (
+      error.code !== 1 ||
+      error.stderr?.trim() !== `cat: ${path}: No such file or directory`
+    )
+      throw error
+    // Let the caller's existing deadline poll again. Empty XML cannot satisfy
+    // a package check or authorize Back, and the previous dump was removed.
+    return {
+      xml: '',
+      unavailable: {
+        stdout: dump.stdout,
+        stderr: dump.stderr,
+        readError: error.stderr,
+      },
+    }
+  }
+}
