@@ -1,0 +1,20 @@
+{
+  "programs": [],
+  "stream_groups": [],
+  "streams": [
+    {
+      "codec_name": "h264",
+      "width": 1080,
+      "height": 2400
+    }
+  ],
+  "format": {
+    "duration": "41.100000",
+    "size": "1728121"
+  },
+  "source": "8e5c85a00c278269cfaab81e76a9f1d5b646e547",
+  "rawSha256": "3c8ca833e888864aeea1af06ac87499fa184c81aca247f488c656fcc0b051004",
+  "sha256": "2d9541e2bc3fc6ae124e8f56da64bcaec585031cfedc21d57d3c115f5fefeec6",
+  "processing": "H264 compression only, original timeline, no cuts or overlays",
+  "demonstrates": "Actual Android app: visible/hidden tab bar, cancelled/committed Back, guards, modal, rail, restoration and cold link;29 assertions in recorded/results.json."
+}
