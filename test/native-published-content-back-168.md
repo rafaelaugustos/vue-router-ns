@@ -60,14 +60,21 @@ interaction decision and 420.066 ms before navigation ended; cancellation was
 requested 599.016 ms before the interaction decision and 1027.016 ms before
 navigation ended. These are measured ordering examples, not timing constants.
 
-The focused hosted iPadOS 26.2 validation is running at
-[43842630376](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43842630376).
-Its result will be recorded before this PR is described as merge-ready. A
-preceding run, [43840048613](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43840048613),
-was cancelled after stalling before XCTest; its artifact contains provenance only
-and counts as no native coverage. The driver now reuses the already-resolved app
-container, bounds simulator commands and recording shutdown, and logs preparation
-milestones. These host-process changes do not alter gestures or native assertions.
+The focused hosted iPadOS 26.2 run
+[43842630376](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43842630376)
+**failed after PR #222 was merged**. Programmatic navigation and modal controls
+passed; both gesture methods stopped at the full-window precondition before
+sending input. The initial setup saw a full window, but it became reduced after
+rotation. These failures do not count as native Back coverage. The
+[window-precondition follow-up](./native-window-precondition-222.md) records the
+correction and subsequent validation. The local matrix above remains historical.
+
+An earlier run,
+[43840048613](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43840048613),
+was cancelled before XCTest; its artifact contains provenance only. The driver
+then reused its resolved app container, bounded simulator commands/recording
+shutdown, and logged preparation milestones. Those host-process changes did not
+alter native assertions and did not address the later window-precondition failure.
 Both subsequent local iPadOS 26.2 checks passed all ten scenarios and four XCTest
 methods; [automation-validation.json](./evidence/published-content-back-168/automation-validation.json)
 retains their source revisions and reports separately from the four-OS matrix.

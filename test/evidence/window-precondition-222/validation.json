@@ -1,0 +1,254 @@
+{
+  "testedSource": "9352e4c711ca3fb789108099f9813b99e6d8126e",
+  "scope": "Full-size iPad fixture only; no gesture retry, reduced-window acceptance, physical-device or #167 visual-overlap claim.",
+  "runs": [
+    {
+      "run": "final18",
+      "recordedSource": "9352e4c711ca3fb789108099f9813b99e6d8126e",
+      "dirty": true,
+      "verifiedTestSource": "9352e4c711ca3fb789108099f9813b99e6d8126e",
+      "sourceExplanation": "Every listed fixture/test source hash matches verifiedTestSource. Other working-tree changes are documentation/evidence.",
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "9413864F-A7B9-443A-86AE-963588B672B7",
+        "deviceName": "Window222-ipad18",
+        "modelName": "iPad Pro 11-inch (M4)",
+        "osBuildNumber": "22G86",
+        "osVersion": "18.6",
+        "platform": "iOS Simulator"
+      },
+      "xcode": "Xcode 27.2\nBuild version 27B52",
+      "node": "v20.19.4",
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.41",
+        "webpack": "5.112.2"
+      },
+      "nativeApp": {
+        "infoPlistSha256": "7ad5221cc1e8f8d5935f5c4b8b20953f07ff177cc0d7f15e4d43fdd2bd3f72ec",
+        "sdk": "iphonesimulator27.2",
+        "requiresFullScreen": true,
+        "sceneManifest": {
+          "UIApplicationSupportsMultipleScenes": false,
+          "UIApplicationPreferredDefaultSceneSessionRole": "UIWindowSceneSessionRoleApplication"
+        },
+        "ipadOrientations": [
+          "UIInterfaceOrientationPortrait",
+          "UIInterfaceOrientationPortraitUpsideDown",
+          "UIInterfaceOrientationLandscapeLeft",
+          "UIInterfaceOrientationLandscapeRight"
+        ]
+      },
+      "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+      "routerDistSha256": "82ea80d4c73714c904b61d3cea7759c170ac2b6aaee7829c29156be6749a6b36",
+      "xctestPassed": 4,
+      "scenariosExercised": 8,
+      "gesturesNotReproduced": 2,
+      "windowChecks": 10,
+      "maximizedCases": [],
+      "archive": {
+        "file": "final18.zip",
+        "sha256": "a8c1e3fbd9bf66bb43a1fb43951f5a86a09e55886f11adcff231e8c1175c2e35"
+      }
+    },
+    {
+      "run": "final262",
+      "recordedSource": "9352e4c711ca3fb789108099f9813b99e6d8126e",
+      "dirty": true,
+      "verifiedTestSource": "9352e4c711ca3fb789108099f9813b99e6d8126e",
+      "sourceExplanation": "Every listed fixture/test source hash matches verifiedTestSource. Other working-tree changes are documentation/evidence.",
+      "device": {
+        "architecture": "arm64",
+        "deviceId": "B188425F-B849-409F-A733-26B7D9F40BC4",
+        "deviceName": "Window222-fresh262",
+        "modelName": "iPad Pro 11-inch (M4)",
+        "osBuildNumber": "23C54",
+        "osVersion": "26.2",
+        "platform": "iOS Simulator"
+      },
+      "xcode": "Xcode 27.2\nBuild version 27B52",
+      "node": "v20.19.4",
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.41",
+        "webpack": "5.112.2"
+      },
+      "nativeApp": {
+        "infoPlistSha256": "7ad5221cc1e8f8d5935f5c4b8b20953f07ff177cc0d7f15e4d43fdd2bd3f72ec",
+        "sdk": "iphonesimulator27.2",
+        "requiresFullScreen": true,
+        "sceneManifest": {
+          "UIApplicationSupportsMultipleScenes": false,
+          "UIApplicationPreferredDefaultSceneSessionRole": "UIWindowSceneSessionRoleApplication"
+        },
+        "ipadOrientations": [
+          "UIInterfaceOrientationPortrait",
+          "UIInterfaceOrientationPortraitUpsideDown",
+          "UIInterfaceOrientationLandscapeLeft",
+          "UIInterfaceOrientationLandscapeRight"
+        ]
+      },
+      "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+      "routerDistSha256": "82ea80d4c73714c904b61d3cea7759c170ac2b6aaee7829c29156be6749a6b36",
+      "xctestPassed": 4,
+      "scenariosExercised": 10,
+      "gesturesNotReproduced": 0,
+      "windowChecks": 10,
+      "maximizedCases": [
+        {
+          "before": {
+            "y": 58,
+            "width": 1043,
+            "height": 719,
+            "x": 84
+          },
+          "case": "back-device-portrait",
+          "preparedAt": 1794825675375,
+          "maximized": true,
+          "after": {
+            "y": 0,
+            "width": 1210,
+            "height": 834,
+            "x": 0
+          },
+          "screen": {
+            "y": 0,
+            "height": 834,
+            "x": 0,
+            "width": 1210
+          }
+        }
+      ],
+      "archive": {
+        "file": "final262.zip",
+        "sha256": "674e2c4ac6668387547344684e20a72083c876df7230df1342bf75dd0c41aacf"
+      }
+    }
+  ],
+  "originalHostedFailure": {
+    "url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43842630376",
+    "artifactId": 14215148921,
+    "passedMethods": 2,
+    "failedMethods": 2,
+    "cause": "Window becomes reduced after initial setup; both gesture methods fail before sending input.",
+    "archive": {
+      "file": "original-ci-failure.zip",
+      "sha256": "d6514efb73c67b247fff224fd8c69b4c84359b14cafe6faf91de67b0e32435a1"
+    }
+  },
+  "initial18Diagnostic": {
+    "result": "Failure: stale accessibility orientation geometry triggered premature Zoom attempt. This is excluded from acceptance.",
+    "archive": {
+      "file": "initial18-diagnostic.zip",
+      "sha256": "34139af9f3d6409b5924beff651b595e201e83eceba1e31d9d8a0f70510958b7"
+    }
+  },
+  "earlier262Control": {
+    "result": "Initial per-case setup before geometry wait:10 scenarios passed; reduced window actually maximized after rotation. Not added to final acceptance counts.",
+    "archive": {
+      "file": "initial262-control.zip",
+      "sha256": "de6cd627819053531faec4aee9ac6c2a77d5b28b9674800656cba44f9f89f74c"
+    }
+  },
+  "intermediateHostedFailure": {
+    "url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43848778441",
+    "artifactId": 14216598076,
+    "source": "e86e73db721e1182d7170ff8b85a8685d0728f1d",
+    "xctestPassed": 4,
+    "windowChecks": 10,
+    "result": "Failed final layout assertion: commit-landscape rotated to landscape and back to portrait while the long drag remained active. Excluded from acceptance.",
+    "archive": {
+      "file": "intermediate-hosted-failure.zip",
+      "sha256": "2bef0afeebe191d018ab230b4adc4781ad1175322685ed79a2e303df38c74eac"
+    }
+  },
+  "freshSimulatorControl": {
+    "source": "e86e73db721e1182d7170ff8b85a8685d0728f1d",
+    "result": "Fresh26.2 before both commit controls used interaction-ended:10 cases passed and actual reduced window maximized after rotation. Retained separately from final-source acceptance.",
+    "archive": {
+      "file": "fresh262.zip",
+      "sha256": "41d20fa41577594da77934ab89114a7d0a9acb9e7a7dbbbf38a1feb9c90b78ab"
+    }
+  },
+  "finalHostedAcceptance": {
+    "url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43850712221",
+    "source": "9352e4c711ca3fb789108099f9813b99e6d8126e",
+    "xcode": "Xcode 26.6\nBuild version 17F113",
+    "node": "v22.23.4",
+    "packages": {
+      "@nativescript/core": "9.1.4",
+      "nativescript-vue": "3.1.3",
+      "@nativescript/ios": "9.1.0",
+      "@nativescript/webpack": "5.0.41",
+      "webpack": "5.112.2"
+    },
+    "nativeApp": {
+      "infoPlistSha256": "cf4aef8dc885f283f53604172da0c3a723123cde22cffbbd855fb6cc957df59e",
+      "sdk": "iphonesimulator26.5",
+      "requiresFullScreen": true,
+      "sceneManifest": {
+        "UIApplicationSupportsMultipleScenes": false,
+        "UIApplicationPreferredDefaultSceneSessionRole": "UIWindowSceneSessionRoleApplication"
+      },
+      "ipadOrientations": [
+        "UIInterfaceOrientationPortrait",
+        "UIInterfaceOrientationPortraitUpsideDown",
+        "UIInterfaceOrientationLandscapeLeft",
+        "UIInterfaceOrientationLandscapeRight"
+      ]
+    },
+    "device": {
+      "architecture": "arm64",
+      "deviceId": "90F551A8-3F81-4772-AE16-1833EB379EA4",
+      "deviceName": "ContentBack168",
+      "modelName": "iPad Pro 11-inch (M4)",
+      "osBuildNumber": "23C54",
+      "osVersion": "26.2",
+      "platform": "iOS Simulator"
+    },
+    "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+    "routerDistSha256": "82ea80d4c73714c904b61d3cea7759c170ac2b6aaee7829c29156be6749a6b36",
+    "xctestPassed": 4,
+    "scenariosExercised": 10,
+    "windowChecks": 10,
+    "maximizedCases": [
+      {
+        "after": {
+          "y": 0,
+          "x": 0,
+          "width": 1210,
+          "height": 834
+        },
+        "screen": {
+          "y": 0,
+          "x": 0,
+          "width": 1210,
+          "height": 834
+        },
+        "before": {
+          "y": 58,
+          "x": 84,
+          "height": 719,
+          "width": 1043
+        },
+        "maximized": true,
+        "case": "back-device-portrait",
+        "preparedAt": 1794826207545
+      }
+    ],
+    "artifact": {
+      "id": 14217912882,
+      "name": "content-back-ipad-26.2",
+      "size_in_bytes": 23270038,
+      "digest": "sha256:f5e4c062ff6f96cd2af79a0212e44cfa534b13dd4569e06218d9e2a136771986"
+    },
+    "archive": {
+      "file": "hosted.zip",
+      "sha256": "92040870d528123839aa5df2744587de9094d2ebc4adc319f1f0b9a7a878a2a4"
+    }
+  }
+}

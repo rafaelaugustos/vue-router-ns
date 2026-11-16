@@ -1,0 +1,26 @@
+{
+  "sourceRun": "final262",
+  "sourceRevision": "9352e4c711ca3fb789108099f9813b99e6d8126e",
+  "sourceSha256": "9b78fcb97ce8e1a391e6e19f4df737e1c57ff8563d04f8e920af1766708a8544",
+  "publishedVideo": "docs/public/media/window-precondition-222.mp4",
+  "sha256": "50fa5809bf5837288414d8cc2c99d03438db4eb5084b48a16ab03465b951cee8",
+  "sourceStream": {
+    "codec_name": "h264",
+    "width": 1668,
+    "height": 2420,
+    "time_base": "1/600",
+    "duration": "63.470000",
+    "nb_frames": "2979"
+  },
+  "publishedStream": {
+    "codec_name": "h264",
+    "width": 720,
+    "height": 1044,
+    "time_base": "1/600",
+    "duration": "63.470000",
+    "nb_frames": "2979"
+  },
+  "framesCompared": 2979,
+  "presentationTimestampsPreserved": true,
+  "processing": "Complete real simulator recording scaled to720px width and H.264 encoded. No trimming or retiming; final-frame duration preserved."
+}
