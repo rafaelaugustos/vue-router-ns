@@ -1,0 +1,60 @@
+name: Native inherited direction
+on:
+  workflow_call:
+  workflow_dispatch:
+permissions:
+  contents: read
+
+jobs:
+  direction:
+    runs-on: macos-15
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        device: [iPhone-16-Pro, iPad-Pro-11-inch-M4-8GB]
+    env:
+      OUT: ${{ github.workspace }}/scripts/native/out/direction
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - run: gem install cocoapods xcodeproj --no-document
+      - run: npm ci && npm install -g nativescript
+      - name: Prepare a fresh packed-router consumer and verify published Core
+        run: node scripts/native/direction/prepare.mjs
+      - name: Create dedicated simulator
+        run: |
+          SIM=$(xcrun simctl create DirectionAcceptance com.apple.CoreSimulator.SimDeviceType.${{ matrix.device }} com.apple.CoreSimulator.SimRuntime.iOS-18-6)
+          echo "IOS_SIMULATOR=$SIM" >> "$GITHUB_ENV"
+          xcrun simctl boot "$SIM"
+          xcrun simctl bootstatus "$SIM" -b
+      - name: Core, Vue and current router keyboard and native Back regression
+        run: node scripts/native/direction/ios.mjs
+      - name: Clean up dedicated simulator
+        if: always() && env.IOS_SIMULATOR != ''
+        run: |
+          xcrun simctl shutdown "$IOS_SIMULATOR"
+          xcrun simctl delete "$IOS_SIMULATOR"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: inherited-direction-${{ matrix.device }}
+          path: |
+            scripts/native/out/direction/*.json
+            scripts/native/out/direction/*.log
+            scripts/native/out/direction/app/package*.json
+            scripts/native/out/direction/core/*.json
+            scripts/native/out/direction/core/*.log
+            scripts/native/out/direction/core/checks.xcresult
+            scripts/native/out/direction/vue/*.json
+            scripts/native/out/direction/vue/*.log
+            scripts/native/out/direction/vue/checks.xcresult
+            scripts/native/out/direction/router/*.json
+            scripts/native/out/direction/router/*.log
+            scripts/native/out/direction/router/checks.xcresult
