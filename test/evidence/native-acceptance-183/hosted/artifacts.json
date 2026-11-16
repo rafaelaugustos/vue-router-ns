@@ -1,0 +1,232 @@
+[
+  {
+    "id": 14202066006,
+    "name": "drawer-iPad-Pro-11-inch-M4-8GB-adaptive",
+    "size_in_bytes": 18076864,
+    "digest": "sha256:9d06314f567584585489179d5cb8dcd30b70831335d2a963de712c62a8b5cdb5",
+    "created_at": "2026-11-16T06:07:23Z",
+    "sha256": "9d06314f567584585489179d5cb8dcd30b70831335d2a963de712c62a8b5cdb5",
+    "textArchive": "drawer-iPad-Pro-11-inch-M4-8GB-adaptive-text.zip",
+    "textSha256": "eeee9de9e410e30ff9b42b6a233718dfc0ba0592ebe1a2e6df11b0b88847638f"
+  },
+  {
+    "id": 14201992672,
+    "name": "drawer-iPhone-16-adaptive",
+    "size_in_bytes": 321039,
+    "digest": "sha256:efc697dfb9c02f65b6d53f2c0f8b00a0ebf3053f6e7a1659344659f73f6a2a5c",
+    "created_at": "2026-11-16T06:10:27Z",
+    "sha256": "efc697dfb9c02f65b6d53f2c0f8b00a0ebf3053f6e7a1659344659f73f6a2a5c",
+    "textArchive": "drawer-iPhone-16-adaptive-text.zip",
+    "textSha256": "417dc993bcbdd22e7a7fef935b7f277fd5c4ddebbf111ccb9bcee4b3ec2b6e2e"
+  },
+  {
+    "id": 14201777388,
+    "name": "native-smoke-android",
+    "size_in_bytes": 4282056,
+    "digest": "sha256:fe5968c67b6b22f94e8ebe1d8d4178ad3486fde18e398509209703e0219fc734",
+    "created_at": "2026-11-16T06:07:24Z",
+    "sha256": "fe5968c67b6b22f94e8ebe1d8d4178ad3486fde18e398509209703e0219fc734",
+    "textArchive": "native-smoke-android-text.zip",
+    "textSha256": "20f772b2089a397b0d042231cf6fc55138539ac31e947ae9cab9337822ce5c13"
+  },
+  {
+    "id": 14201725735,
+    "name": "uikit-split-iPad-Pro-13-inch-M4-8GB",
+    "size_in_bytes": 2654416,
+    "digest": "sha256:e8e18f9db2a2c5c9d0c3c551dfad91465b62dab88948851d16049ff8e757261c",
+    "created_at": "2026-11-16T05:55:35Z",
+    "sha256": "e8e18f9db2a2c5c9d0c3c551dfad91465b62dab88948851d16049ff8e757261c",
+    "textArchive": "uikit-split-iPad-Pro-13-inch-M4-8GB-text.zip",
+    "textSha256": "ef68c4e17a9f05f0e87f669d68429e34c2c7e29c7794911e8e3403a02211628c"
+  },
+  {
+    "id": 14201693338,
+    "name": "native-windows-ipad",
+    "size_in_bytes": 1890269,
+    "digest": "sha256:b16c9c25817440c9fea59bae261e39efb38bd5a282f0738d368130c768c8119e",
+    "created_at": "2026-11-16T06:15:14Z",
+    "sha256": "b16c9c25817440c9fea59bae261e39efb38bd5a282f0738d368130c768c8119e",
+    "textArchive": "native-windows-ipad-text.zip",
+    "textSha256": "ebb3fc501368f92a3caf373a08889b309d66e866b74520618c62f9da265c4268"
+  },
+  {
+    "id": 14201555190,
+    "name": "uikit-split-iPhone-16-Pro",
+    "size_in_bytes": 1083433,
+    "digest": "sha256:bba9d8c28648313bca7e440f8cd31ea3bf80df741f8e8e55e335a65b5b8e975b",
+    "created_at": "2026-11-16T05:50:36Z",
+    "sha256": "bba9d8c28648313bca7e440f8cd31ea3bf80df741f8e8e55e335a65b5b8e975b",
+    "textArchive": "uikit-split-iPhone-16-Pro-text.zip",
+    "textSha256": "83e7b507375f9bc606687228cbb5331ebfb06ecb851911f93db07a07a55d767c"
+  },
+  {
+    "id": 14201415426,
+    "name": "predictive-android-36",
+    "size_in_bytes": 7988496,
+    "digest": "sha256:9324aca7c21f3fbc4aa6027d33e88a881a0f1d81233a1d03cfadefcb8aa3ff6e",
+    "created_at": "2026-11-16T05:48:44Z",
+    "sha256": "9324aca7c21f3fbc4aa6027d33e88a881a0f1d81233a1d03cfadefcb8aa3ff6e",
+    "textArchive": "predictive-android-36-text.zip",
+    "textSha256": "631263d50a0c4fcc8bd87a23ca1b7878b48c8635f26165669643ada45d02ebb6"
+  },
+  {
+    "id": 14201335444,
+    "name": "page-actions-android",
+    "size_in_bytes": 106066,
+    "digest": "sha256:fa2ef8321894daefc38ef2d287af17506db398aca428c34910db46836c963e9b",
+    "created_at": "2026-11-16T05:48:00Z",
+    "sha256": "fa2ef8321894daefc38ef2d287af17506db398aca428c34910db46836c963e9b",
+    "textArchive": "page-actions-android-text.zip",
+    "textSha256": "089f1c0ba75a973f87c3b9da7ef3f38a33bb37b09beed36d23e94d83a644d3ea"
+  },
+  {
+    "id": 14201334786,
+    "name": "contracts-ios-18-composition",
+    "size_in_bytes": 2794927,
+    "digest": "sha256:3f9d60793881b24e52fb3fe58e445fcbfe661378eb531c0866b113fe7d4d1a8d",
+    "created_at": "2026-11-16T06:11:23Z",
+    "sha256": "3f9d60793881b24e52fb3fe58e445fcbfe661378eb531c0866b113fe7d4d1a8d",
+    "textArchive": "contracts-ios-18-composition-text.zip",
+    "textSha256": "0068616902d5da2faf7eaaed0078347fa9c0ff50d7773f7c2020c13c24df0fcd"
+  },
+  {
+    "id": 14201234451,
+    "name": "contracts-ios-18-contracts",
+    "size_in_bytes": 2715064,
+    "digest": "sha256:ffbb2d7cf8cd285b1cdb6a9ba7b612aecaf69da83d9cdb38399ed1b6aefb0044",
+    "created_at": "2026-11-16T06:06:26Z",
+    "sha256": "ffbb2d7cf8cd285b1cdb6a9ba7b612aecaf69da83d9cdb38399ed1b6aefb0044",
+    "textArchive": "contracts-ios-18-contracts-text.zip",
+    "textSha256": "78c081750c24f67f791c01836d364a0a9e8cda7ca9392575685efaa2b6322e7b"
+  },
+  {
+    "id": 14201176445,
+    "name": "drawer-iPad-Pro-11-inch-M4-8GB-drawer",
+    "size_in_bytes": 470379,
+    "digest": "sha256:d363c7e7cd3b84d4910673c1e3ee7e1c9f754daf7c8f1ee526e9673453904993",
+    "created_at": "2026-11-16T05:50:16Z",
+    "sha256": "d363c7e7cd3b84d4910673c1e3ee7e1c9f754daf7c8f1ee526e9673453904993",
+    "textArchive": "drawer-iPad-Pro-11-inch-M4-8GB-drawer-text.zip",
+    "textSha256": "c612705e0de25c285149061193d1295db5c6472e2abf144daf2aa9e0ac9b4979"
+  },
+  {
+    "id": 14201122810,
+    "name": "native-foldable-android",
+    "size_in_bytes": 5467561,
+    "digest": "sha256:06a6eccbd2ab71f39e0f58650d32f50e6b163115d3c8382dcc49f5f509108260",
+    "created_at": "2026-11-16T05:47:42Z",
+    "sha256": "06a6eccbd2ab71f39e0f58650d32f50e6b163115d3c8382dcc49f5f509108260",
+    "textArchive": "native-foldable-android-text.zip",
+    "textSha256": "0b884ee408e5c66d582a387a82702bd5f88a7fd8911cf7fa170a3de037881410"
+  },
+  {
+    "id": 14201112093,
+    "name": "drawer-iPhone-16-drawer",
+    "size_in_bytes": 365768,
+    "digest": "sha256:c1f526b5573f1dafa9d055b0d9259418f3e4a0a72fa6111d8e4d6c51b1baf951",
+    "created_at": "2026-11-16T05:49:38Z",
+    "sha256": "c1f526b5573f1dafa9d055b0d9259418f3e4a0a72fa6111d8e4d6c51b1baf951",
+    "textArchive": "drawer-iPhone-16-drawer-text.zip",
+    "textSha256": "79201e1f79259e4a483f4c7912ffc7e3292c3f36d942dca621eafee3363708cb"
+  },
+  {
+    "id": 14201064422,
+    "name": "flows-ios",
+    "size_in_bytes": 789224,
+    "digest": "sha256:4ce3f8ab73e63c9a4c3ce9adf358248d78d59d0bde5a3db743c6ca63140a8c2e",
+    "created_at": "2026-11-16T06:01:10Z",
+    "sha256": "4ce3f8ab73e63c9a4c3ce9adf358248d78d59d0bde5a3db743c6ca63140a8c2e",
+    "textArchive": "flows-ios-text.zip",
+    "textSha256": "ac0a11a53a16b9fb11382af9f769fb00b1793787139d3fdcc5efb5a58b194a98"
+  },
+  {
+    "id": 14200987480,
+    "name": "native-windows-android-34",
+    "size_in_bytes": 1196954,
+    "digest": "sha256:1fa6a01ba890993f9f6e4a8297cc26649dd445bbfca74525900b9bd0442a7373",
+    "created_at": "2026-11-16T05:48:38Z",
+    "sha256": "1fa6a01ba890993f9f6e4a8297cc26649dd445bbfca74525900b9bd0442a7373",
+    "textArchive": "native-windows-android-34-text.zip",
+    "textSha256": "61cdf1b61cd22608bdda4d1560b10d4669d92242200171a5702123414dbfeac4"
+  },
+  {
+    "id": 14200974202,
+    "name": "native-vite-ios",
+    "size_in_bytes": 21582216,
+    "digest": "sha256:8006d6aecb93751eceb0a59cc28610b350e576923899b624cf43ad90eff7eab4",
+    "created_at": "2026-11-16T05:59:32Z",
+    "sha256": "8006d6aecb93751eceb0a59cc28610b350e576923899b624cf43ad90eff7eab4",
+    "textArchive": "native-vite-ios-text.zip",
+    "textSha256": "c18749bb1e56dfd051c4eb653fab0553fb3ca17875fb3114ca3148058229e45d"
+  },
+  {
+    "id": 14200957971,
+    "name": "contracts-android-34",
+    "size_in_bytes": 2241142,
+    "digest": "sha256:542a15c56e1cb414755f2421414831caaf35dfbf9549039786742d4d828d7452",
+    "created_at": "2026-11-16T05:51:40Z",
+    "sha256": "542a15c56e1cb414755f2421414831caaf35dfbf9549039786742d4d828d7452",
+    "textArchive": "contracts-android-34-text.zip",
+    "textSha256": "b4e046db66a716ac05d350f887b59ffd9a3593821376178cedca0bd28bea3670"
+  },
+  {
+    "id": 14200873021,
+    "name": "predictive-android-35",
+    "size_in_bytes": 8788918,
+    "digest": "sha256:4ae54e0412f22e3f7bf91d65358f2645cf727e5388548717cb1642964a35bb2e",
+    "created_at": "2026-11-16T05:48:32Z",
+    "sha256": "4ae54e0412f22e3f7bf91d65358f2645cf727e5388548717cb1642964a35bb2e",
+    "textArchive": "predictive-android-35-text.zip",
+    "textSha256": "9237a0ccea466883de25c0f990e928f22bec2b91d354ad7429f169ba80f9e0a3"
+  },
+  {
+    "id": 14200813989,
+    "name": "contracts-android-36",
+    "size_in_bytes": 2574995,
+    "digest": "sha256:8f24e3fbe834873c84717fe864ede0a8f0b76fa0a975313eb16739d7b9b9d109",
+    "created_at": "2026-11-16T05:52:21Z",
+    "sha256": "8f24e3fbe834873c84717fe864ede0a8f0b76fa0a975313eb16739d7b9b9d109",
+    "textArchive": "contracts-android-36-text.zip",
+    "textSha256": "3dabaa41ff915bca9e3361a776c5ce293aa13e5b85ae7d40bbba6ec093ba14f5"
+  },
+  {
+    "id": 14200627848,
+    "name": "flows-android",
+    "size_in_bytes": 1208991,
+    "digest": "sha256:4528876e670a639b536b0a4c20b33c06fa13b5976579f2c14ba86c82a4101b2b",
+    "created_at": "2026-11-16T05:48:21Z",
+    "sha256": "4528876e670a639b536b0a4c20b33c06fa13b5976579f2c14ba86c82a4101b2b",
+    "textArchive": "flows-android-text.zip",
+    "textSha256": "21624c4a20591e4ab41ef316873e6302ffa4b2ebfd3ec28a4487cbff9b011dab"
+  },
+  {
+    "id": 14200473355,
+    "name": "page-actions-ios",
+    "size_in_bytes": 369737,
+    "digest": "sha256:1fab145394bc03c4d089fef47fdc168205344d516f50983ee3a71f1263fbc459",
+    "created_at": "2026-11-16T05:47:00Z",
+    "sha256": "1fab145394bc03c4d089fef47fdc168205344d516f50983ee3a71f1263fbc459",
+    "textArchive": "page-actions-ios-text.zip",
+    "textSha256": "ea965790ee703eb4c9cf030e9d0d8b68e92f14e7d045982ff39382829d0adb69"
+  },
+  {
+    "id": 14200199772,
+    "name": "native-windows-android-36",
+    "size_in_bytes": 1377329,
+    "digest": "sha256:e683dfe831d9b90a6ac5e67cdaf9210733aef94d07d878b913c4b1fa9e92b540",
+    "created_at": "2026-11-16T05:48:44Z",
+    "sha256": "e683dfe831d9b90a6ac5e67cdaf9210733aef94d07d878b913c4b1fa9e92b540",
+    "textArchive": "native-windows-android-36-text.zip",
+    "textSha256": "0de44884a63d9bde274b81ff99e3d8dda477481d2e59b13e39e64da324a404f5"
+  },
+  {
+    "id": 14200114682,
+    "name": "predictive-android-34",
+    "size_in_bytes": 6760652,
+    "digest": "sha256:81919981a01666e706131500b0099deb5ab6e62c75ae1d4e4eb86be15cc70741",
+    "created_at": "2026-11-16T05:46:47Z",
+    "sha256": "81919981a01666e706131500b0099deb5ab6e62c75ae1d4e4eb86be15cc70741",
+    "textArchive": "predictive-android-34-text.zip",
+    "textSha256": "06811163d612637a382a92d58aa9ffb6f21b01531b8647c9754f2bfb23d42034"
+  }
+]

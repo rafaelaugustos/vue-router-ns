@@ -1,0 +1,89 @@
+{
+  "vite": {
+    "commit": "63e43ec79a025776c368d2d8f9bc37786bb6027b",
+    "dirty": false,
+    "run": "43811586390",
+    "attempt": "1",
+    "checks": 24,
+    "ok": true,
+    "cleanup": {
+      "id": "1794808473063",
+      "ok": true,
+      "cleanupFailures": [],
+      "launchOwner": "NativeScript CLI"
+    },
+    "host": {
+      "platform": "darwin",
+      "release": "24.6.0",
+      "arch": "arm64",
+      "cpus": 3,
+      "cpu": "Apple M1 (Virtual)"
+    },
+    "node": "v22.23.4",
+    "packages": {
+      "@nativescript/core": "9.1.4",
+      "nativescript-vue": "3.1.2",
+      "@nativescript/android": "9.1.1",
+      "@nativescript/ios": "9.1.0"
+    },
+    "runnerImage": "20261104.0514.1",
+    "device": {
+      "simulator": "81C2D2C4-785A-4EE5-96AB-18D61CB2686F",
+      "xcode": "Xcode 16.4\nBuild version 16F6",
+      "cli": "9.1.2\n- Checking for updates...\n\u2714 Up to date.",
+      "metadata": {
+        "complete": true,
+        "errors": [],
+        "phase": "after-cleanup",
+        "collectedAt": "2026-11-16T05:59:25.369Z"
+      },
+      "bundler": "vite",
+      "vite": "8.3.4",
+      "nativeVite": "8.0.20",
+      "launchOwner": "NativeScript CLI"
+    },
+    "runtime": {
+      "version": "18.6",
+      "buildversion": "22G86",
+      "supportedArchitectures": ["x86_64", "arm64"]
+    }
+  },
+  "foldable": {
+    "adaptiveCommands": 38,
+    "foldCheckpoints": 21,
+    "hingeCheckpoints": 21
+  },
+  "android": {
+    "materialVisibilityChecks": 29,
+    "coreVisibilityChecks": 21,
+    "statePassed": true,
+    "stateStages": 8,
+    "stateProcessDeaths": 6,
+    "stateEnvironment": {
+      "commit": "63e43ec79a025776c368d2d8f9bc37786bb6027b",
+      "dirty": false,
+      "host": {
+        "platform": "linux",
+        "release": "7.0.0-1019-azure",
+        "arch": "x64",
+        "cpus": 4,
+        "cpu": "AMD EPYC 9V74 80-Core Processor"
+      },
+      "node": "v22.23.4",
+      "runner": "Linux",
+      "runnerImage": "20261111.196.1",
+      "run": "43811586390",
+      "attempt": "1",
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "@nativescript/android": "9.1.1",
+        "@nativescript/ios": "9.1.0"
+      },
+      "device": {
+        "serial": "emulator-5554",
+        "fingerprint": "google/sdk_gphone64_x86_64/emu64xa:14/UE1A.230829.050/12077443:userdebug/dev-keys"
+      }
+    }
+  }
+}

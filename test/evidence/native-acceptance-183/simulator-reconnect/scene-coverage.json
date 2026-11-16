@@ -1,0 +1,11 @@
+{
+  "backgroundResume": false,
+  "processRestoration": false,
+  "sameProcessReconnect": true,
+  "disconnectedBeforeResume": [
+    {
+      "event": "sceneDidDisconnect",
+      "window": "EFDBF7AE-410E-442E-8F13-5D46757420EF"
+    }
+  ]
+}

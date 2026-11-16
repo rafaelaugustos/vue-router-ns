@@ -1,0 +1,40 @@
+{
+  "windows-ios": {
+    "reports": 4,
+    "commands": ["close", "hmr", "prepare", "resume"],
+    "pids": [20598],
+    "coverage": {
+      "backgroundResume": true,
+      "processRestoration": false,
+      "sameProcessReconnect": false,
+      "disconnectedBeforeResume": []
+    }
+  },
+  "windows-ios-restored": {
+    "reports": 4,
+    "commands": ["close", "hmr", "prepare", "restore-scenes"],
+    "pids": [24236, 25999],
+    "coverage": {
+      "backgroundResume": false,
+      "processRestoration": true,
+      "sameProcessReconnect": false,
+      "disconnectedBeforeResume": []
+    }
+  },
+  "windows-ios-reconnected": {
+    "reports": 5,
+    "commands": ["close", "detached", "hmr", "prepare", "reconnect"],
+    "pids": [28012],
+    "coverage": {
+      "backgroundResume": false,
+      "processRestoration": false,
+      "sameProcessReconnect": true,
+      "disconnectedBeforeResume": [
+        {
+          "event": "sceneDidDisconnect",
+          "window": "C3D415CF-EAD7-482B-96AC-DEB15FFEEBEF"
+        }
+      ]
+    }
+  }
+}

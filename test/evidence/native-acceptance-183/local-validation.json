@@ -1,0 +1,77 @@
+{
+  "source": "63e43ec79a025776c368d2d8f9bc37786bb6027b",
+  "date": "2026-11-16",
+  "sourceSha256": {
+    "scripts/native/windows/WindowUITests.swift": "bc042fa279e52d1fbeb832df419fc87867877fef2c280bfcb6af38caea290454",
+    "scripts/native/windows/ios.mjs": "c7c65c5253e1fe85c91a1623735608a596e750671b59f1d52721cb1bfff60035",
+    "scripts/native/windows/SceneDriver.m": "8db8020e6e33b3debf16f0ddb6cbf005e6802fba2ad00e81de9abbaf559973fa",
+    "demo/src/testing/windows-app.ts": "77edfe93f29fb1e6d6a3a5d4fa93a0b1179314003766e3a32dd689f959fd90d5",
+    "package-lock.json": "7584a0a3e5a6dbab2f1a530c8422c32f17ca9057a930ff15ef551b5643d2650e",
+    "demo/package.json": "cf9459ab8b43f95d2b4391b63e50a857f7e187b6157335972a119011a255b48d"
+  },
+  "physical": {
+    "model": "iPad Pro 11-inch (3rd generation)",
+    "modelIdentifier": "iPad13,4",
+    "os": "iPadOS 27.0",
+    "osBuild": "24A5418b",
+    "architecture": "arm64",
+    "bundleId": "org.nativescript.routerwindows183",
+    "xctestChange": "Only target bundle ID replaced in existing WindowUITests.swift; testWindows only.",
+    "orientationBeforeAndAfter": "landscapeRight / faceUp, unlocked",
+    "coverage": "Public baseline: prepare, background/resume, multi-window script HMR, closure. No forced scene disconnect, Stage Manager or resource collection claim.",
+    "cpu": "arm64e (device-reported)"
+  },
+  "simulator": {
+    "model": "iPad Pro 13-inch (M4)",
+    "os": "iPadOS 18.6",
+    "architecture": "arm64",
+    "coverage": "RECONNECT_SCENES=1, existing simulator-only SpringBoard helper; actual same-process scene disconnect/reconnect."
+  },
+  "toolchain": {
+    "xcode": "27.2 (27B52)",
+    "node": "20.19.4",
+    "core": "9.1.4",
+    "vue": "3.1.3",
+    "iosRuntime": "9.1.0"
+  },
+  "runs": {
+    "physical-baseline": {
+      "reports": 4,
+      "stages": ["close", "hmr", "prepare", "resume"],
+      "pid": 1756,
+      "allPassed": true
+    },
+    "physical-recorded": {
+      "reports": 4,
+      "stages": ["close", "hmr", "prepare", "resume"],
+      "pid": 1765,
+      "allPassed": true
+    },
+    "simulator-reconnect": {
+      "reports": 5,
+      "stages": ["close", "reconnect", "hmr", "prepare", "reconnect"],
+      "pid": 76013,
+      "allPassed": true
+    }
+  },
+  "dependencies": "Isolated worktree built its own dist; dependency directories linked to the existing root/demo installation. No dependency patch. Package and fixture sources match the acceptance commit.",
+  "environmentNote": "First reconnect driver invocation failed while generating its XCTest project because child Ruby resolved to system 2.6; no native scenario executed. Correcting PATH/GEM_HOME/GEM_PATH to installed Ruby 3.3 allowed the unchanged driver to run once successfully. No test deadline or assertion changes.",
+  "privacy": "Device identifier, development team and local workspace/user paths redacted from published physical logs. Raw xcresult and original video remain local; archive report JSON is byte-exact; readable copies are whitespace-formatted.",
+  "archives": {
+    "physical-baseline": {
+      "file": "physical-baseline-raw.zip",
+      "sha256": "848e79707e9710e63ea0f8cc9baa40c7e032438c8a9c3cfec906d1be1eb63940",
+      "contents": "Byte-exact fixture JSON and sanitized logs; readable JSON copies are whitespace-formatted."
+    },
+    "physical-recorded": {
+      "file": "physical-recorded-raw.zip",
+      "sha256": "f30607b40af97c6db383d2bb669585f06ef9d6957bf3f7a74b4fb490a83ec152",
+      "contents": "Byte-exact fixture JSON and sanitized logs; readable JSON copies are whitespace-formatted."
+    },
+    "simulator-reconnect": {
+      "file": "simulator-reconnect-raw.zip",
+      "sha256": "062eb384e1f24fc5046e4746374137d81c9980e9c0ebf20367d33ed561df31f6",
+      "contents": "Byte-exact fixture JSON and sanitized logs; readable JSON copies are whitespace-formatted."
+    }
+  }
+}
