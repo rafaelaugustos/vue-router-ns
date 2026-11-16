@@ -13,6 +13,27 @@ final class RotationUITests: XCTestCase {
         let config = try JSONSerialization.jsonObject(with: Data(contentsOf: configURL)) as! [String: String]
         directory = URL(fileURLWithPath: config["directory"]!)
         app.activate()
+        // #168's baseline is a full-size iPad window. iPadOS 26.2 can launch
+        // this fixture in a scaled compatibility window even with
+        // UIRequiresFullScreen. Use the system's normal Zoom control and verify
+        // the precondition; reduced/windowed input remains a separate boundary.
+        if name.contains("test01ProgrammaticNavigation") {
+            XCUIDevice.shared.orientation = .portrait
+            let before = app.windows.firstMatch.frame
+            let maximized = before != app.frame
+            if maximized {
+                let system = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+                system.buttons["window-controls:org.nativescript.vuerouterns"].tap()
+                system.buttons["Zoom-button"].tap()
+            }
+            XCTAssertEqual(app.windows.firstMatch.frame, app.frame, "This suite requires a full-size application window")
+            try write("window-setup.json", ["before": rectangle(before),
+                "after": rectangle(app.windows.firstMatch.frame), "screen": rectangle(app.frame),
+                "maximized": maximized])
+        }
+    }
+    func rectangle(_ value: CGRect) -> [String: CGFloat] {
+        ["x": value.minX, "y": value.minY, "width": value.width, "height": value.height]
     }
     func read(_ name: String) throws -> [String: Any] {
         try JSONSerialization.jsonObject(with: Data(contentsOf: directory.appendingPathComponent(name))) as! [String: Any]
@@ -117,6 +138,8 @@ final class RotationUITests: XCTestCase {
             XCUIDevice.shared.orientation = landscape ? .portrait : .landscapeLeft
             try command("push", "home")
             let applicationFrame = app.frame
+            let windowFrame = app.windows.firstMatch.frame
+            XCTAssertEqual(windowFrame, applicationFrame, "Content Back requires the full-window test precondition")
             let label = "\(name)-\(landscape ? "landscape" : "portrait")"
             let armed = try arm("gesture-device", landscape: landscape)
             let events = try XCTUnwrap(armed["events"] as? [[String: Any]])
@@ -144,6 +167,7 @@ final class RotationUITests: XCTestCase {
             let signal = name == "commit" && !landscape ? "interaction-ended" : "navigation-observed"
             try write("\(label)-driver.json", [
                 "rotationSignal": signal,
+                "windowFrame": rectangle(windowFrame),
                 "recognizer": recognizer,
                 "start": ["x": point.x, "y": point.y],
                 "end": ["x": point.x + distance, "y": point.y],

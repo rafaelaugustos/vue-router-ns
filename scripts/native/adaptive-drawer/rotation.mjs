@@ -101,6 +101,12 @@ await copyFile(join(directory, 'rotation.json'), join(out, 'last-rotation.json')
     if (!testError) throw error
   },
 )
+await copyFile(
+  join(directory, 'window-setup.json'),
+  join(out, 'window-setup.json'),
+).catch((error) => {
+  if (!testError) throw error
+})
 for (const name of await readdir(directory)) {
   if (!/^(push-device-|back-device-|commit-|cancel-|settled|modal).*\.json$/.test(name))
     continue

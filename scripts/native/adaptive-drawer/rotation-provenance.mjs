@@ -47,6 +47,11 @@ export async function recordRotationProvenance(out, simulator) {
     'scripts/native/adaptive-drawer/rotation-provenance.mjs',
   ])
     sources[path] = hash(await readFile(path))
+  const infoPath = join(
+    process.env.IOS_APP ?? 'demo/platforms/ios/build/Debug-iphonesimulator/demo.app',
+    'Info.plist',
+  )
+  const info = JSON.parse(await run('plutil', ['-convert', 'json', '-o', '-', infoPath]))
   const provenance = {
     source: await run('git', ['rev-parse', 'HEAD']),
     dirty: Boolean(await run('git', ['status', '--porcelain', '--untracked-files=no'])),
@@ -55,6 +60,13 @@ export async function recordRotationProvenance(out, simulator) {
     simulator,
     xcode: await run('xcodebuild', ['-version']),
     packages,
+    nativeApp: {
+      infoPlistSha256: hash(await readFile(infoPath)),
+      sdk: info.DTSDKName,
+      requiresFullScreen: info.UIRequiresFullScreen,
+      sceneManifest: info.UIApplicationSceneManifest,
+      ipadOrientations: info['UISupportedInterfaceOrientations~ipad'],
+    },
     sources,
     routerDist: await tree('dist'),
     core: await tree('demo/node_modules/@nativescript/core', ['package.json']),
