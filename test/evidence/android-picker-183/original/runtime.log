@@ -1,0 +1,164 @@
+--------- beginning of main
+D/AndroidRuntime( 3042): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 3042): Using default boot image
+I/AndroidRuntime( 3042): Leaving lock profiling enabled
+D/AndroidRuntime( 3042): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 3042): Shutting down VM
+D/AndroidRuntime( 3252): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 3252): Using default boot image
+I/AndroidRuntime( 3252): Leaving lock profiling enabled
+D/AndroidRuntime( 3252): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 3252): Shutting down VM
+D/AndroidRuntime( 3342): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 3342): Using default boot image
+I/AndroidRuntime( 3342): Leaving lock profiling enabled
+D/AndroidRuntime( 3342): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 3342): Shutting down VM
+D/AndroidRuntime( 3542): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 3542): Using default boot image
+I/AndroidRuntime( 3542): Leaving lock profiling enabled
+D/AndroidRuntime( 3542): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 3542): Shutting down VM
+I/JS      ( 3778): CONSOLE LOG: FLOW_OWNER_CREATED 131155783
+I/JS      ( 3778): CONSOLE LOG: FLOW_READY 3778
+D/AndroidRuntime( 3862): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 3862): Using default boot image
+I/AndroidRuntime( 3862): Leaving lock profiling enabled
+D/AndroidRuntime( 3862): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 3862): Shutting down VM
+I/JS      ( 3778): CONSOLE LOG: FLOW_COMMAND guard
+I/JS      ( 3778): CONSOLE LOG: FLOW_PENDING guard
+I/JS      ( 3778): CONSOLE LOG: FLOW_RESULT {"name":"guard:guard","outcome":{"status":"cancelled","reason":"guard"},"pid":3778,"path":"/picker","stack":["/","/picker"]}
+D/AndroidRuntime( 3993): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 3993): Using default boot image
+I/AndroidRuntime( 3993): Leaving lock profiling enabled
+D/AndroidRuntime( 3993): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 3993): Shutting down VM
+I/JS      ( 3778): CONSOLE LOG: FLOW_COMMAND pick
+I/JS      ( 3778): CONSOLE LOG: FLOW_PENDING pick
+D/AndroidRuntime( 4035): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4035): Using default boot image
+I/AndroidRuntime( 4035): Leaving lock profiling enabled
+D/AndroidRuntime( 4035): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4035): Shutting down VM
+--------- beginning of crash
+E/AndroidRuntime( 2679): FATAL EXCEPTION: ProviderExecutor: com.android.providers.downloads.documents
+E/AndroidRuntime( 2679): Process: com.google.android.documentsui, PID: 2679
+E/AndroidRuntime( 2679): java.lang.NullPointerException: Attempt to read from field 'boolean androidx.loader.content.AsyncTaskLoader$LoadTask.waiting' on a null object reference in method 'boolean androidx.loader.content.AsyncTaskLoader.onCancelLoad()'
+E/AndroidRuntime( 2679): 	at androidx.loader.content.AsyncTaskLoader.onCancelLoad(AsyncTaskLoader.java:153)
+E/AndroidRuntime( 2679): 	at androidx.loader.content.Loader.cancelLoad(Loader.java:318)
+E/AndroidRuntime( 2679): 	at androidx.loader.content.AsyncTaskLoader.onForceLoad(AsyncTaskLoader.java:129)
+E/AndroidRuntime( 2679): 	at androidx.loader.content.Loader.forceLoad(Loader.java:347)
+E/AndroidRuntime( 2679): 	at androidx.loader.content.Loader.onContentChanged(Loader.java:512)
+E/AndroidRuntime( 2679): 	at com.android.documentsui.MultiRootDocumentsLoader$QueryTask.runInternal(MultiRootDocumentsLoader.java:451)
+E/AndroidRuntime( 2679): 	at com.android.documentsui.MultiRootDocumentsLoader$QueryTask.run(MultiRootDocumentsLoader.java:399)
+E/AndroidRuntime( 2679): 	at com.android.documentsui.ProviderExecutor.run(ProviderExecutor.java:104)
+I/JS      ( 3778): CONSOLE LOG: FLOW_RESULT {"name":"pick:user","outcome":{"status":"cancelled","reason":"user"},"pid":3778,"path":"/picker","stack":["/","/picker"]}
+D/AndroidRuntime( 4225): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4225): Using default boot image
+I/AndroidRuntime( 4225): Leaving lock profiling enabled
+D/AndroidRuntime( 4225): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4225): Shutting down VM
+D/AndroidRuntime( 4304): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4304): Using default boot image
+I/AndroidRuntime( 4304): Leaving lock profiling enabled
+D/AndroidRuntime( 4304): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4304): Shutting down VM
+I/JS      ( 3778): CONSOLE LOG: FLOW_COMMAND pick
+I/JS      ( 3778): CONSOLE LOG: FLOW_PENDING pick
+I/JS      ( 3778): CONSOLE LOG: FLOW_RESULT {"name":"pick:disposed","outcome":{"status":"cancelled","reason":"disposed"},"pid":3778,"path":"/","stack":["/"]}
+D/AndroidRuntime( 4386): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4386): Using default boot image
+I/AndroidRuntime( 4386): Leaving lock profiling enabled
+D/AndroidRuntime( 4386): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4386): Shutting down VM
+D/AndroidRuntime( 4444): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4444): Using default boot image
+I/AndroidRuntime( 4444): Leaving lock profiling enabled
+D/AndroidRuntime( 4444): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4444): Shutting down VM
+D/AndroidRuntime( 4507): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4507): Using default boot image
+I/AndroidRuntime( 4507): Leaving lock profiling enabled
+D/AndroidRuntime( 4507): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4507): Shutting down VM
+D/AndroidRuntime( 4542): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4542): Using default boot image
+I/AndroidRuntime( 4542): Leaving lock profiling enabled
+D/AndroidRuntime( 4542): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4542): Shutting down VM
+D/AndroidRuntime( 4574): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4574): Using default boot image
+I/AndroidRuntime( 4574): Leaving lock profiling enabled
+D/AndroidRuntime( 4574): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4574): Shutting down VM
+D/AndroidRuntime( 4598): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4598): Using default boot image
+I/AndroidRuntime( 4598): Leaving lock profiling enabled
+D/AndroidRuntime( 4598): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4598): Shutting down VM
+D/AndroidRuntime( 4631): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4631): Using default boot image
+I/AndroidRuntime( 4631): Leaving lock profiling enabled
+D/AndroidRuntime( 4631): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4631): Shutting down VM
+D/AndroidRuntime( 4679): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4679): Using default boot image
+I/AndroidRuntime( 4679): Leaving lock profiling enabled
+D/AndroidRuntime( 4679): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4679): Shutting down VM
+D/AndroidRuntime( 4736): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4736): Using default boot image
+I/AndroidRuntime( 4736): Leaving lock profiling enabled
+D/AndroidRuntime( 4736): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4736): Shutting down VM
+D/AndroidRuntime( 4757): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4757): Using default boot image
+I/AndroidRuntime( 4757): Leaving lock profiling enabled
+D/AndroidRuntime( 4757): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4757): Shutting down VM
+D/AndroidRuntime( 4772): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4772): Using default boot image
+I/AndroidRuntime( 4772): Leaving lock profiling enabled
+D/AndroidRuntime( 4772): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4772): Shutting down VM
+D/AndroidRuntime( 4788): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4788): Using default boot image
+I/AndroidRuntime( 4788): Leaving lock profiling enabled
+D/AndroidRuntime( 4788): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4788): Shutting down VM
+D/AndroidRuntime( 4803): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4803): Using default boot image
+I/AndroidRuntime( 4803): Leaving lock profiling enabled
+D/AndroidRuntime( 4803): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4803): Shutting down VM
+D/AndroidRuntime( 4820): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4820): Using default boot image
+I/AndroidRuntime( 4820): Leaving lock profiling enabled
+D/AndroidRuntime( 4820): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4820): Shutting down VM
+D/AndroidRuntime( 4835): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4835): Using default boot image
+I/AndroidRuntime( 4835): Leaving lock profiling enabled
+D/AndroidRuntime( 4835): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4835): Shutting down VM
+D/AndroidRuntime( 4850): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4850): Using default boot image
+I/AndroidRuntime( 4850): Leaving lock profiling enabled
+D/AndroidRuntime( 4850): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4850): Shutting down VM
+D/AndroidRuntime( 4865): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4865): Using default boot image
+I/AndroidRuntime( 4865): Leaving lock profiling enabled
+D/AndroidRuntime( 4865): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4865): Shutting down VM
+D/AndroidRuntime( 4880): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4880): Using default boot image
+I/AndroidRuntime( 4880): Leaving lock profiling enabled
+D/AndroidRuntime( 4880): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4880): Shutting down VM
+D/AndroidRuntime( 4895): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 4895): Using default boot image
+I/AndroidRuntime( 4895): Leaving lock profiling enabled
+D/AndroidRuntime( 4895): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 4895): Shutting down VM

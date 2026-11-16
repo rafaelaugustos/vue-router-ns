@@ -4,8 +4,15 @@ import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { recordEnvironment } from './contracts/environment.mjs'
+import {
+  assertAndroidHealthy,
+  assertPickerVisible,
+  hasPackage,
+} from './flows-android-evidence.mjs'
 const exec = promisify(execFile)
-const serial = process.env.ANDROID_SERIAL ?? 'emulator-5580'
+const serial = process.env.ANDROID_SERIAL
+assert(serial, 'Select a dedicated emulator with ANDROID_SERIAL')
 const out = resolve(process.env.OUT ?? 'scripts/native/out/flows-android')
 const pkg = 'org.nativescript.vuerouterns'
 const activity = `${pkg}/com.tns.NativeScriptActivity`
@@ -19,10 +26,13 @@ const adb = async (...args) =>
   ).stdout
 const pause = (ms = 300) => new Promise((done) => setTimeout(done, ms))
 const checks = []
+const actions = []
 let runtime = ''
 let activePid = ''
+let pickerPackage = ''
 async function logs() {
   runtime = await adb('logcat', '-d', '-v', 'brief', '-s', 'JS', 'AndroidRuntime')
+  assertAndroidHealthy(runtime, [pkg, pickerPackage].filter(Boolean))
   assert(!runtime.includes('FLOW_FATAL'), runtime.slice(-6000))
   return runtime
 }
@@ -54,11 +64,14 @@ async function outcome(name, previous = 0) {
   return result
 }
 async function ui() {
+  // A failed dump must never reuse the preceding window's hierarchy.
+  await adb('shell', 'rm', '-f', '/sdcard/flow-ui.xml')
   await adb('shell', 'uiautomator', 'dump', '/sdcard/flow-ui.xml')
-  return adb('shell', 'cat', '/sdcard/flow-ui.xml').catch(() => '')
+  return adb('shell', 'cat', '/sdcard/flow-ui.xml')
 }
 async function tap(text) {
   const xml = await ui()
+  await logs()
   const node = (xml.match(/<node\b[^>]*>/g) ?? []).find(
     (node) => node.includes(`text="${text}"`) || node.includes(`content-desc="${text}"`),
   )
@@ -76,7 +89,12 @@ async function tap(text) {
 }
 async function picker() {
   await until(
-    async () => (await ui()).includes('documentsui'),
+    async () => {
+      await logs()
+      const xml = await ui()
+      await logs()
+      return hasPackage(xml, pickerPackage)
+    },
     'system document picker',
     45000,
   )
@@ -94,8 +112,10 @@ async function command(name) {
   // Result delivery can precede DocumentsUI's exit animation and Activity resume.
   await until(async () => {
     const xml = await ui()
-    return xml.includes(`package="${pkg}"`) && !xml.includes('documentsui')
+    await logs()
+    return hasPackage(xml, pkg) && !hasPackage(xml, pickerPackage)
   }, `origin visible before ${name}`)
+  actions.push({ action: 'command', name, at: new Date().toISOString() })
   await adb(
     'shell',
     'am',
@@ -108,7 +128,16 @@ async function command(name) {
     name,
   )
 }
-const back = () => adb('shell', 'input', 'keyevent', '4')
+async function back() {
+  await logs()
+  const xml = await ui()
+  await logs()
+  assertPickerVisible(xml, pickerPackage)
+  actions.push({ action: 'back-requested', at: new Date().toISOString() })
+  await adb('shell', 'input', 'keyevent', '4')
+  actions.push({ action: 'back-sent', at: new Date().toISOString() })
+  await logs()
+}
 async function start() {
   await adb('shell', 'am', 'force-stop', pkg)
   await adb('shell', 'am', 'start', '-W', '-n', activity)
@@ -132,6 +161,30 @@ try {
   await adb('shell', 'am', 'force-stop', pkg)
   await adb('shell', 'pm', 'clear', pkg)
   await adb('logcat', '-c')
+  const resolved = await adb(
+    'shell',
+    'cmd',
+    'package',
+    'resolve-activity',
+    '--brief',
+    '-a',
+    'android.intent.action.OPEN_DOCUMENT',
+    '-c',
+    'android.intent.category.OPENABLE',
+    '-t',
+    'text/plain',
+  )
+  pickerPackage = /^([\w.]+)\/[^\s]+$/m.exec(resolved)?.[1]
+  assert(pickerPackage, `Cannot resolve the system document picker: ${resolved}`)
+  await recordEnvironment(out, {
+    serial,
+    fingerprint: (await adb('shell', 'getprop', 'ro.build.fingerprint')).trim(),
+    pickerPackage,
+    pickerVersion: (await adb('shell', 'dumpsys', 'package', pickerPackage))
+      .split('\n')
+      .filter((line) => /versionCode=|versionName=/.test(line))
+      .map((line) => line.trim()),
+  })
   const document = resolve(out, 'router-flow-sample.txt')
   await writeFile(document, 'Native flow acceptance document\n')
   await adb('push', document, '/sdcard/Download/router-flow-sample.txt')
@@ -270,16 +323,36 @@ try {
   await command('close')
   await picker()
   await outcome('close:disposed')
-  await back()
+  // Finishing the owner can also close its child picker. Only dismiss it if
+  // it remains visible; never send a cleanup Back to the launcher or origin.
+  if (hasPackage(await ui(), pickerPackage)) await back()
+  await logs()
   console.log(`Passed ${checks.length} native flow outcomes`)
 } catch (error) {
+  await writeFile(
+    resolve(out, 'failure.json'),
+    JSON.stringify(
+      {
+        message: String(error),
+        crash: error.crash,
+        at: new Date().toISOString(),
+      },
+      null,
+      2,
+    ),
+  )
   await capture('failure').catch(() => {})
   throw error
 } finally {
   await writeFile(resolve(out, 'results.json'), JSON.stringify(checks, null, 2) + '\n')
+  await writeFile(resolve(out, 'actions.json'), JSON.stringify(actions, null, 2) + '\n')
   await writeFile(
     resolve(out, 'runtime.log'),
     await adb('logcat', '-d', '-v', 'brief', '-s', 'JS', 'AndroidRuntime'),
+  )
+  await writeFile(
+    resolve(out, 'system.log'),
+    await adb('logcat', '-d', '-v', 'threadtime'),
   )
   await adb('shell', 'wm', 'user-rotation', 'free').catch(() => {})
 }
