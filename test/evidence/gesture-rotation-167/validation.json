@@ -584,8 +584,601 @@
     }
   ],
   "hosted": {
-    "status": "pending",
-    "url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43867651535"
+    "status": "success",
+    "url": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43867651535",
+    "source": "f43d27eca18d222404a7c45eceeda09b933d1a65",
+    "runs": [
+      {
+        "run": "hosted-18-6-gesture-rotation",
+        "mode": "gesture",
+        "source": "f43d27eca18d222404a7c45eceeda09b933d1a65",
+        "sourceHashesVerified": true,
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "86F421F2-5B6B-479A-BC54-8E16EBBD597F",
+          "deviceName": "RotationOverlap167",
+          "modelName": "iPad Pro 11-inch (M4)",
+          "osBuildNumber": "22G86",
+          "osVersion": "18.6",
+          "platform": "iOS Simulator"
+        },
+        "xcode": "Xcode 16.4\nBuild version 16F6",
+        "node": "v22.23.5",
+        "packages": {
+          "@nativescript/core": "9.1.4",
+          "nativescript-vue": "3.1.3",
+          "@nativescript/ios": "9.1.0",
+          "@nativescript/webpack": "5.0.41",
+          "webpack": "5.112.2"
+        },
+        "nativeApp": {
+          "infoPlistSha256": "7092a5592ca88bd43170fa96f378b70b9627eae41714f7a7556b451b4b53f371",
+          "sdk": "iphonesimulator18.5",
+          "requiresFullScreen": true,
+          "sceneManifest": {
+            "UIApplicationSupportsMultipleScenes": false,
+            "UIApplicationPreferredDefaultSceneSessionRole": "UIWindowSceneSessionRoleApplication"
+          },
+          "ipadOrientations": [
+            "UIInterfaceOrientationPortrait",
+            "UIInterfaceOrientationPortraitUpsideDown",
+            "UIInterfaceOrientationLandscapeLeft",
+            "UIInterfaceOrientationLandscapeRight"
+          ]
+        },
+        "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+        "routerDistSha256": "82ea80d4c73714c904b61d3cea7759c170ac2b6aaee7829c29156be6749a6b36",
+        "passedMethods": 3,
+        "cases": 6,
+        "exercised": 4,
+        "missingGestures": 2,
+        "gestureEvidence": [
+          {
+            "case": "cancel-landscape",
+            "requestedDuringNavigation": true,
+            "gestureEvidence": {
+              "result": "rotation-deferred",
+              "visualOverlap": false,
+              "intent": "cancel",
+              "outcome": "cancelled",
+              "navigationCoordinator": 32,
+              "receivedDuringInteraction": true,
+              "receivedProgress": 0.027577937649880094,
+              "receivedBeforeInteractionEndMs": 544.818999999974,
+              "activeRecognizers": [
+                {
+                  "id": 22,
+                  "kind": "edge",
+                  "state": 2,
+                  "enabled": true
+                }
+              ],
+              "firstTargetAfterNavigationEndMs": 76.14100000000326,
+              "rotations": [
+                {
+                  "width": 1210,
+                  "height": 834,
+                  "target": true,
+                  "rotationCoordinator": 33,
+                  "navigationCoordinator": null,
+                  "currentCoordinator": null,
+                  "currentlyInteractive": null,
+                  "afterNavigationEndMs": 76.14100000000326
+                }
+              ]
+            },
+            "visualOverlap": false,
+            "navigationCancelled": true,
+            "interactionEndedBeforeRequest": false,
+            "result": "rotation-deferred"
+          },
+          {
+            "case": "commit-landscape",
+            "requestedDuringNavigation": true,
+            "gestureEvidence": {
+              "result": "rotation-deferred",
+              "visualOverlap": false,
+              "intent": "commit",
+              "outcome": "committed",
+              "navigationCoordinator": 21,
+              "receivedDuringInteraction": true,
+              "receivedProgress": 0.1684652278177458,
+              "receivedBeforeInteractionEndMs": 2197.780999999959,
+              "activeRecognizers": [
+                {
+                  "id": 22,
+                  "kind": "edge",
+                  "state": 2,
+                  "enabled": true
+                }
+              ],
+              "firstTargetAfterNavigationEndMs": 124.20799999995506,
+              "rotations": [
+                {
+                  "width": 1210,
+                  "height": 834,
+                  "target": true,
+                  "rotationCoordinator": 23,
+                  "navigationCoordinator": null,
+                  "currentCoordinator": null,
+                  "currentlyInteractive": null,
+                  "afterNavigationEndMs": 124.20799999995506
+                }
+              ]
+            },
+            "visualOverlap": false,
+            "navigationCancelled": false,
+            "interactionEndedBeforeRequest": false,
+            "result": "rotation-deferred"
+          }
+        ],
+        "programmaticOverlaps": 0,
+        "strictOverlapAudit": {
+          "exitCode": 1,
+          "meaning": "Raw native receipt proofs valid; stronger actual-overlap claim rejected for deferred/missing cases."
+        },
+        "archive": {
+          "file": "hosted-18-6-gesture-rotation.zip",
+          "sha256": "b0fe15f41ba8029240811b071386b559a77e9fe34ee065dcfcc2b4a4cb50534d"
+        },
+        "artifact": {
+          "id": 14227797074,
+          "name": "programmatic-overlap-ipad-18-6",
+          "digest": "sha256:1009964ab03a182614087c59ea77e2fb4fb705bc4de25c0a608eaef0a292fe41"
+        },
+        "jobUrl": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43867651535/job/133300256979"
+      },
+      {
+        "run": "hosted-18-6-programmatic-overlap",
+        "mode": "overlap",
+        "source": "f43d27eca18d222404a7c45eceeda09b933d1a65",
+        "sourceHashesVerified": true,
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "86F421F2-5B6B-479A-BC54-8E16EBBD597F",
+          "deviceName": "RotationOverlap167",
+          "modelName": "iPad Pro 11-inch (M4)",
+          "osBuildNumber": "22G86",
+          "osVersion": "18.6",
+          "platform": "iOS Simulator"
+        },
+        "xcode": "Xcode 16.4\nBuild version 16F6",
+        "node": "v22.23.5",
+        "packages": {
+          "@nativescript/core": "9.1.4",
+          "nativescript-vue": "3.1.3",
+          "@nativescript/ios": "9.1.0",
+          "@nativescript/webpack": "5.0.41",
+          "webpack": "5.112.2"
+        },
+        "nativeApp": {
+          "infoPlistSha256": "7092a5592ca88bd43170fa96f378b70b9627eae41714f7a7556b451b4b53f371",
+          "sdk": "iphonesimulator18.5",
+          "requiresFullScreen": true,
+          "sceneManifest": {
+            "UIApplicationSupportsMultipleScenes": false,
+            "UIApplicationPreferredDefaultSceneSessionRole": "UIWindowSceneSessionRoleApplication"
+          },
+          "ipadOrientations": [
+            "UIInterfaceOrientationPortrait",
+            "UIInterfaceOrientationPortraitUpsideDown",
+            "UIInterfaceOrientationLandscapeLeft",
+            "UIInterfaceOrientationLandscapeRight"
+          ]
+        },
+        "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+        "routerDistSha256": "82ea80d4c73714c904b61d3cea7759c170ac2b6aaee7829c29156be6749a6b36",
+        "passedMethods": 2,
+        "cases": 6,
+        "exercised": 6,
+        "missingGestures": 0,
+        "gestureEvidence": [],
+        "programmaticOverlaps": 4,
+        "strictOverlapAudit": null,
+        "archive": {
+          "file": "hosted-18-6-programmatic-overlap.zip",
+          "sha256": "7d2a26b50597286a59e850aa569a5b4453d76de1955d4d22934a86e6ce6baa48"
+        },
+        "artifact": {
+          "id": 14227797074,
+          "name": "programmatic-overlap-ipad-18-6",
+          "digest": "sha256:1009964ab03a182614087c59ea77e2fb4fb705bc4de25c0a608eaef0a292fe41"
+        },
+        "jobUrl": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43867651535/job/133300256979"
+      },
+      {
+        "run": "hosted-18-6-default-rotation",
+        "mode": "device",
+        "source": "f43d27eca18d222404a7c45eceeda09b933d1a65",
+        "sourceHashesVerified": true,
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "86F421F2-5B6B-479A-BC54-8E16EBBD597F",
+          "deviceName": "RotationOverlap167",
+          "modelName": "iPad Pro 11-inch (M4)",
+          "osBuildNumber": "22G86",
+          "osVersion": "18.6",
+          "platform": "iOS Simulator"
+        },
+        "xcode": "Xcode 16.4\nBuild version 16F6",
+        "node": "v22.23.5",
+        "packages": {
+          "@nativescript/core": "9.1.4",
+          "nativescript-vue": "3.1.3",
+          "@nativescript/ios": "9.1.0",
+          "@nativescript/webpack": "5.0.41",
+          "webpack": "5.112.2"
+        },
+        "nativeApp": {
+          "infoPlistSha256": "7092a5592ca88bd43170fa96f378b70b9627eae41714f7a7556b451b4b53f371",
+          "sdk": "iphonesimulator18.5",
+          "requiresFullScreen": true,
+          "sceneManifest": {
+            "UIApplicationSupportsMultipleScenes": false,
+            "UIApplicationPreferredDefaultSceneSessionRole": "UIWindowSceneSessionRoleApplication"
+          },
+          "ipadOrientations": [
+            "UIInterfaceOrientationPortrait",
+            "UIInterfaceOrientationPortraitUpsideDown",
+            "UIInterfaceOrientationLandscapeLeft",
+            "UIInterfaceOrientationLandscapeRight"
+          ]
+        },
+        "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+        "routerDistSha256": "82ea80d4c73714c904b61d3cea7759c170ac2b6aaee7829c29156be6749a6b36",
+        "passedMethods": 4,
+        "cases": 10,
+        "exercised": 8,
+        "missingGestures": 2,
+        "gestureEvidence": [],
+        "programmaticOverlaps": 0,
+        "strictOverlapAudit": null,
+        "archive": {
+          "file": "hosted-18-6-default-rotation.zip",
+          "sha256": "77eda63c30bfe3bc6f012880f3992f7373be1b4c933e4fede15c96b27d3b93d0"
+        },
+        "artifact": {
+          "id": 14227797074,
+          "name": "programmatic-overlap-ipad-18-6",
+          "digest": "sha256:1009964ab03a182614087c59ea77e2fb4fb705bc4de25c0a608eaef0a292fe41"
+        },
+        "jobUrl": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43867651535/job/133300256979"
+      },
+      {
+        "run": "hosted-26-2-gesture-rotation",
+        "mode": "gesture",
+        "source": "f43d27eca18d222404a7c45eceeda09b933d1a65",
+        "sourceHashesVerified": true,
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "2558BAC6-439E-486C-A406-38AC22ED7C40",
+          "deviceName": "RotationOverlap167",
+          "modelName": "iPad Pro 11-inch (M4)",
+          "osBuildNumber": "23C54",
+          "osVersion": "26.2",
+          "platform": "iOS Simulator"
+        },
+        "xcode": "Xcode 26.6\nBuild version 17F113",
+        "node": "v22.23.4",
+        "packages": {
+          "@nativescript/core": "9.1.4",
+          "nativescript-vue": "3.1.3",
+          "@nativescript/ios": "9.1.0",
+          "@nativescript/webpack": "5.0.41",
+          "webpack": "5.112.2"
+        },
+        "nativeApp": {
+          "infoPlistSha256": "cf4aef8dc885f283f53604172da0c3a723123cde22cffbbd855fb6cc957df59e",
+          "sdk": "iphonesimulator26.5",
+          "requiresFullScreen": true,
+          "sceneManifest": {
+            "UIApplicationSupportsMultipleScenes": false,
+            "UIApplicationPreferredDefaultSceneSessionRole": "UIWindowSceneSessionRoleApplication"
+          },
+          "ipadOrientations": [
+            "UIInterfaceOrientationPortrait",
+            "UIInterfaceOrientationPortraitUpsideDown",
+            "UIInterfaceOrientationLandscapeLeft",
+            "UIInterfaceOrientationLandscapeRight"
+          ]
+        },
+        "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+        "routerDistSha256": "82ea80d4c73714c904b61d3cea7759c170ac2b6aaee7829c29156be6749a6b36",
+        "passedMethods": 3,
+        "cases": 6,
+        "exercised": 6,
+        "missingGestures": 0,
+        "gestureEvidence": [
+          {
+            "case": "cancel-landscape",
+            "requestedDuringNavigation": true,
+            "gestureEvidence": {
+              "result": "rotation-deferred",
+              "visualOverlap": false,
+              "intent": "cancel",
+              "outcome": "cancelled",
+              "navigationCoordinator": 35,
+              "receivedDuringInteraction": true,
+              "receivedProgress": 0.052158273381294966,
+              "receivedBeforeInteractionEndMs": 148.9639999999781,
+              "activeRecognizers": [
+                {
+                  "id": 22,
+                  "kind": "edge",
+                  "state": 2,
+                  "enabled": true
+                }
+              ],
+              "firstTargetAfterNavigationEndMs": 573.7689999999711,
+              "rotations": [
+                {
+                  "width": 1210,
+                  "height": 834,
+                  "target": true,
+                  "rotationCoordinator": 36,
+                  "navigationCoordinator": null,
+                  "currentCoordinator": null,
+                  "currentlyInteractive": null,
+                  "afterNavigationEndMs": 573.7689999999711
+                }
+              ]
+            },
+            "visualOverlap": false,
+            "navigationCancelled": true,
+            "interactionEndedBeforeRequest": false,
+            "result": "rotation-deferred"
+          },
+          {
+            "case": "cancel-portrait",
+            "requestedDuringNavigation": true,
+            "gestureEvidence": {
+              "result": "rotation-deferred",
+              "visualOverlap": false,
+              "intent": "cancel",
+              "outcome": "cancelled",
+              "navigationCoordinator": 41,
+              "receivedDuringInteraction": true,
+              "receivedProgress": 0.09032258064516129,
+              "receivedBeforeInteractionEndMs": 265.7709999999788,
+              "activeRecognizers": [
+                {
+                  "id": 23,
+                  "kind": "content",
+                  "state": 2,
+                  "enabled": true
+                }
+              ],
+              "firstTargetAfterNavigationEndMs": 54.919000000023516,
+              "rotations": [
+                {
+                  "width": 834,
+                  "height": 1210,
+                  "target": true,
+                  "rotationCoordinator": 42,
+                  "navigationCoordinator": null,
+                  "currentCoordinator": null,
+                  "currentlyInteractive": null,
+                  "afterNavigationEndMs": 54.919000000023516
+                }
+              ]
+            },
+            "visualOverlap": false,
+            "navigationCancelled": true,
+            "interactionEndedBeforeRequest": false,
+            "result": "rotation-deferred"
+          },
+          {
+            "case": "commit-landscape",
+            "requestedDuringNavigation": true,
+            "gestureEvidence": {
+              "result": "rotation-deferred",
+              "visualOverlap": false,
+              "intent": "commit",
+              "outcome": "committed",
+              "navigationCoordinator": 21,
+              "receivedDuringInteraction": true,
+              "receivedProgress": 0.14148681055155876,
+              "receivedBeforeInteractionEndMs": 2448.209999999992,
+              "activeRecognizers": [
+                {
+                  "id": 22,
+                  "kind": "edge",
+                  "state": 2,
+                  "enabled": true
+                }
+              ],
+              "firstTargetAfterNavigationEndMs": 85.00800000003073,
+              "rotations": [
+                {
+                  "width": 1210,
+                  "height": 834,
+                  "target": true,
+                  "rotationCoordinator": 24,
+                  "navigationCoordinator": null,
+                  "currentCoordinator": null,
+                  "currentlyInteractive": null,
+                  "afterNavigationEndMs": 85.00800000003073
+                }
+              ]
+            },
+            "visualOverlap": false,
+            "navigationCancelled": false,
+            "interactionEndedBeforeRequest": false,
+            "result": "rotation-deferred"
+          },
+          {
+            "case": "commit-portrait",
+            "requestedDuringNavigation": true,
+            "gestureEvidence": {
+              "result": "rotation-deferred",
+              "visualOverlap": false,
+              "intent": "commit",
+              "outcome": "committed",
+              "navigationCoordinator": 29,
+              "receivedDuringInteraction": true,
+              "receivedProgress": 0.07903225806451612,
+              "receivedBeforeInteractionEndMs": 2820.2670000000508,
+              "activeRecognizers": [
+                {
+                  "id": 23,
+                  "kind": "content",
+                  "state": 2,
+                  "enabled": true
+                }
+              ],
+              "firstTargetAfterNavigationEndMs": 91.2719999999972,
+              "rotations": [
+                {
+                  "width": 834,
+                  "height": 1210,
+                  "target": true,
+                  "rotationCoordinator": 30,
+                  "navigationCoordinator": null,
+                  "currentCoordinator": null,
+                  "currentlyInteractive": null,
+                  "afterNavigationEndMs": 91.2719999999972
+                }
+              ]
+            },
+            "visualOverlap": false,
+            "navigationCancelled": false,
+            "interactionEndedBeforeRequest": false,
+            "result": "rotation-deferred"
+          }
+        ],
+        "programmaticOverlaps": 0,
+        "strictOverlapAudit": {
+          "exitCode": 1,
+          "meaning": "Raw native receipt proofs valid; stronger actual-overlap claim rejected for deferred/missing cases."
+        },
+        "archive": {
+          "file": "hosted-26-2-gesture-rotation.zip",
+          "sha256": "37e757d8aa55a24db1754f9566fcc5643f989debb28517ba6b83f13c0c696bca"
+        },
+        "artifact": {
+          "id": 14228095866,
+          "name": "programmatic-overlap-ipad-26-2",
+          "digest": "sha256:8a642476c9e23b67d45fea8a986d830a52e70e4e06ccf8deb423e1ed408d0bd2"
+        },
+        "jobUrl": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43867651535/job/133300256455"
+      },
+      {
+        "run": "hosted-26-2-programmatic-overlap",
+        "mode": "overlap",
+        "source": "f43d27eca18d222404a7c45eceeda09b933d1a65",
+        "sourceHashesVerified": true,
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "2558BAC6-439E-486C-A406-38AC22ED7C40",
+          "deviceName": "RotationOverlap167",
+          "modelName": "iPad Pro 11-inch (M4)",
+          "osBuildNumber": "23C54",
+          "osVersion": "26.2",
+          "platform": "iOS Simulator"
+        },
+        "xcode": "Xcode 26.6\nBuild version 17F113",
+        "node": "v22.23.4",
+        "packages": {
+          "@nativescript/core": "9.1.4",
+          "nativescript-vue": "3.1.3",
+          "@nativescript/ios": "9.1.0",
+          "@nativescript/webpack": "5.0.41",
+          "webpack": "5.112.2"
+        },
+        "nativeApp": {
+          "infoPlistSha256": "cf4aef8dc885f283f53604172da0c3a723123cde22cffbbd855fb6cc957df59e",
+          "sdk": "iphonesimulator26.5",
+          "requiresFullScreen": true,
+          "sceneManifest": {
+            "UIApplicationSupportsMultipleScenes": false,
+            "UIApplicationPreferredDefaultSceneSessionRole": "UIWindowSceneSessionRoleApplication"
+          },
+          "ipadOrientations": [
+            "UIInterfaceOrientationPortrait",
+            "UIInterfaceOrientationPortraitUpsideDown",
+            "UIInterfaceOrientationLandscapeLeft",
+            "UIInterfaceOrientationLandscapeRight"
+          ]
+        },
+        "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+        "routerDistSha256": "82ea80d4c73714c904b61d3cea7759c170ac2b6aaee7829c29156be6749a6b36",
+        "passedMethods": 2,
+        "cases": 6,
+        "exercised": 6,
+        "missingGestures": 0,
+        "gestureEvidence": [],
+        "programmaticOverlaps": 4,
+        "strictOverlapAudit": null,
+        "archive": {
+          "file": "hosted-26-2-programmatic-overlap.zip",
+          "sha256": "03e3fb9a8da1704b1388dcc88516fe8007ec7320b12cff18ebcb4ed6a0b40407"
+        },
+        "artifact": {
+          "id": 14228095866,
+          "name": "programmatic-overlap-ipad-26-2",
+          "digest": "sha256:8a642476c9e23b67d45fea8a986d830a52e70e4e06ccf8deb423e1ed408d0bd2"
+        },
+        "jobUrl": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43867651535/job/133300256455"
+      },
+      {
+        "run": "hosted-26-2-default-rotation",
+        "mode": "device",
+        "source": "f43d27eca18d222404a7c45eceeda09b933d1a65",
+        "sourceHashesVerified": true,
+        "device": {
+          "architecture": "arm64",
+          "deviceId": "2558BAC6-439E-486C-A406-38AC22ED7C40",
+          "deviceName": "RotationOverlap167",
+          "modelName": "iPad Pro 11-inch (M4)",
+          "osBuildNumber": "23C54",
+          "osVersion": "26.2",
+          "platform": "iOS Simulator"
+        },
+        "xcode": "Xcode 26.6\nBuild version 17F113",
+        "node": "v22.23.4",
+        "packages": {
+          "@nativescript/core": "9.1.4",
+          "nativescript-vue": "3.1.3",
+          "@nativescript/ios": "9.1.0",
+          "@nativescript/webpack": "5.0.41",
+          "webpack": "5.112.2"
+        },
+        "nativeApp": {
+          "infoPlistSha256": "cf4aef8dc885f283f53604172da0c3a723123cde22cffbbd855fb6cc957df59e",
+          "sdk": "iphonesimulator26.5",
+          "requiresFullScreen": true,
+          "sceneManifest": {
+            "UIApplicationSupportsMultipleScenes": false,
+            "UIApplicationPreferredDefaultSceneSessionRole": "UIWindowSceneSessionRoleApplication"
+          },
+          "ipadOrientations": [
+            "UIInterfaceOrientationPortrait",
+            "UIInterfaceOrientationPortraitUpsideDown",
+            "UIInterfaceOrientationLandscapeLeft",
+            "UIInterfaceOrientationLandscapeRight"
+          ]
+        },
+        "coreSha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134",
+        "routerDistSha256": "82ea80d4c73714c904b61d3cea7759c170ac2b6aaee7829c29156be6749a6b36",
+        "passedMethods": 4,
+        "cases": 10,
+        "exercised": 10,
+        "missingGestures": 0,
+        "gestureEvidence": [],
+        "programmaticOverlaps": 0,
+        "strictOverlapAudit": null,
+        "archive": {
+          "file": "hosted-26-2-default-rotation.zip",
+          "sha256": "405b7fb0a8d2bedfa8c244d067d8cce9528556ee43f96c96a480fe2541ac19fa"
+        },
+        "artifact": {
+          "id": 14228095866,
+          "name": "programmatic-overlap-ipad-26-2",
+          "digest": "sha256:8a642476c9e23b67d45fea8a986d830a52e70e4e06ccf8deb423e1ed408d0bd2"
+        },
+        "jobUrl": "https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43867651535/job/133300256455"
+      }
+    ]
   },
   "diagnosticSources": {
     "file": "diagnostic-sources.zip",

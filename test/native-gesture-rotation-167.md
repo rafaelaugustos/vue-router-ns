@@ -89,8 +89,23 @@ native harness passes all 51 checks. Unit tests pass 995 cases (10 skipped), and
 typechecking passes.
 
 The [hosted matrix](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43867651535)
-is running the gesture phase, programmatic overlap and default regression profiles
-on both OS versions. Hosted acceptance is pending.
+passed all three profiles on both OS versions with native source `f43d27e`.
+Downloaded artifacts match the committed fixture/driver/validator hashes and the
+published Core digest. Raw gesture proofs were recomputed after download; the
+strict actual-overlap audit correctly rejects both hosted runs as well.
+
+| Hosted iPadOS | Xcode                             | Node     | Gesture result                               |
+| ------------- | --------------------------------- | -------- | -------------------------------------------- |
+| 18.6          | Xcode 16.4 / Build version 16F6   | v22.23.5 | 2 delivered during interaction; all deferred |
+| 26.2          | Xcode 26.6 / Build version 17F113 | v22.23.4 | 4 delivered during interaction; all deferred |
+
+Each hosted row passes 3 gesture methods, 2 programmatic methods and 4 default
+methods. The programmatic profile retains four actual overlaps per OS. The 18.6
+gesture/default profiles retain their two known missing inset cases; 26.2 exercises
+all selected cases. Exact package versions, artifact IDs/digests and native
+outcomes are retained in `validation.json`. Subsequent commits add only docs,
+evidence and video; executable sources remain identical to the native-tested
+commit. This focused result does not certify the full native matrix.
 
 [Validation, provenance and archive hashes](./evidence/gesture-rotation-167/validation.json)
 retain final acceptance separately from diagnostics. The background-thread
