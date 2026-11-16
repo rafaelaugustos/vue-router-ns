@@ -18,6 +18,18 @@ Five more process restarts cover a previous state schema, expired data, a remove
 
 Logs, screenshots, hierarchies, PID transitions and the JSON report are written under `scripts/native/out/state`. Native CI runs the suite on Android 14. Independent native windows remain part of #46's acceptance; this single-window fixture does not claim to validate them. See [page state evidence](../../test/native-page-state.md).
 
+The state runner also records the build fingerprint, package versions and source
+identity in `environment.json`, alongside a complete timestamped `system.log`.
+`STATE_BOOT` markers distinguish fixture entry, waiting for the router and router
+readiness. On failure, `failure-phase.txt`, Activity/window dumps and process exit
+information accompany the screenshot and hierarchy, including startup failures
+that produce no JavaScript result. These observations do not restart the app or
+extend the existing waits.
+
+To revalidate this suite in its full Android integration sequence, select
+`lane: android` in the manual **Native** workflow. The default `all` selection
+and reusable workflow still run Android, foldable and iOS Vite lanes.
+
 ## Convention setup and live watch
 
 Prepare [the separate example](../../examples/file-routing/README.md), then run `ANDROID_SERIAL=<serial> node scripts/native/conventions-watch.mjs android` or `IOS_SIMULATOR=<uuid> node scripts/native/conventions-watch.mjs ios`. The runner starts the actual NativeScript CLI with native HMR and uses the public webpack plugin by default. Set `ROUTER_BUNDLER=vite` for the Vite plugin and adjacent JSON metadata. Both check live middleware and route changes; Vite also checks template preservation. See [Vite acceptance](../../test/native-vite.md) for evidence and compiler limitations. It tests the generated list/detail flow, layout, middleware, native modal result, Page identity/drafts, two stacks and accessibility visibility/focus targets. It then adds/edits/renames/removes source pages and introduces/corrects a compilation error while the app stays open.

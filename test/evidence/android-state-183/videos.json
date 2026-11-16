@@ -1,0 +1,50 @@
+[
+  {
+    "kind": "normal",
+    "path": "docs/public/media/android-state-acceptance.mp4",
+    "sourceCommit": "3d26a43c99c090bfec1f9a6427b754a82d508154",
+    "sha256": "4d9669c0d23199de8f2f736f2145ebd8b7dc892ee58862c5c6150c9f61f1fd9e",
+    "sourceSha256": "1321b72d827ddbd66eaf479e5e87b7cd3c45bdf03d54bc6b283b2f2e8d33c6c9",
+    "processing": "Full recorded video stream recoded H264 CRF25, original timestamps, no cuts/overlays/generated frames",
+    "media": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1080,
+          "height": 2400,
+          "nb_frames": "1869"
+        }
+      ],
+      "format": {
+        "duration": "96.566667",
+        "size": "2824668"
+      }
+    }
+  },
+  {
+    "kind": "blocked-start-control",
+    "path": "docs/public/media/android-state-startup-control.mp4",
+    "sourceCommit": "3d26a43c99c090bfec1f9a6427b754a82d508154",
+    "sha256": "e0593686a754122db4f6bc2aa21a98f0d5ab444874f23c7fcac4332046b524dd",
+    "sourceSha256": "a584a844f3565d81425cee3c9aac6bec05004750237401d8e3f4b12fd1476e67",
+    "processing": "Full recorded video stream recoded H264 CRF25, original timestamps, no cuts/overlays/generated frames",
+    "media": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1080,
+          "height": 2400,
+          "nb_frames": "229"
+        }
+      ],
+      "format": {
+        "duration": "70.283333",
+        "size": "256013"
+      }
+    }
+  }
+]

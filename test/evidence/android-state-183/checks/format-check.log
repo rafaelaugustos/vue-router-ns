@@ -1,0 +1,6 @@
+
+> vue-router-ns@0.1.0-rc.4 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
