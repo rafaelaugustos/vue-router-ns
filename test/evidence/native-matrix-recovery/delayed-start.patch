@@ -1,0 +1,11 @@
+--- a/demo/src/testing/predictive-app.ts
++++ b/demo/src/testing/predictive-app.ts
+@@ -167,6 +167,8 @@
+           at: performance.now(),
+         })
+         if (gesture.length === 1) {
++          // Diagnostic control only: delay native Back startup.
++          java.lang.Thread.sleep(650)
+           const token = gestureProbe
+           // Use the contract driver's existing handshake: continue outward
+           // movement only after native onBackStarted returns to the app loop.

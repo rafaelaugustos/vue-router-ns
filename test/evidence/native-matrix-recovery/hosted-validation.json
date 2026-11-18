@@ -1,0 +1,643 @@
+{
+  "run": 43890886508,
+  "revision": "fee900e23e33343b1fbe684310ae1d036dbf166e",
+  "android": [
+    {
+      "api": 34,
+      "core": {
+        "reportsPassed": 17,
+        "cancelEvents": 24,
+        "cancelPeak": 0.2797688841819763,
+        "inputReceipt": "INSTRUMENTATION_RESULT: deliveryLagMs=23\nINSTRUMENTATION_RESULT: gestureReadyMs=90\nINSTRUMENTATION_RESULT: result=CONTRACT_TOUCH_OK\nINSTRUMENTATION_CODE: -1\n",
+        "environment": {
+          "commit": "fee900e23e33343b1fbe684310ae1d036dbf166e",
+          "dirty": false,
+          "host": {
+            "platform": "linux",
+            "release": "7.0.0-1019-azure",
+            "arch": "x64",
+            "cpus": 4,
+            "cpu": "AMD EPYC 7763 64-Core Processor"
+          },
+          "node": "v22.23.4",
+          "runner": "Linux",
+          "runnerImage": "20261111.196.1",
+          "run": "43890886508",
+          "attempt": "1",
+          "packages": {
+            "@nativescript/core": "9.1.3",
+            "nativescript-vue": "3.1.3",
+            "@nativescript/android": "9.1.1",
+            "@nativescript/ios": "9.1.0"
+          },
+          "device": {
+            "serial": "emulator-5554",
+            "mode": "core",
+            "coreRevision": "fadb58f034e403933028f86746280375ea9811ff",
+            "fingerprint": "google/sdk_gphone64_x86_64/emu64xa:14/UE1A.230829.050/12077443:userdebug/dev-keys"
+          }
+        }
+      },
+      "legacy": {
+        "reportsPassed": 15,
+        "cancelEvents": 28,
+        "cancelPeak": 0.3293059170246124,
+        "inputReceipt": "INSTRUMENTATION_RESULT: deliveryLagMs=3\nINSTRUMENTATION_RESULT: gestureReadyMs=96\nINSTRUMENTATION_RESULT: result=CONTRACT_TOUCH_OK\nINSTRUMENTATION_CODE: -1\n",
+        "environment": {
+          "commit": "fee900e23e33343b1fbe684310ae1d036dbf166e",
+          "dirty": false,
+          "host": {
+            "platform": "linux",
+            "release": "7.0.0-1019-azure",
+            "arch": "x64",
+            "cpus": 4,
+            "cpu": "AMD EPYC 7763 64-Core Processor"
+          },
+          "node": "v22.23.4",
+          "runner": "Linux",
+          "runnerImage": "20261111.196.1",
+          "run": "43890886508",
+          "attempt": "1",
+          "packages": {
+            "@nativescript/core": "9.1.3",
+            "nativescript-vue": "3.1.3",
+            "@nativescript/android": "9.1.1",
+            "@nativescript/ios": "9.1.0"
+          },
+          "device": {
+            "serial": "emulator-5554",
+            "mode": "legacy",
+            "coreRevision": "fadb58f034e403933028f86746280375ea9811ff",
+            "fingerprint": "google/sdk_gphone64_x86_64/emu64xa:14/UE1A.230829.050/12077443:userdebug/dev-keys"
+          }
+        }
+      },
+      "readRecovery": [
+        {
+          "at": 1794841511982,
+          "stage": "failed-read",
+          "code": 255,
+          "signal": null,
+          "killed": false
+        },
+        {
+          "at": 1794841512443,
+          "stage": "identity-confirmed",
+          "phase": "before-retry",
+          "bootId": "387480fe-7062-46bc-80db-aa5dfbe3de9e",
+          "systemPid": "839",
+          "appPid": "6920"
+        },
+        {
+          "at": 1794841512646,
+          "stage": "identity-confirmed",
+          "phase": "after-retry",
+          "bootId": "387480fe-7062-46bc-80db-aa5dfbe3de9e",
+          "systemPid": "839",
+          "appPid": "6920"
+        },
+        {
+          "at": 1794841512647,
+          "stage": "read-recovered"
+        }
+      ],
+      "recreation": {
+        "core": {
+          "command": "recreated",
+          "stage": "back-after-recreate",
+          "frameLoaded": true,
+          "pageLoaded": true,
+          "queueEmpty": true,
+          "executing": false,
+          "attached": true,
+          "ownerActivity": 92423868,
+          "managerDestroyed": false,
+          "ok": true,
+          "mode": "core",
+          "sdk": "34",
+          "pid": 7975,
+          "activity": 92423868,
+          "oldActivity": 63593286,
+          "sessionActive": false,
+          "stack": 0,
+          "currentId": 8,
+          "previousId": 8
+        },
+        "legacy": {
+          "command": "recreated",
+          "stage": "back-after-recreate",
+          "frameLoaded": true,
+          "pageLoaded": true,
+          "queueEmpty": true,
+          "executing": false,
+          "attached": true,
+          "ownerActivity": 193012542,
+          "managerDestroyed": false,
+          "ok": true,
+          "mode": "legacy",
+          "sdk": "34",
+          "pid": 7859,
+          "activity": 193012542,
+          "oldActivity": 21764189,
+          "sessionActive": false,
+          "stack": 0,
+          "currentId": 8,
+          "previousId": 8
+        }
+      },
+      "archiveSha256": "14c498e33a9f3f6b49784bcd831b2321d24cc2d8ea249910fd557d6ef92d12e0"
+    },
+    {
+      "api": 35,
+      "core": {
+        "reportsPassed": 17,
+        "cancelEvents": 21,
+        "cancelPeak": 0.24250036478042603,
+        "inputReceipt": "INSTRUMENTATION_RESULT: deliveryLagMs=64\nINSTRUMENTATION_RESULT: gestureReadyMs=323\nINSTRUMENTATION_RESULT: result=CONTRACT_TOUCH_OK\nINSTRUMENTATION_CODE: -1\n",
+        "environment": {
+          "commit": "fee900e23e33343b1fbe684310ae1d036dbf166e",
+          "dirty": false,
+          "host": {
+            "platform": "linux",
+            "release": "7.0.0-1019-azure",
+            "arch": "x64",
+            "cpus": 4,
+            "cpu": "AMD EPYC 7763 64-Core Processor"
+          },
+          "node": "v22.23.4",
+          "runner": "Linux",
+          "runnerImage": "20261111.196.1",
+          "run": "43890886508",
+          "attempt": "1",
+          "packages": {
+            "@nativescript/core": "9.1.3",
+            "nativescript-vue": "3.1.3",
+            "@nativescript/android": "9.1.1",
+            "@nativescript/ios": "9.1.0"
+          },
+          "device": {
+            "serial": "emulator-5554",
+            "mode": "core",
+            "coreRevision": "fadb58f034e403933028f86746280375ea9811ff",
+            "fingerprint": "google/sdk_gphone64_x86_64/emu64xa:15/AE3A.240806.043/12960925:userdebug/dev-keys"
+          }
+        }
+      },
+      "legacy": {
+        "reportsPassed": 15,
+        "cancelEvents": 25,
+        "cancelPeak": 0.26986128091812134,
+        "inputReceipt": "INSTRUMENTATION_RESULT: deliveryLagMs=33\nINSTRUMENTATION_RESULT: gestureReadyMs=47\nINSTRUMENTATION_RESULT: result=CONTRACT_TOUCH_OK\nINSTRUMENTATION_CODE: -1\n",
+        "environment": {
+          "commit": "fee900e23e33343b1fbe684310ae1d036dbf166e",
+          "dirty": false,
+          "host": {
+            "platform": "linux",
+            "release": "7.0.0-1019-azure",
+            "arch": "x64",
+            "cpus": 4,
+            "cpu": "AMD EPYC 7763 64-Core Processor"
+          },
+          "node": "v22.23.4",
+          "runner": "Linux",
+          "runnerImage": "20261111.196.1",
+          "run": "43890886508",
+          "attempt": "1",
+          "packages": {
+            "@nativescript/core": "9.1.3",
+            "nativescript-vue": "3.1.3",
+            "@nativescript/android": "9.1.1",
+            "@nativescript/ios": "9.1.0"
+          },
+          "device": {
+            "serial": "emulator-5554",
+            "mode": "legacy",
+            "coreRevision": "fadb58f034e403933028f86746280375ea9811ff",
+            "fingerprint": "google/sdk_gphone64_x86_64/emu64xa:15/AE3A.240806.043/12960925:userdebug/dev-keys"
+          }
+        }
+      },
+      "readRecovery": [
+        {
+          "at": 1794841528356,
+          "stage": "failed-read",
+          "code": 255,
+          "signal": null,
+          "killed": false
+        },
+        {
+          "at": 1794841528509,
+          "stage": "identity-confirmed",
+          "phase": "before-retry",
+          "bootId": "8ba88d36-8cce-4fe8-a562-f7b7868013c6",
+          "systemPid": "922",
+          "appPid": "5136"
+        },
+        {
+          "at": 1794841528608,
+          "stage": "identity-confirmed",
+          "phase": "after-retry",
+          "bootId": "8ba88d36-8cce-4fe8-a562-f7b7868013c6",
+          "systemPid": "922",
+          "appPid": "5136"
+        },
+        {
+          "at": 1794841528609,
+          "stage": "read-recovered"
+        }
+      ],
+      "recreation": {
+        "core": {
+          "command": "recreated",
+          "stage": "back-after-recreate",
+          "frameLoaded": true,
+          "pageLoaded": true,
+          "queueEmpty": true,
+          "executing": false,
+          "attached": true,
+          "ownerActivity": 8064590,
+          "managerDestroyed": false,
+          "ok": true,
+          "mode": "core",
+          "sdk": "35",
+          "pid": 5989,
+          "activity": 8064590,
+          "oldActivity": 162524184,
+          "sessionActive": false,
+          "stack": 0,
+          "currentId": 8,
+          "previousId": 8
+        },
+        "legacy": {
+          "command": "recreated",
+          "stage": "back-after-recreate",
+          "frameLoaded": true,
+          "pageLoaded": true,
+          "queueEmpty": true,
+          "executing": false,
+          "attached": true,
+          "ownerActivity": 75350804,
+          "managerDestroyed": false,
+          "ok": true,
+          "mode": "legacy",
+          "sdk": "35",
+          "pid": 5910,
+          "activity": 75350804,
+          "oldActivity": 159364311,
+          "sessionActive": false,
+          "stack": 0,
+          "currentId": 8,
+          "previousId": 8
+        }
+      },
+      "releasedCoreNegative": {
+        "legacy": {
+          "command": "recreated",
+          "stage": "back-after-recreate",
+          "frameLoaded": true,
+          "pageLoaded": true,
+          "queueEmpty": false,
+          "executing": false,
+          "attached": false,
+          "ownerActivity": 225649074,
+          "managerDestroyed": false,
+          "ok": false,
+          "error": "Error: Native Frame not ready",
+          "mode": "legacy",
+          "sdk": "35",
+          "pid": 6125,
+          "activity": 225649074,
+          "oldActivity": 138042454,
+          "sessionActive": false,
+          "stack": 1,
+          "currentId": 14,
+          "previousId": 8
+        }
+      },
+      "archiveSha256": "274695012c4d9ce6c6cb2b33a97653f8ef6db5758849cbde230fd5861a0516d6"
+    },
+    {
+      "api": 36,
+      "core": {
+        "reportsPassed": 17,
+        "cancelEvents": 26,
+        "cancelPeak": 0.24250036478042603,
+        "inputReceipt": "INSTRUMENTATION_RESULT: deliveryLagMs=40\nINSTRUMENTATION_RESULT: gestureReadyMs=169\nINSTRUMENTATION_RESULT: result=CONTRACT_TOUCH_OK\nINSTRUMENTATION_CODE: -1\n",
+        "environment": {
+          "commit": "fee900e23e33343b1fbe684310ae1d036dbf166e",
+          "dirty": false,
+          "host": {
+            "platform": "linux",
+            "release": "7.0.0-1019-azure",
+            "arch": "x64",
+            "cpus": 4,
+            "cpu": "AMD EPYC 9V45 96-Core Processor"
+          },
+          "node": "v22.23.4",
+          "runner": "Linux",
+          "runnerImage": "20261111.196.1",
+          "run": "43890886508",
+          "attempt": "1",
+          "packages": {
+            "@nativescript/core": "9.1.3",
+            "nativescript-vue": "3.1.3",
+            "@nativescript/android": "9.1.1",
+            "@nativescript/ios": "9.1.0"
+          },
+          "device": {
+            "serial": "emulator-5554",
+            "mode": "core",
+            "coreRevision": "fadb58f034e403933028f86746280375ea9811ff",
+            "fingerprint": "google/sdk_gphone64_x86_64/emu64xa:16/BE2A.250530.026.F3/13894323:userdebug/dev-keys"
+          }
+        }
+      },
+      "legacy": {
+        "reportsPassed": 15,
+        "cancelEvents": 28,
+        "cancelPeak": 0.3004937171936035,
+        "inputReceipt": "INSTRUMENTATION_RESULT: deliveryLagMs=70\nINSTRUMENTATION_RESULT: gestureReadyMs=62\nINSTRUMENTATION_RESULT: result=CONTRACT_TOUCH_OK\nINSTRUMENTATION_CODE: -1\n",
+        "environment": {
+          "commit": "fee900e23e33343b1fbe684310ae1d036dbf166e",
+          "dirty": false,
+          "host": {
+            "platform": "linux",
+            "release": "7.0.0-1019-azure",
+            "arch": "x64",
+            "cpus": 4,
+            "cpu": "AMD EPYC 9V45 96-Core Processor"
+          },
+          "node": "v22.23.4",
+          "runner": "Linux",
+          "runnerImage": "20261111.196.1",
+          "run": "43890886508",
+          "attempt": "1",
+          "packages": {
+            "@nativescript/core": "9.1.3",
+            "nativescript-vue": "3.1.3",
+            "@nativescript/android": "9.1.1",
+            "@nativescript/ios": "9.1.0"
+          },
+          "device": {
+            "serial": "emulator-5554",
+            "mode": "legacy",
+            "coreRevision": "fadb58f034e403933028f86746280375ea9811ff",
+            "fingerprint": "google/sdk_gphone64_x86_64/emu64xa:16/BE2A.250530.026.F3/13894323:userdebug/dev-keys"
+          }
+        }
+      },
+      "readRecovery": [
+        {
+          "at": 1794841453327,
+          "stage": "failed-read",
+          "code": 255,
+          "signal": null,
+          "killed": false
+        },
+        {
+          "at": 1794841453573,
+          "stage": "identity-confirmed",
+          "phase": "before-retry",
+          "bootId": "2545b0ab-860b-483a-b5a4-cdd5ae86c089",
+          "systemPid": "1038",
+          "appPid": "5720"
+        },
+        {
+          "at": 1794841453646,
+          "stage": "identity-confirmed",
+          "phase": "after-retry",
+          "bootId": "2545b0ab-860b-483a-b5a4-cdd5ae86c089",
+          "systemPid": "1038",
+          "appPid": "5720"
+        },
+        {
+          "at": 1794841453651,
+          "stage": "read-recovered"
+        }
+      ],
+      "recreation": {
+        "core": {
+          "command": "recreated",
+          "stage": "back-after-recreate",
+          "frameLoaded": true,
+          "pageLoaded": true,
+          "queueEmpty": true,
+          "executing": false,
+          "attached": true,
+          "ownerActivity": 194394221,
+          "managerDestroyed": false,
+          "ok": true,
+          "mode": "core",
+          "sdk": "36",
+          "pid": 6969,
+          "activity": 194394221,
+          "oldActivity": 195716615,
+          "sessionActive": false,
+          "stack": 0,
+          "currentId": 8,
+          "previousId": 8
+        },
+        "legacy": {
+          "command": "recreated",
+          "stage": "back-after-recreate",
+          "frameLoaded": true,
+          "pageLoaded": true,
+          "queueEmpty": true,
+          "executing": false,
+          "attached": true,
+          "ownerActivity": 54728413,
+          "managerDestroyed": false,
+          "ok": true,
+          "mode": "legacy",
+          "sdk": "36",
+          "pid": 6828,
+          "activity": 54728413,
+          "oldActivity": 157146784,
+          "sessionActive": false,
+          "stack": 0,
+          "currentId": 8,
+          "previousId": 8
+        }
+      },
+      "archiveSha256": "e3fbb5a0cdedb6bf18815f6df4f2aee9d0dcdbe9aac406f8c4853ad305a0d838"
+    }
+  ],
+  "uikitIpad": {
+    "run": 43886738405,
+    "attempt": 2,
+    "job": 133382302302,
+    "result": "success",
+    "elapsedSeconds": 997,
+    "entrypointReportsPassed": 34,
+    "systemSearch": "skipped",
+    "archiveSha256": "b870d7958c4d6143ee832b23baafb1d449efaa049a880a59b0bd7f0bb46ef091"
+  },
+  "ios26": {
+    "run": 43893873442,
+    "job": 133392034843,
+    "revision": "c6d681863308bf05b0f1e100efd0d5cf13342805",
+    "status": "success",
+    "passedTests": 4,
+    "cases": [
+      {
+        "case": "cancel-portrait",
+        "cancelled": true,
+        "requestBeforeDecisionMs": 434.378173828125,
+        "driver": {
+          "interactionEndedBeforeRequest": false,
+          "requestPhase": "observed",
+          "requestedAt": 1794843046118.6218,
+          "rotationSignal": "navigation-observed",
+          "navigationObservedBeforeRequest": true,
+          "dragVelocity": -20,
+          "start": {
+            "x": 282,
+            "y": 471
+          },
+          "holdDuration": 0.3,
+          "end": {
+            "y": 471,
+            "x": 356.4
+          },
+          "windowFrame": {
+            "y": 0,
+            "x": 0,
+            "height": 834,
+            "width": 1210
+          },
+          "recognizer": {
+            "height": 726,
+            "x": 280,
+            "enabled": true,
+            "y": 108,
+            "width": 930,
+            "wallTime": 1794843045580,
+            "at": 119886.45299999996,
+            "kind": "gesture-recognizer",
+            "state": 0
+          }
+        }
+      },
+      {
+        "case": "commit-portrait",
+        "cancelled": false,
+        "requestBeforeDecisionMs": -11.156982421875,
+        "driver": {
+          "holdDuration": 0.3,
+          "rotationSignal": "interaction-ended",
+          "start": {
+            "x": 282,
+            "y": 471
+          },
+          "requestPhase": "observed",
+          "end": {
+            "y": 471,
+            "x": 1026
+          },
+          "navigationObservedBeforeRequest": true,
+          "requestedAt": 1794843033710.157,
+          "dragVelocity": -20,
+          "interactionEndedBeforeRequest": true,
+          "windowFrame": {
+            "y": 0,
+            "width": 1210,
+            "height": 834,
+            "x": 0
+          },
+          "recognizer": {
+            "x": 280,
+            "height": 726,
+            "enabled": true,
+            "y": 108,
+            "width": 930,
+            "wallTime": 1794843029883,
+            "at": 104190.31699999994,
+            "kind": "gesture-recognizer",
+            "state": 0
+          }
+        }
+      },
+      {
+        "case": "cancel-landscape",
+        "cancelled": false,
+        "requestBeforeDecisionMs": 609.906005859375,
+        "driver": {
+          "holdDuration": 0.3,
+          "rotationSignal": "navigation-observed",
+          "requestedAt": 1794843039744.094,
+          "windowFrame": {
+            "y": 0,
+            "x": 0,
+            "width": 834,
+            "height": 1210
+          },
+          "recognizer": {
+            "x": 0,
+            "height": 1102,
+            "enabled": true,
+            "y": 108,
+            "width": 834,
+            "wallTime": 1794843039081,
+            "at": 113388.21999999993,
+            "kind": "gesture-recognizer",
+            "state": 0
+          },
+          "navigationObservedBeforeRequest": true,
+          "interactionEndedBeforeRequest": false,
+          "end": {
+            "y": 659,
+            "x": 102.08
+          },
+          "dragVelocity": -20,
+          "start": {
+            "x": 2,
+            "y": 659
+          },
+          "requestPhase": "observed"
+        }
+      },
+      {
+        "case": "commit-landscape",
+        "cancelled": false,
+        "requestBeforeDecisionMs": -4.927001953125,
+        "driver": {
+          "windowFrame": {
+            "y": 0,
+            "height": 1210,
+            "x": 0,
+            "width": 834
+          },
+          "interactionEndedBeforeRequest": true,
+          "navigationObservedBeforeRequest": true,
+          "holdDuration": 0.3,
+          "dragVelocity": -20,
+          "rotationSignal": "interaction-ended",
+          "start": {
+            "y": 659,
+            "x": 2
+          },
+          "end": {
+            "y": 659,
+            "x": 669.2
+          },
+          "requestedAt": 1794843024703.927,
+          "requestPhase": "observed",
+          "recognizer": {
+            "x": 0,
+            "height": 1102,
+            "enabled": true,
+            "y": 108,
+            "width": 834,
+            "wallTime": 1794843021381,
+            "at": 95688.00999999997,
+            "kind": "gesture-recognizer",
+            "state": 0
+          }
+        }
+      }
+    ],
+    "sourcesVerified": true,
+    "xcode": "Xcode 26.6\nBuild version 17F113",
+    "archiveSha256": "b585f8aaa51fea9fa72edbb0662bbfa152b15313b237db5781ac0f6c08246d64"
+  }
+}

@@ -192,13 +192,19 @@ final class RotationUITests: XCTestCase {
             let point = CGPoint(x: bounds.minX + 2, y: bounds.midY)
             XCTAssertTrue(applicationFrame.contains(point), "Native gesture edge must be inside the application")
             let offset = CGVector(dx: point.x - applicationFrame.minX, dy: point.y - applicationFrame.minY)
-            let distance = bounds.width * fraction
+            let insetCancellation = name == "cancel" && !landscape && ProcessInfo.processInfo.operatingSystemVersion.majorVersion >= 26
+            let distance = bounds.width * (insetCancellation ? 0.08 : fraction)
             let start = app.coordinate(withNormalizedOffset: .zero).withOffset(offset)
             let end = start.withOffset(CGVector(dx: distance, dy: 0))
             // The gesture-phase profile requests orientation during pointer input
             // for both intentions. Keep the original committed control's request
             // after UIKit's interaction decision in device mode.
             let signal = name == "commit" && !gesturePhase ? "interaction-ended" : "navigation-observed"
+            // On iOS 26 a 12% inset drag can commit, while a 4% drag with a
+            // shorter hold was not observed on CI. Keep the original hold and
+            // use an intermediate distance; native cancellation is mandatory.
+            let velocity: XCUIGestureVelocity = .slow
+            let hold: TimeInterval = 0.3
             try write("\(label)-driver.json", [
                 "rotationSignal": signal,
                 "gestureIntent": name,
@@ -207,6 +213,8 @@ final class RotationUITests: XCTestCase {
                 "recognizer": recognizer,
                 "start": ["x": point.x, "y": point.y],
                 "end": ["x": point.x + distance, "y": point.y],
+                "dragVelocity": velocity.rawValue,
+                "holdDuration": hold,
             ])
             // Read native lifecycle signals without an app-idle query. finish()
             // still rejects requests made after the navigation animation ends.
@@ -229,7 +237,7 @@ final class RotationUITests: XCTestCase {
                     }
                 }
             }
-            start.press(forDuration: 0.05, thenDragTo: end, withVelocity: .slow, thenHoldForDuration: 0.3)
+            start.press(forDuration: 0.05, thenDragTo: end, withVelocity: velocity, thenHoldForDuration: hold)
             wait(for: [rotated], timeout: 15)
             if let missing = try? read("rotation.json"), missing["notReproduced"] != nil {
                 try write("\(label).json", missing)

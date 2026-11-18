@@ -1,0 +1,11 @@
+--- a/scripts/native/predictive/android.mjs
++++ b/scripts/native/predictive/android.mjs
+@@ -242,7 +242,7 @@
+     await swipe(
+       setup + '-' + gesture,
+       gesture === 'commit',
+-      gesture === 'cancel' ? prepared.gestureProbe : undefined,
++      gesture === 'cancel' ? `${prepared.gestureProbe}:stale` : undefined,
+     )
+     await command(check)
+   }
