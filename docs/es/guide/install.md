@@ -1,6 +1,6 @@
 # Instalar y abrir una página {#install-and-open-a-page}
 
-Necesita el Nodo 20.19.4+, NativeScript-Vue 3.1.2+ (3.x) y NativeScript Core 9.1.3+ (9.x). Prepare los SDK nativos con la configuración del entorno [NativeScript](https://docs.nativescript.org/setup/); La construcción de iOS localmente requiere macOS y Xcode. La línea de base completamente probada se encuentra en [compatibilidad](./compatibility).
+Necesita el Nodo 20.19.4+, NativeScript-Vue 3.1.2+ (3.x) y NativeScript Core 9.1.4+ (9.x). Prepare los SDK nativos con la configuración del entorno [NativeScript](https://docs.nativescript.org/setup/); La construcción de iOS localmente requiere macOS y Xcode. La línea de base completamente probada se encuentra en [compatibilidad](./compatibility).
 
 ## Crear o utilizar un proyecto NativeScript-Vue {#create-or-use-a-nativescript-vue-project}
 
@@ -14,10 +14,10 @@ cd pocket-notes
 Instale el enrutador en ese proyecto:
 
 ```sh
-npm install vue-router-ns@next
+npm install vue-router-ns
 ```
 
-La etiqueta `next` selecciona un candidato de lanzamiento. Confirme el archivo de bloqueo resultante para instalaciones reproducibles.
+La etiqueta `latest` selecciona la versión estable; `next` selecciona una versión preliminar. Conserva el lockfile para instalaciones reproducibles.
 
 ## Empezando {#getting-started}
 

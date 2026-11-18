@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+## 0.1.0 (2026-11-18)
+
+First stable release of the documented non-experimental native navigation API. Explicit routes, typed locations, push/replace/back, guards, results, retained stacks, tabs, drawer, Frame split navigation and page-state restoration retain their documented ownership and lifecycle contracts.
+
+- Require published NativeScript Core `^9.1.4`, including the inherited-direction startup, content Back and surviving-Activity window fixes. Applications pinned to Core 9.1.3 must update Core and their lockfile. NativeScript-Vue remains `^3.1.2`; native acceptance uses 3.1.3. No unpublished Core patch is required for supported navigation.
+- Add scoped retained-history inspection, exact-entry Back and page-owned Back history menus. Guard native history selections and preserve entry ownership. (#191–#193)
+- Add transport-neutral navigation intents, notification normalization and bounded authentication suspension/resumption. Application-owned recipes cover explicit window selection and native Android/iOS entrypoints. (#198–#203)
+- Add bounded diagnostic recording and offline replay of observed checkpoints, with explicit gaps and no live navigation control. (#196–#197)
+- Add opt-in code/data preparation and native drag/drop recipes. Code/data preparation, route data, Suspense, file routing, multi-window ownership and custom native hosts/destinations remain experimental; this version does not promote them to stable. (#194–#195, #204–#209)
+- Fix closed-window cleanup, validate external native-host lifecycle ownership and retain the published-dependency regression suite. (#184, #189–#190, #220–#226)
+- Update the four-language installation and compatibility guides for the stable npm `latest` channel. Prereleases remain on `next`.
+
+**Validation and limits:** publication requires complete CI/native acceptance on the release commit and fresh installation of the final npm tarball. The release workflow retains its package and logs. Historical physical VoiceOver and emulator TalkBack evidence is revision-specific, not a new hardware pass for every API; physical Android coverage remains unavailable. Interactive gesture tests distinguish orientation delivery from visual rotation: UIKit may defer visual rotation until navigation completes. Repeated iPad resource collection, Stage Manager/live resizing, dynamic RTL and arbitrary custom hosts are not certified by this release. The upstream predictive-preview prototype remains experimental; released Core uses the supported fallback.
+
+See [compatibility](https://vue-router-ns.rafaelaugusto.dev/guide/compatibility) for the complete scope and [release gates](https://vue-router-ns.rafaelaugusto.dev/guide/stable-readiness) for acceptance requirements. Version 0.1.0 does not make the separate 1.x compatibility commitment.
+
 ## 0.1.0-rc.4 (2026-10-25)
 
 Documentation and release-readiness candidate. The navigation runtime and public API are unchanged from rc.3; the supported dependency baseline remains NativeScript Core 9.1.3 / NativeScript-Vue 3.1.2.

@@ -1,0 +1,7 @@
+{
+  "package": "vue-router-ns@0.1.0",
+  "platform": "iOS",
+  "sdk": "18.6",
+  "reduceMotion": true,
+  "contentSize": "UICTContentSizeCategoryAccessibilityXXXL"
+}

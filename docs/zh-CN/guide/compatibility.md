@@ -1,6 +1,6 @@
-# RC 范围和兼容性 {#rc-scope-and-compatibility}
+# 稳定版范围和兼容性 {#rc-scope-and-compatibility}
 
-`0.1.0-rc.4` 候选版本冻结了已记录的非实验性 API，同时我们验证它的稳定版本。显式 JavaScript/TypeScript 路由表仍为默认值。文件约定是可选的；两者都使用原生导航，无需 Vue Router或 Nuxt 运行时。
+`0.1.0` 是已记录的非实验性 API 的稳定版本。显式 JavaScript/TypeScript 路由表仍是默认选择。文件约定为可选功能；两者都使用原生导航，无需 Vue Router 或 Nuxt 运行时。
 
 2026-11-13 的[窗口生命周期契约](./windows#lifecycle-support-decision-2026-11-13)选用已发布的 Core 9.1.4 / Vue 3.1.3，并保留实验性状态。Android 重复清理测量不代表 Android 真机、Stage Manager、实时调整大小或 iPad 重复循环资源保留已获认证。选择部署范围前，请参阅该指南链接的带版本报告。
 
@@ -8,10 +8,10 @@
 
 ## 支持的基线 {#supported-baseline}
 
-| 依赖性            | RC 要求                           | 验收基线                                        |
+| 依赖性            | 稳定版要求                        | 验收基线                                        |
 | ----------------- | --------------------------------- | ----------------------------------------------- |
-| NativeScript Core | `^9.1.3`                          | 9.1.3                                           |
-| NativeScript-Vue  | `^3.1.2`                          | 3.1.2                                           |
+| NativeScript Core | `^9.1.4`                          | 9.1.4                                           |
+| NativeScript-Vue  | `^3.1.2`                          | 3.1.3                                           |
 | Node.js           | `>=20.19.4`                       | Node 20.19.4 和 22.23.3 安装； Node 22 原生构建 |
 | npm               | 与所选 Node 版本兼容              | 10.8.2 和 11.21.1                               |
 | webpack（可选）   | webpack 5、NativeScript webpack 5 | webpack 5.112.0 / NativeScript webpack 5.0.38   |
@@ -21,13 +21,13 @@ RC 将 beta 的 Core `>=8.9.0` 和 NativeScript-Vue `^3.0.0` 声明缩小到经�
 
 原生 CI 涵盖 Android API 34/35/36 和 iOS/iPadOS 18.6 模拟器。其他 iOS 26 次运行和物理设备可访问性检查记录在存储库的 [验证报告](https://github.com/rafaelaugustos/vue-router-ns/tree/main/test) 中。这些报告确定了其经过测试的修订版本；它们并不意味着每个版本都有新的真机验证。
 
-开发环境和演示应用现已使用 [NativeScript-Vue 3.1.3](https://github.com/nativescript-vue/nativescript-vue/releases/tag/v3.1.3)；上表中的已发布 RC.4 验收基线仍为 3.1.2，peer 依赖要求仍为 `^3.1.2`。3.1.3 修复了 `$navigateTo` 在原生窗口重建时保留页面 Vue 应用、并在窗口永久关闭时卸载它们的行为。路由器的 Frame 页面已通过 `createNativeView()` 自行管理生命周期。[3.1.3 验证报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vue-3.1.3.md) 记录了本次窗口专项测试；本次更新不代表路由器的新版本，也不代表重新完成了整个发布测试矩阵。
+原生验收使用 [NativeScript-Vue 3.1.3](https://github.com/nativescript-vue/nativescript-vue/releases/tag/v3.1.3)；peer 依赖仍为 `^3.1.2`。3.1.3 修复了 `$navigateTo` 在原生窗口重建时保留页面应用、在窗口永久关闭时释放应用的行为。路由器的 Frame 页面已通过 `createNativeView()` 管理生命周期。参阅[专项验证报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vue-3.1.3.md)。
 
-上表记录已发布 RC.4 的验收基线。当前 checkout 要求 Core `^9.1.4`，演示应用固定使用 9.1.4 和 NativeScript-Vue 3.1.3。[Core 9.1.4](https://github.com/NativeScript/NativeScript/releases/tag/9.1.4-core) 包含控制器延迟加载、内容区域返回手势以及原始 Activity 关闭后创建窗口的修复。固定使用 9.1.3 的应用应先更新 Core 和 lockfile，再采用当前 checkout。[9.1.4 验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) 区分了本次专项测试与历史证据；本次变更不发布新的 router 版本，也不替代完整发布矩阵。
+此版本要求 Core `^9.1.4`。[Core 9.1.4](https://github.com/NativeScript/NativeScript/releases/tag/9.1.4-core) 包含控制器延迟加载、内容区域返回手势和原始 Activity 关闭后创建窗口的修复。固定使用 9.1.3 的应用应先更新 Core 和 lockfile，再升级路由器。[9.1.4 验收报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) 记录专项证据；完整发布验证仍在发布 commit 上运行。
 
 ## API 范围 {#api-scope}
 
-RC 冻结显式路由和带类型的导航位置；推/替换/返回和结果； 导航守卫和导航生命周期； RouterView、RouterLink、选项卡、抽屉导航 和 Frame 分割导航；模态路由；可选的页面状态恢复；以及下面实验列表之外记录的原生集成。缺陷修复仍然是可能的。在稳定之前不可避免的不兼容修正必须记录在新候选中的迁移说明中。
+稳定范围包括显式路由和带类型的导航位置；推/替换/返回和结果； 导航守卫和导航生命周期； RouterView、RouterLink、选项卡、抽屉导航 和 Frame 分割导航；模态路由；可选的页面状态恢复；以及下面实验列表之外记录的原生集成。缺陷修复仍然是可能的。未来不兼容的变更需要明确的兼容性决策和迁移指南。
 
 **仍处于实验阶段并选择加入**：
 
@@ -43,6 +43,7 @@ RC 冻结显式路由和带类型的导航位置；推/替换/返回和结果；
 
 ## 已知限制 {#known-limits}
 
+- 手势覆盖区分方向通知与视觉旋转：UIKit 可能将视觉旋转推迟到导航结束。iPad 重复资源回收、Stage Manager/实时调整大小及 Android 真机仍未经验证。参阅[集成证据](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-gesture-rotation-167-integration.md)。
 - Core 9.1.3 在原生导航外围继承 CSS `direction` 时可能崩溃，因为 `requestLayout()` 会在应用启动前加载控制器视图。已发布的 Core 9.1.4 包含修复（#11587）。[当前 router tarball 回归测试](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-published-direction-139.md)在 iOS/iPadOS 18.6 和 iPadOS 27.0 模拟器上验证了继承 LTR、文本输入、反向取消和完成原生返回，包括标签页组合。请使用已发布的依赖，不要应用历史研究补丁。动态 RTL、任意自定义宿主和启动前强制加载控制器视图不在本次验收范围内。
 - 自动原生可访问性标志、标签和焦点声明不保证语音 VoiceOver/TalkBack 遍历。 [展示验收](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-showcase.md)和单独的功能报告确定了剩余的手动检查。
 
@@ -55,6 +56,6 @@ RC 冻结显式路由和带类型的导航位置；推/替换/返回和结果；
 
 `main` 上的新版本仅在完整的 CI 和原生合约工作流程通过同一提交后才会发布。最终的 npm tarball 在发布之前安装到新的explicit-route、webpack 和 Vite 项目中； tarball 和安装日志作为工作流程工件保留。失败或取消的所需套件会阻止发布。实验性上游测试不能替代对已发布依赖项的测试。
 
-RC 构建使用 npm 的 `next` 标签。与测试版一样，`latest` 也遵循最新的预发布版本，直到第一个稳定版本出现。使用精确的版本并提交锁定文件以实现可重现的应用程序构建。
+稳定版使用 npm 的 `latest` 标签；RC 使用 `next`。稳定版存在后，预发布版本不会移动 `latest`。请使用精确版本并提交 lockfile，以确保应用构建可复现。
 
 请参阅[稳定版与 1.0 就绪评审](./stable-readiness)，了解发布条件、证据和剩余工作。

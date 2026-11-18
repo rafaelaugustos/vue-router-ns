@@ -1,6 +1,6 @@
-# RC scope and compatibility
+# Stable scope and compatibility {#rc-scope-and-compatibility}
 
-The `0.1.0-rc.4` release candidate freezes the documented, non-experimental API while we validate it for the stable release. Explicit JavaScript/TypeScript route tables remain the default. File conventions are optional; both use native navigation, without a Vue Router or Nuxt runtime.
+`0.1.0` is the stable release of the documented, non-experimental API. Explicit JavaScript/TypeScript route tables remain the default. File conventions are optional; both use native navigation, without a Vue Router or Nuxt runtime.
 
 The 2026-11-13 [window lifecycle contract](./windows#lifecycle-support-decision-2026-11-13) selects published Core 9.1.4 / Vue 3.1.3 and retains experimental status. Repeated Android cleanup measurements do not certify physical Android devices, Stage Manager, live resizing or repeated iPad resource retention. See the versioned report linked from that guide before choosing a deployment scope.
 
@@ -8,10 +8,10 @@ A physical iPad Pro 11-inch (3rd generation), iPadOS 27.0 (24A5418b), also passe
 
 ## Supported baseline
 
-| Dependency         | RC requirement                            | Acceptance baseline                                          |
+| Dependency         | Stable requirement                        | Acceptance baseline                                          |
 | ------------------ | ----------------------------------------- | ------------------------------------------------------------ |
-| NativeScript Core  | `^9.1.3`                                  | 9.1.3                                                        |
-| NativeScript-Vue   | `^3.1.2`                                  | 3.1.2                                                        |
+| NativeScript Core  | `^9.1.4`                                  | 9.1.4                                                        |
+| NativeScript-Vue   | `^3.1.2`                                  | 3.1.3                                                        |
 | Node.js            | `>=20.19.4`                               | Node 20.19.4 and 22.23.3 installation; Node 22 native builds |
 | npm                | Compatible with the selected Node version | 10.8.2 and 11.21.1                                           |
 | webpack (optional) | webpack 5, NativeScript webpack 5         | webpack 5.112.0 / NativeScript webpack 5.0.38                |
@@ -21,13 +21,13 @@ The RC narrows beta's Core `>=8.9.0` and NativeScript-Vue `^3.0.0` declarations 
 
 Native CI covers Android API 34/35/36 and iOS/iPadOS 18.6 simulators. Additional iOS 26 runs and physical-device accessibility checks are recorded in the repository's [validation reports](https://github.com/rafaelaugustos/vue-router-ns/tree/main/test). These reports identify their tested revisions; they do not imply a fresh physical-device pass for every release.
 
-Development and the demo now use [NativeScript-Vue 3.1.3](https://github.com/nativescript-vue/nativescript-vue/releases/tag/v3.1.3); the published RC.4 acceptance baseline above remains 3.1.2 and the peer requirement remains `^3.1.2`. Version 3.1.3 fixes retained page apps in `$navigateTo` during native-window recreation and releases them on permanent window closure. Router Frame pages already use router-owned `createNativeView()` lifecycles. See the [3.1.3 validation report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vue-3.1.3.md) for the focused window tests; this update is not a new release or a repeat of the complete release matrix.
+Native acceptance uses [NativeScript-Vue 3.1.3](https://github.com/nativescript-vue/nativescript-vue/releases/tag/v3.1.3); the peer requirement remains `^3.1.2`. Version 3.1.3 fixes retained page apps in `$navigateTo` during native-window recreation and releases them on permanent window closure. Router Frame pages already use router-owned `createNativeView()` lifecycles. See the [focused validation report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vue-3.1.3.md).
 
-The table records the published RC.4 baseline. This checkout now requires Core `^9.1.4`, and the demo pins 9.1.4 with NativeScript-Vue 3.1.3. [Core 9.1.4](https://github.com/NativeScript/NativeScript/releases/tag/9.1.4-core) includes the lazy-controller-loading, native content Back and surviving-Activity window fixes. Applications pinned to 9.1.3 must update Core and their lockfile before adopting this checkout. The [9.1.4 acceptance report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) separates the new focused evidence from historical results; this change does not publish a new router version or replace the full release matrix.
+This release requires Core `^9.1.4`. [Core 9.1.4](https://github.com/NativeScript/NativeScript/releases/tag/9.1.4-core) includes the lazy-controller-loading, native content Back and surviving-Activity window fixes. Applications pinned to 9.1.3 must update Core and their lockfile before upgrading the router. The [9.1.4 acceptance report](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) records focused evidence; full publication validation still runs on the release commit.
 
 ## API scope
 
-The RC freezes explicit routes and typed locations; push/replace/back and results; guards and navigation lifecycle; RouterView, RouterLink, tabs, drawer and Frame split navigation; modal routes; opt-in page-state restoration; and the documented native integrations outside the experimental list below. Defect fixes remain possible. An unavoidable incompatible correction before stable must be documented with migration instructions in a new candidate.
+The stable scope covers explicit routes and typed locations; push/replace/back and results; guards and navigation lifecycle; RouterView, RouterLink, tabs, drawer and Frame split navigation; modal routes; opt-in page-state restoration; and the documented native integrations outside the experimental list below. Defect fixes remain possible. Future incompatible changes require an explicit compatibility decision and migration guidance.
 
 These remain **experimental and opt-in**:
 
@@ -43,6 +43,7 @@ Multiple-window ownership and restoration are included as experimental features,
 
 ## Known limits
 
+- Interactive gesture coverage distinguishes orientation delivery from visual rotation: UIKit can defer visual rotation until navigation completes. Repeated iPad resource collection, Stage Manager/live resizing and physical Android coverage remain unverified. See the [integration evidence](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-gesture-rotation-167-integration.md).
 - Core 9.1.3 can crash with inherited CSS `direction` around native navigation because `requestLayout()` loads a controller view before application startup. Published Core 9.1.4 includes the correction (#11587). The [current packed-router regression](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-published-direction-139.md) verifies inherited LTR, keyboard input and reversed/committed native Back, including tabs, on iOS/iPadOS 18.6 and iPadOS 27.0 simulators. Use the published dependency without the historical research patch. Dynamic RTL, arbitrary custom hosts and explicitly forcing controller-view loading before startup are outside this acceptance.
 - Automated native accessibility flags, labels and focus declarations do not certify spoken VoiceOver/TalkBack traversal. The [showcase acceptance](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-showcase.md) and individual feature reports identify remaining manual checks.
 
@@ -55,6 +56,6 @@ Multiple-window ownership and restoration are included as experimental features,
 
 A new version on `main` is published only after the complete CI and native contract workflows pass on that same commit. The final npm tarball is installed into fresh explicit-route, webpack and Vite projects before publication; the tarball and installation logs are retained as a workflow artifact. A failed or cancelled required suite blocks publication. Experimental upstream tests do not substitute for tests on published dependencies.
 
-RC builds use npm's `next` tag. As with the betas, `latest` also follows the newest prerelease until the first stable version exists. Use an exact version and commit your lockfile for reproducible application builds.
+Stable releases use npm’s `latest` tag; RC builds use `next`. Once a stable version exists, prereleases do not move `latest`. Use an exact version and commit your lockfile for reproducible application builds.
 
 See [Path to 0.1.0 stable](./stable-readiness) for release gates, evidence and remaining work.

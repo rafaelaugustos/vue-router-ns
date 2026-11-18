@@ -1,0 +1,12 @@
+{
+  "version": "0.1.0",
+  "tarball": "vue-router-ns-0.1.0.tgz",
+  "integrity": "sha512-DEwyYUzVqbMpYKt8hoqW63UphC8XEVxQ7qUGDtxDkk3YupuWAAbPvKq7YFSN9esj3QuDRRc9XFyy9nzPBxqW/Q==",
+  "sha256": "2d5d0ebd020b9253c4ad4dcc25a4d8efd87cbb1331bbe1fd02b7b979de503de4",
+  "core": "9.1.4",
+  "vue": "3.1.3",
+  "title": "Router 0.1.0 · consumer acceptance",
+  "linked": false,
+  "fixture": "examples/rc3-consumer",
+  "fixtureChanges": ["version label", "package metadata"]
+}

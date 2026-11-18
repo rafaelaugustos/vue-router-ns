@@ -96,10 +96,10 @@ So this is not a wrapper around Vue Router. The frame's back stack is the source
 ## Install
 
 ```sh
-npm install vue-router-ns@next
+npm install vue-router-ns
 ```
 
-The release candidate is published under `next`. Requires `nativescript-vue` 3.1.2+ (3.x), `@nativescript/core` 9.1.4+ (9.x) for this checkout, and Node 20.19.4+. See the [RC scope and compatibility](https://vue-router-ns.rafaelaugusto.dev/guide/compatibility) for tested versions and experimental features.
+Stable releases are published under `latest`; prereleases use `next`. Requires `nativescript-vue` 3.1.2+ (3.x), `@nativescript/core` 9.1.4+ (9.x) and Node 20.19.4+. See the [Stable scope and compatibility](https://vue-router-ns.rafaelaugusto.dev/guide/compatibility) for tested versions and experimental features.
 
 ## Getting started
 

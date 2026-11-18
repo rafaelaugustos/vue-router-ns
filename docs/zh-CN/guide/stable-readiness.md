@@ -1,6 +1,6 @@
 # 稳定版与 1.0 就绪评审 {#stable-release-and-1-0-readiness}
 
-`0.1.0-rc.4` 已发布。下一项决策是：文档中非实验性功能的范围是否已达到发布 **0.1.0** 的条件，而不是要求完成路线图上的全部功能。下方的 1.0 评审是独立的兼容性决策，不会自动升级版本。未关闭的 issue 数量少，并不等于通过验收。
+`0.1.0` 是为已记录的非实验性范围选择的稳定版本。发布必须通过以下检查；可选路线图功能不阻止发布。下方的 1.0 审查仍是独立的兼容性决策。未关闭 issue 数量少不是验收标准。
 
 更新 — 2026-11-16：当前 checkout 使用已发布的 Core 9.1.4。[当前 router tarball 回归测试](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-published-direction-139.md)验证了继承方向修复；[完整原生验收](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-acceptance-183.md)记录了关闭 #183 的通过矩阵。下方带日期的 1.0 评审仍是历史记录。实验性边界和其余发布条件仍然适用。
 

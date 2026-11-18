@@ -1,6 +1,6 @@
-# Alcance y compatibilidad de RC {#rc-scope-and-compatibility}
+# Alcance estable y compatibilidad {#rc-scope-and-compatibility}
 
-La versión candidata `0.1.0-rc.4` congela la API no experimental documentada mientras la validamos para la versión estable. Las tablas de rutas explícitas JavaScript/TypeScript siguen siendo las predeterminadas. Las convenciones de archivos son opcionales; ambos usan navegación nativa, sin un Vue Router o tiempo de ejecución de Nuxt.
+`0.1.0` es la versión estable de la API documentada no experimental. Las tablas de rutas explícitas JavaScript/TypeScript siguen siendo la opción predeterminada. Las convenciones de archivos son opcionales; ambas usan navegación nativa, sin un runtime de Vue Router o Nuxt.
 
 El [contrato de ciclo de vida de ventanas](./windows#lifecycle-support-decision-2026-11-13) del 2026-11-13 selecciona Core 9.1.4 / Vue 3.1.3 publicados y mantiene el estado experimental. Las mediciones de limpieza repetida en Android no certifican dispositivos Android físicos, Stage Manager, cambios de tamaño en uso ni retención de recursos en ciclos repetidos de iPad. Consulte el informe versionado del guía antes de elegir el alcance de despliegue.
 
@@ -8,10 +8,10 @@ Un iPad Pro físico de 11″ (3.ª generación), con iPadOS 27.0 (24A5418b), tam
 
 ## Línea base admitida {#supported-baseline}
 
-| Dependencia        | Requisito RC                                   | Línea base de aceptación                                                 |
+| Dependencia        | Requisito estable                              | Línea base de aceptación                                                 |
 | ------------------ | ---------------------------------------------- | ------------------------------------------------------------------------ |
-| NativeScript Core  | `^9.1.3`                                       | 9.1.3                                                                    |
-| NativeScript-Vue   | `^3.1.2`                                       | 3.1.2                                                                    |
+| NativeScript Core  | `^9.1.4`                                       | 9.1.4                                                                    |
+| NativeScript-Vue   | `^3.1.2`                                       | 3.1.3                                                                    |
 | Node.js            | `>=20.19.4`                                    | Instalación de Node 20.19.4 y 22.23.3; Compilaciones nativas del nodo 22 |
 | npm                | Compatible con la versión de Node seleccionado | 10.8.2 y 11.21.1                                                         |
 | webpack (opcional) | webpack 5, NativeScript webpack 5              | webpack 5.112.0 / NativeScript webpack 5.0.38                            |
@@ -21,13 +21,13 @@ El RC reduce las declaraciones Core `>=8.9.0` y NativeScript-Vue `^3.0.0` beta a
 
 CI nativo cubre los simuladores Android API 34/35/36 y iOS/iPadOS 18.6. Las ejecuciones adicionales de iOS 26 y las comprobaciones de accesibilidad de dispositivos físicos se registran en los informes de validación [validation reports](https://github.com/rafaelaugustos/vue-router-ns/tree/main/test) del repositorio. Estos informes identifican sus revisiones probadas; no implican un nuevo pase de dispositivo físico para cada versión.
 
-El desarrollo y la demo ahora usan [NativeScript-Vue 3.1.3](https://github.com/nativescript-vue/nativescript-vue/releases/tag/v3.1.3); la línea base de aceptación de la RC.4 publicada que figura arriba sigue siendo 3.1.2 y el requisito peer sigue siendo `^3.1.2`. La versión 3.1.3 conserva las aplicaciones Vue de las páginas abiertas con `$navigateTo` durante la recreación de ventanas nativas y las libera al cerrar definitivamente la ventana. Las páginas Frame del router ya tienen un ciclo de vida propio mediante `createNativeView()`. El [informe de validación de 3.1.3](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vue-3.1.3.md) documenta las pruebas específicas de ventanas; esta actualización no es una nueva versión del router ni una repetición de toda la matriz de publicación.
+La aceptación nativa usa [NativeScript-Vue 3.1.3](https://github.com/nativescript-vue/nativescript-vue/releases/tag/v3.1.3); el requisito peer sigue siendo `^3.1.2`. La versión 3.1.3 conserva las aplicaciones de páginas abiertas con `$navigateTo` durante la recreación de ventanas y las libera al cerrarlas definitivamente. Las páginas Frame del router ya usan `createNativeView()` con un ciclo de vida propio. Consulta el [informe específico](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-vue-3.1.3.md).
 
-La tabla registra la base de la RC.4 publicada. Este checkout ahora requiere Core `^9.1.4`, y la demo fija 9.1.4 con NativeScript-Vue 3.1.3. [Core 9.1.4](https://github.com/NativeScript/NativeScript/releases/tag/9.1.4-core) incluye las correcciones de carga diferida del controlador, Back en el contenido y apertura de ventanas tras cerrar la Activity original. Las aplicaciones fijadas en 9.1.3 deben actualizar Core y su lockfile antes de adoptar este checkout. El [informe de 9.1.4](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) distingue las nuevas pruebas específicas de la evidencia histórica; no es una nueva versión del router ni sustituye la matriz completa de publicación.
+Esta versión requiere Core `^9.1.4`. [Core 9.1.4](https://github.com/NativeScript/NativeScript/releases/tag/9.1.4-core) incluye las correcciones de carga diferida del controlador, Back en el contenido y apertura de ventanas tras cerrar la Activity original. Las aplicaciones fijadas en 9.1.3 deben actualizar Core y su lockfile antes de actualizar el router. El [informe de 9.1.4](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-core-9.1.4.md) registra pruebas específicas; la validación completa se ejecuta en el commit del lanzamiento.
 
 ## Alcance de la API {#api-scope}
 
-El RC congela rutas explícitas y ubicaciones tipadas; push/replace/back y resultados; guards y ciclo de vida de navegación; RouterView, RouterLink, pestañas, navegación dividida drawer y Frame; rutas modales; restauración opcional del estado de la página; y las integraciones nativas documentadas fuera de la lista experimental a continuación. La reparación de defectos sigue siendo posible. Una corrección incompatible inevitable antes de la estabilidad debe documentarse con instrucciones de migración en un nuevo candidato.
+El alcance estable incluye rutas explícitas y ubicaciones tipadas; push/replace/back y resultados; guards y ciclo de vida de navegación; RouterView, RouterLink, pestañas, navegación dividida drawer y Frame; rutas modales; restauración opcional del estado de la página; y las integraciones nativas documentadas fuera de la lista experimental a continuación. La reparación de defectos sigue siendo posible. Los cambios incompatibles futuros requieren una decisión explícita de compatibilidad e instrucciones de migración.
 
 Estas funciones siguen siendo **experimentales y opcionales**:
 
@@ -43,6 +43,7 @@ La propiedad y restauración de múltiples ventanas se incluyen como caracterís
 
 ## Límites conocidos {#known-limits}
 
+- La cobertura de gestos distingue la entrega de orientación de la rotación visual: UIKit puede aplazar la rotación hasta que termine la navegación. La recolección repetida de recursos en iPad, Stage Manager/redimensionamiento en vivo y Android físico siguen sin verificarse. Consulta la [evidencia de integración](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-gesture-rotation-167-integration.md).
 - Core 9.1.3 puede fallar con CSS `direction` heredado alrededor de la navegación nativa porque `requestLayout()` carga la vista del controlador antes del inicio de la aplicación. Core 9.1.4 publicado incluye la corrección (#11587). La [regresión con el tarball actual del router](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-published-direction-139.md) verifica LTR heredado, escritura y Back nativo revertido/completado, incluidas las pestañas, en simuladores iOS/iPadOS 18.6 y iPadOS 27.0. Usa la dependencia publicada sin el parche histórico de investigación. RTL dinámico, hosts personalizados arbitrarios y forzar la carga de la vista del controlador antes del inicio quedan fuera de esta aceptación.
 - Las comprobaciones de flags, etiquetas y foco de accesibilidad nativas automatizadas no certifican el recorrido hablado de VoiceOver/TalkBack. La aceptación del escaparate [informe de validación](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-showcase.md) y los informes de características individuales identifican las comprobaciones manuales restantes.
 
@@ -55,6 +56,6 @@ La propiedad y restauración de múltiples ventanas se incluyen como caracterís
 
 Se publica una nueva versión de `main` solo después de que el CI completo y los flujos de trabajo del contrato nativo pasan la mismo commit. El tarball npm final se instala en nuevos proyectos de ruta explícita, webpack y Vite antes de su publicación; el tarball y los registros de instalación se conservan como un artefacto del flujo de trabajo. Una suite requerida fallida o cancelada bloquea la publicación. Las pruebas de prototipos upstream no sustituyen a las pruebas de las dependencias publicadas.
 
-Las compilaciones RC utilizan la etiqueta `next` de npm. Al igual que con las versiones beta, `latest` también sigue la versión preliminar más reciente hasta que exista la primera versión estable. Utilice una versión exacta y confirme su archivo de bloqueo para compilaciones de aplicaciones reproducibles.
+Las versiones estables usan la etiqueta `latest` de npm; las RC usan `next`. Una vez que existe una versión estable, las versiones preliminares no mueven `latest`. Usa una versión exacta y conserva el lockfile para compilaciones reproducibles.
 
 Consulte [Versión estable y preparación para 1.0](./stable-readiness) para criterios de publicación, evidencia y trabajo restante.

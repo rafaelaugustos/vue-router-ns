@@ -10,7 +10,7 @@ const copy = useHomeCopy()
 const { word, link } = useWords()
 const copied = ref(false)
 const copyFailed = ref(false)
-const command = 'npm install vue-router-ns@next'
+const command = 'npm install vue-router-ns'
 useSiteMotion(root, (motion, element) => {
   motion.animate(
     [...element.querySelectorAll<HTMLElement>('.hero-title > span')],

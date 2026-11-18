@@ -1,6 +1,6 @@
 # 安装并打开页面 {#install-and-open-a-page}
 
-你需要 Node 20.19.4+、NativeScript-Vue 3.1.2+ (3.x) 和 NativeScript Core 9.1.3+ (9.x)。使用[NativeScript环境设置](https://docs.nativescript.org/setup/)准备原生SDK；本地构建 iOS 需要 macOS 和 Xcode。完整测试的基线位于 [兼容性指南](./compatibility) 中。
+你需要 Node 20.19.4+、NativeScript-Vue 3.1.2+ (3.x) 和 NativeScript Core 9.1.4+ (9.x)。使用[NativeScript环境设置](https://docs.nativescript.org/setup/)准备原生SDK；本地构建 iOS 需要 macOS 和 Xcode。完整测试的基线位于 [兼容性指南](./compatibility) 中。
 
 ## 创建或使用 NativeScript-Vue 项目 {#create-or-use-a-nativescript-vue-project}
 
@@ -14,10 +14,10 @@ cd pocket-notes
 在该项目中安装路由器：
 
 ```sh
-npm install vue-router-ns@next
+npm install vue-router-ns
 ```
 
-`next` 标签选择发布候选版本。提交生成的锁定文件以进行可重现的安装。
+`latest` 标签选择稳定版；`next` 选择预发布版本。请提交生成的 lockfile，以确保安装可复现。
 
 ## 开始使用 {#getting-started}
 

@@ -1,0 +1,12 @@
+{
+  "platform": "Android API 36",
+  "input": "adb/UIAutomator",
+  "saved": "A quiet path beside the sea. New idea.",
+  "checks": [
+    "retained query",
+    "native modal",
+    "guard refusal",
+    "saved result",
+    "discard preserves saved value"
+  ]
+}
