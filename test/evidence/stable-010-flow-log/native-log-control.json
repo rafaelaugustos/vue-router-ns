@@ -1,0 +1,9 @@
+{
+  "kind": "native Android logcat, controlled extra diagnostic messages after flow acceptance",
+  "bytes": 23239687,
+  "messagesRetained": 16384,
+  "first": 0,
+  "last": 16383,
+  "oldBufferRejected": true,
+  "sha256": "e49e8ca2b86098ab23590b18180283e022a90998cebc2d2c9f8acd874cbfdc89"
+}

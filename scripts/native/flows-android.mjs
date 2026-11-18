@@ -5,6 +5,7 @@ import { promisify } from 'node:util'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { recordEnvironment } from './contracts/environment.mjs'
+import { captureLogcat } from './predictive/logcat.mjs'
 import {
   assertAndroidHealthy,
   assertPickerVisible,
@@ -360,9 +361,6 @@ try {
     resolve(out, 'runtime.log'),
     await adb('logcat', '-d', '-v', 'brief', '-s', 'JS', 'AndroidRuntime'),
   )
-  await writeFile(
-    resolve(out, 'system.log'),
-    await adb('logcat', '-d', '-v', 'threadtime'),
-  )
+  await captureLogcat(serial, resolve(out, 'system.log'))
   await adb('shell', 'wm', 'user-rotation', 'free').catch(() => {})
 }

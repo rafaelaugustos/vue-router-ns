@@ -1,0 +1,21 @@
+{
+  "source": "fa713af003c69322da87998475d7b88db64faac7",
+  "dirty": false,
+  "packages": {
+    "@nativescript/core": "9.1.4",
+    "nativescript-vue": "3.1.3",
+    "@nativescript/android": "9.1.1",
+    "@nativescript/ios": "9.1.0"
+  },
+  "device": {
+    "serial": "emulator-5590",
+    "fingerprint": "google/sdk_gphone64_arm64/emu64a:15/AE3A.240806.043/12960925:userdebug/dev-keys",
+    "pickerPackage": "com.google.android.documentsui",
+    "pickerVersion": ["versionCode=350820300 minSdk=29 targetSdk=35", "versionName=15"]
+  },
+  "outcomesPassed": 12,
+  "exitCode": 0,
+  "systemLogBytes": 2062590,
+  "systemLogSha256": "aa6652eaf412c1372f9ce54a347533f025f73032c0eb5b2fcdc518116498c5e7",
+  "runnerSourceSha256": "9b9d55c5c21a5b8a134e48a2d0507de5102cadcd911bb6af184dd3ef7b2df980"
+}

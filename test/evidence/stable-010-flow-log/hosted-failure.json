@@ -1,0 +1,10 @@
+{
+  "run": 44388536282,
+  "job": 135100237676,
+  "source": "3ef35500bf2828e175074b85f271244fe7523e6f",
+  "nativeOutcomesPassed": 12,
+  "error": "ERR_CHILD_PROCESS_STDIO_MAXBUFFER",
+  "operation": "final unfiltered logcat collection",
+  "systemLogRetained": false,
+  "failureWasAfterAllNativeAssertions": true
+}

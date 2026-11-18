@@ -1,0 +1,13 @@
+{
+  "source": {
+    "bytes": 7474110,
+    "durationSeconds": 175.663067,
+    "sha256": "bfdfdb0990b3e79ddd38382a57d09622214b4d026364af642e13a022f4ac81c2"
+  },
+  "playback": {
+    "bytes": 1094363,
+    "durationSeconds": 175.666667,
+    "sha256": "7f5e3040f193927aa1e1b368e4164a5cc21b45eba89547d69110891edbfc604a"
+  },
+  "conversion": "Complete native screen recording, 540x1200, resampled to30fps; no frame-timing claim."
+}
