@@ -44,8 +44,18 @@ error and succeeded when rerun.
 
 ## Hosted validation and retained failures
 
-The [final-source hosted run](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/44365174655)
-is pending. Its results must not be inferred from local runs or earlier green checks.
+The [final-source iPadOS 26.2 job](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/44365174655/job/135016864803)
+passed all three profiles at `0ece729`: 3 gesture methods, 2 programmatic methods
+and 4 default methods. All 6/6/10 selected scenarios were exercised, including four
+actual programmatic overlaps and the required native inset cancellation. The nine
+native source hashes match the tested commit; raw proofs and archives were verified
+after download. The strict gesture-overlap audit still correctly rejects deferral.
+
+The [iPadOS 18.6 job](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/44365174655/job/135016865424)
+was cancelled before executing any steps. GitHub reports that a hosted runner was
+not acquired after multiple attempts, with macOS arm64 capacity constraints. The
+workflow remains failed overall because of this unavailable job. This revision has
+complete local 18.6 acceptance, but no fresh hosted 18.6 acceptance is claimed.
 
 The [first integration attempt](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/44360488160/attempts/1)
 failed at `371d6f5`: the 26.2 edge-cancellation input did not produce a native
