@@ -1,0 +1,17 @@
+{
+  "path": "docs/public/media/stable-010-consumer.mp4",
+  "sha256": "1e9c04fc7d52d74c1ca22f04bc716f05b6b12ab335fb5ee28f629df545122d25",
+  "bytes": 783775,
+  "durationSeconds": 50.2,
+  "sourceDurationSeconds": 50.211667,
+  "capture": "Actual iOS 18.6 simulator consumer XCTest with simctl recordVideo",
+  "processing": "Scaled to 540px width and resampled to 30fps; no claim of preserved original frame timestamps",
+  "demonstrates": [
+    "keyboard input",
+    "native modal",
+    "dirty leave guard refusal",
+    "saved/discarded result",
+    "reversed and committed native Back",
+    "retained query"
+  ]
+}

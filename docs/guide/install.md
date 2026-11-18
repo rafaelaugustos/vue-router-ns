@@ -1,6 +1,6 @@
 # Install and open a page
 
-You need Node 20.19.4+, NativeScript-Vue 3.1.2+ (3.x), and NativeScript Core 9.1.3+ (9.x). Prepare the native SDKs with [NativeScript environment setup](https://docs.nativescript.org/setup/); building iOS locally requires macOS and Xcode. The full tested baseline is in [compatibility](./compatibility).
+You need Node 20.19.4+, NativeScript-Vue 3.1.2+ (3.x), and NativeScript Core 9.1.4+ (9.x). Prepare the native SDKs with [NativeScript environment setup](https://docs.nativescript.org/setup/); building iOS locally requires macOS and Xcode. The full tested baseline is in [compatibility](./compatibility).
 
 ## Create or use a NativeScript-Vue project
 
@@ -14,10 +14,10 @@ cd pocket-notes
 Install the router in that project:
 
 ```sh
-npm install vue-router-ns@next
+npm install vue-router-ns
 ```
 
-The `next` tag selects a release candidate. Commit the resulting lockfile for reproducible installs.
+The `latest` tag selects the stable release; `next` selects a prerelease. Commit the resulting lockfile for reproducible installs.
 
 ## Getting started
 

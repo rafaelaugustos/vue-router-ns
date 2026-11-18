@@ -1,6 +1,6 @@
 # Stable release and 1.0 readiness
 
-`0.1.0-rc.4` is published. The next decision is whether its documented, non-experimental scope is ready for **0.1.0**, without requiring every roadmap feature. The 1.0 review below is a separate compatibility decision, not an automatic version bump. A small number of open issues is not an acceptance criterion.
+`0.1.0` is the selected stable version for the documented, non-experimental scope. Publication is gated by the checks below; optional roadmap features do not block it. The 1.0 review below remains a separate compatibility decision. A small number of open issues is not an acceptance criterion.
 
 Update — 2026-11-16: this checkout uses published Core 9.1.4. The [current packed-router regression](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-published-direction-139.md) validates the inherited-direction correction, and the [complete native acceptance](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-acceptance-183.md) records the successful matrix that closed #183. The dated 1.0 review below remains historical. Experimental boundaries and the remaining release gates still apply.
 

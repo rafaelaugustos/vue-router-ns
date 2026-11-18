@@ -1,6 +1,6 @@
 # Prontidão para a versão estável e a 1.0
 
-A `0.1.0-rc.4` está publicada. A próxima decisão é se o escopo documentado e não experimental está pronto para a **0.1.0**, sem exigir todas as propostas do roadmap. A revisão para a 1.0 abaixo é uma decisão separada sobre compatibilidade, não uma mudança automática de versão. Ter poucas issues abertas não é um critério de aceitação.
+A `0.1.0` é a versão estável selecionada para o escopo documentado e não experimental. A publicação exige os critérios abaixo; funcionalidades opcionais do roadmap não a bloqueiam. A revisão da 1.0 continua sendo uma decisão separada de compatibilidade. Ter poucas issues abertas não é critério de aceitação.
 
 Atualização — 16/11/2026: este checkout usa o Core 9.1.4 publicado. A [regressão com o tarball atual do router](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-published-direction-139.md) valida a correção de direção herdada, e a [aceitação nativa completa](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-acceptance-183.md) registra a matriz aprovada que fechou a #183. A revisão datada de 1.0 abaixo permanece histórica. Os limites experimentais e os demais requisitos de release continuam valendo.
 
