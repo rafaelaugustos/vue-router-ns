@@ -13,7 +13,7 @@ permissions:
 jobs:
   drawer:
     if: inputs.scope != 'content-back' && inputs.scope != 'programmatic-overlap' && inputs.scope != 'gesture-rotation'
-    runs-on: macos-15
+    runs-on: macos-15-intel
     timeout-minutes: 20
     strategy:
       fail-fast: false
@@ -163,7 +163,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - runner: macos-15
+          - runner: macos-15-intel
             runtime: '18-6'
           - runner: macos-26
             runtime: '26-2'
