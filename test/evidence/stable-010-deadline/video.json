@@ -1,0 +1,9 @@
+{
+  "path": "docs/public/media/stable-010-gesture-deadline.mp4",
+  "sha256": "648c1d89f66e3e08680b89aac049269f1790507e1aa0c38587195152d4ba180d",
+  "bytes": 1203763,
+  "durationSeconds": 57.1,
+  "sourceDurationSeconds": 57.115,
+  "capture": "Actual normal26 run with the committed fixed observer and no injected input delay",
+  "processing": "Scaled to 540px and resampled at30fps; no native-frame-timing claim"
+}

@@ -1,0 +1,10 @@
+{
+  "run": 44376420258,
+  "job": 135057561861,
+  "case": "commit-landscape",
+  "armedToNativeStartMs": 2298,
+  "armedToInteractionEndMs": 5172,
+  "nativeInteractionMs": 2874,
+  "postInteractionAnimationMs": 452,
+  "cancelled": false
+}

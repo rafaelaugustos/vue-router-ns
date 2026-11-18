@@ -221,6 +221,13 @@ final class RotationUITests: XCTestCase {
             let rotated = expectation(description: label)
             DispatchQueue.global().async {
                 do {
+                    // XCTest may wait for SpringBoard before sending the touch.
+                    // Bound admission separately from the native interaction:
+                    // a long committed drag must not spend its completion budget
+                    // on input dispatch. Both waits still fail after five seconds.
+                    if signal == "interaction-ended" {
+                        try self.waitObserved("navigation-observed")
+                    }
                     try self.waitObserved(signal)
                     DispatchQueue.main.async {
                         defer { rotated.fulfill() }

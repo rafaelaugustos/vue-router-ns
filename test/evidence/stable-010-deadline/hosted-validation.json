@@ -1,0 +1,53 @@
+{
+  "finalNativeSource": "49fcba1600bca54582792cdc9fffc18d2e5f0082",
+  "runs": [
+    {
+      "run": 44384841978,
+      "job": 135086449138,
+      "profile": "device/content-back",
+      "source": "5010008010e52063e2bf641d173d52d2f2b11048",
+      "sourcesVerified": 9,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "cases": 10,
+      "missingInsetGestures": 0
+    },
+    {
+      "run": 44380621476,
+      "attempt": 2,
+      "job": 135089356882,
+      "profile": "gesture-rotation",
+      "source": "101875d7f8ae1387ef7cc10a842a5fc21ce026a6",
+      "sourcesVerified": 9,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "cases": 6
+    },
+    {
+      "run": 44380621476,
+      "attempt": 2,
+      "job": 135089356882,
+      "profile": "programmatic-overlap",
+      "source": "101875d7f8ae1387ef7cc10a842a5fc21ce026a6",
+      "sourcesVerified": 9,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "cases": 6
+    },
+    {
+      "run": 44380621476,
+      "attempt": 2,
+      "job": 135089356882,
+      "profile": "default-rotation",
+      "source": "101875d7f8ae1387ef7cc10a842a5fc21ce026a6",
+      "sourcesVerified": 9,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "cases": 10
+    }
+  ]
+}
