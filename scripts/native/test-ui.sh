@@ -53,4 +53,5 @@ node --test \
   scripts/native/conventions/observer.test.mjs \
   scripts/native/logged-command.test.mjs \
   scripts/native/adaptive-drawer/programmatic-overlap.test.mjs \
+  scripts/native/adaptive-drawer/gesture-overlap.test.mjs \
   scripts/native/predictive/system-ui.test.mjs

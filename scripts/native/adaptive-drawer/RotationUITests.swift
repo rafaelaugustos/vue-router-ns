@@ -7,6 +7,7 @@ final class RotationUITests: XCTestCase {
     let app = XCUIApplication(bundleIdentifier: "org.nativescript.vuerouterns")
     var directory: URL!
     var overlap = false
+    var gesturePhase = false
     override func setUpWithError() throws {
         continueAfterFailure = false
         let udid = ProcessInfo.processInfo.environment["SIMULATOR_UDID"]!
@@ -14,6 +15,7 @@ final class RotationUITests: XCTestCase {
         let config = try JSONSerialization.jsonObject(with: Data(contentsOf: configURL)) as! [String: String]
         directory = URL(fileURLWithPath: config["directory"]!)
         overlap = config["mode"] == "overlap"
+        gesturePhase = config["mode"] == "gesture"
         app.activate()
     }
     // Rotation can restore a reduced compatibility window after an earlier
@@ -191,20 +193,22 @@ final class RotationUITests: XCTestCase {
             XCTAssertTrue(applicationFrame.contains(point), "Native gesture edge must be inside the application")
             let offset = CGVector(dx: point.x - applicationFrame.minX, dy: point.y - applicationFrame.minY)
             let insetCancellation = name == "cancel" && !landscape && ProcessInfo.processInfo.operatingSystemVersion.majorVersion >= 26
-            let distance = bounds.width * (insetCancellation ? 0.08 : fraction)
+            let distance = bounds.width * (insetCancellation ? 0.04 : fraction)
             let start = app.coordinate(withNormalizedOffset: .zero).withOffset(offset)
             let end = start.withOffset(CGVector(dx: distance, dy: 0))
-            // A long pointer-down drag can cancel or reverse the orientation
-            // transition. In both commit directions, wait for UIKit's interaction
-            // decision, then rotate while its navigation animation is unfinished.
-            let signal = name == "commit" ? "interaction-ended" : "navigation-observed"
-            // On iOS 26 a 12% inset drag can commit, while a 4% drag with a
-            // shorter hold was not observed on CI. Keep the original hold and
-            // use an intermediate distance; native cancellation is mandatory.
-            let velocity: XCUIGestureVelocity = .slow
+            // The gesture-phase profile requests orientation during pointer input
+            // for both intentions. Keep the original committed control's request
+            // after UIKit's interaction decision in device mode.
+            let signal = name == "commit" && !gesturePhase ? "interaction-ended" : "navigation-observed"
+            // Give UIKit time to recognize a short inset drag without the
+            // release velocity of the default input. The device profile still
+            // requires actual native cancellation; intended distance is no proof.
+            let velocity: XCUIGestureVelocity = insetCancellation ? XCUIGestureVelocity(rawValue: 40) : .slow
             let hold: TimeInterval = 0.3
             try write("\(label)-driver.json", [
                 "rotationSignal": signal,
+                "gestureIntent": name,
+                "rotationRequestPhase": gesturePhase ? "interactive" : "default-control",
                 "windowFrame": rectangle(windowFrame),
                 "recognizer": recognizer,
                 "start": ["x": point.x, "y": point.y],

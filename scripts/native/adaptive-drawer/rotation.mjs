@@ -7,13 +7,18 @@ import { tmpdir } from 'node:os'
 import { initialize, command, sim, pause, out } from './bridge.mjs'
 import { loggedCommand } from '../logged-command.mjs'
 import { assertProgrammaticOverlap } from './programmatic-overlap.mjs'
+import { assertGestureRotation } from './gesture-overlap.mjs'
 import { assertContentBack } from './content-back.mjs'
 import { recordRotationProvenance } from './rotation-provenance.mjs'
 
 const exec = promisify(execFile)
 const mode = process.env.ROTATION_MODE ?? 'device'
-assert(['device', 'overlap'].includes(mode), 'ROTATION_MODE must be device or overlap')
+assert(
+  ['device', 'overlap', 'gesture'].includes(mode),
+  'ROTATION_MODE must be device, overlap or gesture',
+)
 const overlap = mode === 'overlap'
+const gesture = mode === 'gesture'
 assert(
   sim,
   'Set IOS_SIMULATOR to a dedicated booted iPad (this driver reinstalls the app)',
@@ -61,7 +66,13 @@ try {
             '-only-testing:AdaptiveDrawerChecks/RotationUITests/test01ProgrammaticNavigation',
             '-only-testing:AdaptiveDrawerChecks/RotationUITests/test04SettledAndModalControl',
           ]
-        : []),
+        : gesture
+          ? [
+              '-only-testing:AdaptiveDrawerChecks/RotationUITests/test02IntendedCommit',
+              '-only-testing:AdaptiveDrawerChecks/RotationUITests/test03IntendedCancel',
+              '-only-testing:AdaptiveDrawerChecks/RotationUITests/test04SettledAndModalControl',
+            ]
+          : []),
       '-project',
       join(project, 'AdaptiveDrawerChecks.xcodeproj'),
       '-scheme',
@@ -152,12 +163,12 @@ for (const name of await readdir(directory)) {
 if (testError) throw new Error(`XCTest failed; see ${join(out, 'rotation-xctest.log')}`)
 if (recordingError) throw recordingError
 if (summaryError) throw summaryError
-assert.equal(xctest.passedTests, overlap ? 2 : 4)
+assert.equal(xctest.passedTests, overlap ? 2 : gesture ? 3 : 4)
 assert.equal(xctest.failedTests, 0)
 assert.equal(xctest.skippedTests, 0)
 assert.equal(
   Object.keys(cases).length,
-  overlap ? 6 : 10,
+  overlap || gesture ? 6 : 10,
   'Every selected direction and control must produce evidence',
 )
 const { checks: windowChecks } = JSON.parse(
@@ -177,6 +188,15 @@ if (overlap)
     'push-overlap-portrait',
     'settled',
   ])
+if (gesture)
+  assert.deepEqual(Object.keys(cases).sort(), [
+    'cancel-landscape',
+    'cancel-portrait',
+    'commit-landscape',
+    'commit-portrait',
+    'modal',
+    'settled',
+  ])
 const summary = []
 for (const [name, report] of Object.entries(cases)) {
   assert(report.finished && !report.error, `${name}: ${report.error ?? 'unfinished'}`)
@@ -193,7 +213,11 @@ for (const [name, report] of Object.entries(cases)) {
     overlap && report.operation !== 'settled'
       ? assertProgrammaticOverlap(name, report, driver)
       : null
-  assertContentBack(name, report, driver)
+  const gestureEvidence =
+    gesture && report.operation.startsWith('gesture') && !report.notReproduced
+      ? assertGestureRotation(name, report, driver)
+      : null
+  if (!gestureEvidence) assertContentBack(name, report, driver)
   if (report.notReproduced) {
     assert(operation.startsWith('gesture') && report.landscape === false)
     assert.deepEqual(after.frames, before.frames)
@@ -324,11 +348,17 @@ for (const [name, report] of Object.entries(cases)) {
     case: name,
     requestedDuringNavigation: navigates && driver.requestedAt >= nativeStart.wallTime,
     ...(proof ? { overlapEvidence: proof } : {}),
-    visualOverlap: proof ? true : rotation.navigationActive,
+    ...(gestureEvidence ? { gestureEvidence } : {}),
+    visualOverlap: proof
+      ? true
+      : gestureEvidence
+        ? gestureEvidence.visualOverlap
+        : rotation.navigationActive,
     navigationCancelled: nativeEnd?.cancelled ?? null,
     interactionEndedBeforeRequest: driver.interactionEndedBeforeRequest,
-    result:
-      proof || rotation.navigationActive
+    result: gestureEvidence
+      ? gestureEvidence.result
+      : proof || rotation.navigationActive
         ? 'overlap'
         : navigates
           ? rotation.navigationCompletionPending

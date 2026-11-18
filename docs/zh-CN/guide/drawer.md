@@ -97,6 +97,8 @@ iOS 实现和自适应表示是 `0.1.0-rc.3` 的一部分。之前的 `0.1.0-rc.
 
 这些运行中，UIKit 曾暂时返回初始方向，然后才达到最终目标方向。结束后，两条已预热的导航栈、草稿、保留实例和历史记录仍保持一致。该覆盖范围限于上述程序化导航组合；手势期间的真实重叠及其他转场配置仍需分别验证。
 
+独立的[手势阶段测试](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-gesture-rotation-167.md)在手指仍接触屏幕时请求方向变化，分别覆盖完成和取消的意图。它验证应用收到新设备方向时，同一个原生导航 coordinator 仍可交互，且原生返回手势识别器处于活动状态。在已测试的 18.6 和 26.2 模拟器组合中，UIKit 将窗口旋转推迟到导航完成之后。报告记录实际原生结果，并区分交互期间重叠、结束动画期间重叠、延迟旋转和未确认的重叠。阶段测试通过并不证明手势期间存在真实重叠；独立的严格覆盖审查会拒绝延迟或未复现的场景。
+
 在 iPadOS 18.6 中，从常驻内容内侧边缘发起的两个手势仍然**未能复现**。其他八个旋转或对照场景通过；缺失的手势不计为已通过的交互覆盖。常驻模式应保留明确的返回操作。
 
 [原始旋转报告](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-drawer-rotation.md)和[独立 Core 调查](https://github.com/rafaelaugustos/vue-router-ns/blob/main/test/native-back-content-edge.md)仍作为历史证据保留。新测试处理 [#168](https://github.com/rafaelaugustos/vue-router-ns/issues/168)；更广泛的 [#167](https://github.com/rafaelaugustos/vue-router-ns/issues/167) 验收、实体 iPad、Stage Manager 和任意自定义宿主仍需分别评估。

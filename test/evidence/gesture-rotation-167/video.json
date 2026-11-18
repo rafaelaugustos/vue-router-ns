@@ -1,0 +1,26 @@
+{
+  "sourceRun": "final262",
+  "sourceRevision": "f43d27eca18d222404a7c45eceeda09b933d1a65",
+  "sourceSha256": "58f94fbd58bbe2d6eebb1c2d837b7d387146e8ba4e18832b7a616001364b889d",
+  "publishedVideo": "docs/public/media/gesture-rotation-167.mp4",
+  "sha256": "809dfc336319663f52c006104a391f2b2e5a530225fc2bb4eff3ed6341b9db6f",
+  "sourceStream": {
+    "codec_name": "h264",
+    "width": 1668,
+    "height": 2420,
+    "time_base": "1/600",
+    "duration": "41.468333",
+    "nb_frames": "1592"
+  },
+  "publishedStream": {
+    "codec_name": "h264",
+    "width": 720,
+    "height": 1044,
+    "time_base": "1/600",
+    "duration": "41.468333",
+    "nb_frames": "1592"
+  },
+  "framesCompared": 1592,
+  "presentationTimestampsPreserved": true,
+  "processing": "Complete real simulator recording scaled to720px width and H.264 encoded. No trimming or retiming; final-frame duration preserved."
+}
