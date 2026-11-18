@@ -1,0 +1,10 @@
+--- a/scripts/native/adaptive-drawer/RotationUITests.swift
++++ b/scripts/native/adaptive-drawer/RotationUITests.swift
+@@ -244,6 +244,7 @@
+                     }
+                 }
+             }
++            if signal == "interaction-ended" { Thread.sleep(forTimeInterval: 3) }
+             start.press(forDuration: 0.05, thenDragTo: end, withVelocity: velocity, thenHoldForDuration: hold)
+             wait(for: [rotated], timeout: 15)
+             if let missing = try? read("rotation.json"), missing["notReproduced"] != nil {
