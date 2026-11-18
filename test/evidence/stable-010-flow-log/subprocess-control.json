@@ -1,0 +1,7 @@
+{
+  "kind": "deterministic subprocess control; synthetic adb stdout",
+  "bytes": 12582953,
+  "oldBufferRejected": true,
+  "completeOutputRetained": true,
+  "nonzeroExitRejected": 7
+}
