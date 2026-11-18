@@ -55,8 +55,10 @@ first UIKit Split row without executing a step, reporting “The job was not acq
 by Runner of type hosted even after multiple attempts” and macOS ARM64 capacity
 constraints. That cancellation is separate from the XCTest deadline failure.
 
-The focused drawer workflow now selects `macos-15-intel` for iOS 18.6, retaining
-`macos-26` for iPadOS 26.2. The published [runner image inventory](https://github.com/actions/runner-images/blob/main/README.md)
+The required release workflows select `macos-15-intel` for iOS 18.6, retaining
+`macos-26` for iPadOS 26.2. Devices, runtimes, cases, deadlines and assertions are
+unchanged by this runner selection. The focused Intel job acquired a runner at
+19:36 UTC; its native results remain separate from runner availability. The published [runner image inventory](https://github.com/actions/runner-images/blob/main/README.md)
 and [Intel image](https://github.com/actions/runner-images/blob/main/images/macos/macos-15-Readme.md)
 list this label and the same 18.6 runtime. Hosted acceptance must prove availability
 and compatibility; an image listing alone is not a passing native test. The full
