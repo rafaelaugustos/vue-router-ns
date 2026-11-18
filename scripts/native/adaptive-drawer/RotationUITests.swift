@@ -204,7 +204,10 @@ final class RotationUITests: XCTestCase {
             // release velocity of the default input. The device profile still
             // requires actual native cancellation; intended distance is no proof.
             let velocity: XCUIGestureVelocity = insetCancellation ? XCUIGestureVelocity(rawValue: 40) : .slow
-            let hold: TimeInterval = 0.3
+            // Keep pointer input active while XCTest delivers device orientation.
+            // Short cancellation drags can otherwise finish before the app gets
+            // that notification. Native phase/recognizer assertions still apply.
+            let hold: TimeInterval = gesturePhase ? 2.0 : 0.3
             try write("\(label)-driver.json", [
                 "rotationSignal": signal,
                 "gestureIntent": name,

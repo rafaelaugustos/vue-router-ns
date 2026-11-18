@@ -1,0 +1,23 @@
+{
+  "run": 44393013369,
+  "job": 135118900163,
+  "source": "1c69661d4413b11b90d767e32b7785176ce83c50",
+  "xctestPassed": 3,
+  "nativePhaseAssertionPassed": false,
+  "cases": [
+    {
+      "case": "cancel-landscape",
+      "interactionMs": 148.9659999999858,
+      "requestAfterAdmissionMs": 5.1259765625,
+      "orientationAfterDecisionMs": 162.38399999996182,
+      "interactionEndedBeforeRequest": false
+    },
+    {
+      "case": "cancel-portrait",
+      "interactionMs": 246.17399999996996,
+      "requestAfterAdmissionMs": 401.14501953125,
+      "orientationAfterDecisionMs": 590.5680000000866,
+      "interactionEndedBeforeRequest": true
+    }
+  ]
+}

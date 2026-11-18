@@ -1,0 +1,13 @@
+{
+  "source": {
+    "bytes": 45595797,
+    "durationSeconds": 53.47,
+    "sha256": "2515f2ec37166cf3f79f2e3f007df0fbf6f6ac3e18a8e499d3fe5c30d493f15a"
+  },
+  "playback": {
+    "bytes": 522939,
+    "durationSeconds": 53.433333,
+    "sha256": "bd27f9f0d64d69e540da02815c83cfffd470e56b89632151e47bfaa4f3a397c8"
+  },
+  "conversion": "Resized to540px wide and resampled to30fps; complete native run, no frame-timing claim."
+}

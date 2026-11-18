@@ -1,0 +1,96 @@
+{
+  "nativeSource": "65b1621d2be235a7fa65049399bea89432241b9c",
+  "runs": [
+    {
+      "run": "normal26",
+      "source": "1c69661d4413b11b90d767e32b7785176ce83c50",
+      "dirty": true,
+      "sourcesVerified": 9,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "missingGestures": 0,
+      "receipts": [
+        {
+          "case": "cancel-landscape",
+          "outcome": "cancelled",
+          "receivedBeforeDecisionMs": 2306.2320000026375
+        },
+        {
+          "case": "cancel-portrait",
+          "outcome": "committed",
+          "receivedBeforeDecisionMs": 2177.866999991238
+        },
+        {
+          "case": "commit-landscape",
+          "outcome": "committed",
+          "receivedBeforeDecisionMs": 4570.031000010204
+        },
+        {
+          "case": "commit-portrait",
+          "outcome": "committed",
+          "receivedBeforeDecisionMs": 4801.30900000222
+        }
+      ]
+    },
+    {
+      "run": "normal18",
+      "source": "1c69661d4413b11b90d767e32b7785176ce83c50",
+      "dirty": true,
+      "sourcesVerified": 9,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "missingGestures": 2,
+      "receipts": [
+        {
+          "case": "cancel-landscape",
+          "outcome": "cancelled",
+          "receivedBeforeDecisionMs": 2314.8630000068806
+        },
+        {
+          "case": "commit-landscape",
+          "outcome": "committed",
+          "receivedBeforeDecisionMs": 4577.397999993991
+        }
+      ]
+    },
+    {
+      "run": "delayed26",
+      "source": "65b1621d2be235a7fa65049399bea89432241b9c",
+      "dirty": true,
+      "sourcesVerified": 9,
+      "control": "one-second delay before request timestamp/phase snapshot and orientation dispatch",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "missingGestures": 0,
+      "receipts": [
+        {
+          "case": "cancel-landscape",
+          "outcome": "cancelled",
+          "requestAfterAdmissionMs": 1009.755126953125,
+          "receivedBeforeDecisionMs": 1304.6639999956824
+        },
+        {
+          "case": "cancel-portrait",
+          "outcome": "cancelled",
+          "requestAfterAdmissionMs": 1009.4560546875,
+          "receivedBeforeDecisionMs": 1172.0700000296347
+        },
+        {
+          "case": "commit-landscape",
+          "outcome": "committed",
+          "requestAfterAdmissionMs": 1010.2900390625,
+          "receivedBeforeDecisionMs": 3577.1539999987
+        },
+        {
+          "case": "commit-portrait",
+          "outcome": "committed",
+          "requestAfterAdmissionMs": 1007.35302734375,
+          "receivedBeforeDecisionMs": 3812.1120000141673
+        }
+      ]
+    }
+  ]
+}
