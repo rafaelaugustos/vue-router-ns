@@ -1,5 +1,9 @@
 # Native gesture rotation delivery and visual deferral — #167, stage 2
 
+This report retains the original `f43d27e` validation. See the
+[integration follow-up](./native-gesture-rotation-167-integration.md) for the current
+source after #226, the cancellation control correction and new evidence.
+
 The app receives a changed device orientation during real native Back interaction,
 but the tested platform-default iPad composition defers window rotation until
 navigation finishes. This stage adds repeatable phase evidence and a strict

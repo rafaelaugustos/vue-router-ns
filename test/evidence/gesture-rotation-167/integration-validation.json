@@ -1,0 +1,541 @@
+{
+  "source": "0ece7291e12592b13ba6097e389db51c86273b0e",
+  "context": "local",
+  "results": [
+    {
+      "os": "18-6",
+      "profile": "gesture-rotation",
+      "source": "0ece7291e12592b13ba6097e389db51c86273b0e",
+      "sourcesVerified": 9,
+      "passedTests": 3,
+      "scenarios": 6,
+      "exercised": 4,
+      "knownMissing": 2,
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.41",
+        "webpack": "5.112.2"
+      },
+      "xcode": "Xcode 27.2\nBuild version 27B52",
+      "core": {
+        "count": 1362,
+        "sha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134"
+      },
+      "strictAudit": {
+        "exitCode": 1,
+        "actualOverlap": false
+      },
+      "cases": [
+        {
+          "case": "cancel-landscape",
+          "result": "rotation-deferred",
+          "navigationCancelled": true,
+          "receivedDuringInteraction": true,
+          "actualOverlap": false
+        },
+        {
+          "case": "cancel-portrait",
+          "result": "gesture-not-reproduced",
+          "navigationCancelled": null,
+          "actualOverlap": false
+        },
+        {
+          "case": "commit-landscape",
+          "result": "rotation-deferred",
+          "navigationCancelled": false,
+          "receivedDuringInteraction": true,
+          "actualOverlap": false
+        },
+        {
+          "case": "commit-portrait",
+          "result": "gesture-not-reproduced",
+          "navigationCancelled": null,
+          "actualOverlap": false
+        },
+        {
+          "case": "modal",
+          "result": "settled-control",
+          "navigationCancelled": null,
+          "actualOverlap": false
+        },
+        {
+          "case": "settled",
+          "result": "settled-control",
+          "navigationCancelled": null,
+          "actualOverlap": false
+        }
+      ],
+      "archive": {
+        "file": "integration-local-18-6-gesture-rotation.zip",
+        "sha256": "eb9e2b1e7435040cac581baa0eb04e1c63dcf7b0b86c1ac078cd0d848b195af3"
+      }
+    },
+    {
+      "os": "18-6",
+      "profile": "programmatic-overlap",
+      "source": "0ece7291e12592b13ba6097e389db51c86273b0e",
+      "sourcesVerified": 9,
+      "passedTests": 2,
+      "scenarios": 6,
+      "exercised": 6,
+      "knownMissing": 0,
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.41",
+        "webpack": "5.112.2"
+      },
+      "xcode": "Xcode 27.2\nBuild version 27B52",
+      "core": {
+        "count": 1362,
+        "sha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134"
+      },
+      "cases": [
+        {
+          "case": "back-overlap-landscape",
+          "result": "overlap",
+          "navigationCancelled": false,
+          "actualOverlap": true
+        },
+        {
+          "case": "back-overlap-portrait",
+          "result": "overlap",
+          "navigationCancelled": false,
+          "actualOverlap": true
+        },
+        {
+          "case": "modal",
+          "result": "settled-control",
+          "navigationCancelled": null,
+          "actualOverlap": false
+        },
+        {
+          "case": "push-overlap-landscape",
+          "result": "overlap",
+          "navigationCancelled": false,
+          "actualOverlap": true
+        },
+        {
+          "case": "push-overlap-portrait",
+          "result": "overlap",
+          "navigationCancelled": false,
+          "actualOverlap": true
+        },
+        {
+          "case": "settled",
+          "result": "settled-control",
+          "navigationCancelled": null,
+          "actualOverlap": false
+        }
+      ],
+      "archive": {
+        "file": "integration-local-18-6-programmatic-overlap.zip",
+        "sha256": "e2948561a238b145bc8d5694dcf25d435a033685789ba457088944754b80aec1"
+      }
+    },
+    {
+      "os": "18-6",
+      "profile": "default-rotation",
+      "source": "0ece7291e12592b13ba6097e389db51c86273b0e",
+      "sourcesVerified": 9,
+      "passedTests": 4,
+      "scenarios": 10,
+      "exercised": 8,
+      "knownMissing": 2,
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.41",
+        "webpack": "5.112.2"
+      },
+      "xcode": "Xcode 27.2\nBuild version 27B52",
+      "core": {
+        "count": 1362,
+        "sha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134"
+      },
+      "cases": [
+        {
+          "case": "back-device-landscape",
+          "result": "rotation-deferred",
+          "navigationCancelled": false,
+          "actualOverlap": false
+        },
+        {
+          "case": "back-device-portrait",
+          "result": "rotation-deferred",
+          "navigationCancelled": false,
+          "actualOverlap": false
+        },
+        {
+          "case": "cancel-landscape",
+          "result": "rotation-deferred",
+          "navigationCancelled": true,
+          "actualOverlap": false
+        },
+        {
+          "case": "cancel-portrait",
+          "result": "gesture-not-reproduced",
+          "navigationCancelled": null,
+          "actualOverlap": false
+        },
+        {
+          "case": "commit-landscape",
+          "result": "rotation-deferred",
+          "navigationCancelled": false,
+          "actualOverlap": false
+        },
+        {
+          "case": "commit-portrait",
+          "result": "gesture-not-reproduced",
+          "navigationCancelled": null,
+          "actualOverlap": false
+        },
+        {
+          "case": "modal",
+          "result": "settled-control",
+          "navigationCancelled": null,
+          "actualOverlap": false
+        },
+        {
+          "case": "push-device-landscape",
+          "result": "rotation-deferred",
+          "navigationCancelled": false,
+          "actualOverlap": false
+        },
+        {
+          "case": "push-device-portrait",
+          "result": "rotation-deferred",
+          "navigationCancelled": false,
+          "actualOverlap": false
+        },
+        {
+          "case": "settled",
+          "result": "settled-control",
+          "navigationCancelled": null,
+          "actualOverlap": false
+        }
+      ],
+      "archive": {
+        "file": "integration-local-18-6-default-rotation.zip",
+        "sha256": "428a5eae56bc2a33f5cab0c14d381f548ce6143804e57c0b5d1e49488f33128d"
+      }
+    },
+    {
+      "os": "26-2",
+      "profile": "gesture-rotation",
+      "source": "0ece7291e12592b13ba6097e389db51c86273b0e",
+      "sourcesVerified": 9,
+      "passedTests": 3,
+      "scenarios": 6,
+      "exercised": 6,
+      "knownMissing": 0,
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.41",
+        "webpack": "5.112.2"
+      },
+      "xcode": "Xcode 27.2\nBuild version 27B52",
+      "core": {
+        "count": 1362,
+        "sha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134"
+      },
+      "strictAudit": {
+        "exitCode": 1,
+        "actualOverlap": false
+      },
+      "cases": [
+        {
+          "case": "cancel-landscape",
+          "result": "rotation-deferred",
+          "navigationCancelled": true,
+          "receivedDuringInteraction": true,
+          "actualOverlap": false
+        },
+        {
+          "case": "cancel-portrait",
+          "result": "rotation-deferred",
+          "navigationCancelled": true,
+          "receivedDuringInteraction": true,
+          "actualOverlap": false
+        },
+        {
+          "case": "commit-landscape",
+          "result": "rotation-deferred",
+          "navigationCancelled": false,
+          "receivedDuringInteraction": true,
+          "actualOverlap": false
+        },
+        {
+          "case": "commit-portrait",
+          "result": "rotation-deferred",
+          "navigationCancelled": false,
+          "receivedDuringInteraction": true,
+          "actualOverlap": false
+        },
+        {
+          "case": "modal",
+          "result": "settled-control",
+          "navigationCancelled": null,
+          "actualOverlap": false
+        },
+        {
+          "case": "settled",
+          "result": "settled-control",
+          "navigationCancelled": null,
+          "actualOverlap": false
+        }
+      ],
+      "archive": {
+        "file": "integration-local-26-2-gesture-rotation.zip",
+        "sha256": "575782a4933f665cecb49e924856d37ad73e5d36d718f01df35e33db28810216"
+      }
+    },
+    {
+      "os": "26-2",
+      "profile": "programmatic-overlap",
+      "source": "0ece7291e12592b13ba6097e389db51c86273b0e",
+      "sourcesVerified": 9,
+      "passedTests": 2,
+      "scenarios": 6,
+      "exercised": 6,
+      "knownMissing": 0,
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.41",
+        "webpack": "5.112.2"
+      },
+      "xcode": "Xcode 27.2\nBuild version 27B52",
+      "core": {
+        "count": 1362,
+        "sha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134"
+      },
+      "cases": [
+        {
+          "case": "back-overlap-landscape",
+          "result": "overlap",
+          "navigationCancelled": false,
+          "actualOverlap": true
+        },
+        {
+          "case": "back-overlap-portrait",
+          "result": "overlap",
+          "navigationCancelled": false,
+          "actualOverlap": true
+        },
+        {
+          "case": "modal",
+          "result": "settled-control",
+          "navigationCancelled": null,
+          "actualOverlap": false
+        },
+        {
+          "case": "push-overlap-landscape",
+          "result": "overlap",
+          "navigationCancelled": false,
+          "actualOverlap": true
+        },
+        {
+          "case": "push-overlap-portrait",
+          "result": "overlap",
+          "navigationCancelled": false,
+          "actualOverlap": true
+        },
+        {
+          "case": "settled",
+          "result": "settled-control",
+          "navigationCancelled": null,
+          "actualOverlap": false
+        }
+      ],
+      "archive": {
+        "file": "integration-local-26-2-programmatic-overlap.zip",
+        "sha256": "cd37469319fabd5735ed1b7d562e5d4333bed358d339287365596d48b1205bb7"
+      }
+    },
+    {
+      "os": "26-2",
+      "profile": "default-rotation",
+      "source": "0ece7291e12592b13ba6097e389db51c86273b0e",
+      "sourcesVerified": 9,
+      "passedTests": 4,
+      "scenarios": 10,
+      "exercised": 10,
+      "knownMissing": 0,
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.41",
+        "webpack": "5.112.2"
+      },
+      "xcode": "Xcode 27.2\nBuild version 27B52",
+      "core": {
+        "count": 1362,
+        "sha256": "05abab59fd379d39476e0790527ae279e058df77aa21c79fd3dd2b0d4a443134"
+      },
+      "cases": [
+        {
+          "case": "back-device-landscape",
+          "result": "rotation-deferred",
+          "navigationCancelled": false,
+          "actualOverlap": false
+        },
+        {
+          "case": "back-device-portrait",
+          "result": "rotation-deferred",
+          "navigationCancelled": false,
+          "actualOverlap": false
+        },
+        {
+          "case": "cancel-landscape",
+          "result": "rotation-deferred",
+          "navigationCancelled": true,
+          "actualOverlap": false
+        },
+        {
+          "case": "cancel-portrait",
+          "result": "rotation-deferred",
+          "navigationCancelled": true,
+          "actualOverlap": false
+        },
+        {
+          "case": "commit-landscape",
+          "result": "rotation-deferred",
+          "navigationCancelled": false,
+          "actualOverlap": false
+        },
+        {
+          "case": "commit-portrait",
+          "result": "rotation-deferred",
+          "navigationCancelled": false,
+          "actualOverlap": false
+        },
+        {
+          "case": "modal",
+          "result": "settled-control",
+          "navigationCancelled": null,
+          "actualOverlap": false
+        },
+        {
+          "case": "push-device-landscape",
+          "result": "rotation-deferred",
+          "navigationCancelled": false,
+          "actualOverlap": false
+        },
+        {
+          "case": "push-device-portrait",
+          "result": "rotation-deferred",
+          "navigationCancelled": false,
+          "actualOverlap": false
+        },
+        {
+          "case": "settled",
+          "result": "settled-control",
+          "navigationCancelled": null,
+          "actualOverlap": false
+        }
+      ],
+      "archive": {
+        "file": "integration-local-26-2-default-rotation.zip",
+        "sha256": "31f6002c0feb34c90242087e24be8dd9ad7fc0d881769a1b6a5b0273664fe8d5"
+      }
+    }
+  ],
+  "repeatedDefault26": {
+    "source": "0ece7291e12592b13ba6097e389db51c86273b0e",
+    "passedTests": 4,
+    "scenarios": 10,
+    "archive": {
+      "file": "integration-local-26-2-default-repeat.zip",
+      "sha256": "467134ac5f14744be53ce2e0424796d8aaafa919a78200b1ff0101d54b3b69f3"
+    }
+  },
+  "baselineComparisons": [
+    {
+      "label": "main-equivalent",
+      "source": "a2b5cdac4fba89efaeab2e41b121e99447a172d1",
+      "sameTreeAsMain": "a77d44ad4ba7eb51fcc05878d162d2dc569cc0cb",
+      "tree": "92a0096fe27e6b685aaa63f61b2b52157ff7dd6e",
+      "expectedNativeCancellation": true,
+      "actualNativeCancellation": false,
+      "accepted": false,
+      "archive": {
+        "file": "integration-main-cancellation-failure.zip",
+        "sha256": "dfe3a46fc715753c3efe48cc090c8ce5266ba005664c2b3b0129612f9f2fe662"
+      }
+    },
+    {
+      "label": "initial-integration",
+      "source": "371d6f5c021e907c8ae5040ff0b13f925474f386",
+      "expectedNativeCancellation": true,
+      "actualNativeCancellation": false,
+      "accepted": false,
+      "archive": {
+        "file": "integration-initial-cancellation-failure.zip",
+        "sha256": "fe051cb65639b0513bbf359905fedebfb796afc99655ebb586f9398c8b902d8e"
+      }
+    }
+  ],
+  "earlierHostedAttempt": {
+    "run": 44360488160,
+    "attempt": 1,
+    "source": "371d6f5c021e907c8ae5040ff0b13f925474f386",
+    "accepted": false,
+    "failures": [
+      {
+        "os": "18-6",
+        "profile": "programmatic-overlap",
+        "xctestPassed": 2,
+        "xctestFailed": 0,
+        "error": "Recorder shutdown exceeded 10 seconds and required SIGKILL; default profile did not run."
+      },
+      {
+        "os": "26-2",
+        "profile": "gesture-rotation",
+        "xctestPassed": 2,
+        "xctestFailed": 1,
+        "error": "cancel-landscape did not produce navigation-observed; programmatic/default profiles did not run."
+      }
+    ],
+    "archives": [
+      {
+        "os": "18-6",
+        "archive": "integration-attempt1-18-6.zip",
+        "sha256": "dc3ec43ab1c8e5740b8048230a4b53b5cc333cc812a0640a5b582d44af5a784f"
+      },
+      {
+        "os": "26-2",
+        "archive": "integration-attempt1-26-2.zip",
+        "sha256": "d6701575612fc5c0129b1d413702c13fdbd320f536015218ef04d653aec5408b"
+      }
+    ]
+  },
+  "supersededRerun": {
+    "run": 44360488160,
+    "attempt": 2,
+    "result": "cancelled",
+    "reason": "Superseded by final-source run after the local baseline reproduced the old cancellation failure."
+  },
+  "finalHosted": {
+    "run": 44365174655,
+    "source": "0ece7291e12592b13ba6097e389db51c86273b0e",
+    "status": "pending"
+  },
+  "localChecks": {
+    "unitPassed": 995,
+    "unitSkipped": 10,
+    "harnessPassed": 66,
+    "typecheck": "passed",
+    "build": "passed",
+    "format": "passed",
+    "node": "22.23.3"
+  }
+}

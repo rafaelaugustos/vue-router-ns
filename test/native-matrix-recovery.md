@@ -1,5 +1,10 @@
 # Native matrix recovery — 2026-11-16
 
+The [2026-11-18 integration follow-up](./native-gesture-rotation-167-integration.md)
+subsequently reproduced an incorrect native commit with the 8% cancellation input,
+including on this report's main-equivalent source. It records the revised control
+and its validation; the successful historical runs below remain historical evidence.
+
 The [scheduled run](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/43876092862) at `8947014` exposed several independent failures. Passing the earlier focused rotation workflow did not establish that the full matrix was healthy.
 
 | Job                                                       | Evidence                                                                                                                                                       | Change                                                                                                                                                                                                                                                                         |

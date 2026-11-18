@@ -1,0 +1,26 @@
+{
+  "sourceRun": "slow26-gesture",
+  "sourceRevision": "0ece7291e12592b13ba6097e389db51c86273b0e",
+  "sourceSha256": "4f2b9da1330f0902aaf80a7ec3fabeb0129e2821b2b10369d6e6efa11a4ab9ee",
+  "publishedVideo": "docs/public/media/gesture-rotation-integration-225.mp4",
+  "sha256": "f9130ca48aa439931da0be2712d26e818f334ee823394d67c5ff86525e326ecd",
+  "sourceStream": {
+    "codec_name": "h264",
+    "width": 1668,
+    "height": 2420,
+    "r_frame_rate": "60000/1001",
+    "time_base": "1/600",
+    "duration": "41.811667",
+    "nb_frames": "1639"
+  },
+  "publishedStream": {
+    "codec_name": "h264",
+    "width": 720,
+    "height": 1044,
+    "r_frame_rate": "60/1",
+    "time_base": "1/15360",
+    "duration": "41.816667",
+    "nb_frames": "2509"
+  },
+  "processing": "Actual simulator recording resized to 720px width and resampled to a regular 60fps for playback. Frames may be duplicated or dropped by resampling; native JSON receipts, not the encoded video, establish event timing. No scenario was cut."
+}

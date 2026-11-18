@@ -49,6 +49,8 @@ On iPadOS 26+, the permanent-content cases require both actual native outcomes. 
 
 Each run records source hashes, built router files, installed Core source hashes, package/tool versions, built Info.plist configuration and the XCTest summary. The demo uses the checkout's built `dist`; this suite does not certify an npm registry consumer. The [published content-Back report](../../../test/native-published-content-back-168.md) compares Core files with the official package and retains the exact native evidence, diagnostic controls and video.
 
+On iPadOS 26+, the inset cancellation input travels 4% of the recognizer width at 40 points/second and holds for 0.3 seconds. The earlier 8% input could commit even on the merged baseline. The short, slower input retains the required native cancellation and timing checks; see the [integration validation](../../../test/native-gesture-rotation-167-integration.md). Other input parameters remain unchanged.
+
 A native observer records the rotation callback and current coordinator identity without replacing delegates or synthesizing a pop. The host checks surviving object/entry identities, inactive history/drafts, real native controller membership, disposal count, promise settlement, bounds/accessibility state, and follow-up guards/navigation. A committed or cancelled gesture is judged by UIKit's actual completion, not the intended drag length. The [detailed acceptance report](../../../test/native-drawer-rotation.md) records OS differences and physical-device limitations.
 
 The full `Native iOS drawer` workflow requires an additional iPadOS 26.2 content-Back job. Its existing iOS 18.6 rows remain unchanged. Run only the new job with:
