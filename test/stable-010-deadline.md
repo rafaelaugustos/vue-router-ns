@@ -76,7 +76,20 @@ recording alone proves native touch delivery.
 [Failure metadata](./evidence/stable-010-deadline/hosted-gesture-unobserved.json) and
 [raw evidence, including both recordings](./evidence/stable-010-deadline/hosted-gesture-unobserved.zip)
 retain this result. One same-commit rerun was requested for comparison after the
-Intel sibling finished; it is not a waiver or a diagnosed fix for that failure.
-The corrected default/content-Back profile is also being tested independently.
-The full release gate still requires every applicable lane on the final main
-commit before publication.
+Intel sibling finished. Its [26.2 job](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/44380621476/job/135089356882)
+passed all three profiles: active gesture, programmatic overlap, and default
+transition/content Back. This does not diagnose or erase the first failure. The
+workflow overall remains failed because it retains the withdrawn Intel pilot's
+result; that Intel job was not executed again.
+
+The independent [default/content-Back run](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/44384841978)
+also passed four XCTest methods, zero failures/skips, and all ten scenarios. Both
+orientations committed and cancelled real native Back, including the required
+26.2 inset gestures, with rotation requested before native navigation ended.
+
+[Hosted validation](./evidence/stable-010-deadline/hosted-validation.json) records
+the source commits and verifies the nine native source hashes against the final
+correction. The [independent run archive](./evidence/stable-010-deadline/hosted-content26.zip)
+and [three-profile comparison](./evidence/stable-010-deadline/hosted-comparison26.zip)
+retain JSON and native logs. The full release gate still requires every
+applicable lane on the final main commit before publication.
