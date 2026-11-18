@@ -1,0 +1,11 @@
+{
+  "run": 44380621476,
+  "job": 135071523236,
+  "source": "101875d7f8ae1387ef7cc10a842a5fc21ce026a6",
+  "profile": "gesture",
+  "failure": "commit-landscape did not record native navigation; two later arm failures cascaded",
+  "cause": "unconfirmed",
+  "budgetCorrectionApplies": false,
+  "videoObservation": "XCTest recording shows the detail page; simctl recording stays on root and is not evidence that push failed",
+  "rerun": "one same-commit comparison started after Intel sibling finished; attempt2 job135089356882"
+}

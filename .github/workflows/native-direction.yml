@@ -7,7 +7,7 @@ permissions:
 
 jobs:
   direction:
-    runs-on: macos-15-intel
+    runs-on: macos-15
     timeout-minutes: 30
     strategy:
       fail-fast: false

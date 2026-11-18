@@ -55,11 +55,28 @@ first UIKit Split row without executing a step, reporting “The job was not acq
 by Runner of type hosted even after multiple attempts” and macOS ARM64 capacity
 constraints. That cancellation is separate from the XCTest deadline failure.
 
-The required release workflows select `macos-15-intel` for iOS 18.6, retaining
-`macos-26` for iPadOS 26.2. Devices, runtimes, cases, deadlines and assertions are
-unchanged by this runner selection. The focused Intel job acquired a runner at
-19:36 UTC; its native results remain separate from runner availability. The published [runner image inventory](https://github.com/actions/runner-images/blob/main/README.md)
-and [Intel image](https://github.com/actions/runner-images/blob/main/images/macos/macos-15-Readme.md)
-list this label and the same 18.6 runtime. Hosted acceptance must prove availability
-and compatibility; an image listing alone is not a passing native test. The full
-release gate still requires every applicable lane on the final main commit.
+An Intel runner was evaluated with the same 18.6 runtime. It acquired a machine,
+compiled the app and completed simulator boot, but its first app launch exceeded
+the existing 30-second bound and was killed without stdout/stderr. No XCTest ran,
+and no native result artifact was produced. The [retained job log](./evidence/stable-010-deadline/hosted-intel18.log.gz)
+records that failure. The proposed Intel selection was withdrawn; all release
+lanes keep their established ARM64 runner/runtime baseline. Missing runner
+capacity remains a publication blocker, not passing acceptance.
+
+## Separate hosted gesture observation failure
+
+At source 101875d, [the focused run](https://github.com/rafaelaugustos/vue-router-ns/actions/runs/44380621476)
+failed in the first gesture-phase committed case, before exercising the corrected
+default profile. That unchanged path recorded no native navigation coordinator;
+the later cases then failed to arm. The cause is unconfirmed. The internal XCTest
+recording shows the detail page, while the simultaneous simctl recording stays
+on the root page. The latter is not evidence that the push failed. Neither
+recording alone proves native touch delivery.
+
+[Failure metadata](./evidence/stable-010-deadline/hosted-gesture-unobserved.json) and
+[raw evidence, including both recordings](./evidence/stable-010-deadline/hosted-gesture-unobserved.zip)
+retain this result. One same-commit rerun was requested for comparison after the
+Intel sibling finished; it is not a waiver or a diagnosed fix for that failure.
+The corrected default/content-Back profile is also being tested independently.
+The full release gate still requires every applicable lane on the final main
+commit before publication.

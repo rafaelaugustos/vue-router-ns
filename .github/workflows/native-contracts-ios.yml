@@ -7,7 +7,7 @@ permissions:
 
 jobs:
   ios:
-    runs-on: macos-15-intel
+    runs-on: macos-15
     # Independent fixtures avoid spending the job deadline on unrelated builds.
     # Each command keeps its original timeout, assertions and retention profile.
     timeout-minutes: 30

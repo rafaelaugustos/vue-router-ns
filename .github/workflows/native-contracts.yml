@@ -47,7 +47,7 @@ jobs:
   uikit-split:
     needs: changes
     if: github.event_name != 'pull_request' && (inputs.lane == '' || inputs.lane == 'all' || inputs.lane == 'uikit-split')
-    runs-on: macos-15-intel
+    runs-on: macos-15
     # The iPad also builds and tests incoming destinations. The scheduled run
     # completed those checks at 24m46s and hit 25m while uploading evidence.
     timeout-minutes: ${{ startsWith(matrix.device, 'iPad') && 35 || 25 }}

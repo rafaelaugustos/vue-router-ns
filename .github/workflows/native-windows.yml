@@ -71,7 +71,7 @@ jobs:
           path: scripts/native/out
   ios:
     name: iPad window isolation and resume
-    runs-on: macos-15-intel
+    runs-on: macos-15
     timeout-minutes: 25
     concurrency:
       group: native-windows-ios-${{ github.ref }}
