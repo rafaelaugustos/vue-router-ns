@@ -1,0 +1,81 @@
+{
+  "revision": "fee900e23e33343b1fbe684310ae1d036dbf166e",
+  "sourceSha256": "ebed1125d3adb2b68c5df95253753094f8c4e0bc62e96ea678584ed830e02feb",
+  "oldDriverRevision": "a35ff476af52a268099e6bafa0c4009d62c2fa3f",
+  "adbControlVersion": "36.0.0-13206524",
+  "runs": {
+    "start-delayed-original": {
+      "archiveSha256": "ee5c66667c04e1b7ed891bb450948485253a9bdddfaf98a94d02d63599c19284",
+      "completeReports": null,
+      "cancel": {
+        "ok": false,
+        "events": 28,
+        "peak": 0
+      }
+    },
+    "start-delayed-original-brew": {
+      "archiveSha256": "b15cd15403abcdebbd21b5e997c08095dca650b8dddb2845f16e0bb797005126",
+      "completeReports": null,
+      "cancel": {
+        "ok": false,
+        "events": 28,
+        "peak": 0
+      }
+    },
+    "start-delayed-ready-brew": {
+      "archiveSha256": "87634a2eb595908fce00f2b2e5b94e95fa14a1d814de3cf7ca029839b9a8ffd0",
+      "completeReports": 15,
+      "cancel": {
+        "ok": true,
+        "events": 58,
+        "peak": 0.24509277939796448
+      }
+    },
+    "start-stale-token": {
+      "archiveSha256": "eb20516a0a96eb843050c883d0f0f6738245235e0b13a056a0aee66ffedaf499",
+      "completeReports": null,
+      "cancel": null
+    },
+    "start-final": {
+      "archiveSha256": "615d3067be6d79b52fd00d7705abee17e4e23e97336e5d5d6fda27046653db38",
+      "completeReports": 15,
+      "cancel": {
+        "ok": true,
+        "events": 61,
+        "peak": 0.30325883626937866
+      }
+    },
+    "start-normal": {
+      "archiveSha256": "5732f0985bd6c9a0c8acdb6607e77ce98396fa11869847e94b23c39a1586b191",
+      "completeReports": null,
+      "cancel": {
+        "ok": true,
+        "events": 62,
+        "peak": 0.31939834356307983
+      }
+    },
+    "start-delayed-ready": {
+      "archiveSha256": "67117b9f80a07037886652c8c59db0681fb8133cbf0cead89db8878ee641e789",
+      "completeReports": null,
+      "cancel": null
+    },
+    "start-final-probe": {
+      "archiveSha256": "9e8827f3f77e9703586b66731659613cf2f5b39c837ff0682de3da9dbf60263f",
+      "completeReports": null,
+      "cancel": null
+    }
+  },
+  "apks": {
+    "start-normal.apk": {
+      "sha256": "44627d70bddfde8e3f1e7c2122a9d75f65dbb14ec41215066283012e5a4e58cb",
+      "nativeAcknowledgementPresent": true,
+      "injected650msDelayPresent": false
+    },
+    "start-delayed.apk": {
+      "sha256": "b8dbcf62053790a26210b36bf03642dbf4d706263958ebb724bb57fb5a41ab63",
+      "nativeAcknowledgementPresent": true,
+      "injected650msDelayPresent": true
+    }
+  },
+  "excluded": "start-normal and start-delayed-ready stopped on unrelated ADB disconnect during screenshot; neither counted as a passing suite. start-final-probe encountered a second failed SystemUI read and failed closed, as required."
+}

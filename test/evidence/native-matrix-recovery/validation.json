@@ -1,0 +1,453 @@
+{
+  "revision": "9ba1c7c606a0430beb213a02c6254621761ab717",
+  "originalRun": 43876092862,
+  "local": {
+    "final26": {
+      "xctest": {
+        "passedTests": 4,
+        "failedTests": 0,
+        "skippedTests": 0
+      },
+      "sourcesVerified": true,
+      "recordedRevision": "9ba1c7c606a0430beb213a02c6254621761ab717",
+      "dirty": false,
+      "xcode": "Xcode 27.2\nBuild version 27B52",
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.41",
+        "webpack": "5.112.2"
+      },
+      "coreSha256": "af1b85aa7dbd251c762899d0e7fdfe7ef86f0c358dde9e70d9fd82e47b64e37f",
+      "cases": [
+        {
+          "case": "cancel-landscape",
+          "notReproduced": false,
+          "cancelled": true,
+          "requestBeforeDecisionMs": 620.2109375,
+          "driver": {
+            "requestPhase": "observed",
+            "holdDuration": 0.3,
+            "rotationSignal": "navigation-observed",
+            "windowFrame": {
+              "y": 0,
+              "height": 1210,
+              "x": 0,
+              "width": 834
+            },
+            "interactionEndedBeforeRequest": false,
+            "end": {
+              "x": 102.08,
+              "y": 659
+            },
+            "recognizer": {
+              "height": 1102,
+              "x": 0,
+              "enabled": true,
+              "y": 108,
+              "width": 834,
+              "wallTime": 1794839696172,
+              "at": 43207.22199999727,
+              "kind": "gesture-recognizer",
+              "state": 0
+            },
+            "dragVelocity": -20,
+            "start": {
+              "y": 659,
+              "x": 2
+            },
+            "navigationObservedBeforeRequest": true,
+            "requestedAt": 1794839696469.789
+          }
+        },
+        {
+          "case": "cancel-portrait",
+          "notReproduced": false,
+          "cancelled": true,
+          "requestBeforeDecisionMs": 108.204833984375,
+          "driver": {
+            "dragVelocity": -20,
+            "start": {
+              "x": 282,
+              "y": 471
+            },
+            "requestPhase": "observed",
+            "end": {
+              "y": 471,
+              "x": 319.2
+            },
+            "interactionEndedBeforeRequest": false,
+            "windowFrame": {
+              "y": 0,
+              "height": 834,
+              "width": 1210,
+              "x": 0
+            },
+            "requestedAt": 1794839702714.7952,
+            "navigationObservedBeforeRequest": true,
+            "recognizer": {
+              "x": 280,
+              "height": 726,
+              "enabled": true,
+              "y": 108,
+              "width": 930,
+              "wallTime": 1794839702371,
+              "at": 49406.24199999729,
+              "kind": "gesture-recognizer",
+              "state": 0
+            },
+            "rotationSignal": "navigation-observed",
+            "holdDuration": 0.1
+          }
+        },
+        {
+          "case": "commit-landscape",
+          "notReproduced": false,
+          "cancelled": false,
+          "requestBeforeDecisionMs": -5.54296875,
+          "driver": {
+            "rotationSignal": "interaction-ended",
+            "interactionEndedBeforeRequest": true,
+            "holdDuration": 0.3,
+            "recognizer": {
+              "x": 0,
+              "height": 1102,
+              "enabled": true,
+              "y": 108,
+              "width": 834,
+              "wallTime": 1794839681071,
+              "at": 28106.36100001284,
+              "kind": "gesture-recognizer",
+              "state": 0
+            },
+            "end": {
+              "x": 669.2,
+              "y": 659
+            },
+            "start": {
+              "x": 2,
+              "y": 659
+            },
+            "navigationObservedBeforeRequest": true,
+            "requestPhase": "observed",
+            "dragVelocity": -20,
+            "windowFrame": {
+              "y": 0,
+              "width": 834,
+              "x": 0,
+              "height": 1210
+            },
+            "requestedAt": 1794839684266.543
+          }
+        },
+        {
+          "case": "commit-portrait",
+          "notReproduced": false,
+          "cancelled": false,
+          "requestBeforeDecisionMs": -7.841064453125,
+          "driver": {
+            "recognizer": {
+              "x": 280,
+              "height": 726,
+              "enabled": true,
+              "y": 108,
+              "width": 930,
+              "wallTime": 1794839688472,
+              "at": 35507.26899999427,
+              "kind": "gesture-recognizer",
+              "state": 0
+            },
+            "start": {
+              "x": 282,
+              "y": 471
+            },
+            "holdDuration": 0.3,
+            "interactionEndedBeforeRequest": true,
+            "navigationObservedBeforeRequest": true,
+            "end": {
+              "x": 1026,
+              "y": 471
+            },
+            "dragVelocity": -20,
+            "windowFrame": {
+              "y": 0,
+              "height": 834,
+              "width": 1210,
+              "x": 0
+            },
+            "requestedAt": 1794839691966.841,
+            "requestPhase": "observed",
+            "rotationSignal": "interaction-ended"
+          }
+        }
+      ],
+      "archiveSha256": "7d2bf8474e7e7261a2050aa9aa0dc3bda8e9974abfe32882df7ccd27e0bc881a"
+    },
+    "final18": {
+      "xctest": {
+        "passedTests": 4,
+        "failedTests": 0,
+        "skippedTests": 0
+      },
+      "sourcesVerified": true,
+      "recordedRevision": "9ba1c7c606a0430beb213a02c6254621761ab717",
+      "dirty": false,
+      "xcode": "Xcode 27.2\nBuild version 27B52",
+      "packages": {
+        "@nativescript/core": "9.1.4",
+        "nativescript-vue": "3.1.3",
+        "@nativescript/ios": "9.1.0",
+        "@nativescript/webpack": "5.0.41",
+        "webpack": "5.112.2"
+      },
+      "coreSha256": "af1b85aa7dbd251c762899d0e7fdfe7ef86f0c358dde9e70d9fd82e47b64e37f",
+      "cases": [
+        {
+          "case": "cancel-landscape",
+          "notReproduced": false,
+          "cancelled": true,
+          "requestBeforeDecisionMs": 606.035888671875,
+          "driver": {
+            "recognizer": {
+              "x": 0,
+              "height": 1110,
+              "enabled": true,
+              "y": 100,
+              "width": 834,
+              "wallTime": 1794839705578,
+              "at": 41349.385000008624,
+              "kind": "gesture-recognizer",
+              "state": 0
+            },
+            "rotationSignal": "navigation-observed",
+            "start": {
+              "x": 2,
+              "y": 655
+            },
+            "requestPhase": "observed",
+            "holdDuration": 0.3,
+            "dragVelocity": -20,
+            "windowFrame": {
+              "y": 0,
+              "height": 1210,
+              "width": 834,
+              "x": 0
+            },
+            "requestedAt": 1794839705849.964,
+            "interactionEndedBeforeRequest": false,
+            "navigationObservedBeforeRequest": true,
+            "end": {
+              "y": 655,
+              "x": 102.08
+            }
+          }
+        },
+        {
+          "case": "cancel-portrait",
+          "notReproduced": true,
+          "cancelled": null,
+          "requestBeforeDecisionMs": null,
+          "driver": {
+            "rotationSignal": "navigation-observed",
+            "dragVelocity": -20,
+            "windowFrame": {
+              "y": 0,
+              "width": 1210,
+              "height": 834,
+              "x": 0
+            },
+            "holdDuration": 0.1,
+            "start": {
+              "x": 282,
+              "y": 467
+            },
+            "recognizer": {
+              "kind": "gesture-recognizer",
+              "at": 46749.56500000553,
+              "state": 0,
+              "x": 280,
+              "wallTime": 1794839710978,
+              "width": 930,
+              "enabled": true,
+              "height": 734,
+              "y": 100
+            },
+            "end": {
+              "x": 319.2,
+              "y": 467
+            }
+          }
+        },
+        {
+          "case": "commit-landscape",
+          "notReproduced": false,
+          "cancelled": false,
+          "requestBeforeDecisionMs": -6.7109375,
+          "driver": {
+            "rotationSignal": "interaction-ended",
+            "end": {
+              "y": 655,
+              "x": 669.2
+            },
+            "start": {
+              "y": 655,
+              "x": 2
+            },
+            "interactionEndedBeforeRequest": true,
+            "windowFrame": {
+              "y": 0,
+              "width": 834,
+              "x": 0,
+              "height": 1210
+            },
+            "holdDuration": 0.3,
+            "navigationObservedBeforeRequest": true,
+            "recognizer": {
+              "height": 1110,
+              "x": 0,
+              "enabled": true,
+              "y": 100,
+              "width": 834,
+              "wallTime": 1794839690177,
+              "at": 25949.691000016173,
+              "kind": "gesture-recognizer",
+              "state": 0
+            },
+            "requestPhase": "observed",
+            "dragVelocity": -20,
+            "requestedAt": 1794839693329.711
+          }
+        },
+        {
+          "case": "commit-portrait",
+          "notReproduced": true,
+          "cancelled": null,
+          "requestBeforeDecisionMs": null,
+          "driver": {
+            "holdDuration": 0.3,
+            "recognizer": {
+              "width": 930,
+              "y": 100,
+              "x": 280,
+              "wallTime": 1794839696477,
+              "state": 0,
+              "enabled": true,
+              "kind": "gesture-recognizer",
+              "at": 32249.19500001124,
+              "height": 734
+            },
+            "dragVelocity": -20,
+            "end": {
+              "x": 1026,
+              "y": 467
+            },
+            "windowFrame": {
+              "height": 834,
+              "width": 1210,
+              "x": 0,
+              "y": 0
+            },
+            "start": {
+              "y": 467,
+              "x": 282
+            },
+            "rotationSignal": "interaction-ended"
+          }
+        }
+      ],
+      "archiveSha256": "9ca36ea52032b1510bd582754e1b27ad760374db684077c87e2258b08fc45c38"
+    },
+    "fault": {
+      "archiveSha256": "b6ee34dbad89641cfe77830604d67749f294c53a5a16877a2a2cfa8c40bf47e3",
+      "events": [
+        {
+          "stage": "disconnect-injected",
+          "at": "2026-11-16T14:24:39.554Z"
+        },
+        {
+          "at": "2026-11-16T14:24:40.064Z",
+          "stage": "failed-read",
+          "code": 255,
+          "signal": null,
+          "killed": false
+        },
+        {
+          "at": "2026-11-16T14:24:40.159Z",
+          "stage": "identity-confirmed",
+          "phase": "before-retry",
+          "bootId": "66493a49-989a-427e-a8cb-d0566ad620d9",
+          "systemPid": "1058",
+          "appPid": "5164"
+        },
+        {
+          "at": "2026-11-16T14:24:40.236Z",
+          "stage": "identity-confirmed",
+          "phase": "after-retry",
+          "bootId": "66493a49-989a-427e-a8cb-d0566ad620d9",
+          "systemPid": "1058",
+          "appPid": "5164"
+        },
+        {
+          "at": "2026-11-16T14:24:40.237Z",
+          "stage": "read-recovered"
+        }
+      ]
+    },
+    "committed-probe": {
+      "archiveSha256": "240cce3f0801877398dc83edf932a20d10e2537b87724c7b33dd835fa1370a3e",
+      "events": [
+        {
+          "at": 1794839271062,
+          "stage": "failed-read",
+          "code": 255,
+          "signal": null,
+          "killed": false
+        },
+        {
+          "at": 1794839271150,
+          "stage": "identity-confirmed",
+          "phase": "before-retry",
+          "bootId": "66493a49-989a-427e-a8cb-d0566ad620d9",
+          "systemPid": "1058",
+          "appPid": "5164"
+        },
+        {
+          "at": 1794839271238,
+          "stage": "identity-confirmed",
+          "phase": "after-retry",
+          "bootId": "66493a49-989a-427e-a8cb-d0566ad620d9",
+          "systemPid": "1058",
+          "appPid": "5164"
+        },
+        {
+          "at": 1794839271239,
+          "stage": "read-recovered"
+        }
+      ]
+    },
+    "local-legacy": {
+      "archiveSha256": "75cb9a61348fc0e762421a3aafe8a083ec1de4e3ed9825bdc8c46c71448e1389",
+      "reportsPassed": 15
+    }
+  },
+  "hosted": {
+    "predictive": 43886726293,
+    "uikit": 43886738405,
+    "rotation": 43887187146,
+    "status": "pending"
+  },
+  "limits": [
+    "Local Android uses released Core9.1.4 legacy mode; it is not candidate predictive-back acceptance.",
+    "iOS18.6 inset gestures remain explicitly not reproduced.",
+    "Gesture rotation is visually deferred; this does not close #167."
+  ],
+  "checks": {
+    "unitPassed": 995,
+    "unitSkipped": 10,
+    "harnessPassed": 43,
+    "typecheck": true,
+    "build": true,
+    "workflowConditionsVerified": 160
+  }
+}

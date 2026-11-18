@@ -7,7 +7,7 @@ on:
       lane:
         description: Native acceptance scope
         type: choice
-        options: [all, direction]
+        options: [all, direction, uikit-split]
         default: all
   schedule:
     - cron: '0 5 * * 1'
@@ -38,17 +38,19 @@ jobs:
               - '*config*'
   android:
     needs: changes
-    if: github.event_name != 'pull_request' && inputs.lane != 'direction'
+    if: github.event_name != 'pull_request' && (inputs.lane == '' || inputs.lane == 'all')
     uses: ./.github/workflows/native-contracts-android.yml
   ios:
     needs: changes
-    if: github.event_name != 'pull_request' && inputs.lane != 'direction'
+    if: github.event_name != 'pull_request' && (inputs.lane == '' || inputs.lane == 'all')
     uses: ./.github/workflows/native-contracts-ios.yml
   uikit-split:
     needs: changes
-    if: github.event_name != 'pull_request' && inputs.lane != 'direction'
+    if: github.event_name != 'pull_request' && (inputs.lane == '' || inputs.lane == 'all' || inputs.lane == 'uikit-split')
     runs-on: macos-15
-    timeout-minutes: 25
+    # The iPad also builds and tests incoming destinations. The scheduled run
+    # completed those checks at 24m46s and hit 25m while uploading evidence.
+    timeout-minutes: ${{ startsWith(matrix.device, 'iPad') && 35 || 25 }}
     strategy:
       fail-fast: false
       matrix:
@@ -105,31 +107,31 @@ jobs:
           path: scripts/native/out
   integration:
     needs: changes
-    if: github.event_name != 'pull_request' && inputs.lane != 'direction'
+    if: github.event_name != 'pull_request' && (inputs.lane == '' || inputs.lane == 'all')
     uses: ./.github/workflows/native.yml
   page-actions:
     needs: changes
-    if: github.event_name != 'pull_request' && inputs.lane != 'direction'
+    if: github.event_name != 'pull_request' && (inputs.lane == '' || inputs.lane == 'all')
     uses: ./.github/workflows/native-page-actions.yml
   drawer-ios:
     needs: changes
-    if: github.event_name != 'pull_request' && inputs.lane != 'direction'
+    if: github.event_name != 'pull_request' && (inputs.lane == '' || inputs.lane == 'all')
     uses: ./.github/workflows/native-drawer-ios.yml
   flows:
     needs: changes
-    if: github.event_name != 'pull_request' && inputs.lane != 'direction'
+    if: github.event_name != 'pull_request' && (inputs.lane == '' || inputs.lane == 'all')
     uses: ./.github/workflows/native-flows.yml
   predictive:
     needs: changes
-    if: github.event_name != 'pull_request' && inputs.lane != 'direction'
+    if: github.event_name != 'pull_request' && (inputs.lane == '' || inputs.lane == 'all')
     uses: ./.github/workflows/native-predictive.yml
   windows:
     needs: changes
-    if: github.event_name != 'pull_request' && inputs.lane != 'direction'
+    if: github.event_name != 'pull_request' && (inputs.lane == '' || inputs.lane == 'all')
     uses: ./.github/workflows/native-windows.yml
   direction:
     needs: changes
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && (inputs.lane == '' || inputs.lane == 'all' || inputs.lane == 'direction')
     uses: ./.github/workflows/native-direction.yml
   native-contracts:
     # Keep the required branch-rule check green on PRs without booting devices.
@@ -163,6 +165,6 @@ jobs:
           const needs = JSON.parse(process.env.RESULTS)
           for (const name of ['android', 'ios', 'uikit-split', 'drawer-ios', 'page-actions', 'integration', 'flows', 'predictive', 'windows', 'direction'])
             assert.equal(needs[name].result,
-              process.env.RELEVANT === 'true' && (process.env.LANE === 'all' || name === 'direction') ? 'success' : 'skipped',
+              process.env.RELEVANT === 'true' && (process.env.LANE === 'all' || name === process.env.LANE) ? 'success' : 'skipped',
               `${name} must match the selected acceptance scope`)
           JS

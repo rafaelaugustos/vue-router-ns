@@ -49,6 +49,8 @@ if [ "$status" -ne 124 ]; then
 fi
 echo 'Hierarchy deadlines passed: inspection time counted and stalled command terminated.'
 
-node --test scripts/native/conventions/observer.test.mjs
-node --test scripts/native/logged-command.test.mjs
-node --test scripts/native/adaptive-drawer/programmatic-overlap.test.mjs
+node --test \
+  scripts/native/conventions/observer.test.mjs \
+  scripts/native/logged-command.test.mjs \
+  scripts/native/adaptive-drawer/programmatic-overlap.test.mjs \
+  scripts/native/predictive/system-ui.test.mjs
