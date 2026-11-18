@@ -1,0 +1,14 @@
+diff --git a/scripts/native/adaptive-drawer/RotationUITests.swift b/scripts/native/adaptive-drawer/RotationUITests.swift
+index fdf42c0..91c8ea0 100644
+--- a/scripts/native/adaptive-drawer/RotationUITests.swift
++++ b/scripts/native/adaptive-drawer/RotationUITests.swift
+@@ -109,6 +109,9 @@ final class RotationUITests: XCTestCase {
+         throw NSError(domain: "RotationFixture", code: 1, userInfo: [NSLocalizedDescriptionKey: "Native signal missing: \(kind)"])
+     }
+     func requestRotation(_ label: String, landscape: Bool) throws {
++        if gesturePhase && (label.hasPrefix("commit-") || label.hasPrefix("cancel-")) {
++            Thread.sleep(forTimeInterval: 1)
++        }
+         var driver = (try? read("\(label)-driver.json")) ?? [:]
+         let events = try XCTUnwrap(try read("rotation.json")["events"] as? [[String: Any]])
+         driver["interactionEndedBeforeRequest"] = events.contains { $0["kind"] as? String == "interaction-ended" }
